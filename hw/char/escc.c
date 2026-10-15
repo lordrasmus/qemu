@@ -272,13 +272,19 @@ static int escc_update_irq_chn(ESCCChannelState *s)
 
 static void escc_update_irq(ESCCChannelState *s)
 {
-    int irq;
+    int irq = escc_update_irq_chn(s);
+    int other = escc_update_irq_chn(s->otherchn);
 
-    irq = escc_update_irq_chn(s);
-    irq |= escc_update_irq_chn(s->otherchn);
-
-    trace_escc_update_irq(irq);
+    /*
+     * Each channel has its own output, so drive each from its own state.
+     * Putting the state of both on this channel's line alone leaves the
+     * other line at whatever it last saw: a board that ORs the two, as
+     * sun4m does, then keeps the interrupt asserted after both channels
+     * are quiet, and the guest takes it forever.
+     */
+    trace_escc_update_irq(irq | other);
     qemu_set_irq(s->irq, irq);
+    qemu_set_irq(s->otherchn->irq, other);
 }
 
 static void escc_reset_chn(ESCCChannelState *s)
