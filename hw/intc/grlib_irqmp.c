@@ -55,6 +55,7 @@
 /* Multiprocessor Status Register  */
 #define MP_STATUS_CPU_STATUS_MASK ((1 << IRQMP_MAX_CPU)-2)
 #define MP_STATUS_NCPU_SHIFT      28
+#define MP_STATUS_BA              (1 << 27) /* broadcast available */
 
 #define MAX_PILS 16
 
@@ -345,7 +346,7 @@ static void grlib_irqmp_reset(DeviceState *d)
     memset(irqmp->state, 0, sizeof *irqmp->state);
     irqmp->state->parent = irqmp;
     irqmp->state->mpstatus = ((irqmp->ncpus - 1) << MP_STATUS_NCPU_SHIFT) |
-        ((1 << irqmp->ncpus) - 2);
+        MP_STATUS_BA | ((1 << irqmp->ncpus) - 2);
 }
 
 static void grlib_irqmp_realize(DeviceState *dev, Error **errp)
