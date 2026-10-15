@@ -1576,6 +1576,13 @@ static DisasASI resolve_asi(DisasContext *dc, int asi, MemOp memop)
             mem_idx = MMU_KERNEL_IDX;
             type = GET_ASI_DIRECT;
             break;
+        case ASI_LEON_DCACHE_MISS: /* LEON forced cache miss */
+            /* We model no data cache, so this is a plain data access. */
+            if (dc->def->features & CPU_FEATURE_CACHE_CTRL) {
+                mem_idx = MMU_KERNEL_IDX;
+                type = GET_ASI_DIRECT;
+            }
+            break;
         case ASI_USERTXT:     /* User text access */
             mem_idx = MMU_USER_IDX;
             type = GET_ASI_CODE;
