@@ -106,10 +106,22 @@ static uint32_t *gen_store_u32(uint32_t *code, hwaddr addr, uint32_t val)
  * initialization, it allows to use the same reset address for all the
  * cpus.
  */
-static void write_bootloader(void *ptr, hwaddr kernel_addr)
+static void write_bootloader(void *ptr, hwaddr kernel_addr, hwaddr sp)
 {
     uint32_t *p = ptr;
     uint32_t *sec_cpu_branch_p = NULL;
+
+    /*
+     * Give the payload a stack.  Commit 92688a91c358 took the initialisation
+     * of %sp out of the reset handler, correctly, because a reset must not
+     * touch it -- but this bootloader exists precisely to reproduce the state
+     * a real bootloader would have left behind, and that includes %sp.
+     * Without it mklinuximg-wrapped Linux images die in their startup code.
+     */
+    stl_be_p(p++, 0x1d000000 + extract32(sp, 10, 22));
+                               /* sethi %hi(sp), %o6  */
+    stl_be_p(p++, 0x9c13a000 + extract32(sp, 0, 10));
+                               /* or %o6, %lo(sp), %o6 */
 
     /* If we are running on a secondary CPU, jump directly to the kernel.  */
 
@@ -396,7 +408,8 @@ static void leon3_generic_hw_init(MachineState *machine)
              * the machine in an initialized state through a little
              * bootloader.
              */
-            write_bootloader(memory_region_get_ram_ptr(prom), entry);
+            write_bootloader(memory_region_get_ram_ptr(prom), entry,
+                             LEON3_RAM_OFFSET + ram_size);
             reset_info->entry = LEON3_PROM_OFFSET;
             for (i = 0; i < machine->smp.cpus; i++) {
                 reset_info->info[i].cpu->env.pc = LEON3_PROM_OFFSET;
