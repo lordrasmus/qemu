@@ -26,15 +26,6 @@
 #include "hw/core/qdev-properties.h"
 #include "qom/object.h"
 
-struct H83069Class {
-    /*< private >*/
-    DeviceClass parent_class;
-    /*< public >*/
-};
-typedef struct H83069Class H83069Class;
-
-DECLARE_CLASS_CHECKERS(H83069Class, H83069, TYPE_H83069)
-
 static uint64_t syscr_read(void *opaque, hwaddr addr, unsigned size)
 {
     H83069State *s = (H83069State *)opaque;
@@ -177,10 +168,9 @@ static void h83069_class_init(ObjectClass *klass, const void *data)
 
 static const TypeInfo h83069_info = {
     .name = TYPE_H83069,
-    .parent = TYPE_DEVICE,
+    .parent = TYPE_SYS_BUS_DEVICE,
     .instance_size = sizeof(H83069State),
     .class_init = h83069_class_init,
-    .class_size = sizeof(H83069Class),
 };
 
 static void h83069_register_types(void)

@@ -90,8 +90,9 @@ bool h8300_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
     CPUH8300State *env = &cpu->env;
     int pri;
 
-    switch(intmode) {
+    switch (intmode) {
     case 0:
+    default:
         pri = env->ccr_i << 3;
         break;
     case 1:

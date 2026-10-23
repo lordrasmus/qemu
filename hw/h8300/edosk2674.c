@@ -79,7 +79,7 @@ static void edosk2674_init(MachineState *machine)
                           128 * KiB, 2, 0x0089, 0x0016, 0x0000, 0x0000,
                           0);
 
-    if (!kernel_filename) {
+    if (!kernel_filename && machine->firmware) {
         rom_add_file_fixed(machine->firmware, 0, 0);
     }
 

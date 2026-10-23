@@ -32,7 +32,7 @@
 
 typedef struct H8S2674State {
     /*< private >*/
-    DeviceState parent_obj;
+    SysBusDevice parent_obj;
     /*< public >*/
 
     H8300CPU cpu;

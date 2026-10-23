@@ -78,7 +78,7 @@ static void kanebebe_init(MachineState *machine)
                            DRAM_SIZE, &error_fatal);
     memory_region_add_subregion(sysmem, DRAM_BASE, dram);
 
-    if (!kernel_filename) {
+    if (!kernel_filename && machine->firmware) {
         rom_add_file_fixed(machine->firmware, 0, 0);
     }
 
@@ -88,7 +88,7 @@ static void kanebebe_init(MachineState *machine)
                              &error_abort);
     object_property_set_uint(OBJECT(&s->mcu), "clock-freq", 25000000, &error_abort);
     object_property_set_uint(OBJECT(&s->mcu), "console", 1, &error_abort);
-    qdev_realize(DEVICE(&s->mcu), NULL, &error_abort);
+    sysbus_realize(SYS_BUS_DEVICE(&s->mcu), &error_abort);
 
     ne2000_init(0x200000, s->mcu.irq[17]);
 
