@@ -786,3 +786,18 @@ void HELPER(fcosh)(CPUM68KState *env, FPReg *res, FPReg *val)
 {
     res->d = floatx80_cosh(val->d, &env->fp_status);
 }
+
+#if !defined(CONFIG_USER_ONLY)
+/* FRESTORE of a 68881/68882 null frame puts the FPU into its reset state */
+void HELPER(frestore_6888x)(CPUM68KState *env, uint32_t fmt)
+{
+    if (fmt >> 24) {
+        return;
+    }
+    for (int i = 0; i < 8; i++) {
+        env->fregs[i].d = floatx80_default_nan(&env->fp_status);
+    }
+    cpu_m68k_set_fpcr(env, 0);
+    env->fpsr = 0;
+}
+#endif

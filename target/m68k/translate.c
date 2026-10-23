@@ -4631,6 +4631,102 @@ DISAS_INSN(pflush)
     gen_helper_pflush(tcg_env, AREG(insn, 0), opmode);
 }
 
+/*
+ * 68030 / 68851 general MMU instructions (coprocessor ID 0): PMOVE,
+ * PFLUSH, PLOAD and PTEST, distinguished by the extension word.
+ */
+static TCGv gen_pmmu_ea(CPUM68KState *env, DisasContext *s, uint16_t insn,
+                        int size)
+{
+    int mode = extract32(insn, 3, 3);
+    int opsize = size == 2 ? OS_WORD : size == 4 ? OS_LONG : OS_DOUBLE;
+
+    return gen_lea_mode(env, s, mode, REG(insn, 0), opsize);
+}
+
+static void gen_pmmu_writeback(DisasContext *s, uint16_t insn, TCGv addr,
+                               int size)
+{
+    int mode = extract32(insn, 3, 3);
+
+    if (mode == 3) {
+        tcg_gen_addi_i32(get_areg(s, REG(insn, 0)), addr, size);
+    } else if (mode == 4) {
+        tcg_gen_mov_i32(get_areg(s, REG(insn, 0)), addr);
+    }
+}
+
+DISAS_INSN(pmmu030)
+{
+    uint16_t ext;
+    TCGv addr;
+    int size;
+
+    if (IS_USER(s)) {
+        gen_exception(s, s->base.pc_next, EXCP_PRIVILEGE);
+        return;
+    }
+    ext = read_im16(env, s);
+
+    switch (ext >> 13) {
+    case 0:                                 /* PMOVE TT0/TT1 */
+    case 2:                                 /* PMOVE TC/SRP/CRP */
+    case 3:                                 /* PMOVE MMUSR */
+        if ((ext >> 13) == 3) {
+            size = 2;
+        } else if ((ext >> 13) == 2 && ((ext >> 10) & 7) >= 2) {
+            size = 8;
+        } else {
+            size = 4;
+        }
+        addr = gen_pmmu_ea(env, s, insn, size);
+        if (IS_NULL_QREG(addr)) {
+            gen_addr_fault(s);
+            return;
+        }
+        gen_helper_pmove030(tcg_env, addr, tcg_constant_i32(ext));
+        gen_pmmu_writeback(s, insn, addr, size);
+        if (!(ext & 0x200)) {
+            gen_exit_tb(s);
+        }
+        return;
+    case 1:
+        if ((ext & 0xfde0) == 0x2000) {     /* PLOAD: nothing to preload */
+            addr = gen_pmmu_ea(env, s, insn, 4);
+            if (IS_NULL_QREG(addr)) {
+                gen_addr_fault(s);
+            }
+            return;
+        }
+        /* PFLUSH; the variants with an address need its extension words */
+        if (((ext >> 10) & 7) == 6) {
+            addr = gen_pmmu_ea(env, s, insn, 4);
+            if (IS_NULL_QREG(addr)) {
+                gen_addr_fault(s);
+                return;
+            }
+        }
+        gen_helper_pflush030(tcg_env);
+        gen_exit_tb(s);
+        return;
+    case 4:                                 /* PTEST */
+        addr = gen_pmmu_ea(env, s, insn, 4);
+        if (IS_NULL_QREG(addr)) {
+            gen_addr_fault(s);
+            return;
+        }
+        if (ext & 0x100) {
+            gen_helper_ptest030(get_areg(s, (ext >> 5) & 7), tcg_env, addr,
+                                tcg_constant_i32(ext));
+        } else {
+            gen_helper_ptest030(tcg_temp_new(), tcg_env, addr,
+                                tcg_constant_i32(ext));
+        }
+        return;
+    }
+    gen_exception(s, s->base.pc_next, EXCP_LINEF);
+}
+
 DISAS_INSN(ptest)
 {
     TCGv is_read;
@@ -5355,6 +5451,81 @@ DISAS_INSN(ftrapcc)
 }
 
 #if !defined(CONFIG_USER_ONLY)
+/*
+ * 68881 (with a 68020) and 68882 (with a 68030) state frames. FSAVE always
+ * writes an idle frame: a format word (version, size) followed by "size"
+ * bytes of internal state, which QEMU leaves zero. FRESTORE of a null
+ * frame resets the FPU; any other frame is skipped.
+ */
+static int fsave_size_6888x(DisasContext *s)
+{
+    return m68k_feature(s->env, M68K_FEATURE_M68030) ? 0x38 : 0x18;
+}
+
+static void gen_fsave_6888x(CPUM68KState *env, DisasContext *s, uint16_t insn)
+{
+    int mode = extract32(insn, 3, 3);
+    int size = fsave_size_6888x(s);
+    TCGv addr, a;
+
+    if (mode == 4) {
+        addr = tcg_temp_new();
+        tcg_gen_subi_i32(addr, get_areg(s, REG(insn, 0)), 4 + size);
+    } else if (mode == 0 || mode == 1 || mode == 3) {
+        gen_addr_fault(s);
+        return;
+    } else {
+        addr = gen_lea(env, s, insn, OS_UNSIZED);
+        if (IS_NULL_QREG(addr)) {
+            gen_addr_fault(s);
+            return;
+        }
+    }
+    a = tcg_temp_new();
+    tcg_gen_qemu_st_i32(tcg_constant_i32(0x1f000000 | size << 16), addr,
+                        IS_USER(s), MO_TEUL);
+    for (int i = 4; i < 4 + size; i += 4) {
+        tcg_gen_addi_i32(a, addr, i);
+        tcg_gen_qemu_st_i32(tcg_constant_i32(0), a, IS_USER(s), MO_TEUL);
+    }
+    if (mode == 4) {
+        tcg_gen_mov_i32(get_areg(s, REG(insn, 0)), addr);
+    }
+}
+
+static void gen_frestore_6888x(CPUM68KState *env, DisasContext *s,
+                               uint16_t insn)
+{
+    int mode = extract32(insn, 3, 3);
+    TCGv addr, fmt;
+
+    if (mode == 0 || mode == 1 || mode == 4) {
+        gen_addr_fault(s);
+        return;
+    }
+    if (mode == 3) {
+        addr = tcg_temp_new();
+        tcg_gen_mov_i32(addr, get_areg(s, REG(insn, 0)));
+    } else {
+        addr = gen_lea(env, s, insn, OS_UNSIZED);
+        if (IS_NULL_QREG(addr)) {
+            gen_addr_fault(s);
+            return;
+        }
+    }
+    fmt = tcg_temp_new();
+    tcg_gen_qemu_ld_i32(fmt, addr, IS_USER(s), MO_TEUL);
+    gen_helper_frestore_6888x(tcg_env, fmt);
+    if (mode == 3) {
+        /* (An)+: the format word and "size" bytes; a null frame has none */
+        TCGv len = tcg_temp_new();
+
+        tcg_gen_extract_i32(len, fmt, 16, 8);
+        tcg_gen_addi_i32(len, len, 4);
+        tcg_gen_add_i32(get_areg(s, REG(insn, 0)), addr, len);
+    }
+}
+
 DISAS_INSN(frestore)
 {
     TCGv addr;
@@ -5366,6 +5537,9 @@ DISAS_INSN(frestore)
     if (m68k_feature(s->env, M68K_FEATURE_M68040)) {
         SRC_EA(env, addr, OS_LONG, 0, NULL);
         /* FIXME: check the state frame */
+    } else if (m68k_feature(s->env, M68K_FEATURE_M68020) ||
+               m68k_feature(s->env, M68K_FEATURE_M68030)) {
+        gen_frestore_6888x(env, s, insn);
     } else {
         disas_undef(env, s, insn);
     }
@@ -5382,6 +5556,9 @@ DISAS_INSN(fsave)
         /* always write IDLE */
         TCGv idle = tcg_constant_i32(0x41000000);
         DEST_EA(env, insn, OS_LONG, idle, NULL);
+    } else if (m68k_feature(s->env, M68K_FEATURE_M68020) ||
+               m68k_feature(s->env, M68K_FEATURE_M68030)) {
+        gen_fsave_6888x(env, s, insn);
     } else {
         disas_undef(env, s, insn);
     }
@@ -6004,6 +6181,7 @@ void register_m68k_insns (CPUM68KState *env)
     INSN(cinv,      f400, ff20, M68040);
     INSN(pflush,    f500, ffe0, M68040);
     INSN(ptest,     f548, ffd8, M68040);
+    INSN(pmmu030,   f000, ffc0, PMMU030);
     INSN(wddata,    fb00, ff00, CF_ISA_A);
     INSN(wdebug,    fbc0, ffc0, CF_ISA_A);
 #endif

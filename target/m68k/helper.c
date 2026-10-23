@@ -282,7 +282,14 @@ void HELPER(m68k_movec_to)(CPUM68KState *env, uint32_t reg, uint32_t val)
         }
         break;
     /* Unimplemented Registers */
+    /* MC680[23]0; there is no cache to address */
     case M68K_CR_CAAR:
+        if (m68k_feature(env, M68K_FEATURE_M68020) ||
+            m68k_feature(env, M68K_FEATURE_M68030)) {
+            env->caar = val;
+            return;
+        }
+        break;
     case M68K_CR_PCR:
     case M68K_CR_BUSCR:
         cpu_abort(env_cpu(env),
@@ -385,8 +392,13 @@ uint32_t HELPER(m68k_movec_from)(CPUM68KState *env, uint32_t reg)
             return env->mmu.ttr[M68K_DTTR1];
         }
         break;
-    /* Unimplemented Registers */
     case M68K_CR_CAAR:
+        if (m68k_feature(env, M68K_FEATURE_M68020) ||
+            m68k_feature(env, M68K_FEATURE_M68030)) {
+            return env->caar;
+        }
+        break;
+    /* Unimplemented Registers */
     case M68K_CR_PCR:
     case M68K_CR_BUSCR:
         cpu_abort(env_cpu(env), "Unimplemented control register read 0x%x\n",
@@ -917,6 +929,14 @@ bool m68k_cpu_translate_for_debug(CPUState *cs, vaddr addr,
     int access_type;
     target_ulong page_size;
 
+    if (m68k_feature(env, M68K_FEATURE_PMMU030)) {
+        phys_addr = m68k_030_get_phys_addr_debug(env, addr);
+        if (phys_addr == -1) {
+            return false;
+        }
+        goto success;
+    }
+
     if ((env->mmu.tcr & M68K_TCR_ENABLED) == 0) {
         /* MMU disabled */
         phys_addr = addr;
@@ -973,6 +993,10 @@ bool m68k_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
     int ret;
     target_ulong page_size;
 
+    if (m68k_feature(env, M68K_FEATURE_PMMU030)) {
+        return m68k_030_tlb_fill(cs, address, size, qemu_access_type,
+                                 mmu_idx, probe, retaddr);
+    }
     if ((env->mmu.tcr & M68K_TCR_ENABLED) == 0) {
         /* MMU disabled */
         tlb_set_page(cs, address & TARGET_PAGE_MASK,
