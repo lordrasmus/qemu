@@ -52,6 +52,7 @@ source watchdog/Kconfig
 source arm/Kconfig
 source cpu/Kconfig
 source alpha/Kconfig
+source arc/Kconfig
 source avr/Kconfig
 source hexagon/Kconfig
 source h8300/Kconfig

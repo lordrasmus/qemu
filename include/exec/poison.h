@@ -10,6 +10,7 @@
 #pragma GCC poison TARGET_X86_64
 #pragma GCC poison TARGET_AARCH64
 #pragma GCC poison TARGET_ALPHA
+#pragma GCC poison TARGET_ARC
 #pragma GCC poison TARGET_ARM
 #pragma GCC poison TARGET_HEXAGON
 #pragma GCC poison TARGET_HPPA
@@ -46,6 +47,7 @@
 #pragma GCC poison TARGET_PHYS_ADDR_SPACE_BITS
 
 #pragma GCC poison CONFIG_ALPHA_DIS
+#pragma GCC poison CONFIG_ARC_DIS
 #pragma GCC poison CONFIG_HPPA_DIS
 #pragma GCC poison CONFIG_I386_DIS
 #pragma GCC poison CONFIG_HEXAGON_DIS

@@ -1,0 +1,12789 @@
+/* stl<.aa> RC,BRAKET,RB,SIMM9_8,BRAKETdup 00011xxxxxxxxxxxxxxxxxxxxx0xx111 */
+{ "stl", 0x18000007, 0xf8000027, ARC_OPCODE_ARC64, STORE, NONE, { RC, BRAKET, RB, SIMM9_8, BRAKETdup }, { C_ZZ_L, C_AA27 } }
+
+/* stl<.aa> W6,BRAKET,RB,SIMM9_8,BRAKETdup 00011xxxxxxxxxxxxxxxxxxxxx1xx111 */
+{ "stl", 0x18000027, 0xf8000027, ARC_OPCODE_ARC64, STORE, NONE, { W6, BRAKET, RB, SIMM9_8, BRAKETdup }, { C_ZZ_L, C_AA27 } }
+
+/* stl RC,BRAKET,XIMM,BRAKETdup 00011100000000000111xxxxxx000111 */
+{ "stl", 0x1c007007, 0xfffff03f, ARC_OPCODE_ARC64, STORE, NONE, { RC, BRAKET, XIMM, BRAKETdup }, { C_ZZ_L, C_AS27 } }
+
+/* stl W6,BRAKET,XIMM,BRAKETdup 00011100000000000111xxxxxx100111 */
+{ "stl", 0x1c007027, 0xfffff03f, ARC_OPCODE_ARC64, STORE, NONE, { W6, BRAKET, XIMM, BRAKETdup }, { C_ZZ_L, C_AS27 } }
+
+/* stl RC,BRAKET,LIMM,BRAKETdup 00011110000000000111xxxxxx000111 */
+{ "stl", 0x1e007007, 0xfffff03f, ARC_OPCODE_ARC64, STORE, NONE, { RC, BRAKET, LIMM, BRAKETdup }, { C_ZZ_L, C_AS27 } }
+
+/* stl W6,BRAKET,LIMM,BRAKETdup 00011110000000000111xxxxxx100111 */
+{ "stl", 0x1e007027, 0xfffff03f, ARC_OPCODE_ARC64, STORE, NONE, { W6, BRAKET, LIMM, BRAKETdup }, { C_ZZ_L, C_AS27 } }
+
+/* stl<.aa> XIMM,BRAKET,RB,SIMM9_8,BRAKETdup 00011xxxxxxxxxxxxxxx111100xxx111 */
+{ "stl", 0x18000f07, 0xf8000fc7, ARC_OPCODE_ARC64, STORE, NONE, { XIMM, BRAKET, RB, SIMM9_8, BRAKETdup }, { C_ZZ_L, C_AA27 } }
+
+/* stl<.aa> LIMM,BRAKET,RB,SIMM9_8,BRAKETdup 00011xxxxxxxxxxxxxxx111110xxx111 */
+{ "stl", 0x18000f87, 0xf8000fc7, ARC_OPCODE_ARC64, STORE, NONE, { LIMM, BRAKET, RB, SIMM9_8, BRAKETdup }, { C_ZZ_L, C_AA27 } }
+
+/* stdl<.aa> RCD,BRAKET,RB,SIMM9_8,BRAKETdup 00011xxxxxxxxxxxxxxxxxxxxx1xx110 */
+{ "stdl", 0x18000026, 0xf8000027, ARC_OPCODE_ARC64, STORE, NONE, { RCD, BRAKET, RB, SIMM9_8, BRAKETdup }, { C_ZZ_L, C_AA27 } }
+
+/* stdl<.aa> W6,BRAKET,RB,SIMM9_8,BRAKETdup 00011xxxxxxxxxxxxxxxxxxxxx1xx101 */
+{ "stdl", 0x18000025, 0xf8000027, ARC_OPCODE_ARC64, STORE, NONE, { W6, BRAKET, RB, SIMM9_8, BRAKETdup }, { C_ZZ_L, C_AA27 } }
+
+/* stdl RCD,BRAKET,XIMM,BRAKETdup 00011100xxxxxxxxx111xxxxxx1xx110 */
+{ "stdl", 0x1c007026, 0xff007027, ARC_OPCODE_ARC64, STORE, NONE, { RCD, BRAKET, XIMM, BRAKETdup }, { C_ZZ_L, C_AS27 } }
+
+/* stdl W6,BRAKET,XIMM,BRAKETdup 00011100xxxxxxxxx111xxxxxx1xx101 */
+{ "stdl", 0x1c007025, 0xff007027, ARC_OPCODE_ARC64, STORE, NONE, { W6, BRAKET, XIMM, BRAKETdup }, { C_ZZ_L, C_AS27 } }
+
+/* stdl RCD,BRAKET,LIMM,BRAKETdup 00011110xxxxxxxxx111xxxxxx1xx110 */
+{ "stdl", 0x1e007026, 0xff007027, ARC_OPCODE_ARC64, STORE, NONE, { RCD, BRAKET, LIMM, BRAKETdup }, { C_ZZ_L, C_AS27 } }
+
+/* stdl W6,BRAKET,LIMM,BRAKETdup 00011110xxxxxxxxx111xxxxxx1xx101 */
+{ "stdl", 0x1e007025, 0xff007027, ARC_OPCODE_ARC64, STORE, NONE, { W6, BRAKET, LIMM, BRAKETdup }, { C_ZZ_L, C_AS27 } }
+
+/* stdl<.aa> XIMM,BRAKET,RB,SIMM9_8,BRAKETdup 00011xxxxxxxxxxxxxxx111100xxx110 */
+{ "stdl", 0x18000f26, 0xf8000fe7, ARC_OPCODE_ARC64, STORE, NONE, { XIMM, BRAKET, RB, SIMM9_8, BRAKETdup }, { C_ZZ_L, C_AA27 } }
+
+/* stdl<.aa> LIMM,BRAKET,RB,SIMM9_8,BRAKETdup 00011xxxxxxxxxxxxxxx111110xxx110 */
+{ "stdl", 0x18000fa6, 0xf8000fe7, ARC_OPCODE_ARC64, STORE, NONE, { LIMM, BRAKET, RB, SIMM9_8, BRAKETdup }, { C_ZZ_L, C_AA27 } }
+
+/* abs<.f> RB,RC 00100xxx00101111xxxxxxxxxx001001 */
+{ "abs", 0x202f0009, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RB, RC }, { C_F } }
+
+/* abs<.f> ZA,RC 0010011000101111x111xxxxxx001001 */
+{ "abs", 0x262f7009, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { ZA, RC }, { C_F } }
+
+/* abs<.f> RB,UIMM6_20 00100xxx01101111xxxxxxxxxx001001 */
+{ "abs", 0x206f0009, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RB, UIMM6_20 }, { C_F } }
+
+/* abs<.f> ZA,UIMM6_20 0010011001101111x111xxxxxx001001 */
+{ "abs", 0x266f7009, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { ZA, UIMM6_20 }, { C_F } }
+
+/* abs<.f> RB,LIMM 00100xxx00101111xxxx111110001001 */
+{ "abs", 0x202f0f89, 0xf8ff0fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RB, LIMM }, { C_F } }
+
+/* abs<.f> ZA,LIMM 0010011000101111x111111110001001 */
+{ "abs", 0x262f7f89, 0xffff7fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { ZA, LIMM }, { C_F } }
+
+/* absl<.f> RB,RC 01011xxx00101111xxxxxxxxxx001001 */
+{ "absl", 0x582f0009, 0xf8ff003f, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RC }, { C_F } }
+
+/* absl<.f> ZA,RC 0101111000101111x111xxxxxx001001 */
+{ "absl", 0x5e2f7009, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RC }, { C_F } }
+
+/* absl<.f> RB,UIMM6_20 01011xxx01101111xxxxxxxxxx001001 */
+{ "absl", 0x586f0009, 0xf8ff003f, ARC_OPCODE_ARC64, ARITH, NONE, { RB, UIMM6_20 }, { C_F } }
+
+/* absl<.f> ZA,UIMM6_20 0101111001101111x111xxxxxx001001 */
+{ "absl", 0x5e6f7009, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, UIMM6_20 }, { C_F } }
+
+/* absl<.f> RB,XIMM 01011xxx00101111xxxx111100001001 */
+{ "absl", 0x582f0f09, 0xf8ff0fff, ARC_OPCODE_ARC64, ARITH, NONE, { RB, XIMM }, { C_F } }
+
+/* absl<.f> ZA,XIMM 0101111000101111x111111100001001 */
+{ "absl", 0x5e2f7f09, 0xffff7fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM }, { C_F } }
+
+/* absl<.f> RB,LIMM 01011xxx00101111xxxx111110001001 */
+{ "absl", 0x582f0f89, 0xf8ff0fff, ARC_OPCODE_ARC64, ARITH, NONE, { RB, LIMM }, { C_F } }
+
+/* absl<.f> ZA,LIMM 0101111000101111x111111110001001 */
+{ "absl", 0x5e2f7f89, 0xffff7fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM }, { C_F } }
+
+/* abs_s RB_S,RC_S 01111xxxxxx10001 */
+{ "abs_s", 0x00007811, 0x0000f81f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RB_S, RC_S }, { 0 } }
+
+/* adc<.f> RA,RB,RC 00100xxx00000001xxxxxxxxxxxxxxxx */
+{ "adc", 0x20010000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RA, RB, RC }, { C_F } }
+
+/* adc<.f> ZA,RB,RC 00100xxx00000001xxxxxxxxxx111110 */
+{ "adc", 0x2001003e, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { ZA, RB, RC }, { C_F } }
+
+/* adc<.f><.cc> RB,RBdup,RC 00100xxx11000001xxxxxxxxxx0xxxxx */
+{ "adc", 0x20c10000, 0xf8ff0020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RB, RBdup, RC }, { C_F, C_CC } }
+
+/* adc<.f> RA,RB,UIMM6_20 00100xxx01000001xxxxxxxxxxxxxxxx */
+{ "adc", 0x20410000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RA, RB, UIMM6_20 }, { C_F } }
+
+/* adc<.f> ZA,RB,UIMM6_20 00100xxx01000001xxxxxxxxxx111110 */
+{ "adc", 0x2041003e, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { ZA, RB, UIMM6_20 }, { C_F } }
+
+/* adc<.f><.cc> RB,RBdup,UIMM6_20 00100xxx11000001xxxxxxxxxx1xxxxx */
+{ "adc", 0x20c10020, 0xf8ff0020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RB, RBdup, UIMM6_20 }, { C_F, C_CC } }
+
+/* adc<.f> RB,RBdup,SIMM12_20 00100xxx10000001xxxxxxxxxxxxxxxx */
+{ "adc", 0x20810000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RB, RBdup, SIMM12_20 }, { C_F } }
+
+/* adc<.f> RA,LIMM,RC 0010011000000001x111xxxxxxxxxxxx */
+{ "adc", 0x26017000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RA, LIMM, RC }, { C_F } }
+
+/* adc<.f> RA,RB,LIMM 00100xxx00000001xxxx111110xxxxxx */
+{ "adc", 0x20010f80, 0xf8ff0fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RA, RB, LIMM }, { C_F } }
+
+/* adc<.f> ZA,LIMM,RC 0010011000000001x111xxxxxx111110 */
+{ "adc", 0x2601703e, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { ZA, LIMM, RC }, { C_F } }
+
+/* adc<.f> ZA,RB,LIMM 00100xxx00000001xxxx111110111110 */
+{ "adc", 0x20010fbe, 0xf8ff0fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { ZA, RB, LIMM }, { C_F } }
+
+/* adc<.f><.cc> RB,RBdup,LIMM 00100xxx11000001xxxx1111100xxxxx */
+{ "adc", 0x20c10f80, 0xf8ff0fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RB, RBdup, LIMM }, { C_F, C_CC } }
+
+/* adc<.f><.cc> ZA,LIMM,RC 0010011011000001x111xxxxxx0xxxxx */
+{ "adc", 0x26c17000, 0xffff7020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { ZA, LIMM, RC }, { C_F, C_CC } }
+
+/* adc<.f> RA,LIMM,UIMM6_20 0010011001000001x111xxxxxxxxxxxx */
+{ "adc", 0x26417000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RA, LIMM, UIMM6_20 }, { C_F } }
+
+/* adc<.f> ZA,LIMM,UIMM6_20 0010011001000001x111xxxxxx111110 */
+{ "adc", 0x2641703e, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { ZA, LIMM, UIMM6_20 }, { C_F } }
+
+/* adc<.f><.cc> ZA,LIMM,UIMM6_20 0010011011000001x111xxxxxx1xxxxx */
+{ "adc", 0x26c17020, 0xffff7020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { ZA, LIMM, UIMM6_20 }, { C_F, C_CC } }
+
+/* adc<.f> ZA,LIMM,SIMM12_20 0010011010000001x111xxxxxxxxxxxx */
+{ "adc", 0x26817000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { ZA, LIMM, SIMM12_20 }, { C_F } }
+
+/* adc<.f> RA,LIMM,LIMMdup 0010011000000001x111111110xxxxxx */
+{ "adc", 0x26017f80, 0xffff7fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RA, LIMM, LIMMdup }, { C_F } }
+
+/* adc<.f> ZA,LIMM,LIMMdup 0010011000000001x111111110111110 */
+{ "adc", 0x26017fbe, 0xffff7fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { ZA, LIMM, LIMMdup }, { C_F } }
+
+/* adc<.f><.cc> ZA,LIMM,LIMMdup 0010011011000001x1111111100xxxxx */
+{ "adc", 0x26c17f80, 0xffff7fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { ZA, LIMM, LIMMdup }, { C_F, C_CC } }
+
+/* adcl<.f> RA,RB,RC 01011xxx00000001xxxxxxxxxxxxxxxx */
+{ "adcl", 0x58010000, 0xf8ff0000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, RC }, { C_F } }
+
+/* adcl<.f> ZA,RB,RC 01011xxx00000001xxxxxxxxxx111110 */
+{ "adcl", 0x5801003e, 0xf8ff003f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, RC }, { C_F } }
+
+/* adcl<.f><.cc> RB,RBdup,RC 01011xxx11000001xxxxxxxxxx0xxxxx */
+{ "adcl", 0x58c10000, 0xf8ff0020, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, RC }, { C_F, C_CC } }
+
+/* adcl<.f> RA,RB,UIMM6_20 01011xxx01000001xxxxxxxxxxxxxxxx */
+{ "adcl", 0x58410000, 0xf8ff0000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, UIMM6_20 }, { C_F } }
+
+/* adcl<.f> ZA,RB,UIMM6_20 01011xxx01000001xxxxxxxxxx111110 */
+{ "adcl", 0x5841003e, 0xf8ff003f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, UIMM6_20 }, { C_F } }
+
+/* adcl<.f><.cc> RB,RBdup,UIMM6_20 01011xxx11000001xxxxxxxxxx1xxxxx */
+{ "adcl", 0x58c10020, 0xf8ff0020, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, UIMM6_20 }, { C_F, C_CC } }
+
+/* adcl<.f> RB,RBdup,SIMM12_20 01011xxx10000001xxxxxxxxxxxxxxxx */
+{ "adcl", 0x58810000, 0xf8ff0000, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, SIMM12_20 }, { C_F } }
+
+/* adcl<.f> RA,XIMM,RC 0101110000000001x111xxxxxxxxxxxx */
+{ "adcl", 0x5c017000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, XIMM, RC }, { C_F } }
+
+/* adcl<.f> RA,RB,XIMM 01011xxx00000001xxxx111100xxxxxx */
+{ "adcl", 0x58010f00, 0xf8ff0fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, XIMM }, { C_F } }
+
+/* adcl<.f> ZA,XIMM,RC 0101110000000001x111xxxxxx111110 */
+{ "adcl", 0x5c01703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, RC }, { C_F } }
+
+/* adcl<.f> ZA,RB,XIMM 01011xxx00000001xxxx111100111110 */
+{ "adcl", 0x58010f3e, 0xf8ff0fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, XIMM }, { C_F } }
+
+/* adcl<.f><.cc> ZA,XIMM,RC 0101110011000001x111xxxxxx0xxxxx */
+{ "adcl", 0x5cc17000, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, RC }, { C_F, C_CC } }
+
+/* adcl<.f><.cc> RB,RBdup,XIMM 01011xxx11000001xxxx1111000xxxxx */
+{ "adcl", 0x58c10f00, 0xf8ff0fe0, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, XIMM }, { C_F, C_CC } }
+
+/* adcl<.f> RA,XIMM,UIMM6_20 0101110001000001x111xxxxxxxxxxxx */
+{ "adcl", 0x5c417000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, XIMM, UIMM6_20 }, { C_F } }
+
+/* adcl<.f> ZA,XIMM,UIMM6_20 0101110001000001x111xxxxxx111110 */
+{ "adcl", 0x5c41703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, UIMM6_20 }, { C_F } }
+
+/* adcl<.f><.cc> ZA,XIMM,UIMM6_20 0101110011000001x111xxxxxx1xxxxx */
+{ "adcl", 0x5cc17020, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, UIMM6_20 }, { C_F, C_CC } }
+
+/* adcl<.f> RA,LIMM,RC 0101111000000001x111xxxxxxxxxxxx */
+{ "adcl", 0x5e017000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, LIMM, RC }, { C_F } }
+
+/* adcl<.f> RA,RB,LIMM 01011xxx00000001xxxx111110xxxxxx */
+{ "adcl", 0x58010f80, 0xf8ff0fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, LIMM }, { C_F } }
+
+/* adcl<.f> ZA,LIMM,RC 0101111000000001x111xxxxxx111110 */
+{ "adcl", 0x5e01703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, RC }, { C_F } }
+
+/* adcl<.f> ZA,RB,LIMM 01011xxx00000001xxxx111110111110 */
+{ "adcl", 0x58010fbe, 0xf8ff0fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, LIMM }, { C_F } }
+
+/* adcl<.f><.cc> ZA,LIMM,RC 0101111011000001x111xxxxxx0xxxxx */
+{ "adcl", 0x5ec17000, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, RC }, { C_F, C_CC } }
+
+/* adcl<.f><.cc> RB,RBdup,LIMM 01011xxx11000001xxxx1111100xxxxx */
+{ "adcl", 0x58c10f80, 0xf8ff0fe0, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, LIMM }, { C_F, C_CC } }
+
+/* adcl<.f> RA,LIMM,UIMM6_20 0101111001000001x111xxxxxxxxxxxx */
+{ "adcl", 0x5e417000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, LIMM, UIMM6_20 }, { C_F } }
+
+/* adcl<.f> ZA,LIMM,UIMM6_20 0101111001000001x111xxxxxx111110 */
+{ "adcl", 0x5e41703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, UIMM6_20 }, { C_F } }
+
+/* adcl<.f><.cc> ZA,LIMM,UIMM6_20 0101111011000001x111xxxxxx1xxxxx */
+{ "adcl", 0x5ec17020, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, UIMM6_20 }, { C_F, C_CC } }
+
+/* adcl<.f> ZA,XIMM,SIMM12_20 0101110010000001x111xxxxxxxxxxxx */
+{ "adcl", 0x5c817000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, SIMM12_20 }, { C_F } }
+
+/* adcl<.f> ZA,LIMM,SIMM12_20 0101111010000001x111xxxxxxxxxxxx */
+{ "adcl", 0x5e817000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, SIMM12_20 }, { C_F } }
+
+/* adcl<.f> RA,XIMM,XIMMdup 0101110000000001x111111100xxxxxx */
+{ "adcl", 0x5c017f00, 0xffff7fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, XIMM, XIMMdup }, { C_F } }
+
+/* adcl<.f> ZA,XIMM,XIMMdup 0101110000000001x111111100111110 */
+{ "adcl", 0x5c017f3e, 0xffff7fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, XIMMdup }, { C_F } }
+
+/* adcl<.f><.cc> ZA,XIMM,XIMMdup 0101110011000001x1111111000xxxxx */
+{ "adcl", 0x5cc17f00, 0xffff7fe0, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, XIMMdup }, { C_F, C_CC } }
+
+/* adcl<.f> RA,LIMM,LIMMdup 0101111000000001x111111110xxxxxx */
+{ "adcl", 0x5e017f80, 0xffff7fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, LIMM, LIMMdup }, { C_F } }
+
+/* adcl<.f> ZA,LIMM,LIMMdup 0101111000000001x111111110111110 */
+{ "adcl", 0x5e017fbe, 0xffff7fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, LIMMdup }, { C_F } }
+
+/* adcl<.f><.cc> ZA,LIMM,LIMMdup 0101111011000001x1111111100xxxxx */
+{ "adcl", 0x5ec17f80, 0xffff7fe0, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, LIMMdup }, { C_F, C_CC } }
+
+/* add<.f> RA,RB,RC 00100xxx00000000xxxxxxxxxxxxxxxx */
+{ "add", 0x20000000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RA, RB, RC }, { C_F } }
+
+/* add<.f> ZA,RB,RC 00100xxx00000000xxxxxxxxxx111110 */
+{ "add", 0x2000003e, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { ZA, RB, RC }, { C_F } }
+
+/* add<.f><.cc> RB,RBdup,RC 00100xxx11000000xxxxxxxxxx0xxxxx */
+{ "add", 0x20c00000, 0xf8ff0020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RB, RBdup, RC }, { C_F, C_CC } }
+
+/* add<.f> RA,RB,UIMM6_20 00100xxx01000000xxxxxxxxxxxxxxxx */
+{ "add", 0x20400000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RA, RB, UIMM6_20 }, { C_F } }
+
+/* add<.f> ZA,RB,UIMM6_20 00100xxx01000000xxxxxxxxxx111110 */
+{ "add", 0x2040003e, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { ZA, RB, UIMM6_20 }, { C_F } }
+
+/* add<.f><.cc> RB,RBdup,UIMM6_20 00100xxx11000000xxxxxxxxxx1xxxxx */
+{ "add", 0x20c00020, 0xf8ff0020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RB, RBdup, UIMM6_20 }, { C_F, C_CC } }
+
+/* add<.f> RB,RBdup,SIMM12_20 00100xxx10000000xxxxxxxxxxxxxxxx */
+{ "add", 0x20800000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RB, RBdup, SIMM12_20 }, { C_F } }
+
+/* add<.f> RA,LIMM,RC 0010011000000000x111xxxxxxxxxxxx */
+{ "add", 0x26007000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RA, LIMM, RC }, { C_F } }
+
+/* add<.f> RA,RB,LIMM 00100xxx00000000xxxx111110xxxxxx */
+{ "add", 0x20000f80, 0xf8ff0fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RA, RB, LIMM }, { C_F } }
+
+/* add<.f> ZA,LIMM,RC 0010011000000000x111xxxxxx111110 */
+{ "add", 0x2600703e, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { ZA, LIMM, RC }, { C_F } }
+
+/* add<.f> ZA,RB,LIMM 00100xxx00000000xxxx111110111110 */
+{ "add", 0x20000fbe, 0xf8ff0fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { ZA, RB, LIMM }, { C_F } }
+
+/* add<.f><.cc> RB,RBdup,LIMM 00100xxx11000000xxxx1111100xxxxx */
+{ "add", 0x20c00f80, 0xf8ff0fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RB, RBdup, LIMM }, { C_F, C_CC } }
+
+/* add<.f><.cc> ZA,LIMM,RC 0010011011000000x111xxxxxx0xxxxx */
+{ "add", 0x26c07000, 0xffff7020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { ZA, LIMM, RC }, { C_F, C_CC } }
+
+/* add<.f> RA,LIMM,UIMM6_20 0010011001000000x111xxxxxxxxxxxx */
+{ "add", 0x26407000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RA, LIMM, UIMM6_20 }, { C_F } }
+
+/* add<.f> ZA,LIMM,UIMM6_20 0010011001000000x111xxxxxx111110 */
+{ "add", 0x2640703e, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { ZA, LIMM, UIMM6_20 }, { C_F } }
+
+/* add<.f><.cc> ZA,LIMM,UIMM6_20 0010011011000000x111xxxxxx1xxxxx */
+{ "add", 0x26c07020, 0xffff7020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { ZA, LIMM, UIMM6_20 }, { C_F, C_CC } }
+
+/* add<.f> ZA,LIMM,SIMM12_20 0010011010000000x111xxxxxxxxxxxx */
+{ "add", 0x26807000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { ZA, LIMM, SIMM12_20 }, { C_F } }
+
+/* add<.f> RA,LIMM,LIMMdup 0010011000000000x111111110xxxxxx */
+{ "add", 0x26007f80, 0xffff7fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RA, LIMM, LIMMdup }, { C_F } }
+
+/* add<.f> ZA,LIMM,LIMMdup 0010011000000000x111111110111110 */
+{ "add", 0x26007fbe, 0xffff7fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { ZA, LIMM, LIMMdup }, { C_F } }
+
+/* add<.f><.cc> ZA,LIMM,LIMMdup 0010011011000000x1111111100xxxxx */
+{ "add", 0x26c07f80, 0xffff7fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { ZA, LIMM, LIMMdup }, { C_F, C_CC } }
+
+/* add1<.f> RA,RB,RC 00100xxx00010100xxxxxxxxxxxxxxxx */
+{ "add1", 0x20140000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RA, RB, RC }, { C_F } }
+
+/* add1<.f> ZA,RB,RC 00100xxx00010100xxxxxxxxxx111110 */
+{ "add1", 0x2014003e, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { ZA, RB, RC }, { C_F } }
+
+/* add1<.f><.cc> RB,RBdup,RC 00100xxx11010100xxxxxxxxxx0xxxxx */
+{ "add1", 0x20d40000, 0xf8ff0020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RB, RBdup, RC }, { C_F, C_CC } }
+
+/* add1<.f> RA,RB,UIMM6_20 00100xxx01010100xxxxxxxxxxxxxxxx */
+{ "add1", 0x20540000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RA, RB, UIMM6_20 }, { C_F } }
+
+/* add1<.f> ZA,RB,UIMM6_20 00100xxx01010100xxxxxxxxxx111110 */
+{ "add1", 0x2054003e, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { ZA, RB, UIMM6_20 }, { C_F } }
+
+/* add1<.f><.cc> RB,RBdup,UIMM6_20 00100xxx11010100xxxxxxxxxx1xxxxx */
+{ "add1", 0x20d40020, 0xf8ff0020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RB, RBdup, UIMM6_20 }, { C_F, C_CC } }
+
+/* add1<.f> RB,RBdup,SIMM12_20 00100xxx10010100xxxxxxxxxxxxxxxx */
+{ "add1", 0x20940000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RB, RBdup, SIMM12_20 }, { C_F } }
+
+/* add1<.f> RA,LIMM,RC 0010011000010100x111xxxxxxxxxxxx */
+{ "add1", 0x26147000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RA, LIMM, RC }, { C_F } }
+
+/* add1<.f> RA,RB,LIMM 00100xxx00010100xxxx111110xxxxxx */
+{ "add1", 0x20140f80, 0xf8ff0fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RA, RB, LIMM }, { C_F } }
+
+/* add1<.f> ZA,LIMM,RC 0010011000010100x111xxxxxx111110 */
+{ "add1", 0x2614703e, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { ZA, LIMM, RC }, { C_F } }
+
+/* add1<.f> ZA,RB,LIMM 00100xxx00010100xxxx111110111110 */
+{ "add1", 0x20140fbe, 0xf8ff0fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { ZA, RB, LIMM }, { C_F } }
+
+/* add1<.f><.cc> RB,RBdup,LIMM 00100xxx11010100xxxx1111100xxxxx */
+{ "add1", 0x20d40f80, 0xf8ff0fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RB, RBdup, LIMM }, { C_F, C_CC } }
+
+/* add1<.f><.cc> ZA,LIMM,RC 0010011011010100x111xxxxxx0xxxxx */
+{ "add1", 0x26d47000, 0xffff7020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { ZA, LIMM, RC }, { C_F, C_CC } }
+
+/* add1<.f> RA,LIMM,UIMM6_20 0010011001010100x111xxxxxxxxxxxx */
+{ "add1", 0x26547000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RA, LIMM, UIMM6_20 }, { C_F } }
+
+/* add1<.f> ZA,LIMM,UIMM6_20 0010011001010100x111xxxxxx111110 */
+{ "add1", 0x2654703e, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { ZA, LIMM, UIMM6_20 }, { C_F } }
+
+/* add1<.f><.cc> ZA,LIMM,UIMM6_20 0010011011010100x111xxxxxx1xxxxx */
+{ "add1", 0x26d47020, 0xffff7020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { ZA, LIMM, UIMM6_20 }, { C_F, C_CC } }
+
+/* add1<.f> ZA,LIMM,SIMM12_20 0010011010010100x111xxxxxxxxxxxx */
+{ "add1", 0x26947000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { ZA, LIMM, SIMM12_20 }, { C_F } }
+
+/* add1<.f> RA,LIMM,LIMMdup 0010011000010100x111111110xxxxxx */
+{ "add1", 0x26147f80, 0xffff7fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RA, LIMM, LIMMdup }, { C_F } }
+
+/* add1<.f> ZA,LIMM,LIMMdup 0010011000010100x111111110111110 */
+{ "add1", 0x26147fbe, 0xffff7fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { ZA, LIMM, LIMMdup }, { C_F } }
+
+/* add1<.f><.cc> ZA,LIMM,LIMMdup 0010011011010100x1111111100xxxxx */
+{ "add1", 0x26d47f80, 0xffff7fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { ZA, LIMM, LIMMdup }, { C_F, C_CC } }
+
+/* add1l<.f> RA,RB,RC 01011xxx00010100xxxxxxxxxxxxxxxx */
+{ "add1l", 0x58140000, 0xf8ff0000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, RC }, { C_F } }
+
+/* add1l<.f> ZA,RB,RC 01011xxx00010100xxxxxxxxxx111110 */
+{ "add1l", 0x5814003e, 0xf8ff003f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, RC }, { C_F } }
+
+/* add1l<.f><.cc> RB,RBdup,RC 01011xxx11010100xxxxxxxxxx0xxxxx */
+{ "add1l", 0x58d40000, 0xf8ff0020, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, RC }, { C_F, C_CC } }
+
+/* add1l<.f> RA,RB,UIMM6_20 01011xxx01010100xxxxxxxxxxxxxxxx */
+{ "add1l", 0x58540000, 0xf8ff0000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, UIMM6_20 }, { C_F } }
+
+/* add1l<.f> ZA,RB,UIMM6_20 01011xxx01010100xxxxxxxxxx111110 */
+{ "add1l", 0x5854003e, 0xf8ff003f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, UIMM6_20 }, { C_F } }
+
+/* add1l<.f><.cc> RB,RBdup,UIMM6_20 01011xxx11010100xxxxxxxxxx1xxxxx */
+{ "add1l", 0x58d40020, 0xf8ff0020, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, UIMM6_20 }, { C_F, C_CC } }
+
+/* add1l<.f> RB,RBdup,SIMM12_20 01011xxx10010100xxxxxxxxxxxxxxxx */
+{ "add1l", 0x58940000, 0xf8ff0000, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, SIMM12_20 }, { C_F } }
+
+/* add1l<.f> RA,XIMM,RC 0101110000010100x111xxxxxxxxxxxx */
+{ "add1l", 0x5c147000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, XIMM, RC }, { C_F } }
+
+/* add1l<.f> RA,RB,XIMM 01011xxx00010100xxxx111100xxxxxx */
+{ "add1l", 0x58140f00, 0xf8ff0fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, XIMM }, { C_F } }
+
+/* add1l<.f> ZA,XIMM,RC 0101110000010100x111xxxxxx111110 */
+{ "add1l", 0x5c14703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, RC }, { C_F } }
+
+/* add1l<.f> ZA,RB,XIMM 01011xxx00010100xxxx111100111110 */
+{ "add1l", 0x58140f3e, 0xf8ff0fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, XIMM }, { C_F } }
+
+/* add1l<.f><.cc> ZA,XIMM,RC 0101110011010100x111xxxxxx0xxxxx */
+{ "add1l", 0x5cd47000, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, RC }, { C_F, C_CC } }
+
+/* add1l<.f><.cc> RB,RBdup,XIMM 01011xxx11010100xxxx1111000xxxxx */
+{ "add1l", 0x58d40f00, 0xf8ff0fe0, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, XIMM }, { C_F, C_CC } }
+
+/* add1l<.f> RA,XIMM,UIMM6_20 0101110001010100x111xxxxxxxxxxxx */
+{ "add1l", 0x5c547000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, XIMM, UIMM6_20 }, { C_F } }
+
+/* add1l<.f> ZA,XIMM,UIMM6_20 0101110001010100x111xxxxxx111110 */
+{ "add1l", 0x5c54703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, UIMM6_20 }, { C_F } }
+
+/* add1l<.f><.cc> ZA,XIMM,UIMM6_20 0101110011010100x111xxxxxx1xxxxx */
+{ "add1l", 0x5cd47020, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, UIMM6_20 }, { C_F, C_CC } }
+
+/* add1l<.f> RA,LIMM,RC 0101111000010100x111xxxxxxxxxxxx */
+{ "add1l", 0x5e147000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, LIMM, RC }, { C_F } }
+
+/* add1l<.f> RA,RB,LIMM 01011xxx00010100xxxx111110xxxxxx */
+{ "add1l", 0x58140f80, 0xf8ff0fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, LIMM }, { C_F } }
+
+/* add1l<.f> ZA,LIMM,RC 0101111000010100x111xxxxxx111110 */
+{ "add1l", 0x5e14703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, RC }, { C_F } }
+
+/* add1l<.f> ZA,RB,LIMM 01011xxx00010100xxxx111110111110 */
+{ "add1l", 0x58140fbe, 0xf8ff0fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, LIMM }, { C_F } }
+
+/* add1l<.f><.cc> ZA,LIMM,RC 0101111011010100x111xxxxxx0xxxxx */
+{ "add1l", 0x5ed47000, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, RC }, { C_F, C_CC } }
+
+/* add1l<.f><.cc> RB,RBdup,LIMM 01011xxx11010100xxxx1111100xxxxx */
+{ "add1l", 0x58d40f80, 0xf8ff0fe0, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, LIMM }, { C_F, C_CC } }
+
+/* add1l<.f> RA,LIMM,UIMM6_20 0101111001010100x111xxxxxxxxxxxx */
+{ "add1l", 0x5e547000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, LIMM, UIMM6_20 }, { C_F } }
+
+/* add1l<.f> ZA,LIMM,UIMM6_20 0101111001010100x111xxxxxx111110 */
+{ "add1l", 0x5e54703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, UIMM6_20 }, { C_F } }
+
+/* add1l<.f><.cc> ZA,LIMM,UIMM6_20 0101111011010100x111xxxxxx1xxxxx */
+{ "add1l", 0x5ed47020, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, UIMM6_20 }, { C_F, C_CC } }
+
+/* add1l<.f> ZA,XIMM,SIMM12_20 0101110010010100x111xxxxxxxxxxxx */
+{ "add1l", 0x5c947000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, SIMM12_20 }, { C_F } }
+
+/* add1l<.f> ZA,LIMM,SIMM12_20 0101111010010100x111xxxxxxxxxxxx */
+{ "add1l", 0x5e947000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, SIMM12_20 }, { C_F } }
+
+/* add1l<.f> RA,XIMM,XIMMdup 0101110000010100x111111100xxxxxx */
+{ "add1l", 0x5c147f00, 0xffff7fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, XIMM, XIMMdup }, { C_F } }
+
+/* add1l<.f> ZA,XIMM,XIMMdup 0101110000010100x111111100111110 */
+{ "add1l", 0x5c147f3e, 0xffff7fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, XIMMdup }, { C_F } }
+
+/* add1l<.f><.cc> ZA,XIMM,XIMMdup 0101110011010100x1111111000xxxxx */
+{ "add1l", 0x5cd47f00, 0xffff7fe0, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, XIMMdup }, { C_F, C_CC } }
+
+/* add1l<.f> RA,LIMM,LIMMdup 0101111000010100x111111110xxxxxx */
+{ "add1l", 0x5e147f80, 0xffff7fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, LIMM, LIMMdup }, { C_F } }
+
+/* add1l<.f> ZA,LIMM,LIMMdup 0101111000010100x111111110111110 */
+{ "add1l", 0x5e147fbe, 0xffff7fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, LIMMdup }, { C_F } }
+
+/* add1l<.f><.cc> ZA,LIMM,LIMMdup 0101111011010100x1111111100xxxxx */
+{ "add1l", 0x5ed47f80, 0xffff7fe0, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, LIMMdup }, { C_F, C_CC } }
+
+/* add1_s RB_S,RB_Sdup,RC_S 01111xxxxxx10100 */
+{ "add1_s", 0x00007814, 0x0000f81f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RB_S, RB_Sdup, RC_S }, { 0 } }
+
+/* add2<.f> RA,RB,RC 00100xxx00010101xxxxxxxxxxxxxxxx */
+{ "add2", 0x20150000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RA, RB, RC }, { C_F } }
+
+/* add2<.f> ZA,RB,RC 00100xxx00010101xxxxxxxxxx111110 */
+{ "add2", 0x2015003e, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { ZA, RB, RC }, { C_F } }
+
+/* add2<.f><.cc> RB,RBdup,RC 00100xxx11010101xxxxxxxxxx0xxxxx */
+{ "add2", 0x20d50000, 0xf8ff0020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RB, RBdup, RC }, { C_F, C_CC } }
+
+/* add2<.f> RA,RB,UIMM6_20 00100xxx01010101xxxxxxxxxxxxxxxx */
+{ "add2", 0x20550000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RA, RB, UIMM6_20 }, { C_F } }
+
+/* add2<.f> ZA,RB,UIMM6_20 00100xxx01010101xxxxxxxxxx111110 */
+{ "add2", 0x2055003e, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { ZA, RB, UIMM6_20 }, { C_F } }
+
+/* add2<.f><.cc> RB,RBdup,UIMM6_20 00100xxx11010101xxxxxxxxxx1xxxxx */
+{ "add2", 0x20d50020, 0xf8ff0020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RB, RBdup, UIMM6_20 }, { C_F, C_CC } }
+
+/* add2<.f> RB,RBdup,SIMM12_20 00100xxx10010101xxxxxxxxxxxxxxxx */
+{ "add2", 0x20950000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RB, RBdup, SIMM12_20 }, { C_F } }
+
+/* add2<.f> RA,LIMM,RC 0010011000010101x111xxxxxxxxxxxx */
+{ "add2", 0x26157000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RA, LIMM, RC }, { C_F } }
+
+/* add2<.f> RA,RB,LIMM 00100xxx00010101xxxx111110xxxxxx */
+{ "add2", 0x20150f80, 0xf8ff0fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RA, RB, LIMM }, { C_F } }
+
+/* add2<.f> ZA,LIMM,RC 0010011000010101x111xxxxxx111110 */
+{ "add2", 0x2615703e, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { ZA, LIMM, RC }, { C_F } }
+
+/* add2<.f> ZA,RB,LIMM 00100xxx00010101xxxx111110111110 */
+{ "add2", 0x20150fbe, 0xf8ff0fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { ZA, RB, LIMM }, { C_F } }
+
+/* add2<.f><.cc> RB,RBdup,LIMM 00100xxx11010101xxxx1111100xxxxx */
+{ "add2", 0x20d50f80, 0xf8ff0fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RB, RBdup, LIMM }, { C_F, C_CC } }
+
+/* add2<.f><.cc> ZA,LIMM,RC 0010011011010101x111xxxxxx0xxxxx */
+{ "add2", 0x26d57000, 0xffff7020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { ZA, LIMM, RC }, { C_F, C_CC } }
+
+/* add2<.f> RA,LIMM,UIMM6_20 0010011001010101x111xxxxxxxxxxxx */
+{ "add2", 0x26557000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RA, LIMM, UIMM6_20 }, { C_F } }
+
+/* add2<.f> ZA,LIMM,UIMM6_20 0010011001010101x111xxxxxx111110 */
+{ "add2", 0x2655703e, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { ZA, LIMM, UIMM6_20 }, { C_F } }
+
+/* add2<.f><.cc> ZA,LIMM,UIMM6_20 0010011011010101x111xxxxxx1xxxxx */
+{ "add2", 0x26d57020, 0xffff7020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { ZA, LIMM, UIMM6_20 }, { C_F, C_CC } }
+
+/* add2<.f> ZA,LIMM,SIMM12_20 0010011010010101x111xxxxxxxxxxxx */
+{ "add2", 0x26957000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { ZA, LIMM, SIMM12_20 }, { C_F } }
+
+/* add2<.f> RA,LIMM,LIMMdup 0010011000010101x111111110xxxxxx */
+{ "add2", 0x26157f80, 0xffff7fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RA, LIMM, LIMMdup }, { C_F } }
+
+/* add2<.f> ZA,LIMM,LIMMdup 0010011000010101x111111110111110 */
+{ "add2", 0x26157fbe, 0xffff7fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { ZA, LIMM, LIMMdup }, { C_F } }
+
+/* add2<.f><.cc> ZA,LIMM,LIMMdup 0010011011010101x1111111100xxxxx */
+{ "add2", 0x26d57f80, 0xffff7fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { ZA, LIMM, LIMMdup }, { C_F, C_CC } }
+
+/* add2l<.f> RA,RB,RC 01011xxx00010101xxxxxxxxxxxxxxxx */
+{ "add2l", 0x58150000, 0xf8ff0000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, RC }, { C_F } }
+
+/* add2l<.f> ZA,RB,RC 01011xxx00010101xxxxxxxxxx111110 */
+{ "add2l", 0x5815003e, 0xf8ff003f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, RC }, { C_F } }
+
+/* add2l<.f><.cc> RB,RBdup,RC 01011xxx11010101xxxxxxxxxx0xxxxx */
+{ "add2l", 0x58d50000, 0xf8ff0020, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, RC }, { C_F, C_CC } }
+
+/* add2l<.f> RA,RB,UIMM6_20 01011xxx01010101xxxxxxxxxxxxxxxx */
+{ "add2l", 0x58550000, 0xf8ff0000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, UIMM6_20 }, { C_F } }
+
+/* add2l<.f> ZA,RB,UIMM6_20 01011xxx01010101xxxxxxxxxx111110 */
+{ "add2l", 0x5855003e, 0xf8ff003f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, UIMM6_20 }, { C_F } }
+
+/* add2l<.f><.cc> RB,RBdup,UIMM6_20 01011xxx11010101xxxxxxxxxx1xxxxx */
+{ "add2l", 0x58d50020, 0xf8ff0020, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, UIMM6_20 }, { C_F, C_CC } }
+
+/* add2l<.f> RB,RBdup,SIMM12_20 01011xxx10010101xxxxxxxxxxxxxxxx */
+{ "add2l", 0x58950000, 0xf8ff0000, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, SIMM12_20 }, { C_F } }
+
+/* add2l<.f> RA,XIMM,RC 0101110000010101x111xxxxxxxxxxxx */
+{ "add2l", 0x5c157000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, XIMM, RC }, { C_F } }
+
+/* add2l<.f> RA,RB,XIMM 01011xxx00010101xxxx111100xxxxxx */
+{ "add2l", 0x58150f00, 0xf8ff0fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, XIMM }, { C_F } }
+
+/* add2l<.f> ZA,XIMM,RC 0101110000010101x111xxxxxx111110 */
+{ "add2l", 0x5c15703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, RC }, { C_F } }
+
+/* add2l<.f> ZA,RB,XIMM 01011xxx00010101xxxx111100111110 */
+{ "add2l", 0x58150f3e, 0xf8ff0fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, XIMM }, { C_F } }
+
+/* add2l<.f><.cc> ZA,XIMM,RC 0101110011010101x111xxxxxx0xxxxx */
+{ "add2l", 0x5cd57000, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, RC }, { C_F, C_CC } }
+
+/* add2l<.f><.cc> RB,RBdup,XIMM 01011xxx11010101xxxx1111000xxxxx */
+{ "add2l", 0x58d50f00, 0xf8ff0fe0, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, XIMM }, { C_F, C_CC } }
+
+/* add2l<.f> RA,XIMM,UIMM6_20 0101110001010101x111xxxxxxxxxxxx */
+{ "add2l", 0x5c557000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, XIMM, UIMM6_20 }, { C_F } }
+
+/* add2l<.f> ZA,XIMM,UIMM6_20 0101110001010101x111xxxxxx111110 */
+{ "add2l", 0x5c55703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, UIMM6_20 }, { C_F } }
+
+/* add2l<.f><.cc> ZA,XIMM,UIMM6_20 0101110011010101x111xxxxxx1xxxxx */
+{ "add2l", 0x5cd57020, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, UIMM6_20 }, { C_F, C_CC } }
+
+/* add2l<.f> RA,LIMM,RC 0101111000010101x111xxxxxxxxxxxx */
+{ "add2l", 0x5e157000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, LIMM, RC }, { C_F } }
+
+/* add2l<.f> RA,RB,LIMM 01011xxx00010101xxxx111110xxxxxx */
+{ "add2l", 0x58150f80, 0xf8ff0fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, LIMM }, { C_F } }
+
+/* add2l<.f> ZA,LIMM,RC 0101111000010101x111xxxxxx111110 */
+{ "add2l", 0x5e15703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, RC }, { C_F } }
+
+/* add2l<.f> ZA,RB,LIMM 01011xxx00010101xxxx111110111110 */
+{ "add2l", 0x58150fbe, 0xf8ff0fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, LIMM }, { C_F } }
+
+/* add2l<.f><.cc> ZA,LIMM,RC 0101111011010101x111xxxxxx0xxxxx */
+{ "add2l", 0x5ed57000, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, RC }, { C_F, C_CC } }
+
+/* add2l<.f><.cc> RB,RBdup,LIMM 01011xxx11010101xxxx1111100xxxxx */
+{ "add2l", 0x58d50f80, 0xf8ff0fe0, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, LIMM }, { C_F, C_CC } }
+
+/* add2l<.f> RA,LIMM,UIMM6_20 0101111001010101x111xxxxxxxxxxxx */
+{ "add2l", 0x5e557000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, LIMM, UIMM6_20 }, { C_F } }
+
+/* add2l<.f> ZA,LIMM,UIMM6_20 0101111001010101x111xxxxxx111110 */
+{ "add2l", 0x5e55703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, UIMM6_20 }, { C_F } }
+
+/* add2l<.f><.cc> ZA,LIMM,UIMM6_20 0101111011010101x111xxxxxx1xxxxx */
+{ "add2l", 0x5ed57020, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, UIMM6_20 }, { C_F, C_CC } }
+
+/* add2l<.f> ZA,XIMM,SIMM12_20 0101110010010101x111xxxxxxxxxxxx */
+{ "add2l", 0x5c957000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, SIMM12_20 }, { C_F } }
+
+/* add2l<.f> ZA,LIMM,SIMM12_20 0101111010010101x111xxxxxxxxxxxx */
+{ "add2l", 0x5e957000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, SIMM12_20 }, { C_F } }
+
+/* add2l<.f> RA,XIMM,XIMMdup 0101110000010101x111111100xxxxxx */
+{ "add2l", 0x5c157f00, 0xffff7fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, XIMM, XIMMdup }, { C_F } }
+
+/* add2l<.f> ZA,XIMM,XIMMdup 0101110000010101x111111100111110 */
+{ "add2l", 0x5c157f3e, 0xffff7fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, XIMMdup }, { C_F } }
+
+/* add2l<.f><.cc> ZA,XIMM,XIMMdup 0101110011010101x1111111000xxxxx */
+{ "add2l", 0x5cd57f00, 0xffff7fe0, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, XIMMdup }, { C_F, C_CC } }
+
+/* add2l<.f> RA,LIMM,LIMMdup 0101111000010101x111111110xxxxxx */
+{ "add2l", 0x5e157f80, 0xffff7fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, LIMM, LIMMdup }, { C_F } }
+
+/* add2l<.f> ZA,LIMM,LIMMdup 0101111000010101x111111110111110 */
+{ "add2l", 0x5e157fbe, 0xffff7fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, LIMMdup }, { C_F } }
+
+/* add2l<.f><.cc> ZA,LIMM,LIMMdup 0101111011010101x1111111100xxxxx */
+{ "add2l", 0x5ed57f80, 0xffff7fe0, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, LIMMdup }, { C_F, C_CC } }
+
+/* add2_s RB_S,RB_Sdup,RC_S 01111xxxxxx10101 */
+{ "add2_s", 0x00007815, 0x0000f81f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RB_S, RB_Sdup, RC_S }, { 0 } }
+
+/* add3<.f> RA,RB,RC 00100xxx00010110xxxxxxxxxxxxxxxx */
+{ "add3", 0x20160000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RA, RB, RC }, { C_F } }
+
+/* add3<.f> ZA,RB,RC 00100xxx00010110xxxxxxxxxx111110 */
+{ "add3", 0x2016003e, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { ZA, RB, RC }, { C_F } }
+
+/* add3<.f><.cc> RB,RBdup,RC 00100xxx11010110xxxxxxxxxx0xxxxx */
+{ "add3", 0x20d60000, 0xf8ff0020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RB, RBdup, RC }, { C_F, C_CC } }
+
+/* add3<.f> RA,RB,UIMM6_20 00100xxx01010110xxxxxxxxxxxxxxxx */
+{ "add3", 0x20560000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RA, RB, UIMM6_20 }, { C_F } }
+
+/* add3<.f> ZA,RB,UIMM6_20 00100xxx01010110xxxxxxxxxx111110 */
+{ "add3", 0x2056003e, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { ZA, RB, UIMM6_20 }, { C_F } }
+
+/* add3<.f><.cc> RB,RBdup,UIMM6_20 00100xxx11010110xxxxxxxxxx1xxxxx */
+{ "add3", 0x20d60020, 0xf8ff0020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RB, RBdup, UIMM6_20 }, { C_F, C_CC } }
+
+/* add3<.f> RB,RBdup,SIMM12_20 00100xxx10010110xxxxxxxxxxxxxxxx */
+{ "add3", 0x20960000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RB, RBdup, SIMM12_20 }, { C_F } }
+
+/* add3<.f> RA,LIMM,RC 0010011000010110x111xxxxxxxxxxxx */
+{ "add3", 0x26167000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RA, LIMM, RC }, { C_F } }
+
+/* add3<.f> RA,RB,LIMM 00100xxx00010110xxxx111110xxxxxx */
+{ "add3", 0x20160f80, 0xf8ff0fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RA, RB, LIMM }, { C_F } }
+
+/* add3<.f> ZA,LIMM,RC 0010011000010110x111xxxxxx111110 */
+{ "add3", 0x2616703e, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { ZA, LIMM, RC }, { C_F } }
+
+/* add3<.f> ZA,RB,LIMM 00100xxx00010110xxxx111110111110 */
+{ "add3", 0x20160fbe, 0xf8ff0fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { ZA, RB, LIMM }, { C_F } }
+
+/* add3<.f><.cc> RB,RBdup,LIMM 00100xxx11010110xxxx1111100xxxxx */
+{ "add3", 0x20d60f80, 0xf8ff0fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RB, RBdup, LIMM }, { C_F, C_CC } }
+
+/* add3<.f><.cc> ZA,LIMM,RC 0010011011010110x111xxxxxx0xxxxx */
+{ "add3", 0x26d67000, 0xffff7020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { ZA, LIMM, RC }, { C_F, C_CC } }
+
+/* add3<.f> RA,LIMM,UIMM6_20 0010011001010110x111xxxxxxxxxxxx */
+{ "add3", 0x26567000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RA, LIMM, UIMM6_20 }, { C_F } }
+
+/* add3<.f> ZA,LIMM,UIMM6_20 0010011001010110x111xxxxxx111110 */
+{ "add3", 0x2656703e, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { ZA, LIMM, UIMM6_20 }, { C_F } }
+
+/* add3<.f><.cc> ZA,LIMM,UIMM6_20 0010011011010110x111xxxxxx1xxxxx */
+{ "add3", 0x26d67020, 0xffff7020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { ZA, LIMM, UIMM6_20 }, { C_F, C_CC } }
+
+/* add3<.f> ZA,LIMM,SIMM12_20 0010011010010110x111xxxxxxxxxxxx */
+{ "add3", 0x26967000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { ZA, LIMM, SIMM12_20 }, { C_F } }
+
+/* add3<.f> RA,LIMM,LIMMdup 0010011000010110x111111110xxxxxx */
+{ "add3", 0x26167f80, 0xffff7fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RA, LIMM, LIMMdup }, { C_F } }
+
+/* add3<.f> ZA,LIMM,LIMMdup 0010011000010110x111111110111110 */
+{ "add3", 0x26167fbe, 0xffff7fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { ZA, LIMM, LIMMdup }, { C_F } }
+
+/* add3<.f><.cc> ZA,LIMM,LIMMdup 0010011011010110x1111111100xxxxx */
+{ "add3", 0x26d67f80, 0xffff7fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { ZA, LIMM, LIMMdup }, { C_F, C_CC } }
+
+/* add3l<.f> RA,RB,RC 01011xxx00010110xxxxxxxxxxxxxxxx */
+{ "add3l", 0x58160000, 0xf8ff0000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, RC }, { C_F } }
+
+/* add3l<.f> ZA,RB,RC 01011xxx00010110xxxxxxxxxx111110 */
+{ "add3l", 0x5816003e, 0xf8ff003f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, RC }, { C_F } }
+
+/* add3l<.f><.cc> RB,RBdup,RC 01011xxx11010110xxxxxxxxxx0xxxxx */
+{ "add3l", 0x58d60000, 0xf8ff0020, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, RC }, { C_F, C_CC } }
+
+/* add3l<.f> RA,RB,UIMM6_20 01011xxx01010110xxxxxxxxxxxxxxxx */
+{ "add3l", 0x58560000, 0xf8ff0000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, UIMM6_20 }, { C_F } }
+
+/* add3l<.f> ZA,RB,UIMM6_20 01011xxx01010110xxxxxxxxxx111110 */
+{ "add3l", 0x5856003e, 0xf8ff003f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, UIMM6_20 }, { C_F } }
+
+/* add3l<.f><.cc> RB,RBdup,UIMM6_20 01011xxx11010110xxxxxxxxxx1xxxxx */
+{ "add3l", 0x58d60020, 0xf8ff0020, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, UIMM6_20 }, { C_F, C_CC } }
+
+/* add3l<.f> RB,RBdup,SIMM12_20 01011xxx10010110xxxxxxxxxxxxxxxx */
+{ "add3l", 0x58960000, 0xf8ff0000, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, SIMM12_20 }, { C_F } }
+
+/* add3l<.f> RA,XIMM,RC 0101110000010110x111xxxxxxxxxxxx */
+{ "add3l", 0x5c167000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, XIMM, RC }, { C_F } }
+
+/* add3l<.f> RA,RB,XIMM 01011xxx00010110xxxx111100xxxxxx */
+{ "add3l", 0x58160f00, 0xf8ff0fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, XIMM }, { C_F } }
+
+/* add3l<.f> ZA,XIMM,RC 0101110000010110x111xxxxxx111110 */
+{ "add3l", 0x5c16703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, RC }, { C_F } }
+
+/* add3l<.f> ZA,RB,XIMM 01011xxx00010110xxxx111100111110 */
+{ "add3l", 0x58160f3e, 0xf8ff0fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, XIMM }, { C_F } }
+
+/* add3l<.f><.cc> ZA,XIMM,RC 0101110011010110x111xxxxxx0xxxxx */
+{ "add3l", 0x5cd67000, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, RC }, { C_F, C_CC } }
+
+/* add3l<.f><.cc> RB,RBdup,XIMM 01011xxx11010110xxxx1111000xxxxx */
+{ "add3l", 0x58d60f00, 0xf8ff0fe0, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, XIMM }, { C_F, C_CC } }
+
+/* add3l<.f> RA,XIMM,UIMM6_20 0101110001010110x111xxxxxxxxxxxx */
+{ "add3l", 0x5c567000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, XIMM, UIMM6_20 }, { C_F } }
+
+/* add3l<.f> ZA,XIMM,UIMM6_20 0101110001010110x111xxxxxx111110 */
+{ "add3l", 0x5c56703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, UIMM6_20 }, { C_F } }
+
+/* add3l<.f><.cc> ZA,XIMM,UIMM6_20 0101110011010110x111xxxxxx1xxxxx */
+{ "add3l", 0x5cd67020, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, UIMM6_20 }, { C_F, C_CC } }
+
+/* add3l<.f> RA,LIMM,RC 0101111000010110x111xxxxxxxxxxxx */
+{ "add3l", 0x5e167000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, LIMM, RC }, { C_F } }
+
+/* add3l<.f> RA,RB,LIMM 01011xxx00010110xxxx111110xxxxxx */
+{ "add3l", 0x58160f80, 0xf8ff0fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, LIMM }, { C_F } }
+
+/* add3l<.f> ZA,LIMM,RC 0101111000010110x111xxxxxx111110 */
+{ "add3l", 0x5e16703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, RC }, { C_F } }
+
+/* add3l<.f> ZA,RB,LIMM 01011xxx00010110xxxx111110111110 */
+{ "add3l", 0x58160fbe, 0xf8ff0fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, LIMM }, { C_F } }
+
+/* add3l<.f><.cc> ZA,LIMM,RC 0101111011010110x111xxxxxx0xxxxx */
+{ "add3l", 0x5ed67000, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, RC }, { C_F, C_CC } }
+
+/* add3l<.f><.cc> RB,RBdup,LIMM 01011xxx11010110xxxx1111100xxxxx */
+{ "add3l", 0x58d60f80, 0xf8ff0fe0, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, LIMM }, { C_F, C_CC } }
+
+/* add3l<.f> RA,LIMM,UIMM6_20 0101111001010110x111xxxxxxxxxxxx */
+{ "add3l", 0x5e567000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, LIMM, UIMM6_20 }, { C_F } }
+
+/* add3l<.f> ZA,LIMM,UIMM6_20 0101111001010110x111xxxxxx111110 */
+{ "add3l", 0x5e56703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, UIMM6_20 }, { C_F } }
+
+/* add3l<.f><.cc> ZA,LIMM,UIMM6_20 0101111011010110x111xxxxxx1xxxxx */
+{ "add3l", 0x5ed67020, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, UIMM6_20 }, { C_F, C_CC } }
+
+/* add3l<.f> ZA,XIMM,SIMM12_20 0101110010010110x111xxxxxxxxxxxx */
+{ "add3l", 0x5c967000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, SIMM12_20 }, { C_F } }
+
+/* add3l<.f> ZA,LIMM,SIMM12_20 0101111010010110x111xxxxxxxxxxxx */
+{ "add3l", 0x5e967000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, SIMM12_20 }, { C_F } }
+
+/* add3l<.f> RA,XIMM,XIMMdup 0101110000010110x111111100xxxxxx */
+{ "add3l", 0x5c167f00, 0xffff7fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, XIMM, XIMMdup }, { C_F } }
+
+/* add3l<.f> ZA,XIMM,XIMMdup 0101110000010110x111111100111110 */
+{ "add3l", 0x5c167f3e, 0xffff7fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, XIMMdup }, { C_F } }
+
+/* add3l<.f><.cc> ZA,XIMM,XIMMdup 0101110011010110x1111111000xxxxx */
+{ "add3l", 0x5cd67f00, 0xffff7fe0, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, XIMMdup }, { C_F, C_CC } }
+
+/* add3l<.f> RA,LIMM,LIMMdup 0101111000010110x111111110xxxxxx */
+{ "add3l", 0x5e167f80, 0xffff7fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, LIMM, LIMMdup }, { C_F } }
+
+/* add3l<.f> ZA,LIMM,LIMMdup 0101111000010110x111111110111110 */
+{ "add3l", 0x5e167fbe, 0xffff7fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, LIMMdup }, { C_F } }
+
+/* add3l<.f><.cc> ZA,LIMM,LIMMdup 0101111011010110x1111111100xxxxx */
+{ "add3l", 0x5ed67f80, 0xffff7fe0, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, LIMMdup }, { C_F, C_CC } }
+
+/* add3_s RB_S,RB_Sdup,RC_S 01111xxxxxx10110 */
+{ "add3_s", 0x00007816, 0x0000f81f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RB_S, RB_Sdup, RC_S }, { 0 } }
+
+/* addhl RA,RB,RC 01011xxx001011100xxxxxxxxxxxxxxx */
+{ "addhl", 0x582e0000, 0xf8ff8000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, RC }, { 0 } }
+
+/* addhl ZA,RB,RC 01011xxx001011100xxxxxxxxx111110 */
+{ "addhl", 0x582e003e, 0xf8ff803f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, RC }, { 0 } }
+
+/* addhl<.cc> RB,RBdup,RC 01011xxx111011100xxxxxxxxx0xxxxx */
+{ "addhl", 0x58ee0000, 0xf8ff8020, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, RC }, { C_CC } }
+
+/* addhl RA,RB,UIMM6_20 01011xxx011011100xxxxxxxxxxxxxxx */
+{ "addhl", 0x586e0000, 0xf8ff8000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, UIMM6_20 }, { 0 } }
+
+/* addhl ZA,RB,UIMM6_20 01011xxx011011100xxxxxxxxx111110 */
+{ "addhl", 0x586e003e, 0xf8ff803f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, UIMM6_20 }, { 0 } }
+
+/* addhl<.cc> RB,RBdup,UIMM6_20 01011xxx111011100xxxxxxxxx1xxxxx */
+{ "addhl", 0x58ee0020, 0xf8ff8020, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, UIMM6_20 }, { C_CC } }
+
+/* addhl RB,RBdup,SIMM12_20 01011xxx101011100xxxxxxxxxxxxxxx */
+{ "addhl", 0x58ae0000, 0xf8ff8000, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, SIMM12_20 }, { 0 } }
+
+/* addhl RA,HI32,RC 01011110001011100111xxxxxxxxxxxx */
+{ "addhl", 0x5e2e7000, 0xfffff000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, HI32, RC }, { 0 } }
+
+/* addhl RA,RB,HI32 01011xxx001011100xxx111110xxxxxx */
+{ "addhl", 0x582e0f80, 0xf8ff8fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, HI32 }, { 0 } }
+
+/* addhl<.cc> RB,RBdup,HI32 01011xxx111011100xxx1111100xxxxx */
+{ "addhl", 0x58ee0f80, 0xf8ff8fe0, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, HI32 }, { C_CC } }
+
+/* addhl_s RH_S,PCL_S,XIMM_S 01110011xxx010xx */
+{ "addhl_s", 0x00007308, 0x0000ff1c, ARC_OPCODE_ARC64, ARITH, NONE, { RH_S, PCL_S, XIMM_S }, { 0 } }
+
+/* addhl_s RH_S,RH_Sdup,HI32 01110001xxx010xx */
+{ "addhl_s", 0x00007108, 0x0000ff1c, ARC_OPCODE_ARC64, ARITH, NONE, { RH_S, RH_Sdup, HI32 }, { 0 } }
+
+/* addl<.f> RA,RB,RC 01011xxx00000000xxxxxxxxxxxxxxxx */
+{ "addl", 0x58000000, 0xf8ff0000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, RC }, { C_F } }
+
+/* addl<.f> ZA,RB,RC 01011xxx00000000xxxxxxxxxx111110 */
+{ "addl", 0x5800003e, 0xf8ff003f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, RC }, { C_F } }
+
+/* addl<.f><.cc> RB,RBdup,RC 01011xxx11000000xxxxxxxxxx0xxxxx */
+{ "addl", 0x58c00000, 0xf8ff0020, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, RC }, { C_F, C_CC } }
+
+/* addl<.f> RA,RB,UIMM6_20 01011xxx01000000xxxxxxxxxxxxxxxx */
+{ "addl", 0x58400000, 0xf8ff0000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, UIMM6_20 }, { C_F } }
+
+/* addl<.f> ZA,RB,UIMM6_20 01011xxx01000000xxxxxxxxxx111110 */
+{ "addl", 0x5840003e, 0xf8ff003f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, UIMM6_20 }, { C_F } }
+
+/* addl<.f><.cc> RB,RBdup,UIMM6_20 01011xxx11000000xxxxxxxxxx1xxxxx */
+{ "addl", 0x58c00020, 0xf8ff0020, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, UIMM6_20 }, { C_F, C_CC } }
+
+/* addl<.f> RB,RBdup,SIMM12_20 01011xxx10000000xxxxxxxxxxxxxxxx */
+{ "addl", 0x58800000, 0xf8ff0000, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, SIMM12_20 }, { C_F } }
+
+/* addl<.f> RA,XIMM,RC 0101110000000000x111xxxxxxxxxxxx */
+{ "addl", 0x5c007000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, XIMM, RC }, { C_F } }
+
+/* addl<.f> RA,RB,XIMM 01011xxx00000000xxxx111100xxxxxx */
+{ "addl", 0x58000f00, 0xf8ff0fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, XIMM }, { C_F } }
+
+/* addl<.f> ZA,XIMM,RC 0101110000000000x111xxxxxx111110 */
+{ "addl", 0x5c00703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, RC }, { C_F } }
+
+/* addl<.f> ZA,RB,XIMM 01011xxx00000000xxxx111100111110 */
+{ "addl", 0x58000f3e, 0xf8ff0fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, XIMM }, { C_F } }
+
+/* addl<.f><.cc> ZA,XIMM,RC 0101110011000000x111xxxxxx0xxxxx */
+{ "addl", 0x5cc07000, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, RC }, { C_F, C_CC } }
+
+/* addl<.f><.cc> RB,RBdup,XIMM 01011xxx11000000xxxx1111000xxxxx */
+{ "addl", 0x58c00f00, 0xf8ff0fe0, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, XIMM }, { C_F, C_CC } }
+
+/* addl<.f> RA,XIMM,UIMM6_20 0101110001000000x111xxxxxxxxxxxx */
+{ "addl", 0x5c407000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, XIMM, UIMM6_20 }, { C_F } }
+
+/* addl<.f> ZA,XIMM,UIMM6_20 0101110001000000x111xxxxxx111110 */
+{ "addl", 0x5c40703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, UIMM6_20 }, { C_F } }
+
+/* addl<.f><.cc> ZA,XIMM,UIMM6_20 0101110011000000x111xxxxxx1xxxxx */
+{ "addl", 0x5cc07020, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, UIMM6_20 }, { C_F, C_CC } }
+
+/* addl<.f> RA,LIMM,RC 0101111000000000x111xxxxxxxxxxxx */
+{ "addl", 0x5e007000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, LIMM, RC }, { C_F } }
+
+/* addl<.f> RA,RB,LIMM 01011xxx00000000xxxx111110xxxxxx */
+{ "addl", 0x58000f80, 0xf8ff0fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, LIMM }, { C_F } }
+
+/* addl<.f> ZA,LIMM,RC 0101111000000000x111xxxxxx111110 */
+{ "addl", 0x5e00703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, RC }, { C_F } }
+
+/* addl<.f> ZA,RB,LIMM 01011xxx00000000xxxx111110111110 */
+{ "addl", 0x58000fbe, 0xf8ff0fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, LIMM }, { C_F } }
+
+/* addl<.f><.cc> ZA,LIMM,RC 0101111011000000x111xxxxxx0xxxxx */
+{ "addl", 0x5ec07000, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, RC }, { C_F, C_CC } }
+
+/* addl<.f><.cc> RB,RBdup,LIMM 01011xxx11000000xxxx1111100xxxxx */
+{ "addl", 0x58c00f80, 0xf8ff0fe0, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, LIMM }, { C_F, C_CC } }
+
+/* addl<.f> RA,LIMM,UIMM6_20 0101111001000000x111xxxxxxxxxxxx */
+{ "addl", 0x5e407000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, LIMM, UIMM6_20 }, { C_F } }
+
+/* addl<.f> ZA,LIMM,UIMM6_20 0101111001000000x111xxxxxx111110 */
+{ "addl", 0x5e40703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, UIMM6_20 }, { C_F } }
+
+/* addl<.f><.cc> ZA,LIMM,UIMM6_20 0101111011000000x111xxxxxx1xxxxx */
+{ "addl", 0x5ec07020, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, UIMM6_20 }, { C_F, C_CC } }
+
+/* addl<.f> ZA,XIMM,SIMM12_20 0101110010000000x111xxxxxxxxxxxx */
+{ "addl", 0x5c807000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, SIMM12_20 }, { C_F } }
+
+/* addl<.f> ZA,LIMM,SIMM12_20 0101111010000000x111xxxxxxxxxxxx */
+{ "addl", 0x5e807000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, SIMM12_20 }, { C_F } }
+
+/* addl<.f> RA,XIMM,XIMMdup 0101110000000000x111111100xxxxxx */
+{ "addl", 0x5c007f00, 0xffff7fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, XIMM, XIMMdup }, { C_F } }
+
+/* addl<.f> ZA,XIMM,XIMMdup 0101110000000000x111111100111110 */
+{ "addl", 0x5c007f3e, 0xffff7fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, XIMMdup }, { C_F } }
+
+/* addl<.f><.cc> ZA,XIMM,XIMMdup 0101110011000000x1111111000xxxxx */
+{ "addl", 0x5cc07f00, 0xffff7fe0, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, XIMMdup }, { C_F, C_CC } }
+
+/* addl<.f> RA,LIMM,LIMMdup 0101111000000000x111111110xxxxxx */
+{ "addl", 0x5e007f80, 0xffff7fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, LIMM, LIMMdup }, { C_F } }
+
+/* addl<.f> ZA,LIMM,LIMMdup 0101111000000000x111111110111110 */
+{ "addl", 0x5e007fbe, 0xffff7fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, LIMMdup }, { C_F } }
+
+/* addl<.f><.cc> ZA,LIMM,LIMMdup 0101111011000000x1111111100xxxxx */
+{ "addl", 0x5ec07f80, 0xffff7fe0, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, LIMMdup }, { C_F, C_CC } }
+
+/* addl_s SP_S,SP_Sdup,UIMM9_A32_11_S 11000xx0101xxxxx */
+{ "addl_s", 0x0000c0a0, 0x0000f9e0, ARC_OPCODE_ARC64, ARITH, NONE, { SP_S, SP_Sdup, UIMM9_A32_11_S }, { 0 } }
+
+/* addl_s RB_S,RB_Sdup,RC_S 01111xxxxxx00001 */
+{ "addl_s", 0x00007801, 0x0000f81f, ARC_OPCODE_ARC64, ARITH, NONE, { RB_S, RB_Sdup, RC_S }, { 0 } }
+
+/* addl_s RB_S,SP_S,UIMM7_A32_11_S 11000xxx100xxxxx */
+{ "addl_s", 0x0000c080, 0x0000f8e0, ARC_OPCODE_ARC64, ARITH, NONE, { RB_S, SP_S, UIMM7_A32_11_S }, { 0 } }
+
+/* addl_s R0_S,GP_S,SIMM11_A32_7_S 1100111xxxxxxxxx */
+{ "addl_s", 0x0000ce00, 0x0000fe00, ARC_OPCODE_ARC64, ARITH, NONE, { R0_S, GP_S, SIMM11_A32_7_S }, { 0 } }
+
+/* addl_s RH_S,RH_Sdup,LO32 01110001xxx110xx */
+{ "addl_s", 0x00007118, 0x0000ff1c, ARC_OPCODE_ARC64, ARITH, NONE, { RH_S, RH_Sdup, LO32 }, { 0 } }
+
+/* addl_s RH_S,PCL_S,LO32 01110011xxx110xx */
+{ "addl_s", 0x00007318, 0x0000ff1c, ARC_OPCODE_ARC64, ARITH, NONE, { RH_S, PCL_S, LO32 }, { 0 } }
+
+/* add_s RA_S,RB_S,RC_S 01100xxxxxx11xxx */
+{ "add_s", 0x00006018, 0x0000f818, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RA_S, RB_S, RC_S }, { 0 } }
+
+/* add_s RB_S,RB_Sdup,RH_S 01110xxxxxx000xx */
+{ "add_s", 0x00007000, 0x0000f81c, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RB_S, RB_Sdup, RH_S }, { 0 } }
+
+/* add_s RH_S,RH_Sdup,SIMM3_5_S 01110xxxxxx001xx */
+{ "add_s", 0x00007004, 0x0000f81c, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RH_S, RH_Sdup, SIMM3_5_S }, { 0 } }
+
+/* add_s R0_S,RB_S,UIMM6_13_S 01001xxx0xxx1xxx */
+{ "add_s", 0x00004808, 0x0000f888, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, CD, { R0_S, RB_S, UIMM6_13_S }, { 0 } }
+
+/* add_s R1_S,RB_S,UIMM6_13_S 01001xxx1xxx1xxx */
+{ "add_s", 0x00004888, 0x0000f888, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, CD, { R1_S, RB_S, UIMM6_13_S }, { 0 } }
+
+/* add_s RB_S,RB_Sdup,LIMM_S 01110xxx11000011 */
+{ "add_s", 0x000070c3, 0x0000f8ff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RB_S, RB_Sdup, LIMM_S }, { 0 } }
+
+/* add_s ZA_S,LIMM_S,SIMM3_5_S 01110xxx11000111 */
+{ "add_s", 0x000070c7, 0x0000f8ff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { ZA_S, LIMM_S, SIMM3_5_S }, { 0 } }
+
+/* add_s b,sp,u7 11000bbb100uuuuu.  */
+{ "add_s", 0x0000C080, 0x0000F8E0, ARC_OPCODE_ARC32, ARITH, NONE, { RB_S, SP_S, UIMM7_A32_11_S }, { 0 }},
+
+/* add_s SP,SP,u7 11000000101uuuuu.  */
+{ "add_s", 0x0000C0A0, 0x0000FFE0, ARC_OPCODE_ARC32, ARITH, NONE, { SP_S, SP_Sdup, UIMM7_A32_11_S }, { 0 }},
+
+/* aex RB_CHK,BRAKET,RC,BRAKETdup 00100xxx00100111xxxxxxxxxxxxxxxx */
+{ "aex", 0x20270000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, AUXREG, NONE, { RB_CHK, BRAKET, RC, BRAKETdup }, { 0 } }
+
+/* aex<.cc> RB_CHK,BRAKET,RC,BRAKETdup 00100xxx11100111xxxxxxxxxx0xxxxx */
+{ "aex", 0x20e70000, 0xf8ff0020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, AUXREG, NONE, { RB_CHK, BRAKET, RC, BRAKETdup }, { C_CC } }
+
+/* aex RB_CHK,BRAKET,UIMM6_20,BRAKETdup 00100xxx01100111xxxxxxxxxxxxxxxx */
+{ "aex", 0x20670000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, AUXREG, NONE, { RB_CHK, BRAKET, UIMM6_20, BRAKETdup }, { 0 } }
+
+/* aex<.cc> RB_CHK,BRAKET,UIMM6_20,BRAKETdup 00100xxx11100111xxxxxxxxxx1xxxxx */
+{ "aex", 0x20e70020, 0xf8ff0020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, AUXREG, NONE, { RB_CHK, BRAKET, UIMM6_20, BRAKETdup }, { C_CC } }
+
+/* aex RB_CHK,BRAKET,SIMM12_20,BRAKETdup 00100xxx10100111xxxxxxxxxxxxxxxx */
+{ "aex", 0x20a70000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, AUXREG, NONE, { RB_CHK, BRAKET, SIMM12_20, BRAKETdup }, { 0 } }
+
+/* aex LIMM,BRAKET,RC,BRAKETdup 0010011000100111x111xxxxxxxxxxxx */
+{ "aex", 0x26277000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, AUXREG, NONE, { LIMM, BRAKET, RC, BRAKETdup }, { 0 } }
+
+/* aex RB_CHK,BRAKET,LIMM,BRAKETdup 00100xxx00100111xxxx111110xxxxxx */
+{ "aex", 0x20270f80, 0xf8ff0fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, AUXREG, NONE, { RB_CHK, BRAKET, LIMM, BRAKETdup }, { 0 } }
+
+/* aex<.cc> LIMM,BRAKET,RC,BRAKETdup 0010011011100111x111xxxxxx0xxxxx */
+{ "aex", 0x26e77000, 0xffff7020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, AUXREG, NONE, { LIMM, BRAKET, RC, BRAKETdup }, { C_CC } }
+
+/* aex<.cc> RB_CHK,BRAKET,LIMM,BRAKETdup 00100xxx11100111xxxx1111100xxxxx */
+{ "aex", 0x20e70f80, 0xf8ff0fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, AUXREG, NONE, { RB_CHK, BRAKET, LIMM, BRAKETdup }, { C_CC } }
+
+/* aex LIMM,BRAKET,UIMM6_20,BRAKETdup 0010011001100111x111xxxxxxxxxxxx */
+{ "aex", 0x26677000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, AUXREG, NONE, { LIMM, BRAKET, UIMM6_20, BRAKETdup }, { 0 } }
+
+/* aex<.cc> LIMM,BRAKET,UIMM6_20,BRAKETdup 0010011011100111x111xxxxxx1xxxxx */
+{ "aex", 0x26e77020, 0xffff7020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, AUXREG, NONE, { LIMM, BRAKET, UIMM6_20, BRAKETdup }, { C_CC } }
+
+/* aex LIMM,BRAKET,SIMM12_20,BRAKETdup 0010011010100111x111xxxxxxxxxxxx */
+{ "aex", 0x26a77000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, AUXREG, NONE, { LIMM, BRAKET, SIMM12_20, BRAKETdup }, { 0 } }
+
+/* aex LIMM,BRAKET,LIMMdup,BRAKETdup 0010011000100111x111111110xxxxxx */
+{ "aex", 0x26277f80, 0xffff7fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, AUXREG, NONE, { LIMM, BRAKET, LIMMdup, BRAKETdup }, { 0 } }
+
+/* aex<.cc> LIMM,BRAKET,LIMMdup,BRAKETdup 0010011011100111x1111111100xxxxx */
+{ "aex", 0x26e77f80, 0xffff7fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, AUXREG, NONE, { LIMM, BRAKET, LIMMdup, BRAKETdup }, { C_CC } }
+
+/* aexl RB,BRAKET,RC,BRAKETdup 01011xxx001001110xxxxxxxxxxxxxxx */
+{ "aexl", 0x58270000, 0xf8ff8000, ARC_OPCODE_ARC64, ARITH, NONE, { RB, BRAKET, RC, BRAKETdup }, { 0 } }
+
+/* aexl<.cc> RB,BRAKET,RC,BRAKETdup 01011xxx111001110xxxxxxxxx0xxxxx */
+{ "aexl", 0x58e70000, 0xf8ff8020, ARC_OPCODE_ARC64, ARITH, NONE, { RB, BRAKET, RC, BRAKETdup }, { C_CC } }
+
+/* aexl RB,BRAKET,UIMM6_20,BRAKETdup 01011xxx011001110xxxxxxxxxxxxxxx */
+{ "aexl", 0x58670000, 0xf8ff8000, ARC_OPCODE_ARC64, ARITH, NONE, { RB, BRAKET, UIMM6_20, BRAKETdup }, { 0 } }
+
+/* aexl<.cc> RB,BRAKET,UIMM6_20,BRAKETdup 01011xxx111001110xxxxxxxxx1xxxxx */
+{ "aexl", 0x58e70020, 0xf8ff8020, ARC_OPCODE_ARC64, ARITH, NONE, { RB, BRAKET, UIMM6_20, BRAKETdup }, { C_CC } }
+
+/* aexl RB,BRAKET,SIMM12_20,BRAKETdup 01011xxx101001110xxxxxxxxxxxxxxx */
+{ "aexl", 0x58a70000, 0xf8ff8000, ARC_OPCODE_ARC64, ARITH, NONE, { RB, BRAKET, SIMM12_20, BRAKETdup }, { 0 } }
+
+/* aexl RB,BRAKET,XIMM,BRAKETdup 01011xxx001001110xxx111100xxxxxx */
+{ "aexl", 0x58270f00, 0xf8ff8fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RB, BRAKET, XIMM, BRAKETdup }, { 0 } }
+
+/* aexl<.cc> RB,BRAKET,XIMM,BRAKETdup 01011xxx111001110xxx1111000xxxxx */
+{ "aexl", 0x58e70f00, 0xf8ff8fe0, ARC_OPCODE_ARC64, ARITH, NONE, { RB, BRAKET, XIMM, BRAKETdup }, { C_CC } }
+
+/* aexl RB,BRAKET,LIMM,BRAKETdup 01011xxx001001110xxx111110xxxxxx */
+{ "aexl", 0x58270f80, 0xf8ff8fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RB, BRAKET, LIMM, BRAKETdup }, { 0 } }
+
+/* aexl<.cc> RB,BRAKET,LIMM,BRAKETdup 01011xxx111001110xxx1111100xxxxx */
+{ "aexl", 0x58e70f80, 0xf8ff8fe0, ARC_OPCODE_ARC64, ARITH, NONE, { RB, BRAKET, LIMM, BRAKETdup }, { C_CC } }
+
+/* and<.f> RA,RB,RC 00100xxx00000100xxxxxxxxxxxxxxxx */
+{ "and", 0x20040000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RA, RB, RC }, { C_F } }
+
+/* and<.f> ZA,RB,RC 00100xxx00000100xxxxxxxxxx111110 */
+{ "and", 0x2004003e, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, RB, RC }, { C_F } }
+
+/* and<.f><.cc> RB,RBdup,RC 00100xxx11000100xxxxxxxxxx0xxxxx */
+{ "and", 0x20c40000, 0xf8ff0020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RB, RBdup, RC }, { C_F, C_CC } }
+
+/* and<.f> RA,RB,UIMM6_20 00100xxx01000100xxxxxxxxxxxxxxxx */
+{ "and", 0x20440000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RA, RB, UIMM6_20 }, { C_F } }
+
+/* and<.f> ZA,RB,UIMM6_20 00100xxx01000100xxxxxxxxxx111110 */
+{ "and", 0x2044003e, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, RB, UIMM6_20 }, { C_F } }
+
+/* and<.f><.cc> RB,RBdup,UIMM6_20 00100xxx11000100xxxxxxxxxx1xxxxx */
+{ "and", 0x20c40020, 0xf8ff0020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RB, RBdup, UIMM6_20 }, { C_F, C_CC } }
+
+/* and<.f> RB,RBdup,SIMM12_20 00100xxx10000100xxxxxxxxxxxxxxxx */
+{ "and", 0x20840000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RB, RBdup, SIMM12_20 }, { C_F } }
+
+/* and<.f> RA,LIMM,RC 0010011000000100x111xxxxxxxxxxxx */
+{ "and", 0x26047000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RA, LIMM, RC }, { C_F } }
+
+/* and<.f> RA,RB,LIMM 00100xxx00000100xxxx111110xxxxxx */
+{ "and", 0x20040f80, 0xf8ff0fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RA, RB, LIMM }, { C_F } }
+
+/* and<.f> ZA,LIMM,RC 0010011000000100x111xxxxxx111110 */
+{ "and", 0x2604703e, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, LIMM, RC }, { C_F } }
+
+/* and<.f> ZA,RB,LIMM 00100xxx00000100xxxx111110111110 */
+{ "and", 0x20040fbe, 0xf8ff0fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, RB, LIMM }, { C_F } }
+
+/* and<.f><.cc> RB,RBdup,LIMM 00100xxx11000100xxxx1111100xxxxx */
+{ "and", 0x20c40f80, 0xf8ff0fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RB, RBdup, LIMM }, { C_F, C_CC } }
+
+/* and<.f><.cc> ZA,LIMM,RC 0010011011000100x111xxxxxx0xxxxx */
+{ "and", 0x26c47000, 0xffff7020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, LIMM, RC }, { C_F, C_CC } }
+
+/* and<.f> RA,LIMM,UIMM6_20 0010011001000100x111xxxxxxxxxxxx */
+{ "and", 0x26447000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RA, LIMM, UIMM6_20 }, { C_F } }
+
+/* and<.f> ZA,LIMM,UIMM6_20 0010011001000100x111xxxxxx111110 */
+{ "and", 0x2644703e, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, LIMM, UIMM6_20 }, { C_F } }
+
+/* and<.f><.cc> ZA,LIMM,UIMM6_20 0010011011000100x111xxxxxx1xxxxx */
+{ "and", 0x26c47020, 0xffff7020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, LIMM, UIMM6_20 }, { C_F, C_CC } }
+
+/* and<.f> ZA,LIMM,SIMM12_20 0010011010000100x111xxxxxxxxxxxx */
+{ "and", 0x26847000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, LIMM, SIMM12_20 }, { C_F } }
+
+/* and<.f> RA,LIMM,LIMMdup 0010011000000100x111111110xxxxxx */
+{ "and", 0x26047f80, 0xffff7fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RA, LIMM, LIMMdup }, { C_F } }
+
+/* and<.f> ZA,LIMM,LIMMdup 0010011000000100x111111110111110 */
+{ "and", 0x26047fbe, 0xffff7fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, LIMM, LIMMdup }, { C_F } }
+
+/* and<.f><.cc> ZA,LIMM,LIMMdup 0010011011000100x1111111100xxxxx */
+{ "and", 0x26c47f80, 0xffff7fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, LIMM, LIMMdup }, { C_F, C_CC } }
+
+/* andl<.f> RA,RB,RC 01011xxx00000100xxxxxxxxxxxxxxxx */
+{ "andl", 0x58040000, 0xf8ff0000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, RC }, { C_F } }
+
+/* andl<.f> ZA,RB,RC 01011xxx00000100xxxxxxxxxx111110 */
+{ "andl", 0x5804003e, 0xf8ff003f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, RC }, { C_F } }
+
+/* andl<.f><.cc> RB,RBdup,RC 01011xxx11000100xxxxxxxxxx0xxxxx */
+{ "andl", 0x58c40000, 0xf8ff0020, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, RC }, { C_F, C_CC } }
+
+/* andl<.f> RA,RB,UIMM6_20 01011xxx01000100xxxxxxxxxxxxxxxx */
+{ "andl", 0x58440000, 0xf8ff0000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, UIMM6_20 }, { C_F } }
+
+/* andl<.f> ZA,RB,UIMM6_20 01011xxx01000100xxxxxxxxxx111110 */
+{ "andl", 0x5844003e, 0xf8ff003f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, UIMM6_20 }, { C_F } }
+
+/* andl<.f><.cc> RB,RBdup,UIMM6_20 01011xxx11000100xxxxxxxxxx1xxxxx */
+{ "andl", 0x58c40020, 0xf8ff0020, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, UIMM6_20 }, { C_F, C_CC } }
+
+/* andl<.f> RB,RBdup,SIMM12_20 01011xxx10000100xxxxxxxxxxxxxxxx */
+{ "andl", 0x58840000, 0xf8ff0000, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, SIMM12_20 }, { C_F } }
+
+/* andl<.f> RA,XIMM,RC 0101110000000100x111xxxxxxxxxxxx */
+{ "andl", 0x5c047000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, XIMM, RC }, { C_F } }
+
+/* andl<.f> RA,RB,XIMM 01011xxx00000100xxxx111100xxxxxx */
+{ "andl", 0x58040f00, 0xf8ff0fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, XIMM }, { C_F } }
+
+/* andl<.f> ZA,XIMM,RC 0101110000000100x111xxxxxx111110 */
+{ "andl", 0x5c04703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, RC }, { C_F } }
+
+/* andl<.f> ZA,RB,XIMM 01011xxx00000100xxxx111100111110 */
+{ "andl", 0x58040f3e, 0xf8ff0fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, XIMM }, { C_F } }
+
+/* andl<.f><.cc> ZA,XIMM,RC 0101110011000100x111xxxxxx0xxxxx */
+{ "andl", 0x5cc47000, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, RC }, { C_F, C_CC } }
+
+/* andl<.f><.cc> RB,RBdup,XIMM 01011xxx11000100xxxx1111000xxxxx */
+{ "andl", 0x58c40f00, 0xf8ff0fe0, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, XIMM }, { C_F, C_CC } }
+
+/* andl<.f> RA,XIMM,UIMM6_20 0101110001000100x111xxxxxxxxxxxx */
+{ "andl", 0x5c447000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, XIMM, UIMM6_20 }, { C_F } }
+
+/* andl<.f> ZA,XIMM,UIMM6_20 0101110001000100x111xxxxxx111110 */
+{ "andl", 0x5c44703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, UIMM6_20 }, { C_F } }
+
+/* andl<.f><.cc> ZA,XIMM,UIMM6_20 0101110011000100x111xxxxxx1xxxxx */
+{ "andl", 0x5cc47020, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, UIMM6_20 }, { C_F, C_CC } }
+
+/* andl<.f> RA,LIMM,RC 0101111000000100x111xxxxxxxxxxxx */
+{ "andl", 0x5e047000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, LIMM, RC }, { C_F } }
+
+/* andl<.f> RA,RB,LIMM 01011xxx00000100xxxx111110xxxxxx */
+{ "andl", 0x58040f80, 0xf8ff0fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, LIMM }, { C_F } }
+
+/* andl<.f> ZA,LIMM,RC 0101111000000100x111xxxxxx111110 */
+{ "andl", 0x5e04703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, RC }, { C_F } }
+
+/* andl<.f> ZA,RB,LIMM 01011xxx00000100xxxx111110111110 */
+{ "andl", 0x58040fbe, 0xf8ff0fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, LIMM }, { C_F } }
+
+/* andl<.f><.cc> ZA,LIMM,RC 0101111011000100x111xxxxxx0xxxxx */
+{ "andl", 0x5ec47000, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, RC }, { C_F, C_CC } }
+
+/* andl<.f><.cc> RB,RBdup,LIMM 01011xxx11000100xxxx1111100xxxxx */
+{ "andl", 0x58c40f80, 0xf8ff0fe0, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, LIMM }, { C_F, C_CC } }
+
+/* andl<.f> RA,LIMM,UIMM6_20 0101111001000100x111xxxxxxxxxxxx */
+{ "andl", 0x5e447000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, LIMM, UIMM6_20 }, { C_F } }
+
+/* andl<.f> ZA,LIMM,UIMM6_20 0101111001000100x111xxxxxx111110 */
+{ "andl", 0x5e44703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, UIMM6_20 }, { C_F } }
+
+/* andl<.f><.cc> ZA,LIMM,UIMM6_20 0101111011000100x111xxxxxx1xxxxx */
+{ "andl", 0x5ec47020, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, UIMM6_20 }, { C_F, C_CC } }
+
+/* andl<.f> ZA,XIMM,SIMM12_20 0101110010000100x111xxxxxxxxxxxx */
+{ "andl", 0x5c847000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, SIMM12_20 }, { C_F } }
+
+/* andl<.f> ZA,LIMM,SIMM12_20 0101111010000100x111xxxxxxxxxxxx */
+{ "andl", 0x5e847000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, SIMM12_20 }, { C_F } }
+
+/* andl<.f> RA,XIMM,XIMMdup 0101110000000100x111111100xxxxxx */
+{ "andl", 0x5c047f00, 0xffff7fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, XIMM, XIMMdup }, { C_F } }
+
+/* andl<.f> ZA,XIMM,XIMMdup 0101110000000100x111111100111110 */
+{ "andl", 0x5c047f3e, 0xffff7fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, XIMMdup }, { C_F } }
+
+/* andl<.f><.cc> ZA,XIMM,XIMMdup 0101110011000100x1111111000xxxxx */
+{ "andl", 0x5cc47f00, 0xffff7fe0, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, XIMMdup }, { C_F, C_CC } }
+
+/* andl<.f> RA,LIMM,LIMMdup 0101111000000100x111111110xxxxxx */
+{ "andl", 0x5e047f80, 0xffff7fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, LIMM, LIMMdup }, { C_F } }
+
+/* andl<.f> ZA,LIMM,LIMMdup 0101111000000100x111111110111110 */
+{ "andl", 0x5e047fbe, 0xffff7fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, LIMMdup }, { C_F } }
+
+/* andl<.f><.cc> ZA,LIMM,LIMMdup 0101111011000100x1111111100xxxxx */
+{ "andl", 0x5ec47f80, 0xffff7fe0, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, LIMMdup }, { C_F, C_CC } }
+
+/* andl_s RB_S,RB_Sdup,RC_S 01111xxxxxx01000 */
+{ "andl_s", 0x00007808, 0x0000f81f, ARC_OPCODE_ARC64, ARITH, NONE, { RB_S, RB_Sdup, RC_S }, { 0 } }
+
+/* and_s RB_S,RB_Sdup,RC_S 01111xxxxxx00100 */
+{ "and_s", 0x00007804, 0x0000f81f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RB_S, RB_Sdup, RC_S }, { 0 } }
+
+/* asl<.f> RB,RC 00100xxx00101111xxxxxxxxxx000000 */
+{ "asl", 0x202f0000, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RB, RC }, { C_F } }
+
+/* asl<.f> ZA,RC 0010011000101111x111xxxxxx000000 */
+{ "asl", 0x262f7000, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, RC }, { C_F } }
+
+/* asl<.f> RA,RB,RC 00101xxx00000000xxxxxxxxxxxxxxxx */
+{ "asl", 0x28000000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, SHFT2, { RA, RB, RC }, { C_F } }
+
+/* asl<.f> ZA,RB,RC 00101xxx00000000xxxxxxxxxx111110 */
+{ "asl", 0x2800003e, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, SHFT2, { ZA, RB, RC }, { C_F } }
+
+/* asl<.f><.cc> RB,RBdup,RC 00101xxx11000000xxxxxxxxxx0xxxxx */
+{ "asl", 0x28c00000, 0xf8ff0020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, SHFT2, { RB, RBdup, RC }, { C_F, C_CC } }
+
+/* asl<.f> RB,UIMM6_20 00100xxx01101111xxxxxxxxxx000000 */
+{ "asl", 0x206f0000, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RB, UIMM6_20 }, { C_F } }
+
+/* asl<.f> ZA,UIMM6_20 0010011001101111x111xxxxxx000000 */
+{ "asl", 0x266f7000, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, UIMM6_20 }, { C_F } }
+
+/* asl<.f> RA,RB,UIMM6_20 00101xxx01000000xxxxxxxxxxxxxxxx */
+{ "asl", 0x28400000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, SHFT2, { RA, RB, UIMM6_20 }, { C_F } }
+
+/* asl<.f> ZA,RB,UIMM6_20 00101xxx01000000xxxxxxxxxx111110 */
+{ "asl", 0x2840003e, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, SHFT2, { ZA, RB, UIMM6_20 }, { C_F } }
+
+/* asl<.f><.cc> RB,RBdup,UIMM6_20 00101xxx11000000xxxxxxxxxx1xxxxx */
+{ "asl", 0x28c00020, 0xf8ff0020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, SHFT2, { RB, RBdup, UIMM6_20 }, { C_F, C_CC } }
+
+/* asl<.f> RB,RBdup,SIMM12_20 00101xxx10000000xxxxxxxxxxxxxxxx */
+{ "asl", 0x28800000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, SHFT2, { RB, RBdup, SIMM12_20 }, { C_F } }
+
+/* asl<.f> RB,LIMM 00100xxx00101111xxxx111110000000 */
+{ "asl", 0x202f0f80, 0xf8ff0fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RB, LIMM }, { C_F } }
+
+/* asl<.f> ZA,LIMM 0010011000101111x111111110000000 */
+{ "asl", 0x262f7f80, 0xffff7fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, LIMM }, { C_F } }
+
+/* asl<.f> RA,LIMM,RC 0010111000000000x111xxxxxxxxxxxx */
+{ "asl", 0x2e007000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, SHFT2, { RA, LIMM, RC }, { C_F } }
+
+/* asl<.f> RA,RB,LIMM 00101xxx00000000xxxx111110xxxxxx */
+{ "asl", 0x28000f80, 0xf8ff0fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, SHFT2, { RA, RB, LIMM }, { C_F } }
+
+/* asl<.f> ZA,LIMM,RC 0010111000000000x111xxxxxx111110 */
+{ "asl", 0x2e00703e, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, SHFT2, { ZA, LIMM, RC }, { C_F } }
+
+/* asl<.f> ZA,RB,LIMM 00101xxx00000000xxxx111110111110 */
+{ "asl", 0x28000fbe, 0xf8ff0fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, SHFT2, { ZA, RB, LIMM }, { C_F } }
+
+/* asl<.f><.cc> RB,RBdup,LIMM 00101xxx11000000xxxx1111100xxxxx */
+{ "asl", 0x28c00f80, 0xf8ff0fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, SHFT2, { RB, RBdup, LIMM }, { C_F, C_CC } }
+
+/* asl<.f><.cc> ZA,LIMM,RC 0010111011000000x111xxxxxx0xxxxx */
+{ "asl", 0x2ec07000, 0xffff7020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, SHFT2, { ZA, LIMM, RC }, { C_F, C_CC } }
+
+/* asl<.f> RA,LIMM,UIMM6_20 0010111001000000x111xxxxxxxxxxxx */
+{ "asl", 0x2e407000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, SHFT2, { RA, LIMM, UIMM6_20 }, { C_F } }
+
+/* asl<.f> ZA,LIMM,UIMM6_20 0010111001000000x111xxxxxx111110 */
+{ "asl", 0x2e40703e, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, SHFT2, { ZA, LIMM, UIMM6_20 }, { C_F } }
+
+/* asl<.f><.cc> ZA,LIMM,UIMM6_20 0010111011000000x111xxxxxx1xxxxx */
+{ "asl", 0x2ec07020, 0xffff7020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, SHFT2, { ZA, LIMM, UIMM6_20 }, { C_F, C_CC } }
+
+/* asl<.f> ZA,LIMM,SIMM12_20 0010111010000000x111xxxxxxxxxxxx */
+{ "asl", 0x2e807000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, SHFT2, { ZA, LIMM, SIMM12_20 }, { C_F } }
+
+/* asl<.f> RA,LIMM,LIMMdup 0010111000000000x111111110xxxxxx */
+{ "asl", 0x2e007f80, 0xffff7fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, SHFT2, { RA, LIMM, LIMMdup }, { C_F } }
+
+/* asl<.f> ZA,LIMM,LIMMdup 0010111000000000x111111110111110 */
+{ "asl", 0x2e007fbe, 0xffff7fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, SHFT2, { ZA, LIMM, LIMMdup }, { C_F } }
+
+/* asl<.f><.cc> ZA,LIMM,LIMMdup 0010111011000000x1111111100xxxxx */
+{ "asl", 0x2ec07f80, 0xffff7fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, SHFT2, { ZA, LIMM, LIMMdup }, { C_F, C_CC } }
+
+/* asll<.f> RA,RB,RC 01011xxx00100000xxxxxxxxxxxxxxxx */
+{ "asll", 0x58200000, 0xf8ff0000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, RC }, { C_F } }
+
+/* asll<.f> ZA,RB,RC 01011xxx00100000xxxxxxxxxx111110 */
+{ "asll", 0x5820003e, 0xf8ff003f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, RC }, { C_F } }
+
+/* asll<.f><.cc> RB,RBdup,RC 01011xxx11100000xxxxxxxxxx0xxxxx */
+{ "asll", 0x58e00000, 0xf8ff0020, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, RC }, { C_F, C_CC } }
+
+/* asll<.f> RB,RC 01011xxx00101111xxxxxxxxxx000000 */
+{ "asll", 0x582f0000, 0xf8ff003f, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RC }, { C_F } }
+
+/* asll<.f> ZA,RC 0101111000101111x111xxxxxx000000 */
+{ "asll", 0x5e2f7000, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RC }, { C_F } }
+
+/* asll<.f> RA,RB,UIMM6_20 01011xxx01100000xxxxxxxxxxxxxxxx */
+{ "asll", 0x58600000, 0xf8ff0000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, UIMM6_20 }, { C_F } }
+
+/* asll<.f> ZA,RB,UIMM6_20 01011xxx01100000xxxxxxxxxx111110 */
+{ "asll", 0x5860003e, 0xf8ff003f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, UIMM6_20 }, { C_F } }
+
+/* asll<.f><.cc> RB,RBdup,UIMM6_20 01011xxx11100000xxxxxxxxxx1xxxxx */
+{ "asll", 0x58e00020, 0xf8ff0020, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, UIMM6_20 }, { C_F, C_CC } }
+
+/* asll<.f> RB,UIMM6_20 01011xxx01101111xxxxxxxxxx000000 */
+{ "asll", 0x586f0000, 0xf8ff003f, ARC_OPCODE_ARC64, ARITH, NONE, { RB, UIMM6_20 }, { C_F } }
+
+/* asll<.f> ZA,UIMM6_20 0101111001101111x111xxxxxx000000 */
+{ "asll", 0x5e6f7000, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, UIMM6_20 }, { C_F } }
+
+/* asll<.f> RB,RBdup,SIMM12_20 01011xxx10100000xxxxxxxxxxxxxxxx */
+{ "asll", 0x58a00000, 0xf8ff0000, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, SIMM12_20 }, { C_F } }
+
+/* asll<.f> RA,XIMM,RC 0101110000100000x111xxxxxxxxxxxx */
+{ "asll", 0x5c207000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, XIMM, RC }, { C_F } }
+
+/* asll<.f> RA,RB,XIMM 01011xxx00100000xxxx111100xxxxxx */
+{ "asll", 0x58200f00, 0xf8ff0fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, XIMM }, { C_F } }
+
+/* asll<.f> ZA,XIMM,RC 0101110000100000x111xxxxxx111110 */
+{ "asll", 0x5c20703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, RC }, { C_F } }
+
+/* asll<.f> ZA,RB,XIMM 01011xxx00100000xxxx111100111110 */
+{ "asll", 0x58200f3e, 0xf8ff0fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, XIMM }, { C_F } }
+
+/* asll<.f><.cc> ZA,XIMM,RC 0101110011100000x111xxxxxx0xxxxx */
+{ "asll", 0x5ce07000, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, RC }, { C_F, C_CC } }
+
+/* asll<.f><.cc> RB,RBdup,XIMM 01011xxx11100000xxxx1111000xxxxx */
+{ "asll", 0x58e00f00, 0xf8ff0fe0, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, XIMM }, { C_F, C_CC } }
+
+/* asll<.f> RB,XIMM 01011xxx00101111xxxx111100000000 */
+{ "asll", 0x582f0f00, 0xf8ff0fff, ARC_OPCODE_ARC64, ARITH, NONE, { RB, XIMM }, { C_F } }
+
+/* asll<.f> ZA,XIMM 0101111000101111x111111100000000 */
+{ "asll", 0x5e2f7f00, 0xffff7fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM }, { C_F } }
+
+/* asll<.f> RA,XIMM,UIMM6_20 0101110001100000x111xxxxxxxxxxxx */
+{ "asll", 0x5c607000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, XIMM, UIMM6_20 }, { C_F } }
+
+/* asll<.f> ZA,XIMM,UIMM6_20 0101110001100000x111xxxxxx111110 */
+{ "asll", 0x5c60703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, UIMM6_20 }, { C_F } }
+
+/* asll<.f><.cc> ZA,XIMM,UIMM6_20 0101110011100000x111xxxxxx1xxxxx */
+{ "asll", 0x5ce07020, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, UIMM6_20 }, { C_F, C_CC } }
+
+/* asll<.f> RA,LIMM,RC 0101111000100000x111xxxxxxxxxxxx */
+{ "asll", 0x5e207000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, LIMM, RC }, { C_F } }
+
+/* asll<.f> RA,RB,LIMM 01011xxx00100000xxxx111110xxxxxx */
+{ "asll", 0x58200f80, 0xf8ff0fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, LIMM }, { C_F } }
+
+/* asll<.f> ZA,LIMM,RC 0101111000100000x111xxxxxx111110 */
+{ "asll", 0x5e20703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, RC }, { C_F } }
+
+/* asll<.f> ZA,RB,LIMM 01011xxx00100000xxxx111110111110 */
+{ "asll", 0x58200fbe, 0xf8ff0fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, LIMM }, { C_F } }
+
+/* asll<.f><.cc> ZA,LIMM,RC 0101111011100000x111xxxxxx0xxxxx */
+{ "asll", 0x5ee07000, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, RC }, { C_F, C_CC } }
+
+/* asll<.f><.cc> RB,RBdup,LIMM 01011xxx11100000xxxx1111100xxxxx */
+{ "asll", 0x58e00f80, 0xf8ff0fe0, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, LIMM }, { C_F, C_CC } }
+
+/* asll<.f> RB,LIMM 01011xxx00101111xxxx111110000000 */
+{ "asll", 0x582f0f80, 0xf8ff0fff, ARC_OPCODE_ARC64, ARITH, NONE, { RB, LIMM }, { C_F } }
+
+/* asll<.f> ZA,LIMM 0101111000101111x111111110000000 */
+{ "asll", 0x5e2f7f80, 0xffff7fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM }, { C_F } }
+
+/* asll<.f> RA,LIMM,UIMM6_20 0101111001100000x111xxxxxxxxxxxx */
+{ "asll", 0x5e607000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, LIMM, UIMM6_20 }, { C_F } }
+
+/* asll<.f> ZA,LIMM,UIMM6_20 0101111001100000x111xxxxxx111110 */
+{ "asll", 0x5e60703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, UIMM6_20 }, { C_F } }
+
+/* asll<.f><.cc> ZA,LIMM,UIMM6_20 0101111011100000x111xxxxxx1xxxxx */
+{ "asll", 0x5ee07020, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, UIMM6_20 }, { C_F, C_CC } }
+
+/* asll<.f> ZA,XIMM,SIMM12_20 0101110010100000x111xxxxxxxxxxxx */
+{ "asll", 0x5ca07000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, SIMM12_20 }, { C_F } }
+
+/* asll<.f> ZA,LIMM,SIMM12_20 0101111010100000x111xxxxxxxxxxxx */
+{ "asll", 0x5ea07000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, SIMM12_20 }, { C_F } }
+
+/* asll<.f> RA,XIMM,XIMMdup 0101110000100000x111111100xxxxxx */
+{ "asll", 0x5c207f00, 0xffff7fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, XIMM, XIMMdup }, { C_F } }
+
+/* asll<.f> ZA,XIMM,XIMMdup 0101110000100000x111111100111110 */
+{ "asll", 0x5c207f3e, 0xffff7fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, XIMMdup }, { C_F } }
+
+/* asll<.f><.cc> ZA,XIMM,XIMMdup 0101110011100000x1111111000xxxxx */
+{ "asll", 0x5ce07f00, 0xffff7fe0, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, XIMMdup }, { C_F, C_CC } }
+
+/* asll<.f> RA,LIMM,LIMMdup 0101111000100000x111111110xxxxxx */
+{ "asll", 0x5e207f80, 0xffff7fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, LIMM, LIMMdup }, { C_F } }
+
+/* asll<.f> ZA,LIMM,LIMMdup 0101111000100000x111111110111110 */
+{ "asll", 0x5e207fbe, 0xffff7fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, LIMMdup }, { C_F } }
+
+/* asll<.f><.cc> ZA,LIMM,LIMMdup 0101111011100000x1111111100xxxxx */
+{ "asll", 0x5ee07f80, 0xffff7fe0, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, LIMMdup }, { C_F, C_CC } }
+
+/* asl_s RB_S,RC_S 01111xxxxxx11011 */
+{ "asl_s", 0x0000781b, 0x0000f81f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RB_S, RC_S }, { 0 } }
+
+/* asl_s RB_S,RB_Sdup,RC_S 01111xxxxxx11000 */
+{ "asl_s", 0x00007818, 0x0000f81f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, SHFT2, { RB_S, RB_Sdup, RC_S }, { 0 } }
+
+/* asl_s RB_S,RB_Sdup,UIMM5_11_S 10111xxx000xxxxx */
+{ "asl_s", 0x0000b800, 0x0000f8e0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, SHFT2, { RB_S, RB_Sdup, UIMM5_11_S }, { 0 } }
+
+/* asr<.f> RB,RC 00100xxx00101111xxxxxxxxxx000001 */
+{ "asr", 0x202f0001, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RB, RC }, { C_F } }
+
+/* asr<.f> ZA,RC 0010011000101111x111xxxxxx000001 */
+{ "asr", 0x262f7001, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, RC }, { C_F } }
+
+/* asr<.f> RA,RB,RC 00101xxx00000010xxxxxxxxxxxxxxxx */
+{ "asr", 0x28020000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, SHFT2, { RA, RB, RC }, { C_F } }
+
+/* asr<.f> ZA,RB,RC 00101xxx00000010xxxxxxxxxx111110 */
+{ "asr", 0x2802003e, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, SHFT2, { ZA, RB, RC }, { C_F } }
+
+/* asr<.f><.cc> RB,RBdup,RC 00101xxx11000010xxxxxxxxxx0xxxxx */
+{ "asr", 0x28c20000, 0xf8ff0020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, SHFT2, { RB, RBdup, RC }, { C_F, C_CC } }
+
+/* asr<.f> RB,UIMM6_20 00100xxx01101111xxxxxxxxxx000001 */
+{ "asr", 0x206f0001, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RB, UIMM6_20 }, { C_F } }
+
+/* asr<.f> ZA,UIMM6_20 0010011001101111x111xxxxxx000001 */
+{ "asr", 0x266f7001, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, UIMM6_20 }, { C_F } }
+
+/* asr<.f> RA,RB,UIMM6_20 00101xxx01000010xxxxxxxxxxxxxxxx */
+{ "asr", 0x28420000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, SHFT2, { RA, RB, UIMM6_20 }, { C_F } }
+
+/* asr<.f> ZA,RB,UIMM6_20 00101xxx01000010xxxxxxxxxx111110 */
+{ "asr", 0x2842003e, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, SHFT2, { ZA, RB, UIMM6_20 }, { C_F } }
+
+/* asr<.f><.cc> RB,RBdup,UIMM6_20 00101xxx11000010xxxxxxxxxx1xxxxx */
+{ "asr", 0x28c20020, 0xf8ff0020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, SHFT2, { RB, RBdup, UIMM6_20 }, { C_F, C_CC } }
+
+/* asr<.f> RB,RBdup,SIMM12_20 00101xxx10000010xxxxxxxxxxxxxxxx */
+{ "asr", 0x28820000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, SHFT2, { RB, RBdup, SIMM12_20 }, { C_F } }
+
+/* asr<.f> RB,LIMM 00100xxx00101111xxxx111110000001 */
+{ "asr", 0x202f0f81, 0xf8ff0fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RB, LIMM }, { C_F } }
+
+/* asr<.f> ZA,LIMM 0010011000101111x111111110000001 */
+{ "asr", 0x262f7f81, 0xffff7fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, LIMM }, { C_F } }
+
+/* asr<.f> RA,LIMM,RC 0010111000000010x111xxxxxxxxxxxx */
+{ "asr", 0x2e027000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, SHFT2, { RA, LIMM, RC }, { C_F } }
+
+/* asr<.f> RA,RB,LIMM 00101xxx00000010xxxx111110xxxxxx */
+{ "asr", 0x28020f80, 0xf8ff0fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, SHFT2, { RA, RB, LIMM }, { C_F } }
+
+/* asr<.f> ZA,LIMM,RC 0010111000000010x111xxxxxx111110 */
+{ "asr", 0x2e02703e, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, SHFT2, { ZA, LIMM, RC }, { C_F } }
+
+/* asr<.f> ZA,RB,LIMM 00101xxx00000010xxxx111110111110 */
+{ "asr", 0x28020fbe, 0xf8ff0fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, SHFT2, { ZA, RB, LIMM }, { C_F } }
+
+/* asr<.f><.cc> RB,RBdup,LIMM 00101xxx11000010xxxx1111100xxxxx */
+{ "asr", 0x28c20f80, 0xf8ff0fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, SHFT2, { RB, RBdup, LIMM }, { C_F, C_CC } }
+
+/* asr<.f><.cc> ZA,LIMM,RC 0010111011000010x111xxxxxx0xxxxx */
+{ "asr", 0x2ec27000, 0xffff7020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, SHFT2, { ZA, LIMM, RC }, { C_F, C_CC } }
+
+/* asr<.f> RA,LIMM,UIMM6_20 0010111001000010x111xxxxxxxxxxxx */
+{ "asr", 0x2e427000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, SHFT2, { RA, LIMM, UIMM6_20 }, { C_F } }
+
+/* asr<.f> ZA,LIMM,UIMM6_20 0010111001000010x111xxxxxx111110 */
+{ "asr", 0x2e42703e, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, SHFT2, { ZA, LIMM, UIMM6_20 }, { C_F } }
+
+/* asr<.f><.cc> ZA,LIMM,UIMM6_20 0010111011000010x111xxxxxx1xxxxx */
+{ "asr", 0x2ec27020, 0xffff7020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, SHFT2, { ZA, LIMM, UIMM6_20 }, { C_F, C_CC } }
+
+/* asr<.f> ZA,LIMM,SIMM12_20 0010111010000010x111xxxxxxxxxxxx */
+{ "asr", 0x2e827000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, SHFT2, { ZA, LIMM, SIMM12_20 }, { C_F } }
+
+/* asr<.f> RA,LIMM,LIMMdup 0010111000000010x111111110xxxxxx */
+{ "asr", 0x2e027f80, 0xffff7fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, SHFT2, { RA, LIMM, LIMMdup }, { C_F } }
+
+/* asr<.f> ZA,LIMM,LIMMdup 0010111000000010x111111110111110 */
+{ "asr", 0x2e027fbe, 0xffff7fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, SHFT2, { ZA, LIMM, LIMMdup }, { C_F } }
+
+/* asr<.f><.cc> ZA,LIMM,LIMMdup 0010111011000010x1111111100xxxxx */
+{ "asr", 0x2ec27f80, 0xffff7fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, SHFT2, { ZA, LIMM, LIMMdup }, { C_F, C_CC } }
+
+/* asr16<.f> RB,RC 00101xxx00101111xxxxxxxxxx001100 */
+{ "asr16", 0x282f000c, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, SHFT1, { RB, RC }, { C_F } }
+
+/* asr16<.f> ZA,RC 0010111000101111x111xxxxxx001100 */
+{ "asr16", 0x2e2f700c, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, SHFT1, { ZA, RC }, { C_F } }
+
+/* asr16<.f> RB,UIMM6_20 00101xxx01101111xxxxxxxxxx001100 */
+{ "asr16", 0x286f000c, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, SHFT1, { RB, UIMM6_20 }, { C_F } }
+
+/* asr16<.f> ZA,UIMM6_20 0010111001101111x111xxxxxx001100 */
+{ "asr16", 0x2e6f700c, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, SHFT1, { ZA, UIMM6_20 }, { C_F } }
+
+/* asr16<.f> RB,LIMM 00101xxx00101111xxxx111110001100 */
+{ "asr16", 0x282f0f8c, 0xf8ff0fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, SHFT1, { RB, LIMM }, { C_F } }
+
+/* asr16<.f> ZA,LIMM 0010111000101111x111111110001100 */
+{ "asr16", 0x2e2f7f8c, 0xffff7fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, SHFT1, { ZA, LIMM }, { C_F } }
+
+/* asr8<.f> RB,RC 00101xxx00101111xxxxxxxxxx001101 */
+{ "asr8", 0x282f000d, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, SHFT1, { RB, RC }, { C_F } }
+
+/* asr8<.f> ZA,RC 0010111000101111x111xxxxxx001101 */
+{ "asr8", 0x2e2f700d, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, SHFT1, { ZA, RC }, { C_F } }
+
+/* asr8<.f> RB,UIMM6_20 00101xxx01101111xxxxxxxxxx001101 */
+{ "asr8", 0x286f000d, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, SHFT1, { RB, UIMM6_20 }, { C_F } }
+
+/* asr8<.f> ZA,UIMM6_20 0010111001101111x111xxxxxx001101 */
+{ "asr8", 0x2e6f700d, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, SHFT1, { ZA, UIMM6_20 }, { C_F } }
+
+/* asr8<.f> RB,LIMM 00101xxx00101111xxxx111110001101 */
+{ "asr8", 0x282f0f8d, 0xf8ff0fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, SHFT1, { RB, LIMM }, { C_F } }
+
+/* asr8<.f> ZA,LIMM 0010111000101111x111111110001101 */
+{ "asr8", 0x2e2f7f8d, 0xffff7fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, SHFT1, { ZA, LIMM }, { C_F } }
+
+/* asrl<.f> RA,RB,RC 01011xxx00100010xxxxxxxxxxxxxxxx */
+{ "asrl", 0x58220000, 0xf8ff0000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, RC }, { C_F } }
+
+/* asrl<.f> ZA,RB,RC 01011xxx00100010xxxxxxxxxx111110 */
+{ "asrl", 0x5822003e, 0xf8ff003f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, RC }, { C_F } }
+
+/* asrl<.f><.cc> RB,RBdup,RC 01011xxx11100010xxxxxxxxxx0xxxxx */
+{ "asrl", 0x58e20000, 0xf8ff0020, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, RC }, { C_F, C_CC } }
+
+/* asrl<.f> RB,RC 01011xxx00101111xxxxxxxxxx000001 */
+{ "asrl", 0x582f0001, 0xf8ff003f, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RC }, { C_F } }
+
+/* asrl<.f> ZA,RC 0101111000101111x111xxxxxx000001 */
+{ "asrl", 0x5e2f7001, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RC }, { C_F } }
+
+/* asrl<.f> RA,RB,UIMM6_20 01011xxx01100010xxxxxxxxxxxxxxxx */
+{ "asrl", 0x58620000, 0xf8ff0000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, UIMM6_20 }, { C_F } }
+
+/* asrl<.f> ZA,RB,UIMM6_20 01011xxx01100010xxxxxxxxxx111110 */
+{ "asrl", 0x5862003e, 0xf8ff003f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, UIMM6_20 }, { C_F } }
+
+/* asrl<.f><.cc> RB,RBdup,UIMM6_20 01011xxx11100010xxxxxxxxxx1xxxxx */
+{ "asrl", 0x58e20020, 0xf8ff0020, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, UIMM6_20 }, { C_F, C_CC } }
+
+/* asrl<.f> RB,UIMM6_20 01011xxx01101111xxxxxxxxxx000001 */
+{ "asrl", 0x586f0001, 0xf8ff003f, ARC_OPCODE_ARC64, ARITH, NONE, { RB, UIMM6_20 }, { C_F } }
+
+/* asrl<.f> ZA,UIMM6_20 0101111001101111x111xxxxxx000001 */
+{ "asrl", 0x5e6f7001, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, UIMM6_20 }, { C_F } }
+
+/* asrl<.f> RB,RBdup,SIMM12_20 01011xxx10100010xxxxxxxxxxxxxxxx */
+{ "asrl", 0x58a20000, 0xf8ff0000, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, SIMM12_20 }, { C_F } }
+
+/* asrl<.f> RA,XIMM,RC 0101110000100010x111xxxxxxxxxxxx */
+{ "asrl", 0x5c227000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, XIMM, RC }, { C_F } }
+
+/* asrl<.f> RA,RB,XIMM 01011xxx00100010xxxx111100xxxxxx */
+{ "asrl", 0x58220f00, 0xf8ff0fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, XIMM }, { C_F } }
+
+/* asrl<.f> ZA,XIMM,RC 0101110000100010x111xxxxxx111110 */
+{ "asrl", 0x5c22703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, RC }, { C_F } }
+
+/* asrl<.f> ZA,RB,XIMM 01011xxx00100010xxxx111100111110 */
+{ "asrl", 0x58220f3e, 0xf8ff0fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, XIMM }, { C_F } }
+
+/* asrl<.f><.cc> ZA,XIMM,RC 0101110011100010x111xxxxxx0xxxxx */
+{ "asrl", 0x5ce27000, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, RC }, { C_F, C_CC } }
+
+/* asrl<.f><.cc> RB,RBdup,XIMM 01011xxx11100010xxxx1111000xxxxx */
+{ "asrl", 0x58e20f00, 0xf8ff0fe0, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, XIMM }, { C_F, C_CC } }
+
+/* asrl<.f> RB,XIMM 01011xxx00101111xxxx111100000001 */
+{ "asrl", 0x582f0f01, 0xf8ff0fff, ARC_OPCODE_ARC64, ARITH, NONE, { RB, XIMM }, { C_F } }
+
+/* asrl<.f> ZA,XIMM 0101111000101111x111111100000001 */
+{ "asrl", 0x5e2f7f01, 0xffff7fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM }, { C_F } }
+
+/* asrl<.f> RA,XIMM,UIMM6_20 0101110001100010x111xxxxxxxxxxxx */
+{ "asrl", 0x5c627000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, XIMM, UIMM6_20 }, { C_F } }
+
+/* asrl<.f> ZA,XIMM,UIMM6_20 0101110001100010x111xxxxxx111110 */
+{ "asrl", 0x5c62703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, UIMM6_20 }, { C_F } }
+
+/* asrl<.f><.cc> ZA,XIMM,UIMM6_20 0101110011100010x111xxxxxx1xxxxx */
+{ "asrl", 0x5ce27020, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, UIMM6_20 }, { C_F, C_CC } }
+
+/* asrl<.f> RA,LIMM,RC 0101111000100010x111xxxxxxxxxxxx */
+{ "asrl", 0x5e227000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, LIMM, RC }, { C_F } }
+
+/* asrl<.f> RA,RB,LIMM 01011xxx00100010xxxx111110xxxxxx */
+{ "asrl", 0x58220f80, 0xf8ff0fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, LIMM }, { C_F } }
+
+/* asrl<.f> ZA,LIMM,RC 0101111000100010x111xxxxxx111110 */
+{ "asrl", 0x5e22703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, RC }, { C_F } }
+
+/* asrl<.f> ZA,RB,LIMM 01011xxx00100010xxxx111110111110 */
+{ "asrl", 0x58220fbe, 0xf8ff0fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, LIMM }, { C_F } }
+
+/* asrl<.f><.cc> ZA,LIMM,RC 0101111011100010x111xxxxxx0xxxxx */
+{ "asrl", 0x5ee27000, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, RC }, { C_F, C_CC } }
+
+/* asrl<.f><.cc> RB,RBdup,LIMM 01011xxx11100010xxxx1111100xxxxx */
+{ "asrl", 0x58e20f80, 0xf8ff0fe0, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, LIMM }, { C_F, C_CC } }
+
+/* asrl<.f> RB,LIMM 01011xxx00101111xxxx111110000001 */
+{ "asrl", 0x582f0f81, 0xf8ff0fff, ARC_OPCODE_ARC64, ARITH, NONE, { RB, LIMM }, { C_F } }
+
+/* asrl<.f> ZA,LIMM 0101111000101111x111111110000001 */
+{ "asrl", 0x5e2f7f81, 0xffff7fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM }, { C_F } }
+
+/* asrl<.f> RA,LIMM,UIMM6_20 0101111001100010x111xxxxxxxxxxxx */
+{ "asrl", 0x5e627000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, LIMM, UIMM6_20 }, { C_F } }
+
+/* asrl<.f> ZA,LIMM,UIMM6_20 0101111001100010x111xxxxxx111110 */
+{ "asrl", 0x5e62703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, UIMM6_20 }, { C_F } }
+
+/* asrl<.f><.cc> ZA,LIMM,UIMM6_20 0101111011100010x111xxxxxx1xxxxx */
+{ "asrl", 0x5ee27020, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, UIMM6_20 }, { C_F, C_CC } }
+
+/* asrl<.f> ZA,XIMM,SIMM12_20 0101110010100010x111xxxxxxxxxxxx */
+{ "asrl", 0x5ca27000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, SIMM12_20 }, { C_F } }
+
+/* asrl<.f> ZA,LIMM,SIMM12_20 0101111010100010x111xxxxxxxxxxxx */
+{ "asrl", 0x5ea27000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, SIMM12_20 }, { C_F } }
+
+/* asrl<.f> RA,XIMM,XIMMdup 0101110000100010x111111100xxxxxx */
+{ "asrl", 0x5c227f00, 0xffff7fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, XIMM, XIMMdup }, { C_F } }
+
+/* asrl<.f> ZA,XIMM,XIMMdup 0101110000100010x111111100111110 */
+{ "asrl", 0x5c227f3e, 0xffff7fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, XIMMdup }, { C_F } }
+
+/* asrl<.f><.cc> ZA,XIMM,XIMMdup 0101110011100010x1111111000xxxxx */
+{ "asrl", 0x5ce27f00, 0xffff7fe0, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, XIMMdup }, { C_F, C_CC } }
+
+/* asrl<.f> RA,LIMM,LIMMdup 0101111000100010x111111110xxxxxx */
+{ "asrl", 0x5e227f80, 0xffff7fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, LIMM, LIMMdup }, { C_F } }
+
+/* asrl<.f> ZA,LIMM,LIMMdup 0101111000100010x111111110111110 */
+{ "asrl", 0x5e227fbe, 0xffff7fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, LIMMdup }, { C_F } }
+
+/* asrl<.f><.cc> ZA,LIMM,LIMMdup 0101111011100010x1111111100xxxxx */
+{ "asrl", 0x5ee27f80, 0xffff7fe0, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, LIMMdup }, { C_F, C_CC } }
+
+/* asr_s RB_S,RC_S 01111xxxxxx11100 */
+{ "asr_s", 0x0000781c, 0x0000f81f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RB_S, RC_S }, { 0 } }
+
+/* asr_s RB_S,RB_Sdup,RC_S 01111xxxxxx11010 */
+{ "asr_s", 0x0000781a, 0x0000f81f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, SHFT2, { RB_S, RB_Sdup, RC_S }, { 0 } }
+
+/* asr_s RB_S,RB_Sdup,UIMM5_11_S 10111xxx010xxxxx */
+{ "asr_s", 0x0000b840, 0x0000f8e0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, SHFT2, { RB_S, RB_Sdup, UIMM5_11_S }, { 0 } }
+
+/* atld<.op><.aq> RB,BRAKET,RC,BRAKETdup 00100xxx00101111xxxxxxxxxx110xxx */
+{ "atld", 0x202f0030, 0xf8ff0038, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RB, BRAKET, RC, BRAKETdup }, { C_ATOP, C_AQ, C_RL } }
+
+/* atldl<.op><.aq> RB,BRAKET,RC,BRAKETdup 01011xxx00101111xxxxxxxxxx110xxx */
+{ "atldl", 0x582f0030, 0xf8ff0038, ARC_OPCODE_ARC64, ARITH, NONE, { RB, BRAKET, RC, BRAKETdup }, { C_ATOP, C_AQ, C_RL } }
+
+/* b<.d> SIMM25_A16_5 00000xxxxxxxxxx1xxxxxxxxxxxxxxxx */
+{ "b", 0x00010000, 0xf8010000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, BRANCH, NONE, { SIMM25_A16_5 }, { C_D } }
+
+/* b<.cc><.d> SIMM21_A16_5 00000xxxxxxxxxx0xxxxxxxxxxxxxxxx */
+{ "b", 0x00000000, 0xf8010000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, BRANCH, NONE, { SIMM21_A16_5 }, { C_CC, C_D } }
+
+/* bbit0<.d> RB,RC,SIMM9_A16_8 00001xxxxxxxxxx1xxxxxxxxxxx00110 */
+{ "bbit0", 0x08010006, 0xf801001f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, BBIT0, NONE, { RB, RC, SIMM9_A16_8 }, { C_D } }
+
+/* bbit0<.d> RB,UIMM6_8,SIMM9_A16_8 00001xxxxxxxxxx1xxxxxxxxxxx10110 */
+{ "bbit0", 0x08010016, 0xf801001f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, BBIT0, NONE, { RB, UIMM6_8, SIMM9_A16_8 }, { C_D } }
+
+/* bbit0 RB,LIMM,SIMM9_A16_8 00001xxxxxxxxxx1xxxx111110000110 */
+{ "bbit0", 0x08010f86, 0xf8010fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, BBIT0, NONE, { RB, LIMM, SIMM9_A16_8 }, { 0 } }
+
+/* bbit0 LIMM,RC,SIMM9_A16_8 00001110xxxxxxx1x111xxxxxx000110 */
+{ "bbit0", 0x0e017006, 0xff01703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, BBIT0, NONE, { LIMM, RC, SIMM9_A16_8 }, { 0 } }
+
+/* bbit0 LIMM,UIMM6_8,SIMM9_A16_8 00001110xxxxxxx1x111xxxxxx010110 */
+{ "bbit0", 0x0e017016, 0xff01703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, BBIT0, NONE, { LIMM, UIMM6_8, SIMM9_A16_8 }, { 0 } }
+
+/* bbit0 LIMM,LIMMdup,SIMM9_A16_8 00001110xxxxxxx1x111111110000110 */
+{ "bbit0", 0x0e017f86, 0xff017fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, BBIT0, NONE, { LIMM, LIMMdup, SIMM9_A16_8 }, { 0 } }
+
+/* bbit0l<.d> RB,RC,SIMM9_A16_8 00001xxxxxxxxxx1xxxxxxxxxxx01110 */
+{ "bbit0l", 0x0801000e, 0xf801001f, ARC_OPCODE_ARC64, BBIT0, NONE, { RB, RC, SIMM9_A16_8 }, { C_D } }
+
+/* bbit0l<.d> RB,UIMM6_8,SIMM9_A16_8 00001xxxxxxxxxx1xxxxxxxxxxx11110 */
+{ "bbit0l", 0x0801001e, 0xf801001f, ARC_OPCODE_ARC64, BBIT0, NONE, { RB, UIMM6_8, SIMM9_A16_8 }, { C_D } }
+
+/* bbit0l RB,LIMM,SIMM9_A16_8 00001xxxxxxxxxx1xxxx111110001110 */
+{ "bbit0l", 0x08010f8e, 0xf8010fff, ARC_OPCODE_ARC64, BBIT0, NONE, { RB, LIMM, SIMM9_A16_8 }, { 0 } }
+
+/* bbit0l LIMM,RC,SIMM9_A16_8 00001110xxxxxxx1x111xxxxxx001110 */
+{ "bbit0l", 0x0e01700e, 0xff01703f, ARC_OPCODE_ARC64, BBIT0, NONE, { LIMM, RC, SIMM9_A16_8 }, { 0 } }
+
+/* bbit0l LIMM,UIMM6_8,SIMM9_A16_8 00001110xxxxxxx1x111xxxxxx011110 */
+{ "bbit0l", 0x0e01701e, 0xff01703f, ARC_OPCODE_ARC64, BBIT0, NONE, { LIMM, UIMM6_8, SIMM9_A16_8 }, { 0 } }
+
+/* bbit0l LIMM,LIMMdup,SIMM9_A16_8 00001110xxxxxxx1x111111110001110 */
+{ "bbit0l", 0x0e017f8e, 0xff017fff, ARC_OPCODE_ARC64, BBIT0, NONE, { LIMM, LIMMdup, SIMM9_A16_8 }, { 0 } }
+
+/* bbit1<.d> RB,RC,SIMM9_A16_8 00001xxxxxxxxxx1xxxxxxxxxxx00111 */
+{ "bbit1", 0x08010007, 0xf801001f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, BBIT1, NONE, { RB, RC, SIMM9_A16_8 }, { C_D } }
+
+/* bbit1<.d> RB,UIMM6_8,SIMM9_A16_8 00001xxxxxxxxxx1xxxxxxxxxxx10111 */
+{ "bbit1", 0x08010017, 0xf801001f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, BBIT1, NONE, { RB, UIMM6_8, SIMM9_A16_8 }, { C_D } }
+
+/* bbit1 RB,LIMM,SIMM9_A16_8 00001xxxxxxxxxx1xxxx111110000111 */
+{ "bbit1", 0x08010f87, 0xf8010fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, BBIT1, NONE, { RB, LIMM, SIMM9_A16_8 }, { 0 } }
+
+/* bbit1 LIMM,RC,SIMM9_A16_8 00001110xxxxxxx1x111xxxxxx000111 */
+{ "bbit1", 0x0e017007, 0xff01703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, BBIT1, NONE, { LIMM, RC, SIMM9_A16_8 }, { 0 } }
+
+/* bbit1 LIMM,UIMM6_8,SIMM9_A16_8 00001110xxxxxxx1x111xxxxxx010111 */
+{ "bbit1", 0x0e017017, 0xff01703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, BBIT1, NONE, { LIMM, UIMM6_8, SIMM9_A16_8 }, { 0 } }
+
+/* bbit1 LIMM,LIMMdup,SIMM9_A16_8 00001110xxxxxxx1x111111110000111 */
+{ "bbit1", 0x0e017f87, 0xff017fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, BBIT1, NONE, { LIMM, LIMMdup, SIMM9_A16_8 }, { 0 } }
+
+/* bbit1l<.d> RB,RC,SIMM9_A16_8 00001xxxxxxxxxx1xxxxxxxxxxx01111 */
+{ "bbit1l", 0x0801000f, 0xf801001f, ARC_OPCODE_ARC64, BBIT1, NONE, { RB, RC, SIMM9_A16_8 }, { C_D } }
+
+/* bbit1l<.d> RB,UIMM6_8,SIMM9_A16_8 00001xxxxxxxxxx1xxxxxxxxxxx11111 */
+{ "bbit1l", 0x0801001f, 0xf801001f, ARC_OPCODE_ARC64, BBIT1, NONE, { RB, UIMM6_8, SIMM9_A16_8 }, { C_D } }
+
+/* bbit1l RB,LIMM,SIMM9_A16_8 00001xxxxxxxxxx1xxxx111110001111 */
+{ "bbit1l", 0x08010f8f, 0xf8010fff, ARC_OPCODE_ARC64, BBIT1, NONE, { RB, LIMM, SIMM9_A16_8 }, { 0 } }
+
+/* bbit1l LIMM,RC,SIMM9_A16_8 00001110xxxxxxx1x111xxxxxx001111 */
+{ "bbit1l", 0x0e01700f, 0xff01703f, ARC_OPCODE_ARC64, BBIT1, NONE, { LIMM, RC, SIMM9_A16_8 }, { 0 } }
+
+/* bbit1l LIMM,UIMM6_8,SIMM9_A16_8 00001110xxxxxxx1x111xxxxxx011111 */
+{ "bbit1l", 0x0e01701f, 0xff01703f, ARC_OPCODE_ARC64, BBIT1, NONE, { LIMM, UIMM6_8, SIMM9_A16_8 }, { 0 } }
+
+/* bbit1l LIMM,LIMMdup,SIMM9_A16_8 00001110xxxxxxx1x111111110001111 */
+{ "bbit1l", 0x0e017f8f, 0xff017fff, ARC_OPCODE_ARC64, BBIT1, NONE, { LIMM, LIMMdup, SIMM9_A16_8 }, { 0 } }
+
+/* bclr<.f> RA,RB,RC 00100xxx00010000xxxxxxxxxxxxxxxx */
+{ "bclr", 0x20100000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RA, RB, RC }, { C_F } }
+
+/* bclr<.f> ZA,RB,RC 00100xxx00010000xxxxxxxxxx111110 */
+{ "bclr", 0x2010003e, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, RB, RC }, { C_F } }
+
+/* bclr<.f><.cc> RB,RBdup,RC 00100xxx11010000xxxxxxxxxx0xxxxx */
+{ "bclr", 0x20d00000, 0xf8ff0020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RB, RBdup, RC }, { C_F, C_CC } }
+
+/* bclr<.f> RA,RB,UIMM6_20 00100xxx01010000xxxxxxxxxxxxxxxx */
+{ "bclr", 0x20500000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RA, RB, UIMM6_20 }, { C_F } }
+
+/* bclr<.f> ZA,RB,UIMM6_20 00100xxx01010000xxxxxxxxxx111110 */
+{ "bclr", 0x2050003e, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, RB, UIMM6_20 }, { C_F } }
+
+/* bclr<.f><.cc> RB,RBdup,UIMM6_20 00100xxx11010000xxxxxxxxxx1xxxxx */
+{ "bclr", 0x20d00020, 0xf8ff0020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RB, RBdup, UIMM6_20 }, { C_F, C_CC } }
+
+/* bclr<.f> RB,RBdup,SIMM12_20 00100xxx10010000xxxxxxxxxxxxxxxx */
+{ "bclr", 0x20900000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RB, RBdup, SIMM12_20 }, { C_F } }
+
+/* bclr<.f> RA,LIMM,RC 0010011000010000x111xxxxxxxxxxxx */
+{ "bclr", 0x26107000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RA, LIMM, RC }, { C_F } }
+
+/* bclr<.f> RA,RB,LIMM 00100xxx00010000xxxx111110xxxxxx */
+{ "bclr", 0x20100f80, 0xf8ff0fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RA, RB, LIMM }, { C_F } }
+
+/* bclr<.f> ZA,LIMM,RC 0010011000010000x111xxxxxx111110 */
+{ "bclr", 0x2610703e, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, LIMM, RC }, { C_F } }
+
+/* bclr<.f> ZA,RB,LIMM 00100xxx00010000xxxx111110111110 */
+{ "bclr", 0x20100fbe, 0xf8ff0fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, RB, LIMM }, { C_F } }
+
+/* bclr<.f><.cc> RB,RBdup,LIMM 00100xxx11010000xxxx1111100xxxxx */
+{ "bclr", 0x20d00f80, 0xf8ff0fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RB, RBdup, LIMM }, { C_F, C_CC } }
+
+/* bclr<.f><.cc> ZA,LIMM,RC 0010011011010000x111xxxxxx0xxxxx */
+{ "bclr", 0x26d07000, 0xffff7020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, LIMM, RC }, { C_F, C_CC } }
+
+/* bclr<.f> RA,LIMM,UIMM6_20 0010011001010000x111xxxxxxxxxxxx */
+{ "bclr", 0x26507000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RA, LIMM, UIMM6_20 }, { C_F } }
+
+/* bclr<.f> ZA,LIMM,UIMM6_20 0010011001010000x111xxxxxx111110 */
+{ "bclr", 0x2650703e, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, LIMM, UIMM6_20 }, { C_F } }
+
+/* bclr<.f><.cc> ZA,LIMM,UIMM6_20 0010011011010000x111xxxxxx1xxxxx */
+{ "bclr", 0x26d07020, 0xffff7020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, LIMM, UIMM6_20 }, { C_F, C_CC } }
+
+/* bclr<.f> ZA,LIMM,SIMM12_20 0010011010010000x111xxxxxxxxxxxx */
+{ "bclr", 0x26907000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, LIMM, SIMM12_20 }, { C_F } }
+
+/* bclr<.f> RA,LIMM,LIMMdup 0010011000010000x111111110xxxxxx */
+{ "bclr", 0x26107f80, 0xffff7fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RA, LIMM, LIMMdup }, { C_F } }
+
+/* bclr<.f> ZA,LIMM,LIMMdup 0010011000010000x111111110111110 */
+{ "bclr", 0x26107fbe, 0xffff7fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, LIMM, LIMMdup }, { C_F } }
+
+/* bclr<.f><.cc> ZA,LIMM,LIMMdup 0010011011010000x1111111100xxxxx */
+{ "bclr", 0x26d07f80, 0xffff7fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, LIMM, LIMMdup }, { C_F, C_CC } }
+
+/* bclrl<.f> RA,RB,RC 01011xxx00010000xxxxxxxxxxxxxxxx */
+{ "bclrl", 0x58100000, 0xf8ff0000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, RC }, { C_F } }
+
+/* bclrl<.f> ZA,RB,RC 01011xxx00010000xxxxxxxxxx111110 */
+{ "bclrl", 0x5810003e, 0xf8ff003f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, RC }, { C_F } }
+
+/* bclrl<.f><.cc> RB,RBdup,RC 01011xxx11010000xxxxxxxxxx0xxxxx */
+{ "bclrl", 0x58d00000, 0xf8ff0020, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, RC }, { C_F, C_CC } }
+
+/* bclrl<.f> RA,RB,UIMM6_20 01011xxx01010000xxxxxxxxxxxxxxxx */
+{ "bclrl", 0x58500000, 0xf8ff0000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, UIMM6_20 }, { C_F } }
+
+/* bclrl<.f> ZA,RB,UIMM6_20 01011xxx01010000xxxxxxxxxx111110 */
+{ "bclrl", 0x5850003e, 0xf8ff003f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, UIMM6_20 }, { C_F } }
+
+/* bclrl<.f><.cc> RB,RBdup,UIMM6_20 01011xxx11010000xxxxxxxxxx1xxxxx */
+{ "bclrl", 0x58d00020, 0xf8ff0020, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, UIMM6_20 }, { C_F, C_CC } }
+
+/* bclrl<.f> RB,RBdup,SIMM12_20 01011xxx10010000xxxxxxxxxxxxxxxx */
+{ "bclrl", 0x58900000, 0xf8ff0000, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, SIMM12_20 }, { C_F } }
+
+/* bclrl<.f> RA,XIMM,RC 0101110000010000x111xxxxxxxxxxxx */
+{ "bclrl", 0x5c107000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, XIMM, RC }, { C_F } }
+
+/* bclrl<.f> RA,RB,XIMM 01011xxx00010000xxxx111100xxxxxx */
+{ "bclrl", 0x58100f00, 0xf8ff0fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, XIMM }, { C_F } }
+
+/* bclrl<.f> ZA,XIMM,RC 0101110000010000x111xxxxxx111110 */
+{ "bclrl", 0x5c10703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, RC }, { C_F } }
+
+/* bclrl<.f> ZA,RB,XIMM 01011xxx00010000xxxx111100111110 */
+{ "bclrl", 0x58100f3e, 0xf8ff0fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, XIMM }, { C_F } }
+
+/* bclrl<.f><.cc> ZA,XIMM,RC 0101110011010000x111xxxxxx0xxxxx */
+{ "bclrl", 0x5cd07000, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, RC }, { C_F, C_CC } }
+
+/* bclrl<.f><.cc> RB,RBdup,XIMM 01011xxx11010000xxxx1111000xxxxx */
+{ "bclrl", 0x58d00f00, 0xf8ff0fe0, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, XIMM }, { C_F, C_CC } }
+
+/* bclrl<.f> RA,XIMM,UIMM6_20 0101110001010000x111xxxxxxxxxxxx */
+{ "bclrl", 0x5c507000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, XIMM, UIMM6_20 }, { C_F } }
+
+/* bclrl<.f> ZA,XIMM,UIMM6_20 0101110001010000x111xxxxxx111110 */
+{ "bclrl", 0x5c50703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, UIMM6_20 }, { C_F } }
+
+/* bclrl<.f><.cc> ZA,XIMM,UIMM6_20 0101110011010000x111xxxxxx1xxxxx */
+{ "bclrl", 0x5cd07020, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, UIMM6_20 }, { C_F, C_CC } }
+
+/* bclrl<.f> RA,LIMM,RC 0101111000010000x111xxxxxxxxxxxx */
+{ "bclrl", 0x5e107000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, LIMM, RC }, { C_F } }
+
+/* bclrl<.f> RA,RB,LIMM 01011xxx00010000xxxx111110xxxxxx */
+{ "bclrl", 0x58100f80, 0xf8ff0fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, LIMM }, { C_F } }
+
+/* bclrl<.f> ZA,LIMM,RC 0101111000010000x111xxxxxx111110 */
+{ "bclrl", 0x5e10703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, RC }, { C_F } }
+
+/* bclrl<.f> ZA,RB,LIMM 01011xxx00010000xxxx111110111110 */
+{ "bclrl", 0x58100fbe, 0xf8ff0fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, LIMM }, { C_F } }
+
+/* bclrl<.f><.cc> ZA,LIMM,RC 0101111011010000x111xxxxxx0xxxxx */
+{ "bclrl", 0x5ed07000, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, RC }, { C_F, C_CC } }
+
+/* bclrl<.f><.cc> RB,RBdup,LIMM 01011xxx11010000xxxx1111100xxxxx */
+{ "bclrl", 0x58d00f80, 0xf8ff0fe0, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, LIMM }, { C_F, C_CC } }
+
+/* bclrl<.f> RA,LIMM,UIMM6_20 0101111001010000x111xxxxxxxxxxxx */
+{ "bclrl", 0x5e507000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, LIMM, UIMM6_20 }, { C_F } }
+
+/* bclrl<.f> ZA,LIMM,UIMM6_20 0101111001010000x111xxxxxx111110 */
+{ "bclrl", 0x5e50703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, UIMM6_20 }, { C_F } }
+
+/* bclrl<.f><.cc> ZA,LIMM,UIMM6_20 0101111011010000x111xxxxxx1xxxxx */
+{ "bclrl", 0x5ed07020, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, UIMM6_20 }, { C_F, C_CC } }
+
+/* bclrl<.f> ZA,XIMM,SIMM12_20 0101110010010000x111xxxxxxxxxxxx */
+{ "bclrl", 0x5c907000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, SIMM12_20 }, { C_F } }
+
+/* bclrl<.f> ZA,LIMM,SIMM12_20 0101111010010000x111xxxxxxxxxxxx */
+{ "bclrl", 0x5e907000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, SIMM12_20 }, { C_F } }
+
+/* bclrl<.f> RA,XIMM,XIMMdup 0101110000010000x111111100xxxxxx */
+{ "bclrl", 0x5c107f00, 0xffff7fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, XIMM, XIMMdup }, { C_F } }
+
+/* bclrl<.f> ZA,XIMM,XIMMdup 0101110000010000x111111100111110 */
+{ "bclrl", 0x5c107f3e, 0xffff7fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, XIMMdup }, { C_F } }
+
+/* bclrl<.f><.cc> ZA,XIMM,XIMMdup 0101110011010000x1111111000xxxxx */
+{ "bclrl", 0x5cd07f00, 0xffff7fe0, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, XIMMdup }, { C_F, C_CC } }
+
+/* bclrl<.f> RA,LIMM,LIMMdup 0101111000010000x111111110xxxxxx */
+{ "bclrl", 0x5e107f80, 0xffff7fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, LIMM, LIMMdup }, { C_F } }
+
+/* bclrl<.f> ZA,LIMM,LIMMdup 0101111000010000x111111110111110 */
+{ "bclrl", 0x5e107fbe, 0xffff7fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, LIMMdup }, { C_F } }
+
+/* bclrl<.f><.cc> ZA,LIMM,LIMMdup 0101111011010000x1111111100xxxxx */
+{ "bclrl", 0x5ed07f80, 0xffff7fe0, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, LIMMdup }, { C_F, C_CC } }
+
+/* bclr_s RB_S,RB_Sdup,UIMM5_11_S 10111xxx101xxxxx */
+{ "bclr_s", 0x0000b8a0, 0x0000f8e0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RB_S, RB_Sdup, UIMM5_11_S }, { 0 } }
+
+/* beq_s SIMM10_A16_7_S 1111001xxxxxxxxx */
+{ "beq_s", 0x0000f200, 0x0000fe00, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, BRANCH, COND, { SIMM10_A16_7_S }, { C_CC_EQ } }
+
+/* bge_s SIMM7_A16_10_S 1111011001xxxxxx */
+{ "bge_s", 0x0000f640, 0x0000ffc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, BRANCH, COND, { SIMM7_A16_10_S }, { C_CC_GE } }
+
+/* bgt_s SIMM7_A16_10_S 1111011000xxxxxx */
+{ "bgt_s", 0x0000f600, 0x0000ffc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, BRANCH, COND, { SIMM7_A16_10_S }, { C_CC_GT } }
+
+/* bhi_s SIMM7_A16_10_S 1111011100xxxxxx */
+{ "bhi_s", 0x0000f700, 0x0000ffc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, BRANCH, COND, { SIMM7_A16_10_S }, { C_CC_HI } }
+
+/* bhs_s SIMM7_A16_10_S 1111011101xxxxxx */
+{ "bhs_s", 0x0000f740, 0x0000ffc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, BRANCH, COND, { SIMM7_A16_10_S }, { C_CC_HS } }
+
+/* bi BRAKET,RC,BRAKETdup 00100xxx001001000xxxxxxxxxxxxxxx */
+{ "bi", 0x20240000, 0xf8ff8000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, BI, NONE, { BRAKET, RC, BRAKETdup }, { 0 } }
+
+/* bi BRAKET,LIMM,BRAKETdup 00100xxx001001000xxx111110xxxxxx */
+{ "bi", 0x20240f80, 0xf8ff8fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, BI, NONE, { BRAKET, LIMM, BRAKETdup }, { 0 } }
+
+/* bic<.f> RA,RB,RC 00100xxx00000110xxxxxxxxxxxxxxxx */
+{ "bic", 0x20060000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RA, RB, RC }, { C_F } }
+
+/* bic<.f> ZA,RB,RC 00100xxx00000110xxxxxxxxxx111110 */
+{ "bic", 0x2006003e, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { ZA, RB, RC }, { C_F } }
+
+/* bic<.f><.cc> RB,RBdup,RC 00100xxx11000110xxxxxxxxxx0xxxxx */
+{ "bic", 0x20c60000, 0xf8ff0020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RB, RBdup, RC }, { C_F, C_CC } }
+
+/* bic<.f> RA,RB,UIMM6_20 00100xxx01000110xxxxxxxxxxxxxxxx */
+{ "bic", 0x20460000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RA, RB, UIMM6_20 }, { C_F } }
+
+/* bic<.f> ZA,RB,UIMM6_20 00100xxx01000110xxxxxxxxxx111110 */
+{ "bic", 0x2046003e, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { ZA, RB, UIMM6_20 }, { C_F } }
+
+/* bic<.f><.cc> RB,RBdup,UIMM6_20 00100xxx11000110xxxxxxxxxx1xxxxx */
+{ "bic", 0x20c60020, 0xf8ff0020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RB, RBdup, UIMM6_20 }, { C_F, C_CC } }
+
+/* bic<.f> RB,RBdup,SIMM12_20 00100xxx10000110xxxxxxxxxxxxxxxx */
+{ "bic", 0x20860000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RB, RBdup, SIMM12_20 }, { C_F } }
+
+/* bic<.f> RA,LIMM,RC 0010011000000110x111xxxxxxxxxxxx */
+{ "bic", 0x26067000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RA, LIMM, RC }, { C_F } }
+
+/* bic<.f> RA,RB,LIMM 00100xxx00000110xxxx111110xxxxxx */
+{ "bic", 0x20060f80, 0xf8ff0fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RA, RB, LIMM }, { C_F } }
+
+/* bic<.f> ZA,LIMM,RC 0010011000000110x111xxxxxx111110 */
+{ "bic", 0x2606703e, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { ZA, LIMM, RC }, { C_F } }
+
+/* bic<.f> ZA,RB,LIMM 00100xxx00000110xxxx111110111110 */
+{ "bic", 0x20060fbe, 0xf8ff0fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { ZA, RB, LIMM }, { C_F } }
+
+/* bic<.f><.cc> RB,RBdup,LIMM 00100xxx11000110xxxx1111100xxxxx */
+{ "bic", 0x20c60f80, 0xf8ff0fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RB, RBdup, LIMM }, { C_F, C_CC } }
+
+/* bic<.f><.cc> ZA,LIMM,RC 0010011011000110x111xxxxxx0xxxxx */
+{ "bic", 0x26c67000, 0xffff7020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { ZA, LIMM, RC }, { C_F, C_CC } }
+
+/* bic<.f> RA,LIMM,UIMM6_20 0010011001000110x111xxxxxxxxxxxx */
+{ "bic", 0x26467000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RA, LIMM, UIMM6_20 }, { C_F } }
+
+/* bic<.f> ZA,LIMM,UIMM6_20 0010011001000110x111xxxxxx111110 */
+{ "bic", 0x2646703e, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { ZA, LIMM, UIMM6_20 }, { C_F } }
+
+/* bic<.f><.cc> ZA,LIMM,UIMM6_20 0010011011000110x111xxxxxx1xxxxx */
+{ "bic", 0x26c67020, 0xffff7020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { ZA, LIMM, UIMM6_20 }, { C_F, C_CC } }
+
+/* bic<.f> ZA,LIMM,SIMM12_20 0010011010000110x111xxxxxxxxxxxx */
+{ "bic", 0x26867000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { ZA, LIMM, SIMM12_20 }, { C_F } }
+
+/* bic<.f> RA,LIMM,LIMMdup 0010011000000110x111111110xxxxxx */
+{ "bic", 0x26067f80, 0xffff7fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RA, LIMM, LIMMdup }, { C_F } }
+
+/* bic<.f> ZA,LIMM,LIMMdup 0010011000000110x111111110111110 */
+{ "bic", 0x26067fbe, 0xffff7fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { ZA, LIMM, LIMMdup }, { C_F } }
+
+/* bic<.f><.cc> ZA,LIMM,LIMMdup 0010011011000110x1111111100xxxxx */
+{ "bic", 0x26c67f80, 0xffff7fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { ZA, LIMM, LIMMdup }, { C_F, C_CC } }
+
+/* bicl<.f> RA,RB,RC 01011xxx00000110xxxxxxxxxxxxxxxx */
+{ "bicl", 0x58060000, 0xf8ff0000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, RC }, { C_F } }
+
+/* bicl<.f> ZA,RB,RC 01011xxx00000110xxxxxxxxxx111110 */
+{ "bicl", 0x5806003e, 0xf8ff003f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, RC }, { C_F } }
+
+/* bicl<.f><.cc> RB,RBdup,RC 01011xxx11000110xxxxxxxxxx0xxxxx */
+{ "bicl", 0x58c60000, 0xf8ff0020, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, RC }, { C_F, C_CC } }
+
+/* bicl<.f> RA,RB,UIMM6_20 01011xxx01000110xxxxxxxxxxxxxxxx */
+{ "bicl", 0x58460000, 0xf8ff0000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, UIMM6_20 }, { C_F } }
+
+/* bicl<.f> ZA,RB,UIMM6_20 01011xxx01000110xxxxxxxxxx111110 */
+{ "bicl", 0x5846003e, 0xf8ff003f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, UIMM6_20 }, { C_F } }
+
+/* bicl<.f><.cc> RB,RBdup,UIMM6_20 01011xxx11000110xxxxxxxxxx1xxxxx */
+{ "bicl", 0x58c60020, 0xf8ff0020, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, UIMM6_20 }, { C_F, C_CC } }
+
+/* bicl<.f> RB,RBdup,SIMM12_20 01011xxx10000110xxxxxxxxxxxxxxxx */
+{ "bicl", 0x58860000, 0xf8ff0000, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, SIMM12_20 }, { C_F } }
+
+/* bicl<.f> RA,XIMM,RC 0101110000000110x111xxxxxxxxxxxx */
+{ "bicl", 0x5c067000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, XIMM, RC }, { C_F } }
+
+/* bicl<.f> RA,RB,XIMM 01011xxx00000110xxxx111100xxxxxx */
+{ "bicl", 0x58060f00, 0xf8ff0fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, XIMM }, { C_F } }
+
+/* bicl<.f> ZA,XIMM,RC 0101110000000110x111xxxxxx111110 */
+{ "bicl", 0x5c06703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, RC }, { C_F } }
+
+/* bicl<.f> ZA,RB,XIMM 01011xxx00000110xxxx111100111110 */
+{ "bicl", 0x58060f3e, 0xf8ff0fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, XIMM }, { C_F } }
+
+/* bicl<.f><.cc> ZA,XIMM,RC 0101110011000110x111xxxxxx0xxxxx */
+{ "bicl", 0x5cc67000, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, RC }, { C_F, C_CC } }
+
+/* bicl<.f><.cc> RB,RBdup,XIMM 01011xxx11000110xxxx1111000xxxxx */
+{ "bicl", 0x58c60f00, 0xf8ff0fe0, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, XIMM }, { C_F, C_CC } }
+
+/* bicl<.f> RA,XIMM,UIMM6_20 0101110001000110x111xxxxxxxxxxxx */
+{ "bicl", 0x5c467000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, XIMM, UIMM6_20 }, { C_F } }
+
+/* bicl<.f> ZA,XIMM,UIMM6_20 0101110001000110x111xxxxxx111110 */
+{ "bicl", 0x5c46703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, UIMM6_20 }, { C_F } }
+
+/* bicl<.f><.cc> ZA,XIMM,UIMM6_20 0101110011000110x111xxxxxx1xxxxx */
+{ "bicl", 0x5cc67020, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, UIMM6_20 }, { C_F, C_CC } }
+
+/* bicl<.f> RA,LIMM,RC 0101111000000110x111xxxxxxxxxxxx */
+{ "bicl", 0x5e067000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, LIMM, RC }, { C_F } }
+
+/* bicl<.f> RA,RB,LIMM 01011xxx00000110xxxx111110xxxxxx */
+{ "bicl", 0x58060f80, 0xf8ff0fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, LIMM }, { C_F } }
+
+/* bicl<.f> ZA,LIMM,RC 0101111000000110x111xxxxxx111110 */
+{ "bicl", 0x5e06703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, RC }, { C_F } }
+
+/* bicl<.f> ZA,RB,LIMM 01011xxx00000110xxxx111110111110 */
+{ "bicl", 0x58060fbe, 0xf8ff0fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, LIMM }, { C_F } }
+
+/* bicl<.f><.cc> ZA,LIMM,RC 0101111011000110x111xxxxxx0xxxxx */
+{ "bicl", 0x5ec67000, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, RC }, { C_F, C_CC } }
+
+/* bicl<.f><.cc> RB,RBdup,LIMM 01011xxx11000110xxxx1111100xxxxx */
+{ "bicl", 0x58c60f80, 0xf8ff0fe0, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, LIMM }, { C_F, C_CC } }
+
+/* bicl<.f> RA,LIMM,UIMM6_20 0101111001000110x111xxxxxxxxxxxx */
+{ "bicl", 0x5e467000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, LIMM, UIMM6_20 }, { C_F } }
+
+/* bicl<.f> ZA,LIMM,UIMM6_20 0101111001000110x111xxxxxx111110 */
+{ "bicl", 0x5e46703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, UIMM6_20 }, { C_F } }
+
+/* bicl<.f><.cc> ZA,LIMM,UIMM6_20 0101111011000110x111xxxxxx1xxxxx */
+{ "bicl", 0x5ec67020, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, UIMM6_20 }, { C_F, C_CC } }
+
+/* bicl<.f> ZA,XIMM,SIMM12_20 0101110010000110x111xxxxxxxxxxxx */
+{ "bicl", 0x5c867000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, SIMM12_20 }, { C_F } }
+
+/* bicl<.f> ZA,LIMM,SIMM12_20 0101111010000110x111xxxxxxxxxxxx */
+{ "bicl", 0x5e867000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, SIMM12_20 }, { C_F } }
+
+/* bicl<.f> RA,XIMM,XIMMdup 0101110000000110x111111100xxxxxx */
+{ "bicl", 0x5c067f00, 0xffff7fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, XIMM, XIMMdup }, { C_F } }
+
+/* bicl<.f> ZA,XIMM,XIMMdup 0101110000000110x111111100111110 */
+{ "bicl", 0x5c067f3e, 0xffff7fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, XIMMdup }, { C_F } }
+
+/* bicl<.f><.cc> ZA,XIMM,XIMMdup 0101110011000110x1111111000xxxxx */
+{ "bicl", 0x5cc67f00, 0xffff7fe0, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, XIMMdup }, { C_F, C_CC } }
+
+/* bicl<.f> RA,LIMM,LIMMdup 0101111000000110x111111110xxxxxx */
+{ "bicl", 0x5e067f80, 0xffff7fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, LIMM, LIMMdup }, { C_F } }
+
+/* bicl<.f> ZA,LIMM,LIMMdup 0101111000000110x111111110111110 */
+{ "bicl", 0x5e067fbe, 0xffff7fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, LIMMdup }, { C_F } }
+
+/* bicl<.f><.cc> ZA,LIMM,LIMMdup 0101111011000110x1111111100xxxxx */
+{ "bicl", 0x5ec67f80, 0xffff7fe0, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, LIMMdup }, { C_F, C_CC } }
+
+/* bic_s RB_S,RB_Sdup,RC_S 01111xxxxxx00110 */
+{ "bic_s", 0x00007806, 0x0000f81f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RB_S, RB_Sdup, RC_S }, { 0 } }
+
+/* bih BRAKET,RC,BRAKETdup 00100xxx001001010xxxxxxxxxxxxxxx */
+{ "bih", 0x20250000, 0xf8ff8000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, BIH, NONE, { BRAKET, RC, BRAKETdup }, { 0 } }
+
+/* bih BRAKET,LIMM,BRAKETdup 00100xxx001001010xxx111110xxxxxx */
+{ "bih", 0x20250f80, 0xf8ff8fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, BIH, NONE, { BRAKET, LIMM, BRAKETdup }, { 0 } }
+
+/* bl<.d> SIMM25_A32_5 00001xxxxxxxxx10xxxxxxxxxxxxxxxx */
+{ "bl", 0x08020000, 0xf8030000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, BRANCH, NONE, { SIMM25_A32_5 }, { C_D } }
+
+/* bl<.cc><.d> SIMM21_A32_5 00001xxxxxxxxx00xxxxxxxxxxxxxxxx */
+{ "bl", 0x08000000, 0xf8030000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, BRANCH, NONE, { SIMM21_A32_5 }, { C_CC, C_D } }
+
+/* ble_s SIMM7_A16_10_S 1111011011xxxxxx */
+{ "ble_s", 0x0000f6c0, 0x0000ffc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, BRANCH, COND, { SIMM7_A16_10_S }, { C_CC_LE } }
+
+/* blo_s SIMM7_A16_10_S 1111011110xxxxxx */
+{ "blo_s", 0x0000f780, 0x0000ffc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, BRANCH, COND, { SIMM7_A16_10_S }, { C_CC_LO } }
+
+/* bls_s SIMM7_A16_10_S 1111011111xxxxxx */
+{ "bls_s", 0x0000f7c0, 0x0000ffc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, BRANCH, COND, { SIMM7_A16_10_S }, { C_CC_LS } }
+
+/* blt_s SIMM7_A16_10_S 1111011010xxxxxx */
+{ "blt_s", 0x0000f680, 0x0000ffc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, BRANCH, COND, { SIMM7_A16_10_S }, { C_CC_LT } }
+
+/* bl_s SIMM13_A32_5_S 11111xxxxxxxxxxx */
+{ "bl_s", 0x0000f800, 0x0000f800, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, BRANCH, NONE, { SIMM13_A32_5_S }, { 0 } }
+
+/* bl_s LIMM34 0111101111100000 */
+{ "bl_s", 0x00007be0, 0x0000ffff, ARC_OPCODE_ARC64, BRANCH, NONE, { LIMM34 }, { 0 } }
+
+/* bmsk<.f> RA,RB,RC 00100xxx00010011xxxxxxxxxxxxxxxx */
+{ "bmsk", 0x20130000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RA, RB, RC }, { C_F } }
+
+/* bmsk<.f> ZA,RB,RC 00100xxx00010011xxxxxxxxxx111110 */
+{ "bmsk", 0x2013003e, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, RB, RC }, { C_F } }
+
+/* bmsk<.f><.cc> RB,RBdup,RC 00100xxx11010011xxxxxxxxxx0xxxxx */
+{ "bmsk", 0x20d30000, 0xf8ff0020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RB, RBdup, RC }, { C_F, C_CC } }
+
+/* bmsk<.f> RA,RB,UIMM6_20 00100xxx01010011xxxxxxxxxxxxxxxx */
+{ "bmsk", 0x20530000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RA, RB, UIMM6_20 }, { C_F } }
+
+/* bmsk<.f> ZA,RB,UIMM6_20 00100xxx01010011xxxxxxxxxx111110 */
+{ "bmsk", 0x2053003e, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, RB, UIMM6_20 }, { C_F } }
+
+/* bmsk<.f><.cc> RB,RBdup,UIMM6_20 00100xxx11010011xxxxxxxxxx1xxxxx */
+{ "bmsk", 0x20d30020, 0xf8ff0020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RB, RBdup, UIMM6_20 }, { C_F, C_CC } }
+
+/* bmsk<.f> RB,RBdup,SIMM12_20 00100xxx10010011xxxxxxxxxxxxxxxx */
+{ "bmsk", 0x20930000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RB, RBdup, SIMM12_20 }, { C_F } }
+
+/* bmsk<.f> RA,LIMM,RC 0010011000010011x111xxxxxxxxxxxx */
+{ "bmsk", 0x26137000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RA, LIMM, RC }, { C_F } }
+
+/* bmsk<.f> RA,RB,LIMM 00100xxx00010011xxxx111110xxxxxx */
+{ "bmsk", 0x20130f80, 0xf8ff0fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RA, RB, LIMM }, { C_F } }
+
+/* bmsk<.f> ZA,LIMM,RC 0010011000010011x111xxxxxx111110 */
+{ "bmsk", 0x2613703e, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, LIMM, RC }, { C_F } }
+
+/* bmsk<.f> ZA,RB,LIMM 00100xxx00010011xxxx111110111110 */
+{ "bmsk", 0x20130fbe, 0xf8ff0fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, RB, LIMM }, { C_F } }
+
+/* bmsk<.f><.cc> RB,RBdup,LIMM 00100xxx11010011xxxx1111100xxxxx */
+{ "bmsk", 0x20d30f80, 0xf8ff0fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RB, RBdup, LIMM }, { C_F, C_CC } }
+
+/* bmsk<.f><.cc> ZA,LIMM,RC 0010011011010011x111xxxxxx0xxxxx */
+{ "bmsk", 0x26d37000, 0xffff7020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, LIMM, RC }, { C_F, C_CC } }
+
+/* bmsk<.f> RA,LIMM,UIMM6_20 0010011001010011x111xxxxxxxxxxxx */
+{ "bmsk", 0x26537000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RA, LIMM, UIMM6_20 }, { C_F } }
+
+/* bmsk<.f> ZA,LIMM,UIMM6_20 0010011001010011x111xxxxxx111110 */
+{ "bmsk", 0x2653703e, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, LIMM, UIMM6_20 }, { C_F } }
+
+/* bmsk<.f><.cc> ZA,LIMM,UIMM6_20 0010011011010011x111xxxxxx1xxxxx */
+{ "bmsk", 0x26d37020, 0xffff7020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, LIMM, UIMM6_20 }, { C_F, C_CC } }
+
+/* bmsk<.f> ZA,LIMM,SIMM12_20 0010011010010011x111xxxxxxxxxxxx */
+{ "bmsk", 0x26937000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, LIMM, SIMM12_20 }, { C_F } }
+
+/* bmsk<.f> RA,LIMM,LIMMdup 0010011000010011x111111110xxxxxx */
+{ "bmsk", 0x26137f80, 0xffff7fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RA, LIMM, LIMMdup }, { C_F } }
+
+/* bmsk<.f> ZA,LIMM,LIMMdup 0010011000010011x111111110111110 */
+{ "bmsk", 0x26137fbe, 0xffff7fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, LIMM, LIMMdup }, { C_F } }
+
+/* bmsk<.f><.cc> ZA,LIMM,LIMMdup 0010011011010011x1111111100xxxxx */
+{ "bmsk", 0x26d37f80, 0xffff7fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, LIMM, LIMMdup }, { C_F, C_CC } }
+
+/* bmskl<.f> RA,RB,RC 01011xxx00010011xxxxxxxxxxxxxxxx */
+{ "bmskl", 0x58130000, 0xf8ff0000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, RC }, { C_F } }
+
+/* bmskl<.f> ZA,RB,RC 01011xxx00010011xxxxxxxxxx111110 */
+{ "bmskl", 0x5813003e, 0xf8ff003f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, RC }, { C_F } }
+
+/* bmskl<.f><.cc> RB,RBdup,RC 01011xxx11010011xxxxxxxxxx0xxxxx */
+{ "bmskl", 0x58d30000, 0xf8ff0020, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, RC }, { C_F, C_CC } }
+
+/* bmskl<.f> RA,RB,UIMM6_20 01011xxx01010011xxxxxxxxxxxxxxxx */
+{ "bmskl", 0x58530000, 0xf8ff0000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, UIMM6_20 }, { C_F } }
+
+/* bmskl<.f> ZA,RB,UIMM6_20 01011xxx01010011xxxxxxxxxx111110 */
+{ "bmskl", 0x5853003e, 0xf8ff003f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, UIMM6_20 }, { C_F } }
+
+/* bmskl<.f><.cc> RB,RBdup,UIMM6_20 01011xxx11010011xxxxxxxxxx1xxxxx */
+{ "bmskl", 0x58d30020, 0xf8ff0020, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, UIMM6_20 }, { C_F, C_CC } }
+
+/* bmskl<.f> RB,RBdup,SIMM12_20 01011xxx10010011xxxxxxxxxxxxxxxx */
+{ "bmskl", 0x58930000, 0xf8ff0000, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, SIMM12_20 }, { C_F } }
+
+/* bmskl<.f> RA,XIMM,RC 0101110000010011x111xxxxxxxxxxxx */
+{ "bmskl", 0x5c137000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, XIMM, RC }, { C_F } }
+
+/* bmskl<.f> RA,RB,XIMM 01011xxx00010011xxxx111100xxxxxx */
+{ "bmskl", 0x58130f00, 0xf8ff0fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, XIMM }, { C_F } }
+
+/* bmskl<.f> ZA,XIMM,RC 0101110000010011x111xxxxxx111110 */
+{ "bmskl", 0x5c13703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, RC }, { C_F } }
+
+/* bmskl<.f> ZA,RB,XIMM 01011xxx00010011xxxx111100111110 */
+{ "bmskl", 0x58130f3e, 0xf8ff0fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, XIMM }, { C_F } }
+
+/* bmskl<.f><.cc> ZA,XIMM,RC 0101110011010011x111xxxxxx0xxxxx */
+{ "bmskl", 0x5cd37000, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, RC }, { C_F, C_CC } }
+
+/* bmskl<.f><.cc> RB,RBdup,XIMM 01011xxx11010011xxxx1111000xxxxx */
+{ "bmskl", 0x58d30f00, 0xf8ff0fe0, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, XIMM }, { C_F, C_CC } }
+
+/* bmskl<.f> RA,XIMM,UIMM6_20 0101110001010011x111xxxxxxxxxxxx */
+{ "bmskl", 0x5c537000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, XIMM, UIMM6_20 }, { C_F } }
+
+/* bmskl<.f> ZA,XIMM,UIMM6_20 0101110001010011x111xxxxxx111110 */
+{ "bmskl", 0x5c53703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, UIMM6_20 }, { C_F } }
+
+/* bmskl<.f><.cc> ZA,XIMM,UIMM6_20 0101110011010011x111xxxxxx1xxxxx */
+{ "bmskl", 0x5cd37020, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, UIMM6_20 }, { C_F, C_CC } }
+
+/* bmskl<.f> RA,LIMM,RC 0101111000010011x111xxxxxxxxxxxx */
+{ "bmskl", 0x5e137000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, LIMM, RC }, { C_F } }
+
+/* bmskl<.f> RA,RB,LIMM 01011xxx00010011xxxx111110xxxxxx */
+{ "bmskl", 0x58130f80, 0xf8ff0fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, LIMM }, { C_F } }
+
+/* bmskl<.f> ZA,LIMM,RC 0101111000010011x111xxxxxx111110 */
+{ "bmskl", 0x5e13703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, RC }, { C_F } }
+
+/* bmskl<.f> ZA,RB,LIMM 01011xxx00010011xxxx111110111110 */
+{ "bmskl", 0x58130fbe, 0xf8ff0fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, LIMM }, { C_F } }
+
+/* bmskl<.f><.cc> ZA,LIMM,RC 0101111011010011x111xxxxxx0xxxxx */
+{ "bmskl", 0x5ed37000, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, RC }, { C_F, C_CC } }
+
+/* bmskl<.f><.cc> RB,RBdup,LIMM 01011xxx11010011xxxx1111100xxxxx */
+{ "bmskl", 0x58d30f80, 0xf8ff0fe0, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, LIMM }, { C_F, C_CC } }
+
+/* bmskl<.f> RA,LIMM,UIMM6_20 0101111001010011x111xxxxxxxxxxxx */
+{ "bmskl", 0x5e537000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, LIMM, UIMM6_20 }, { C_F } }
+
+/* bmskl<.f> ZA,LIMM,UIMM6_20 0101111001010011x111xxxxxx111110 */
+{ "bmskl", 0x5e53703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, UIMM6_20 }, { C_F } }
+
+/* bmskl<.f><.cc> ZA,LIMM,UIMM6_20 0101111011010011x111xxxxxx1xxxxx */
+{ "bmskl", 0x5ed37020, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, UIMM6_20 }, { C_F, C_CC } }
+
+/* bmskl<.f> ZA,XIMM,SIMM12_20 0101110010010011x111xxxxxxxxxxxx */
+{ "bmskl", 0x5c937000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, SIMM12_20 }, { C_F } }
+
+/* bmskl<.f> ZA,LIMM,SIMM12_20 0101111010010011x111xxxxxxxxxxxx */
+{ "bmskl", 0x5e937000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, SIMM12_20 }, { C_F } }
+
+/* bmskl<.f> RA,XIMM,XIMMdup 0101110000010011x111111100xxxxxx */
+{ "bmskl", 0x5c137f00, 0xffff7fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, XIMM, XIMMdup }, { C_F } }
+
+/* bmskl<.f> ZA,XIMM,XIMMdup 0101110000010011x111111100111110 */
+{ "bmskl", 0x5c137f3e, 0xffff7fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, XIMMdup }, { C_F } }
+
+/* bmskl<.f><.cc> ZA,XIMM,XIMMdup 0101110011010011x1111111000xxxxx */
+{ "bmskl", 0x5cd37f00, 0xffff7fe0, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, XIMMdup }, { C_F, C_CC } }
+
+/* bmskl<.f> RA,LIMM,LIMMdup 0101111000010011x111111110xxxxxx */
+{ "bmskl", 0x5e137f80, 0xffff7fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, LIMM, LIMMdup }, { C_F } }
+
+/* bmskl<.f> ZA,LIMM,LIMMdup 0101111000010011x111111110111110 */
+{ "bmskl", 0x5e137fbe, 0xffff7fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, LIMMdup }, { C_F } }
+
+/* bmskl<.f><.cc> ZA,LIMM,LIMMdup 0101111011010011x1111111100xxxxx */
+{ "bmskl", 0x5ed37f80, 0xffff7fe0, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, LIMMdup }, { C_F, C_CC } }
+
+/* bmskn<.f> RA,RB,RC 00100xxx00101100xxxxxxxxxxxxxxxx */
+{ "bmskn", 0x202c0000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RA, RB, RC }, { C_F } }
+
+/* bmskn<.f> ZA,RB,RC 00100xxx00101100xxxxxxxxxx111110 */
+{ "bmskn", 0x202c003e, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, RB, RC }, { C_F } }
+
+/* bmskn<.f><.cc> RB,RBdup,RC 00100xxx11101100xxxxxxxxxx0xxxxx */
+{ "bmskn", 0x20ec0000, 0xf8ff0020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RB, RBdup, RC }, { C_F, C_CC } }
+
+/* bmskn<.f> RA,RB,UIMM6_20 00100xxx01101100xxxxxxxxxxxxxxxx */
+{ "bmskn", 0x206c0000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RA, RB, UIMM6_20 }, { C_F } }
+
+/* bmskn<.f> ZA,RB,UIMM6_20 00100xxx01101100xxxxxxxxxx111110 */
+{ "bmskn", 0x206c003e, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, RB, UIMM6_20 }, { C_F } }
+
+/* bmskn<.f><.cc> RB,RBdup,UIMM6_20 00100xxx11101100xxxxxxxxxx1xxxxx */
+{ "bmskn", 0x20ec0020, 0xf8ff0020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RB, RBdup, UIMM6_20 }, { C_F, C_CC } }
+
+/* bmskn<.f> RB,RBdup,SIMM12_20 00100xxx10101100xxxxxxxxxxxxxxxx */
+{ "bmskn", 0x20ac0000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RB, RBdup, SIMM12_20 }, { C_F } }
+
+/* bmskn<.f> RA,LIMM,RC 0010011000101100x111xxxxxxxxxxxx */
+{ "bmskn", 0x262c7000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RA, LIMM, RC }, { C_F } }
+
+/* bmskn<.f> RA,RB,LIMM 00100xxx00101100xxxx111110xxxxxx */
+{ "bmskn", 0x202c0f80, 0xf8ff0fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RA, RB, LIMM }, { C_F } }
+
+/* bmskn<.f> ZA,LIMM,RC 0010011000101100x111xxxxxx111110 */
+{ "bmskn", 0x262c703e, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, LIMM, RC }, { C_F } }
+
+/* bmskn<.f> ZA,RB,LIMM 00100xxx00101100xxxx111110111110 */
+{ "bmskn", 0x202c0fbe, 0xf8ff0fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, RB, LIMM }, { C_F } }
+
+/* bmskn<.f><.cc> RB,RBdup,LIMM 00100xxx11101100xxxx1111100xxxxx */
+{ "bmskn", 0x20ec0f80, 0xf8ff0fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RB, RBdup, LIMM }, { C_F, C_CC } }
+
+/* bmskn<.f><.cc> ZA,LIMM,RC 0010011011101100x111xxxxxx0xxxxx */
+{ "bmskn", 0x26ec7000, 0xffff7020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, LIMM, RC }, { C_F, C_CC } }
+
+/* bmskn<.f> RA,LIMM,UIMM6_20 0010011001101100x111xxxxxxxxxxxx */
+{ "bmskn", 0x266c7000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RA, LIMM, UIMM6_20 }, { C_F } }
+
+/* bmskn<.f> ZA,LIMM,UIMM6_20 0010011001101100x111xxxxxx111110 */
+{ "bmskn", 0x266c703e, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, LIMM, UIMM6_20 }, { C_F } }
+
+/* bmskn<.f><.cc> ZA,LIMM,UIMM6_20 0010011011101100x111xxxxxx1xxxxx */
+{ "bmskn", 0x26ec7020, 0xffff7020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, LIMM, UIMM6_20 }, { C_F, C_CC } }
+
+/* bmskn<.f> ZA,LIMM,SIMM12_20 0010011010101100x111xxxxxxxxxxxx */
+{ "bmskn", 0x26ac7000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, LIMM, SIMM12_20 }, { C_F } }
+
+/* bmskn<.f> RA,LIMM,LIMMdup 0010011000101100x111111110xxxxxx */
+{ "bmskn", 0x262c7f80, 0xffff7fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RA, LIMM, LIMMdup }, { C_F } }
+
+/* bmskn<.f> ZA,LIMM,LIMMdup 0010011000101100x111111110111110 */
+{ "bmskn", 0x262c7fbe, 0xffff7fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, LIMM, LIMMdup }, { C_F } }
+
+/* bmskn<.f><.cc> ZA,LIMM,LIMMdup 0010011011101100x1111111100xxxxx */
+{ "bmskn", 0x26ec7f80, 0xffff7fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, LIMM, LIMMdup }, { C_F, C_CC } }
+
+/* bmsknl<.f> RA,RB,RC 01011xxx00101100xxxxxxxxxxxxxxxx */
+{ "bmsknl", 0x582c0000, 0xf8ff0000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, RC }, { C_F } }
+
+/* bmsknl<.f> ZA,RB,RC 01011xxx00101100xxxxxxxxxx111110 */
+{ "bmsknl", 0x582c003e, 0xf8ff003f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, RC }, { C_F } }
+
+/* bmsknl<.f><.cc> RB,RBdup,RC 01011xxx11101100xxxxxxxxxx0xxxxx */
+{ "bmsknl", 0x58ec0000, 0xf8ff0020, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, RC }, { C_F, C_CC } }
+
+/* bmsknl<.f> RA,RB,UIMM6_20 01011xxx01101100xxxxxxxxxxxxxxxx */
+{ "bmsknl", 0x586c0000, 0xf8ff0000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, UIMM6_20 }, { C_F } }
+
+/* bmsknl<.f> ZA,RB,UIMM6_20 01011xxx01101100xxxxxxxxxx111110 */
+{ "bmsknl", 0x586c003e, 0xf8ff003f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, UIMM6_20 }, { C_F } }
+
+/* bmsknl<.f><.cc> RB,RBdup,UIMM6_20 01011xxx11101100xxxxxxxxxx1xxxxx */
+{ "bmsknl", 0x58ec0020, 0xf8ff0020, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, UIMM6_20 }, { C_F, C_CC } }
+
+/* bmsknl<.f> RB,RBdup,SIMM12_20 01011xxx10101100xxxxxxxxxxxxxxxx */
+{ "bmsknl", 0x58ac0000, 0xf8ff0000, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, SIMM12_20 }, { C_F } }
+
+/* bmsknl<.f> RA,XIMM,RC 0101110000101100x111xxxxxxxxxxxx */
+{ "bmsknl", 0x5c2c7000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, XIMM, RC }, { C_F } }
+
+/* bmsknl<.f> RA,RB,XIMM 01011xxx00101100xxxx111100xxxxxx */
+{ "bmsknl", 0x582c0f00, 0xf8ff0fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, XIMM }, { C_F } }
+
+/* bmsknl<.f> ZA,XIMM,RC 0101110000101100x111xxxxxx111110 */
+{ "bmsknl", 0x5c2c703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, RC }, { C_F } }
+
+/* bmsknl<.f> ZA,RB,XIMM 01011xxx00101100xxxx111100111110 */
+{ "bmsknl", 0x582c0f3e, 0xf8ff0fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, XIMM }, { C_F } }
+
+/* bmsknl<.f><.cc> ZA,XIMM,RC 0101110011101100x111xxxxxx0xxxxx */
+{ "bmsknl", 0x5cec7000, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, RC }, { C_F, C_CC } }
+
+/* bmsknl<.f><.cc> RB,RBdup,XIMM 01011xxx11101100xxxx1111000xxxxx */
+{ "bmsknl", 0x58ec0f00, 0xf8ff0fe0, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, XIMM }, { C_F, C_CC } }
+
+/* bmsknl<.f> RA,XIMM,UIMM6_20 0101110001101100x111xxxxxxxxxxxx */
+{ "bmsknl", 0x5c6c7000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, XIMM, UIMM6_20 }, { C_F } }
+
+/* bmsknl<.f> ZA,XIMM,UIMM6_20 0101110001101100x111xxxxxx111110 */
+{ "bmsknl", 0x5c6c703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, UIMM6_20 }, { C_F } }
+
+/* bmsknl<.f><.cc> ZA,XIMM,UIMM6_20 0101110011101100x111xxxxxx1xxxxx */
+{ "bmsknl", 0x5cec7020, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, UIMM6_20 }, { C_F, C_CC } }
+
+/* bmsknl<.f> RA,LIMM,RC 0101111000101100x111xxxxxxxxxxxx */
+{ "bmsknl", 0x5e2c7000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, LIMM, RC }, { C_F } }
+
+/* bmsknl<.f> RA,RB,LIMM 01011xxx00101100xxxx111110xxxxxx */
+{ "bmsknl", 0x582c0f80, 0xf8ff0fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, LIMM }, { C_F } }
+
+/* bmsknl<.f> ZA,LIMM,RC 0101111000101100x111xxxxxx111110 */
+{ "bmsknl", 0x5e2c703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, RC }, { C_F } }
+
+/* bmsknl<.f> ZA,RB,LIMM 01011xxx00101100xxxx111110111110 */
+{ "bmsknl", 0x582c0fbe, 0xf8ff0fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, LIMM }, { C_F } }
+
+/* bmsknl<.f><.cc> ZA,LIMM,RC 0101111011101100x111xxxxxx0xxxxx */
+{ "bmsknl", 0x5eec7000, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, RC }, { C_F, C_CC } }
+
+/* bmsknl<.f><.cc> RB,RBdup,LIMM 01011xxx11101100xxxx1111100xxxxx */
+{ "bmsknl", 0x58ec0f80, 0xf8ff0fe0, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, LIMM }, { C_F, C_CC } }
+
+/* bmsknl<.f> RA,LIMM,UIMM6_20 0101111001101100x111xxxxxxxxxxxx */
+{ "bmsknl", 0x5e6c7000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, LIMM, UIMM6_20 }, { C_F } }
+
+/* bmsknl<.f> ZA,LIMM,UIMM6_20 0101111001101100x111xxxxxx111110 */
+{ "bmsknl", 0x5e6c703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, UIMM6_20 }, { C_F } }
+
+/* bmsknl<.f><.cc> ZA,LIMM,UIMM6_20 0101111011101100x111xxxxxx1xxxxx */
+{ "bmsknl", 0x5eec7020, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, UIMM6_20 }, { C_F, C_CC } }
+
+/* bmsknl<.f> ZA,XIMM,SIMM12_20 0101110010101100x111xxxxxxxxxxxx */
+{ "bmsknl", 0x5cac7000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, SIMM12_20 }, { C_F } }
+
+/* bmsknl<.f> ZA,LIMM,SIMM12_20 0101111010101100x111xxxxxxxxxxxx */
+{ "bmsknl", 0x5eac7000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, SIMM12_20 }, { C_F } }
+
+/* bmsknl<.f> RA,XIMM,XIMMdup 0101110000101100x111111100xxxxxx */
+{ "bmsknl", 0x5c2c7f00, 0xffff7fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, XIMM, XIMMdup }, { C_F } }
+
+/* bmsknl<.f> ZA,XIMM,XIMMdup 0101110000101100x111111100111110 */
+{ "bmsknl", 0x5c2c7f3e, 0xffff7fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, XIMMdup }, { C_F } }
+
+/* bmsknl<.f><.cc> ZA,XIMM,XIMMdup 0101110011101100x1111111000xxxxx */
+{ "bmsknl", 0x5cec7f00, 0xffff7fe0, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, XIMMdup }, { C_F, C_CC } }
+
+/* bmsknl<.f> RA,LIMM,LIMMdup 0101111000101100x111111110xxxxxx */
+{ "bmsknl", 0x5e2c7f80, 0xffff7fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, LIMM, LIMMdup }, { C_F } }
+
+/* bmsknl<.f> ZA,LIMM,LIMMdup 0101111000101100x111111110111110 */
+{ "bmsknl", 0x5e2c7fbe, 0xffff7fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, LIMMdup }, { C_F } }
+
+/* bmsknl<.f><.cc> ZA,LIMM,LIMMdup 0101111011101100x1111111100xxxxx */
+{ "bmsknl", 0x5eec7f80, 0xffff7fe0, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, LIMMdup }, { C_F, C_CC } }
+
+/* bmsk_s RB_S,RB_Sdup,UIMM5_11_S 10111xxx110xxxxx */
+{ "bmsk_s", 0x0000b8c0, 0x0000f8e0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RB_S, RB_Sdup, UIMM5_11_S }, { 0 } }
+
+/* bne_s SIMM10_A16_7_S 1111010xxxxxxxxx */
+{ "bne_s", 0x0000f400, 0x0000fe00, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, BRANCH, COND, { SIMM10_A16_7_S }, { C_CC_NE } }
+
+/* breq<.d> RB,RC,SIMM9_A16_8 00001xxxxxxxxxx1xxxxxxxxxxx00000 */
+{ "breq", 0x08010000, 0xf801001f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, BRCC, NONE, { RB, RC, SIMM9_A16_8 }, { C_D, C_CC_EQ } }
+
+/* breq<.d> RB,UIMM6_8,SIMM9_A16_8 00001xxxxxxxxxx1xxxxxxxxxxx10000 */
+{ "breq", 0x08010010, 0xf801001f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, BRCC, NONE, { RB, UIMM6_8, SIMM9_A16_8 }, { C_D, C_CC_EQ } }
+
+/* breq RB,LIMM,SIMM9_A16_8 00001xxxxxxxxxx1xxxx111110000000 */
+{ "breq", 0x08010f80, 0xf8010fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, BRCC, NONE, { RB, LIMM, SIMM9_A16_8 }, { C_CC_EQ } }
+
+/* breq LIMM,RC,SIMM9_A16_8 00001110xxxxxxx1x111xxxxxx000000 */
+{ "breq", 0x0e017000, 0xff01703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, BRCC, NONE, { LIMM, RC, SIMM9_A16_8 }, { C_CC_EQ } }
+
+/* breq LIMM,UIMM6_8,SIMM9_A16_8 00001110xxxxxxx1x111xxxxxx010000 */
+{ "breq", 0x0e017010, 0xff01703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, BRCC, NONE, { LIMM, UIMM6_8, SIMM9_A16_8 }, { C_CC_EQ } }
+
+/* breq LIMM,LIMMdup,SIMM9_A16_8 00001110xxxxxxx1x111111110000000 */
+{ "breq", 0x0e017f80, 0xff017fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, BRCC, NONE, { LIMM, LIMMdup, SIMM9_A16_8 }, { C_CC_EQ } }
+
+/* breql<.d> RB,RC,SIMM9_A16_8 00001xxxxxxxxxx1xxxxxxxxxxx01000 */
+{ "breql", 0x08010008, 0xf801001f, ARC_OPCODE_ARC64, BRCC, NONE, { RB, RC, SIMM9_A16_8 }, { C_D } }
+
+/* breql<.d> RB,UIMM6_8,SIMM9_A16_8 00001xxxxxxxxxx1xxxxxxxxxxx11000 */
+{ "breql", 0x08010018, 0xf801001f, ARC_OPCODE_ARC64, BRCC, NONE, { RB, UIMM6_8, SIMM9_A16_8 }, { C_D } }
+
+/* breql RB,XIMM,SIMM9_A16_8 00001xxxxxxxxxx1xxxx111100001000 */
+{ "breql", 0x08010f08, 0xf8010fff, ARC_OPCODE_ARC64, BRCC, NONE, { RB, XIMM, SIMM9_A16_8 }, { 0 } }
+
+/* breql XIMM,RC,SIMM9_A16_8 00001100xxxxxxx1x111xxxxxx001000 */
+{ "breql", 0x0c017008, 0xff01703f, ARC_OPCODE_ARC64, BRCC, NONE, { XIMM, RC, SIMM9_A16_8 }, { 0 } }
+
+/* breql XIMM,UIMM6_8,SIMM9_A16_8 00001100xxxxxxx1x111xxxxxx011000 */
+{ "breql", 0x0c017018, 0xff01703f, ARC_OPCODE_ARC64, BRCC, NONE, { XIMM, UIMM6_8, SIMM9_A16_8 }, { 0 } }
+
+/* breql RB,LIMM,SIMM9_A16_8 00001xxxxxxxxxx1xxxx111110001000 */
+{ "breql", 0x08010f88, 0xf8010fff, ARC_OPCODE_ARC64, BRCC, NONE, { RB, LIMM, SIMM9_A16_8 }, { 0 } }
+
+/* breql LIMM,RC,SIMM9_A16_8 00001110xxxxxxx1x111xxxxxx001000 */
+{ "breql", 0x0e017008, 0xff01703f, ARC_OPCODE_ARC64, BRCC, NONE, { LIMM, RC, SIMM9_A16_8 }, { 0 } }
+
+/* breql LIMM,UIMM6_8,SIMM9_A16_8 00001110xxxxxxx1x111xxxxxx011000 */
+{ "breql", 0x0e017018, 0xff01703f, ARC_OPCODE_ARC64, BRCC, NONE, { LIMM, UIMM6_8, SIMM9_A16_8 }, { 0 } }
+
+/* breql_s RB_S,ZB_S,SIMM8_A16_9_S 11101xxx0xxxxxxx */
+{ "breql_s", 0x0000e800, 0x0000f880, ARC_OPCODE_ARC64, BRCC, NONE, { RB_S, ZB_S, SIMM8_A16_9_S }, { 0 } }
+
+/* breq_s RB_S,ZB_S,SIMM8_A16_9_S 11101xxx0xxxxxxx */
+{ "breq_s", 0x0000e800, 0x0000f880, ARC_OPCODE_ARC32, BRCC, NONE, { RB_S, ZB_S, SIMM8_A16_9_S }, { 0 } }
+
+/* brge<.d> RB,RC,SIMM9_A16_8 00001xxxxxxxxxx1xxxxxxxxxxx00011 */
+{ "brge", 0x08010003, 0xf801001f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, BRCC, NONE, { RB, RC, SIMM9_A16_8 }, { C_D, C_CC_GE } }
+
+/* brge<.d> RB,UIMM6_8,SIMM9_A16_8 00001xxxxxxxxxx1xxxxxxxxxxx10011 */
+{ "brge", 0x08010013, 0xf801001f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, BRCC, NONE, { RB, UIMM6_8, SIMM9_A16_8 }, { C_D, C_CC_GE } }
+
+/* brge RB,LIMM,SIMM9_A16_8 00001xxxxxxxxxx1xxxx111110000011 */
+{ "brge", 0x08010f83, 0xf8010fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, BRCC, NONE, { RB, LIMM, SIMM9_A16_8 }, { C_CC_GE } }
+
+/* brge LIMM,RC,SIMM9_A16_8 00001110xxxxxxx1x111xxxxxx000011 */
+{ "brge", 0x0e017003, 0xff01703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, BRCC, NONE, { LIMM, RC, SIMM9_A16_8 }, { C_CC_GE } }
+
+/* brge LIMM,UIMM6_8,SIMM9_A16_8 00001110xxxxxxx1x111xxxxxx010011 */
+{ "brge", 0x0e017013, 0xff01703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, BRCC, NONE, { LIMM, UIMM6_8, SIMM9_A16_8 }, { C_CC_GE } }
+
+/* brge LIMM,LIMMdup,SIMM9_A16_8 00001110xxxxxxx1x111111110000011 */
+{ "brge", 0x0e017f83, 0xff017fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, BRCC, NONE, { LIMM, LIMMdup, SIMM9_A16_8 }, { C_CC_GE } }
+
+/* brgel<.d> RB,RC,SIMM9_A16_8 00001xxxxxxxxxx1xxxxxxxxxxx01011 */
+{ "brgel", 0x0801000b, 0xf801001f, ARC_OPCODE_ARC64, BRCC, NONE, { RB, RC, SIMM9_A16_8 }, { C_D } }
+
+/* brgel<.d> RB,UIMM6_8,SIMM9_A16_8 00001xxxxxxxxxx1xxxxxxxxxxx11011 */
+{ "brgel", 0x0801001b, 0xf801001f, ARC_OPCODE_ARC64, BRCC, NONE, { RB, UIMM6_8, SIMM9_A16_8 }, { C_D } }
+
+/* brgel RB,XIMM,SIMM9_A16_8 00001xxxxxxxxxx1xxxx111100001011 */
+{ "brgel", 0x08010f0b, 0xf8010fff, ARC_OPCODE_ARC64, BRCC, NONE, { RB, XIMM, SIMM9_A16_8 }, { 0 } }
+
+/* brgel XIMM,RC,SIMM9_A16_8 00001100xxxxxxx1x111xxxxxx001011 */
+{ "brgel", 0x0c01700b, 0xff01703f, ARC_OPCODE_ARC64, BRCC, NONE, { XIMM, RC, SIMM9_A16_8 }, { 0 } }
+
+/* brgel XIMM,UIMM6_8,SIMM9_A16_8 00001100xxxxxxx1x111xxxxxx011011 */
+{ "brgel", 0x0c01701b, 0xff01703f, ARC_OPCODE_ARC64, BRCC, NONE, { XIMM, UIMM6_8, SIMM9_A16_8 }, { 0 } }
+
+/* brgel RB,LIMM,SIMM9_A16_8 00001xxxxxxxxxx1xxxx111110001011 */
+{ "brgel", 0x08010f8b, 0xf8010fff, ARC_OPCODE_ARC64, BRCC, NONE, { RB, LIMM, SIMM9_A16_8 }, { 0 } }
+
+/* brgel LIMM,RC,SIMM9_A16_8 00001110xxxxxxx1x111xxxxxx001011 */
+{ "brgel", 0x0e01700b, 0xff01703f, ARC_OPCODE_ARC64, BRCC, NONE, { LIMM, RC, SIMM9_A16_8 }, { 0 } }
+
+/* brgel LIMM,UIMM6_8,SIMM9_A16_8 00001110xxxxxxx1x111xxxxxx011011 */
+{ "brgel", 0x0e01701b, 0xff01703f, ARC_OPCODE_ARC64, BRCC, NONE, { LIMM, UIMM6_8, SIMM9_A16_8 }, { 0 } }
+
+/* brhs<.d> RB,RC,SIMM9_A16_8 00001xxxxxxxxxx1xxxxxxxxxxx00101 */
+{ "brhs", 0x08010005, 0xf801001f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, BRCC, NONE, { RB, RC, SIMM9_A16_8 }, { C_D, C_CC_HS } }
+
+/* brhs<.d> RB,UIMM6_8,SIMM9_A16_8 00001xxxxxxxxxx1xxxxxxxxxxx10101 */
+{ "brhs", 0x08010015, 0xf801001f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, BRCC, NONE, { RB, UIMM6_8, SIMM9_A16_8 }, { C_D, C_CC_HS } }
+
+/* brhs RB,LIMM,SIMM9_A16_8 00001xxxxxxxxxx1xxxx111110000101 */
+{ "brhs", 0x08010f85, 0xf8010fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, BRCC, NONE, { RB, LIMM, SIMM9_A16_8 }, { C_CC_HS } }
+
+/* brhs LIMM,RC,SIMM9_A16_8 00001110xxxxxxx1x111xxxxxx000101 */
+{ "brhs", 0x0e017005, 0xff01703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, BRCC, NONE, { LIMM, RC, SIMM9_A16_8 }, { C_CC_HS } }
+
+/* brhs LIMM,UIMM6_8,SIMM9_A16_8 00001110xxxxxxx1x111xxxxxx010101 */
+{ "brhs", 0x0e017015, 0xff01703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, BRCC, NONE, { LIMM, UIMM6_8, SIMM9_A16_8 }, { C_CC_HS } }
+
+/* brhs LIMM,LIMMdup,SIMM9_A16_8 00001110xxxxxxx1x111111110000101 */
+{ "brhs", 0x0e017f85, 0xff017fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, BRCC, NONE, { LIMM, LIMMdup, SIMM9_A16_8 }, { C_CC_HS } }
+
+/* brhsl<.d> RB,RC,SIMM9_A16_8 00001xxxxxxxxxx1xxxxxxxxxxx01101 */
+{ "brhsl", 0x0801000d, 0xf801001f, ARC_OPCODE_ARC64, BRCC, NONE, { RB, RC, SIMM9_A16_8 }, { C_D } }
+
+/* brhsl<.d> RB,UIMM6_8,SIMM9_A16_8 00001xxxxxxxxxx1xxxxxxxxxxx11101 */
+{ "brhsl", 0x0801001d, 0xf801001f, ARC_OPCODE_ARC64, BRCC, NONE, { RB, UIMM6_8, SIMM9_A16_8 }, { C_D } }
+
+/* brhsl RB,XIMM,SIMM9_A16_8 00001xxxxxxxxxx1xxxx111100001101 */
+{ "brhsl", 0x08010f0d, 0xf8010fff, ARC_OPCODE_ARC64, BRCC, NONE, { RB, XIMM, SIMM9_A16_8 }, { 0 } }
+
+/* brhsl XIMM,RC,SIMM9_A16_8 00001100xxxxxxx1x111xxxxxx001101 */
+{ "brhsl", 0x0c01700d, 0xff01703f, ARC_OPCODE_ARC64, BRCC, NONE, { XIMM, RC, SIMM9_A16_8 }, { 0 } }
+
+/* brhsl XIMM,UIMM6_8,SIMM9_A16_8 00001100xxxxxxx1x111xxxxxx011101 */
+{ "brhsl", 0x0c01701d, 0xff01703f, ARC_OPCODE_ARC64, BRCC, NONE, { XIMM, UIMM6_8, SIMM9_A16_8 }, { 0 } }
+
+/* brhsl RB,LIMM,SIMM9_A16_8 00001xxxxxxxxxx1xxxx111110001101 */
+{ "brhsl", 0x08010f8d, 0xf8010fff, ARC_OPCODE_ARC64, BRCC, NONE, { RB, LIMM, SIMM9_A16_8 }, { 0 } }
+
+/* brhsl LIMM,RC,SIMM9_A16_8 00001110xxxxxxx1x111xxxxxx001101 */
+{ "brhsl", 0x0e01700d, 0xff01703f, ARC_OPCODE_ARC64, BRCC, NONE, { LIMM, RC, SIMM9_A16_8 }, { 0 } }
+
+/* brhsl LIMM,UIMM6_8,SIMM9_A16_8 00001110xxxxxxx1x111xxxxxx011101 */
+{ "brhsl", 0x0e01701d, 0xff01703f, ARC_OPCODE_ARC64, BRCC, NONE, { LIMM, UIMM6_8, SIMM9_A16_8 }, { 0 } }
+
+/* brk  00100101011011110000000000111111 */
+{ "brk", 0x256f003f, 0xffffffff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, KERNEL, NONE, {  }, { 0 } }
+
+/* brk_s  0111111111111111 */
+{ "brk_s", 0x00007fff, 0x0000ffff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, KERNEL, NONE, {  }, { 0 } }
+
+/* brlo<.d> RB,RC,SIMM9_A16_8 00001xxxxxxxxxx1xxxxxxxxxxx00100 */
+{ "brlo", 0x08010004, 0xf801001f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, BRCC, NONE, { RB, RC, SIMM9_A16_8 }, { C_D, C_CC_LO } }
+
+/* brlo<.d> RB,UIMM6_8,SIMM9_A16_8 00001xxxxxxxxxx1xxxxxxxxxxx10100 */
+{ "brlo", 0x08010014, 0xf801001f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, BRCC, NONE, { RB, UIMM6_8, SIMM9_A16_8 }, { C_D, C_CC_LO } }
+
+/* brlo RB,LIMM,SIMM9_A16_8 00001xxxxxxxxxx1xxxx111110000100 */
+{ "brlo", 0x08010f84, 0xf8010fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, BRCC, NONE, { RB, LIMM, SIMM9_A16_8 }, { C_CC_LO } }
+
+/* brlo LIMM,RC,SIMM9_A16_8 00001110xxxxxxx1x111xxxxxx000100 */
+{ "brlo", 0x0e017004, 0xff01703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, BRCC, NONE, { LIMM, RC, SIMM9_A16_8 }, { C_CC_LO } }
+
+/* brlo LIMM,UIMM6_8,SIMM9_A16_8 00001110xxxxxxx1x111xxxxxx010100 */
+{ "brlo", 0x0e017014, 0xff01703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, BRCC, NONE, { LIMM, UIMM6_8, SIMM9_A16_8 }, { C_CC_LO } }
+
+/* brlo LIMM,LIMMdup,SIMM9_A16_8 00001110xxxxxxx1x111111110000100 */
+{ "brlo", 0x0e017f84, 0xff017fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, BRCC, NONE, { LIMM, LIMMdup, SIMM9_A16_8 }, { C_CC_LO } }
+
+/* brlol<.d> RB,RC,SIMM9_A16_8 00001xxxxxxxxxx1xxxxxxxxxxx01100 */
+{ "brlol", 0x0801000c, 0xf801001f, ARC_OPCODE_ARC64, BRCC, NONE, { RB, RC, SIMM9_A16_8 }, { C_D } }
+
+/* brlol<.d> RB,UIMM6_8,SIMM9_A16_8 00001xxxxxxxxxx1xxxxxxxxxxx11100 */
+{ "brlol", 0x0801001c, 0xf801001f, ARC_OPCODE_ARC64, BRCC, NONE, { RB, UIMM6_8, SIMM9_A16_8 }, { C_D } }
+
+/* brlol RB,XIMM,SIMM9_A16_8 00001xxxxxxxxxx1xxxx111100001100 */
+{ "brlol", 0x08010f0c, 0xf8010fff, ARC_OPCODE_ARC64, BRCC, NONE, { RB, XIMM, SIMM9_A16_8 }, { 0 } }
+
+/* brlol XIMM,RC,SIMM9_A16_8 00001100xxxxxxx1x111xxxxxx001100 */
+{ "brlol", 0x0c01700c, 0xff01703f, ARC_OPCODE_ARC64, BRCC, NONE, { XIMM, RC, SIMM9_A16_8 }, { 0 } }
+
+/* brlol XIMM,UIMM6_8,SIMM9_A16_8 00001100xxxxxxx1x111xxxxxx011100 */
+{ "brlol", 0x0c01701c, 0xff01703f, ARC_OPCODE_ARC64, BRCC, NONE, { XIMM, UIMM6_8, SIMM9_A16_8 }, { 0 } }
+
+/* brlol RB,LIMM,SIMM9_A16_8 00001xxxxxxxxxx1xxxx111110001100 */
+{ "brlol", 0x08010f8c, 0xf8010fff, ARC_OPCODE_ARC64, BRCC, NONE, { RB, LIMM, SIMM9_A16_8 }, { 0 } }
+
+/* brlol LIMM,RC,SIMM9_A16_8 00001110xxxxxxx1x111xxxxxx001100 */
+{ "brlol", 0x0e01700c, 0xff01703f, ARC_OPCODE_ARC64, BRCC, NONE, { LIMM, RC, SIMM9_A16_8 }, { 0 } }
+
+/* brlol LIMM,UIMM6_8,SIMM9_A16_8 00001110xxxxxxx1x111xxxxxx011100 */
+{ "brlol", 0x0e01701c, 0xff01703f, ARC_OPCODE_ARC64, BRCC, NONE, { LIMM, UIMM6_8, SIMM9_A16_8 }, { 0 } }
+
+/* brlt<.d> RB,RC,SIMM9_A16_8 00001xxxxxxxxxx1xxxxxxxxxxx00010 */
+{ "brlt", 0x08010002, 0xf801001f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, BRCC, NONE, { RB, RC, SIMM9_A16_8 }, { C_D, C_CC_LT } }
+
+/* brlt<.d> RB,UIMM6_8,SIMM9_A16_8 00001xxxxxxxxxx1xxxxxxxxxxx10010 */
+{ "brlt", 0x08010012, 0xf801001f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, BRCC, NONE, { RB, UIMM6_8, SIMM9_A16_8 }, { C_D, C_CC_LT } }
+
+/* brlt RB,LIMM,SIMM9_A16_8 00001xxxxxxxxxx1xxxx111110000010 */
+{ "brlt", 0x08010f82, 0xf8010fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, BRCC, NONE, { RB, LIMM, SIMM9_A16_8 }, { C_CC_LT } }
+
+/* brlt LIMM,RC,SIMM9_A16_8 00001110xxxxxxx1x111xxxxxx000010 */
+{ "brlt", 0x0e017002, 0xff01703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, BRCC, NONE, { LIMM, RC, SIMM9_A16_8 }, { C_CC_LT } }
+
+/* brlt LIMM,UIMM6_8,SIMM9_A16_8 00001110xxxxxxx1x111xxxxxx010010 */
+{ "brlt", 0x0e017012, 0xff01703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, BRCC, NONE, { LIMM, UIMM6_8, SIMM9_A16_8 }, { C_CC_LT } }
+
+/* brlt LIMM,LIMMdup,SIMM9_A16_8 00001110xxxxxxx1x111111110000010 */
+{ "brlt", 0x0e017f82, 0xff017fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, BRCC, NONE, { LIMM, LIMMdup, SIMM9_A16_8 }, { C_CC_LT } }
+
+/* brltl<.d> RB,RC,SIMM9_A16_8 00001xxxxxxxxxx1xxxxxxxxxxx01010 */
+{ "brltl", 0x0801000a, 0xf801001f, ARC_OPCODE_ARC64, BRCC, NONE, { RB, RC, SIMM9_A16_8 }, { C_D } }
+
+/* brltl<.d> RB,UIMM6_8,SIMM9_A16_8 00001xxxxxxxxxx1xxxxxxxxxxx11010 */
+{ "brltl", 0x0801001a, 0xf801001f, ARC_OPCODE_ARC64, BRCC, NONE, { RB, UIMM6_8, SIMM9_A16_8 }, { C_D } }
+
+/* brltl RB,XIMM,SIMM9_A16_8 00001xxxxxxxxxx1xxxx111100001010 */
+{ "brltl", 0x08010f0a, 0xf8010fff, ARC_OPCODE_ARC64, BRCC, NONE, { RB, XIMM, SIMM9_A16_8 }, { 0 } }
+
+/* brltl XIMM,RC,SIMM9_A16_8 00001100xxxxxxx1x111xxxxxx001010 */
+{ "brltl", 0x0c01700a, 0xff01703f, ARC_OPCODE_ARC64, BRCC, NONE, { XIMM, RC, SIMM9_A16_8 }, { 0 } }
+
+/* brltl XIMM,UIMM6_8,SIMM9_A16_8 00001100xxxxxxx1x111xxxxxx011010 */
+{ "brltl", 0x0c01701a, 0xff01703f, ARC_OPCODE_ARC64, BRCC, NONE, { XIMM, UIMM6_8, SIMM9_A16_8 }, { 0 } }
+
+/* brltl RB,LIMM,SIMM9_A16_8 00001xxxxxxxxxx1xxxx111110001010 */
+{ "brltl", 0x08010f8a, 0xf8010fff, ARC_OPCODE_ARC64, BRCC, NONE, { RB, LIMM, SIMM9_A16_8 }, { 0 } }
+
+/* brltl LIMM,RC,SIMM9_A16_8 00001110xxxxxxx1x111xxxxxx001010 */
+{ "brltl", 0x0e01700a, 0xff01703f, ARC_OPCODE_ARC64, BRCC, NONE, { LIMM, RC, SIMM9_A16_8 }, { 0 } }
+
+/* brltl LIMM,UIMM6_8,SIMM9_A16_8 00001110xxxxxxx1x111xxxxxx011010 */
+{ "brltl", 0x0e01701a, 0xff01703f, ARC_OPCODE_ARC64, BRCC, NONE, { LIMM, UIMM6_8, SIMM9_A16_8 }, { 0 } }
+
+/* brne<.d> RB,RC,SIMM9_A16_8 00001xxxxxxxxxx1xxxxxxxxxxx00001 */
+{ "brne", 0x08010001, 0xf801001f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, BRCC, NONE, { RB, RC, SIMM9_A16_8 }, { C_D, C_CC_NE } }
+
+/* brne<.d> RB,UIMM6_8,SIMM9_A16_8 00001xxxxxxxxxx1xxxxxxxxxxx10001 */
+{ "brne", 0x08010011, 0xf801001f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, BRCC, NONE, { RB, UIMM6_8, SIMM9_A16_8 }, { C_D, C_CC_NE } }
+
+/* brne RB,LIMM,SIMM9_A16_8 00001xxxxxxxxxx1xxxx111110000001 */
+{ "brne", 0x08010f81, 0xf8010fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, BRCC, NONE, { RB, LIMM, SIMM9_A16_8 }, { C_CC_NE } }
+
+/* brne LIMM,RC,SIMM9_A16_8 00001110xxxxxxx1x111xxxxxx000001 */
+{ "brne", 0x0e017001, 0xff01703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, BRCC, NONE, { LIMM, RC, SIMM9_A16_8 }, { C_CC_NE } }
+
+/* brne LIMM,UIMM6_8,SIMM9_A16_8 00001110xxxxxxx1x111xxxxxx010001 */
+{ "brne", 0x0e017011, 0xff01703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, BRCC, NONE, { LIMM, UIMM6_8, SIMM9_A16_8 }, { C_CC_NE } }
+
+/* brne LIMM,LIMMdup,SIMM9_A16_8 00001110xxxxxxx1x111111110000001 */
+{ "brne", 0x0e017f81, 0xff017fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, BRCC, NONE, { LIMM, LIMMdup, SIMM9_A16_8 }, { C_CC_NE } }
+
+/* brnel<.d> RB,RC,SIMM9_A16_8 00001xxxxxxxxxx1xxxxxxxxxxx01001 */
+{ "brnel", 0x08010009, 0xf801001f, ARC_OPCODE_ARC64, BRCC, NONE, { RB, RC, SIMM9_A16_8 }, { C_D } }
+
+/* brnel<.d> RB,UIMM6_8,SIMM9_A16_8 00001xxxxxxxxxx1xxxxxxxxxxx11001 */
+{ "brnel", 0x08010019, 0xf801001f, ARC_OPCODE_ARC64, BRCC, NONE, { RB, UIMM6_8, SIMM9_A16_8 }, { C_D } }
+
+/* brnel RB,XIMM,SIMM9_A16_8 00001xxxxxxxxxx1xxxx111100001001 */
+{ "brnel", 0x08010f09, 0xf8010fff, ARC_OPCODE_ARC64, BRCC, NONE, { RB, XIMM, SIMM9_A16_8 }, { 0 } }
+
+/* brnel XIMM,RC,SIMM9_A16_8 00001100xxxxxxx1x111xxxxxx001001 */
+{ "brnel", 0x0c017009, 0xff01703f, ARC_OPCODE_ARC64, BRCC, NONE, { XIMM, RC, SIMM9_A16_8 }, { 0 } }
+
+/* brnel XIMM,UIMM6_8,SIMM9_A16_8 00001100xxxxxxx1x111xxxxxx011001 */
+{ "brnel", 0x0c017019, 0xff01703f, ARC_OPCODE_ARC64, BRCC, NONE, { XIMM, UIMM6_8, SIMM9_A16_8 }, { 0 } }
+
+/* brnel RB,LIMM,SIMM9_A16_8 00001xxxxxxxxxx1xxxx111110001001 */
+{ "brnel", 0x08010f89, 0xf8010fff, ARC_OPCODE_ARC64, BRCC, NONE, { RB, LIMM, SIMM9_A16_8 }, { 0 } }
+
+/* brnel LIMM,RC,SIMM9_A16_8 00001110xxxxxxx1x111xxxxxx001001 */
+{ "brnel", 0x0e017009, 0xff01703f, ARC_OPCODE_ARC64, BRCC, NONE, { LIMM, RC, SIMM9_A16_8 }, { 0 } }
+
+/* brnel LIMM,UIMM6_8,SIMM9_A16_8 00001110xxxxxxx1x111xxxxxx011001 */
+{ "brnel", 0x0e017019, 0xff01703f, ARC_OPCODE_ARC64, BRCC, NONE, { LIMM, UIMM6_8, SIMM9_A16_8 }, { 0 } }
+
+/* brnel_s RB_S,ZB_S,SIMM8_A16_9_S 11101xxx1xxxxxxx */
+{ "brnel_s", 0x0000e880, 0x0000f880, ARC_OPCODE_ARC64, BRCC, NONE, { RB_S, ZB_S, SIMM8_A16_9_S }, { 0 } }
+
+/* brne_s RB_S,ZB_S,SIMM8_A16_9_S 11101xxx1xxxxxxx */
+{ "brne_s", 0x0000e880, 0x0000f880, ARC_OPCODE_ARC32, BRCC, NONE, { RB_S, ZB_S, SIMM8_A16_9_S }, { 0 } }
+
+/* bset<.f> RA,RB,RC 00100xxx00001111xxxxxxxxxxxxxxxx */
+{ "bset", 0x200f0000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RA, RB, RC }, { C_F } }
+
+/* bset<.f> ZA,RB,RC 00100xxx00001111xxxxxxxxxx111110 */
+{ "bset", 0x200f003e, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, RB, RC }, { C_F } }
+
+/* bset<.f><.cc> RB,RBdup,RC 00100xxx11001111xxxxxxxxxx0xxxxx */
+{ "bset", 0x20cf0000, 0xf8ff0020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RB, RBdup, RC }, { C_F, C_CC } }
+
+/* bset<.f> RA,RB,UIMM6_20 00100xxx01001111xxxxxxxxxxxxxxxx */
+{ "bset", 0x204f0000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RA, RB, UIMM6_20 }, { C_F } }
+
+/* bset<.f> ZA,RB,UIMM6_20 00100xxx01001111xxxxxxxxxx111110 */
+{ "bset", 0x204f003e, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, RB, UIMM6_20 }, { C_F } }
+
+/* bset<.f><.cc> RB,RBdup,UIMM6_20 00100xxx11001111xxxxxxxxxx1xxxxx */
+{ "bset", 0x20cf0020, 0xf8ff0020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RB, RBdup, UIMM6_20 }, { C_F, C_CC } }
+
+/* bset<.f> RB,RBdup,SIMM12_20 00100xxx10001111xxxxxxxxxxxxxxxx */
+{ "bset", 0x208f0000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RB, RBdup, SIMM12_20 }, { C_F } }
+
+/* bset<.f> RA,LIMM,RC 0010011000001111x111xxxxxxxxxxxx */
+{ "bset", 0x260f7000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RA, LIMM, RC }, { C_F } }
+
+/* bset<.f> RA,RB,LIMM 00100xxx00001111xxxx111110xxxxxx */
+{ "bset", 0x200f0f80, 0xf8ff0fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RA, RB, LIMM }, { C_F } }
+
+/* bset<.f> ZA,LIMM,RC 0010011000001111x111xxxxxx111110 */
+{ "bset", 0x260f703e, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, LIMM, RC }, { C_F } }
+
+/* bset<.f> ZA,RB,LIMM 00100xxx00001111xxxx111110111110 */
+{ "bset", 0x200f0fbe, 0xf8ff0fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, RB, LIMM }, { C_F } }
+
+/* bset<.f><.cc> RB,RBdup,LIMM 00100xxx11001111xxxx1111100xxxxx */
+{ "bset", 0x20cf0f80, 0xf8ff0fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RB, RBdup, LIMM }, { C_F, C_CC } }
+
+/* bset<.f><.cc> ZA,LIMM,RC 0010011011001111x111xxxxxx0xxxxx */
+{ "bset", 0x26cf7000, 0xffff7020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, LIMM, RC }, { C_F, C_CC } }
+
+/* bset<.f> RA,LIMM,UIMM6_20 0010011001001111x111xxxxxxxxxxxx */
+{ "bset", 0x264f7000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RA, LIMM, UIMM6_20 }, { C_F } }
+
+/* bset<.f> ZA,LIMM,UIMM6_20 0010011001001111x111xxxxxx111110 */
+{ "bset", 0x264f703e, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, LIMM, UIMM6_20 }, { C_F } }
+
+/* bset<.f><.cc> ZA,LIMM,UIMM6_20 0010011011001111x111xxxxxx1xxxxx */
+{ "bset", 0x26cf7020, 0xffff7020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, LIMM, UIMM6_20 }, { C_F, C_CC } }
+
+/* bset<.f> ZA,LIMM,SIMM12_20 0010011010001111x111xxxxxxxxxxxx */
+{ "bset", 0x268f7000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, LIMM, SIMM12_20 }, { C_F } }
+
+/* bset<.f> RA,LIMM,LIMMdup 0010011000001111x111111110xxxxxx */
+{ "bset", 0x260f7f80, 0xffff7fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RA, LIMM, LIMMdup }, { C_F } }
+
+/* bset<.f> ZA,LIMM,LIMMdup 0010011000001111x111111110111110 */
+{ "bset", 0x260f7fbe, 0xffff7fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, LIMM, LIMMdup }, { C_F } }
+
+/* bset<.f><.cc> ZA,LIMM,LIMMdup 0010011011001111x1111111100xxxxx */
+{ "bset", 0x26cf7f80, 0xffff7fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, LIMM, LIMMdup }, { C_F, C_CC } }
+
+/* bsetl<.f> RA,RB,RC 01011xxx00001111xxxxxxxxxxxxxxxx */
+{ "bsetl", 0x580f0000, 0xf8ff0000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, RC }, { C_F } }
+
+/* bsetl<.f> ZA,RB,RC 01011xxx00001111xxxxxxxxxx111110 */
+{ "bsetl", 0x580f003e, 0xf8ff003f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, RC }, { C_F } }
+
+/* bsetl<.f><.cc> RB,RBdup,RC 01011xxx11001111xxxxxxxxxx0xxxxx */
+{ "bsetl", 0x58cf0000, 0xf8ff0020, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, RC }, { C_F, C_CC } }
+
+/* bsetl<.f> RA,RB,UIMM6_20 01011xxx01001111xxxxxxxxxxxxxxxx */
+{ "bsetl", 0x584f0000, 0xf8ff0000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, UIMM6_20 }, { C_F } }
+
+/* bsetl<.f> ZA,RB,UIMM6_20 01011xxx01001111xxxxxxxxxx111110 */
+{ "bsetl", 0x584f003e, 0xf8ff003f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, UIMM6_20 }, { C_F } }
+
+/* bsetl<.f><.cc> RB,RBdup,UIMM6_20 01011xxx11001111xxxxxxxxxx1xxxxx */
+{ "bsetl", 0x58cf0020, 0xf8ff0020, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, UIMM6_20 }, { C_F, C_CC } }
+
+/* bsetl<.f> RB,RBdup,SIMM12_20 01011xxx10001111xxxxxxxxxxxxxxxx */
+{ "bsetl", 0x588f0000, 0xf8ff0000, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, SIMM12_20 }, { C_F } }
+
+/* bsetl<.f> RA,XIMM,RC 0101110000001111x111xxxxxxxxxxxx */
+{ "bsetl", 0x5c0f7000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, XIMM, RC }, { C_F } }
+
+/* bsetl<.f> RA,RB,XIMM 01011xxx00001111xxxx111100xxxxxx */
+{ "bsetl", 0x580f0f00, 0xf8ff0fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, XIMM }, { C_F } }
+
+/* bsetl<.f> ZA,XIMM,RC 0101110000001111x111xxxxxx111110 */
+{ "bsetl", 0x5c0f703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, RC }, { C_F } }
+
+/* bsetl<.f> ZA,RB,XIMM 01011xxx00001111xxxx111100111110 */
+{ "bsetl", 0x580f0f3e, 0xf8ff0fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, XIMM }, { C_F } }
+
+/* bsetl<.f><.cc> ZA,XIMM,RC 0101110011001111x111xxxxxx0xxxxx */
+{ "bsetl", 0x5ccf7000, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, RC }, { C_F, C_CC } }
+
+/* bsetl<.f><.cc> RB,RBdup,XIMM 01011xxx11001111xxxx1111000xxxxx */
+{ "bsetl", 0x58cf0f00, 0xf8ff0fe0, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, XIMM }, { C_F, C_CC } }
+
+/* bsetl<.f> RA,XIMM,UIMM6_20 0101110001001111x111xxxxxxxxxxxx */
+{ "bsetl", 0x5c4f7000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, XIMM, UIMM6_20 }, { C_F } }
+
+/* bsetl<.f> ZA,XIMM,UIMM6_20 0101110001001111x111xxxxxx111110 */
+{ "bsetl", 0x5c4f703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, UIMM6_20 }, { C_F } }
+
+/* bsetl<.f><.cc> ZA,XIMM,UIMM6_20 0101110011001111x111xxxxxx1xxxxx */
+{ "bsetl", 0x5ccf7020, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, UIMM6_20 }, { C_F, C_CC } }
+
+/* bsetl<.f> RA,LIMM,RC 0101111000001111x111xxxxxxxxxxxx */
+{ "bsetl", 0x5e0f7000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, LIMM, RC }, { C_F } }
+
+/* bsetl<.f> RA,RB,LIMM 01011xxx00001111xxxx111110xxxxxx */
+{ "bsetl", 0x580f0f80, 0xf8ff0fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, LIMM }, { C_F } }
+
+/* bsetl<.f> ZA,LIMM,RC 0101111000001111x111xxxxxx111110 */
+{ "bsetl", 0x5e0f703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, RC }, { C_F } }
+
+/* bsetl<.f> ZA,RB,LIMM 01011xxx00001111xxxx111110111110 */
+{ "bsetl", 0x580f0fbe, 0xf8ff0fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, LIMM }, { C_F } }
+
+/* bsetl<.f><.cc> ZA,LIMM,RC 0101111011001111x111xxxxxx0xxxxx */
+{ "bsetl", 0x5ecf7000, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, RC }, { C_F, C_CC } }
+
+/* bsetl<.f><.cc> RB,RBdup,LIMM 01011xxx11001111xxxx1111100xxxxx */
+{ "bsetl", 0x58cf0f80, 0xf8ff0fe0, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, LIMM }, { C_F, C_CC } }
+
+/* bsetl<.f> RA,LIMM,UIMM6_20 0101111001001111x111xxxxxxxxxxxx */
+{ "bsetl", 0x5e4f7000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, LIMM, UIMM6_20 }, { C_F } }
+
+/* bsetl<.f> ZA,LIMM,UIMM6_20 0101111001001111x111xxxxxx111110 */
+{ "bsetl", 0x5e4f703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, UIMM6_20 }, { C_F } }
+
+/* bsetl<.f><.cc> ZA,LIMM,UIMM6_20 0101111011001111x111xxxxxx1xxxxx */
+{ "bsetl", 0x5ecf7020, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, UIMM6_20 }, { C_F, C_CC } }
+
+/* bsetl<.f> ZA,XIMM,SIMM12_20 0101110010001111x111xxxxxxxxxxxx */
+{ "bsetl", 0x5c8f7000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, SIMM12_20 }, { C_F } }
+
+/* bsetl<.f> ZA,LIMM,SIMM12_20 0101111010001111x111xxxxxxxxxxxx */
+{ "bsetl", 0x5e8f7000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, SIMM12_20 }, { C_F } }
+
+/* bsetl<.f> RA,XIMM,XIMMdup 0101110000001111x111111100xxxxxx */
+{ "bsetl", 0x5c0f7f00, 0xffff7fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, XIMM, XIMMdup }, { C_F } }
+
+/* bsetl<.f> ZA,XIMM,XIMMdup 0101110000001111x111111100111110 */
+{ "bsetl", 0x5c0f7f3e, 0xffff7fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, XIMMdup }, { C_F } }
+
+/* bsetl<.f><.cc> ZA,XIMM,XIMMdup 0101110011001111x1111111000xxxxx */
+{ "bsetl", 0x5ccf7f00, 0xffff7fe0, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, XIMMdup }, { C_F, C_CC } }
+
+/* bsetl<.f> RA,LIMM,LIMMdup 0101111000001111x111111110xxxxxx */
+{ "bsetl", 0x5e0f7f80, 0xffff7fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, LIMM, LIMMdup }, { C_F } }
+
+/* bsetl<.f> ZA,LIMM,LIMMdup 0101111000001111x111111110111110 */
+{ "bsetl", 0x5e0f7fbe, 0xffff7fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, LIMMdup }, { C_F } }
+
+/* bsetl<.f><.cc> ZA,LIMM,LIMMdup 0101111011001111x1111111100xxxxx */
+{ "bsetl", 0x5ecf7f80, 0xffff7fe0, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, LIMMdup }, { C_F, C_CC } }
+
+/* bset_s RB_S,RB_Sdup,UIMM5_11_S 10111xxx100xxxxx */
+{ "bset_s", 0x0000b880, 0x0000f8e0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RB_S, RB_Sdup, UIMM5_11_S }, { 0 } }
+
+/* btst RB,RC 00100xxx000100011xxxxxxxxxxxxxxx */
+{ "btst", 0x20118000, 0xf8ff8000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RB, RC }, { 0 } }
+
+/* btst<.cc> RB,RC 00100xxx110100011xxxxxxxxx0xxxxx */
+{ "btst", 0x20d18000, 0xf8ff8020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RB, RC }, { C_CC } }
+
+/* btst RB,UIMM6_20 00100xxx010100011xxxxxxxxxxxxxxx */
+{ "btst", 0x20518000, 0xf8ff8000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RB, UIMM6_20 }, { 0 } }
+
+/* btst<.cc> RB,UIMM6_20 00100xxx110100011xxxxxxxxx1xxxxx */
+{ "btst", 0x20d18020, 0xf8ff8020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RB, UIMM6_20 }, { C_CC } }
+
+/* btst RB,SIMM12_20 00100xxx100100011xxxxxxxxxxxxxxx */
+{ "btst", 0x20918000, 0xf8ff8000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RB, SIMM12_20 }, { 0 } }
+
+/* btst LIMM,RC 00100110000100011111xxxxxxxxxxxx */
+{ "btst", 0x2611f000, 0xfffff000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { LIMM, RC }, { 0 } }
+
+/* btst RB,LIMM 00100xxx000100011xxx111110xxxxxx */
+{ "btst", 0x20118f80, 0xf8ff8fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RB, LIMM }, { 0 } }
+
+/* btst<.cc> RB,LIMM 00100xxx110100011xxx1111100xxxxx */
+{ "btst", 0x20d18f80, 0xf8ff8fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RB, LIMM }, { C_CC } }
+
+/* btst<.cc> LIMM,RC 00100110110100011111xxxxxx0xxxxx */
+{ "btst", 0x26d1f000, 0xfffff020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { LIMM, RC }, { C_CC } }
+
+/* btst LIMM,UIMM6_20 00100110010100011111xxxxxxxxxxxx */
+{ "btst", 0x2651f000, 0xfffff000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { LIMM, UIMM6_20 }, { 0 } }
+
+/* btst<.cc> LIMM,UIMM6_20 00100110110100011111xxxxxx1xxxxx */
+{ "btst", 0x26d1f020, 0xfffff020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { LIMM, UIMM6_20 }, { C_CC } }
+
+/* btst LIMM,SIMM12_20 00100110100100011111xxxxxxxxxxxx */
+{ "btst", 0x2691f000, 0xfffff000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { LIMM, SIMM12_20 }, { 0 } }
+
+/* btst LIMM,LIMMdup 00100110000100011111111110xxxxxx */
+{ "btst", 0x2611ff80, 0xffffffc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { LIMM, LIMMdup }, { 0 } }
+
+/* btst<.cc> LIMM,LIMMdup 001001101101000111111111100xxxxx */
+{ "btst", 0x26d1ff80, 0xffffffe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { LIMM, LIMMdup }, { C_CC } }
+
+/* btstl RB,RC 01011xxx000100011xxxxxxxxxxxxxxx */
+{ "btstl", 0x58118000, 0xf8ff8000, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RC }, { 0 } }
+
+/* btstl<.cc> RB,RC 01011xxx110100011xxxxxxxxx0xxxxx */
+{ "btstl", 0x58d18000, 0xf8ff8020, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RC }, { C_CC } }
+
+/* btstl RB,UIMM6_20 01011xxx010100011xxxxxxxxxxxxxxx */
+{ "btstl", 0x58518000, 0xf8ff8000, ARC_OPCODE_ARC64, ARITH, NONE, { RB, UIMM6_20 }, { 0 } }
+
+/* btstl<.cc> RB,UIMM6_20 01011xxx110100011xxxxxxxxx1xxxxx */
+{ "btstl", 0x58d18020, 0xf8ff8020, ARC_OPCODE_ARC64, ARITH, NONE, { RB, UIMM6_20 }, { C_CC } }
+
+/* btstl RB,SIMM12_20 01011xxx100100011xxxxxxxxxxxxxxx */
+{ "btstl", 0x58918000, 0xf8ff8000, ARC_OPCODE_ARC64, ARITH, NONE, { RB, SIMM12_20 }, { 0 } }
+
+/* btstl XIMM,RC 01011100000100011111xxxxxxxxxxxx */
+{ "btstl", 0x5c11f000, 0xfffff000, ARC_OPCODE_ARC64, ARITH, NONE, { XIMM, RC }, { 0 } }
+
+/* btstl RB,XIMM 01011xxx000100011xxx111100xxxxxx */
+{ "btstl", 0x58118f00, 0xf8ff8fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RB, XIMM }, { 0 } }
+
+/* btstl<.cc> RB,XIMM 01011xxx110100011xxx1111000xxxxx */
+{ "btstl", 0x58d18f00, 0xf8ff8fe0, ARC_OPCODE_ARC64, ARITH, NONE, { RB, XIMM }, { C_CC } }
+
+/* btstl LIMM,RC 01011110000100011111xxxxxxxxxxxx */
+{ "btstl", 0x5e11f000, 0xfffff000, ARC_OPCODE_ARC64, ARITH, NONE, { LIMM, RC }, { 0 } }
+
+/* btstl RB,LIMM 01011xxx000100011xxx111110xxxxxx */
+{ "btstl", 0x58118f80, 0xf8ff8fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RB, LIMM }, { 0 } }
+
+/* btstl<.cc> RB,LIMM 01011xxx110100011xxx1111100xxxxx */
+{ "btstl", 0x58d18f80, 0xf8ff8fe0, ARC_OPCODE_ARC64, ARITH, NONE, { RB, LIMM }, { C_CC } }
+
+/* btst_s RB_S,UIMM5_11_S 10111xxx111xxxxx */
+{ "btst_s", 0x0000b8e0, 0x0000f8e0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RB_S, UIMM5_11_S }, { 0 } }
+
+/* bxor<.f> RA,RB,RC 00100xxx00010010xxxxxxxxxxxxxxxx */
+{ "bxor", 0x20120000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RA, RB, RC }, { C_F } }
+
+/* bxor<.f> ZA,RB,RC 00100xxx00010010xxxxxxxxxx111110 */
+{ "bxor", 0x2012003e, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, RB, RC }, { C_F } }
+
+/* bxor<.f><.cc> RB,RBdup,RC 00100xxx11010010xxxxxxxxxx0xxxxx */
+{ "bxor", 0x20d20000, 0xf8ff0020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RB, RBdup, RC }, { C_F, C_CC } }
+
+/* bxor<.f> RA,RB,UIMM6_20 00100xxx01010010xxxxxxxxxxxxxxxx */
+{ "bxor", 0x20520000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RA, RB, UIMM6_20 }, { C_F } }
+
+/* bxor<.f> ZA,RB,UIMM6_20 00100xxx01010010xxxxxxxxxx111110 */
+{ "bxor", 0x2052003e, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, RB, UIMM6_20 }, { C_F } }
+
+/* bxor<.f><.cc> RB,RBdup,UIMM6_20 00100xxx11010010xxxxxxxxxx1xxxxx */
+{ "bxor", 0x20d20020, 0xf8ff0020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RB, RBdup, UIMM6_20 }, { C_F, C_CC } }
+
+/* bxor<.f> RB,RBdup,SIMM12_20 00100xxx10010010xxxxxxxxxxxxxxxx */
+{ "bxor", 0x20920000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RB, RBdup, SIMM12_20 }, { C_F } }
+
+/* bxor<.f> RA,LIMM,RC 0010011000010010x111xxxxxxxxxxxx */
+{ "bxor", 0x26127000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RA, LIMM, RC }, { C_F } }
+
+/* bxor<.f> RA,RB,LIMM 00100xxx00010010xxxx111110xxxxxx */
+{ "bxor", 0x20120f80, 0xf8ff0fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RA, RB, LIMM }, { C_F } }
+
+/* bxor<.f> ZA,LIMM,RC 0010011000010010x111xxxxxx111110 */
+{ "bxor", 0x2612703e, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, LIMM, RC }, { C_F } }
+
+/* bxor<.f> ZA,RB,LIMM 00100xxx00010010xxxx111110111110 */
+{ "bxor", 0x20120fbe, 0xf8ff0fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, RB, LIMM }, { C_F } }
+
+/* bxor<.f><.cc> RB,RBdup,LIMM 00100xxx11010010xxxx1111100xxxxx */
+{ "bxor", 0x20d20f80, 0xf8ff0fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RB, RBdup, LIMM }, { C_F, C_CC } }
+
+/* bxor<.f><.cc> ZA,LIMM,RC 0010011011010010x111xxxxxx0xxxxx */
+{ "bxor", 0x26d27000, 0xffff7020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, LIMM, RC }, { C_F, C_CC } }
+
+/* bxor<.f> RA,LIMM,UIMM6_20 0010011001010010x111xxxxxxxxxxxx */
+{ "bxor", 0x26527000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RA, LIMM, UIMM6_20 }, { C_F } }
+
+/* bxor<.f> ZA,LIMM,UIMM6_20 0010011001010010x111xxxxxx111110 */
+{ "bxor", 0x2652703e, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, LIMM, UIMM6_20 }, { C_F } }
+
+/* bxor<.f><.cc> ZA,LIMM,UIMM6_20 0010011011010010x111xxxxxx1xxxxx */
+{ "bxor", 0x26d27020, 0xffff7020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, LIMM, UIMM6_20 }, { C_F, C_CC } }
+
+/* bxor<.f> ZA,LIMM,SIMM12_20 0010011010010010x111xxxxxxxxxxxx */
+{ "bxor", 0x26927000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, LIMM, SIMM12_20 }, { C_F } }
+
+/* bxor<.f> RA,LIMM,LIMMdup 0010011000010010x111111110xxxxxx */
+{ "bxor", 0x26127f80, 0xffff7fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RA, LIMM, LIMMdup }, { C_F } }
+
+/* bxor<.f> ZA,LIMM,LIMMdup 0010011000010010x111111110111110 */
+{ "bxor", 0x26127fbe, 0xffff7fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, LIMM, LIMMdup }, { C_F } }
+
+/* bxor<.f><.cc> ZA,LIMM,LIMMdup 0010011011010010x1111111100xxxxx */
+{ "bxor", 0x26d27f80, 0xffff7fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, LIMM, LIMMdup }, { C_F, C_CC } }
+
+/* bxorl<.f> RA,RB,RC 01011xxx00010010xxxxxxxxxxxxxxxx */
+{ "bxorl", 0x58120000, 0xf8ff0000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, RC }, { C_F } }
+
+/* bxorl<.f> ZA,RB,RC 01011xxx00010010xxxxxxxxxx111110 */
+{ "bxorl", 0x5812003e, 0xf8ff003f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, RC }, { C_F } }
+
+/* bxorl<.f><.cc> RB,RBdup,RC 01011xxx11010010xxxxxxxxxx0xxxxx */
+{ "bxorl", 0x58d20000, 0xf8ff0020, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, RC }, { C_F, C_CC } }
+
+/* bxorl<.f> RA,RB,UIMM6_20 01011xxx01010010xxxxxxxxxxxxxxxx */
+{ "bxorl", 0x58520000, 0xf8ff0000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, UIMM6_20 }, { C_F } }
+
+/* bxorl<.f> ZA,RB,UIMM6_20 01011xxx01010010xxxxxxxxxx111110 */
+{ "bxorl", 0x5852003e, 0xf8ff003f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, UIMM6_20 }, { C_F } }
+
+/* bxorl<.f><.cc> RB,RBdup,UIMM6_20 01011xxx11010010xxxxxxxxxx1xxxxx */
+{ "bxorl", 0x58d20020, 0xf8ff0020, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, UIMM6_20 }, { C_F, C_CC } }
+
+/* bxorl<.f> RB,RBdup,SIMM12_20 01011xxx10010010xxxxxxxxxxxxxxxx */
+{ "bxorl", 0x58920000, 0xf8ff0000, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, SIMM12_20 }, { C_F } }
+
+/* bxorl<.f> RA,XIMM,RC 0101110000010010x111xxxxxxxxxxxx */
+{ "bxorl", 0x5c127000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, XIMM, RC }, { C_F } }
+
+/* bxorl<.f> RA,RB,XIMM 01011xxx00010010xxxx111100xxxxxx */
+{ "bxorl", 0x58120f00, 0xf8ff0fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, XIMM }, { C_F } }
+
+/* bxorl<.f> ZA,XIMM,RC 0101110000010010x111xxxxxx111110 */
+{ "bxorl", 0x5c12703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, RC }, { C_F } }
+
+/* bxorl<.f> ZA,RB,XIMM 01011xxx00010010xxxx111100111110 */
+{ "bxorl", 0x58120f3e, 0xf8ff0fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, XIMM }, { C_F } }
+
+/* bxorl<.f><.cc> ZA,XIMM,RC 0101110011010010x111xxxxxx0xxxxx */
+{ "bxorl", 0x5cd27000, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, RC }, { C_F, C_CC } }
+
+/* bxorl<.f><.cc> RB,RBdup,XIMM 01011xxx11010010xxxx1111000xxxxx */
+{ "bxorl", 0x58d20f00, 0xf8ff0fe0, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, XIMM }, { C_F, C_CC } }
+
+/* bxorl<.f> RA,XIMM,UIMM6_20 0101110001010010x111xxxxxxxxxxxx */
+{ "bxorl", 0x5c527000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, XIMM, UIMM6_20 }, { C_F } }
+
+/* bxorl<.f> ZA,XIMM,UIMM6_20 0101110001010010x111xxxxxx111110 */
+{ "bxorl", 0x5c52703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, UIMM6_20 }, { C_F } }
+
+/* bxorl<.f><.cc> ZA,XIMM,UIMM6_20 0101110011010010x111xxxxxx1xxxxx */
+{ "bxorl", 0x5cd27020, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, UIMM6_20 }, { C_F, C_CC } }
+
+/* bxorl<.f> RA,LIMM,RC 0101111000010010x111xxxxxxxxxxxx */
+{ "bxorl", 0x5e127000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, LIMM, RC }, { C_F } }
+
+/* bxorl<.f> RA,RB,LIMM 01011xxx00010010xxxx111110xxxxxx */
+{ "bxorl", 0x58120f80, 0xf8ff0fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, LIMM }, { C_F } }
+
+/* bxorl<.f> ZA,LIMM,RC 0101111000010010x111xxxxxx111110 */
+{ "bxorl", 0x5e12703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, RC }, { C_F } }
+
+/* bxorl<.f> ZA,RB,LIMM 01011xxx00010010xxxx111110111110 */
+{ "bxorl", 0x58120fbe, 0xf8ff0fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, LIMM }, { C_F } }
+
+/* bxorl<.f><.cc> ZA,LIMM,RC 0101111011010010x111xxxxxx0xxxxx */
+{ "bxorl", 0x5ed27000, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, RC }, { C_F, C_CC } }
+
+/* bxorl<.f><.cc> RB,RBdup,LIMM 01011xxx11010010xxxx1111100xxxxx */
+{ "bxorl", 0x58d20f80, 0xf8ff0fe0, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, LIMM }, { C_F, C_CC } }
+
+/* bxorl<.f> RA,LIMM,UIMM6_20 0101111001010010x111xxxxxxxxxxxx */
+{ "bxorl", 0x5e527000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, LIMM, UIMM6_20 }, { C_F } }
+
+/* bxorl<.f> ZA,LIMM,UIMM6_20 0101111001010010x111xxxxxx111110 */
+{ "bxorl", 0x5e52703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, UIMM6_20 }, { C_F } }
+
+/* bxorl<.f><.cc> ZA,LIMM,UIMM6_20 0101111011010010x111xxxxxx1xxxxx */
+{ "bxorl", 0x5ed27020, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, UIMM6_20 }, { C_F, C_CC } }
+
+/* bxorl<.f> ZA,XIMM,SIMM12_20 0101110010010010x111xxxxxxxxxxxx */
+{ "bxorl", 0x5c927000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, SIMM12_20 }, { C_F } }
+
+/* bxorl<.f> ZA,LIMM,SIMM12_20 0101111010010010x111xxxxxxxxxxxx */
+{ "bxorl", 0x5e927000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, SIMM12_20 }, { C_F } }
+
+/* bxorl<.f> RA,XIMM,XIMMdup 0101110000010010x111111100xxxxxx */
+{ "bxorl", 0x5c127f00, 0xffff7fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, XIMM, XIMMdup }, { C_F } }
+
+/* bxorl<.f> ZA,XIMM,XIMMdup 0101110000010010x111111100111110 */
+{ "bxorl", 0x5c127f3e, 0xffff7fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, XIMMdup }, { C_F } }
+
+/* bxorl<.f><.cc> ZA,XIMM,XIMMdup 0101110011010010x1111111000xxxxx */
+{ "bxorl", 0x5cd27f00, 0xffff7fe0, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, XIMMdup }, { C_F, C_CC } }
+
+/* bxorl<.f> RA,LIMM,LIMMdup 0101111000010010x111111110xxxxxx */
+{ "bxorl", 0x5e127f80, 0xffff7fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, LIMM, LIMMdup }, { C_F } }
+
+/* bxorl<.f> ZA,LIMM,LIMMdup 0101111000010010x111111110111110 */
+{ "bxorl", 0x5e127fbe, 0xffff7fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, LIMMdup }, { C_F } }
+
+/* bxorl<.f><.cc> ZA,LIMM,LIMMdup 0101111011010010x1111111100xxxxx */
+{ "bxorl", 0x5ed27f80, 0xffff7fe0, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, LIMMdup }, { C_F, C_CC } }
+
+/* b_s SIMM10_A16_7_S 1111000xxxxxxxxx */
+{ "b_s", 0x0000f000, 0x0000fe00, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, BRANCH, NONE, { SIMM10_A16_7_S }, { 0 } }
+
+/* clri RC 00100111001011110000xxxxxx111111 */
+{ "clri", 0x272f003f, 0xfffff03f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, CONTROL, NONE, { RC }, { 0 } }
+
+/* clri UIMM6_20 00100111011011110000xxxxxx111111 */
+{ "clri", 0x276f003f, 0xfffff03f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, CONTROL, NONE, { UIMM6_20 }, { 0 } }
+
+/* clri  00100111011011110000000000111111 */
+{ "clri", 0x276f003f, 0xffffffff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, CONTROL, NONE, {  }, { 0 } }
+
+/* cmp RB,RC 00100xxx000011001xxxxxxxxxxxxxxx */
+{ "cmp", 0x200c8000, 0xf8ff8000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RB, RC }, { 0 } }
+
+/* cmp<.cc> RB,RC 00100xxx110011001xxxxxxxxx0xxxxx */
+{ "cmp", 0x20cc8000, 0xf8ff8020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RB, RC }, { C_CC } }
+
+/* cmp RB,UIMM6_20 00100xxx010011001xxxxxxxxxxxxxxx */
+{ "cmp", 0x204c8000, 0xf8ff8000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RB, UIMM6_20 }, { 0 } }
+
+/* cmp<.cc> RB,UIMM6_20 00100xxx110011001xxxxxxxxx1xxxxx */
+{ "cmp", 0x20cc8020, 0xf8ff8020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RB, UIMM6_20 }, { C_CC } }
+
+/* cmp RB,SIMM12_20 00100xxx100011001xxxxxxxxxxxxxxx */
+{ "cmp", 0x208c8000, 0xf8ff8000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RB, SIMM12_20 }, { 0 } }
+
+/* cmp LIMM,RC 00100110000011001111xxxxxxxxxxxx */
+{ "cmp", 0x260cf000, 0xfffff000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { LIMM, RC }, { 0 } }
+
+/* cmp RB,LIMM 00100xxx000011001xxx111110xxxxxx */
+{ "cmp", 0x200c8f80, 0xf8ff8fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RB, LIMM }, { 0 } }
+
+/* cmp<.cc> RB,LIMM 00100xxx110011001xxx1111100xxxxx */
+{ "cmp", 0x20cc8f80, 0xf8ff8fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RB, LIMM }, { C_CC } }
+
+/* cmp<.cc> LIMM,RC 00100110110011001111xxxxxx0xxxxx */
+{ "cmp", 0x26ccf000, 0xfffff020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { LIMM, RC }, { C_CC } }
+
+/* cmp LIMM,UIMM6_20 00100110010011001111xxxxxxxxxxxx */
+{ "cmp", 0x264cf000, 0xfffff000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { LIMM, UIMM6_20 }, { 0 } }
+
+/* cmp<.cc> LIMM,UIMM6_20 00100110110011001111xxxxxx1xxxxx */
+{ "cmp", 0x26ccf020, 0xfffff020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { LIMM, UIMM6_20 }, { C_CC } }
+
+/* cmp LIMM,SIMM12_20 00100110100011001111xxxxxxxxxxxx */
+{ "cmp", 0x268cf000, 0xfffff000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { LIMM, SIMM12_20 }, { 0 } }
+
+/* cmp LIMM,LIMMdup 00100110000011001111111110xxxxxx */
+{ "cmp", 0x260cff80, 0xffffffc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { LIMM, LIMMdup }, { 0 } }
+
+/* cmp<.cc> LIMM,LIMMdup 001001101100110011111111100xxxxx */
+{ "cmp", 0x26ccff80, 0xffffffe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { LIMM, LIMMdup }, { C_CC } }
+
+/* cmpl RB,RC 01011xxx000011001xxxxxxxxxxxxxxx */
+{ "cmpl", 0x580c8000, 0xf8ff8000, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RC }, { 0 } }
+
+/* cmpl<.cc> RB,RC 01011xxx110011001xxxxxxxxx0xxxxx */
+{ "cmpl", 0x58cc8000, 0xf8ff8020, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RC }, { C_CC } }
+
+/* cmpl RB,UIMM6_20 01011xxx010011001xxxxxxxxxxxxxxx */
+{ "cmpl", 0x584c8000, 0xf8ff8000, ARC_OPCODE_ARC64, ARITH, NONE, { RB, UIMM6_20 }, { 0 } }
+
+/* cmpl<.cc> RB,UIMM6_20 01011xxx110011001xxxxxxxxx1xxxxx */
+{ "cmpl", 0x58cc8020, 0xf8ff8020, ARC_OPCODE_ARC64, ARITH, NONE, { RB, UIMM6_20 }, { C_CC } }
+
+/* cmpl RB,SIMM12_20 01011xxx100011001xxxxxxxxxxxxxxx */
+{ "cmpl", 0x588c8000, 0xf8ff8000, ARC_OPCODE_ARC64, ARITH, NONE, { RB, SIMM12_20 }, { 0 } }
+
+/* cmpl XIMM,RC 01011100000011001111xxxxxxxxxxxx */
+{ "cmpl", 0x5c0cf000, 0xfffff000, ARC_OPCODE_ARC64, ARITH, NONE, { XIMM, RC }, { 0 } }
+
+/* cmpl RB,XIMM 01011xxx000011001xxx111100xxxxxx */
+{ "cmpl", 0x580c8f00, 0xf8ff8fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RB, XIMM }, { 0 } }
+
+/* cmpl<.cc> RB,XIMM 01011xxx110011001xxx1111000xxxxx */
+{ "cmpl", 0x58cc8f00, 0xf8ff8fe0, ARC_OPCODE_ARC64, ARITH, NONE, { RB, XIMM }, { C_CC } }
+
+/* cmpl LIMM,RC 01011110000011001111xxxxxxxxxxxx */
+{ "cmpl", 0x5e0cf000, 0xfffff000, ARC_OPCODE_ARC64, ARITH, NONE, { LIMM, RC }, { 0 } }
+
+/* cmpl RB,LIMM 01011xxx000011001xxx111110xxxxxx */
+{ "cmpl", 0x580c8f80, 0xf8ff8fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RB, LIMM }, { 0 } }
+
+/* cmpl<.cc> RB,LIMM 01011xxx110011001xxx1111100xxxxx */
+{ "cmpl", 0x58cc8f80, 0xf8ff8fe0, ARC_OPCODE_ARC64, ARITH, NONE, { RB, LIMM }, { C_CC } }
+
+/* cmp_s RB_S,RH_S 01110xxxxxx100xx */
+{ "cmp_s", 0x00007010, 0x0000f81c, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RB_S, RH_S }, { 0 } }
+
+/* cmp_s RH_S,SIMM3_5_S 01110xxxxxx101xx */
+{ "cmp_s", 0x00007014, 0x0000f81c, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RH_S, SIMM3_5_S }, { 0 } }
+
+/* cmp_s RB_S,LIMM_S 01110xxx11010011 */
+{ "cmp_s", 0x000070d3, 0x0000f8ff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RB_S, LIMM_S }, { 0 } }
+
+/* cmp_s LIMM_S,SIMM3_5_S 01110xxx11010111 */
+{ "cmp_s", 0x000070d7, 0x0000f8ff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { LIMM_S, SIMM3_5_S }, { 0 } }
+
+/* dbnz RB,SIMM13_A16_20 00100xxx1000110x0xxxxxxxxxxxxxxx */
+{ "dbnz", 0x208c0000, 0xf8fe8000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, BRANCH, NONE, { RB, SIMM13_A16_20 }, { C_DNZ_D } }
+
+/* div<.f> RA_CHK,RB,RC 00101xxx00000100xxxxxxxxxxxxxxxx */
+{ "div", 0x28040000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, DIVREM, DIV, { RA_CHK, RB, RC }, { C_F } }
+
+/* div<.f> ZA,RB,RC 00101xxx00000100xxxxxxxxxx111110 */
+{ "div", 0x2804003e, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, DIVREM, DIV, { ZA, RB, RC }, { C_F } }
+
+/* div<.f><.cc> RB_CHK,RBdup,RC 00101xxx11000100xxxxxxxxxx0xxxxx */
+{ "div", 0x28c40000, 0xf8ff0020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, DIVREM, DIV, { RB_CHK, RBdup, RC }, { C_F, C_CC } }
+
+/* div<.f> RA_CHK,RB,UIMM6_20 00101xxx01000100xxxxxxxxxxxxxxxx */
+{ "div", 0x28440000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, DIVREM, DIV, { RA_CHK, RB, UIMM6_20 }, { C_F } }
+
+/* div<.f> ZA,RB,UIMM6_20 00101xxx01000100xxxxxxxxxx111110 */
+{ "div", 0x2844003e, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, DIVREM, DIV, { ZA, RB, UIMM6_20 }, { C_F } }
+
+/* div<.f><.cc> RB_CHK,RBdup,UIMM6_20 00101xxx11000100xxxxxxxxxx1xxxxx */
+{ "div", 0x28c40020, 0xf8ff0020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, DIVREM, DIV, { RB_CHK, RBdup, UIMM6_20 }, { C_F, C_CC } }
+
+/* div<.f> RB_CHK,RBdup,SIMM12_20 00101xxx10000100xxxxxxxxxxxxxxxx */
+{ "div", 0x28840000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, DIVREM, DIV, { RB_CHK, RBdup, SIMM12_20 }, { C_F } }
+
+/* div<.f> RA_CHK,LIMM,RC 0010111000000100x111xxxxxxxxxxxx */
+{ "div", 0x2e047000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, DIVREM, DIV, { RA_CHK, LIMM, RC }, { C_F } }
+
+/* div<.f> RA_CHK,RB,LIMM 00101xxx00000100xxxx111110xxxxxx */
+{ "div", 0x28040f80, 0xf8ff0fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, DIVREM, DIV, { RA_CHK, RB, LIMM }, { C_F } }
+
+/* div<.f> ZA,LIMM,RC 0010111000000100x111xxxxxx111110 */
+{ "div", 0x2e04703e, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, DIVREM, DIV, { ZA, LIMM, RC }, { C_F } }
+
+/* div<.f> ZA,RB,LIMM 00101xxx00000100xxxx111110111110 */
+{ "div", 0x28040fbe, 0xf8ff0fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, DIVREM, DIV, { ZA, RB, LIMM }, { C_F } }
+
+/* div<.f><.cc> RB_CHK,RBdup,LIMM 00101xxx11000100xxxx1111100xxxxx */
+{ "div", 0x28c40f80, 0xf8ff0fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, DIVREM, DIV, { RB_CHK, RBdup, LIMM }, { C_F, C_CC } }
+
+/* div<.f><.cc> ZA,LIMM,RC 0010111011000100x111xxxxxx0xxxxx */
+{ "div", 0x2ec47000, 0xffff7020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, DIVREM, DIV, { ZA, LIMM, RC }, { C_F, C_CC } }
+
+/* div<.f> RA_CHK,LIMM,UIMM6_20 0010111001000100x111xxxxxxxxxxxx */
+{ "div", 0x2e447000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, DIVREM, DIV, { RA_CHK, LIMM, UIMM6_20 }, { C_F } }
+
+/* div<.f> ZA,LIMM,UIMM6_20 0010111001000100x111xxxxxx111110 */
+{ "div", 0x2e44703e, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, DIVREM, DIV, { ZA, LIMM, UIMM6_20 }, { C_F } }
+
+/* div<.f><.cc> ZA,LIMM,UIMM6_20 0010111011000100x111xxxxxx1xxxxx */
+{ "div", 0x2ec47020, 0xffff7020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, DIVREM, DIV, { ZA, LIMM, UIMM6_20 }, { C_F, C_CC } }
+
+/* div<.f> ZA,LIMM,SIMM12_20 0010111010000100x111xxxxxxxxxxxx */
+{ "div", 0x2e847000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, DIVREM, DIV, { ZA, LIMM, SIMM12_20 }, { C_F } }
+
+/* div<.f> RA_CHK,LIMM,LIMMdup 0010111000000100x111111110xxxxxx */
+{ "div", 0x2e047f80, 0xffff7fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, DIVREM, DIV, { RA_CHK, LIMM, LIMMdup }, { C_F } }
+
+/* div<.f> ZA,LIMM,LIMMdup 0010111000000100x111111110111110 */
+{ "div", 0x2e047fbe, 0xffff7fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, DIVREM, DIV, { ZA, LIMM, LIMMdup }, { C_F } }
+
+/* div<.f><.cc> ZA,LIMM,LIMMdup 0010111011000100x1111111100xxxxx */
+{ "div", 0x2ec47f80, 0xffff7fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, DIVREM, DIV, { ZA, LIMM, LIMMdup }, { C_F, C_CC } }
+
+/* divl<.f> RA,RB,RC 01011xxx00100100xxxxxxxxxxxxxxxx */
+{ "divl", 0x58240000, 0xf8ff0000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, RC }, { C_F } }
+
+/* divl<.f> ZA,RB,RC 01011xxx00100100xxxxxxxxxx111110 */
+{ "divl", 0x5824003e, 0xf8ff003f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, RC }, { C_F } }
+
+/* divl<.f><.cc> RB,RBdup,RC 01011xxx11100100xxxxxxxxxx0xxxxx */
+{ "divl", 0x58e40000, 0xf8ff0020, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, RC }, { C_F, C_CC } }
+
+/* divl<.f> RA,RB,UIMM6_20 01011xxx01100100xxxxxxxxxxxxxxxx */
+{ "divl", 0x58640000, 0xf8ff0000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, UIMM6_20 }, { C_F } }
+
+/* divl<.f> ZA,RB,UIMM6_20 01011xxx01100100xxxxxxxxxx111110 */
+{ "divl", 0x5864003e, 0xf8ff003f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, UIMM6_20 }, { C_F } }
+
+/* divl<.f><.cc> RB,RBdup,UIMM6_20 01011xxx11100100xxxxxxxxxx1xxxxx */
+{ "divl", 0x58e40020, 0xf8ff0020, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, UIMM6_20 }, { C_F, C_CC } }
+
+/* divl<.f> RB,RBdup,SIMM12_20 01011xxx10100100xxxxxxxxxxxxxxxx */
+{ "divl", 0x58a40000, 0xf8ff0000, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, SIMM12_20 }, { C_F } }
+
+/* divl<.f> RA,XIMM,RC 0101110000100100x111xxxxxxxxxxxx */
+{ "divl", 0x5c247000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, XIMM, RC }, { C_F } }
+
+/* divl<.f> RA,RB,XIMM 01011xxx00100100xxxx111100xxxxxx */
+{ "divl", 0x58240f00, 0xf8ff0fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, XIMM }, { C_F } }
+
+/* divl<.f> ZA,XIMM,RC 0101110000100100x111xxxxxx111110 */
+{ "divl", 0x5c24703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, RC }, { C_F } }
+
+/* divl<.f> ZA,RB,XIMM 01011xxx00100100xxxx111100111110 */
+{ "divl", 0x58240f3e, 0xf8ff0fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, XIMM }, { C_F } }
+
+/* divl<.f><.cc> ZA,XIMM,RC 0101110011100100x111xxxxxx0xxxxx */
+{ "divl", 0x5ce47000, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, RC }, { C_F, C_CC } }
+
+/* divl<.f><.cc> RB,RBdup,XIMM 01011xxx11100100xxxx1111000xxxxx */
+{ "divl", 0x58e40f00, 0xf8ff0fe0, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, XIMM }, { C_F, C_CC } }
+
+/* divl<.f> RA,XIMM,UIMM6_20 0101110001100100x111xxxxxxxxxxxx */
+{ "divl", 0x5c647000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, XIMM, UIMM6_20 }, { C_F } }
+
+/* divl<.f> ZA,XIMM,UIMM6_20 0101110001100100x111xxxxxx111110 */
+{ "divl", 0x5c64703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, UIMM6_20 }, { C_F } }
+
+/* divl<.f><.cc> ZA,XIMM,UIMM6_20 0101110011100100x111xxxxxx1xxxxx */
+{ "divl", 0x5ce47020, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, UIMM6_20 }, { C_F, C_CC } }
+
+/* divl<.f> RA,LIMM,RC 0101111000100100x111xxxxxxxxxxxx */
+{ "divl", 0x5e247000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, LIMM, RC }, { C_F } }
+
+/* divl<.f> RA,RB,LIMM 01011xxx00100100xxxx111110xxxxxx */
+{ "divl", 0x58240f80, 0xf8ff0fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, LIMM }, { C_F } }
+
+/* divl<.f> ZA,LIMM,RC 0101111000100100x111xxxxxx111110 */
+{ "divl", 0x5e24703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, RC }, { C_F } }
+
+/* divl<.f> ZA,RB,LIMM 01011xxx00100100xxxx111110111110 */
+{ "divl", 0x58240fbe, 0xf8ff0fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, LIMM }, { C_F } }
+
+/* divl<.f><.cc> ZA,LIMM,RC 0101111011100100x111xxxxxx0xxxxx */
+{ "divl", 0x5ee47000, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, RC }, { C_F, C_CC } }
+
+/* divl<.f><.cc> RB,RBdup,LIMM 01011xxx11100100xxxx1111100xxxxx */
+{ "divl", 0x58e40f80, 0xf8ff0fe0, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, LIMM }, { C_F, C_CC } }
+
+/* divl<.f> RA,LIMM,UIMM6_20 0101111001100100x111xxxxxxxxxxxx */
+{ "divl", 0x5e647000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, LIMM, UIMM6_20 }, { C_F } }
+
+/* divl<.f> ZA,LIMM,UIMM6_20 0101111001100100x111xxxxxx111110 */
+{ "divl", 0x5e64703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, UIMM6_20 }, { C_F } }
+
+/* divl<.f><.cc> ZA,LIMM,UIMM6_20 0101111011100100x111xxxxxx1xxxxx */
+{ "divl", 0x5ee47020, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, UIMM6_20 }, { C_F, C_CC } }
+
+/* divl<.f> ZA,XIMM,SIMM12_20 0101110010100100x111xxxxxxxxxxxx */
+{ "divl", 0x5ca47000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, SIMM12_20 }, { C_F } }
+
+/* divl<.f> ZA,LIMM,SIMM12_20 0101111010100100x111xxxxxxxxxxxx */
+{ "divl", 0x5ea47000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, SIMM12_20 }, { C_F } }
+
+/* divl<.f> RA,XIMM,XIMMdup 0101110000100100x111111100xxxxxx */
+{ "divl", 0x5c247f00, 0xffff7fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, XIMM, XIMMdup }, { C_F } }
+
+/* divl<.f> ZA,XIMM,XIMMdup 0101110000100100x111111100111110 */
+{ "divl", 0x5c247f3e, 0xffff7fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, XIMMdup }, { C_F } }
+
+/* divl<.f><.cc> ZA,XIMM,XIMMdup 0101110011100100x1111111000xxxxx */
+{ "divl", 0x5ce47f00, 0xffff7fe0, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, XIMMdup }, { C_F, C_CC } }
+
+/* divl<.f> RA,LIMM,LIMMdup 0101111000100100x111111110xxxxxx */
+{ "divl", 0x5e247f80, 0xffff7fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, LIMM, LIMMdup }, { C_F } }
+
+/* divl<.f> ZA,LIMM,LIMMdup 0101111000100100x111111110111110 */
+{ "divl", 0x5e247fbe, 0xffff7fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, LIMMdup }, { C_F } }
+
+/* divl<.f><.cc> ZA,LIMM,LIMMdup 0101111011100100x1111111100xxxxx */
+{ "divl", 0x5ee47f80, 0xffff7fe0, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, LIMMdup }, { C_F, C_CC } }
+
+/* divu<.f> RA_CHK,RB,RC 00101xxx00000101xxxxxxxxxxxxxxxx */
+{ "divu", 0x28050000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, DIVREM, DIV, { RA_CHK, RB, RC }, { C_F } }
+
+/* divu<.f> ZA,RB,RC 00101xxx00000101xxxxxxxxxx111110 */
+{ "divu", 0x2805003e, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, DIVREM, DIV, { ZA, RB, RC }, { C_F } }
+
+/* divu<.f><.cc> RB_CHK,RBdup,RC 00101xxx11000101xxxxxxxxxx0xxxxx */
+{ "divu", 0x28c50000, 0xf8ff0020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, DIVREM, DIV, { RB_CHK, RBdup, RC }, { C_F, C_CC } }
+
+/* divu<.f> RA_CHK,RB,UIMM6_20 00101xxx01000101xxxxxxxxxxxxxxxx */
+{ "divu", 0x28450000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, DIVREM, DIV, { RA_CHK, RB, UIMM6_20 }, { C_F } }
+
+/* divu<.f> ZA,RB,UIMM6_20 00101xxx01000101xxxxxxxxxx111110 */
+{ "divu", 0x2845003e, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, DIVREM, DIV, { ZA, RB, UIMM6_20 }, { C_F } }
+
+/* divu<.f><.cc> RB_CHK,RBdup,UIMM6_20 00101xxx11000101xxxxxxxxxx1xxxxx */
+{ "divu", 0x28c50020, 0xf8ff0020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, DIVREM, DIV, { RB_CHK, RBdup, UIMM6_20 }, { C_F, C_CC } }
+
+/* divu<.f> RB_CHK,RBdup,SIMM12_20 00101xxx10000101xxxxxxxxxxxxxxxx */
+{ "divu", 0x28850000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, DIVREM, DIV, { RB_CHK, RBdup, SIMM12_20 }, { C_F } }
+
+/* divu<.f> RA_CHK,LIMM,RC 0010111000000101x111xxxxxxxxxxxx */
+{ "divu", 0x2e057000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, DIVREM, DIV, { RA_CHK, LIMM, RC }, { C_F } }
+
+/* divu<.f> RA_CHK,RB,LIMM 00101xxx00000101xxxx111110xxxxxx */
+{ "divu", 0x28050f80, 0xf8ff0fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, DIVREM, DIV, { RA_CHK, RB, LIMM }, { C_F } }
+
+/* divu<.f> ZA,LIMM,RC 0010111000000101x111xxxxxx111110 */
+{ "divu", 0x2e05703e, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, DIVREM, DIV, { ZA, LIMM, RC }, { C_F } }
+
+/* divu<.f> ZA,RB,LIMM 00101xxx00000101xxxx111110111110 */
+{ "divu", 0x28050fbe, 0xf8ff0fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, DIVREM, DIV, { ZA, RB, LIMM }, { C_F } }
+
+/* divu<.f><.cc> RB_CHK,RBdup,LIMM 00101xxx11000101xxxx1111100xxxxx */
+{ "divu", 0x28c50f80, 0xf8ff0fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, DIVREM, DIV, { RB_CHK, RBdup, LIMM }, { C_F, C_CC } }
+
+/* divu<.f><.cc> ZA,LIMM,RC 0010111011000101x111xxxxxx0xxxxx */
+{ "divu", 0x2ec57000, 0xffff7020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, DIVREM, DIV, { ZA, LIMM, RC }, { C_F, C_CC } }
+
+/* divu<.f> RA_CHK,LIMM,UIMM6_20 0010111001000101x111xxxxxxxxxxxx */
+{ "divu", 0x2e457000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, DIVREM, DIV, { RA_CHK, LIMM, UIMM6_20 }, { C_F } }
+
+/* divu<.f> ZA,LIMM,UIMM6_20 0010111001000101x111xxxxxx111110 */
+{ "divu", 0x2e45703e, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, DIVREM, DIV, { ZA, LIMM, UIMM6_20 }, { C_F } }
+
+/* divu<.f><.cc> ZA,LIMM,UIMM6_20 0010111011000101x111xxxxxx1xxxxx */
+{ "divu", 0x2ec57020, 0xffff7020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, DIVREM, DIV, { ZA, LIMM, UIMM6_20 }, { C_F, C_CC } }
+
+/* divu<.f> ZA,LIMM,SIMM12_20 0010111010000101x111xxxxxxxxxxxx */
+{ "divu", 0x2e857000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, DIVREM, DIV, { ZA, LIMM, SIMM12_20 }, { C_F } }
+
+/* divu<.f> RA_CHK,LIMM,LIMMdup 0010111000000101x111111110xxxxxx */
+{ "divu", 0x2e057f80, 0xffff7fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, DIVREM, DIV, { RA_CHK, LIMM, LIMMdup }, { C_F } }
+
+/* divu<.f> ZA,LIMM,LIMMdup 0010111000000101x111111110111110 */
+{ "divu", 0x2e057fbe, 0xffff7fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, DIVREM, DIV, { ZA, LIMM, LIMMdup }, { C_F } }
+
+/* divu<.f><.cc> ZA,LIMM,LIMMdup 0010111011000101x1111111100xxxxx */
+{ "divu", 0x2ec57f80, 0xffff7fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, DIVREM, DIV, { ZA, LIMM, LIMMdup }, { C_F, C_CC } }
+
+/* divul<.f> RA,RB,RC 01011xxx00100101xxxxxxxxxxxxxxxx */
+{ "divul", 0x58250000, 0xf8ff0000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, RC }, { C_F } }
+
+/* divul<.f> ZA,RB,RC 01011xxx00100101xxxxxxxxxx111110 */
+{ "divul", 0x5825003e, 0xf8ff003f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, RC }, { C_F } }
+
+/* divul<.f><.cc> RB,RBdup,RC 01011xxx11100101xxxxxxxxxx0xxxxx */
+{ "divul", 0x58e50000, 0xf8ff0020, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, RC }, { C_F, C_CC } }
+
+/* divul<.f> RA,RB,UIMM6_20 01011xxx01100101xxxxxxxxxxxxxxxx */
+{ "divul", 0x58650000, 0xf8ff0000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, UIMM6_20 }, { C_F } }
+
+/* divul<.f> ZA,RB,UIMM6_20 01011xxx01100101xxxxxxxxxx111110 */
+{ "divul", 0x5865003e, 0xf8ff003f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, UIMM6_20 }, { C_F } }
+
+/* divul<.f><.cc> RB,RBdup,UIMM6_20 01011xxx11100101xxxxxxxxxx1xxxxx */
+{ "divul", 0x58e50020, 0xf8ff0020, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, UIMM6_20 }, { C_F, C_CC } }
+
+/* divul<.f> RB,RBdup,SIMM12_20 01011xxx10100101xxxxxxxxxxxxxxxx */
+{ "divul", 0x58a50000, 0xf8ff0000, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, SIMM12_20 }, { C_F } }
+
+/* divul<.f> RA,XIMM,RC 0101110000100101x111xxxxxxxxxxxx */
+{ "divul", 0x5c257000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, XIMM, RC }, { C_F } }
+
+/* divul<.f> RA,RB,XIMM 01011xxx00100101xxxx111100xxxxxx */
+{ "divul", 0x58250f00, 0xf8ff0fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, XIMM }, { C_F } }
+
+/* divul<.f> ZA,XIMM,RC 0101110000100101x111xxxxxx111110 */
+{ "divul", 0x5c25703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, RC }, { C_F } }
+
+/* divul<.f> ZA,RB,XIMM 01011xxx00100101xxxx111100111110 */
+{ "divul", 0x58250f3e, 0xf8ff0fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, XIMM }, { C_F } }
+
+/* divul<.f><.cc> ZA,XIMM,RC 0101110011100101x111xxxxxx0xxxxx */
+{ "divul", 0x5ce57000, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, RC }, { C_F, C_CC } }
+
+/* divul<.f><.cc> RB,RBdup,XIMM 01011xxx11100101xxxx1111000xxxxx */
+{ "divul", 0x58e50f00, 0xf8ff0fe0, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, XIMM }, { C_F, C_CC } }
+
+/* divul<.f> RA,XIMM,UIMM6_20 0101110001100101x111xxxxxxxxxxxx */
+{ "divul", 0x5c657000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, XIMM, UIMM6_20 }, { C_F } }
+
+/* divul<.f> ZA,XIMM,UIMM6_20 0101110001100101x111xxxxxx111110 */
+{ "divul", 0x5c65703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, UIMM6_20 }, { C_F } }
+
+/* divul<.f><.cc> ZA,XIMM,UIMM6_20 0101110011100101x111xxxxxx1xxxxx */
+{ "divul", 0x5ce57020, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, UIMM6_20 }, { C_F, C_CC } }
+
+/* divul<.f> RA,LIMM,RC 0101111000100101x111xxxxxxxxxxxx */
+{ "divul", 0x5e257000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, LIMM, RC }, { C_F } }
+
+/* divul<.f> RA,RB,LIMM 01011xxx00100101xxxx111110xxxxxx */
+{ "divul", 0x58250f80, 0xf8ff0fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, LIMM }, { C_F } }
+
+/* divul<.f> ZA,LIMM,RC 0101111000100101x111xxxxxx111110 */
+{ "divul", 0x5e25703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, RC }, { C_F } }
+
+/* divul<.f> ZA,RB,LIMM 01011xxx00100101xxxx111110111110 */
+{ "divul", 0x58250fbe, 0xf8ff0fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, LIMM }, { C_F } }
+
+/* divul<.f><.cc> ZA,LIMM,RC 0101111011100101x111xxxxxx0xxxxx */
+{ "divul", 0x5ee57000, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, RC }, { C_F, C_CC } }
+
+/* divul<.f><.cc> RB,RBdup,LIMM 01011xxx11100101xxxx1111100xxxxx */
+{ "divul", 0x58e50f80, 0xf8ff0fe0, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, LIMM }, { C_F, C_CC } }
+
+/* divul<.f> RA,LIMM,UIMM6_20 0101111001100101x111xxxxxxxxxxxx */
+{ "divul", 0x5e657000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, LIMM, UIMM6_20 }, { C_F } }
+
+/* divul<.f> ZA,LIMM,UIMM6_20 0101111001100101x111xxxxxx111110 */
+{ "divul", 0x5e65703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, UIMM6_20 }, { C_F } }
+
+/* divul<.f><.cc> ZA,LIMM,UIMM6_20 0101111011100101x111xxxxxx1xxxxx */
+{ "divul", 0x5ee57020, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, UIMM6_20 }, { C_F, C_CC } }
+
+/* divul<.f> ZA,XIMM,SIMM12_20 0101110010100101x111xxxxxxxxxxxx */
+{ "divul", 0x5ca57000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, SIMM12_20 }, { C_F } }
+
+/* divul<.f> ZA,LIMM,SIMM12_20 0101111010100101x111xxxxxxxxxxxx */
+{ "divul", 0x5ea57000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, SIMM12_20 }, { C_F } }
+
+/* divul<.f> RA,XIMM,XIMMdup 0101110000100101x111111100xxxxxx */
+{ "divul", 0x5c257f00, 0xffff7fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, XIMM, XIMMdup }, { C_F } }
+
+/* divul<.f> ZA,XIMM,XIMMdup 0101110000100101x111111100111110 */
+{ "divul", 0x5c257f3e, 0xffff7fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, XIMMdup }, { C_F } }
+
+/* divul<.f><.cc> ZA,XIMM,XIMMdup 0101110011100101x1111111000xxxxx */
+{ "divul", 0x5ce57f00, 0xffff7fe0, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, XIMMdup }, { C_F, C_CC } }
+
+/* divul<.f> RA,LIMM,LIMMdup 0101111000100101x111111110xxxxxx */
+{ "divul", 0x5e257f80, 0xffff7fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, LIMM, LIMMdup }, { C_F } }
+
+/* divul<.f> ZA,LIMM,LIMMdup 0101111000100101x111111110111110 */
+{ "divul", 0x5e257fbe, 0xffff7fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, LIMMdup }, { C_F } }
+
+/* divul<.f><.cc> ZA,LIMM,LIMMdup 0101111011100101x1111111100xxxxx */
+{ "divul", 0x5ee57f80, 0xffff7fe0, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, LIMMdup }, { C_F, C_CC } }
+
+/* dmach<.f> RA_CHK,RB,RC 00101xxx00010010xxxxxxxxxxxxxxxx */
+{ "dmach", 0x28120000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { RA_CHK, RB, RC }, { C_F } }
+
+/* dmach<.f> ZA,RB,RC 00101xxx00010010xxxxxxxxxx111110 */
+{ "dmach", 0x2812003e, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { ZA, RB, RC }, { C_F } }
+
+/* dmach<.f><.cc> RB_CHK,RBdup,RC 00101xxx11010010xxxxxxxxxx0xxxxx */
+{ "dmach", 0x28d20000, 0xf8ff0020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { RB_CHK, RBdup, RC }, { C_F, C_CC } }
+
+/* dmach<.f> RA_CHK,RB,UIMM6_20 00101xxx01010010xxxxxxxxxxxxxxxx */
+{ "dmach", 0x28520000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { RA_CHK, RB, UIMM6_20 }, { C_F } }
+
+/* dmach<.f> ZA,RB,UIMM6_20 00101xxx01010010xxxxxxxxxx111110 */
+{ "dmach", 0x2852003e, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { ZA, RB, UIMM6_20 }, { C_F } }
+
+/* dmach<.f><.cc> RB_CHK,RBdup,UIMM6_20 00101xxx11010010xxxxxxxxxx1xxxxx */
+{ "dmach", 0x28d20020, 0xf8ff0020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { RB_CHK, RBdup, UIMM6_20 }, { C_F, C_CC } }
+
+/* dmach<.f> RB_CHK,RBdup,SIMM12_20 00101xxx10010010xxxxxxxxxxxxxxxx */
+{ "dmach", 0x28920000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { RB_CHK, RBdup, SIMM12_20 }, { C_F } }
+
+/* dmach<.f> RA_CHK,LIMM,RC 0010111000010010x111xxxxxxxxxxxx */
+{ "dmach", 0x2e127000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { RA_CHK, LIMM, RC }, { C_F } }
+
+/* dmach<.f> RA_CHK,RB,LIMM 00101xxx00010010xxxx111110xxxxxx */
+{ "dmach", 0x28120f80, 0xf8ff0fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { RA_CHK, RB, LIMM }, { C_F } }
+
+/* dmach<.f> ZA,LIMM,RC 0010111000010010x111xxxxxx111110 */
+{ "dmach", 0x2e12703e, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { ZA, LIMM, RC }, { C_F } }
+
+/* dmach<.f> ZA,RB,LIMM 00101xxx00010010xxxx111110111110 */
+{ "dmach", 0x28120fbe, 0xf8ff0fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { ZA, RB, LIMM }, { C_F } }
+
+/* dmach<.f><.cc> RB_CHK,RBdup,LIMM 00101xxx11010010xxxx1111100xxxxx */
+{ "dmach", 0x28d20f80, 0xf8ff0fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { RB_CHK, RBdup, LIMM }, { C_F, C_CC } }
+
+/* dmach<.f><.cc> ZA,LIMM,RC 0010111011010010x111xxxxxx0xxxxx */
+{ "dmach", 0x2ed27000, 0xffff7020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { ZA, LIMM, RC }, { C_F, C_CC } }
+
+/* dmach<.f> RA_CHK,LIMM,UIMM6_20 0010111001010010x111xxxxxxxxxxxx */
+{ "dmach", 0x2e527000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { RA_CHK, LIMM, UIMM6_20 }, { C_F } }
+
+/* dmach<.f> ZA,LIMM,UIMM6_20 0010111001010010x111xxxxxx111110 */
+{ "dmach", 0x2e52703e, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { ZA, LIMM, UIMM6_20 }, { C_F } }
+
+/* dmach<.f><.cc> ZA,LIMM,UIMM6_20 0010111011010010x111xxxxxx1xxxxx */
+{ "dmach", 0x2ed27020, 0xffff7020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { ZA, LIMM, UIMM6_20 }, { C_F, C_CC } }
+
+/* dmach<.f> ZA,LIMM,SIMM12_20 0010111010010010x111xxxxxxxxxxxx */
+{ "dmach", 0x2e927000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { ZA, LIMM, SIMM12_20 }, { C_F } }
+
+/* dmach<.f> RA_CHK,LIMM,LIMMdup 0010111000010010x111111110xxxxxx */
+{ "dmach", 0x2e127f80, 0xffff7fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { RA_CHK, LIMM, LIMMdup }, { C_F } }
+
+/* dmach<.f> ZA,LIMM,LIMMdup 0010111000010010x111111110111110 */
+{ "dmach", 0x2e127fbe, 0xffff7fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { ZA, LIMM, LIMMdup }, { C_F } }
+
+/* dmach<.f><.cc> ZA,LIMM,LIMMdup 0010111011010010x1111111100xxxxx */
+{ "dmach", 0x2ed27f80, 0xffff7fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { ZA, LIMM, LIMMdup }, { C_F, C_CC } }
+
+/* dmachu<.f> RA_CHK,RB,RC 00101xxx00010011xxxxxxxxxxxxxxxx */
+{ "dmachu", 0x28130000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { RA_CHK, RB, RC }, { C_F } }
+
+/* dmachu<.f> ZA,RB,RC 00101xxx00010011xxxxxxxxxx111110 */
+{ "dmachu", 0x2813003e, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { ZA, RB, RC }, { C_F } }
+
+/* dmachu<.f><.cc> RB_CHK,RBdup,RC 00101xxx11010011xxxxxxxxxx0xxxxx */
+{ "dmachu", 0x28d30000, 0xf8ff0020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { RB_CHK, RBdup, RC }, { C_F, C_CC } }
+
+/* dmachu<.f> RA_CHK,RB,UIMM6_20 00101xxx01010011xxxxxxxxxxxxxxxx */
+{ "dmachu", 0x28530000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { RA_CHK, RB, UIMM6_20 }, { C_F } }
+
+/* dmachu<.f> ZA,RB,UIMM6_20 00101xxx01010011xxxxxxxxxx111110 */
+{ "dmachu", 0x2853003e, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { ZA, RB, UIMM6_20 }, { C_F } }
+
+/* dmachu<.f><.cc> RB_CHK,RBdup,UIMM6_20 00101xxx11010011xxxxxxxxxx1xxxxx */
+{ "dmachu", 0x28d30020, 0xf8ff0020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { RB_CHK, RBdup, UIMM6_20 }, { C_F, C_CC } }
+
+/* dmachu<.f> RB_CHK,RBdup,SIMM12_20 00101xxx10010011xxxxxxxxxxxxxxxx */
+{ "dmachu", 0x28930000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { RB_CHK, RBdup, SIMM12_20 }, { C_F } }
+
+/* dmachu<.f> RA_CHK,LIMM,RC 0010111000010011x111xxxxxxxxxxxx */
+{ "dmachu", 0x2e137000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { RA_CHK, LIMM, RC }, { C_F } }
+
+/* dmachu<.f> RA_CHK,RB,LIMM 00101xxx00010011xxxx111110xxxxxx */
+{ "dmachu", 0x28130f80, 0xf8ff0fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { RA_CHK, RB, LIMM }, { C_F } }
+
+/* dmachu<.f> ZA,LIMM,RC 0010111000010011x111xxxxxx111110 */
+{ "dmachu", 0x2e13703e, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { ZA, LIMM, RC }, { C_F } }
+
+/* dmachu<.f> ZA,RB,LIMM 00101xxx00010011xxxx111110111110 */
+{ "dmachu", 0x28130fbe, 0xf8ff0fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { ZA, RB, LIMM }, { C_F } }
+
+/* dmachu<.f><.cc> RB_CHK,RBdup,LIMM 00101xxx11010011xxxx1111100xxxxx */
+{ "dmachu", 0x28d30f80, 0xf8ff0fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { RB_CHK, RBdup, LIMM }, { C_F, C_CC } }
+
+/* dmachu<.f><.cc> ZA,LIMM,RC 0010111011010011x111xxxxxx0xxxxx */
+{ "dmachu", 0x2ed37000, 0xffff7020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { ZA, LIMM, RC }, { C_F, C_CC } }
+
+/* dmachu<.f> RA_CHK,LIMM,UIMM6_20 0010111001010011x111xxxxxxxxxxxx */
+{ "dmachu", 0x2e537000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { RA_CHK, LIMM, UIMM6_20 }, { C_F } }
+
+/* dmachu<.f> ZA,LIMM,UIMM6_20 0010111001010011x111xxxxxx111110 */
+{ "dmachu", 0x2e53703e, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { ZA, LIMM, UIMM6_20 }, { C_F } }
+
+/* dmachu<.f><.cc> ZA,LIMM,UIMM6_20 0010111011010011x111xxxxxx1xxxxx */
+{ "dmachu", 0x2ed37020, 0xffff7020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { ZA, LIMM, UIMM6_20 }, { C_F, C_CC } }
+
+/* dmachu<.f> ZA,LIMM,SIMM12_20 0010111010010011x111xxxxxxxxxxxx */
+{ "dmachu", 0x2e937000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { ZA, LIMM, SIMM12_20 }, { C_F } }
+
+/* dmachu<.f> RA_CHK,LIMM,LIMMdup 0010111000010011x111111110xxxxxx */
+{ "dmachu", 0x2e137f80, 0xffff7fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { RA_CHK, LIMM, LIMMdup }, { C_F } }
+
+/* dmachu<.f> ZA,LIMM,LIMMdup 0010111000010011x111111110111110 */
+{ "dmachu", 0x2e137fbe, 0xffff7fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { ZA, LIMM, LIMMdup }, { C_F } }
+
+/* dmachu<.f><.cc> ZA,LIMM,LIMMdup 0010111011010011x1111111100xxxxx */
+{ "dmachu", 0x2ed37f80, 0xffff7fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { ZA, LIMM, LIMMdup }, { C_F, C_CC } }
+
+/* dmacwh<.f> RA_CHK,RB,RC 00101xxx00110110xxxxxxxxxxxxxxxx */
+{ "dmacwh", 0x28360000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RA_CHK, RB, RC }, { C_F } }
+
+/* dmacwh<.f> ZA,RB,RC 00101xxx00110110xxxxxxxxxx111110 */
+{ "dmacwh", 0x2836003e, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, RB, RC }, { C_F } }
+
+/* dmacwh<.f><.cc> RB_CHK,RBdup,RC 00101xxx11110110xxxxxxxxxx0xxxxx */
+{ "dmacwh", 0x28f60000, 0xf8ff0020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RB_CHK, RBdup, RC }, { C_F, C_CC } }
+
+/* dmacwh<.f> RA_CHK,RB,UIMM6_20 00101xxx01110110xxxxxxxxxxxxxxxx */
+{ "dmacwh", 0x28760000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RA_CHK, RB, UIMM6_20 }, { C_F } }
+
+/* dmacwh<.f> ZA,RB,UIMM6_20 00101xxx01110110xxxxxxxxxx111110 */
+{ "dmacwh", 0x2876003e, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, RB, UIMM6_20 }, { C_F } }
+
+/* dmacwh<.f><.cc> RB_CHK,RBdup,UIMM6_20 00101xxx11110110xxxxxxxxxx1xxxxx */
+{ "dmacwh", 0x28f60020, 0xf8ff0020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RB_CHK, RBdup, UIMM6_20 }, { C_F, C_CC } }
+
+/* dmacwh<.f> RB_CHK,RBdup,SIMM12_20 00101xxx10110110xxxxxxxxxxxxxxxx */
+{ "dmacwh", 0x28b60000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RB_CHK, RBdup, SIMM12_20 }, { C_F } }
+
+/* dmacwh<.f> RA_CHK,LIMM,RC 0010111000110110x111xxxxxxxxxxxx */
+{ "dmacwh", 0x2e367000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RA_CHK, LIMM, RC }, { C_F } }
+
+/* dmacwh<.f> RA_CHK,RB,LIMM 00101xxx00110110xxxx111110xxxxxx */
+{ "dmacwh", 0x28360f80, 0xf8ff0fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RA_CHK, RB, LIMM }, { C_F } }
+
+/* dmacwh<.f> ZA,LIMM,RC 0010111000110110x111xxxxxx111110 */
+{ "dmacwh", 0x2e36703e, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, LIMM, RC }, { C_F } }
+
+/* dmacwh<.f> ZA,RB,LIMM 00101xxx00110110xxxx111110111110 */
+{ "dmacwh", 0x28360fbe, 0xf8ff0fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, RB, LIMM }, { C_F } }
+
+/* dmacwh<.f><.cc> RB_CHK,RBdup,LIMM 00101xxx11110110xxxx1111100xxxxx */
+{ "dmacwh", 0x28f60f80, 0xf8ff0fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RB_CHK, RBdup, LIMM }, { C_F, C_CC } }
+
+/* dmacwh<.f><.cc> ZA,LIMM,RC 0010111011110110x111xxxxxx0xxxxx */
+{ "dmacwh", 0x2ef67000, 0xffff7020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, LIMM, RC }, { C_F, C_CC } }
+
+/* dmacwh<.f> RA_CHK,LIMM,UIMM6_20 0010111001110110x111xxxxxxxxxxxx */
+{ "dmacwh", 0x2e767000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RA_CHK, LIMM, UIMM6_20 }, { C_F } }
+
+/* dmacwh<.f> ZA,LIMM,UIMM6_20 0010111001110110x111xxxxxx111110 */
+{ "dmacwh", 0x2e76703e, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, LIMM, UIMM6_20 }, { C_F } }
+
+/* dmacwh<.f><.cc> ZA,LIMM,UIMM6_20 0010111011110110x111xxxxxx1xxxxx */
+{ "dmacwh", 0x2ef67020, 0xffff7020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, LIMM, UIMM6_20 }, { C_F, C_CC } }
+
+/* dmacwh<.f> ZA,LIMM,SIMM12_20 0010111010110110x111xxxxxxxxxxxx */
+{ "dmacwh", 0x2eb67000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, LIMM, SIMM12_20 }, { C_F } }
+
+/* dmacwh<.f> RA_CHK,LIMM,LIMMdup 0010111000110110x111111110xxxxxx */
+{ "dmacwh", 0x2e367f80, 0xffff7fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RA_CHK, LIMM, LIMMdup }, { C_F } }
+
+/* dmacwh<.f> ZA,LIMM,LIMMdup 0010111000110110x111111110111110 */
+{ "dmacwh", 0x2e367fbe, 0xffff7fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, LIMM, LIMMdup }, { C_F } }
+
+/* dmacwh<.f><.cc> ZA,LIMM,LIMMdup 0010111011110110x1111111100xxxxx */
+{ "dmacwh", 0x2ef67f80, 0xffff7fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, LIMM, LIMMdup }, { C_F, C_CC } }
+
+/* dmacwhu<.f> RA_CHK,RB,RC 00101xxx00110111xxxxxxxxxxxxxxxx */
+{ "dmacwhu", 0x28370000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RA_CHK, RB, RC }, { C_F } }
+
+/* dmacwhu<.f> ZA,RB,RC 00101xxx00110111xxxxxxxxxx111110 */
+{ "dmacwhu", 0x2837003e, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, RB, RC }, { C_F } }
+
+/* dmacwhu<.f><.cc> RB_CHK,RBdup,RC 00101xxx11110111xxxxxxxxxx0xxxxx */
+{ "dmacwhu", 0x28f70000, 0xf8ff0020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RB_CHK, RBdup, RC }, { C_F, C_CC } }
+
+/* dmacwhu<.f> RA_CHK,RB,UIMM6_20 00101xxx01110111xxxxxxxxxxxxxxxx */
+{ "dmacwhu", 0x28770000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RA_CHK, RB, UIMM6_20 }, { C_F } }
+
+/* dmacwhu<.f> ZA,RB,UIMM6_20 00101xxx01110111xxxxxxxxxx111110 */
+{ "dmacwhu", 0x2877003e, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, RB, UIMM6_20 }, { C_F } }
+
+/* dmacwhu<.f><.cc> RB_CHK,RBdup,UIMM6_20 00101xxx11110111xxxxxxxxxx1xxxxx */
+{ "dmacwhu", 0x28f70020, 0xf8ff0020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RB_CHK, RBdup, UIMM6_20 }, { C_F, C_CC } }
+
+/* dmacwhu<.f> RB_CHK,RBdup,SIMM12_20 00101xxx10110111xxxxxxxxxxxxxxxx */
+{ "dmacwhu", 0x28b70000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RB_CHK, RBdup, SIMM12_20 }, { C_F } }
+
+/* dmacwhu<.f> RA_CHK,LIMM,RC 0010111000110111x111xxxxxxxxxxxx */
+{ "dmacwhu", 0x2e377000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RA_CHK, LIMM, RC }, { C_F } }
+
+/* dmacwhu<.f> RA_CHK,RB,LIMM 00101xxx00110111xxxx111110xxxxxx */
+{ "dmacwhu", 0x28370f80, 0xf8ff0fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RA_CHK, RB, LIMM }, { C_F } }
+
+/* dmacwhu<.f> ZA,LIMM,RC 0010111000110111x111xxxxxx111110 */
+{ "dmacwhu", 0x2e37703e, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, LIMM, RC }, { C_F } }
+
+/* dmacwhu<.f> ZA,RB,LIMM 00101xxx00110111xxxx111110111110 */
+{ "dmacwhu", 0x28370fbe, 0xf8ff0fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, RB, LIMM }, { C_F } }
+
+/* dmacwhu<.f><.cc> RB_CHK,RBdup,LIMM 00101xxx11110111xxxx1111100xxxxx */
+{ "dmacwhu", 0x28f70f80, 0xf8ff0fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RB_CHK, RBdup, LIMM }, { C_F, C_CC } }
+
+/* dmacwhu<.f><.cc> ZA,LIMM,RC 0010111011110111x111xxxxxx0xxxxx */
+{ "dmacwhu", 0x2ef77000, 0xffff7020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, LIMM, RC }, { C_F, C_CC } }
+
+/* dmacwhu<.f> RA_CHK,LIMM,UIMM6_20 0010111001110111x111xxxxxxxxxxxx */
+{ "dmacwhu", 0x2e777000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RA_CHK, LIMM, UIMM6_20 }, { C_F } }
+
+/* dmacwhu<.f> ZA,LIMM,UIMM6_20 0010111001110111x111xxxxxx111110 */
+{ "dmacwhu", 0x2e77703e, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, LIMM, UIMM6_20 }, { C_F } }
+
+/* dmacwhu<.f><.cc> ZA,LIMM,UIMM6_20 0010111011110111x111xxxxxx1xxxxx */
+{ "dmacwhu", 0x2ef77020, 0xffff7020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, LIMM, UIMM6_20 }, { C_F, C_CC } }
+
+/* dmacwhu<.f> ZA,LIMM,SIMM12_20 0010111010110111x111xxxxxxxxxxxx */
+{ "dmacwhu", 0x2eb77000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, LIMM, SIMM12_20 }, { C_F } }
+
+/* dmacwhu<.f> RA_CHK,LIMM,LIMMdup 0010111000110111x111111110xxxxxx */
+{ "dmacwhu", 0x2e377f80, 0xffff7fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RA_CHK, LIMM, LIMMdup }, { C_F } }
+
+/* dmacwhu<.f> ZA,LIMM,LIMMdup 0010111000110111x111111110111110 */
+{ "dmacwhu", 0x2e377fbe, 0xffff7fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, LIMM, LIMMdup }, { C_F } }
+
+/* dmacwhu<.f><.cc> ZA,LIMM,LIMMdup 0010111011110111x1111111100xxxxx */
+{ "dmacwhu", 0x2ef77f80, 0xffff7fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, LIMM, LIMMdup }, { C_F, C_CC } }
+
+/* dmb  00100011011011110001xxx000111111 */
+{ "dmb", 0x236f103f, 0xfffff1ff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, CONTROL, NONE, {  }, { 0 } }
+
+/* dmb UIMM3_23 00100011011011110001xxxxxx111111 */
+{ "dmb", 0x236f103f, 0xfffff03f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, CONTROL, NONE, { UIMM3_23 }, { 0 } }
+
+/* dmpyh<.f> RA_CHK,RB,RC 00101xxx00010000xxxxxxxxxxxxxxxx */
+{ "dmpyh", 0x28100000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { RA_CHK, RB, RC }, { C_F } }
+
+/* dmpyh<.f> ZA,RB,RC 00101xxx00010000xxxxxxxxxx111110 */
+{ "dmpyh", 0x2810003e, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { ZA, RB, RC }, { C_F } }
+
+/* dmpyh<.f><.cc> RB_CHK,RBdup,RC 00101xxx11010000xxxxxxxxxx0xxxxx */
+{ "dmpyh", 0x28d00000, 0xf8ff0020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { RB_CHK, RBdup, RC }, { C_F, C_CC } }
+
+/* dmpyh<.f> RA_CHK,RB,UIMM6_20 00101xxx01010000xxxxxxxxxxxxxxxx */
+{ "dmpyh", 0x28500000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { RA_CHK, RB, UIMM6_20 }, { C_F } }
+
+/* dmpyh<.f> ZA,RB,UIMM6_20 00101xxx01010000xxxxxxxxxx111110 */
+{ "dmpyh", 0x2850003e, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { ZA, RB, UIMM6_20 }, { C_F } }
+
+/* dmpyh<.f><.cc> RB_CHK,RBdup,UIMM6_20 00101xxx11010000xxxxxxxxxx1xxxxx */
+{ "dmpyh", 0x28d00020, 0xf8ff0020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { RB_CHK, RBdup, UIMM6_20 }, { C_F, C_CC } }
+
+/* dmpyh<.f> RB_CHK,RBdup,SIMM12_20 00101xxx10010000xxxxxxxxxxxxxxxx */
+{ "dmpyh", 0x28900000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { RB_CHK, RBdup, SIMM12_20 }, { C_F } }
+
+/* dmpyh<.f> RA_CHK,LIMM,RC 0010111000010000x111xxxxxxxxxxxx */
+{ "dmpyh", 0x2e107000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { RA_CHK, LIMM, RC }, { C_F } }
+
+/* dmpyh<.f> RA_CHK,RB,LIMM 00101xxx00010000xxxx111110xxxxxx */
+{ "dmpyh", 0x28100f80, 0xf8ff0fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { RA_CHK, RB, LIMM }, { C_F } }
+
+/* dmpyh<.f> ZA,LIMM,RC 0010111000010000x111xxxxxx111110 */
+{ "dmpyh", 0x2e10703e, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { ZA, LIMM, RC }, { C_F } }
+
+/* dmpyh<.f> ZA,RB,LIMM 00101xxx00010000xxxx111110111110 */
+{ "dmpyh", 0x28100fbe, 0xf8ff0fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { ZA, RB, LIMM }, { C_F } }
+
+/* dmpyh<.f><.cc> RB_CHK,RBdup,LIMM 00101xxx11010000xxxx1111100xxxxx */
+{ "dmpyh", 0x28d00f80, 0xf8ff0fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { RB_CHK, RBdup, LIMM }, { C_F, C_CC } }
+
+/* dmpyh<.f><.cc> ZA,LIMM,RC 0010111011010000x111xxxxxx0xxxxx */
+{ "dmpyh", 0x2ed07000, 0xffff7020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { ZA, LIMM, RC }, { C_F, C_CC } }
+
+/* dmpyh<.f> RA_CHK,LIMM,UIMM6_20 0010111001010000x111xxxxxxxxxxxx */
+{ "dmpyh", 0x2e507000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { RA_CHK, LIMM, UIMM6_20 }, { C_F } }
+
+/* dmpyh<.f> ZA,LIMM,UIMM6_20 0010111001010000x111xxxxxx111110 */
+{ "dmpyh", 0x2e50703e, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { ZA, LIMM, UIMM6_20 }, { C_F } }
+
+/* dmpyh<.f><.cc> ZA,LIMM,UIMM6_20 0010111011010000x111xxxxxx1xxxxx */
+{ "dmpyh", 0x2ed07020, 0xffff7020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { ZA, LIMM, UIMM6_20 }, { C_F, C_CC } }
+
+/* dmpyh<.f> ZA,LIMM,SIMM12_20 0010111010010000x111xxxxxxxxxxxx */
+{ "dmpyh", 0x2e907000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { ZA, LIMM, SIMM12_20 }, { C_F } }
+
+/* dmpyh<.f> RA_CHK,LIMM,LIMMdup 0010111000010000x111111110xxxxxx */
+{ "dmpyh", 0x2e107f80, 0xffff7fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { RA_CHK, LIMM, LIMMdup }, { C_F } }
+
+/* dmpyh<.f> ZA,LIMM,LIMMdup 0010111000010000x111111110111110 */
+{ "dmpyh", 0x2e107fbe, 0xffff7fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { ZA, LIMM, LIMMdup }, { C_F } }
+
+/* dmpyh<.f><.cc> ZA,LIMM,LIMMdup 0010111011010000x1111111100xxxxx */
+{ "dmpyh", 0x2ed07f80, 0xffff7fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { ZA, LIMM, LIMMdup }, { C_F, C_CC } }
+
+/* dmpyhu<.f> RA_CHK,RB,RC 00101xxx00010001xxxxxxxxxxxxxxxx */
+{ "dmpyhu", 0x28110000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { RA_CHK, RB, RC }, { C_F } }
+
+/* dmpyhu<.f> ZA,RB,RC 00101xxx00010001xxxxxxxxxx111110 */
+{ "dmpyhu", 0x2811003e, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { ZA, RB, RC }, { C_F } }
+
+/* dmpyhu<.f><.cc> RB_CHK,RBdup,RC 00101xxx11010001xxxxxxxxxx0xxxxx */
+{ "dmpyhu", 0x28d10000, 0xf8ff0020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { RB_CHK, RBdup, RC }, { C_F, C_CC } }
+
+/* dmpyhu<.f> RA_CHK,RB,UIMM6_20 00101xxx01010001xxxxxxxxxxxxxxxx */
+{ "dmpyhu", 0x28510000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { RA_CHK, RB, UIMM6_20 }, { C_F } }
+
+/* dmpyhu<.f> ZA,RB,UIMM6_20 00101xxx01010001xxxxxxxxxx111110 */
+{ "dmpyhu", 0x2851003e, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { ZA, RB, UIMM6_20 }, { C_F } }
+
+/* dmpyhu<.f><.cc> RB_CHK,RBdup,UIMM6_20 00101xxx11010001xxxxxxxxxx1xxxxx */
+{ "dmpyhu", 0x28d10020, 0xf8ff0020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { RB_CHK, RBdup, UIMM6_20 }, { C_F, C_CC } }
+
+/* dmpyhu<.f> RB_CHK,RBdup,SIMM12_20 00101xxx10010001xxxxxxxxxxxxxxxx */
+{ "dmpyhu", 0x28910000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { RB_CHK, RBdup, SIMM12_20 }, { C_F } }
+
+/* dmpyhu<.f> RA_CHK,LIMM,RC 0010111000010001x111xxxxxxxxxxxx */
+{ "dmpyhu", 0x2e117000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { RA_CHK, LIMM, RC }, { C_F } }
+
+/* dmpyhu<.f> RA_CHK,RB,LIMM 00101xxx00010001xxxx111110xxxxxx */
+{ "dmpyhu", 0x28110f80, 0xf8ff0fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { RA_CHK, RB, LIMM }, { C_F } }
+
+/* dmpyhu<.f> ZA,LIMM,RC 0010111000010001x111xxxxxx111110 */
+{ "dmpyhu", 0x2e11703e, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { ZA, LIMM, RC }, { C_F } }
+
+/* dmpyhu<.f> ZA,RB,LIMM 00101xxx00010001xxxx111110111110 */
+{ "dmpyhu", 0x28110fbe, 0xf8ff0fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { ZA, RB, LIMM }, { C_F } }
+
+/* dmpyhu<.f><.cc> RB_CHK,RBdup,LIMM 00101xxx11010001xxxx1111100xxxxx */
+{ "dmpyhu", 0x28d10f80, 0xf8ff0fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { RB_CHK, RBdup, LIMM }, { C_F, C_CC } }
+
+/* dmpyhu<.f><.cc> ZA,LIMM,RC 0010111011010001x111xxxxxx0xxxxx */
+{ "dmpyhu", 0x2ed17000, 0xffff7020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { ZA, LIMM, RC }, { C_F, C_CC } }
+
+/* dmpyhu<.f> RA_CHK,LIMM,UIMM6_20 0010111001010001x111xxxxxxxxxxxx */
+{ "dmpyhu", 0x2e517000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { RA_CHK, LIMM, UIMM6_20 }, { C_F } }
+
+/* dmpyhu<.f> ZA,LIMM,UIMM6_20 0010111001010001x111xxxxxx111110 */
+{ "dmpyhu", 0x2e51703e, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { ZA, LIMM, UIMM6_20 }, { C_F } }
+
+/* dmpyhu<.f><.cc> ZA,LIMM,UIMM6_20 0010111011010001x111xxxxxx1xxxxx */
+{ "dmpyhu", 0x2ed17020, 0xffff7020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { ZA, LIMM, UIMM6_20 }, { C_F, C_CC } }
+
+/* dmpyhu<.f> ZA,LIMM,SIMM12_20 0010111010010001x111xxxxxxxxxxxx */
+{ "dmpyhu", 0x2e917000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { ZA, LIMM, SIMM12_20 }, { C_F } }
+
+/* dmpyhu<.f> RA_CHK,LIMM,LIMMdup 0010111000010001x111111110xxxxxx */
+{ "dmpyhu", 0x2e117f80, 0xffff7fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { RA_CHK, LIMM, LIMMdup }, { C_F } }
+
+/* dmpyhu<.f> ZA,LIMM,LIMMdup 0010111000010001x111111110111110 */
+{ "dmpyhu", 0x2e117fbe, 0xffff7fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { ZA, LIMM, LIMMdup }, { C_F } }
+
+/* dmpyhu<.f><.cc> ZA,LIMM,LIMMdup 0010111011010001x1111111100xxxxx */
+{ "dmpyhu", 0x2ed17f80, 0xffff7fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { ZA, LIMM, LIMMdup }, { C_F, C_CC } }
+
+/* dmpywh<.f> RA_CHK,RB,RC 00101xxx00110010xxxxxxxxxxxxxxxx */
+{ "dmpywh", 0x28320000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RA_CHK, RB, RC }, { C_F } }
+
+/* dmpywh<.f> ZA,RB,RC 00101xxx00110010xxxxxxxxxx111110 */
+{ "dmpywh", 0x2832003e, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, RB, RC }, { C_F } }
+
+/* dmpywh<.f><.cc> RB_CHK,RBdup,RC 00101xxx11110010xxxxxxxxxx0xxxxx */
+{ "dmpywh", 0x28f20000, 0xf8ff0020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RB_CHK, RBdup, RC }, { C_F, C_CC } }
+
+/* dmpywh<.f> RA_CHK,RB,UIMM6_20 00101xxx01110010xxxxxxxxxxxxxxxx */
+{ "dmpywh", 0x28720000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RA_CHK, RB, UIMM6_20 }, { C_F } }
+
+/* dmpywh<.f> ZA,RB,UIMM6_20 00101xxx01110010xxxxxxxxxx111110 */
+{ "dmpywh", 0x2872003e, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, RB, UIMM6_20 }, { C_F } }
+
+/* dmpywh<.f><.cc> RB_CHK,RBdup,UIMM6_20 00101xxx11110010xxxxxxxxxx1xxxxx */
+{ "dmpywh", 0x28f20020, 0xf8ff0020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RB_CHK, RBdup, UIMM6_20 }, { C_F, C_CC } }
+
+/* dmpywh<.f> RB_CHK,RBdup,SIMM12_20 00101xxx10110010xxxxxxxxxxxxxxxx */
+{ "dmpywh", 0x28b20000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RB_CHK, RBdup, SIMM12_20 }, { C_F } }
+
+/* dmpywh<.f> RA_CHK,LIMM,RC 0010111000110010x111xxxxxxxxxxxx */
+{ "dmpywh", 0x2e327000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RA_CHK, LIMM, RC }, { C_F } }
+
+/* dmpywh<.f> RA_CHK,RB,LIMM 00101xxx00110010xxxx111110xxxxxx */
+{ "dmpywh", 0x28320f80, 0xf8ff0fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RA_CHK, RB, LIMM }, { C_F } }
+
+/* dmpywh<.f> ZA,LIMM,RC 0010111000110010x111xxxxxx111110 */
+{ "dmpywh", 0x2e32703e, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, LIMM, RC }, { C_F } }
+
+/* dmpywh<.f> ZA,RB,LIMM 00101xxx00110010xxxx111110111110 */
+{ "dmpywh", 0x28320fbe, 0xf8ff0fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, RB, LIMM }, { C_F } }
+
+/* dmpywh<.f><.cc> RB_CHK,RBdup,LIMM 00101xxx11110010xxxx1111100xxxxx */
+{ "dmpywh", 0x28f20f80, 0xf8ff0fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RB_CHK, RBdup, LIMM }, { C_F, C_CC } }
+
+/* dmpywh<.f><.cc> ZA,LIMM,RC 0010111011110010x111xxxxxx0xxxxx */
+{ "dmpywh", 0x2ef27000, 0xffff7020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, LIMM, RC }, { C_F, C_CC } }
+
+/* dmpywh<.f> RA_CHK,LIMM,UIMM6_20 0010111001110010x111xxxxxxxxxxxx */
+{ "dmpywh", 0x2e727000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RA_CHK, LIMM, UIMM6_20 }, { C_F } }
+
+/* dmpywh<.f> ZA,LIMM,UIMM6_20 0010111001110010x111xxxxxx111110 */
+{ "dmpywh", 0x2e72703e, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, LIMM, UIMM6_20 }, { C_F } }
+
+/* dmpywh<.f><.cc> ZA,LIMM,UIMM6_20 0010111011110010x111xxxxxx1xxxxx */
+{ "dmpywh", 0x2ef27020, 0xffff7020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, LIMM, UIMM6_20 }, { C_F, C_CC } }
+
+/* dmpywh<.f> ZA,LIMM,SIMM12_20 0010111010110010x111xxxxxxxxxxxx */
+{ "dmpywh", 0x2eb27000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, LIMM, SIMM12_20 }, { C_F } }
+
+/* dmpywh<.f> RA_CHK,LIMM,LIMMdup 0010111000110010x111111110xxxxxx */
+{ "dmpywh", 0x2e327f80, 0xffff7fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RA_CHK, LIMM, LIMMdup }, { C_F } }
+
+/* dmpywh<.f> ZA,LIMM,LIMMdup 0010111000110010x111111110111110 */
+{ "dmpywh", 0x2e327fbe, 0xffff7fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, LIMM, LIMMdup }, { C_F } }
+
+/* dmpywh<.f><.cc> ZA,LIMM,LIMMdup 0010111011110010x1111111100xxxxx */
+{ "dmpywh", 0x2ef27f80, 0xffff7fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, LIMM, LIMMdup }, { C_F, C_CC } }
+
+/* dmpywhu<.f> RA_CHK,RB,RC 00101xxx00110011xxxxxxxxxxxxxxxx */
+{ "dmpywhu", 0x28330000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RA_CHK, RB, RC }, { C_F } }
+
+/* dmpywhu<.f> ZA,RB,RC 00101xxx00110011xxxxxxxxxx111110 */
+{ "dmpywhu", 0x2833003e, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, RB, RC }, { C_F } }
+
+/* dmpywhu<.f><.cc> RB_CHK,RBdup,RC 00101xxx11110011xxxxxxxxxx0xxxxx */
+{ "dmpywhu", 0x28f30000, 0xf8ff0020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RB_CHK, RBdup, RC }, { C_F, C_CC } }
+
+/* dmpywhu<.f> RA_CHK,RB,UIMM6_20 00101xxx01110011xxxxxxxxxxxxxxxx */
+{ "dmpywhu", 0x28730000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RA_CHK, RB, UIMM6_20 }, { C_F } }
+
+/* dmpywhu<.f> ZA,RB,UIMM6_20 00101xxx01110011xxxxxxxxxx111110 */
+{ "dmpywhu", 0x2873003e, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, RB, UIMM6_20 }, { C_F } }
+
+/* dmpywhu<.f><.cc> RB_CHK,RBdup,UIMM6_20 00101xxx11110011xxxxxxxxxx1xxxxx */
+{ "dmpywhu", 0x28f30020, 0xf8ff0020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RB_CHK, RBdup, UIMM6_20 }, { C_F, C_CC } }
+
+/* dmpywhu<.f> RB_CHK,RBdup,SIMM12_20 00101xxx10110011xxxxxxxxxxxxxxxx */
+{ "dmpywhu", 0x28b30000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RB_CHK, RBdup, SIMM12_20 }, { C_F } }
+
+/* dmpywhu<.f> RA_CHK,LIMM,RC 0010111000110011x111xxxxxxxxxxxx */
+{ "dmpywhu", 0x2e337000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RA_CHK, LIMM, RC }, { C_F } }
+
+/* dmpywhu<.f> RA_CHK,RB,LIMM 00101xxx00110011xxxx111110xxxxxx */
+{ "dmpywhu", 0x28330f80, 0xf8ff0fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RA_CHK, RB, LIMM }, { C_F } }
+
+/* dmpywhu<.f> ZA,LIMM,RC 0010111000110011x111xxxxxx111110 */
+{ "dmpywhu", 0x2e33703e, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, LIMM, RC }, { C_F } }
+
+/* dmpywhu<.f> ZA,RB,LIMM 00101xxx00110011xxxx111110111110 */
+{ "dmpywhu", 0x28330fbe, 0xf8ff0fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, RB, LIMM }, { C_F } }
+
+/* dmpywhu<.f><.cc> RB_CHK,RBdup,LIMM 00101xxx11110011xxxx1111100xxxxx */
+{ "dmpywhu", 0x28f30f80, 0xf8ff0fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RB_CHK, RBdup, LIMM }, { C_F, C_CC } }
+
+/* dmpywhu<.f><.cc> ZA,LIMM,RC 0010111011110011x111xxxxxx0xxxxx */
+{ "dmpywhu", 0x2ef37000, 0xffff7020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, LIMM, RC }, { C_F, C_CC } }
+
+/* dmpywhu<.f> RA_CHK,LIMM,UIMM6_20 0010111001110011x111xxxxxxxxxxxx */
+{ "dmpywhu", 0x2e737000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RA_CHK, LIMM, UIMM6_20 }, { C_F } }
+
+/* dmpywhu<.f> ZA,LIMM,UIMM6_20 0010111001110011x111xxxxxx111110 */
+{ "dmpywhu", 0x2e73703e, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, LIMM, UIMM6_20 }, { C_F } }
+
+/* dmpywhu<.f><.cc> ZA,LIMM,UIMM6_20 0010111011110011x111xxxxxx1xxxxx */
+{ "dmpywhu", 0x2ef37020, 0xffff7020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, LIMM, UIMM6_20 }, { C_F, C_CC } }
+
+/* dmpywhu<.f> ZA,LIMM,SIMM12_20 0010111010110011x111xxxxxxxxxxxx */
+{ "dmpywhu", 0x2eb37000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, LIMM, SIMM12_20 }, { C_F } }
+
+/* dmpywhu<.f> RA_CHK,LIMM,LIMMdup 0010111000110011x111111110xxxxxx */
+{ "dmpywhu", 0x2e337f80, 0xffff7fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RA_CHK, LIMM, LIMMdup }, { C_F } }
+
+/* dmpywhu<.f> ZA,LIMM,LIMMdup 0010111000110011x111111110111110 */
+{ "dmpywhu", 0x2e337fbe, 0xffff7fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, LIMM, LIMMdup }, { C_F } }
+
+/* dmpywhu<.f><.cc> ZA,LIMM,LIMMdup 0010111011110011x1111111100xxxxx */
+{ "dmpywhu", 0x2ef37f80, 0xffff7fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, LIMM, LIMMdup }, { C_F, C_CC } }
+
+/* dsync  00100010011011110001xxxxxx111111 */
+{ "dsync", 0x226f103f, 0xfffff03f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, CONTROL, NONE, {  }, { 0 } }
+
+/* ex<.di> RB,BRAKET,RC,BRAKETdup 00100xxx00101111xxxxxxxxxx001100 */
+{ "ex", 0x202f000c, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MEMORY, NONE, { RB, BRAKET, RC, BRAKETdup }, { C_DI16 } }
+
+/* ex<.di> RB,BRAKET,UIMM6_20,BRAKETdup 00100xxx01101111xxxxxxxxxx001100 */
+{ "ex", 0x206f000c, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MEMORY, NONE, { RB, BRAKET, UIMM6_20, BRAKETdup }, { C_DI16 } }
+
+/* ex<.di> RB,BRAKET,LIMM,BRAKETdup 00100xxx00101111xxxx111110001100 */
+{ "ex", 0x202f0f8c, 0xf8ff0fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MEMORY, NONE, { RB, BRAKET, LIMM, BRAKETdup }, { C_DI16 } }
+
+/* ex<.di> LIMM,BRAKET,RC,BRAKETdup 0010011000101111x111xxxxxx001100 */
+{ "ex", 0x262f700c, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MEMORY, NONE, { LIMM, BRAKET, RC, BRAKETdup }, { C_DI16 } }
+
+/* ex<.di> LIMM,BRAKET,UIMM6_20,BRAKETdup 0010011001101111x111xxxxxx001100 */
+{ "ex", 0x266f700c, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MEMORY, NONE, { LIMM, BRAKET, UIMM6_20, BRAKETdup }, { C_DI16 } }
+
+/* ex<.di> LIMM,BRAKET,LIMMdup,BRAKETdup 0010011000101111x111111110001100 */
+{ "ex", 0x262f7f8c, 0xffff7fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MEMORY, NONE, { LIMM, BRAKET, LIMMdup, BRAKETdup }, { C_DI16 } }
+
+/* exl<.aq> RB,BRAKET,RC,BRAKETdup 01011xxx00101111xxxxxxxxxx001100 */
+{ "exl", 0x582f000c, 0xf8ff003f, ARC_OPCODE_ARC64, ARITH, NONE, { RB, BRAKET, RC, BRAKETdup }, { C_AQ, C_RL } }
+
+/* extb<.f> RB,RC 00100xxx00101111xxxxxxxxxx000111 */
+{ "extb", 0x202f0007, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RB, RC }, { C_F } }
+
+/* extb<.f> ZA,RC 0010011000101111x111xxxxxx000111 */
+{ "extb", 0x262f7007, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { ZA, RC }, { C_F } }
+
+/* extb<.f> RB,UIMM6_20 00100xxx01101111xxxxxxxxxx000111 */
+{ "extb", 0x206f0007, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RB, UIMM6_20 }, { C_F } }
+
+/* extb<.f> ZA,UIMM6_20 0010011001101111x111xxxxxx000111 */
+{ "extb", 0x266f7007, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { ZA, UIMM6_20 }, { C_F } }
+
+/* extb<.f> RB,LIMM 00100xxx00101111xxxx111110000111 */
+{ "extb", 0x202f0f87, 0xf8ff0fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RB, LIMM }, { C_F } }
+
+/* extb<.f> ZA,LIMM 0010011000101111x111111110000111 */
+{ "extb", 0x262f7f87, 0xffff7fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { ZA, LIMM }, { C_F } }
+
+/* extb_s RB_S,RC_S 01111xxxxxx01111 */
+{ "extb_s", 0x0000780f, 0x0000f81f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RB_S, RC_S }, { 0 } }
+
+/* exth<.f> RB,RC 00100xxx00101111xxxxxxxxxx001000 */
+{ "exth", 0x202f0008, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RB, RC }, { C_F } }
+
+/* exth<.f> ZA,RC 0010011000101111x111xxxxxx001000 */
+{ "exth", 0x262f7008, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { ZA, RC }, { C_F } }
+
+/* exth<.f> RB,UIMM6_20 00100xxx01101111xxxxxxxxxx001000 */
+{ "exth", 0x206f0008, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RB, UIMM6_20 }, { C_F } }
+
+/* exth<.f> ZA,UIMM6_20 0010011001101111x111xxxxxx001000 */
+{ "exth", 0x266f7008, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { ZA, UIMM6_20 }, { C_F } }
+
+/* exth<.f> RB,LIMM 00100xxx00101111xxxx111110001000 */
+{ "exth", 0x202f0f88, 0xf8ff0fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RB, LIMM }, { C_F } }
+
+/* exth<.f> ZA,LIMM 0010011000101111x111111110001000 */
+{ "exth", 0x262f7f88, 0xffff7fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { ZA, LIMM }, { C_F } }
+
+/* exth_s RB_S,RC_S 01111xxxxxx10000 */
+{ "exth_s", 0x00007810, 0x0000f81f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RB_S, RC_S }, { 0 } }
+
+/* ffs<.f> RB,RC 00101xxx00101111xxxxxxxxxx010010 */
+{ "ffs", 0x282f0012, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RB, RC }, { C_F } }
+
+/* ffs<.f> ZA,RC 0010111000101111x111xxxxxx010010 */
+{ "ffs", 0x2e2f7012, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { ZA, RC }, { C_F } }
+
+/* ffs<.f> RB,UIMM6_20 00101xxx01101111xxxxxxxxxx010010 */
+{ "ffs", 0x286f0012, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RB, UIMM6_20 }, { C_F } }
+
+/* ffs<.f> ZA,UIMM6_20 0010111001101111x111xxxxxx010010 */
+{ "ffs", 0x2e6f7012, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { ZA, UIMM6_20 }, { C_F } }
+
+/* ffs<.f> RB,LIMM 00101xxx00101111xxxx111110010010 */
+{ "ffs", 0x282f0f92, 0xf8ff0fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RB, LIMM }, { C_F } }
+
+/* ffs<.f> ZA,LIMM 0010111000101111x111111110010010 */
+{ "ffs", 0x2e2f7f92, 0xffff7fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { ZA, LIMM }, { C_F } }
+
+/* ffsl<.f> RB,RC 01011xxx00101111xxxxxxxxxx010010 */
+{ "ffsl", 0x582f0012, 0xf8ff003f, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RC }, { C_F } }
+
+/* ffsl<.f> ZA,RC 0101111000101111x111xxxxxx010010 */
+{ "ffsl", 0x5e2f7012, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RC }, { C_F } }
+
+/* ffsl<.f> RB,UIMM6_20 01011xxx01101111xxxxxxxxxx010010 */
+{ "ffsl", 0x586f0012, 0xf8ff003f, ARC_OPCODE_ARC64, ARITH, NONE, { RB, UIMM6_20 }, { C_F } }
+
+/* ffsl<.f> ZA,UIMM6_20 0101111001101111x111xxxxxx010010 */
+{ "ffsl", 0x5e6f7012, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, UIMM6_20 }, { C_F } }
+
+/* ffsl<.f> RB,XIMM 01011xxx00101111xxxx111100010010 */
+{ "ffsl", 0x582f0f12, 0xf8ff0fff, ARC_OPCODE_ARC64, ARITH, NONE, { RB, XIMM }, { C_F } }
+
+/* ffsl<.f> ZA,XIMM 0101111000101111x111111100010010 */
+{ "ffsl", 0x5e2f7f12, 0xffff7fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM }, { C_F } }
+
+/* ffsl<.f> RB,LIMM 01011xxx00101111xxxx111110010010 */
+{ "ffsl", 0x582f0f92, 0xf8ff0fff, ARC_OPCODE_ARC64, ARITH, NONE, { RB, LIMM }, { C_F } }
+
+/* ffsl<.f> ZA,LIMM 0101111000101111x111111110010010 */
+{ "ffsl", 0x5e2f7f92, 0xffff7fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM }, { C_F } }
+
+/* flag RC 00100xxx001010010xxxxxxxxxxxxxxx */
+{ "flag", 0x20290000, 0xf8ff8000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, CONTROL, NONE, { RC }, { 0 } }
+
+/* flag<.cc> RC 00100xxx111010010xxxxxxxxx0xxxxx */
+{ "flag", 0x20e90000, 0xf8ff8020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, CONTROL, NONE, { RC }, { C_CC } }
+
+/* flag UIMM6_20 00100xxx011010010xxxxxxxxxxxxxxx */
+{ "flag", 0x20690000, 0xf8ff8000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, CONTROL, NONE, { UIMM6_20 }, { 0 } }
+
+/* flag<.cc> UIMM6_20 00100xxx111010010xxxxxxxxx1xxxxx */
+{ "flag", 0x20e90020, 0xf8ff8020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, CONTROL, NONE, { UIMM6_20 }, { C_CC } }
+
+/* flag SIMM12_20 00100xxx101010010xxxxxxxxxxxxxxx */
+{ "flag", 0x20a90000, 0xf8ff8000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, CONTROL, NONE, { SIMM12_20 }, { 0 } }
+
+/* flag LIMM 00100xxx001010010xxx111110xxxxxx */
+{ "flag", 0x20290f80, 0xf8ff8fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, CONTROL, NONE, { LIMM }, { 0 } }
+
+/* flag<.cc> LIMM 00100xxx111010010xxx1111100xxxxx */
+{ "flag", 0x20e90f80, 0xf8ff8fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, CONTROL, NONE, { LIMM }, { C_CC } }
+
+/* fls<.f> RB,RC 00101xxx00101111xxxxxxxxxx010011 */
+{ "fls", 0x282f0013, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RB, RC }, { C_F } }
+
+/* fls<.f> ZA,RC 0010111000101111x111xxxxxx010011 */
+{ "fls", 0x2e2f7013, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { ZA, RC }, { C_F } }
+
+/* fls<.f> RB,UIMM6_20 00101xxx01101111xxxxxxxxxx010011 */
+{ "fls", 0x286f0013, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RB, UIMM6_20 }, { C_F } }
+
+/* fls<.f> ZA,UIMM6_20 0010111001101111x111xxxxxx010011 */
+{ "fls", 0x2e6f7013, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { ZA, UIMM6_20 }, { C_F } }
+
+/* fls<.f> RB,LIMM 00101xxx00101111xxxx111110010011 */
+{ "fls", 0x282f0f93, 0xf8ff0fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RB, LIMM }, { C_F } }
+
+/* fls<.f> ZA,LIMM 0010111000101111x111111110010011 */
+{ "fls", 0x2e2f7f93, 0xffff7fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { ZA, LIMM }, { C_F } }
+
+/* flsl<.f> RB,RC 01011xxx00101111xxxxxxxxxx010011 */
+{ "flsl", 0x582f0013, 0xf8ff003f, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RC }, { C_F } }
+
+/* flsl<.f> ZA,RC 0101111000101111x111xxxxxx010011 */
+{ "flsl", 0x5e2f7013, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RC }, { C_F } }
+
+/* flsl<.f> RB,UIMM6_20 01011xxx01101111xxxxxxxxxx010011 */
+{ "flsl", 0x586f0013, 0xf8ff003f, ARC_OPCODE_ARC64, ARITH, NONE, { RB, UIMM6_20 }, { C_F } }
+
+/* flsl<.f> ZA,UIMM6_20 0101111001101111x111xxxxxx010011 */
+{ "flsl", 0x5e6f7013, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, UIMM6_20 }, { C_F } }
+
+/* flsl<.f> RB,XIMM 01011xxx00101111xxxx111100010011 */
+{ "flsl", 0x582f0f13, 0xf8ff0fff, ARC_OPCODE_ARC64, ARITH, NONE, { RB, XIMM }, { C_F } }
+
+/* flsl<.f> ZA,XIMM 0101111000101111x111111100010011 */
+{ "flsl", 0x5e2f7f13, 0xffff7fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM }, { C_F } }
+
+/* flsl<.f> RB,LIMM 01011xxx00101111xxxx111110010011 */
+{ "flsl", 0x582f0f93, 0xf8ff0fff, ARC_OPCODE_ARC64, ARITH, NONE, { RB, LIMM }, { C_F } }
+
+/* flsl<.f> ZA,LIMM 0101111000101111x111111110010011 */
+{ "flsl", 0x5e2f7f93, 0xffff7fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM }, { C_F } }
+
+/* j BRAKET,RC,BRAKETdup 00100xxx00100000xxxxxxxxxxxxxxxx */
+{ "j", 0x20200000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, JUMP, NONE, { BRAKET, RC, BRAKETdup }, { 0 } }
+
+/* j BRAKET,BLINK,BRAKETdup 00100xxx00100000xxxx011111xxxxxx */
+{ "j", 0x202007c0, 0xf8ff0fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, JUMP, NONE, { BRAKET, BLINK, BRAKETdup }, { 0 } }
+
+/* j<.cc> BRAKET,RC,BRAKETdup 00100xxx11100000xxxxxxxxxx0xxxxx */
+{ "j", 0x20e00000, 0xf8ff0020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, JUMP, COND, { BRAKET, RC, BRAKETdup }, { C_CC } }
+
+/* j<.cc> BRAKET,BLINK,BRAKETdup 00100xxx11100000xxxx0111110xxxxx */
+{ "j", 0x20e007c0, 0xf8ff0fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, JUMP, COND, { BRAKET, BLINK, BRAKETdup }, { C_CC } }
+
+/* j BRAKET,RC,BRAKETdup 00100xxx00100001xxxxxxxxxxxxxxxx */
+{ "j", 0x20210000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, JUMP, NONE, { BRAKET, RC, BRAKETdup }, { C_DHARD } }
+
+/* j BRAKET,BLINK,BRAKETdup 00100xxx00100001xxxx011111xxxxxx */
+{ "j", 0x202107c0, 0xf8ff0fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, JUMP, NONE, { BRAKET, BLINK, BRAKETdup }, { C_DHARD } }
+
+/* j<.cc> BRAKET,RC,BRAKETdup 00100xxx11100001xxxxxxxxxx0xxxxx */
+{ "j", 0x20e10000, 0xf8ff0020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, JUMP, COND, { BRAKET, RC, BRAKETdup }, { C_CC, C_DHARD } }
+
+/* j<.cc> BRAKET,BLINK,BRAKETdup 00100xxx11100001xxxx0111110xxxxx */
+{ "j", 0x20e107c0, 0xf8ff0fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, JUMP, COND, { BRAKET, BLINK, BRAKETdup }, { C_CC, C_DHARD } }
+
+/* j SIMM12_20 00100xxx10100000xxxxxxxxxxxxxxxx */
+{ "j", 0x20a00000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, JUMP, NONE, { SIMM12_20 }, { 0 } }
+
+/* j SIMM12_20 00100xxx10100001xxxxxxxxxxxxxxxx */
+{ "j", 0x20a10000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, JUMP, NONE, { SIMM12_20 }, { C_DHARD } }
+
+/* j UIMM6_20 00100xxx01100000xxxxxxxxxxxxxxxx */
+{ "j", 0x20600000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, JUMP, NONE, { UIMM6_20 }, { 0 } }
+
+/* j<.cc> UIMM6_20 00100xxx11100000xxxxxxxxxx1xxxxx */
+{ "j", 0x20e00020, 0xf8ff0020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, JUMP, COND, { UIMM6_20 }, { C_CC } }
+
+/* j UIMM6_20 00100xxx01100001xxxxxxxxxxxxxxxx */
+{ "j", 0x20610000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, JUMP, NONE, { UIMM6_20 }, { C_DHARD } }
+
+/* j<.cc> UIMM6_20 00100xxx11100001xxxxxxxxxx1xxxxx */
+{ "j", 0x20e10020, 0xf8ff0020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, JUMP, COND, { UIMM6_20 }, { C_CC, C_DHARD } }
+
+/* j LIMM 00100xxx00100000xxxx111110xxxxxx */
+{ "j", 0x20200f80, 0xf8ff0fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, JUMP, NONE, { LIMM }, { 0 } }
+
+/* j<.cc> LIMM 00100xxx11100000xxxx1111100xxxxx */
+{ "j", 0x20e00f80, 0xf8ff0fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, JUMP, COND, { LIMM }, { C_CC } }
+
+/* jeq_s BRAKET,BLINK_S,BRAKETdup 0111110011100000 */
+{ "jeq_s", 0x00007ce0, 0x0000ffff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, JUMP, COND, { BRAKET, BLINK_S, BRAKETdup }, { C_CC_EQ } }
+
+/* jl BRAKET,RC,BRAKETdup 00100xxx00100010xxxxxxxxxxxxxxxx */
+{ "jl", 0x20220000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, JUMP, NONE, { BRAKET, RC, BRAKETdup }, { 0 } }
+
+/* jl<.cc> BRAKET,RC,BRAKETdup 00100xxx11100010xxxxxxxxxx0xxxxx */
+{ "jl", 0x20e20000, 0xf8ff0020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, JUMP, NONE, { BRAKET, RC, BRAKETdup }, { C_CC } }
+
+/* jl BRAKET,RC,BRAKETdup 00100xxx00100011xxxxxxxxxxxxxxxx */
+{ "jl", 0x20230000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, JUMP, NONE, { BRAKET, RC, BRAKETdup }, { C_DHARD } }
+
+/* jl<.cc> BRAKET,RC,BRAKETdup 00100xxx11100011xxxxxxxxxx0xxxxx */
+{ "jl", 0x20e30000, 0xf8ff0020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, JUMP, NONE, { BRAKET, RC, BRAKETdup }, { C_CC, C_DHARD } }
+
+/* jl SIMM12_20 00100xxx10100010xxxxxxxxxxxxxxxx */
+{ "jl", 0x20a20000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, JUMP, NONE, { SIMM12_20 }, { 0 } }
+
+/* jl SIMM12_20 00100xxx10100011xxxxxxxxxxxxxxxx */
+{ "jl", 0x20a30000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, JUMP, NONE, { SIMM12_20 }, { C_DHARD } }
+
+/* jl UIMM6_20 00100xxx01100010xxxxxxxxxxxxxxxx */
+{ "jl", 0x20620000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, JUMP, NONE, { UIMM6_20 }, { 0 } }
+
+/* jl<.cc> UIMM6_20 00100xxx11100010xxxxxxxxxx1xxxxx */
+{ "jl", 0x20e20020, 0xf8ff0020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, JUMP, NONE, { UIMM6_20 }, { C_CC } }
+
+/* jl UIMM6_20 00100xxx01100011xxxxxxxxxxxxxxxx */
+{ "jl", 0x20630000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, JUMP, NONE, { UIMM6_20 }, { C_DHARD } }
+
+/* jl<.cc> UIMM6_20 00100xxx11100011xxxxxxxxxx1xxxxx */
+{ "jl", 0x20e30020, 0xf8ff0020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, JUMP, NONE, { UIMM6_20 }, { C_CC, C_DHARD } }
+
+/* jl LIMM 00100xxx00100010xxxx111110xxxxxx */
+{ "jl", 0x20220f80, 0xf8ff0fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, JUMP, NONE, { LIMM }, { 0 } }
+
+/* jl<.cc> LIMM 00100xxx11100010xxxx1111100xxxxx */
+{ "jl", 0x20e20f80, 0xf8ff0fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, JUMP, NONE, { LIMM }, { C_CC } }
+
+/* jli_s UIMM10_13_S 01010xxxxxxx1xxx */
+{ "jli_s", 0x00005008, 0x0000f808, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, JLI, NONE, { UIMM10_13_S }, { 0 } }
+
+/* jl_s BRAKET,RB_S,BRAKETdup 01111xxx01000000 */
+{ "jl_s", 0x00007840, 0x0000f8ff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, JUMP, NONE, { BRAKET, RB_S, BRAKETdup }, { 0 } }
+
+/* jl_s BRAKET,RB_S,BRAKETdup 01111xxx01100000 */
+{ "jl_s", 0x00007860, 0x0000f8ff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, JUMP, NONE, { BRAKET, RB_S, BRAKETdup }, { C_DHARD } }
+
+/* jne_s BRAKET,BLINK_S,BRAKETdup 0111110111100000 */
+{ "jne_s", 0x00007de0, 0x0000ffff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, JUMP, COND, { BRAKET, BLINK_S, BRAKETdup }, { C_CC_NE } }
+
+/* j_s BRAKET,RB_S,BRAKETdup 01111xxx00000000 */
+{ "j_s", 0x00007800, 0x0000f8ff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, JUMP, NONE, { BRAKET, RB_S, BRAKETdup }, { 0 } }
+
+/* j_s BRAKET,RB_S,BRAKETdup 01111xxx00100000 */
+{ "j_s", 0x00007820, 0x0000f8ff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, JUMP, NONE, { BRAKET, RB_S, BRAKETdup }, { C_DHARD } }
+
+/* j_s BRAKET,BLINK_S,BRAKETdup 0111111011100000 */
+{ "j_s", 0x00007ee0, 0x0000ffff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, JUMP, NONE, { BRAKET, BLINK_S, BRAKETdup }, { 0 } }
+
+/* j_s BRAKET,BLINK_S,BRAKETdup 0111111111100000 */
+{ "j_s", 0x00007fe0, 0x0000ffff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, JUMP, NONE, { BRAKET, BLINK_S, BRAKETdup }, { C_DHARD } }
+
+/* kflag RC 00100xxx001010011xxxxxxxxxxxxxxx */
+{ "kflag", 0x20298000, 0xf8ff8000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, CONTROL, NONE, { RC }, { 0 } }
+
+/* kflag<.cc> RC 00100xxx111010011xxxxxxxxx0xxxxx */
+{ "kflag", 0x20e98000, 0xf8ff8020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, CONTROL, NONE, { RC }, { C_CC } }
+
+/* kflag UIMM6_20 00100xxx011010011xxxxxxxxxxxxxxx */
+{ "kflag", 0x20698000, 0xf8ff8000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, CONTROL, NONE, { UIMM6_20 }, { 0 } }
+
+/* kflag<.cc> UIMM6_20 00100xxx111010011xxxxxxxxx1xxxxx */
+{ "kflag", 0x20e98020, 0xf8ff8020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, CONTROL, NONE, { UIMM6_20 }, { C_CC } }
+
+/* kflag SIMM12_20 00100xxx101010011xxxxxxxxxxxxxxx */
+{ "kflag", 0x20a98000, 0xf8ff8000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, CONTROL, NONE, { SIMM12_20 }, { 0 } }
+
+/* kflag LIMM 00100xxx001010011xxx111110xxxxxx */
+{ "kflag", 0x20298f80, 0xf8ff8fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, CONTROL, NONE, { LIMM }, { 0 } }
+
+/* kflag<.cc> LIMM 00100xxx111010011xxx1111100xxxxx */
+{ "kflag", 0x20e98f80, 0xf8ff8fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, CONTROL, NONE, { LIMM }, { C_CC } }
+
+/* ld<.di><.aa> RA_CHK,BRAKET,RB,BRAKETdup 00010xxx000000000xxxxxx000xxxxxx */
+{ "ld", 0x10000000, 0xf8ff81c0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOAD, NONE, { RA_CHK, BRAKET, RB, BRAKETdup }, { C_ZZ_W, C_DI20, C_AA21 } }
+
+/* ld<.di><.aa> RA_CHK,BRAKET,RB,RC,BRAKETdup 00100xxxxx110000xxxxxxxxxxxxxxxx */
+{ "ld", 0x20300000, 0xf83f0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOAD, NONE, { RA_CHK, BRAKET, RB, RC, BRAKETdup }, { C_ZZ_W, C_DI16, C_AA8 } }
+
+/* ld<.di><.aa> ZA,BRAKET,RB,RC,BRAKETdup 00100xxxxx110000xxxxxxxxxx111110 */
+{ "ld", 0x2030003e, 0xf83f003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOAD, NONE, { ZA, BRAKET, RB, RC, BRAKETdup }, { C_ZZ_W, C_DI16, C_AA8 } }
+
+/* ld<.aa><.x> RA_CHK,BRAKET,RB,BRAKETdup 00010xxx000000000xxx0xx00xxxxxxx */
+{ "ld", 0x10000000, 0xf8ff8980, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOAD, NONE, { RA_CHK, BRAKET, RB, BRAKETdup }, { C_ZZ_W, C_AA21, C_X25 } }
+
+/* ld<.aa><.x> RA_CHK,BRAKET,RB,RC,BRAKETdup 00100xxxxx11000x0xxxxxxxxxxxxxxx */
+{ "ld", 0x20300000, 0xf83e8000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOAD, NONE, { RA_CHK, BRAKET, RB, RC, BRAKETdup }, { C_ZZ_W, C_AA8, C_X15 } }
+
+/* ld<.aa><.x> ZA,BRAKET,RB,RC,BRAKETdup 00100xxxxx11000x0xxxxxxxxx111110 */
+{ "ld", 0x2030003e, 0xf83e803f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOAD, NONE, { ZA, BRAKET, RB, RC, BRAKETdup }, { C_ZZ_W, C_AA8, C_X15 } }
+
+/* ld<.di><.aa> RA_CHK,BRAKET,RB,SIMM9_8,BRAKETdup 00010xxxxxxxxxxxxxxxxxx000xxxxxx */
+{ "ld", 0x10000000, 0xf80001c0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOAD, NONE, { RA_CHK, BRAKET, RB, SIMM9_8, BRAKETdup }, { C_ZZ_W, C_DI20, C_AA21 } }
+
+/* ld<.di><.aa> ZA,BRAKET,RB,SIMM9_8,BRAKETdup 00010xxxxxxxxxxxxxxxxxx000111110 */
+{ "ld", 0x1000003e, 0xf80001ff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOAD, NONE, { ZA, BRAKET, RB, SIMM9_8, BRAKETdup }, { C_ZZ_W, C_DI20, C_AA21 } }
+
+/* ld<.aa><.x> RA_CHK,BRAKET,RB,SIMM9_8,BRAKETdup 00010xxxxxxxxxxxxxxx0xx00xxxxxxx */
+{ "ld", 0x10000000, 0xf8000980, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOAD, NONE, { RA_CHK, BRAKET, RB, SIMM9_8, BRAKETdup }, { C_ZZ_W, C_AA21, C_X25 } }
+
+/* ld<.aa><.x> ZA,BRAKET,RB,SIMM9_8,BRAKETdup 00010xxxxxxxxxxxxxxx0xx00x111110 */
+{ "ld", 0x1000003e, 0xf80009bf, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOAD, NONE, { ZA, BRAKET, RB, SIMM9_8, BRAKETdup }, { C_ZZ_W, C_AA21, C_X25 } }
+
+/* ld<.di> RA_CHK,BRAKET,LIMM,BRAKETdup 00010110000000000111x00000xxxxxx */
+{ "ld", 0x16007000, 0xfffff7c0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOAD, NONE, { RA_CHK, BRAKET, LIMM, BRAKETdup }, { C_ZZ_W, C_DI20 } }
+
+/* ld<.di> ZA,BRAKET,LIMM,BRAKETdup 00010110000000000111x00000111110 */
+{ "ld", 0x1600703e, 0xfffff7ff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOAD, NONE, { ZA, BRAKET, LIMM, BRAKETdup }, { C_ZZ_W, C_DI20 } }
+
+/* ld<.di><.aa> RA_CHK,BRAKET,RB,XIMM,BRAKETdup 00100xxxxx110000xxxx111100xxxxxx */
+{ "ld", 0x20300f00, 0xf83f0fc0, ARC_OPCODE_ARC64, LOAD, NONE, { RA_CHK, BRAKET, RB, XIMM, BRAKETdup }, { C_ZZ_W, C_DI16, C_AA8 } }
+
+/* ld<.di><.aa> RA_CHK,BRAKET,RB,LIMM,BRAKETdup 00100xxxxx110000xxxx111110xxxxxx */
+{ "ld", 0x20300f80, 0xf83f0fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOAD, NONE, { RA_CHK, BRAKET, RB, LIMM, BRAKETdup }, { C_ZZ_W, C_DI16, C_AA8 } }
+
+/* ld<.di><.aa> RA_CHK,BRAKET,XIMM,RC,BRAKETdup 00100100xx110000x111xxxxxxxxxxxx */
+{ "ld", 0x24307000, 0xff3f7000, ARC_OPCODE_ARC64, LOAD, NONE, { RA_CHK, BRAKET, XIMM, RC, BRAKETdup }, { C_ZZ_W, C_DI16, C_AA8 } }
+
+/* ld<.di><.aa> RA_CHK,BRAKET,LIMM,RC,BRAKETdup 00100110xx110000x111xxxxxxxxxxxx */
+{ "ld", 0x26307000, 0xff3f7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOAD, NONE, { RA_CHK, BRAKET, LIMM, RC, BRAKETdup }, { C_ZZ_W, C_DI16, C_AA8 } }
+
+/* ld<.di><.aa> ZA,BRAKET,RB,LIMM,BRAKETdup 00100xxxxx110000xxxx111110111110 */
+{ "ld", 0x20300fbe, 0xf83f0fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOAD, NONE, { ZA, BRAKET, RB, LIMM, BRAKETdup }, { C_ZZ_W, C_DI16, C_AA8 } }
+
+/* ld<.di><.aa> ZA,BRAKET,LIMM,RC,BRAKETdup 00100110xx110000x111xxxxxx111110 */
+{ "ld", 0x2630703e, 0xff3f703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOAD, NONE, { ZA, BRAKET, LIMM, RC, BRAKETdup }, { C_ZZ_W, C_DI16, C_AA8 } }
+
+/* ld<.x> RA_CHK,BRAKET,LIMM,BRAKETdup 0001011000000000011100000xxxxxxx */
+{ "ld", 0x16007000, 0xffffff80, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOAD, NONE, { RA_CHK, BRAKET, LIMM, BRAKETdup }, { C_ZZ_W, C_X25 } }
+
+/* ld<.x> ZA,BRAKET,LIMM,BRAKETdup 0001011000000000011100000x111110 */
+{ "ld", 0x1600703e, 0xffffffbf, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOAD, NONE, { ZA, BRAKET, LIMM, BRAKETdup }, { C_ZZ_W, C_X25 } }
+
+/* ld<.aa><.x> RA_CHK,BRAKET,RB,XIMM,BRAKETdup 00100xxxxx11000x0xxx111100xxxxxx */
+{ "ld", 0x20300f00, 0xf83e8fc0, ARC_OPCODE_ARC64, LOAD, NONE, { RA_CHK, BRAKET, RB, XIMM, BRAKETdup }, { C_ZZ_W, C_AA8, C_X15 } }
+
+/* ld<.aa><.x> RA_CHK,BRAKET,RB,LIMM,BRAKETdup 00100xxxxx11000x0xxx111110xxxxxx */
+{ "ld", 0x20300f80, 0xf83e8fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOAD, NONE, { RA_CHK, BRAKET, RB, LIMM, BRAKETdup }, { C_ZZ_W, C_AA8, C_X15 } }
+
+/* ld<.aa><.x> RA_CHK,BRAKET,XIMM,RC,BRAKETdup 00100100xx11000x0111xxxxxxxxxxxx */
+{ "ld", 0x24307000, 0xff3ef000, ARC_OPCODE_ARC64, LOAD, NONE, { RA_CHK, BRAKET, XIMM, RC, BRAKETdup }, { C_ZZ_W, C_AA8, C_X15 } }
+
+/* ld<.aa><.x> RA_CHK,BRAKET,LIMM,RC,BRAKETdup 00100110xx11000x0111xxxxxxxxxxxx */
+{ "ld", 0x26307000, 0xff3ef000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOAD, NONE, { RA_CHK, BRAKET, LIMM, RC, BRAKETdup }, { C_ZZ_W, C_AA8, C_X15 } }
+
+/* ld<.aa><.x> ZA,BRAKET,RB,LIMM,BRAKETdup 00100xxxxx11000x0xxx111110111110 */
+{ "ld", 0x20300fbe, 0xf83e8fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOAD, NONE, { ZA, BRAKET, RB, LIMM, BRAKETdup }, { C_ZZ_W, C_AA8, C_X15 } }
+
+/* ld<.di><.aa> RA_CHK,BRAKET,LIMM,SIMM9_8,BRAKETdup 00010110xxxxxxxxx111xxx000xxxxxx */
+{ "ld", 0x16007000, 0xff0071c0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOAD, NONE, { RA_CHK, BRAKET, LIMM, SIMM9_8, BRAKETdup }, { C_ZZ_W, C_DI20, C_AA21 } }
+
+/* ld<.di><.aa> ZA,BRAKET,LIMM,SIMM9_8,BRAKETdup 00010110xxxxxxxxx111xxx000111110 */
+{ "ld", 0x1600703e, 0xff0071ff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOAD, NONE, { ZA, BRAKET, LIMM, SIMM9_8, BRAKETdup }, { C_ZZ_W, C_DI20, C_AA21 } }
+
+/* ld<.aa><.x> RA_CHK,BRAKET,LIMM,SIMM9_8,BRAKETdup 00010110xxxxxxxxx1110xx00xxxxxxx */
+{ "ld", 0x16007000, 0xff007980, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOAD, NONE, { RA_CHK, BRAKET, LIMM, SIMM9_8, BRAKETdup }, { C_ZZ_W, C_AA21, C_X25 } }
+
+/* ld<.aa><.x> ZA,BRAKET,LIMM,SIMM9_8,BRAKETdup 00010110xxxxxxxxx1110xx00x111110 */
+{ "ld", 0x1600703e, 0xff0079bf, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOAD, NONE, { ZA, BRAKET, LIMM, SIMM9_8, BRAKETdup }, { C_ZZ_W, C_AA21, C_X25 } }
+
+/* ld<.aa><.x> ZA,LIMM,RC 00100110xx11000x0111xxxxxx111110 */
+{ "ld", 0x2630703e, 0xff3ef03f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOAD, NONE, { ZA, LIMM, RC }, { C_ZZ_W, C_AA8, C_X15 } }
+
+/* ldb<.di><.aa><.x> RA_CHK,BRAKET,RB,BRAKETdup 00010xxx000000000xxxxxx01xxxxxxx */
+{ "ldb", 0x10000080, 0xf8ff8180, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOAD, NONE, { RA_CHK, BRAKET, RB, BRAKETdup }, { C_ZZ_B, C_DI20, C_AAB21, C_X25 } }
+
+/* ldb<.di><.aa><.x> RA_CHK,BRAKET,RB,RC,BRAKETdup 00100xxxxx11001xxxxxxxxxxxxxxxxx */
+{ "ldb", 0x20320000, 0xf83e0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOAD, NONE, { RA_CHK, BRAKET, RB, RC, BRAKETdup }, { C_ZZ_B, C_DI16, C_AAB8, C_X15 } }
+
+/* ldb<.di><.aa><.x> ZA,BRAKET,RB,RC,BRAKETdup 00100xxxxx11001xxxxxxxxxxx111110 */
+{ "ldb", 0x2032003e, 0xf83e003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOAD, NONE, { ZA, BRAKET, RB, RC, BRAKETdup }, { C_ZZ_B, C_DI16, C_AAB8, C_X15 } }
+
+/* ldb<.di><.aa><.x> RA_CHK,BRAKET,RB,SIMM9_8,BRAKETdup 00010xxxxxxxxxxxxxxxxxx01xxxxxxx */
+{ "ldb", 0x10000080, 0xf8000180, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOAD, NONE, { RA_CHK, BRAKET, RB, SIMM9_8, BRAKETdup }, { C_ZZ_B, C_DI20, C_AAB21, C_X25 } }
+
+/* ldb<.di><.aa><.x> ZA,BRAKET,RB,SIMM9_8,BRAKETdup 00010xxxxxxxxxxxxxxxxxx01x111110 */
+{ "ldb", 0x100000be, 0xf80001bf, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOAD, NONE, { ZA, BRAKET, RB, SIMM9_8, BRAKETdup }, { C_ZZ_B, C_DI20, C_AAB21, C_X25 } }
+
+/* ldb<.di><.x> RA_CHK,BRAKET,XIMM,BRAKETdup 00010100000000000111x0001xxxxxxx */
+{ "ldb", 0x14007080, 0xfffff780, ARC_OPCODE_ARC64, LOAD, NONE, { RA_CHK, BRAKET, XIMM, BRAKETdup }, { C_ZZ_B, C_DI20, C_X25 } }
+
+/* ldb<.di><.x> RA_CHK,BRAKET,LIMM,BRAKETdup 00010110000000000111x0001xxxxxxx */
+{ "ldb", 0x16007080, 0xfffff780, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOAD, NONE, { RA_CHK, BRAKET, LIMM, BRAKETdup }, { C_ZZ_B, C_DI20, C_X25 } }
+
+/* ldb<.di><.x> ZA,BRAKET,LIMM,BRAKETdup 00010110000000000111x0001x111110 */
+{ "ldb", 0x160070be, 0xfffff7bf, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOAD, NONE, { ZA, BRAKET, LIMM, BRAKETdup }, { C_ZZ_B, C_DI20, C_X25 } }
+
+/* ldb<.di><.aa><.x> RA_CHK,BRAKET,RB,XIMM,BRAKETdup 00100xxxxx11001xxxxx111100xxxxxx */
+{ "ldb", 0x20320f00, 0xf83e0fc0, ARC_OPCODE_ARC64, LOAD, NONE, { RA_CHK, BRAKET, RB, XIMM, BRAKETdup }, { C_ZZ_B, C_DI16, C_AAB8, C_X15 } }
+
+/* ldb<.di><.aa><.x> RA_CHK,BRAKET,RB,LIMM,BRAKETdup 00100xxxxx11001xxxxx111110xxxxxx */
+{ "ldb", 0x20320f80, 0xf83e0fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOAD, NONE, { RA_CHK, BRAKET, RB, LIMM, BRAKETdup }, { C_ZZ_B, C_DI16, C_AAB8, C_X15 } }
+
+/* ldb<.di><.aa><.x> RA_CHK,BRAKET,XIMM,RC,BRAKETdup 00100100xx11001xx111xxxxxxxxxxxx */
+{ "ldb", 0x24327000, 0xff3e7000, ARC_OPCODE_ARC64, LOAD, NONE, { RA_CHK, BRAKET, XIMM, RC, BRAKETdup }, { C_ZZ_B, C_DI16, C_AAB8, C_X15 } }
+
+/* ldb<.di><.aa><.x> RA_CHK,BRAKET,LIMM,RC,BRAKETdup 00100110xx11001xx111xxxxxxxxxxxx */
+{ "ldb", 0x26327000, 0xff3e7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOAD, NONE, { RA_CHK, BRAKET, LIMM, RC, BRAKETdup }, { C_ZZ_B, C_DI16, C_AAB8, C_X15 } }
+
+/* ldb<.di><.aa><.x> ZA,BRAKET,RB,LIMM,BRAKETdup 00100xxxxx11001xxxxx111110111110 */
+{ "ldb", 0x20320fbe, 0xf83e0fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOAD, NONE, { ZA, BRAKET, RB, LIMM, BRAKETdup }, { C_ZZ_B, C_DI16, C_AAB8, C_X15 } }
+
+/* ldb<.di><.aa><.x> ZA,BRAKET,LIMM,RC,BRAKETdup 00100110xx11001xx111xxxxxx111110 */
+{ "ldb", 0x2632703e, 0xff3e703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOAD, NONE, { ZA, BRAKET, LIMM, RC, BRAKETdup }, { C_ZZ_B, C_DI16, C_AAB8, C_X15 } }
+
+/* ldb<.di><.aa><.x> RA_CHK,BRAKET,XIMM,SIMM9_8,BRAKETdup 00010100xxxxxxxxx111xxx01xxxxxxx */
+{ "ldb", 0x14007080, 0xff007180, ARC_OPCODE_ARC64, LOAD, NONE, { RA_CHK, BRAKET, XIMM, SIMM9_8, BRAKETdup }, { C_ZZ_B, C_DI20, C_AAB21, C_X25 } }
+
+/* ldb<.di><.aa><.x> RA_CHK,BRAKET,LIMM,SIMM9_8,BRAKETdup 00010110xxxxxxxxx111xxx01xxxxxxx */
+{ "ldb", 0x16007080, 0xff007180, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOAD, NONE, { RA_CHK, BRAKET, LIMM, SIMM9_8, BRAKETdup }, { C_ZZ_B, C_DI20, C_AAB21, C_X25 } }
+
+/* ldb<.di><.aa><.x> ZA,BRAKET,LIMM,SIMM9_8,BRAKETdup 00010110xxxxxxxxx111xxx01x111110 */
+{ "ldb", 0x160070be, 0xff0071bf, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOAD, NONE, { ZA, BRAKET, LIMM, SIMM9_8, BRAKETdup }, { C_ZZ_B, C_DI20, C_AAB21, C_X25 } }
+
+/* ldh<.di><.aa><.x> RA_CHK,BRAKET,RB,BRAKETdup 00010xxx000000000xxxxxx10xxxxxxx */
+{ "ldh", 0x10000100, 0xf8ff8180, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOAD, NONE, { RA_CHK, BRAKET, RB, BRAKETdup }, { C_ZZ_H, C_DI20, C_AA21, C_X25 } }
+
+/* ldh<.di><.aa><.x> RA_CHK,BRAKET,RB,RC,BRAKETdup 00100xxxxx11010xxxxxxxxxxxxxxxxx */
+{ "ldh", 0x20340000, 0xf83e0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOAD, NONE, { RA_CHK, BRAKET, RB, RC, BRAKETdup }, { C_ZZ_H, C_DI16, C_AA8, C_X15 } }
+
+/* ldh<.di><.aa><.x> ZA,BRAKET,RB,RC,BRAKETdup 00100xxxxx11010xxxxxxxxxxx111110 */
+{ "ldh", 0x2034003e, 0xf83e003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOAD, NONE, { ZA, BRAKET, RB, RC, BRAKETdup }, { C_ZZ_H, C_DI16, C_AA8, C_X15 } }
+
+/* ldh<.di><.aa><.x> RA_CHK,BRAKET,RB,SIMM9_8,BRAKETdup 00010xxxxxxxxxxxxxxxxxx10xxxxxxx */
+{ "ldh", 0x10000100, 0xf8000180, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOAD, NONE, { RA_CHK, BRAKET, RB, SIMM9_8, BRAKETdup }, { C_ZZ_H, C_DI20, C_AA21, C_X25 } }
+
+/* ldh<.di><.aa><.x> ZA,BRAKET,RB,SIMM9_8,BRAKETdup 00010xxxxxxxxxxxxxxxxxx10x111110 */
+{ "ldh", 0x1000013e, 0xf80001bf, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOAD, NONE, { ZA, BRAKET, RB, SIMM9_8, BRAKETdup }, { C_ZZ_H, C_DI20, C_AA21, C_X25 } }
+
+/* ldh<.di><.x> RA_CHK,BRAKET,LIMM,BRAKETdup 00010110000000000111x0010xxxxxxx */
+{ "ldh", 0x16007100, 0xfffff780, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOAD, NONE, { RA_CHK, BRAKET, LIMM, BRAKETdup }, { C_ZZ_H, C_DI20, C_X25 } }
+
+/* ldh<.di><.x> ZA,BRAKET,LIMM,BRAKETdup 00010110000000000111x0010x111110 */
+{ "ldh", 0x1600713e, 0xfffff7bf, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOAD, NONE, { ZA, BRAKET, LIMM, BRAKETdup }, { C_ZZ_H, C_DI20, C_X25 } }
+
+/* ldh<.di><.aa><.x> RA_CHK,BRAKET,RB,XIMM,BRAKETdup 00100xxxxx11010xxxxx111100xxxxxx */
+{ "ldh", 0x20340f00, 0xf83e0fc0, ARC_OPCODE_ARC64, LOAD, NONE, { RA_CHK, BRAKET, RB, XIMM, BRAKETdup }, { C_ZZ_H, C_DI16, C_AA8, C_X15 } }
+
+/* ldh<.di><.aa><.x> RA_CHK,BRAKET,RB,LIMM,BRAKETdup 00100xxxxx11010xxxxx111110xxxxxx */
+{ "ldh", 0x20340f80, 0xf83e0fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOAD, NONE, { RA_CHK, BRAKET, RB, LIMM, BRAKETdup }, { C_ZZ_H, C_DI16, C_AA8, C_X15 } }
+
+/* ldh<.di><.aa><.x> RA_CHK,BRAKET,XIMM,RC,BRAKETdup 00100100xx11010xx111xxxxxxxxxxxx */
+{ "ldh", 0x24347000, 0xff3e7000, ARC_OPCODE_ARC64, LOAD, NONE, { RA_CHK, BRAKET, XIMM, RC, BRAKETdup }, { C_ZZ_H, C_DI16, C_AA8, C_X15 } }
+
+/* ldh<.di><.aa><.x> RA_CHK,BRAKET,LIMM,RC,BRAKETdup 00100110xx11010xx111xxxxxxxxxxxx */
+{ "ldh", 0x26347000, 0xff3e7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOAD, NONE, { RA_CHK, BRAKET, LIMM, RC, BRAKETdup }, { C_ZZ_H, C_DI16, C_AA8, C_X15 } }
+
+/* ldh<.di><.aa><.x> ZA,BRAKET,RB,LIMM,BRAKETdup 00100xxxxx11010xxxxx111110111110 */
+{ "ldh", 0x20340fbe, 0xf83e0fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOAD, NONE, { ZA, BRAKET, RB, LIMM, BRAKETdup }, { C_ZZ_H, C_DI16, C_AA8, C_X15 } }
+
+/* ldh<.di><.aa><.x> ZA,BRAKET,LIMM,RC,BRAKETdup 00100110xx11010xx111xxxxxx111110 */
+{ "ldh", 0x2634703e, 0xff3e703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOAD, NONE, { ZA, BRAKET, LIMM, RC, BRAKETdup }, { C_ZZ_H, C_DI16, C_AA8, C_X15 } }
+
+/* ldh<.di><.aa><.x> RA_CHK,BRAKET,LIMM,SIMM9_8,BRAKETdup 00010110xxxxxxxxx111xxx10xxxxxxx */
+{ "ldh", 0x16007100, 0xff007180, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOAD, NONE, { RA_CHK, BRAKET, LIMM, SIMM9_8, BRAKETdup }, { C_ZZ_H, C_DI20, C_AA21, C_X25 } }
+
+/* ldh<.di><.aa><.x> ZA,BRAKET,LIMM,SIMM9_8,BRAKETdup 00010110xxxxxxxxx111xxx10x111110 */
+{ "ldh", 0x1600713e, 0xff0071bf, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOAD, NONE, { ZA, BRAKET, LIMM, SIMM9_8, BRAKETdup }, { C_ZZ_H, C_DI20, C_AA21, C_X25 } }
+
+/* ldw<.di><.aa><.x> RA_CHK,BRAKET,RB,BRAKETdup 00010xxx000000000xxxxxx10xxxxxxx */
+{ "ldw", 0x10000100, 0xf8ff8180, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOAD, NONE, { RA_CHK, BRAKET, RB, BRAKETdup }, { C_ZZ_H, C_DI20, C_AA21, C_X25 } }
+
+/* ldw<.di><.aa><.x> RA_CHK,BRAKET,RB,RC,BRAKETdup 00100xxxxx11010xxxxxxxxxxxxxxxxx */
+{ "ldw", 0x20340000, 0xf83e0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOAD, NONE, { RA_CHK, BRAKET, RB, RC, BRAKETdup }, { C_ZZ_H, C_DI16, C_AA8, C_X15 } }
+
+/* ldw<.di><.aa><.x> ZA,BRAKET,RB,RC,BRAKETdup 00100xxxxx11010xxxxxxxxxxx111110 */
+{ "ldw", 0x2034003e, 0xf83e003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOAD, NONE, { ZA, BRAKET, RB, RC, BRAKETdup }, { C_ZZ_H, C_DI16, C_AA8, C_X15 } }
+
+/* ldw<.di><.aa><.x> RA_CHK,BRAKET,RB,SIMM9_8,BRAKETdup 00010xxxxxxxxxxxxxxxxxx10xxxxxxx */
+{ "ldw", 0x10000100, 0xf8000180, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOAD, NONE, { RA_CHK, BRAKET, RB, SIMM9_8, BRAKETdup }, { C_ZZ_H, C_DI20, C_AA21, C_X25 } }
+
+/* ldw<.di><.aa><.x> ZA,BRAKET,RB,SIMM9_8,BRAKETdup 00010xxxxxxxxxxxxxxxxxx10x111110 */
+{ "ldw", 0x1000013e, 0xf80001bf, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOAD, NONE, { ZA, BRAKET, RB, SIMM9_8, BRAKETdup }, { C_ZZ_H, C_DI20, C_AA21, C_X25 } }
+
+/* ldw<.di><.x> RA_CHK,BRAKET,LIMM,BRAKETdup 00010110000000000111x0010xxxxxxx */
+{ "ldw", 0x16007100, 0xfffff780, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOAD, NONE, { RA_CHK, BRAKET, LIMM, BRAKETdup }, { C_ZZ_H, C_DI20, C_X25 } }
+
+/* ldw<.di><.x> ZA,BRAKET,LIMM,BRAKETdup 00010110000000000111x0010x111110 */
+{ "ldw", 0x1600713e, 0xfffff7bf, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOAD, NONE, { ZA, BRAKET, LIMM, BRAKETdup }, { C_ZZ_H, C_DI20, C_X25 } }
+
+/* ldw<.di><.aa><.x> RA_CHK,BRAKET,RB,XIMM,BRAKETdup 00100xxxxx11010xxxxx111100xxxxxx */
+{ "ldw", 0x20340f00, 0xf83e0fc0, ARC_OPCODE_ARC64, LOAD, NONE, { RA_CHK, BRAKET, RB, XIMM, BRAKETdup }, { C_ZZ_H, C_DI16, C_AA8, C_X15 } }
+
+/* ldw<.di><.aa><.x> RA_CHK,BRAKET,RB,LIMM,BRAKETdup 00100xxxxx11010xxxxx111110xxxxxx */
+{ "ldw", 0x20340f80, 0xf83e0fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOAD, NONE, { RA_CHK, BRAKET, RB, LIMM, BRAKETdup }, { C_ZZ_H, C_DI16, C_AA8, C_X15 } }
+
+/* ldw<.di><.aa><.x> RA_CHK,BRAKET,XIMM,RC,BRAKETdup 00100100xx11010xx111xxxxxxxxxxxx */
+{ "ldw", 0x24347000, 0xff3e7000, ARC_OPCODE_ARC64, LOAD, NONE, { RA_CHK, BRAKET, XIMM, RC, BRAKETdup }, { C_ZZ_H, C_DI16, C_AA8, C_X15 } }
+
+/* ldw<.di><.aa><.x> RA_CHK,BRAKET,LIMM,RC,BRAKETdup 00100110xx11010xx111xxxxxxxxxxxx */
+{ "ldw", 0x26347000, 0xff3e7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOAD, NONE, { RA_CHK, BRAKET, LIMM, RC, BRAKETdup }, { C_ZZ_H, C_DI16, C_AA8, C_X15 } }
+
+/* ldw<.di><.aa><.x> ZA,BRAKET,RB,LIMM,BRAKETdup 00100xxxxx11010xxxxx111110111110 */
+{ "ldw", 0x20340fbe, 0xf83e0fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOAD, NONE, { ZA, BRAKET, RB, LIMM, BRAKETdup }, { C_ZZ_H, C_DI16, C_AA8, C_X15 } }
+
+/* ldw<.di><.aa><.x> ZA,BRAKET,LIMM,RC,BRAKETdup 00100110xx11010xx111xxxxxx111110 */
+{ "ldw", 0x2634703e, 0xff3e703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOAD, NONE, { ZA, BRAKET, LIMM, RC, BRAKETdup }, { C_ZZ_H, C_DI16, C_AA8, C_X15 } }
+
+/* ldw<.di><.aa><.x> RA_CHK,BRAKET,LIMM,SIMM9_8,BRAKETdup 00010110xxxxxxxxx111xxx10xxxxxxx */
+{ "ldw", 0x16007100, 0xff007180, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOAD, NONE, { RA_CHK, BRAKET, LIMM, SIMM9_8, BRAKETdup }, { C_ZZ_H, C_DI20, C_AA21, C_X25 } }
+
+/* ldw<.di><.aa><.x> ZA,BRAKET,LIMM,SIMM9_8,BRAKETdup 00010110xxxxxxxxx111xxx10x111110 */
+{ "ldw", 0x1600713e, 0xff0071bf, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOAD, NONE, { ZA, BRAKET, LIMM, SIMM9_8, BRAKETdup }, { C_ZZ_H, C_DI20, C_AA21, C_X25 } }
+
+/* ldd<.di><.aa> RAD,BRAKET,RB,BRAKETdup 00010xxx000000000xxxxxx110xxxxxx */
+{ "ldd", 0x10000180, 0xf8ff81c0, ARC_OPCODE_ARC32, LOAD, NONE, { RAD, BRAKET, RB, BRAKETdup }, { C_DI20, C_AA21 } }
+
+/* ldd<.di><.aa> RAD,BRAKET,RB,SIMM9_8,BRAKETdup 00010xxxxxxxxxxxxxxxxxx110xxxxxx */
+{ "ldd", 0x10000180, 0xf80001c0, ARC_OPCODE_ARC32, LOAD, NONE, { RAD, BRAKET, RB, SIMM9_8, BRAKETdup }, { C_DI20, C_AA21 } }
+
+/* ldd<.di><.aa> RAD,BRAKET,LIMM,BRAKETdup 00010110000000000111xxx110xxxxxx */
+{ "ldd", 0x16007180, 0xfffff1c0, ARC_OPCODE_ARC32, LOAD, NONE, { RAD, BRAKET, LIMM, BRAKETdup }, { C_DI20, C_AA21 } }
+
+/* ldd<.di><.aa> RAD,BRAKET,RB,RC,BRAKETdup 00100xxxxx110110xxxxxxxxxxxxxxxx */
+{ "ldd", 0x20360000, 0xf83f0000, ARC_OPCODE_ARC32, LOAD, NONE, { RAD, BRAKET, RB, RC, BRAKETdup }, { C_DI16, C_AA8 } }
+
+/* ldd<.di><.aa> RAD,BRAKET,RB,LIMM,BRAKETdup 00100xxxxx110110xxxx111110xxxxxx */
+{ "ldd", 0x20360f80, 0xf83f0fc0, ARC_OPCODE_ARC32, LOAD, NONE, { RAD, BRAKET, RB, LIMM, BRAKETdup }, { C_DI16, C_AA8 } }
+
+/* ldd<.di><.aa> RAD,BRAKET,LIMM,RC,BRAKETdup 00100110xx110110x111xxxxxxxxxxxx */
+{ "ldd", 0x26367000, 0xff3f7000, ARC_OPCODE_ARC32, LOAD, NONE, { RAD, BRAKET, LIMM, RC, BRAKETdup }, { C_DI16, C_AA8 } }
+
+/* lddl RAD,BRAKET,RB,BRAKETdup 00010xxx000000000xxxx1101xxxxxxx */
+{ "lddl", 0x10000680, 0xf8ff8780, ARC_OPCODE_ARC64, LOAD, NONE, { RAD, BRAKET, RB, BRAKETdup }, { C_AA_128S } }
+
+/* lddl RAD,BRAKET,RB,SIMM9_8,BRAKETdup 00010xxxxxxxxxxxxxxxx1101xxxxxxx */
+{ "lddl", 0x10000680, 0xf8000780, ARC_OPCODE_ARC64, LOAD, NONE, { RAD, BRAKET, RB, SIMM9_8, BRAKETdup }, { C_AA_128S } }
+
+/* lddl RAD,BRAKET,XIMM,BRAKETdup 00010100000000000111x1101xxxxxxx */
+{ "lddl", 0x14007680, 0xfffff780, ARC_OPCODE_ARC64, LOAD, NONE, { RAD, BRAKET, XIMM, BRAKETdup }, { C_AS_128S } }
+
+/* lddl RAD,BRAKET,LIMM,BRAKETdup 00010110000000000111x1101xxxxxxx */
+{ "lddl", 0x16007680, 0xfffff780, ARC_OPCODE_ARC64, LOAD, NONE, { RAD, BRAKET, LIMM, BRAKETdup }, { C_AS_128S } }
+
+/* lddl RAD,BRAKET,RB,RC,BRAKETdup 00100xxx1111001xxxxxxxxxxxxxxxxx */
+{ "lddl", 0x20f20000, 0xf8fe0000, ARC_OPCODE_ARC64, LOAD, NONE, { RAD, BRAKET, RB, RC, BRAKETdup }, { C_AA_128 } }
+
+/* lddl RAD,BRAKET,RB,XIMM,BRAKETdup 00100xxx1111001xxxxx111100xxxxxx */
+{ "lddl", 0x20f20f00, 0xf8fe0fc0, ARC_OPCODE_ARC64, LOAD, NONE, { RAD, BRAKET, RB, XIMM, BRAKETdup }, { C_AA_128 } }
+
+/* lddl RAD,BRAKET,RB,LIMM,BRAKETdup 00100xxx1111001xxxxx111110xxxxxx */
+{ "lddl", 0x20f20f80, 0xf8fe0fc0, ARC_OPCODE_ARC64, LOAD, NONE, { RAD, BRAKET, RB, LIMM, BRAKETdup }, { C_AA_128 } }
+
+/* lddl RAD,BRAKET,XIMM,RC,BRAKETdup 001001001111001xx111xxxxxxxxxxxx */
+{ "lddl", 0x24f27000, 0xfffe7000, ARC_OPCODE_ARC64, LOAD, NONE, { RAD, BRAKET, XIMM, RC, BRAKETdup }, { C_AS_128 } }
+
+/* lddl RAD,BRAKET,LIMM,RC,BRAKETdup 001001101111001xx111xxxxxxxxxxxx */
+{ "lddl", 0x26f27000, 0xfffe7000, ARC_OPCODE_ARC64, LOAD, NONE, { RAD, BRAKET, LIMM, RC, BRAKETdup }, { C_AS_128 } }
+
+/* ldl<.aa> RA_CHK,BRAKET,RB,BRAKETdup 00010xxx000000000xxx1xx001xxxxxx */
+{ "ldl", 0x10000840, 0xf8ff89c0, ARC_OPCODE_ARC64, LOAD, NONE, { RA_CHK, BRAKET, RB, BRAKETdup }, { C_ZZ_L, C_AA21 } }
+
+/* ldl<.aa> ZA,BRAKET,RB,BRAKETdup 00010xxx000000000xxx1xx001111110 */
+{ "ldl", 0x1000087e, 0xf8ff89ff, ARC_OPCODE_ARC64, LOAD, NONE, { ZA, BRAKET, RB, BRAKETdup }, { C_ZZ_L, C_AA21 } }
+
+/* ldl<.aa> RA_CHK,BRAKET,RB,RC,BRAKETdup 00100xxxxx1100011xxxxxxxxxxxxxxx */
+{ "ldl", 0x20318000, 0xf83f8000, ARC_OPCODE_ARC64, LOAD, NONE, { RA_CHK, BRAKET, RB, RC, BRAKETdup }, { C_ZZ_L, C_AA8 } }
+
+/* ldl<.aa> ZA,BRAKET,RB,RC,BRAKETdup 00100xxxxx1100011xxxxxxxxx111110 */
+{ "ldl", 0x2031803e, 0xf83f803f, ARC_OPCODE_ARC64, LOAD, NONE, { ZA, BRAKET, RB, RC, BRAKETdup }, { C_ZZ_L, C_AA8 } }
+
+/* ldl<.aa> RA_CHK,BRAKET,RB,SIMM9_8,BRAKETdup 00010xxxxxxxxxxxxxxx1xx001xxxxxx */
+{ "ldl", 0x10000840, 0xf80009c0, ARC_OPCODE_ARC64, LOAD, NONE, { RA_CHK, BRAKET, RB, SIMM9_8, BRAKETdup }, { C_ZZ_L, C_AA21 } }
+
+/* ldl<.aa> ZA,BRAKET,RB,SIMM9_8,BRAKETdup 00010xxxxxxxxxxxxxxx1xx001111110 */
+{ "ldl", 0x1000087e, 0xf80009ff, ARC_OPCODE_ARC64, LOAD, NONE, { ZA, BRAKET, RB, SIMM9_8, BRAKETdup }, { C_ZZ_L, C_AA21 } }
+
+/* ldl ZA,BRAKET,LIMM,BRAKETdup 00010110000000000111100001111110 */
+{ "ldl", 0x1600787e, 0xffffffff, ARC_OPCODE_ARC64, LOAD, NONE, { ZA, BRAKET, LIMM, BRAKETdup }, { C_ZZ_L } }
+
+/* ldl RA_CHK,BRAKET,LIMM,BRAKETdup 00010110000000000111100001xxxxxx */
+{ "ldl", 0x16007840, 0xffffffc0, ARC_OPCODE_ARC64, LOAD, NONE, { RA_CHK, BRAKET, LIMM, BRAKETdup }, { C_ZZ_L } }
+
+/* ldl<.aa> RA_CHK,BRAKET,RB,XIMM,BRAKETdup 00100xxxxx1100011xxx111100xxxxxx */
+{ "ldl", 0x20318f00, 0xf83f8fc0, ARC_OPCODE_ARC64, LOAD, NONE, { RA_CHK, BRAKET, RB, XIMM, BRAKETdup }, { C_ZZ_L, C_AA8 } }
+
+/* ldl<.aa> RA_CHK,BRAKET,RB,LIMM,BRAKETdup 00100xxxxx1100011xxx111110xxxxxx */
+{ "ldl", 0x20318f80, 0xf83f8fc0, ARC_OPCODE_ARC64, LOAD, NONE, { RA_CHK, BRAKET, RB, LIMM, BRAKETdup }, { C_ZZ_L, C_AA8 } }
+
+/* ldl<.aa> ZA,BRAKET,RB,LIMM,BRAKETdup 00100xxxxx1100011xxx111110111110 */
+{ "ldl", 0x20318fbe, 0xf83f8fff, ARC_OPCODE_ARC64, LOAD, NONE, { ZA, BRAKET, RB, LIMM, BRAKETdup }, { C_ZZ_L, C_AA8 } }
+
+/* ldl ZA,BRAKET,LIMM,RC,BRAKETdup 00100110001100011111xxxxxx111110 */
+{ "ldl", 0x2631f03e, 0xfffff03f, ARC_OPCODE_ARC64, LOAD, NONE, { ZA, BRAKET, LIMM, RC, BRAKETdup }, { C_ZZ_L } }
+
+/* ldl<.aa> RA_CHK,BRAKET,XIMM,RC,BRAKETdup 00100100xx1100011111xxxxxxxxxxxx */
+{ "ldl", 0x2431f000, 0xff3ff000, ARC_OPCODE_ARC64, LOAD, NONE, { RA_CHK, BRAKET, XIMM, RC, BRAKETdup }, { C_ZZ_L, C_AA8 } }
+
+/* ldl<.aa> RA_CHK,BRAKET,LO32,RC,BRAKETdup 00100110xx1100011111xxxxxxxxxxxx */
+{ "ldl", 0x2631f000, 0xff3ff000, ARC_OPCODE_ARC64, LOAD, NONE, { RA_CHK, BRAKET, LO32, RC, BRAKETdup }, { C_ZZ_L, C_AA8 } }
+
+/* ldl<.aa> RA_CHK,BRAKET,LO32,SIMM9_8,BRAKETdup 00010110xxxxxxxxx1111xx001xxxxxx */
+{ "ldl", 0x16007840, 0xff0079c0, ARC_OPCODE_ARC64, LOAD, NONE, { RA_CHK, BRAKET, LO32, SIMM9_8, BRAKETdup }, { C_ZZ_L, C_AA21 } }
+
+/* ldl<.aa> ZA,BRAKET,LIMM,SIMM9_8,BRAKETdup 00010110xxxxxxxxx1111xx001111110 */
+{ "ldl", 0x1600787e, 0xff0079ff, ARC_OPCODE_ARC64, LOAD, NONE, { ZA, BRAKET, LIMM, SIMM9_8, BRAKETdup }, { C_ZZ_L, C_AA21 } }
+
+/* ldb_s RA_S,BRAKET,RB_S,RC_S,BRAKETdup 01100xxxxxx01xxx */
+{ "ldb_s", 0x00006008, 0x0000f818, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOAD, NONE, { RA_S, BRAKET, RB_S, RC_S, BRAKETdup }, { C_ZZ_B } }
+
+/* ldb_s RC_S,BRAKET,RB_S,UIMM5_11_S,BRAKETdup 10001xxxxxxxxxxx */
+{ "ldb_s", 0x00008800, 0x0000f800, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOAD, NONE, { RC_S, BRAKET, RB_S, UIMM5_11_S, BRAKETdup }, { C_ZZ_B } }
+
+/* ldb_s RB_S,BRAKET,SP_S,UIMM7_A32_11_S,BRAKETdup 11000xxx001xxxxx */
+{ "ldb_s", 0x0000c020, 0x0000f8e0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOAD, NONE, { RB_S, BRAKET, SP_S, UIMM7_A32_11_S, BRAKETdup }, { C_ZZ_B } }
+
+/* ldb_s R0_S,BRAKET,GP_S,SIMM9_7_S,BRAKETdup 1100101xxxxxxxxx */
+{ "ldb_s", 0x0000ca00, 0x0000fe00, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOAD, NONE, { R0_S, BRAKET, GP_S, SIMM9_7_S, BRAKETdup }, { C_ZZ_B } }
+
+/* ldh_s RA_S,BRAKET,RB_S,RC_S,BRAKETdup 01100xxxxxx10xxx */
+{ "ldh_s", 0x00006010, 0x0000f818, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOAD, NONE, { RA_S, BRAKET, RB_S, RC_S, BRAKETdup }, { C_ZZ_H } }
+
+/* ldh_s RC_S,BRAKET,RB_S,UIMM6_A16_11_S,BRAKETdup 10010xxxxxxxxxxx */
+{ "ldh_s", 0x00009000, 0x0000f800, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOAD, NONE, { RC_S, BRAKET, RB_S, UIMM6_A16_11_S, BRAKETdup }, { C_ZZ_H } }
+
+/* ldh_s RC_S,BRAKET,RB_S,UIMM6_A16_11_S,BRAKETdup 10011xxxxxxxxxxx */
+{ "ldh_s", 0x00009800, 0x0000f800, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOAD, NONE, { RC_S, BRAKET, RB_S, UIMM6_A16_11_S, BRAKETdup }, { C_ZZ_H, C_XHARD } }
+
+/* ldh_s R0_S,BRAKET,GP_S,SIMM10_A16_7_Sbis,BRAKETdup 1100110xxxxxxxxx */
+{ "ldh_s", 0x0000cc00, 0x0000fe00, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOAD, NONE, { R0_S, BRAKET, GP_S, SIMM10_A16_7_Sbis, BRAKETdup }, { C_ZZ_H } }
+
+/* ld_s RA_S,BRAKET,RB_S,RC_S,BRAKETdup 01100xxxxxx00xxx */
+{ "ld_s", 0x00006000, 0x0000f818, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOAD, NONE, { RA_S, BRAKET, RB_S, RC_S, BRAKETdup }, { 0 } }
+
+/* ld_s RA_S,BRAKET,RB_S,RC_S,BRAKETdup 01001xxxxxx00xxx */
+{ "ld_s", 0x00004800, 0x0000f818, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOAD, CD, { RA_S, BRAKET, RB_S, RC_S, BRAKETdup }, { C_AS } }
+
+/* ld_s RB_S,BRAKET,SP_S,UIMM7_A32_11_S,BRAKETdup 11000xxx000xxxxx */
+{ "ld_s", 0x0000c000, 0x0000f8e0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOAD, NONE, { RB_S, BRAKET, SP_S, UIMM7_A32_11_S, BRAKETdup }, { 0 } }
+
+/* ld_s RC_S,BRAKET,RB_S,UIMM7_A32_11_S,BRAKETdup 10000xxxxxxxxxxx */
+{ "ld_s", 0x00008000, 0x0000f800, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOAD, NONE, { RC_S, BRAKET, RB_S, UIMM7_A32_11_S, BRAKETdup }, { 0 } }
+
+/* ld_s RB_S,BRAKET,PCL_S,UIMM10_A32_8_S,BRAKETdup 11010xxxxxxxxxxx */
+{ "ld_s", 0x0000d000, 0x0000f800, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOAD, NONE, { RB_S, BRAKET, PCL_S, UIMM10_A32_8_S, BRAKETdup }, { 0 } }
+
+/* ld_s R0_S,BRAKET,GP_S,SIMM11_A32_7_S,BRAKETdup 1100100xxxxxxxxx */
+{ "ld_s", 0x0000c800, 0x0000fe00, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOAD, NONE, { R0_S, BRAKET, GP_S, SIMM11_A32_7_S, BRAKETdup }, { 0 } }
+
+/* ld_s R1_S,BRAKET,GP_S,SIMM11_A32_13_S,BRAKETdup 01010xxxxxx00xxx */
+{ "ld_s", 0x00005000, 0x0000f818, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOAD, CD, { R1_S, BRAKET, GP_S, SIMM11_A32_13_S, BRAKETdup }, { 0 } }
+
+/* llock<.di> RB,BRAKET,RC,BRAKETdup 00100xxx00101111xxxxxxxxxx010000 */
+{ "llock", 0x202f0010, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LLOCK, NONE, { RB, BRAKET, RC, BRAKETdup }, { C_DI16 } }
+
+/* llock<.di> ZA,BRAKET,RC,BRAKETdup 0010011000101111x111xxxxxx010000 */
+{ "llock", 0x262f7010, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LLOCK, NONE, { ZA, BRAKET, RC, BRAKETdup }, { C_DI16 } }
+
+/* llock<.di> RB,BRAKET,UIMM6_20,BRAKETdup 00100xxx01101111xxxxxxxxxx010000 */
+{ "llock", 0x206f0010, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LLOCK, NONE, { RB, BRAKET, UIMM6_20, BRAKETdup }, { C_DI16 } }
+
+/* llock<.di> ZA,BRAKET,UIMM6_20,BRAKETdup 0010011001101111x111xxxxxx010000 */
+{ "llock", 0x266f7010, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LLOCK, NONE, { ZA, BRAKET, UIMM6_20, BRAKETdup }, { C_DI16 } }
+
+/* llock<.di> RB,BRAKET,LIMM,BRAKETdup 00100xxx00101111xxxx111110010000 */
+{ "llock", 0x202f0f90, 0xf8ff0fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LLOCK, NONE, { RB, BRAKET, LIMM, BRAKETdup }, { C_DI16 } }
+
+/* llock<.di> ZA,BRAKET,LIMM,BRAKETdup 0010011000101111x111111110010000 */
+{ "llock", 0x262f7f90, 0xffff7fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LLOCK, NONE, { ZA, BRAKET, LIMM, BRAKETdup }, { C_DI16 } }
+
+/* llockl<.aq> RB,BRAKET,RC,BRAKETdup 01011xxx00101111xxxxxxxxxx010000 */
+{ "llockl", 0x582f0010, 0xf8ff003f, ARC_OPCODE_ARC64, LLOCK, NONE, { RB, BRAKET, RC, BRAKETdup }, { C_AQ } }
+
+/* llockd<.di> b,c 00100bbb00101111DBBBCCCCCC010010.  */
+{ "llockd", 0x202F0012, 0xF8FF003F, ARC_OPCODE_ARC32, LLOCK, NONE, { RB_CHK, BRAKET, RC, BRAKETdup }, { C_DI16, C_ZZ_D }},
+
+/* llockd<.di> b,limm 00100bbb00101111DBBB111110010010.  */
+{ "llockd", 0x202F0F92, 0xF8FF0FFF, ARC_OPCODE_ARC32, LLOCK, NONE, { RB_CHK, BRAKET, LIMM, BRAKETdup }, { C_DI16, C_ZZ_D }},
+
+/* lr RB_CHK,BRAKET,RC,BRAKETdup 00100xxx00101010xxxxxxxxxxxxxxxx */
+{ "lr", 0x202a0000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, AUXREG, NONE, { RB_CHK, BRAKET, RC, BRAKETdup }, { 0 } }
+
+/* lr ZA,BRAKET,RC,BRAKETdup 0010011000101010x111xxxxxxxxxxxx */
+{ "lr", 0x262a7000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, AUXREG, NONE, { ZA, BRAKET, RC, BRAKETdup }, { 0 } }
+
+/* lr RB_CHK,BRAKET,UIMM6_20,BRAKETdup 00100xxx01101010xxxxxxxxxx000000 */
+{ "lr", 0x206a0000, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, AUXREG, NONE, { RB_CHK, BRAKET, UIMM6_20, BRAKETdup }, { 0 } }
+
+/* lr ZA,BRAKET,UIMM6_20,BRAKETdup 0010011001101010x111xxxxxx000000 */
+{ "lr", 0x266a7000, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, AUXREG, NONE, { ZA, BRAKET, UIMM6_20, BRAKETdup }, { 0 } }
+
+/* lr RB_CHK,BRAKET,SIMM12_20,BRAKETdup 00100xxx10101010xxxxxxxxxxxxxxxx */
+{ "lr", 0x20aa0000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, AUXREG, NONE, { RB_CHK, BRAKET, SIMM12_20, BRAKETdup }, { 0 } }
+
+/* lr ZA,BRAKET,SIMM12_20,BRAKETdup 0010011010101010x111xxxxxxxxxxxx */
+{ "lr", 0x26aa7000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, AUXREG, NONE, { ZA, BRAKET, SIMM12_20, BRAKETdup }, { 0 } }
+
+/* lr RB_CHK,BRAKET,LIMM,BRAKETdup 00100xxx00101010xxxx111110xxxxxx */
+{ "lr", 0x202a0f80, 0xf8ff0fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, AUXREG, NONE, { RB_CHK, BRAKET, LIMM, BRAKETdup }, { 0 } }
+
+/* lr ZA,BRAKET,LIMM,BRAKETdup 0010011000101010x111111110xxxxxx */
+{ "lr", 0x262a7f80, 0xffff7fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, AUXREG, NONE, { ZA, BRAKET, LIMM, BRAKETdup }, { 0 } }
+
+/* lrl RB_CHK,BRAKET,RC,BRAKETdup 01011xxx001010100xxxxxxxxxxxxxxx */
+{ "lrl", 0x582a0000, 0xf8ff8000, ARC_OPCODE_ARC64, AUXREG, NONE, { RB_CHK, BRAKET, RC, BRAKETdup }, { 0 } }
+
+/* lrl RB_CHK,BRAKET,UIMM6_20,BRAKETdup 01011xxx011010100xxxxxxxxxxxxxxx */
+{ "lrl", 0x586a0000, 0xf8ff8000, ARC_OPCODE_ARC64, AUXREG, NONE, { RB_CHK, BRAKET, UIMM6_20, BRAKETdup }, { 0 } }
+
+/* lrl RB_CHK,BRAKET,SIMM12_20,BRAKETdup 01011xxx101010100xxxxxxxxxxxxxxx */
+{ "lrl", 0x58aa0000, 0xf8ff8000, ARC_OPCODE_ARC64, AUXREG, NONE, { RB_CHK, BRAKET, SIMM12_20, BRAKETdup }, { 0 } }
+
+/* lrl RB_CHK,BRAKET,XIMM,BRAKETdup 01011xxx001010100xxx111100xxxxxx */
+{ "lrl", 0x582a0f00, 0xf8ff8fc0, ARC_OPCODE_ARC64, AUXREG, NONE, { RB_CHK, BRAKET, XIMM, BRAKETdup }, { 0 } }
+
+/* lrl RB_CHK,BRAKET,LIMM,BRAKETdup 01011xxx001010100xxx111110xxxxxx */
+{ "lrl", 0x582a0f80, 0xf8ff8fc0, ARC_OPCODE_ARC64, AUXREG, NONE, { RB_CHK, BRAKET, LIMM, BRAKETdup }, { 0 } }
+
+/* lsl16<.f> RB,RC 00101xxx00101111xxxxxxxxxx001010 */
+{ "lsl16", 0x282f000a, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, SWAP, { RB, RC }, { C_F } }
+
+/* lsl16<.f> ZA,RC 0010111000101111x111xxxxxx001010 */
+{ "lsl16", 0x2e2f700a, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, SWAP, { ZA, RC }, { C_F } }
+
+/* lsl16<.f> RB,UIMM6_20 00101xxx01101111xxxxxxxxxx001010 */
+{ "lsl16", 0x286f000a, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, SWAP, { RB, UIMM6_20 }, { C_F } }
+
+/* lsl16<.f> ZA,UIMM6_20 0010111001101111x111xxxxxx001010 */
+{ "lsl16", 0x2e6f700a, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, SWAP, { ZA, UIMM6_20 }, { C_F } }
+
+/* lsl16<.f> RB,LIMM 00101xxx00101111xxxx111110001010 */
+{ "lsl16", 0x282f0f8a, 0xf8ff0fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, SWAP, { RB, LIMM }, { C_F } }
+
+/* lsl16<.f> ZA,LIMM 0010111000101111x111111110001010 */
+{ "lsl16", 0x2e2f7f8a, 0xffff7fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, SWAP, { ZA, LIMM }, { C_F } }
+
+/* lsl8<.f> RB,RC 00101xxx00101111xxxxxxxxxx001111 */
+{ "lsl8", 0x282f000f, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, SHFT1, { RB, RC }, { C_F } }
+
+/* lsl8<.f> ZA,RC 0010111000101111x111xxxxxx001111 */
+{ "lsl8", 0x2e2f700f, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, SHFT1, { ZA, RC }, { C_F } }
+
+/* lsl8<.f> RB,UIMM6_20 00101xxx01101111xxxxxxxxxx001111 */
+{ "lsl8", 0x286f000f, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, SHFT1, { RB, UIMM6_20 }, { C_F } }
+
+/* lsl8<.f> ZA,UIMM6_20 0010111001101111x111xxxxxx001111 */
+{ "lsl8", 0x2e6f700f, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, SHFT1, { ZA, UIMM6_20 }, { C_F } }
+
+/* lsl8<.f> RB,LIMM 00101xxx00101111xxxx111110001111 */
+{ "lsl8", 0x282f0f8f, 0xf8ff0fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, SHFT1, { RB, LIMM }, { C_F } }
+
+/* lsl8<.f> ZA,LIMM 0010111000101111x111111110001111 */
+{ "lsl8", 0x2e2f7f8f, 0xffff7fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, SHFT1, { ZA, LIMM }, { C_F } }
+
+/* lsr<.f> RB,RC 00100xxx00101111xxxxxxxxxx000010 */
+{ "lsr", 0x202f0002, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RB, RC }, { C_F } }
+
+/* lsr<.f> ZA,RC 0010011000101111x111xxxxxx000010 */
+{ "lsr", 0x262f7002, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, RC }, { C_F } }
+
+/* lsr<.f> RA,RB,RC 00101xxx00000001xxxxxxxxxxxxxxxx */
+{ "lsr", 0x28010000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, SHFT2, { RA, RB, RC }, { C_F } }
+
+/* lsr<.f> ZA,RB,RC 00101xxx00000001xxxxxxxxxx111110 */
+{ "lsr", 0x2801003e, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, SHFT2, { ZA, RB, RC }, { C_F } }
+
+/* lsr<.f><.cc> RB,RBdup,RC 00101xxx11000001xxxxxxxxxx0xxxxx */
+{ "lsr", 0x28c10000, 0xf8ff0020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, SHFT2, { RB, RBdup, RC }, { C_F, C_CC } }
+
+/* lsr<.f> RB,UIMM6_20 00100xxx01101111xxxxxxxxxx000010 */
+{ "lsr", 0x206f0002, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RB, UIMM6_20 }, { C_F } }
+
+/* lsr<.f> ZA,UIMM6_20 0010011001101111x111xxxxxx000010 */
+{ "lsr", 0x266f7002, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, UIMM6_20 }, { C_F } }
+
+/* lsr<.f> RA,RB,UIMM6_20 00101xxx01000001xxxxxxxxxxxxxxxx */
+{ "lsr", 0x28410000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, SHFT2, { RA, RB, UIMM6_20 }, { C_F } }
+
+/* lsr<.f> ZA,RB,UIMM6_20 00101xxx01000001xxxxxxxxxx111110 */
+{ "lsr", 0x2841003e, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, SHFT2, { ZA, RB, UIMM6_20 }, { C_F } }
+
+/* lsr<.f><.cc> RB,RBdup,UIMM6_20 00101xxx11000001xxxxxxxxxx1xxxxx */
+{ "lsr", 0x28c10020, 0xf8ff0020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, SHFT2, { RB, RBdup, UIMM6_20 }, { C_F, C_CC } }
+
+/* lsr<.f> RB,RBdup,SIMM12_20 00101xxx10000001xxxxxxxxxxxxxxxx */
+{ "lsr", 0x28810000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, SHFT2, { RB, RBdup, SIMM12_20 }, { C_F } }
+
+/* lsr<.f> RB,LIMM 00100xxx00101111xxxx111110000010 */
+{ "lsr", 0x202f0f82, 0xf8ff0fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RB, LIMM }, { C_F } }
+
+/* lsr<.f> ZA,LIMM 0010011000101111x111111110000010 */
+{ "lsr", 0x262f7f82, 0xffff7fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, LIMM }, { C_F } }
+
+/* lsr<.f> RA,LIMM,RC 0010111000000001x111xxxxxxxxxxxx */
+{ "lsr", 0x2e017000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, SHFT2, { RA, LIMM, RC }, { C_F } }
+
+/* lsr<.f> RA,RB,LIMM 00101xxx00000001xxxx111110xxxxxx */
+{ "lsr", 0x28010f80, 0xf8ff0fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, SHFT2, { RA, RB, LIMM }, { C_F } }
+
+/* lsr<.f> ZA,LIMM,RC 0010111000000001x111xxxxxx111110 */
+{ "lsr", 0x2e01703e, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, SHFT2, { ZA, LIMM, RC }, { C_F } }
+
+/* lsr<.f> ZA,RB,LIMM 00101xxx00000001xxxx111110111110 */
+{ "lsr", 0x28010fbe, 0xf8ff0fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, SHFT2, { ZA, RB, LIMM }, { C_F } }
+
+/* lsr<.f><.cc> RB,RBdup,LIMM 00101xxx11000001xxxx1111100xxxxx */
+{ "lsr", 0x28c10f80, 0xf8ff0fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, SHFT2, { RB, RBdup, LIMM }, { C_F, C_CC } }
+
+/* lsr<.f><.cc> ZA,LIMM,RC 0010111011000001x111xxxxxx0xxxxx */
+{ "lsr", 0x2ec17000, 0xffff7020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, SHFT2, { ZA, LIMM, RC }, { C_F, C_CC } }
+
+/* lsr<.f> RA,LIMM,UIMM6_20 0010111001000001x111xxxxxxxxxxxx */
+{ "lsr", 0x2e417000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, SHFT2, { RA, LIMM, UIMM6_20 }, { C_F } }
+
+/* lsr<.f> ZA,LIMM,UIMM6_20 0010111001000001x111xxxxxx111110 */
+{ "lsr", 0x2e41703e, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, SHFT2, { ZA, LIMM, UIMM6_20 }, { C_F } }
+
+/* lsr<.f><.cc> ZA,LIMM,UIMM6_20 0010111011000001x111xxxxxx1xxxxx */
+{ "lsr", 0x2ec17020, 0xffff7020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, SHFT2, { ZA, LIMM, UIMM6_20 }, { C_F, C_CC } }
+
+/* lsr<.f> ZA,LIMM,SIMM12_20 0010111010000001x111xxxxxxxxxxxx */
+{ "lsr", 0x2e817000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, SHFT2, { ZA, LIMM, SIMM12_20 }, { C_F } }
+
+/* lsr<.f> RA,LIMM,LIMMdup 0010111000000001x111111110xxxxxx */
+{ "lsr", 0x2e017f80, 0xffff7fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, SHFT2, { RA, LIMM, LIMMdup }, { C_F } }
+
+/* lsr<.f> ZA,LIMM,LIMMdup 0010111000000001x111111110111110 */
+{ "lsr", 0x2e017fbe, 0xffff7fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, SHFT2, { ZA, LIMM, LIMMdup }, { C_F } }
+
+/* lsr<.f><.cc> ZA,LIMM,LIMMdup 0010111011000001x1111111100xxxxx */
+{ "lsr", 0x2ec17f80, 0xffff7fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, SHFT2, { ZA, LIMM, LIMMdup }, { C_F, C_CC } }
+
+/* lsr16<.f> RB,RC 00101xxx00101111xxxxxxxxxx001011 */
+{ "lsr16", 0x282f000b, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, SWAP, { RB, RC }, { C_F } }
+
+/* lsr16<.f> ZA,RC 0010111000101111x111xxxxxx001011 */
+{ "lsr16", 0x2e2f700b, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, SWAP, { ZA, RC }, { C_F } }
+
+/* lsr16<.f> RB,UIMM6_20 00101xxx01101111xxxxxxxxxx001011 */
+{ "lsr16", 0x286f000b, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, SWAP, { RB, UIMM6_20 }, { C_F } }
+
+/* lsr16<.f> ZA,UIMM6_20 0010111001101111x111xxxxxx001011 */
+{ "lsr16", 0x2e6f700b, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, SWAP, { ZA, UIMM6_20 }, { C_F } }
+
+/* lsr16<.f> RB,LIMM 00101xxx00101111xxxx111110001011 */
+{ "lsr16", 0x282f0f8b, 0xf8ff0fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, SWAP, { RB, LIMM }, { C_F } }
+
+/* lsr16<.f> ZA,LIMM 0010111000101111x111111110001011 */
+{ "lsr16", 0x2e2f7f8b, 0xffff7fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, SWAP, { ZA, LIMM }, { C_F } }
+
+/* lsr8<.f> RB,RC 00101xxx00101111xxxxxxxxxx001110 */
+{ "lsr8", 0x282f000e, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, SHFT1, { RB, RC }, { C_F } }
+
+/* lsr8<.f> ZA,RC 0010111000101111x111xxxxxx001110 */
+{ "lsr8", 0x2e2f700e, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, SHFT1, { ZA, RC }, { C_F } }
+
+/* lsr8<.f> RB,UIMM6_20 00101xxx01101111xxxxxxxxxx001110 */
+{ "lsr8", 0x286f000e, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, SHFT1, { RB, UIMM6_20 }, { C_F } }
+
+/* lsr8<.f> ZA,UIMM6_20 0010111001101111x111xxxxxx001110 */
+{ "lsr8", 0x2e6f700e, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, SHFT1, { ZA, UIMM6_20 }, { C_F } }
+
+/* lsr8<.f> RB,LIMM 00101xxx00101111xxxx111110001110 */
+{ "lsr8", 0x282f0f8e, 0xf8ff0fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, SHFT1, { RB, LIMM }, { C_F } }
+
+/* lsr8<.f> ZA,LIMM 0010111000101111x111111110001110 */
+{ "lsr8", 0x2e2f7f8e, 0xffff7fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, SHFT1, { ZA, LIMM }, { C_F } }
+
+/* lsrl<.f> RA,RB,RC 01011xxx00100001xxxxxxxxxxxxxxxx */
+{ "lsrl", 0x58210000, 0xf8ff0000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, RC }, { C_F } }
+
+/* lsrl<.f> ZA,RB,RC 01011xxx00100001xxxxxxxxxx111110 */
+{ "lsrl", 0x5821003e, 0xf8ff003f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, RC }, { C_F } }
+
+/* lsrl<.f><.cc> RB,RBdup,RC 01011xxx11100001xxxxxxxxxx0xxxxx */
+{ "lsrl", 0x58e10000, 0xf8ff0020, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, RC }, { C_F, C_CC } }
+
+/* lsrl<.f> RA,RB,UIMM6_20 01011xxx01100001xxxxxxxxxxxxxxxx */
+{ "lsrl", 0x58610000, 0xf8ff0000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, UIMM6_20 }, { C_F } }
+
+/* lsrl<.f> ZA,RB,UIMM6_20 01011xxx01100001xxxxxxxxxx111110 */
+{ "lsrl", 0x5861003e, 0xf8ff003f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, UIMM6_20 }, { C_F } }
+
+/* lsrl<.f><.cc> RB,RBdup,UIMM6_20 01011xxx11100001xxxxxxxxxx1xxxxx */
+{ "lsrl", 0x58e10020, 0xf8ff0020, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, UIMM6_20 }, { C_F, C_CC } }
+
+/* lsrl<.f> RB,RBdup,SIMM12_20 01011xxx10100001xxxxxxxxxxxxxxxx */
+{ "lsrl", 0x58a10000, 0xf8ff0000, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, SIMM12_20 }, { C_F } }
+
+/* lsrl<.f> RA,XIMM,RC 0101110000100001x111xxxxxxxxxxxx */
+{ "lsrl", 0x5c217000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, XIMM, RC }, { C_F } }
+
+/* lsrl<.f> RA,RB,XIMM 01011xxx00100001xxxx111100xxxxxx */
+{ "lsrl", 0x58210f00, 0xf8ff0fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, XIMM }, { C_F } }
+
+/* lsrl<.f> ZA,XIMM,RC 0101110000100001x111xxxxxx111110 */
+{ "lsrl", 0x5c21703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, RC }, { C_F } }
+
+/* lsrl<.f> ZA,RB,XIMM 01011xxx00100001xxxx111100111110 */
+{ "lsrl", 0x58210f3e, 0xf8ff0fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, XIMM }, { C_F } }
+
+/* lsrl<.f><.cc> ZA,XIMM,RC 0101110011100001x111xxxxxx0xxxxx */
+{ "lsrl", 0x5ce17000, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, RC }, { C_F, C_CC } }
+
+/* lsrl<.f><.cc> RB,RBdup,XIMM 01011xxx11100001xxxx1111000xxxxx */
+{ "lsrl", 0x58e10f00, 0xf8ff0fe0, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, XIMM }, { C_F, C_CC } }
+
+/* lsrl<.f> RA,XIMM,UIMM6_20 0101110001100001x111xxxxxxxxxxxx */
+{ "lsrl", 0x5c617000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, XIMM, UIMM6_20 }, { C_F } }
+
+/* lsrl<.f> ZA,XIMM,UIMM6_20 0101110001100001x111xxxxxx111110 */
+{ "lsrl", 0x5c61703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, UIMM6_20 }, { C_F } }
+
+/* lsrl<.f><.cc> ZA,XIMM,UIMM6_20 0101110011100001x111xxxxxx1xxxxx */
+{ "lsrl", 0x5ce17020, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, UIMM6_20 }, { C_F, C_CC } }
+
+/* lsrl<.f> RA,LIMM,RC 0101111000100001x111xxxxxxxxxxxx */
+{ "lsrl", 0x5e217000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, LIMM, RC }, { C_F } }
+
+/* lsrl<.f> RA,RB,LIMM 01011xxx00100001xxxx111110xxxxxx */
+{ "lsrl", 0x58210f80, 0xf8ff0fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, LIMM }, { C_F } }
+
+/* lsrl<.f> ZA,LIMM,RC 0101111000100001x111xxxxxx111110 */
+{ "lsrl", 0x5e21703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, RC }, { C_F } }
+
+/* lsrl<.f> ZA,RB,LIMM 01011xxx00100001xxxx111110111110 */
+{ "lsrl", 0x58210fbe, 0xf8ff0fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, LIMM }, { C_F } }
+
+/* lsrl<.f><.cc> ZA,LIMM,RC 0101111011100001x111xxxxxx0xxxxx */
+{ "lsrl", 0x5ee17000, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, RC }, { C_F, C_CC } }
+
+/* lsrl<.f><.cc> RB,RBdup,LIMM 01011xxx11100001xxxx1111100xxxxx */
+{ "lsrl", 0x58e10f80, 0xf8ff0fe0, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, LIMM }, { C_F, C_CC } }
+
+/* lsrl<.f> RA,LIMM,UIMM6_20 0101111001100001x111xxxxxxxxxxxx */
+{ "lsrl", 0x5e617000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, LIMM, UIMM6_20 }, { C_F } }
+
+/* lsrl<.f> ZA,LIMM,UIMM6_20 0101111001100001x111xxxxxx111110 */
+{ "lsrl", 0x5e61703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, UIMM6_20 }, { C_F } }
+
+/* lsrl<.f><.cc> ZA,LIMM,UIMM6_20 0101111011100001x111xxxxxx1xxxxx */
+{ "lsrl", 0x5ee17020, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, UIMM6_20 }, { C_F, C_CC } }
+
+/* lsrl<.f> ZA,XIMM,SIMM12_20 0101110010100001x111xxxxxxxxxxxx */
+{ "lsrl", 0x5ca17000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, SIMM12_20 }, { C_F } }
+
+/* lsrl<.f> ZA,LIMM,SIMM12_20 0101111010100001x111xxxxxxxxxxxx */
+{ "lsrl", 0x5ea17000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, SIMM12_20 }, { C_F } }
+
+/* lsrl<.f> RA,XIMM,XIMMdup 0101110000100001x111111100xxxxxx */
+{ "lsrl", 0x5c217f00, 0xffff7fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, XIMM, XIMMdup }, { C_F } }
+
+/* lsrl<.f> ZA,XIMM,XIMMdup 0101110000100001x111111100111110 */
+{ "lsrl", 0x5c217f3e, 0xffff7fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, XIMMdup }, { C_F } }
+
+/* lsrl<.f><.cc> ZA,XIMM,XIMMdup 0101110011100001x1111111000xxxxx */
+{ "lsrl", 0x5ce17f00, 0xffff7fe0, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, XIMMdup }, { C_F, C_CC } }
+
+/* lsrl<.f> RA,LIMM,LIMMdup 0101111000100001x111111110xxxxxx */
+{ "lsrl", 0x5e217f80, 0xffff7fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, LIMM, LIMMdup }, { C_F } }
+
+/* lsrl<.f> ZA,LIMM,LIMMdup 0101111000100001x111111110111110 */
+{ "lsrl", 0x5e217fbe, 0xffff7fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, LIMMdup }, { C_F } }
+
+/* lsrl<.f><.cc> ZA,LIMM,LIMMdup 0101111011100001x1111111100xxxxx */
+{ "lsrl", 0x5ee17f80, 0xffff7fe0, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, LIMMdup }, { C_F, C_CC } }
+
+/* lsr_s RB_S,RC_S 01111xxxxxx11101 */
+{ "lsr_s", 0x0000781d, 0x0000f81f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RB_S, RC_S }, { 0 } }
+
+/* lsr_s RB_S,RB_Sdup,RC_S 01111xxxxxx11001 */
+{ "lsr_s", 0x00007819, 0x0000f81f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, SHFT2, { RB_S, RB_Sdup, RC_S }, { 0 } }
+
+/* lsr_s RB_S,RB_Sdup,UIMM5_11_S 10111xxx001xxxxx */
+{ "lsr_s", 0x0000b820, 0x0000f8e0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, SHFT2, { RB_S, RB_Sdup, UIMM5_11_S }, { 0 } }
+
+/* lstl<.f> RB,RC 01011xxx00101111xxxxxxxxxx000010 */
+{ "lstl", 0x582f0002, 0xf8ff003f, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RC }, { C_F } }
+
+/* lstl<.f> ZA,RC 0101111000101111x111xxxxxx000010 */
+{ "lstl", 0x5e2f7002, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RC }, { C_F } }
+
+/* lstl<.f> RB,UIMM6_20 01011xxx01101111xxxxxxxxxx000010 */
+{ "lstl", 0x586f0002, 0xf8ff003f, ARC_OPCODE_ARC64, ARITH, NONE, { RB, UIMM6_20 }, { C_F } }
+
+/* lstl<.f> ZA,UIMM6_20 0101111001101111x111xxxxxx000010 */
+{ "lstl", 0x5e6f7002, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, UIMM6_20 }, { C_F } }
+
+/* lstl<.f> RB,XIMM 01011xxx00101111xxxx111100000010 */
+{ "lstl", 0x582f0f02, 0xf8ff0fff, ARC_OPCODE_ARC64, ARITH, NONE, { RB, XIMM }, { C_F } }
+
+/* lstl<.f> ZA,XIMM 0101111000101111x111111100000010 */
+{ "lstl", 0x5e2f7f02, 0xffff7fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM }, { C_F } }
+
+/* lstl<.f> RB,LIMM 01011xxx00101111xxxx111110000010 */
+{ "lstl", 0x582f0f82, 0xf8ff0fff, ARC_OPCODE_ARC64, ARITH, NONE, { RB, LIMM }, { C_F } }
+
+/* lstl<.f> ZA,LIMM 0101111000101111x111111110000010 */
+{ "lstl", 0x5e2f7f82, 0xffff7fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM }, { C_F } }
+
+/* mac<.f> RA_CHK,RB,RC 00101xxx00001110xxxxxxxxxxxxxxxx */
+{ "mac", 0x280e0000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { RA_CHK, RB, RC }, { C_F } }
+
+/* mac<.f> ZA,RB,RC 00101xxx00001110xxxxxxxxxx111110 */
+{ "mac", 0x280e003e, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { ZA, RB, RC }, { C_F } }
+
+/* mac<.f><.cc> RB_CHK,RBdup,RC 00101xxx11001110xxxxxxxxxx0xxxxx */
+{ "mac", 0x28ce0000, 0xf8ff0020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { RB_CHK, RBdup, RC }, { C_F, C_CC } }
+
+/* mac<.f> RA_CHK,RB,UIMM6_20 00101xxx01001110xxxxxxxxxxxxxxxx */
+{ "mac", 0x284e0000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { RA_CHK, RB, UIMM6_20 }, { C_F } }
+
+/* mac<.f> ZA,RB,UIMM6_20 00101xxx01001110xxxxxxxxxx111110 */
+{ "mac", 0x284e003e, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { ZA, RB, UIMM6_20 }, { C_F } }
+
+/* mac<.f><.cc> RB_CHK,RBdup,UIMM6_20 00101xxx11001110xxxxxxxxxx1xxxxx */
+{ "mac", 0x28ce0020, 0xf8ff0020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { RB_CHK, RBdup, UIMM6_20 }, { C_F, C_CC } }
+
+/* mac<.f> RB_CHK,RBdup,SIMM12_20 00101xxx10001110xxxxxxxxxxxxxxxx */
+{ "mac", 0x288e0000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { RB_CHK, RBdup, SIMM12_20 }, { C_F } }
+
+/* mac<.f> RA_CHK,LIMM,RC 0010111000001110x111xxxxxxxxxxxx */
+{ "mac", 0x2e0e7000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { RA_CHK, LIMM, RC }, { C_F } }
+
+/* mac<.f> RA_CHK,RB,LIMM 00101xxx00001110xxxx111110xxxxxx */
+{ "mac", 0x280e0f80, 0xf8ff0fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { RA_CHK, RB, LIMM }, { C_F } }
+
+/* mac<.f> ZA,LIMM,RC 0010111000001110x111xxxxxx111110 */
+{ "mac", 0x2e0e703e, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { ZA, LIMM, RC }, { C_F } }
+
+/* mac<.f> ZA,RB,LIMM 00101xxx00001110xxxx111110111110 */
+{ "mac", 0x280e0fbe, 0xf8ff0fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { ZA, RB, LIMM }, { C_F } }
+
+/* mac<.f><.cc> RB_CHK,RBdup,LIMM 00101xxx11001110xxxx1111100xxxxx */
+{ "mac", 0x28ce0f80, 0xf8ff0fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { RB_CHK, RBdup, LIMM }, { C_F, C_CC } }
+
+/* mac<.f><.cc> ZA,LIMM,RC 0010111011001110x111xxxxxx0xxxxx */
+{ "mac", 0x2ece7000, 0xffff7020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { ZA, LIMM, RC }, { C_F, C_CC } }
+
+/* mac<.f> RA_CHK,LIMM,UIMM6_20 0010111001001110x111xxxxxxxxxxxx */
+{ "mac", 0x2e4e7000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { RA_CHK, LIMM, UIMM6_20 }, { C_F } }
+
+/* mac<.f> ZA,LIMM,UIMM6_20 0010111001001110x111xxxxxx111110 */
+{ "mac", 0x2e4e703e, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { ZA, LIMM, UIMM6_20 }, { C_F } }
+
+/* mac<.f><.cc> ZA,LIMM,UIMM6_20 0010111011001110x111xxxxxx1xxxxx */
+{ "mac", 0x2ece7020, 0xffff7020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { ZA, LIMM, UIMM6_20 }, { C_F, C_CC } }
+
+/* mac<.f> ZA,LIMM,SIMM12_20 0010111010001110x111xxxxxxxxxxxx */
+{ "mac", 0x2e8e7000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { ZA, LIMM, SIMM12_20 }, { C_F } }
+
+/* mac<.f> RA_CHK,LIMM,LIMMdup 0010111000001110x111111110xxxxxx */
+{ "mac", 0x2e0e7f80, 0xffff7fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { RA_CHK, LIMM, LIMMdup }, { C_F } }
+
+/* mac<.f> ZA,LIMM,LIMMdup 0010111000001110x111111110111110 */
+{ "mac", 0x2e0e7fbe, 0xffff7fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { ZA, LIMM, LIMMdup }, { C_F } }
+
+/* mac<.f><.cc> ZA,LIMM,LIMMdup 0010111011001110x1111111100xxxxx */
+{ "mac", 0x2ece7f80, 0xffff7fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { ZA, LIMM, LIMMdup }, { C_F, C_CC } }
+
+/* macd<.f> RA_CHK,RB,RC 00101xxx00011010xxxxxxxxxxxxxxxx */
+{ "macd", 0x281a0000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY8E, { RA_CHK, RB, RC }, { C_F } }
+
+/* macd<.f> ZA,RB,RC 00101xxx00011010xxxxxxxxxx111110 */
+{ "macd", 0x281a003e, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY8E, { ZA, RB, RC }, { C_F } }
+
+/* macd<.f><.cc> RB_CHK,RBdup,RC 00101xxx11011010xxxxxxxxxx0xxxxx */
+{ "macd", 0x28da0000, 0xf8ff0020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY8E, { RB_CHK, RBdup, RC }, { C_F, C_CC } }
+
+/* macd<.f> RA_CHK,RB,UIMM6_20 00101xxx01011010xxxxxxxxxxxxxxxx */
+{ "macd", 0x285a0000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY8E, { RA_CHK, RB, UIMM6_20 }, { C_F } }
+
+/* macd<.f> ZA,RB,UIMM6_20 00101xxx01011010xxxxxxxxxx111110 */
+{ "macd", 0x285a003e, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY8E, { ZA, RB, UIMM6_20 }, { C_F } }
+
+/* macd<.f><.cc> RB_CHK,RBdup,UIMM6_20 00101xxx11011010xxxxxxxxxx1xxxxx */
+{ "macd", 0x28da0020, 0xf8ff0020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY8E, { RB_CHK, RBdup, UIMM6_20 }, { C_F, C_CC } }
+
+/* macd<.f> RB_CHK,RBdup,SIMM12_20 00101xxx10011010xxxxxxxxxxxxxxxx */
+{ "macd", 0x289a0000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY8E, { RB_CHK, RBdup, SIMM12_20 }, { C_F } }
+
+/* macd<.f> RA_CHK,LIMM,RC 0010111000011010x111xxxxxxxxxxxx */
+{ "macd", 0x2e1a7000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY8E, { RA_CHK, LIMM, RC }, { C_F } }
+
+/* macd<.f> RA_CHK,RB,LIMM 00101xxx00011010xxxx111110xxxxxx */
+{ "macd", 0x281a0f80, 0xf8ff0fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY8E, { RA_CHK, RB, LIMM }, { C_F } }
+
+/* macd<.f> ZA,LIMM,RC 0010111000011010x111xxxxxx111110 */
+{ "macd", 0x2e1a703e, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY8E, { ZA, LIMM, RC }, { C_F } }
+
+/* macd<.f> ZA,RB,LIMM 00101xxx00011010xxxx111110111110 */
+{ "macd", 0x281a0fbe, 0xf8ff0fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY8E, { ZA, RB, LIMM }, { C_F } }
+
+/* macd<.f><.cc> RB_CHK,RBdup,LIMM 00101xxx11011010xxxx1111100xxxxx */
+{ "macd", 0x28da0f80, 0xf8ff0fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY8E, { RB_CHK, RBdup, LIMM }, { C_F, C_CC } }
+
+/* macd<.f><.cc> ZA,LIMM,RC 0010111011011010x111xxxxxx0xxxxx */
+{ "macd", 0x2eda7000, 0xffff7020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY8E, { ZA, LIMM, RC }, { C_F, C_CC } }
+
+/* macd<.f> RA_CHK,LIMM,UIMM6_20 0010111001011010x111xxxxxxxxxxxx */
+{ "macd", 0x2e5a7000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY8E, { RA_CHK, LIMM, UIMM6_20 }, { C_F } }
+
+/* macd<.f> ZA,LIMM,UIMM6_20 0010111001011010x111xxxxxx111110 */
+{ "macd", 0x2e5a703e, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY8E, { ZA, LIMM, UIMM6_20 }, { C_F } }
+
+/* macd<.f><.cc> ZA,LIMM,UIMM6_20 0010111011011010x111xxxxxx1xxxxx */
+{ "macd", 0x2eda7020, 0xffff7020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY8E, { ZA, LIMM, UIMM6_20 }, { C_F, C_CC } }
+
+/* macd<.f> ZA,LIMM,SIMM12_20 0010111010011010x111xxxxxxxxxxxx */
+{ "macd", 0x2e9a7000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY8E, { ZA, LIMM, SIMM12_20 }, { C_F } }
+
+/* macd<.f> RA_CHK,LIMM,LIMMdup 0010111000011010x111111110xxxxxx */
+{ "macd", 0x2e1a7f80, 0xffff7fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY8E, { RA_CHK, LIMM, LIMMdup }, { C_F } }
+
+/* macd<.f> ZA,LIMM,LIMMdup 0010111000011010x111111110111110 */
+{ "macd", 0x2e1a7fbe, 0xffff7fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY8E, { ZA, LIMM, LIMMdup }, { C_F } }
+
+/* macd<.f><.cc> ZA,LIMM,LIMMdup 0010111011011010x1111111100xxxxx */
+{ "macd", 0x2eda7f80, 0xffff7fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY8E, { ZA, LIMM, LIMMdup }, { C_F, C_CC } }
+
+/* macdu<.f> RA_CHK,RB,RC 00101xxx00011011xxxxxxxxxxxxxxxx */
+{ "macdu", 0x281b0000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY8E, { RA_CHK, RB, RC }, { C_F } }
+
+/* macdu<.f> ZA,RB,RC 00101xxx00011011xxxxxxxxxx111110 */
+{ "macdu", 0x281b003e, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY8E, { ZA, RB, RC }, { C_F } }
+
+/* macdu<.f><.cc> RB_CHK,RBdup,RC 00101xxx11011011xxxxxxxxxx0xxxxx */
+{ "macdu", 0x28db0000, 0xf8ff0020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY8E, { RB_CHK, RBdup, RC }, { C_F, C_CC } }
+
+/* macdu<.f> RA_CHK,RB,UIMM6_20 00101xxx01011011xxxxxxxxxxxxxxxx */
+{ "macdu", 0x285b0000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY8E, { RA_CHK, RB, UIMM6_20 }, { C_F } }
+
+/* macdu<.f> ZA,RB,UIMM6_20 00101xxx01011011xxxxxxxxxx111110 */
+{ "macdu", 0x285b003e, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY8E, { ZA, RB, UIMM6_20 }, { C_F } }
+
+/* macdu<.f><.cc> RB_CHK,RBdup,UIMM6_20 00101xxx11011011xxxxxxxxxx1xxxxx */
+{ "macdu", 0x28db0020, 0xf8ff0020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY8E, { RB_CHK, RBdup, UIMM6_20 }, { C_F, C_CC } }
+
+/* macdu<.f> RB_CHK,RBdup,SIMM12_20 00101xxx10011011xxxxxxxxxxxxxxxx */
+{ "macdu", 0x289b0000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY8E, { RB_CHK, RBdup, SIMM12_20 }, { C_F } }
+
+/* macdu<.f> RA_CHK,LIMM,RC 0010111000011011x111xxxxxxxxxxxx */
+{ "macdu", 0x2e1b7000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY8E, { RA_CHK, LIMM, RC }, { C_F } }
+
+/* macdu<.f> RA_CHK,RB,LIMM 00101xxx00011011xxxx111110xxxxxx */
+{ "macdu", 0x281b0f80, 0xf8ff0fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY8E, { RA_CHK, RB, LIMM }, { C_F } }
+
+/* macdu<.f> ZA,LIMM,RC 0010111000011011x111xxxxxx111110 */
+{ "macdu", 0x2e1b703e, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY8E, { ZA, LIMM, RC }, { C_F } }
+
+/* macdu<.f> ZA,RB,LIMM 00101xxx00011011xxxx111110111110 */
+{ "macdu", 0x281b0fbe, 0xf8ff0fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY8E, { ZA, RB, LIMM }, { C_F } }
+
+/* macdu<.f><.cc> RB_CHK,RBdup,LIMM 00101xxx11011011xxxx1111100xxxxx */
+{ "macdu", 0x28db0f80, 0xf8ff0fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY8E, { RB_CHK, RBdup, LIMM }, { C_F, C_CC } }
+
+/* macdu<.f><.cc> ZA,LIMM,RC 0010111011011011x111xxxxxx0xxxxx */
+{ "macdu", 0x2edb7000, 0xffff7020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY8E, { ZA, LIMM, RC }, { C_F, C_CC } }
+
+/* macdu<.f> RA_CHK,LIMM,UIMM6_20 0010111001011011x111xxxxxxxxxxxx */
+{ "macdu", 0x2e5b7000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY8E, { RA_CHK, LIMM, UIMM6_20 }, { C_F } }
+
+/* macdu<.f> ZA,LIMM,UIMM6_20 0010111001011011x111xxxxxx111110 */
+{ "macdu", 0x2e5b703e, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY8E, { ZA, LIMM, UIMM6_20 }, { C_F } }
+
+/* macdu<.f><.cc> ZA,LIMM,UIMM6_20 0010111011011011x111xxxxxx1xxxxx */
+{ "macdu", 0x2edb7020, 0xffff7020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY8E, { ZA, LIMM, UIMM6_20 }, { C_F, C_CC } }
+
+/* macdu<.f> ZA,LIMM,SIMM12_20 0010111010011011x111xxxxxxxxxxxx */
+{ "macdu", 0x2e9b7000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY8E, { ZA, LIMM, SIMM12_20 }, { C_F } }
+
+/* macdu<.f> RA_CHK,LIMM,LIMMdup 0010111000011011x111111110xxxxxx */
+{ "macdu", 0x2e1b7f80, 0xffff7fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY8E, { RA_CHK, LIMM, LIMMdup }, { C_F } }
+
+/* macdu<.f> ZA,LIMM,LIMMdup 0010111000011011x111111110111110 */
+{ "macdu", 0x2e1b7fbe, 0xffff7fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY8E, { ZA, LIMM, LIMMdup }, { C_F } }
+
+/* macdu<.f><.cc> ZA,LIMM,LIMMdup 0010111011011011x1111111100xxxxx */
+{ "macdu", 0x2edb7f80, 0xffff7fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY8E, { ZA, LIMM, LIMMdup }, { C_F, C_CC } }
+
+/* macu<.f> RA_CHK,RB,RC 00101xxx00001111xxxxxxxxxxxxxxxx */
+{ "macu", 0x280f0000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { RA_CHK, RB, RC }, { C_F } }
+
+/* macu<.f> ZA,RB,RC 00101xxx00001111xxxxxxxxxx111110 */
+{ "macu", 0x280f003e, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { ZA, RB, RC }, { C_F } }
+
+/* macu<.f><.cc> RB_CHK,RBdup,RC 00101xxx11001111xxxxxxxxxx0xxxxx */
+{ "macu", 0x28cf0000, 0xf8ff0020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { RB_CHK, RBdup, RC }, { C_F, C_CC } }
+
+/* macu<.f> RA_CHK,RB,UIMM6_20 00101xxx01001111xxxxxxxxxxxxxxxx */
+{ "macu", 0x284f0000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { RA_CHK, RB, UIMM6_20 }, { C_F } }
+
+/* macu<.f> ZA,RB,UIMM6_20 00101xxx01001111xxxxxxxxxx111110 */
+{ "macu", 0x284f003e, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { ZA, RB, UIMM6_20 }, { C_F } }
+
+/* macu<.f><.cc> RB_CHK,RBdup,UIMM6_20 00101xxx11001111xxxxxxxxxx1xxxxx */
+{ "macu", 0x28cf0020, 0xf8ff0020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { RB_CHK, RBdup, UIMM6_20 }, { C_F, C_CC } }
+
+/* macu<.f> RB_CHK,RBdup,SIMM12_20 00101xxx10001111xxxxxxxxxxxxxxxx */
+{ "macu", 0x288f0000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { RB_CHK, RBdup, SIMM12_20 }, { C_F } }
+
+/* macu<.f> RA_CHK,LIMM,RC 0010111000001111x111xxxxxxxxxxxx */
+{ "macu", 0x2e0f7000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { RA_CHK, LIMM, RC }, { C_F } }
+
+/* macu<.f> RA_CHK,RB,LIMM 00101xxx00001111xxxx111110xxxxxx */
+{ "macu", 0x280f0f80, 0xf8ff0fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { RA_CHK, RB, LIMM }, { C_F } }
+
+/* macu<.f> ZA,LIMM,RC 0010111000001111x111xxxxxx111110 */
+{ "macu", 0x2e0f703e, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { ZA, LIMM, RC }, { C_F } }
+
+/* macu<.f> ZA,RB,LIMM 00101xxx00001111xxxx111110111110 */
+{ "macu", 0x280f0fbe, 0xf8ff0fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { ZA, RB, LIMM }, { C_F } }
+
+/* macu<.f><.cc> RB_CHK,RBdup,LIMM 00101xxx11001111xxxx1111100xxxxx */
+{ "macu", 0x28cf0f80, 0xf8ff0fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { RB_CHK, RBdup, LIMM }, { C_F, C_CC } }
+
+/* macu<.f><.cc> ZA,LIMM,RC 0010111011001111x111xxxxxx0xxxxx */
+{ "macu", 0x2ecf7000, 0xffff7020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { ZA, LIMM, RC }, { C_F, C_CC } }
+
+/* macu<.f> RA_CHK,LIMM,UIMM6_20 0010111001001111x111xxxxxxxxxxxx */
+{ "macu", 0x2e4f7000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { RA_CHK, LIMM, UIMM6_20 }, { C_F } }
+
+/* macu<.f> ZA,LIMM,UIMM6_20 0010111001001111x111xxxxxx111110 */
+{ "macu", 0x2e4f703e, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { ZA, LIMM, UIMM6_20 }, { C_F } }
+
+/* macu<.f><.cc> ZA,LIMM,UIMM6_20 0010111011001111x111xxxxxx1xxxxx */
+{ "macu", 0x2ecf7020, 0xffff7020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { ZA, LIMM, UIMM6_20 }, { C_F, C_CC } }
+
+/* macu<.f> ZA,LIMM,SIMM12_20 0010111010001111x111xxxxxxxxxxxx */
+{ "macu", 0x2e8f7000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { ZA, LIMM, SIMM12_20 }, { C_F } }
+
+/* macu<.f> RA_CHK,LIMM,LIMMdup 0010111000001111x111111110xxxxxx */
+{ "macu", 0x2e0f7f80, 0xffff7fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { RA_CHK, LIMM, LIMMdup }, { C_F } }
+
+/* macu<.f> ZA,LIMM,LIMMdup 0010111000001111x111111110111110 */
+{ "macu", 0x2e0f7fbe, 0xffff7fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { ZA, LIMM, LIMMdup }, { C_F } }
+
+/* macu<.f><.cc> ZA,LIMM,LIMMdup 0010111011001111x1111111100xxxxx */
+{ "macu", 0x2ecf7f80, 0xffff7fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { ZA, LIMM, LIMMdup }, { C_F, C_CC } }
+
+/* max<.f> RA,RB,RC 00100xxx00001000xxxxxxxxxxxxxxxx */
+{ "max", 0x20080000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RA, RB, RC }, { C_F } }
+
+/* max<.f> ZA,RB,RC 00100xxx00001000xxxxxxxxxx111110 */
+{ "max", 0x2008003e, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { ZA, RB, RC }, { C_F } }
+
+/* max<.f><.cc> RB,RBdup,RC 00100xxx11001000xxxxxxxxxx0xxxxx */
+{ "max", 0x20c80000, 0xf8ff0020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RB, RBdup, RC }, { C_F, C_CC } }
+
+/* max<.f> RA,RB,UIMM6_20 00100xxx01001000xxxxxxxxxxxxxxxx */
+{ "max", 0x20480000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RA, RB, UIMM6_20 }, { C_F } }
+
+/* max<.f> ZA,RB,UIMM6_20 00100xxx01001000xxxxxxxxxx111110 */
+{ "max", 0x2048003e, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { ZA, RB, UIMM6_20 }, { C_F } }
+
+/* max<.f><.cc> RB,RBdup,UIMM6_20 00100xxx11001000xxxxxxxxxx1xxxxx */
+{ "max", 0x20c80020, 0xf8ff0020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RB, RBdup, UIMM6_20 }, { C_F, C_CC } }
+
+/* max<.f> RB,RBdup,SIMM12_20 00100xxx10001000xxxxxxxxxxxxxxxx */
+{ "max", 0x20880000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RB, RBdup, SIMM12_20 }, { C_F } }
+
+/* max<.f> RA,LIMM,RC 0010011000001000x111xxxxxxxxxxxx */
+{ "max", 0x26087000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RA, LIMM, RC }, { C_F } }
+
+/* max<.f> RA,RB,LIMM 00100xxx00001000xxxx111110xxxxxx */
+{ "max", 0x20080f80, 0xf8ff0fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RA, RB, LIMM }, { C_F } }
+
+/* max<.f> ZA,LIMM,RC 0010011000001000x111xxxxxx111110 */
+{ "max", 0x2608703e, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { ZA, LIMM, RC }, { C_F } }
+
+/* max<.f> ZA,RB,LIMM 00100xxx00001000xxxx111110111110 */
+{ "max", 0x20080fbe, 0xf8ff0fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { ZA, RB, LIMM }, { C_F } }
+
+/* max<.f><.cc> RB,RBdup,LIMM 00100xxx11001000xxxx1111100xxxxx */
+{ "max", 0x20c80f80, 0xf8ff0fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RB, RBdup, LIMM }, { C_F, C_CC } }
+
+/* max<.f><.cc> ZA,LIMM,RC 0010011011001000x111xxxxxx0xxxxx */
+{ "max", 0x26c87000, 0xffff7020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { ZA, LIMM, RC }, { C_F, C_CC } }
+
+/* max<.f> RA,LIMM,UIMM6_20 0010011001001000x111xxxxxxxxxxxx */
+{ "max", 0x26487000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RA, LIMM, UIMM6_20 }, { C_F } }
+
+/* max<.f> ZA,LIMM,UIMM6_20 0010011001001000x111xxxxxx111110 */
+{ "max", 0x2648703e, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { ZA, LIMM, UIMM6_20 }, { C_F } }
+
+/* max<.f><.cc> ZA,LIMM,UIMM6_20 0010011011001000x111xxxxxx1xxxxx */
+{ "max", 0x26c87020, 0xffff7020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { ZA, LIMM, UIMM6_20 }, { C_F, C_CC } }
+
+/* max<.f> ZA,LIMM,SIMM12_20 0010011010001000x111xxxxxxxxxxxx */
+{ "max", 0x26887000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { ZA, LIMM, SIMM12_20 }, { C_F } }
+
+/* max<.f> RA,LIMM,LIMMdup 0010011000001000x111111110xxxxxx */
+{ "max", 0x26087f80, 0xffff7fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RA, LIMM, LIMMdup }, { C_F } }
+
+/* max<.f> ZA,LIMM,LIMMdup 0010011000001000x111111110111110 */
+{ "max", 0x26087fbe, 0xffff7fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { ZA, LIMM, LIMMdup }, { C_F } }
+
+/* max<.f><.cc> ZA,LIMM,LIMMdup 0010011011001000x1111111100xxxxx */
+{ "max", 0x26c87f80, 0xffff7fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { ZA, LIMM, LIMMdup }, { C_F, C_CC } }
+
+/* maxl<.f> RA,RB,RC 01011xxx00001000xxxxxxxxxxxxxxxx */
+{ "maxl", 0x58080000, 0xf8ff0000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, RC }, { C_F } }
+
+/* maxl<.f> ZA,RB,RC 01011xxx00001000xxxxxxxxxx111110 */
+{ "maxl", 0x5808003e, 0xf8ff003f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, RC }, { C_F } }
+
+/* maxl<.f><.cc> RB,RBdup,RC 01011xxx11001000xxxxxxxxxx0xxxxx */
+{ "maxl", 0x58c80000, 0xf8ff0020, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, RC }, { C_F, C_CC } }
+
+/* maxl<.f> RA,RB,UIMM6_20 01011xxx01001000xxxxxxxxxxxxxxxx */
+{ "maxl", 0x58480000, 0xf8ff0000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, UIMM6_20 }, { C_F } }
+
+/* maxl<.f> ZA,RB,UIMM6_20 01011xxx01001000xxxxxxxxxx111110 */
+{ "maxl", 0x5848003e, 0xf8ff003f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, UIMM6_20 }, { C_F } }
+
+/* maxl<.f><.cc> RB,RBdup,UIMM6_20 01011xxx11001000xxxxxxxxxx1xxxxx */
+{ "maxl", 0x58c80020, 0xf8ff0020, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, UIMM6_20 }, { C_F, C_CC } }
+
+/* maxl<.f> RB,RBdup,SIMM12_20 01011xxx10001000xxxxxxxxxxxxxxxx */
+{ "maxl", 0x58880000, 0xf8ff0000, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, SIMM12_20 }, { C_F } }
+
+/* maxl<.f> RA,XIMM,RC 0101110000001000x111xxxxxxxxxxxx */
+{ "maxl", 0x5c087000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, XIMM, RC }, { C_F } }
+
+/* maxl<.f> RA,RB,XIMM 01011xxx00001000xxxx111100xxxxxx */
+{ "maxl", 0x58080f00, 0xf8ff0fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, XIMM }, { C_F } }
+
+/* maxl<.f> ZA,XIMM,RC 0101110000001000x111xxxxxx111110 */
+{ "maxl", 0x5c08703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, RC }, { C_F } }
+
+/* maxl<.f> ZA,RB,XIMM 01011xxx00001000xxxx111100111110 */
+{ "maxl", 0x58080f3e, 0xf8ff0fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, XIMM }, { C_F } }
+
+/* maxl<.f><.cc> ZA,XIMM,RC 0101110011001000x111xxxxxx0xxxxx */
+{ "maxl", 0x5cc87000, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, RC }, { C_F, C_CC } }
+
+/* maxl<.f><.cc> RB,RBdup,XIMM 01011xxx11001000xxxx1111000xxxxx */
+{ "maxl", 0x58c80f00, 0xf8ff0fe0, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, XIMM }, { C_F, C_CC } }
+
+/* maxl<.f> RA,XIMM,UIMM6_20 0101110001001000x111xxxxxxxxxxxx */
+{ "maxl", 0x5c487000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, XIMM, UIMM6_20 }, { C_F } }
+
+/* maxl<.f> ZA,XIMM,UIMM6_20 0101110001001000x111xxxxxx111110 */
+{ "maxl", 0x5c48703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, UIMM6_20 }, { C_F } }
+
+/* maxl<.f><.cc> ZA,XIMM,UIMM6_20 0101110011001000x111xxxxxx1xxxxx */
+{ "maxl", 0x5cc87020, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, UIMM6_20 }, { C_F, C_CC } }
+
+/* maxl<.f> RA,LIMM,RC 0101111000001000x111xxxxxxxxxxxx */
+{ "maxl", 0x5e087000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, LIMM, RC }, { C_F } }
+
+/* maxl<.f> RA,RB,LIMM 01011xxx00001000xxxx111110xxxxxx */
+{ "maxl", 0x58080f80, 0xf8ff0fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, LIMM }, { C_F } }
+
+/* maxl<.f> ZA,LIMM,RC 0101111000001000x111xxxxxx111110 */
+{ "maxl", 0x5e08703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, RC }, { C_F } }
+
+/* maxl<.f> ZA,RB,LIMM 01011xxx00001000xxxx111110111110 */
+{ "maxl", 0x58080fbe, 0xf8ff0fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, LIMM }, { C_F } }
+
+/* maxl<.f><.cc> ZA,LIMM,RC 0101111011001000x111xxxxxx0xxxxx */
+{ "maxl", 0x5ec87000, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, RC }, { C_F, C_CC } }
+
+/* maxl<.f><.cc> RB,RBdup,LIMM 01011xxx11001000xxxx1111100xxxxx */
+{ "maxl", 0x58c80f80, 0xf8ff0fe0, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, LIMM }, { C_F, C_CC } }
+
+/* maxl<.f> RA,LIMM,UIMM6_20 0101111001001000x111xxxxxxxxxxxx */
+{ "maxl", 0x5e487000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, LIMM, UIMM6_20 }, { C_F } }
+
+/* maxl<.f> ZA,LIMM,UIMM6_20 0101111001001000x111xxxxxx111110 */
+{ "maxl", 0x5e48703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, UIMM6_20 }, { C_F } }
+
+/* maxl<.f><.cc> ZA,LIMM,UIMM6_20 0101111011001000x111xxxxxx1xxxxx */
+{ "maxl", 0x5ec87020, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, UIMM6_20 }, { C_F, C_CC } }
+
+/* maxl<.f> ZA,XIMM,SIMM12_20 0101110010001000x111xxxxxxxxxxxx */
+{ "maxl", 0x5c887000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, SIMM12_20 }, { C_F } }
+
+/* maxl<.f> ZA,LIMM,SIMM12_20 0101111010001000x111xxxxxxxxxxxx */
+{ "maxl", 0x5e887000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, SIMM12_20 }, { C_F } }
+
+/* maxl<.f> RA,XIMM,XIMMdup 0101110000001000x111111100xxxxxx */
+{ "maxl", 0x5c087f00, 0xffff7fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, XIMM, XIMMdup }, { C_F } }
+
+/* maxl<.f> ZA,XIMM,XIMMdup 0101110000001000x111111100111110 */
+{ "maxl", 0x5c087f3e, 0xffff7fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, XIMMdup }, { C_F } }
+
+/* maxl<.f><.cc> ZA,XIMM,XIMMdup 0101110011001000x1111111000xxxxx */
+{ "maxl", 0x5cc87f00, 0xffff7fe0, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, XIMMdup }, { C_F, C_CC } }
+
+/* maxl<.f> RA,LIMM,LIMMdup 0101111000001000x111111110xxxxxx */
+{ "maxl", 0x5e087f80, 0xffff7fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, LIMM, LIMMdup }, { C_F } }
+
+/* maxl<.f> ZA,LIMM,LIMMdup 0101111000001000x111111110111110 */
+{ "maxl", 0x5e087fbe, 0xffff7fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, LIMMdup }, { C_F } }
+
+/* maxl<.f><.cc> ZA,LIMM,LIMMdup 0101111011001000x1111111100xxxxx */
+{ "maxl", 0x5ec87f80, 0xffff7fe0, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, LIMMdup }, { C_F, C_CC } }
+
+/* min<.f> RA,RB,RC 00100xxx00001001xxxxxxxxxxxxxxxx */
+{ "min", 0x20090000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RA, RB, RC }, { C_F } }
+
+/* min<.f> ZA,RB,RC 00100xxx00001001xxxxxxxxxx111110 */
+{ "min", 0x2009003e, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { ZA, RB, RC }, { C_F } }
+
+/* min<.f><.cc> RB,RBdup,RC 00100xxx11001001xxxxxxxxxx0xxxxx */
+{ "min", 0x20c90000, 0xf8ff0020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RB, RBdup, RC }, { C_F, C_CC } }
+
+/* min<.f> RA,RB,UIMM6_20 00100xxx01001001xxxxxxxxxxxxxxxx */
+{ "min", 0x20490000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RA, RB, UIMM6_20 }, { C_F } }
+
+/* min<.f> ZA,RB,UIMM6_20 00100xxx01001001xxxxxxxxxx111110 */
+{ "min", 0x2049003e, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { ZA, RB, UIMM6_20 }, { C_F } }
+
+/* min<.f><.cc> RB,RBdup,UIMM6_20 00100xxx11001001xxxxxxxxxx1xxxxx */
+{ "min", 0x20c90020, 0xf8ff0020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RB, RBdup, UIMM6_20 }, { C_F, C_CC } }
+
+/* min<.f> RB,RBdup,SIMM12_20 00100xxx10001001xxxxxxxxxxxxxxxx */
+{ "min", 0x20890000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RB, RBdup, SIMM12_20 }, { C_F } }
+
+/* min<.f> RA,LIMM,RC 0010011000001001x111xxxxxxxxxxxx */
+{ "min", 0x26097000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RA, LIMM, RC }, { C_F } }
+
+/* min<.f> RA,RB,LIMM 00100xxx00001001xxxx111110xxxxxx */
+{ "min", 0x20090f80, 0xf8ff0fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RA, RB, LIMM }, { C_F } }
+
+/* min<.f> ZA,LIMM,RC 0010011000001001x111xxxxxx111110 */
+{ "min", 0x2609703e, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { ZA, LIMM, RC }, { C_F } }
+
+/* min<.f> ZA,RB,LIMM 00100xxx00001001xxxx111110111110 */
+{ "min", 0x20090fbe, 0xf8ff0fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { ZA, RB, LIMM }, { C_F } }
+
+/* min<.f><.cc> RB,RBdup,LIMM 00100xxx11001001xxxx1111100xxxxx */
+{ "min", 0x20c90f80, 0xf8ff0fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RB, RBdup, LIMM }, { C_F, C_CC } }
+
+/* min<.f><.cc> ZA,LIMM,RC 0010011011001001x111xxxxxx0xxxxx */
+{ "min", 0x26c97000, 0xffff7020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { ZA, LIMM, RC }, { C_F, C_CC } }
+
+/* min<.f> RA,LIMM,UIMM6_20 0010011001001001x111xxxxxxxxxxxx */
+{ "min", 0x26497000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RA, LIMM, UIMM6_20 }, { C_F } }
+
+/* min<.f> ZA,LIMM,UIMM6_20 0010011001001001x111xxxxxx111110 */
+{ "min", 0x2649703e, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { ZA, LIMM, UIMM6_20 }, { C_F } }
+
+/* min<.f><.cc> ZA,LIMM,UIMM6_20 0010011011001001x111xxxxxx1xxxxx */
+{ "min", 0x26c97020, 0xffff7020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { ZA, LIMM, UIMM6_20 }, { C_F, C_CC } }
+
+/* min<.f> ZA,LIMM,SIMM12_20 0010011010001001x111xxxxxxxxxxxx */
+{ "min", 0x26897000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { ZA, LIMM, SIMM12_20 }, { C_F } }
+
+/* min<.f> RA,LIMM,LIMMdup 0010011000001001x111111110xxxxxx */
+{ "min", 0x26097f80, 0xffff7fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RA, LIMM, LIMMdup }, { C_F } }
+
+/* min<.f> ZA,LIMM,LIMMdup 0010011000001001x111111110111110 */
+{ "min", 0x26097fbe, 0xffff7fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { ZA, LIMM, LIMMdup }, { C_F } }
+
+/* min<.f><.cc> ZA,LIMM,LIMMdup 0010011011001001x1111111100xxxxx */
+{ "min", 0x26c97f80, 0xffff7fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { ZA, LIMM, LIMMdup }, { C_F, C_CC } }
+
+/* minl<.f> RA,RB,RC 01011xxx00001001xxxxxxxxxxxxxxxx */
+{ "minl", 0x58090000, 0xf8ff0000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, RC }, { C_F } }
+
+/* minl<.f> ZA,RB,RC 01011xxx00001001xxxxxxxxxx111110 */
+{ "minl", 0x5809003e, 0xf8ff003f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, RC }, { C_F } }
+
+/* minl<.f><.cc> RB,RBdup,RC 01011xxx11001001xxxxxxxxxx0xxxxx */
+{ "minl", 0x58c90000, 0xf8ff0020, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, RC }, { C_F, C_CC } }
+
+/* minl<.f> RA,RB,UIMM6_20 01011xxx01001001xxxxxxxxxxxxxxxx */
+{ "minl", 0x58490000, 0xf8ff0000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, UIMM6_20 }, { C_F } }
+
+/* minl<.f> ZA,RB,UIMM6_20 01011xxx01001001xxxxxxxxxx111110 */
+{ "minl", 0x5849003e, 0xf8ff003f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, UIMM6_20 }, { C_F } }
+
+/* minl<.f><.cc> RB,RBdup,UIMM6_20 01011xxx11001001xxxxxxxxxx1xxxxx */
+{ "minl", 0x58c90020, 0xf8ff0020, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, UIMM6_20 }, { C_F, C_CC } }
+
+/* minl<.f> RB,RBdup,SIMM12_20 01011xxx10001001xxxxxxxxxxxxxxxx */
+{ "minl", 0x58890000, 0xf8ff0000, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, SIMM12_20 }, { C_F } }
+
+/* minl<.f> RA,XIMM,RC 0101110000001001x111xxxxxxxxxxxx */
+{ "minl", 0x5c097000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, XIMM, RC }, { C_F } }
+
+/* minl<.f> RA,RB,XIMM 01011xxx00001001xxxx111100xxxxxx */
+{ "minl", 0x58090f00, 0xf8ff0fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, XIMM }, { C_F } }
+
+/* minl<.f> ZA,XIMM,RC 0101110000001001x111xxxxxx111110 */
+{ "minl", 0x5c09703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, RC }, { C_F } }
+
+/* minl<.f> ZA,RB,XIMM 01011xxx00001001xxxx111100111110 */
+{ "minl", 0x58090f3e, 0xf8ff0fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, XIMM }, { C_F } }
+
+/* minl<.f><.cc> ZA,XIMM,RC 0101110011001001x111xxxxxx0xxxxx */
+{ "minl", 0x5cc97000, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, RC }, { C_F, C_CC } }
+
+/* minl<.f><.cc> RB,RBdup,XIMM 01011xxx11001001xxxx1111000xxxxx */
+{ "minl", 0x58c90f00, 0xf8ff0fe0, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, XIMM }, { C_F, C_CC } }
+
+/* minl<.f> RA,XIMM,UIMM6_20 0101110001001001x111xxxxxxxxxxxx */
+{ "minl", 0x5c497000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, XIMM, UIMM6_20 }, { C_F } }
+
+/* minl<.f> ZA,XIMM,UIMM6_20 0101110001001001x111xxxxxx111110 */
+{ "minl", 0x5c49703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, UIMM6_20 }, { C_F } }
+
+/* minl<.f><.cc> ZA,XIMM,UIMM6_20 0101110011001001x111xxxxxx1xxxxx */
+{ "minl", 0x5cc97020, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, UIMM6_20 }, { C_F, C_CC } }
+
+/* minl<.f> RA,LIMM,RC 0101111000001001x111xxxxxxxxxxxx */
+{ "minl", 0x5e097000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, LIMM, RC }, { C_F } }
+
+/* minl<.f> RA,RB,LIMM 01011xxx00001001xxxx111110xxxxxx */
+{ "minl", 0x58090f80, 0xf8ff0fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, LIMM }, { C_F } }
+
+/* minl<.f> ZA,LIMM,RC 0101111000001001x111xxxxxx111110 */
+{ "minl", 0x5e09703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, RC }, { C_F } }
+
+/* minl<.f> ZA,RB,LIMM 01011xxx00001001xxxx111110111110 */
+{ "minl", 0x58090fbe, 0xf8ff0fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, LIMM }, { C_F } }
+
+/* minl<.f><.cc> ZA,LIMM,RC 0101111011001001x111xxxxxx0xxxxx */
+{ "minl", 0x5ec97000, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, RC }, { C_F, C_CC } }
+
+/* minl<.f><.cc> RB,RBdup,LIMM 01011xxx11001001xxxx1111100xxxxx */
+{ "minl", 0x58c90f80, 0xf8ff0fe0, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, LIMM }, { C_F, C_CC } }
+
+/* minl<.f> RA,LIMM,UIMM6_20 0101111001001001x111xxxxxxxxxxxx */
+{ "minl", 0x5e497000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, LIMM, UIMM6_20 }, { C_F } }
+
+/* minl<.f> ZA,LIMM,UIMM6_20 0101111001001001x111xxxxxx111110 */
+{ "minl", 0x5e49703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, UIMM6_20 }, { C_F } }
+
+/* minl<.f><.cc> ZA,LIMM,UIMM6_20 0101111011001001x111xxxxxx1xxxxx */
+{ "minl", 0x5ec97020, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, UIMM6_20 }, { C_F, C_CC } }
+
+/* minl<.f> ZA,XIMM,SIMM12_20 0101110010001001x111xxxxxxxxxxxx */
+{ "minl", 0x5c897000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, SIMM12_20 }, { C_F } }
+
+/* minl<.f> ZA,LIMM,SIMM12_20 0101111010001001x111xxxxxxxxxxxx */
+{ "minl", 0x5e897000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, SIMM12_20 }, { C_F } }
+
+/* minl<.f> RA,XIMM,XIMMdup 0101110000001001x111111100xxxxxx */
+{ "minl", 0x5c097f00, 0xffff7fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, XIMM, XIMMdup }, { C_F } }
+
+/* minl<.f> ZA,XIMM,XIMMdup 0101110000001001x111111100111110 */
+{ "minl", 0x5c097f3e, 0xffff7fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, XIMMdup }, { C_F } }
+
+/* minl<.f><.cc> ZA,XIMM,XIMMdup 0101110011001001x1111111000xxxxx */
+{ "minl", 0x5cc97f00, 0xffff7fe0, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, XIMMdup }, { C_F, C_CC } }
+
+/* minl<.f> RA,LIMM,LIMMdup 0101111000001001x111111110xxxxxx */
+{ "minl", 0x5e097f80, 0xffff7fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, LIMM, LIMMdup }, { C_F } }
+
+/* minl<.f> ZA,LIMM,LIMMdup 0101111000001001x111111110111110 */
+{ "minl", 0x5e097fbe, 0xffff7fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, LIMMdup }, { C_F } }
+
+/* minl<.f><.cc> ZA,LIMM,LIMMdup 0101111011001001x1111111100xxxxx */
+{ "minl", 0x5ec97f80, 0xffff7fe0, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, LIMMdup }, { C_F, C_CC } }
+
+/* nop  00100110010010100111000000000000 */
+{ "nop", 0x264a7000, 0xffffffff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, CONTROL, NONE, {  }, { 0 } }
+
+/* mov<.f> RB,RC 00100xxx00001010xxxxxxxxxxxxxxxx */
+{ "mov", 0x200a0000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MOVE, NONE, { RB, RC }, { C_F } }
+
+/* mov<.f> ZA,RC 0010011000001010x111xxxxxxxxxxxx */
+{ "mov", 0x260a7000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MOVE, NONE, { ZA, RC }, { C_F } }
+
+/* mov<.f><.cc> RB,RC 00100xxx11001010xxxxxxxxxx0xxxxx */
+{ "mov", 0x20ca0000, 0xf8ff0020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MOVE, NONE, { RB, RC }, { C_F, C_CC } }
+
+/* mov<.f><.cc> ZA,RC 0010011011001010x111xxxxxx0xxxxx */
+{ "mov", 0x26ca7000, 0xffff7020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MOVE, NONE, { ZA, RC }, { C_F, C_CC } }
+
+/* mov<.f> RB,UIMM6_20 00100xxx01001010xxxxxxxxxxxxxxxx */
+{ "mov", 0x204a0000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MOVE, NONE, { RB, UIMM6_20 }, { C_F } }
+
+/* mov<.f> ZA,UIMM6_20 0010011001001010x111xxxxxxxxxxxx */
+{ "mov", 0x264a7000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MOVE, NONE, { ZA, UIMM6_20 }, { C_F } }
+
+/* mov<.f><.cc> RB,UIMM6_20 00100xxx11001010xxxxxxxxxx1xxxxx */
+{ "mov", 0x20ca0020, 0xf8ff0020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MOVE, NONE, { RB, UIMM6_20 }, { C_F, C_CC } }
+
+/* mov<.f><.cc> ZA,UIMM6_20 0010011011001010x111xxxxxx1xxxxx */
+{ "mov", 0x26ca7020, 0xffff7020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MOVE, NONE, { ZA, UIMM6_20 }, { C_F, C_CC } }
+
+/* mov<.f> RB,SIMM12_20 00100xxx10001010xxxxxxxxxxxxxxxx */
+{ "mov", 0x208a0000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MOVE, NONE, { RB, SIMM12_20 }, { C_F } }
+
+/* mov<.f> ZA,SIMM12_20 0010011010001010x111xxxxxxxxxxxx */
+{ "mov", 0x268a7000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MOVE, NONE, { ZA, SIMM12_20 }, { C_F } }
+
+/* mov<.f> RB,LIMM 00100xxx00001010xxxx111110xxxxxx */
+{ "mov", 0x200a0f80, 0xf8ff0fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MOVE, NONE, { RB, LIMM }, { C_F } }
+
+/* mov<.f> ZA,LIMM 0010011000001010x111111110xxxxxx */
+{ "mov", 0x260a7f80, 0xffff7fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MOVE, NONE, { ZA, LIMM }, { C_F } }
+
+/* mov<.f><.cc> RB,LIMM 00100xxx11001010xxxx1111100xxxxx */
+{ "mov", 0x20ca0f80, 0xf8ff0fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MOVE, NONE, { RB, LIMM }, { C_F, C_CC } }
+
+/* mov<.f><.cc> ZA,LIMM 0010011011001010x1111111100xxxxx */
+{ "mov", 0x26ca7f80, 0xffff7fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MOVE, NONE, { ZA, LIMM }, { C_F, C_CC } }
+
+/* movhl RB,RC 01011xxx000010110xxxxxxxxxxxxxxx */
+{ "movhl", 0x580b0000, 0xf8ff8000, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RC }, { 0 } }
+
+/* movhl<.cc> RB,RC 01011xxx110010110xxxxxxxxx0xxxxx */
+{ "movhl", 0x58cb0000, 0xf8ff8020, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RC }, { C_CC } }
+
+/* movhl RB,UIMM6_20 01011xxx010010110xxxxxxxxxxxxxxx */
+{ "movhl", 0x584b0000, 0xf8ff8000, ARC_OPCODE_ARC64, ARITH, NONE, { RB, UIMM6_20 }, { 0 } }
+
+/* movhl<.cc> RB,UIMM6_20 01011xxx110010110xxxxxxxxx1xxxxx */
+{ "movhl", 0x58cb0020, 0xf8ff8020, ARC_OPCODE_ARC64, ARITH, NONE, { RB, UIMM6_20 }, { C_CC } }
+
+/* movhl RB,SIMM12_20 01011xxx100010110xxxxxxxxxxxxxxx */
+{ "movhl", 0x588b0000, 0xf8ff8000, ARC_OPCODE_ARC64, ARITH, NONE, { RB, SIMM12_20 }, { 0 } }
+
+/* movhl RB,HI32 01011xxx000010110xxx111110xxxxxx */
+{ "movhl", 0x580b0f80, 0xf8ff8fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RB, HI32 }, { 0 } }
+
+/* movhl<.cc> RB,HI32 01011xxx110010110xxx1111100xxxxx */
+{ "movhl", 0x58cb0f80, 0xf8ff8fe0, ARC_OPCODE_ARC64, ARITH, NONE, { RB, HI32 }, { C_CC } }
+
+/* movhl_s RH_S,HI32 01110000xxx010xx */
+{ "movhl_s", 0x00007008, 0x0000ff1c, ARC_OPCODE_ARC64, ARITH, NONE, { RH_S, HI32 }, { 0 } }
+
+/* movl<.f> RB,RC 01011xxx00001010xxxxxxxxxxxxxxxx */
+{ "movl", 0x580a0000, 0xf8ff0000, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RC }, { C_F } }
+
+/* movl<.f><.cc> RB,RC 01011xxx11001010xxxxxxxxxx0xxxxx */
+{ "movl", 0x58ca0000, 0xf8ff0020, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RC }, { C_F, C_CC } }
+
+/* movl<.f> RB,UIMM6_20 01011xxx01001010xxxxxxxxxxxxxxxx */
+{ "movl", 0x584a0000, 0xf8ff0000, ARC_OPCODE_ARC64, ARITH, NONE, { RB, UIMM6_20 }, { C_F } }
+
+/* movl<.f><.cc> RB,UIMM6_20 01011xxx11001010xxxxxxxxxx1xxxxx */
+{ "movl", 0x58ca0020, 0xf8ff0020, ARC_OPCODE_ARC64, ARITH, NONE, { RB, UIMM6_20 }, { C_F, C_CC } }
+
+/* movl<.f> RB,SIMM12_20 01011xxx10001010xxxxxxxxxxxxxxxx */
+{ "movl", 0x588a0000, 0xf8ff0000, ARC_OPCODE_ARC64, ARITH, NONE, { RB, SIMM12_20 }, { C_F } }
+
+/* movl<.f> RB,XIMM 01011xxx00001010xxxx111100xxxxxx */
+{ "movl", 0x580a0f00, 0xf8ff0fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RB, XIMM }, { C_F } }
+
+/* movl<.f><.cc> RB,XIMM 01011xxx11001010xxxx1111000xxxxx */
+{ "movl", 0x58ca0f00, 0xf8ff0fe0, ARC_OPCODE_ARC64, ARITH, NONE, { RB, XIMM }, { C_F, C_CC } }
+
+/* movl<.f> RB,LIMM 01011xxx00001010xxxx111110xxxxxx */
+{ "movl", 0x580a0f80, 0xf8ff0fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RB, LIMM }, { C_F } }
+
+/* movl<.f><.cc> RB,LIMM 01011xxx11001010xxxx1111100xxxxx */
+{ "movl", 0x58ca0f80, 0xf8ff0fe0, ARC_OPCODE_ARC64, ARITH, NONE, { RB, LIMM }, { C_F, C_CC } }
+
+/* movl_s G_S,RH_S 01000xxxxxxxx1xx */
+{ "movl_s", 0x00004004, 0x0000f804, ARC_OPCODE_ARC64, ARITH, NONE, { G_S, RH_S }, { 0 } }
+
+/* movl_s RB_S,UIMM8_8_S 11011xxxxxxxxxxx */
+{ "movl_s", 0x0000d800, 0x0000f800, ARC_OPCODE_ARC64, ARITH, NONE, { RB_S, UIMM8_8_S }, { 0 } }
+
+/* movl_s G_S,LIMM_S 01000xxx110xx111 */
+{ "movl_s", 0x000040c7, 0x0000f8e7, ARC_OPCODE_ARC64, MOVE, NONE, { G_S, LIMM_S }, { 0 } }
+
+/* mov_s RB_S,RH_S 01110xxxxxx111xx */
+{ "mov_s", 0x0000701c, 0x0000f81c, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MOVE, NONE, { RB_S, RH_S }, { C_NE, C_CC_NE } }
+
+/* mov_s G_S,RH_S 01000xxxxxxxx0xx */
+{ "mov_s", 0x00004000, 0x0000f804, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MOVE, NONE, { G_S, RH_S }, { 0 } }
+
+/* mov_s ZA_S,RH_S 01000110xxx110xx */
+{ "mov_s", 0x00004618, 0x0000ff1c, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MOVE, NONE, { ZA_S, RH_S }, { 0 } }
+
+/* mov_s RH_S,SIMM3_5_S 01110xxxxxx011xx */
+{ "mov_s", 0x0000700c, 0x0000f81c, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MOVE, NONE, { RH_S, SIMM3_5_S }, { 0 } }
+
+/* mov_s ZA_S,SIMM3_5_S 01110xxx11001111 */
+{ "mov_s", 0x000070cf, 0x0000f8ff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MOVE, NONE, { ZA_S, SIMM3_5_S }, { 0 } }
+
+/* mov_s RB_S,UIMM8_8_S 11011xxxxxxxxxxx */
+{ "mov_s", 0x0000d800, 0x0000f800, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MOVE, NONE, { RB_S, UIMM8_8_S }, { 0 } }
+
+/* mov_s RB_S,LIMM_S 01110xxx11011111 */
+{ "mov_s", 0x000070df, 0x0000f8ff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MOVE, NONE, { RB_S, LIMM_S }, { C_NE, C_CC_NE } }
+
+/* mov_s G_S,LIMM_S 01000xxx110xx011 */
+{ "mov_s", 0x000040c3, 0x0000f8e7, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MOVE, NONE, { G_S, LIMM_S }, { 0 } }
+
+/* mov_s ZA_S,LIMM_S 0100011011011011 */
+{ "mov_s", 0x000046db, 0x0000ffff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MOVE, NONE, { ZA_S, LIMM_S }, { 0 } }
+
+/* mpy<.f> RA_CHK,RB,RC 00100xxx00011010xxxxxxxxxxxxxxxx */
+{ "mpy", 0x201a0000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY6E, { RA_CHK, RB, RC }, { C_F } }
+
+/* mpy<.f> ZA,RB,RC 00100xxx00011010xxxxxxxxxx111110 */
+{ "mpy", 0x201a003e, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY6E, { ZA, RB, RC }, { C_F } }
+
+/* mpy<.f><.cc> RB_CHK,RBdup,RC 00100xxx11011010xxxxxxxxxx0xxxxx */
+{ "mpy", 0x20da0000, 0xf8ff0020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY6E, { RB_CHK, RBdup, RC }, { C_F, C_CC } }
+
+/* mpy<.f> RA_CHK,RB,UIMM6_20 00100xxx01011010xxxxxxxxxxxxxxxx */
+{ "mpy", 0x205a0000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY6E, { RA_CHK, RB, UIMM6_20 }, { C_F } }
+
+/* mpy<.f> ZA,RB,UIMM6_20 00100xxx01011010xxxxxxxxxx111110 */
+{ "mpy", 0x205a003e, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY6E, { ZA, RB, UIMM6_20 }, { C_F } }
+
+/* mpy<.f><.cc> RB_CHK,RBdup,UIMM6_20 00100xxx11011010xxxxxxxxxx1xxxxx */
+{ "mpy", 0x20da0020, 0xf8ff0020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY6E, { RB_CHK, RBdup, UIMM6_20 }, { C_F, C_CC } }
+
+/* mpy<.f> RB_CHK,RBdup,SIMM12_20 00100xxx10011010xxxxxxxxxxxxxxxx */
+{ "mpy", 0x209a0000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY6E, { RB_CHK, RBdup, SIMM12_20 }, { C_F } }
+
+/* mpy<.f> RA_CHK,LIMM,RC 0010011000011010x111xxxxxxxxxxxx */
+{ "mpy", 0x261a7000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY6E, { RA_CHK, LIMM, RC }, { C_F } }
+
+/* mpy<.f> RA_CHK,RB,LIMM 00100xxx00011010xxxx111110xxxxxx */
+{ "mpy", 0x201a0f80, 0xf8ff0fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY6E, { RA_CHK, RB, LIMM }, { C_F } }
+
+/* mpy<.f> ZA,LIMM,RC 0010011000011010x111xxxxxx111110 */
+{ "mpy", 0x261a703e, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY6E, { ZA, LIMM, RC }, { C_F } }
+
+/* mpy<.f> ZA,RB,LIMM 00100xxx00011010xxxx111110111110 */
+{ "mpy", 0x201a0fbe, 0xf8ff0fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY6E, { ZA, RB, LIMM }, { C_F } }
+
+/* mpy<.f><.cc> RB_CHK,RBdup,LIMM 00100xxx11011010xxxx1111100xxxxx */
+{ "mpy", 0x20da0f80, 0xf8ff0fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY6E, { RB_CHK, RBdup, LIMM }, { C_F, C_CC } }
+
+/* mpy<.f><.cc> ZA,LIMM,RC 0010011011011010x111xxxxxx0xxxxx */
+{ "mpy", 0x26da7000, 0xffff7020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY6E, { ZA, LIMM, RC }, { C_F, C_CC } }
+
+/* mpy<.f> RA_CHK,LIMM,UIMM6_20 0010011001011010x111xxxxxxxxxxxx */
+{ "mpy", 0x265a7000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY6E, { RA_CHK, LIMM, UIMM6_20 }, { C_F } }
+
+/* mpy<.f> ZA,LIMM,UIMM6_20 0010011001011010x111xxxxxx111110 */
+{ "mpy", 0x265a703e, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY6E, { ZA, LIMM, UIMM6_20 }, { C_F } }
+
+/* mpy<.f><.cc> ZA,LIMM,UIMM6_20 0010011011011010x111xxxxxx1xxxxx */
+{ "mpy", 0x26da7020, 0xffff7020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY6E, { ZA, LIMM, UIMM6_20 }, { C_F, C_CC } }
+
+/* mpy<.f> ZA,LIMM,SIMM12_20 0010011010011010x111xxxxxxxxxxxx */
+{ "mpy", 0x269a7000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY6E, { ZA, LIMM, SIMM12_20 }, { C_F } }
+
+/* mpy<.f> RA_CHK,LIMM,LIMMdup 0010011000011010x111111110xxxxxx */
+{ "mpy", 0x261a7f80, 0xffff7fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY6E, { RA_CHK, LIMM, LIMMdup }, { C_F } }
+
+/* mpy<.f> ZA,LIMM,LIMMdup 0010011000011010x111111110111110 */
+{ "mpy", 0x261a7fbe, 0xffff7fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY6E, { ZA, LIMM, LIMMdup }, { C_F } }
+
+/* mpy<.f><.cc> ZA,LIMM,LIMMdup 0010011011011010x1111111100xxxxx */
+{ "mpy", 0x26da7f80, 0xffff7fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY6E, { ZA, LIMM, LIMMdup }, { C_F, C_CC } }
+
+/* mpyd<.f> RA_CHK,RB,RC 00101xxx00011000xxxxxxxxxxxxxxxx */
+{ "mpyd", 0x28180000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY8E, { RA_CHK, RB, RC }, { C_F } }
+
+/* mpyd<.f> ZA,RB,RC 00101xxx00011000xxxxxxxxxx111110 */
+{ "mpyd", 0x2818003e, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY8E, { ZA, RB, RC }, { C_F } }
+
+/* mpyd<.f><.cc> RB_CHK,RBdup,RC 00101xxx11011000xxxxxxxxxx0xxxxx */
+{ "mpyd", 0x28d80000, 0xf8ff0020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY8E, { RB_CHK, RBdup, RC }, { C_F, C_CC } }
+
+/* mpyd<.f> RA_CHK,RB,UIMM6_20 00101xxx01011000xxxxxxxxxxxxxxxx */
+{ "mpyd", 0x28580000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY8E, { RA_CHK, RB, UIMM6_20 }, { C_F } }
+
+/* mpyd<.f> ZA,RB,UIMM6_20 00101xxx01011000xxxxxxxxxx111110 */
+{ "mpyd", 0x2858003e, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY8E, { ZA, RB, UIMM6_20 }, { C_F } }
+
+/* mpyd<.f><.cc> RB_CHK,RBdup,UIMM6_20 00101xxx11011000xxxxxxxxxx1xxxxx */
+{ "mpyd", 0x28d80020, 0xf8ff0020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY8E, { RB_CHK, RBdup, UIMM6_20 }, { C_F, C_CC } }
+
+/* mpyd<.f> RB_CHK,RBdup,SIMM12_20 00101xxx10011000xxxxxxxxxxxxxxxx */
+{ "mpyd", 0x28980000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY8E, { RB_CHK, RBdup, SIMM12_20 }, { C_F } }
+
+/* mpyd<.f> RA_CHK,LIMM,RC 0010111000011000x111xxxxxxxxxxxx */
+{ "mpyd", 0x2e187000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY8E, { RA_CHK, LIMM, RC }, { C_F } }
+
+/* mpyd<.f> RA_CHK,RB,LIMM 00101xxx00011000xxxx111110xxxxxx */
+{ "mpyd", 0x28180f80, 0xf8ff0fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY8E, { RA_CHK, RB, LIMM }, { C_F } }
+
+/* mpyd<.f> ZA,LIMM,RC 0010111000011000x111xxxxxx111110 */
+{ "mpyd", 0x2e18703e, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY8E, { ZA, LIMM, RC }, { C_F } }
+
+/* mpyd<.f> ZA,RB,LIMM 00101xxx00011000xxxx111110111110 */
+{ "mpyd", 0x28180fbe, 0xf8ff0fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY8E, { ZA, RB, LIMM }, { C_F } }
+
+/* mpyd<.f><.cc> RB_CHK,RBdup,LIMM 00101xxx11011000xxxx1111100xxxxx */
+{ "mpyd", 0x28d80f80, 0xf8ff0fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY8E, { RB_CHK, RBdup, LIMM }, { C_F, C_CC } }
+
+/* mpyd<.f><.cc> ZA,LIMM,RC 0010111011011000x111xxxxxx0xxxxx */
+{ "mpyd", 0x2ed87000, 0xffff7020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY8E, { ZA, LIMM, RC }, { C_F, C_CC } }
+
+/* mpyd<.f> RA_CHK,LIMM,UIMM6_20 0010111001011000x111xxxxxxxxxxxx */
+{ "mpyd", 0x2e587000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY8E, { RA_CHK, LIMM, UIMM6_20 }, { C_F } }
+
+/* mpyd<.f> ZA,LIMM,UIMM6_20 0010111001011000x111xxxxxx111110 */
+{ "mpyd", 0x2e58703e, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY8E, { ZA, LIMM, UIMM6_20 }, { C_F } }
+
+/* mpyd<.f><.cc> ZA,LIMM,UIMM6_20 0010111011011000x111xxxxxx1xxxxx */
+{ "mpyd", 0x2ed87020, 0xffff7020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY8E, { ZA, LIMM, UIMM6_20 }, { C_F, C_CC } }
+
+/* mpyd<.f> ZA,LIMM,SIMM12_20 0010111010011000x111xxxxxxxxxxxx */
+{ "mpyd", 0x2e987000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY8E, { ZA, LIMM, SIMM12_20 }, { C_F } }
+
+/* mpyd<.f> RA_CHK,LIMM,LIMMdup 0010111000011000x111111110xxxxxx */
+{ "mpyd", 0x2e187f80, 0xffff7fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY8E, { RA_CHK, LIMM, LIMMdup }, { C_F } }
+
+/* mpyd<.f> ZA,LIMM,LIMMdup 0010111000011000x111111110111110 */
+{ "mpyd", 0x2e187fbe, 0xffff7fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY8E, { ZA, LIMM, LIMMdup }, { C_F } }
+
+/* mpyd<.f><.cc> ZA,LIMM,LIMMdup 0010111011011000x1111111100xxxxx */
+{ "mpyd", 0x2ed87f80, 0xffff7fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY8E, { ZA, LIMM, LIMMdup }, { C_F, C_CC } }
+
+/* mpydu<.f> RA_CHK,RB,RC 00101xxx00011001xxxxxxxxxxxxxxxx */
+{ "mpydu", 0x28190000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY8E, { RA_CHK, RB, RC }, { C_F } }
+
+/* mpydu<.f> ZA,RB,RC 00101xxx00011001xxxxxxxxxx111110 */
+{ "mpydu", 0x2819003e, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY8E, { ZA, RB, RC }, { C_F } }
+
+/* mpydu<.f><.cc> RB_CHK,RBdup,RC 00101xxx11011001xxxxxxxxxx0xxxxx */
+{ "mpydu", 0x28d90000, 0xf8ff0020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY8E, { RB_CHK, RBdup, RC }, { C_F, C_CC } }
+
+/* mpydu<.f> RA_CHK,RB,UIMM6_20 00101xxx01011001xxxxxxxxxxxxxxxx */
+{ "mpydu", 0x28590000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY8E, { RA_CHK, RB, UIMM6_20 }, { C_F } }
+
+/* mpydu<.f> ZA,RB,UIMM6_20 00101xxx01011001xxxxxxxxxx111110 */
+{ "mpydu", 0x2859003e, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY8E, { ZA, RB, UIMM6_20 }, { C_F } }
+
+/* mpydu<.f><.cc> RB_CHK,RBdup,UIMM6_20 00101xxx11011001xxxxxxxxxx1xxxxx */
+{ "mpydu", 0x28d90020, 0xf8ff0020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY8E, { RB_CHK, RBdup, UIMM6_20 }, { C_F, C_CC } }
+
+/* mpydu<.f> RB_CHK,RBdup,SIMM12_20 00101xxx10011001xxxxxxxxxxxxxxxx */
+{ "mpydu", 0x28990000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY8E, { RB_CHK, RBdup, SIMM12_20 }, { C_F } }
+
+/* mpydu<.f> RA_CHK,LIMM,RC 0010111000011001x111xxxxxxxxxxxx */
+{ "mpydu", 0x2e197000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY8E, { RA_CHK, LIMM, RC }, { C_F } }
+
+/* mpydu<.f> RA_CHK,RB,LIMM 00101xxx00011001xxxx111110xxxxxx */
+{ "mpydu", 0x28190f80, 0xf8ff0fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY8E, { RA_CHK, RB, LIMM }, { C_F } }
+
+/* mpydu<.f> ZA,LIMM,RC 0010111000011001x111xxxxxx111110 */
+{ "mpydu", 0x2e19703e, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY8E, { ZA, LIMM, RC }, { C_F } }
+
+/* mpydu<.f> ZA,RB,LIMM 00101xxx00011001xxxx111110111110 */
+{ "mpydu", 0x28190fbe, 0xf8ff0fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY8E, { ZA, RB, LIMM }, { C_F } }
+
+/* mpydu<.f><.cc> RB_CHK,RBdup,LIMM 00101xxx11011001xxxx1111100xxxxx */
+{ "mpydu", 0x28d90f80, 0xf8ff0fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY8E, { RB_CHK, RBdup, LIMM }, { C_F, C_CC } }
+
+/* mpydu<.f><.cc> ZA,LIMM,RC 0010111011011001x111xxxxxx0xxxxx */
+{ "mpydu", 0x2ed97000, 0xffff7020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY8E, { ZA, LIMM, RC }, { C_F, C_CC } }
+
+/* mpydu<.f> RA_CHK,LIMM,UIMM6_20 0010111001011001x111xxxxxxxxxxxx */
+{ "mpydu", 0x2e597000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY8E, { RA_CHK, LIMM, UIMM6_20 }, { C_F } }
+
+/* mpydu<.f> ZA,LIMM,UIMM6_20 0010111001011001x111xxxxxx111110 */
+{ "mpydu", 0x2e59703e, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY8E, { ZA, LIMM, UIMM6_20 }, { C_F } }
+
+/* mpydu<.f><.cc> ZA,LIMM,UIMM6_20 0010111011011001x111xxxxxx1xxxxx */
+{ "mpydu", 0x2ed97020, 0xffff7020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY8E, { ZA, LIMM, UIMM6_20 }, { C_F, C_CC } }
+
+/* mpydu<.f> ZA,LIMM,SIMM12_20 0010111010011001x111xxxxxxxxxxxx */
+{ "mpydu", 0x2e997000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY8E, { ZA, LIMM, SIMM12_20 }, { C_F } }
+
+/* mpydu<.f> RA_CHK,LIMM,LIMMdup 0010111000011001x111111110xxxxxx */
+{ "mpydu", 0x2e197f80, 0xffff7fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY8E, { RA_CHK, LIMM, LIMMdup }, { C_F } }
+
+/* mpydu<.f> ZA,LIMM,LIMMdup 0010111000011001x111111110111110 */
+{ "mpydu", 0x2e197fbe, 0xffff7fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY8E, { ZA, LIMM, LIMMdup }, { C_F } }
+
+/* mpydu<.f><.cc> ZA,LIMM,LIMMdup 0010111011011001x1111111100xxxxx */
+{ "mpydu", 0x2ed97f80, 0xffff7fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY8E, { ZA, LIMM, LIMMdup }, { C_F, C_CC } }
+
+/* mpym<.f> RA_CHK,RB,RC 00100xxx00011011xxxxxxxxxxxxxxxx */
+{ "mpym", 0x201b0000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY6E, { RA_CHK, RB, RC }, { C_F } }
+
+/* mpym<.f> ZA,RB,RC 00100xxx00011011xxxxxxxxxx111110 */
+{ "mpym", 0x201b003e, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY6E, { ZA, RB, RC }, { C_F } }
+
+/* mpym<.f><.cc> RB_CHK,RBdup,RC 00100xxx11011011xxxxxxxxxx0xxxxx */
+{ "mpym", 0x20db0000, 0xf8ff0020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY6E, { RB_CHK, RBdup, RC }, { C_F, C_CC } }
+
+/* mpym<.f> RA_CHK,RB,UIMM6_20 00100xxx01011011xxxxxxxxxxxxxxxx */
+{ "mpym", 0x205b0000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY6E, { RA_CHK, RB, UIMM6_20 }, { C_F } }
+
+/* mpym<.f> ZA,RB,UIMM6_20 00100xxx01011011xxxxxxxxxx111110 */
+{ "mpym", 0x205b003e, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY6E, { ZA, RB, UIMM6_20 }, { C_F } }
+
+/* mpym<.f><.cc> RB_CHK,RBdup,UIMM6_20 00100xxx11011011xxxxxxxxxx1xxxxx */
+{ "mpym", 0x20db0020, 0xf8ff0020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY6E, { RB_CHK, RBdup, UIMM6_20 }, { C_F, C_CC } }
+
+/* mpym<.f> RB_CHK,RBdup,SIMM12_20 00100xxx10011011xxxxxxxxxxxxxxxx */
+{ "mpym", 0x209b0000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY6E, { RB_CHK, RBdup, SIMM12_20 }, { C_F } }
+
+/* mpym<.f> RA_CHK,LIMM,RC 0010011000011011x111xxxxxxxxxxxx */
+{ "mpym", 0x261b7000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY6E, { RA_CHK, LIMM, RC }, { C_F } }
+
+/* mpym<.f> RA_CHK,RB,LIMM 00100xxx00011011xxxx111110xxxxxx */
+{ "mpym", 0x201b0f80, 0xf8ff0fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY6E, { RA_CHK, RB, LIMM }, { C_F } }
+
+/* mpym<.f> ZA,LIMM,RC 0010011000011011x111xxxxxx111110 */
+{ "mpym", 0x261b703e, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY6E, { ZA, LIMM, RC }, { C_F } }
+
+/* mpym<.f> ZA,RB,LIMM 00100xxx00011011xxxx111110111110 */
+{ "mpym", 0x201b0fbe, 0xf8ff0fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY6E, { ZA, RB, LIMM }, { C_F } }
+
+/* mpym<.f><.cc> RB_CHK,RBdup,LIMM 00100xxx11011011xxxx1111100xxxxx */
+{ "mpym", 0x20db0f80, 0xf8ff0fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY6E, { RB_CHK, RBdup, LIMM }, { C_F, C_CC } }
+
+/* mpym<.f><.cc> ZA,LIMM,RC 0010011011011011x111xxxxxx0xxxxx */
+{ "mpym", 0x26db7000, 0xffff7020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY6E, { ZA, LIMM, RC }, { C_F, C_CC } }
+
+/* mpym<.f> RA_CHK,LIMM,UIMM6_20 0010011001011011x111xxxxxxxxxxxx */
+{ "mpym", 0x265b7000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY6E, { RA_CHK, LIMM, UIMM6_20 }, { C_F } }
+
+/* mpym<.f> ZA,LIMM,UIMM6_20 0010011001011011x111xxxxxx111110 */
+{ "mpym", 0x265b703e, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY6E, { ZA, LIMM, UIMM6_20 }, { C_F } }
+
+/* mpym<.f><.cc> ZA,LIMM,UIMM6_20 0010011011011011x111xxxxxx1xxxxx */
+{ "mpym", 0x26db7020, 0xffff7020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY6E, { ZA, LIMM, UIMM6_20 }, { C_F, C_CC } }
+
+/* mpym<.f> ZA,LIMM,SIMM12_20 0010011010011011x111xxxxxxxxxxxx */
+{ "mpym", 0x269b7000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY6E, { ZA, LIMM, SIMM12_20 }, { C_F } }
+
+/* mpym<.f> RA_CHK,LIMM,LIMMdup 0010011000011011x111111110xxxxxx */
+{ "mpym", 0x261b7f80, 0xffff7fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY6E, { RA_CHK, LIMM, LIMMdup }, { C_F } }
+
+/* mpym<.f> ZA,LIMM,LIMMdup 0010011000011011x111111110111110 */
+{ "mpym", 0x261b7fbe, 0xffff7fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY6E, { ZA, LIMM, LIMMdup }, { C_F } }
+
+/* mpym<.f><.cc> ZA,LIMM,LIMMdup 0010011011011011x1111111100xxxxx */
+{ "mpym", 0x26db7f80, 0xffff7fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY6E, { ZA, LIMM, LIMMdup }, { C_F, C_CC } }
+
+/* mpymu<.f> RA_CHK,RB,RC 00100xxx00011100xxxxxxxxxxxxxxxx */
+{ "mpymu", 0x201c0000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY6E, { RA_CHK, RB, RC }, { C_F } }
+
+/* mpymu<.f> ZA,RB,RC 00100xxx00011100xxxxxxxxxx111110 */
+{ "mpymu", 0x201c003e, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY6E, { ZA, RB, RC }, { C_F } }
+
+/* mpymu<.f><.cc> RB_CHK,RBdup,RC 00100xxx11011100xxxxxxxxxx0xxxxx */
+{ "mpymu", 0x20dc0000, 0xf8ff0020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY6E, { RB_CHK, RBdup, RC }, { C_F, C_CC } }
+
+/* mpymu<.f> RA_CHK,RB,UIMM6_20 00100xxx01011100xxxxxxxxxxxxxxxx */
+{ "mpymu", 0x205c0000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY6E, { RA_CHK, RB, UIMM6_20 }, { C_F } }
+
+/* mpymu<.f> ZA,RB,UIMM6_20 00100xxx01011100xxxxxxxxxx111110 */
+{ "mpymu", 0x205c003e, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY6E, { ZA, RB, UIMM6_20 }, { C_F } }
+
+/* mpymu<.f><.cc> RB_CHK,RBdup,UIMM6_20 00100xxx11011100xxxxxxxxxx1xxxxx */
+{ "mpymu", 0x20dc0020, 0xf8ff0020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY6E, { RB_CHK, RBdup, UIMM6_20 }, { C_F, C_CC } }
+
+/* mpymu<.f> RB_CHK,RBdup,SIMM12_20 00100xxx10011100xxxxxxxxxxxxxxxx */
+{ "mpymu", 0x209c0000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY6E, { RB_CHK, RBdup, SIMM12_20 }, { C_F } }
+
+/* mpymu<.f> RA_CHK,LIMM,RC 0010011000011100x111xxxxxxxxxxxx */
+{ "mpymu", 0x261c7000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY6E, { RA_CHK, LIMM, RC }, { C_F } }
+
+/* mpymu<.f> RA_CHK,RB,LIMM 00100xxx00011100xxxx111110xxxxxx */
+{ "mpymu", 0x201c0f80, 0xf8ff0fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY6E, { RA_CHK, RB, LIMM }, { C_F } }
+
+/* mpymu<.f> ZA,LIMM,RC 0010011000011100x111xxxxxx111110 */
+{ "mpymu", 0x261c703e, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY6E, { ZA, LIMM, RC }, { C_F } }
+
+/* mpymu<.f> ZA,RB,LIMM 00100xxx00011100xxxx111110111110 */
+{ "mpymu", 0x201c0fbe, 0xf8ff0fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY6E, { ZA, RB, LIMM }, { C_F } }
+
+/* mpymu<.f><.cc> RB_CHK,RBdup,LIMM 00100xxx11011100xxxx1111100xxxxx */
+{ "mpymu", 0x20dc0f80, 0xf8ff0fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY6E, { RB_CHK, RBdup, LIMM }, { C_F, C_CC } }
+
+/* mpymu<.f><.cc> ZA,LIMM,RC 0010011011011100x111xxxxxx0xxxxx */
+{ "mpymu", 0x26dc7000, 0xffff7020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY6E, { ZA, LIMM, RC }, { C_F, C_CC } }
+
+/* mpymu<.f> RA_CHK,LIMM,UIMM6_20 0010011001011100x111xxxxxxxxxxxx */
+{ "mpymu", 0x265c7000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY6E, { RA_CHK, LIMM, UIMM6_20 }, { C_F } }
+
+/* mpymu<.f> ZA,LIMM,UIMM6_20 0010011001011100x111xxxxxx111110 */
+{ "mpymu", 0x265c703e, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY6E, { ZA, LIMM, UIMM6_20 }, { C_F } }
+
+/* mpymu<.f><.cc> ZA,LIMM,UIMM6_20 0010011011011100x111xxxxxx1xxxxx */
+{ "mpymu", 0x26dc7020, 0xffff7020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY6E, { ZA, LIMM, UIMM6_20 }, { C_F, C_CC } }
+
+/* mpymu<.f> ZA,LIMM,SIMM12_20 0010011010011100x111xxxxxxxxxxxx */
+{ "mpymu", 0x269c7000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY6E, { ZA, LIMM, SIMM12_20 }, { C_F } }
+
+/* mpymu<.f> RA_CHK,LIMM,LIMMdup 0010011000011100x111111110xxxxxx */
+{ "mpymu", 0x261c7f80, 0xffff7fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY6E, { RA_CHK, LIMM, LIMMdup }, { C_F } }
+
+/* mpymu<.f> ZA,LIMM,LIMMdup 0010011000011100x111111110111110 */
+{ "mpymu", 0x261c7fbe, 0xffff7fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY6E, { ZA, LIMM, LIMMdup }, { C_F } }
+
+/* mpymu<.f><.cc> ZA,LIMM,LIMMdup 0010011011011100x1111111100xxxxx */
+{ "mpymu", 0x26dc7f80, 0xffff7fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY6E, { ZA, LIMM, LIMMdup }, { C_F, C_CC } }
+
+/* mpyu<.f> RA_CHK,RB,RC 00100xxx00011101xxxxxxxxxxxxxxxx */
+{ "mpyu", 0x201d0000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY6E, { RA_CHK, RB, RC }, { C_F } }
+
+/* mpyu<.f> ZA,RB,RC 00100xxx00011101xxxxxxxxxx111110 */
+{ "mpyu", 0x201d003e, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY6E, { ZA, RB, RC }, { C_F } }
+
+/* mpyu<.f><.cc> RB_CHK,RBdup,RC 00100xxx11011101xxxxxxxxxx0xxxxx */
+{ "mpyu", 0x20dd0000, 0xf8ff0020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY6E, { RB_CHK, RBdup, RC }, { C_F, C_CC } }
+
+/* mpyu<.f> RA_CHK,RB,UIMM6_20 00100xxx01011101xxxxxxxxxxxxxxxx */
+{ "mpyu", 0x205d0000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY6E, { RA_CHK, RB, UIMM6_20 }, { C_F } }
+
+/* mpyu<.f> ZA,RB,UIMM6_20 00100xxx01011101xxxxxxxxxx111110 */
+{ "mpyu", 0x205d003e, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY6E, { ZA, RB, UIMM6_20 }, { C_F } }
+
+/* mpyu<.f><.cc> RB_CHK,RBdup,UIMM6_20 00100xxx11011101xxxxxxxxxx1xxxxx */
+{ "mpyu", 0x20dd0020, 0xf8ff0020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY6E, { RB_CHK, RBdup, UIMM6_20 }, { C_F, C_CC } }
+
+/* mpyu<.f> RB_CHK,RBdup,SIMM12_20 00100xxx10011101xxxxxxxxxxxxxxxx */
+{ "mpyu", 0x209d0000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY6E, { RB_CHK, RBdup, SIMM12_20 }, { C_F } }
+
+/* mpyu<.f> RA_CHK,LIMM,RC 0010011000011101x111xxxxxxxxxxxx */
+{ "mpyu", 0x261d7000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY6E, { RA_CHK, LIMM, RC }, { C_F } }
+
+/* mpyu<.f> RA_CHK,RB,LIMM 00100xxx00011101xxxx111110xxxxxx */
+{ "mpyu", 0x201d0f80, 0xf8ff0fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY6E, { RA_CHK, RB, LIMM }, { C_F } }
+
+/* mpyu<.f> ZA,LIMM,RC 0010011000011101x111xxxxxx111110 */
+{ "mpyu", 0x261d703e, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY6E, { ZA, LIMM, RC }, { C_F } }
+
+/* mpyu<.f> ZA,RB,LIMM 00100xxx00011101xxxx111110111110 */
+{ "mpyu", 0x201d0fbe, 0xf8ff0fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY6E, { ZA, RB, LIMM }, { C_F } }
+
+/* mpyu<.f><.cc> RB_CHK,RBdup,LIMM 00100xxx11011101xxxx1111100xxxxx */
+{ "mpyu", 0x20dd0f80, 0xf8ff0fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY6E, { RB_CHK, RBdup, LIMM }, { C_F, C_CC } }
+
+/* mpyu<.f><.cc> ZA,LIMM,RC 0010011011011101x111xxxxxx0xxxxx */
+{ "mpyu", 0x26dd7000, 0xffff7020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY6E, { ZA, LIMM, RC }, { C_F, C_CC } }
+
+/* mpyu<.f> RA_CHK,LIMM,UIMM6_20 0010011001011101x111xxxxxxxxxxxx */
+{ "mpyu", 0x265d7000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY6E, { RA_CHK, LIMM, UIMM6_20 }, { C_F } }
+
+/* mpyu<.f> ZA,LIMM,UIMM6_20 0010011001011101x111xxxxxx111110 */
+{ "mpyu", 0x265d703e, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY6E, { ZA, LIMM, UIMM6_20 }, { C_F } }
+
+/* mpyu<.f><.cc> ZA,LIMM,UIMM6_20 0010011011011101x111xxxxxx1xxxxx */
+{ "mpyu", 0x26dd7020, 0xffff7020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY6E, { ZA, LIMM, UIMM6_20 }, { C_F, C_CC } }
+
+/* mpyu<.f> ZA,LIMM,SIMM12_20 0010011010011101x111xxxxxxxxxxxx */
+{ "mpyu", 0x269d7000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY6E, { ZA, LIMM, SIMM12_20 }, { C_F } }
+
+/* mpyu<.f> RA_CHK,LIMM,LIMMdup 0010011000011101x111111110xxxxxx */
+{ "mpyu", 0x261d7f80, 0xffff7fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY6E, { RA_CHK, LIMM, LIMMdup }, { C_F } }
+
+/* mpyu<.f> ZA,LIMM,LIMMdup 0010011000011101x111111110111110 */
+{ "mpyu", 0x261d7fbe, 0xffff7fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY6E, { ZA, LIMM, LIMMdup }, { C_F } }
+
+/* mpyu<.f><.cc> ZA,LIMM,LIMMdup 0010011011011101x1111111100xxxxx */
+{ "mpyu", 0x26dd7f80, 0xffff7fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY6E, { ZA, LIMM, LIMMdup }, { C_F, C_CC } }
+
+/* mpyuw<.f> RA_CHK,RB,RC 00100xxx00011111xxxxxxxxxxxxxxxx */
+{ "mpyuw", 0x201f0000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY1E, { RA_CHK, RB, RC }, { C_F } }
+
+/* mpyuw<.f> ZA,RB,RC 00100xxx00011111xxxxxxxxxx111110 */
+{ "mpyuw", 0x201f003e, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY1E, { ZA, RB, RC }, { C_F } }
+
+/* mpyuw<.f><.cc> RB_CHK,RBdup,RC 00100xxx11011111xxxxxxxxxx0xxxxx */
+{ "mpyuw", 0x20df0000, 0xf8ff0020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY1E, { RB_CHK, RBdup, RC }, { C_F, C_CC } }
+
+/* mpyuw<.f> RA_CHK,RB,UIMM6_20 00100xxx01011111xxxxxxxxxxxxxxxx */
+{ "mpyuw", 0x205f0000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY1E, { RA_CHK, RB, UIMM6_20 }, { C_F } }
+
+/* mpyuw<.f> ZA,RB,UIMM6_20 00100xxx01011111xxxxxxxxxx111110 */
+{ "mpyuw", 0x205f003e, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY1E, { ZA, RB, UIMM6_20 }, { C_F } }
+
+/* mpyuw<.f><.cc> RB_CHK,RBdup,UIMM6_20 00100xxx11011111xxxxxxxxxx1xxxxx */
+{ "mpyuw", 0x20df0020, 0xf8ff0020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY1E, { RB_CHK, RBdup, UIMM6_20 }, { C_F, C_CC } }
+
+/* mpyuw<.f> RB_CHK,RBdup,SIMM12_20 00100xxx10011111xxxxxxxxxxxxxxxx */
+{ "mpyuw", 0x209f0000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY1E, { RB_CHK, RBdup, SIMM12_20 }, { C_F } }
+
+/* mpyuw<.f> RA_CHK,LIMM,RC 0010011000011111x111xxxxxxxxxxxx */
+{ "mpyuw", 0x261f7000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY1E, { RA_CHK, LIMM, RC }, { C_F } }
+
+/* mpyuw<.f> RA_CHK,RB,LIMM 00100xxx00011111xxxx111110xxxxxx */
+{ "mpyuw", 0x201f0f80, 0xf8ff0fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY1E, { RA_CHK, RB, LIMM }, { C_F } }
+
+/* mpyuw<.f> ZA,LIMM,RC 0010011000011111x111xxxxxx111110 */
+{ "mpyuw", 0x261f703e, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY1E, { ZA, LIMM, RC }, { C_F } }
+
+/* mpyuw<.f> ZA,RB,LIMM 00100xxx00011111xxxx111110111110 */
+{ "mpyuw", 0x201f0fbe, 0xf8ff0fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY1E, { ZA, RB, LIMM }, { C_F } }
+
+/* mpyuw<.f><.cc> RB_CHK,RBdup,LIMM 00100xxx11011111xxxx1111100xxxxx */
+{ "mpyuw", 0x20df0f80, 0xf8ff0fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY1E, { RB_CHK, RBdup, LIMM }, { C_F, C_CC } }
+
+/* mpyuw<.f><.cc> ZA,LIMM,RC 0010011011011111x111xxxxxx0xxxxx */
+{ "mpyuw", 0x26df7000, 0xffff7020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY1E, { ZA, LIMM, RC }, { C_F, C_CC } }
+
+/* mpyuw<.f> RA_CHK,LIMM,UIMM6_20 0010011001011111x111xxxxxxxxxxxx */
+{ "mpyuw", 0x265f7000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY1E, { RA_CHK, LIMM, UIMM6_20 }, { C_F } }
+
+/* mpyuw<.f> ZA,LIMM,UIMM6_20 0010011001011111x111xxxxxx111110 */
+{ "mpyuw", 0x265f703e, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY1E, { ZA, LIMM, UIMM6_20 }, { C_F } }
+
+/* mpyuw<.f><.cc> ZA,LIMM,UIMM6_20 0010011011011111x111xxxxxx1xxxxx */
+{ "mpyuw", 0x26df7020, 0xffff7020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY1E, { ZA, LIMM, UIMM6_20 }, { C_F, C_CC } }
+
+/* mpyuw<.f> ZA,LIMM,SIMM12_20 0010011010011111x111xxxxxxxxxxxx */
+{ "mpyuw", 0x269f7000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY1E, { ZA, LIMM, SIMM12_20 }, { C_F } }
+
+/* mpyuw<.f> RA_CHK,LIMM,LIMMdup 0010011000011111x111111110xxxxxx */
+{ "mpyuw", 0x261f7f80, 0xffff7fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY1E, { RA_CHK, LIMM, LIMMdup }, { C_F } }
+
+/* mpyuw<.f> ZA,LIMM,LIMMdup 0010011000011111x111111110111110 */
+{ "mpyuw", 0x261f7fbe, 0xffff7fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY1E, { ZA, LIMM, LIMMdup }, { C_F } }
+
+/* mpyuw<.f><.cc> ZA,LIMM,LIMMdup 0010011011011111x1111111100xxxxx */
+{ "mpyuw", 0x26df7f80, 0xffff7fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY1E, { ZA, LIMM, LIMMdup }, { C_F, C_CC } }
+
+/* mpyuw_s RB_S,RB_Sdup,RC_S 01111xxxxxx01010 */
+{ "mpyuw_s", 0x0000780a, 0x0000f81f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY1E, { RB_S, RB_Sdup, RC_S }, { 0 } }
+
+/* mpyw<.f> RA_CHK,RB,RC 00100xxx00011110xxxxxxxxxxxxxxxx */
+{ "mpyw", 0x201e0000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY1E, { RA_CHK, RB, RC }, { C_F } }
+
+/* mpyw<.f> ZA,RB,RC 00100xxx00011110xxxxxxxxxx111110 */
+{ "mpyw", 0x201e003e, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY1E, { ZA, RB, RC }, { C_F } }
+
+/* mpyw<.f><.cc> RB_CHK,RBdup,RC 00100xxx11011110xxxxxxxxxx0xxxxx */
+{ "mpyw", 0x20de0000, 0xf8ff0020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY1E, { RB_CHK, RBdup, RC }, { C_F, C_CC } }
+
+/* mpyw<.f> RA_CHK,RB,UIMM6_20 00100xxx01011110xxxxxxxxxxxxxxxx */
+{ "mpyw", 0x205e0000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY1E, { RA_CHK, RB, UIMM6_20 }, { C_F } }
+
+/* mpyw<.f> ZA,RB,UIMM6_20 00100xxx01011110xxxxxxxxxx111110 */
+{ "mpyw", 0x205e003e, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY1E, { ZA, RB, UIMM6_20 }, { C_F } }
+
+/* mpyw<.f><.cc> RB_CHK,RBdup,UIMM6_20 00100xxx11011110xxxxxxxxxx1xxxxx */
+{ "mpyw", 0x20de0020, 0xf8ff0020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY1E, { RB_CHK, RBdup, UIMM6_20 }, { C_F, C_CC } }
+
+/* mpyw<.f> RB_CHK,RBdup,SIMM12_20 00100xxx10011110xxxxxxxxxxxxxxxx */
+{ "mpyw", 0x209e0000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY1E, { RB_CHK, RBdup, SIMM12_20 }, { C_F } }
+
+/* mpyw<.f> RA_CHK,LIMM,RC 0010011000011110x111xxxxxxxxxxxx */
+{ "mpyw", 0x261e7000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY1E, { RA_CHK, LIMM, RC }, { C_F } }
+
+/* mpyw<.f> RA_CHK,RB,LIMM 00100xxx00011110xxxx111110xxxxxx */
+{ "mpyw", 0x201e0f80, 0xf8ff0fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY1E, { RA_CHK, RB, LIMM }, { C_F } }
+
+/* mpyw<.f> ZA,LIMM,RC 0010011000011110x111xxxxxx111110 */
+{ "mpyw", 0x261e703e, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY1E, { ZA, LIMM, RC }, { C_F } }
+
+/* mpyw<.f> ZA,RB,LIMM 00100xxx00011110xxxx111110111110 */
+{ "mpyw", 0x201e0fbe, 0xf8ff0fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY1E, { ZA, RB, LIMM }, { C_F } }
+
+/* mpyw<.f><.cc> RB_CHK,RBdup,LIMM 00100xxx11011110xxxx1111100xxxxx */
+{ "mpyw", 0x20de0f80, 0xf8ff0fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY1E, { RB_CHK, RBdup, LIMM }, { C_F, C_CC } }
+
+/* mpyw<.f><.cc> ZA,LIMM,RC 0010011011011110x111xxxxxx0xxxxx */
+{ "mpyw", 0x26de7000, 0xffff7020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY1E, { ZA, LIMM, RC }, { C_F, C_CC } }
+
+/* mpyw<.f> RA_CHK,LIMM,UIMM6_20 0010011001011110x111xxxxxxxxxxxx */
+{ "mpyw", 0x265e7000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY1E, { RA_CHK, LIMM, UIMM6_20 }, { C_F } }
+
+/* mpyw<.f> ZA,LIMM,UIMM6_20 0010011001011110x111xxxxxx111110 */
+{ "mpyw", 0x265e703e, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY1E, { ZA, LIMM, UIMM6_20 }, { C_F } }
+
+/* mpyw<.f><.cc> ZA,LIMM,UIMM6_20 0010011011011110x111xxxxxx1xxxxx */
+{ "mpyw", 0x26de7020, 0xffff7020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY1E, { ZA, LIMM, UIMM6_20 }, { C_F, C_CC } }
+
+/* mpyw<.f> ZA,LIMM,SIMM12_20 0010011010011110x111xxxxxxxxxxxx */
+{ "mpyw", 0x269e7000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY1E, { ZA, LIMM, SIMM12_20 }, { C_F } }
+
+/* mpyw<.f> RA_CHK,LIMM,LIMMdup 0010011000011110x111111110xxxxxx */
+{ "mpyw", 0x261e7f80, 0xffff7fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY1E, { RA_CHK, LIMM, LIMMdup }, { C_F } }
+
+/* mpyw<.f> ZA,LIMM,LIMMdup 0010011000011110x111111110111110 */
+{ "mpyw", 0x261e7fbe, 0xffff7fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY1E, { ZA, LIMM, LIMMdup }, { C_F } }
+
+/* mpyw<.f><.cc> ZA,LIMM,LIMMdup 0010011011011110x1111111100xxxxx */
+{ "mpyw", 0x26de7f80, 0xffff7fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY1E, { ZA, LIMM, LIMMdup }, { C_F, C_CC } }
+
+/* mpyw_s RB_S,RB_Sdup,RC_S 01111xxxxxx01001 */
+{ "mpyw_s", 0x00007809, 0x0000f81f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY1E, { RB_S, RB_Sdup, RC_S }, { 0 } }
+
+/* mpy_s RB_S,RB_Sdup,RC_S 01111xxxxxx01100 */
+{ "mpy_s", 0x0000780c, 0x0000f81f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY6E, { RB_S, RB_Sdup, RC_S }, { 0 } }
+
+/* neg<.f> RA,RB 00100xxx01001110xxxx000000xxxxxx */
+{ "neg", 0x204e0000, 0xf8ff0fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RA, RB }, { C_F } }
+
+/* neg<.f><.cc> RB,RBdup 00100xxx11001110xxxx0000001xxxxx */
+{ "neg", 0x20ce0020, 0xf8ff0fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RB, RBdup }, { C_F, C_CC } }
+
+/* neg<.f> RA,LIMM 0010011001001110x111000000xxxxxx */
+{ "neg", 0x264e7000, 0xffff7fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RA, LIMM }, { C_F } }
+
+/* neg<.f><.cc> ZA,LIMM 0010011011001110x1110000001xxxxx */
+{ "neg", 0x26ce7020, 0xffff7fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { ZA, LIMM }, { C_F, C_CC } }
+
+/* neg_s RB_S,RC_S 01111xxxxxx10011 */
+{ "neg_s", 0x00007813, 0x0000f81f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RB_S, RC_S }, { 0 } }
+
+/* nop_s  0111100011100000 */
+{ "nop_s", 0x000078e0, 0x0000ffff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, CONTROL, NONE, {  }, { 0 } }
+
+/* norm<.f> RB,RC 00101xxx00101111xxxxxxxxxx000001 */
+{ "norm", 0x282f0001, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RB, RC }, { C_F } }
+
+/* norm<.f> ZA,RC 0010111000101111x111xxxxxx000001 */
+{ "norm", 0x2e2f7001, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { ZA, RC }, { C_F } }
+
+/* norm<.f> RB,UIMM6_20 00101xxx01101111xxxxxxxxxx000001 */
+{ "norm", 0x286f0001, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RB, UIMM6_20 }, { C_F } }
+
+/* norm<.f> ZA,UIMM6_20 0010111001101111x111xxxxxx000001 */
+{ "norm", 0x2e6f7001, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { ZA, UIMM6_20 }, { C_F } }
+
+/* norm<.f> RB,LIMM 00101xxx00101111xxxx111110000001 */
+{ "norm", 0x282f0f81, 0xf8ff0fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RB, LIMM }, { C_F } }
+
+/* norm<.f> ZA,LIMM 0010111000101111x111111110000001 */
+{ "norm", 0x2e2f7f81, 0xffff7fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { ZA, LIMM }, { C_F } }
+
+/* normh<.f> RB,RC 00101xxx00101111xxxxxxxxxx001000 */
+{ "normh", 0x282f0008, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RB, RC }, { C_F } }
+
+/* normh<.f> ZA,RC 0010111000101111x111xxxxxx001000 */
+{ "normh", 0x2e2f7008, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { ZA, RC }, { C_F } }
+
+/* normh<.f> RB,UIMM6_20 00101xxx01101111xxxxxxxxxx001000 */
+{ "normh", 0x286f0008, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RB, UIMM6_20 }, { C_F } }
+
+/* normh<.f> ZA,UIMM6_20 0010111001101111x111xxxxxx001000 */
+{ "normh", 0x2e6f7008, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { ZA, UIMM6_20 }, { C_F } }
+
+/* normh<.f> RB,LIMM 00101xxx00101111xxxx111110001000 */
+{ "normh", 0x282f0f88, 0xf8ff0fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RB, LIMM }, { C_F } }
+
+/* normh<.f> ZA,LIMM 0010111000101111x111111110001000 */
+{ "normh", 0x2e2f7f88, 0xffff7fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { ZA, LIMM }, { C_F } }
+
+/* norml<.f> RB,RC 01011xxx00101111xxxxxxxxxx100001 */
+{ "norml", 0x582f0021, 0xf8ff003f, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RC }, { C_F } }
+
+/* norml<.f> ZA,RC 0101111000101111x111xxxxxx100001 */
+{ "norml", 0x5e2f7021, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RC }, { C_F } }
+
+/* norml<.f> RB,UIMM6_20 01011xxx01101111xxxxxxxxxx100001 */
+{ "norml", 0x586f0021, 0xf8ff003f, ARC_OPCODE_ARC64, ARITH, NONE, { RB, UIMM6_20 }, { C_F } }
+
+/* norml<.f> ZA,UIMM6_20 0101111001101111x111xxxxxx100001 */
+{ "norml", 0x5e6f7021, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, UIMM6_20 }, { C_F } }
+
+/* norml<.f> RB,XIMM 01011xxx00101111xxxx111100100001 */
+{ "norml", 0x582f0f21, 0xf8ff0fff, ARC_OPCODE_ARC64, ARITH, NONE, { RB, XIMM }, { C_F } }
+
+/* norml<.f> ZA,XIMM 0101111000101111x111111100100001 */
+{ "norml", 0x5e2f7f21, 0xffff7fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM }, { C_F } }
+
+/* norml<.f> RB,LIMM 01011xxx00101111xxxx111110100001 */
+{ "norml", 0x582f0fa1, 0xf8ff0fff, ARC_OPCODE_ARC64, ARITH, NONE, { RB, LIMM }, { C_F } }
+
+/* norml<.f> ZA,LIMM 0101111000101111x111111110100001 */
+{ "norml", 0x5e2f7fa1, 0xffff7fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM }, { C_F } }
+
+/* not<.f> RB,RC 00100xxx00101111xxxxxxxxxx001010 */
+{ "not", 0x202f000a, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RB, RC }, { C_F } }
+
+/* not<.f> ZA,RC 0010011000101111x111xxxxxx001010 */
+{ "not", 0x262f700a, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, RC }, { C_F } }
+
+/* not<.f> RB,UIMM6_20 00100xxx01101111xxxxxxxxxx001010 */
+{ "not", 0x206f000a, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RB, UIMM6_20 }, { C_F } }
+
+/* not<.f> ZA,UIMM6_20 0010011001101111x111xxxxxx001010 */
+{ "not", 0x266f700a, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, UIMM6_20 }, { C_F } }
+
+/* not<.f> RB,LIMM 00100xxx00101111xxxx111110001010 */
+{ "not", 0x202f0f8a, 0xf8ff0fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RB, LIMM }, { C_F } }
+
+/* not<.f> ZA,LIMM 0010011000101111x111111110001010 */
+{ "not", 0x262f7f8a, 0xffff7fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, LIMM }, { C_F } }
+
+/* notl<.f> RB,RC 01011xxx00101111xxxxxxxxxx001010 */
+{ "notl", 0x582f000a, 0xf8ff003f, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RC }, { C_F } }
+
+/* notl<.f> ZA,RC 0101111000101111x111xxxxxx001010 */
+{ "notl", 0x5e2f700a, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RC }, { C_F } }
+
+/* notl<.f> RB,UIMM6_20 01011xxx01101111xxxxxxxxxx001010 */
+{ "notl", 0x586f000a, 0xf8ff003f, ARC_OPCODE_ARC64, ARITH, NONE, { RB, UIMM6_20 }, { C_F } }
+
+/* notl<.f> ZA,UIMM6_20 0101111001101111x111xxxxxx001010 */
+{ "notl", 0x5e6f700a, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, UIMM6_20 }, { C_F } }
+
+/* notl<.f> RB,XIMM 01011xxx00101111xxxx111100001010 */
+{ "notl", 0x582f0f0a, 0xf8ff0fff, ARC_OPCODE_ARC64, ARITH, NONE, { RB, XIMM }, { C_F } }
+
+/* notl<.f> ZA,XIMM 0101111000101111x111111100001010 */
+{ "notl", 0x5e2f7f0a, 0xffff7fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM }, { C_F } }
+
+/* notl<.f> RB,LIMM 01011xxx00101111xxxx111110001010 */
+{ "notl", 0x582f0f8a, 0xf8ff0fff, ARC_OPCODE_ARC64, ARITH, NONE, { RB, LIMM }, { C_F } }
+
+/* notl<.f> ZA,LIMM 0101111000101111x111111110001010 */
+{ "notl", 0x5e2f7f8a, 0xffff7fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM }, { C_F } }
+
+/* not_s RB_S,RC_S 01111xxxxxx10010 */
+{ "not_s", 0x00007812, 0x0000f81f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RB_S, RC_S }, { 0 } }
+
+/* or<.f> RA,RB,RC 00100xxx00000101xxxxxxxxxxxxxxxx */
+{ "or", 0x20050000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RA, RB, RC }, { C_F } }
+
+/* or<.f> ZA,RB,RC 00100xxx00000101xxxxxxxxxx111110 */
+{ "or", 0x2005003e, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, RB, RC }, { C_F } }
+
+/* or<.f><.cc> RB,RBdup,RC 00100xxx11000101xxxxxxxxxx0xxxxx */
+{ "or", 0x20c50000, 0xf8ff0020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RB, RBdup, RC }, { C_F, C_CC } }
+
+/* or<.f> RA,RB,UIMM6_20 00100xxx01000101xxxxxxxxxxxxxxxx */
+{ "or", 0x20450000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RA, RB, UIMM6_20 }, { C_F } }
+
+/* or<.f> ZA,RB,UIMM6_20 00100xxx01000101xxxxxxxxxx111110 */
+{ "or", 0x2045003e, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, RB, UIMM6_20 }, { C_F } }
+
+/* or<.f><.cc> RB,RBdup,UIMM6_20 00100xxx11000101xxxxxxxxxx1xxxxx */
+{ "or", 0x20c50020, 0xf8ff0020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RB, RBdup, UIMM6_20 }, { C_F, C_CC } }
+
+/* or<.f> RB,RBdup,SIMM12_20 00100xxx10000101xxxxxxxxxxxxxxxx */
+{ "or", 0x20850000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RB, RBdup, SIMM12_20 }, { C_F } }
+
+/* or<.f> RA,LIMM,RC 0010011000000101x111xxxxxxxxxxxx */
+{ "or", 0x26057000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RA, LIMM, RC }, { C_F } }
+
+/* or<.f> RA,RB,LIMM 00100xxx00000101xxxx111110xxxxxx */
+{ "or", 0x20050f80, 0xf8ff0fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RA, RB, LIMM }, { C_F } }
+
+/* or<.f> ZA,LIMM,RC 0010011000000101x111xxxxxx111110 */
+{ "or", 0x2605703e, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, LIMM, RC }, { C_F } }
+
+/* or<.f> ZA,RB,LIMM 00100xxx00000101xxxx111110111110 */
+{ "or", 0x20050fbe, 0xf8ff0fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, RB, LIMM }, { C_F } }
+
+/* or<.f><.cc> RB,RBdup,LIMM 00100xxx11000101xxxx1111100xxxxx */
+{ "or", 0x20c50f80, 0xf8ff0fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RB, RBdup, LIMM }, { C_F, C_CC } }
+
+/* or<.f><.cc> ZA,LIMM,RC 0010011011000101x111xxxxxx0xxxxx */
+{ "or", 0x26c57000, 0xffff7020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, LIMM, RC }, { C_F, C_CC } }
+
+/* or<.f> RA,LIMM,UIMM6_20 0010011001000101x111xxxxxxxxxxxx */
+{ "or", 0x26457000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RA, LIMM, UIMM6_20 }, { C_F } }
+
+/* or<.f> ZA,LIMM,UIMM6_20 0010011001000101x111xxxxxx111110 */
+{ "or", 0x2645703e, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, LIMM, UIMM6_20 }, { C_F } }
+
+/* or<.f><.cc> ZA,LIMM,UIMM6_20 0010011011000101x111xxxxxx1xxxxx */
+{ "or", 0x26c57020, 0xffff7020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, LIMM, UIMM6_20 }, { C_F, C_CC } }
+
+/* or<.f> ZA,LIMM,SIMM12_20 0010011010000101x111xxxxxxxxxxxx */
+{ "or", 0x26857000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, LIMM, SIMM12_20 }, { C_F } }
+
+/* or<.f> RA,LIMM,LIMMdup 0010011000000101x111111110xxxxxx */
+{ "or", 0x26057f80, 0xffff7fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RA, LIMM, LIMMdup }, { C_F } }
+
+/* or<.f> ZA,LIMM,LIMMdup 0010011000000101x111111110111110 */
+{ "or", 0x26057fbe, 0xffff7fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, LIMM, LIMMdup }, { C_F } }
+
+/* or<.f><.cc> ZA,LIMM,LIMMdup 0010011011000101x1111111100xxxxx */
+{ "or", 0x26c57f80, 0xffff7fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, LIMM, LIMMdup }, { C_F, C_CC } }
+
+/* orl<.f> RA,RB,RC 01011xxx00000101xxxxxxxxxxxxxxxx */
+{ "orl", 0x58050000, 0xf8ff0000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, RC }, { C_F } }
+
+/* orl<.f> ZA,RB,RC 01011xxx00000101xxxxxxxxxx111110 */
+{ "orl", 0x5805003e, 0xf8ff003f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, RC }, { C_F } }
+
+/* orl<.f><.cc> RB,RBdup,RC 01011xxx11000101xxxxxxxxxx0xxxxx */
+{ "orl", 0x58c50000, 0xf8ff0020, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, RC }, { C_F, C_CC } }
+
+/* orl<.f> RA,RB,UIMM6_20 01011xxx01000101xxxxxxxxxxxxxxxx */
+{ "orl", 0x58450000, 0xf8ff0000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, UIMM6_20 }, { C_F } }
+
+/* orl<.f> ZA,RB,UIMM6_20 01011xxx01000101xxxxxxxxxx111110 */
+{ "orl", 0x5845003e, 0xf8ff003f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, UIMM6_20 }, { C_F } }
+
+/* orl<.f><.cc> RB,RBdup,UIMM6_20 01011xxx11000101xxxxxxxxxx1xxxxx */
+{ "orl", 0x58c50020, 0xf8ff0020, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, UIMM6_20 }, { C_F, C_CC } }
+
+/* orl<.f> RB,RBdup,SIMM12_20 01011xxx10000101xxxxxxxxxxxxxxxx */
+{ "orl", 0x58850000, 0xf8ff0000, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, SIMM12_20 }, { C_F } }
+
+/* orl<.f> RA,XIMM,RC 0101110000000101x111xxxxxxxxxxxx */
+{ "orl", 0x5c057000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, XIMM, RC }, { C_F } }
+
+/* orl<.f> RA,RB,XIMM 01011xxx00000101xxxx111100xxxxxx */
+{ "orl", 0x58050f00, 0xf8ff0fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, XIMM }, { C_F } }
+
+/* orl<.f> ZA,XIMM,RC 0101110000000101x111xxxxxx111110 */
+{ "orl", 0x5c05703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, RC }, { C_F } }
+
+/* orl<.f> ZA,RB,XIMM 01011xxx00000101xxxx111100111110 */
+{ "orl", 0x58050f3e, 0xf8ff0fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, XIMM }, { C_F } }
+
+/* orl<.f><.cc> ZA,XIMM,RC 0101110011000101x111xxxxxx0xxxxx */
+{ "orl", 0x5cc57000, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, RC }, { C_F, C_CC } }
+
+/* orl<.f><.cc> RB,RBdup,XIMM 01011xxx11000101xxxx1111000xxxxx */
+{ "orl", 0x58c50f00, 0xf8ff0fe0, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, XIMM }, { C_F, C_CC } }
+
+/* orl<.f> RA,XIMM,UIMM6_20 0101110001000101x111xxxxxxxxxxxx */
+{ "orl", 0x5c457000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, XIMM, UIMM6_20 }, { C_F } }
+
+/* orl<.f> ZA,XIMM,UIMM6_20 0101110001000101x111xxxxxx111110 */
+{ "orl", 0x5c45703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, UIMM6_20 }, { C_F } }
+
+/* orl<.f><.cc> ZA,XIMM,UIMM6_20 0101110011000101x111xxxxxx1xxxxx */
+{ "orl", 0x5cc57020, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, UIMM6_20 }, { C_F, C_CC } }
+
+/* orl<.f> RA,LIMM,RC 0101111000000101x111xxxxxxxxxxxx */
+{ "orl", 0x5e057000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, LIMM, RC }, { C_F } }
+
+/* orl<.f> RA,RB,LO32 01011xxx00000101xxxx111110xxxxxx */
+{ "orl", 0x58050f80, 0xf8ff0fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, LO32 }, { C_F } }
+
+/* orl<.f> RA,RB,LIMM 01011xxx00000101xxxx111110xxxxxx */
+{ "orl", 0x58050f80, 0xf8ff0fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, LIMM }, { C_F } }
+
+/* orl<.f> ZA,LIMM,RC 0101111000000101x111xxxxxx111110 */
+{ "orl", 0x5e05703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, RC }, { C_F } }
+
+/* orl<.f> ZA,RB,LIMM 01011xxx00000101xxxx111110111110 */
+{ "orl", 0x58050fbe, 0xf8ff0fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, LIMM }, { C_F } }
+
+/* orl<.f><.cc> ZA,LIMM,RC 0101111011000101x111xxxxxx0xxxxx */
+{ "orl", 0x5ec57000, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, RC }, { C_F, C_CC } }
+
+/* orl<.f><.cc> RB,RBdup,LIMM 01011xxx11000101xxxx1111100xxxxx */
+{ "orl", 0x58c50f80, 0xf8ff0fe0, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, LIMM }, { C_F, C_CC } }
+
+/* orl<.f> RA,LIMM,UIMM6_20 0101111001000101x111xxxxxxxxxxxx */
+{ "orl", 0x5e457000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, LIMM, UIMM6_20 }, { C_F } }
+
+/* orl<.f> ZA,LIMM,UIMM6_20 0101111001000101x111xxxxxx111110 */
+{ "orl", 0x5e45703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, UIMM6_20 }, { C_F } }
+
+/* orl<.f><.cc> ZA,LIMM,UIMM6_20 0101111011000101x111xxxxxx1xxxxx */
+{ "orl", 0x5ec57020, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, UIMM6_20 }, { C_F, C_CC } }
+
+/* orl<.f> ZA,XIMM,SIMM12_20 0101110010000101x111xxxxxxxxxxxx */
+{ "orl", 0x5c857000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, SIMM12_20 }, { C_F } }
+
+/* orl<.f> ZA,LIMM,SIMM12_20 0101111010000101x111xxxxxxxxxxxx */
+{ "orl", 0x5e857000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, SIMM12_20 }, { C_F } }
+
+/* orl<.f> RA,XIMM,XIMMdup 0101110000000101x111111100xxxxxx */
+{ "orl", 0x5c057f00, 0xffff7fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, XIMM, XIMMdup }, { C_F } }
+
+/* orl<.f> ZA,XIMM,XIMMdup 0101110000000101x111111100111110 */
+{ "orl", 0x5c057f3e, 0xffff7fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, XIMMdup }, { C_F } }
+
+/* orl<.f><.cc> ZA,XIMM,XIMMdup 0101110011000101x1111111000xxxxx */
+{ "orl", 0x5cc57f00, 0xffff7fe0, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, XIMMdup }, { C_F, C_CC } }
+
+/* orl<.f> RA,LIMM,LIMMdup 0101111000000101x111111110xxxxxx */
+{ "orl", 0x5e057f80, 0xffff7fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, LIMM, LIMMdup }, { C_F } }
+
+/* orl<.f> ZA,LIMM,LIMMdup 0101111000000101x111111110111110 */
+{ "orl", 0x5e057fbe, 0xffff7fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, LIMMdup }, { C_F } }
+
+/* orl<.f><.cc> ZA,LIMM,LIMMdup 0101111011000101x1111111100xxxxx */
+{ "orl", 0x5ec57f80, 0xffff7fe0, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, LIMMdup }, { C_F, C_CC } }
+
+/* orl_s RB_S,RB_Sdup,RC_S 01111xxxxxx10111 */
+{ "orl_s", 0x00007817, 0x0000f81f, ARC_OPCODE_ARC64, ARITH, NONE, { RB_S, RB_Sdup, RC_S }, { 0 } }
+
+/* orl_s RH_S,RH_Sdup,LO32 01110000xxx110xx */
+{ "orl_s", 0x00007018, 0x0000ff1c, ARC_OPCODE_ARC64, ARITH, NONE, { RH_S, RH_Sdup, LO32 }, { 0 } }
+
+/* orl_s RH_S,PCL_S,LO32 01110010xxx110xx */
+{ "orl_s", 0x00007218, 0x0000ff1c, ARC_OPCODE_ARC64, ARITH, NONE, { RH_S, PCL_S, LO32 }, { 0 } }
+
+/* or_s RB_S,RB_Sdup,RC_S 01111xxxxxx00101 */
+{ "or_s", 0x00007805, 0x0000f81f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RB_S, RB_Sdup, RC_S }, { 0 } }
+
+/* pop_s b 11000bbb11000001.  */
+{ "pop_s", 0x0000C0C1, 0x0000F8FF, ARC_OPCODE_ARC32, POP, NONE, { RB_S }, { C_AA_AB }},
+
+/* pop_s BLINK 11000RRR11010001.  */
+{ "pop_s", 0x0000C0D1, 0x0000F8FF, ARC_OPCODE_ARC32, POP, NONE, { BLINK_S }, { C_AA_AB }},
+
+/* popdl_s RBB_S 11000xxx1101xxx1 */
+{ "popdl_s", 0x0000c0d1, 0x0000f8f1, ARC_OPCODE_ARC64, ARITH, NONE, { RBB_S_CHK }, { 0 } }
+
+/* popl_s RBB_S 11000xxx1100xxx1 */
+{ "popl_s", 0x0000c0c1, 0x0000f8f1, ARC_OPCODE_ARC64, ARITH, NONE, { RBB_S }, { 0 } }
+
+/* prealloc<.aa> BRAKET,RB,RC,BRAKETdup 00100xxxxx1100010xxxxxxxxx111110 */
+{ "prealloc", 0x2031003e, 0xf83f803f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MEMORY, NONE, { BRAKET, RB, RC, BRAKETdup }, { C_AA8 } }
+
+/* prealloc<.aa> BRAKET,RB,SIMM9_8,BRAKETdup 00010xxxxxxxxxxxxxxx0xx001111110 */
+{ "prealloc", 0x1000007e, 0xf80009ff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MEMORY, NONE, { BRAKET, RB, SIMM9_8, BRAKETdup }, { C_AA21 } }
+
+/* prealloc<.aa> BRAKET,RB,LIMM,BRAKETdup 00100xxxxx1100010xxx111110111110 */
+{ "prealloc", 0x20310fbe, 0xf83f8fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MEMORY, NONE, { BRAKET, RB, LIMM, BRAKETdup }, { C_AA8 } }
+
+/* prealloc BRAKET,LIMM,RC,BRAKETdup 00100110xx1100010111xxxxxx111110 */
+{ "prealloc", 0x2631703e, 0xff3ff03f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MEMORY, NONE, { BRAKET, LIMM, RC, BRAKETdup }, { 0 } }
+
+/* prealloc BRAKET,LIMM,BRAKETdup 000101100000000001110xx001111110 */
+{ "prealloc", 0x1600707e, 0xfffff9ff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MEMORY, NONE, { BRAKET, LIMM, BRAKETdup }, { 0 } }
+
+/* prealloc BRAKET,LIMM,SIMM9_8,BRAKETdup 00010110xxxxxxxxx1110xx001111110 */
+{ "prealloc", 0x1600707e, 0xff0079ff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MEMORY, NONE, { BRAKET, LIMM, SIMM9_8, BRAKETdup }, { 0 } }
+
+/* prefetch<.aa> BRAKET,RB,RC,BRAKETdup 00100xxxxx1100000xxxxxxxxx111110 */
+{ "prefetch", 0x2030003e, 0xf83f803f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MEMORY, NONE, { BRAKET, RB, RC, BRAKETdup }, { C_AA8 } }
+
+/* prefetch<.aa> BRAKET,RB,SIMM9_8,BRAKETdup 00010xxxxxxxxxxxxxxx0xx000111110 */
+{ "prefetch", 0x1000003e, 0xf80009ff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MEMORY, NONE, { BRAKET, RB, SIMM9_8, BRAKETdup }, { C_AA21 } }
+
+/* prefetch<.aa> BRAKET,RB,LIMM,BRAKETdup 00100xxxxx1100000xxx111110111110 */
+{ "prefetch", 0x20300fbe, 0xf83f8fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MEMORY, NONE, { BRAKET, RB, LIMM, BRAKETdup }, { C_AA8 } }
+
+/* prefetch BRAKET,LIMM,RC,BRAKETdup 00100110xx1100000111xxxxxx111110 */
+{ "prefetch", 0x2630703e, 0xff3ff03f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MEMORY, NONE, { BRAKET, LIMM, RC, BRAKETdup }, { 0 } }
+
+/* prefetch BRAKET,LIMM,BRAKETdup 000101100000000001110xx000111110 */
+{ "prefetch", 0x1600703e, 0xfffff9ff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MEMORY, NONE, { BRAKET, LIMM, BRAKETdup }, { 0 } }
+
+/* prefetch BRAKET,LIMM,SIMM9_8,BRAKETdup 00010110xxxxxxxxx1110xx000111110 */
+{ "prefetch", 0x1600703e, 0xff0079ff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MEMORY, NONE, { BRAKET, LIMM, SIMM9_8, BRAKETdup }, { 0 } }
+
+/* prefetchw<.aa> BRAKET,RB,RC,BRAKETdup 00100xxxxx1100001xxxxxxxxx111110 */
+{ "prefetchw", 0x2030803e, 0xf83f803f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MEMORY, NONE, { BRAKET, RB, RC, BRAKETdup }, { C_AA8 } }
+
+/* prefetchw<.aa> BRAKET,RB,SIMM9_8,BRAKETdup 00010xxxxxxxxxxxxxxx1xx000111110 */
+{ "prefetchw", 0x1000083e, 0xf80009ff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MEMORY, NONE, { BRAKET, RB, SIMM9_8, BRAKETdup }, { C_AA21 } }
+
+/* prefetchw<.aa> BRAKET,RB,LIMM,BRAKETdup 00100xxxxx1100001xxx111110111110 */
+{ "prefetchw", 0x20308fbe, 0xf83f8fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MEMORY, NONE, { BRAKET, RB, LIMM, BRAKETdup }, { C_AA8 } }
+
+/* prefetchw BRAKET,LIMM,RC,BRAKETdup 00100110xx1100001111xxxxxx111110 */
+{ "prefetchw", 0x2630f03e, 0xff3ff03f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MEMORY, NONE, { BRAKET, LIMM, RC, BRAKETdup }, { 0 } }
+
+/* prefetchw BRAKET,LIMM,BRAKETdup 000101100000000001111xx000111110 */
+{ "prefetchw", 0x1600783e, 0xfffff9ff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MEMORY, NONE, { BRAKET, LIMM, BRAKETdup }, { 0 } }
+
+/* prefetchw BRAKET,LIMM,SIMM9_8,BRAKETdup 00010110xxxxxxxxx1111xx000111110 */
+{ "prefetchw", 0x1600783e, 0xff0079ff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MEMORY, NONE, { BRAKET, LIMM, SIMM9_8, BRAKETdup }, { 0 } }
+
+/* push_s b 11000bbb11100001.  */
+{ "push_s", 0x0000C0E1, 0x0000F8FF, ARC_OPCODE_ARC32, PUSH, NONE, { RB_S }, { C_AA_AW }},
+
+/* push_s blink 11000RRR11110001.  */
+{ "push_s", 0x0000C0F1, 0x0000F8FF, ARC_OPCODE_ARC32, PUSH, NONE, { BLINK_S }, { C_AA_AW }},
+
+/* pushdl_s RBB_S 11000xxx1111xxx1 */
+{ "pushdl_s", 0x0000c0f1, 0x0000f8f1, ARC_OPCODE_ARC64, ARITH, NONE, { RBB_S_CHK }, { 0 } }
+
+/* pushl_s RBB_S 11000xxx1110xxx1 */
+{ "pushl_s", 0x0000c0e1, 0x0000f8f1, ARC_OPCODE_ARC64, ARITH, NONE, { RBB_S }, { 0 } }
+
+/* qmach<.f> RA_CHK,RB,RC 00101xxx00110100xxxxxxxxxxxxxxxx */
+{ "qmach", 0x28340000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RA_CHK, RB, RC }, { C_F } }
+
+/* qmach<.f> ZA,RB,RC 00101xxx00110100xxxxxxxxxx111110 */
+{ "qmach", 0x2834003e, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, RB, RC }, { C_F } }
+
+/* qmach<.f><.cc> RB_CHK,RBdup,RC 00101xxx11110100xxxxxxxxxx0xxxxx */
+{ "qmach", 0x28f40000, 0xf8ff0020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RB_CHK, RBdup, RC }, { C_F, C_CC } }
+
+/* qmach<.f> RA_CHK,RB,UIMM6_20 00101xxx01110100xxxxxxxxxxxxxxxx */
+{ "qmach", 0x28740000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RA_CHK, RB, UIMM6_20 }, { C_F } }
+
+/* qmach<.f> ZA,RB,UIMM6_20 00101xxx01110100xxxxxxxxxx111110 */
+{ "qmach", 0x2874003e, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, RB, UIMM6_20 }, { C_F } }
+
+/* qmach<.f><.cc> RB_CHK,RBdup,UIMM6_20 00101xxx11110100xxxxxxxxxx1xxxxx */
+{ "qmach", 0x28f40020, 0xf8ff0020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RB_CHK, RBdup, UIMM6_20 }, { C_F, C_CC } }
+
+/* qmach<.f> RB_CHK,RBdup,SIMM12_20 00101xxx10110100xxxxxxxxxxxxxxxx */
+{ "qmach", 0x28b40000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RB_CHK, RBdup, SIMM12_20 }, { C_F } }
+
+/* qmach<.f> RA_CHK,LIMM,RC 0010111000110100x111xxxxxxxxxxxx */
+{ "qmach", 0x2e347000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RA_CHK, LIMM, RC }, { C_F } }
+
+/* qmach<.f> RA_CHK,RB,LIMM 00101xxx00110100xxxx111110xxxxxx */
+{ "qmach", 0x28340f80, 0xf8ff0fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RA_CHK, RB, LIMM }, { C_F } }
+
+/* qmach<.f> ZA,LIMM,RC 0010111000110100x111xxxxxx111110 */
+{ "qmach", 0x2e34703e, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, LIMM, RC }, { C_F } }
+
+/* qmach<.f> ZA,RB,LIMM 00101xxx00110100xxxx111110111110 */
+{ "qmach", 0x28340fbe, 0xf8ff0fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, RB, LIMM }, { C_F } }
+
+/* qmach<.f><.cc> RB_CHK,RBdup,LIMM 00101xxx11110100xxxx1111100xxxxx */
+{ "qmach", 0x28f40f80, 0xf8ff0fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RB_CHK, RBdup, LIMM }, { C_F, C_CC } }
+
+/* qmach<.f><.cc> ZA,LIMM,RC 0010111011110100x111xxxxxx0xxxxx */
+{ "qmach", 0x2ef47000, 0xffff7020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, LIMM, RC }, { C_F, C_CC } }
+
+/* qmach<.f> RA_CHK,LIMM,UIMM6_20 0010111001110100x111xxxxxxxxxxxx */
+{ "qmach", 0x2e747000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RA_CHK, LIMM, UIMM6_20 }, { C_F } }
+
+/* qmach<.f> ZA,LIMM,UIMM6_20 0010111001110100x111xxxxxx111110 */
+{ "qmach", 0x2e74703e, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, LIMM, UIMM6_20 }, { C_F } }
+
+/* qmach<.f><.cc> ZA,LIMM,UIMM6_20 0010111011110100x111xxxxxx1xxxxx */
+{ "qmach", 0x2ef47020, 0xffff7020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, LIMM, UIMM6_20 }, { C_F, C_CC } }
+
+/* qmach<.f> ZA,LIMM,SIMM12_20 0010111010110100x111xxxxxxxxxxxx */
+{ "qmach", 0x2eb47000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, LIMM, SIMM12_20 }, { C_F } }
+
+/* qmach<.f> RA_CHK,LIMM,LIMMdup 0010111000110100x111111110xxxxxx */
+{ "qmach", 0x2e347f80, 0xffff7fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RA_CHK, LIMM, LIMMdup }, { C_F } }
+
+/* qmach<.f> ZA,LIMM,LIMMdup 0010111000110100x111111110111110 */
+{ "qmach", 0x2e347fbe, 0xffff7fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, LIMM, LIMMdup }, { C_F } }
+
+/* qmach<.f><.cc> ZA,LIMM,LIMMdup 0010111011110100x1111111100xxxxx */
+{ "qmach", 0x2ef47f80, 0xffff7fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, LIMM, LIMMdup }, { C_F, C_CC } }
+
+/* qmachu<.f> RA_CHK,RB,RC 00101xxx00110101xxxxxxxxxxxxxxxx */
+{ "qmachu", 0x28350000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RA_CHK, RB, RC }, { C_F } }
+
+/* qmachu<.f> ZA,RB,RC 00101xxx00110101xxxxxxxxxx111110 */
+{ "qmachu", 0x2835003e, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, RB, RC }, { C_F } }
+
+/* qmachu<.f><.cc> RB_CHK,RBdup,RC 00101xxx11110101xxxxxxxxxx0xxxxx */
+{ "qmachu", 0x28f50000, 0xf8ff0020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RB_CHK, RBdup, RC }, { C_F, C_CC } }
+
+/* qmachu<.f> RA_CHK,RB,UIMM6_20 00101xxx01110101xxxxxxxxxxxxxxxx */
+{ "qmachu", 0x28750000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RA_CHK, RB, UIMM6_20 }, { C_F } }
+
+/* qmachu<.f> ZA,RB,UIMM6_20 00101xxx01110101xxxxxxxxxx111110 */
+{ "qmachu", 0x2875003e, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, RB, UIMM6_20 }, { C_F } }
+
+/* qmachu<.f><.cc> RB_CHK,RBdup,UIMM6_20 00101xxx11110101xxxxxxxxxx1xxxxx */
+{ "qmachu", 0x28f50020, 0xf8ff0020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RB_CHK, RBdup, UIMM6_20 }, { C_F, C_CC } }
+
+/* qmachu<.f> RB_CHK,RBdup,SIMM12_20 00101xxx10110101xxxxxxxxxxxxxxxx */
+{ "qmachu", 0x28b50000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RB_CHK, RBdup, SIMM12_20 }, { C_F } }
+
+/* qmachu<.f> RA_CHK,LIMM,RC 0010111000110101x111xxxxxxxxxxxx */
+{ "qmachu", 0x2e357000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RA_CHK, LIMM, RC }, { C_F } }
+
+/* qmachu<.f> RA_CHK,RB,LIMM 00101xxx00110101xxxx111110xxxxxx */
+{ "qmachu", 0x28350f80, 0xf8ff0fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RA_CHK, RB, LIMM }, { C_F } }
+
+/* qmachu<.f> ZA,LIMM,RC 0010111000110101x111xxxxxx111110 */
+{ "qmachu", 0x2e35703e, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, LIMM, RC }, { C_F } }
+
+/* qmachu<.f> ZA,RB,LIMM 00101xxx00110101xxxx111110111110 */
+{ "qmachu", 0x28350fbe, 0xf8ff0fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, RB, LIMM }, { C_F } }
+
+/* qmachu<.f><.cc> RB_CHK,RBdup,LIMM 00101xxx11110101xxxx1111100xxxxx */
+{ "qmachu", 0x28f50f80, 0xf8ff0fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RB_CHK, RBdup, LIMM }, { C_F, C_CC } }
+
+/* qmachu<.f><.cc> ZA,LIMM,RC 0010111011110101x111xxxxxx0xxxxx */
+{ "qmachu", 0x2ef57000, 0xffff7020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, LIMM, RC }, { C_F, C_CC } }
+
+/* qmachu<.f> RA_CHK,LIMM,UIMM6_20 0010111001110101x111xxxxxxxxxxxx */
+{ "qmachu", 0x2e757000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RA_CHK, LIMM, UIMM6_20 }, { C_F } }
+
+/* qmachu<.f> ZA,LIMM,UIMM6_20 0010111001110101x111xxxxxx111110 */
+{ "qmachu", 0x2e75703e, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, LIMM, UIMM6_20 }, { C_F } }
+
+/* qmachu<.f><.cc> ZA,LIMM,UIMM6_20 0010111011110101x111xxxxxx1xxxxx */
+{ "qmachu", 0x2ef57020, 0xffff7020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, LIMM, UIMM6_20 }, { C_F, C_CC } }
+
+/* qmachu<.f> ZA,LIMM,SIMM12_20 0010111010110101x111xxxxxxxxxxxx */
+{ "qmachu", 0x2eb57000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, LIMM, SIMM12_20 }, { C_F } }
+
+/* qmachu<.f> RA_CHK,LIMM,LIMMdup 0010111000110101x111111110xxxxxx */
+{ "qmachu", 0x2e357f80, 0xffff7fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RA_CHK, LIMM, LIMMdup }, { C_F } }
+
+/* qmachu<.f> ZA,LIMM,LIMMdup 0010111000110101x111111110111110 */
+{ "qmachu", 0x2e357fbe, 0xffff7fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, LIMM, LIMMdup }, { C_F } }
+
+/* qmachu<.f><.cc> ZA,LIMM,LIMMdup 0010111011110101x1111111100xxxxx */
+{ "qmachu", 0x2ef57f80, 0xffff7fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, LIMM, LIMMdup }, { C_F, C_CC } }
+
+/* qmpyh<.f> RA_CHK,RB,RC 00101xxx00110000xxxxxxxxxxxxxxxx */
+{ "qmpyh", 0x28300000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RA_CHK, RB, RC }, { C_F } }
+
+/* qmpyh<.f> ZA,RB,RC 00101xxx00110000xxxxxxxxxx111110 */
+{ "qmpyh", 0x2830003e, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, RB, RC }, { C_F } }
+
+/* qmpyh<.f><.cc> RB_CHK,RBdup,RC 00101xxx11110000xxxxxxxxxx0xxxxx */
+{ "qmpyh", 0x28f00000, 0xf8ff0020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RB_CHK, RBdup, RC }, { C_F, C_CC } }
+
+/* qmpyh<.f> RA_CHK,RB,UIMM6_20 00101xxx01110000xxxxxxxxxxxxxxxx */
+{ "qmpyh", 0x28700000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RA_CHK, RB, UIMM6_20 }, { C_F } }
+
+/* qmpyh<.f> ZA,RB,UIMM6_20 00101xxx01110000xxxxxxxxxx111110 */
+{ "qmpyh", 0x2870003e, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, RB, UIMM6_20 }, { C_F } }
+
+/* qmpyh<.f><.cc> RB_CHK,RBdup,UIMM6_20 00101xxx11110000xxxxxxxxxx1xxxxx */
+{ "qmpyh", 0x28f00020, 0xf8ff0020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RB_CHK, RBdup, UIMM6_20 }, { C_F, C_CC } }
+
+/* qmpyh<.f> RB_CHK,RBdup,SIMM12_20 00101xxx10110000xxxxxxxxxxxxxxxx */
+{ "qmpyh", 0x28b00000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RB_CHK, RBdup, SIMM12_20 }, { C_F } }
+
+/* qmpyh<.f> RA_CHK,LIMM,RC 0010111000110000x111xxxxxxxxxxxx */
+{ "qmpyh", 0x2e307000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RA_CHK, LIMM, RC }, { C_F } }
+
+/* qmpyh<.f> RA_CHK,RB,LIMM 00101xxx00110000xxxx111110xxxxxx */
+{ "qmpyh", 0x28300f80, 0xf8ff0fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RA_CHK, RB, LIMM }, { C_F } }
+
+/* qmpyh<.f> ZA,LIMM,RC 0010111000110000x111xxxxxx111110 */
+{ "qmpyh", 0x2e30703e, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, LIMM, RC }, { C_F } }
+
+/* qmpyh<.f> ZA,RB,LIMM 00101xxx00110000xxxx111110111110 */
+{ "qmpyh", 0x28300fbe, 0xf8ff0fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, RB, LIMM }, { C_F } }
+
+/* qmpyh<.f><.cc> RB_CHK,RBdup,LIMM 00101xxx11110000xxxx1111100xxxxx */
+{ "qmpyh", 0x28f00f80, 0xf8ff0fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RB_CHK, RBdup, LIMM }, { C_F, C_CC } }
+
+/* qmpyh<.f><.cc> ZA,LIMM,RC 0010111011110000x111xxxxxx0xxxxx */
+{ "qmpyh", 0x2ef07000, 0xffff7020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, LIMM, RC }, { C_F, C_CC } }
+
+/* qmpyh<.f> RA_CHK,LIMM,UIMM6_20 0010111001110000x111xxxxxxxxxxxx */
+{ "qmpyh", 0x2e707000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RA_CHK, LIMM, UIMM6_20 }, { C_F } }
+
+/* qmpyh<.f> ZA,LIMM,UIMM6_20 0010111001110000x111xxxxxx111110 */
+{ "qmpyh", 0x2e70703e, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, LIMM, UIMM6_20 }, { C_F } }
+
+/* qmpyh<.f><.cc> ZA,LIMM,UIMM6_20 0010111011110000x111xxxxxx1xxxxx */
+{ "qmpyh", 0x2ef07020, 0xffff7020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, LIMM, UIMM6_20 }, { C_F, C_CC } }
+
+/* qmpyh<.f> ZA,LIMM,SIMM12_20 0010111010110000x111xxxxxxxxxxxx */
+{ "qmpyh", 0x2eb07000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, LIMM, SIMM12_20 }, { C_F } }
+
+/* qmpyh<.f> RA_CHK,LIMM,LIMMdup 0010111000110000x111111110xxxxxx */
+{ "qmpyh", 0x2e307f80, 0xffff7fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RA_CHK, LIMM, LIMMdup }, { C_F } }
+
+/* qmpyh<.f> ZA,LIMM,LIMMdup 0010111000110000x111111110111110 */
+{ "qmpyh", 0x2e307fbe, 0xffff7fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, LIMM, LIMMdup }, { C_F } }
+
+/* qmpyh<.f><.cc> ZA,LIMM,LIMMdup 0010111011110000x1111111100xxxxx */
+{ "qmpyh", 0x2ef07f80, 0xffff7fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, LIMM, LIMMdup }, { C_F, C_CC } }
+
+/* qmpyhu<.f> RA_CHK,RB,RC 00101xxx00110001xxxxxxxxxxxxxxxx */
+{ "qmpyhu", 0x28310000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RA_CHK, RB, RC }, { C_F } }
+
+/* qmpyhu<.f> ZA,RB,RC 00101xxx00110001xxxxxxxxxx111110 */
+{ "qmpyhu", 0x2831003e, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, RB, RC }, { C_F } }
+
+/* qmpyhu<.f><.cc> RB_CHK,RBdup,RC 00101xxx11110001xxxxxxxxxx0xxxxx */
+{ "qmpyhu", 0x28f10000, 0xf8ff0020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RB_CHK, RBdup, RC }, { C_F, C_CC } }
+
+/* qmpyhu<.f> RA_CHK,RB,UIMM6_20 00101xxx01110001xxxxxxxxxxxxxxxx */
+{ "qmpyhu", 0x28710000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RA_CHK, RB, UIMM6_20 }, { C_F } }
+
+/* qmpyhu<.f> ZA,RB,UIMM6_20 00101xxx01110001xxxxxxxxxx111110 */
+{ "qmpyhu", 0x2871003e, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, RB, UIMM6_20 }, { C_F } }
+
+/* qmpyhu<.f><.cc> RB_CHK,RBdup,UIMM6_20 00101xxx11110001xxxxxxxxxx1xxxxx */
+{ "qmpyhu", 0x28f10020, 0xf8ff0020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RB_CHK, RBdup, UIMM6_20 }, { C_F, C_CC } }
+
+/* qmpyhu<.f> RB_CHK,RBdup,SIMM12_20 00101xxx10110001xxxxxxxxxxxxxxxx */
+{ "qmpyhu", 0x28b10000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RB_CHK, RBdup, SIMM12_20 }, { C_F } }
+
+/* qmpyhu<.f> RA_CHK,LIMM,RC 0010111000110001x111xxxxxxxxxxxx */
+{ "qmpyhu", 0x2e317000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RA_CHK, LIMM, RC }, { C_F } }
+
+/* qmpyhu<.f> RA_CHK,RB,LIMM 00101xxx00110001xxxx111110xxxxxx */
+{ "qmpyhu", 0x28310f80, 0xf8ff0fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RA_CHK, RB, LIMM }, { C_F } }
+
+/* qmpyhu<.f> ZA,LIMM,RC 0010111000110001x111xxxxxx111110 */
+{ "qmpyhu", 0x2e31703e, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, LIMM, RC }, { C_F } }
+
+/* qmpyhu<.f> ZA,RB,LIMM 00101xxx00110001xxxx111110111110 */
+{ "qmpyhu", 0x28310fbe, 0xf8ff0fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, RB, LIMM }, { C_F } }
+
+/* qmpyhu<.f><.cc> RB_CHK,RBdup,LIMM 00101xxx11110001xxxx1111100xxxxx */
+{ "qmpyhu", 0x28f10f80, 0xf8ff0fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RB_CHK, RBdup, LIMM }, { C_F, C_CC } }
+
+/* qmpyhu<.f><.cc> ZA,LIMM,RC 0010111011110001x111xxxxxx0xxxxx */
+{ "qmpyhu", 0x2ef17000, 0xffff7020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, LIMM, RC }, { C_F, C_CC } }
+
+/* qmpyhu<.f> RA_CHK,LIMM,UIMM6_20 0010111001110001x111xxxxxxxxxxxx */
+{ "qmpyhu", 0x2e717000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RA_CHK, LIMM, UIMM6_20 }, { C_F } }
+
+/* qmpyhu<.f> ZA,LIMM,UIMM6_20 0010111001110001x111xxxxxx111110 */
+{ "qmpyhu", 0x2e71703e, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, LIMM, UIMM6_20 }, { C_F } }
+
+/* qmpyhu<.f><.cc> ZA,LIMM,UIMM6_20 0010111011110001x111xxxxxx1xxxxx */
+{ "qmpyhu", 0x2ef17020, 0xffff7020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, LIMM, UIMM6_20 }, { C_F, C_CC } }
+
+/* qmpyhu<.f> ZA,LIMM,SIMM12_20 0010111010110001x111xxxxxxxxxxxx */
+{ "qmpyhu", 0x2eb17000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, LIMM, SIMM12_20 }, { C_F } }
+
+/* qmpyhu<.f> RA_CHK,LIMM,LIMMdup 0010111000110001x111111110xxxxxx */
+{ "qmpyhu", 0x2e317f80, 0xffff7fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RA_CHK, LIMM, LIMMdup }, { C_F } }
+
+/* qmpyhu<.f> ZA,LIMM,LIMMdup 0010111000110001x111111110111110 */
+{ "qmpyhu", 0x2e317fbe, 0xffff7fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, LIMM, LIMMdup }, { C_F } }
+
+/* qmpyhu<.f><.cc> ZA,LIMM,LIMMdup 0010111011110001x1111111100xxxxx */
+{ "qmpyhu", 0x2ef17f80, 0xffff7fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, LIMM, LIMMdup }, { C_F, C_CC } }
+
+/* rcmp RB,RC 00100xxx000011011xxxxxxxxxxxxxxx */
+{ "rcmp", 0x200d8000, 0xf8ff8000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RB, RC }, { 0 } }
+
+/* rcmp<.cc> RB,RC 00100xxx110011011xxxxxxxxx0xxxxx */
+{ "rcmp", 0x20cd8000, 0xf8ff8020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RB, RC }, { C_CC } }
+
+/* rcmp RB,UIMM6_20 00100xxx010011011xxxxxxxxxxxxxxx */
+{ "rcmp", 0x204d8000, 0xf8ff8000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RB, UIMM6_20 }, { 0 } }
+
+/* rcmp<.cc> RB,UIMM6_20 00100xxx110011011xxxxxxxxx1xxxxx */
+{ "rcmp", 0x20cd8020, 0xf8ff8020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RB, UIMM6_20 }, { C_CC } }
+
+/* rcmp RB,SIMM12_20 00100xxx100011011xxxxxxxxxxxxxxx */
+{ "rcmp", 0x208d8000, 0xf8ff8000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RB, SIMM12_20 }, { 0 } }
+
+/* rcmp LIMM,RC 00100110000011011111xxxxxxxxxxxx */
+{ "rcmp", 0x260df000, 0xfffff000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { LIMM, RC }, { 0 } }
+
+/* rcmp RB,LIMM 00100xxx000011011xxx111110xxxxxx */
+{ "rcmp", 0x200d8f80, 0xf8ff8fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RB, LIMM }, { 0 } }
+
+/* rcmp<.cc> LIMM,RC 00100110110011011111xxxxxx0xxxxx */
+{ "rcmp", 0x26cdf000, 0xfffff020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { LIMM, RC }, { C_CC } }
+
+/* rcmp<.cc> RB,LIMM 00100xxx110011011xxx1111100xxxxx */
+{ "rcmp", 0x20cd8f80, 0xf8ff8fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RB, LIMM }, { C_CC } }
+
+/* rcmp LIMM,UIMM6_20 00100110010011011111xxxxxxxxxxxx */
+{ "rcmp", 0x264df000, 0xfffff000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { LIMM, UIMM6_20 }, { 0 } }
+
+/* rcmp<.cc> LIMM,UIMM6_20 00100110110011011111xxxxxx1xxxxx */
+{ "rcmp", 0x26cdf020, 0xfffff020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { LIMM, UIMM6_20 }, { C_CC } }
+
+/* rcmp LIMM,SIMM12_20 00100110100011011111xxxxxxxxxxxx */
+{ "rcmp", 0x268df000, 0xfffff000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { LIMM, SIMM12_20 }, { 0 } }
+
+/* rcmp LIMM,LIMMdup 00100110000011011111111110xxxxxx */
+{ "rcmp", 0x260dff80, 0xffffffc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { LIMM, LIMMdup }, { 0 } }
+
+/* rcmp<.cc> LIMM,LIMMdup 001001101100110111111111100xxxxx */
+{ "rcmp", 0x26cdff80, 0xffffffe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { LIMM, LIMMdup }, { C_CC } }
+
+/* rcmpl RB,RC 01011xxx000011011xxxxxxxxxxxxxxx */
+{ "rcmpl", 0x580d8000, 0xf8ff8000, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RC }, { 0 } }
+
+/* rcmpl<.cc> RB,RC 01011xxx110011011xxxxxxxxx0xxxxx */
+{ "rcmpl", 0x58cd8000, 0xf8ff8020, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RC }, { C_CC } }
+
+/* rcmpl RB,UIMM6_20 01011xxx010011011xxxxxxxxxxxxxxx */
+{ "rcmpl", 0x584d8000, 0xf8ff8000, ARC_OPCODE_ARC64, ARITH, NONE, { RB, UIMM6_20 }, { 0 } }
+
+/* rcmpl<.cc> RB,UIMM6_20 01011xxx110011011xxxxxxxxx1xxxxx */
+{ "rcmpl", 0x58cd8020, 0xf8ff8020, ARC_OPCODE_ARC64, ARITH, NONE, { RB, UIMM6_20 }, { C_CC } }
+
+/* rcmpl RB,SIMM12_20 01011xxx100011011xxxxxxxxxxxxxxx */
+{ "rcmpl", 0x588d8000, 0xf8ff8000, ARC_OPCODE_ARC64, ARITH, NONE, { RB, SIMM12_20 }, { 0 } }
+
+/* rcmpl XIMM,RC 01011100000011011111xxxxxxxxxxxx */
+{ "rcmpl", 0x5c0df000, 0xfffff000, ARC_OPCODE_ARC64, ARITH, NONE, { XIMM, RC }, { 0 } }
+
+/* rcmpl RB,XIMM 01011xxx000011011xxx111100xxxxxx */
+{ "rcmpl", 0x580d8f00, 0xf8ff8fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RB, XIMM }, { 0 } }
+
+/* rcmpl<.cc> RB,XIMM 01011xxx110011011xxx1111000xxxxx */
+{ "rcmpl", 0x58cd8f00, 0xf8ff8fe0, ARC_OPCODE_ARC64, ARITH, NONE, { RB, XIMM }, { C_CC } }
+
+/* rcmpl LIMM,RC 01011110000011011111xxxxxxxxxxxx */
+{ "rcmpl", 0x5e0df000, 0xfffff000, ARC_OPCODE_ARC64, ARITH, NONE, { LIMM, RC }, { 0 } }
+
+/* rcmpl RB,LIMM 01011xxx000011011xxx111110xxxxxx */
+{ "rcmpl", 0x580d8f80, 0xf8ff8fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RB, LIMM }, { 0 } }
+
+/* rcmpl<.cc> RB,LIMM 01011xxx110011011xxx1111100xxxxx */
+{ "rcmpl", 0x58cd8f80, 0xf8ff8fe0, ARC_OPCODE_ARC64, ARITH, NONE, { RB, LIMM }, { C_CC } }
+
+/* rcmpl LIMM,UIMM6_20 01011110010011011111xxxxxxxxxxxx */
+{ "rcmpl", 0x5e4df000, 0xfffff000, ARC_OPCODE_ARC64, ARITH, NONE, { LIMM, UIMM6_20 }, { 0 } }
+
+/* rem<.f> RA_CHK,RB,RC 00101xxx00001000xxxxxxxxxxxxxxxx */
+{ "rem", 0x28080000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, DIVREM, DIV, { RA_CHK, RB, RC }, { C_F } }
+
+/* rem<.f> ZA,RB,RC 00101xxx00001000xxxxxxxxxx111110 */
+{ "rem", 0x2808003e, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, DIVREM, DIV, { ZA, RB, RC }, { C_F } }
+
+/* rem<.f><.cc> RB_CHK,RBdup,RC 00101xxx11001000xxxxxxxxxx0xxxxx */
+{ "rem", 0x28c80000, 0xf8ff0020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, DIVREM, DIV, { RB_CHK, RBdup, RC }, { C_F, C_CC } }
+
+/* rem<.f> RA_CHK,RB,UIMM6_20 00101xxx01001000xxxxxxxxxxxxxxxx */
+{ "rem", 0x28480000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, DIVREM, DIV, { RA_CHK, RB, UIMM6_20 }, { C_F } }
+
+/* rem<.f> ZA,RB,UIMM6_20 00101xxx01001000xxxxxxxxxx111110 */
+{ "rem", 0x2848003e, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, DIVREM, DIV, { ZA, RB, UIMM6_20 }, { C_F } }
+
+/* rem<.f><.cc> RB_CHK,RBdup,UIMM6_20 00101xxx11001000xxxxxxxxxx1xxxxx */
+{ "rem", 0x28c80020, 0xf8ff0020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, DIVREM, DIV, { RB_CHK, RBdup, UIMM6_20 }, { C_F, C_CC } }
+
+/* rem<.f> RB_CHK,RBdup,SIMM12_20 00101xxx10001000xxxxxxxxxxxxxxxx */
+{ "rem", 0x28880000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, DIVREM, DIV, { RB_CHK, RBdup, SIMM12_20 }, { C_F } }
+
+/* rem<.f> RA_CHK,LIMM,RC 0010111000001000x111xxxxxxxxxxxx */
+{ "rem", 0x2e087000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, DIVREM, DIV, { RA_CHK, LIMM, RC }, { C_F } }
+
+/* rem<.f> RA_CHK,RB,LIMM 00101xxx00001000xxxx111110xxxxxx */
+{ "rem", 0x28080f80, 0xf8ff0fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, DIVREM, DIV, { RA_CHK, RB, LIMM }, { C_F } }
+
+/* rem<.f> ZA,LIMM,RC 0010111000001000x111xxxxxx111110 */
+{ "rem", 0x2e08703e, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, DIVREM, DIV, { ZA, LIMM, RC }, { C_F } }
+
+/* rem<.f> ZA,RB,LIMM 00101xxx00001000xxxx111110111110 */
+{ "rem", 0x28080fbe, 0xf8ff0fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, DIVREM, DIV, { ZA, RB, LIMM }, { C_F } }
+
+/* rem<.f><.cc> RB_CHK,RBdup,LIMM 00101xxx11001000xxxx1111100xxxxx */
+{ "rem", 0x28c80f80, 0xf8ff0fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, DIVREM, DIV, { RB_CHK, RBdup, LIMM }, { C_F, C_CC } }
+
+/* rem<.f><.cc> ZA,LIMM,RC 0010111011001000x111xxxxxx0xxxxx */
+{ "rem", 0x2ec87000, 0xffff7020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, DIVREM, DIV, { ZA, LIMM, RC }, { C_F, C_CC } }
+
+/* rem<.f> RA_CHK,LIMM,UIMM6_20 0010111001001000x111xxxxxxxxxxxx */
+{ "rem", 0x2e487000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, DIVREM, DIV, { RA_CHK, LIMM, UIMM6_20 }, { C_F } }
+
+/* rem<.f> ZA,LIMM,UIMM6_20 0010111001001000x111xxxxxx111110 */
+{ "rem", 0x2e48703e, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, DIVREM, DIV, { ZA, LIMM, UIMM6_20 }, { C_F } }
+
+/* rem<.f><.cc> ZA,LIMM,UIMM6_20 0010111011001000x111xxxxxx1xxxxx */
+{ "rem", 0x2ec87020, 0xffff7020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, DIVREM, DIV, { ZA, LIMM, UIMM6_20 }, { C_F, C_CC } }
+
+/* rem<.f> ZA,LIMM,SIMM12_20 0010111010001000x111xxxxxxxxxxxx */
+{ "rem", 0x2e887000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, DIVREM, DIV, { ZA, LIMM, SIMM12_20 }, { C_F } }
+
+/* rem<.f> RA_CHK,LIMM,LIMMdup 0010111000001000x111111110xxxxxx */
+{ "rem", 0x2e087f80, 0xffff7fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, DIVREM, DIV, { RA_CHK, LIMM, LIMMdup }, { C_F } }
+
+/* rem<.f> ZA,LIMM,LIMMdup 0010111000001000x111111110111110 */
+{ "rem", 0x2e087fbe, 0xffff7fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, DIVREM, DIV, { ZA, LIMM, LIMMdup }, { C_F } }
+
+/* rem<.f><.cc> ZA,LIMM,LIMMdup 0010111011001000x1111111100xxxxx */
+{ "rem", 0x2ec87f80, 0xffff7fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, DIVREM, DIV, { ZA, LIMM, LIMMdup }, { C_F, C_CC } }
+
+/* reml<.f> RA,RB,RC 01011xxx00101000xxxxxxxxxxxxxxxx */
+{ "reml", 0x58280000, 0xf8ff0000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, RC }, { C_F } }
+
+/* reml<.f> ZA,RB,RC 01011xxx00101000xxxxxxxxxx111110 */
+{ "reml", 0x5828003e, 0xf8ff003f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, RC }, { C_F } }
+
+/* reml<.f><.cc> RB,RBdup,RC 01011xxx11101000xxxxxxxxxx0xxxxx */
+{ "reml", 0x58e80000, 0xf8ff0020, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, RC }, { C_F, C_CC } }
+
+/* reml<.f> RA,RB,UIMM6_20 01011xxx01101000xxxxxxxxxxxxxxxx */
+{ "reml", 0x58680000, 0xf8ff0000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, UIMM6_20 }, { C_F } }
+
+/* reml<.f> ZA,RB,UIMM6_20 01011xxx01101000xxxxxxxxxx111110 */
+{ "reml", 0x5868003e, 0xf8ff003f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, UIMM6_20 }, { C_F } }
+
+/* reml<.f><.cc> RB,RBdup,UIMM6_20 01011xxx11101000xxxxxxxxxx1xxxxx */
+{ "reml", 0x58e80020, 0xf8ff0020, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, UIMM6_20 }, { C_F, C_CC } }
+
+/* reml<.f> RB,RBdup,SIMM12_20 01011xxx10101000xxxxxxxxxxxxxxxx */
+{ "reml", 0x58a80000, 0xf8ff0000, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, SIMM12_20 }, { C_F } }
+
+/* reml<.f> RA,XIMM,RC 0101110000101000x111xxxxxxxxxxxx */
+{ "reml", 0x5c287000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, XIMM, RC }, { C_F } }
+
+/* reml<.f> RA,RB,XIMM 01011xxx00101000xxxx111100xxxxxx */
+{ "reml", 0x58280f00, 0xf8ff0fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, XIMM }, { C_F } }
+
+/* reml<.f> ZA,XIMM,RC 0101110000101000x111xxxxxx111110 */
+{ "reml", 0x5c28703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, RC }, { C_F } }
+
+/* reml<.f> ZA,RB,XIMM 01011xxx00101000xxxx111100111110 */
+{ "reml", 0x58280f3e, 0xf8ff0fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, XIMM }, { C_F } }
+
+/* reml<.f><.cc> ZA,XIMM,RC 0101110011101000x111xxxxxx0xxxxx */
+{ "reml", 0x5ce87000, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, RC }, { C_F, C_CC } }
+
+/* reml<.f><.cc> RB,RBdup,XIMM 01011xxx11101000xxxx1111000xxxxx */
+{ "reml", 0x58e80f00, 0xf8ff0fe0, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, XIMM }, { C_F, C_CC } }
+
+/* reml<.f> RA,XIMM,UIMM6_20 0101110001101000x111xxxxxxxxxxxx */
+{ "reml", 0x5c687000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, XIMM, UIMM6_20 }, { C_F } }
+
+/* reml<.f> ZA,XIMM,UIMM6_20 0101110001101000x111xxxxxx111110 */
+{ "reml", 0x5c68703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, UIMM6_20 }, { C_F } }
+
+/* reml<.f><.cc> ZA,XIMM,UIMM6_20 0101110011101000x111xxxxxx1xxxxx */
+{ "reml", 0x5ce87020, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, UIMM6_20 }, { C_F, C_CC } }
+
+/* reml<.f> RA,LIMM,RC 0101111000101000x111xxxxxxxxxxxx */
+{ "reml", 0x5e287000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, LIMM, RC }, { C_F } }
+
+/* reml<.f> RA,RB,LIMM 01011xxx00101000xxxx111110xxxxxx */
+{ "reml", 0x58280f80, 0xf8ff0fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, LIMM }, { C_F } }
+
+/* reml<.f> ZA,LIMM,RC 0101111000101000x111xxxxxx111110 */
+{ "reml", 0x5e28703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, RC }, { C_F } }
+
+/* reml<.f> ZA,RB,LIMM 01011xxx00101000xxxx111110111110 */
+{ "reml", 0x58280fbe, 0xf8ff0fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, LIMM }, { C_F } }
+
+/* reml<.f><.cc> ZA,LIMM,RC 0101111011101000x111xxxxxx0xxxxx */
+{ "reml", 0x5ee87000, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, RC }, { C_F, C_CC } }
+
+/* reml<.f><.cc> RB,RBdup,LIMM 01011xxx11101000xxxx1111100xxxxx */
+{ "reml", 0x58e80f80, 0xf8ff0fe0, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, LIMM }, { C_F, C_CC } }
+
+/* reml<.f> RA,LIMM,UIMM6_20 0101111001101000x111xxxxxxxxxxxx */
+{ "reml", 0x5e687000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, LIMM, UIMM6_20 }, { C_F } }
+
+/* reml<.f> ZA,LIMM,UIMM6_20 0101111001101000x111xxxxxx111110 */
+{ "reml", 0x5e68703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, UIMM6_20 }, { C_F } }
+
+/* reml<.f><.cc> ZA,LIMM,UIMM6_20 0101111011101000x111xxxxxx1xxxxx */
+{ "reml", 0x5ee87020, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, UIMM6_20 }, { C_F, C_CC } }
+
+/* reml<.f> ZA,XIMM,SIMM12_20 0101110010101000x111xxxxxxxxxxxx */
+{ "reml", 0x5ca87000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, SIMM12_20 }, { C_F } }
+
+/* reml<.f> ZA,LIMM,SIMM12_20 0101111010101000x111xxxxxxxxxxxx */
+{ "reml", 0x5ea87000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, SIMM12_20 }, { C_F } }
+
+/* reml<.f> RA,XIMM,XIMMdup 0101110000101000x111111100xxxxxx */
+{ "reml", 0x5c287f00, 0xffff7fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, XIMM, XIMMdup }, { C_F } }
+
+/* reml<.f> ZA,XIMM,XIMMdup 0101110000101000x111111100111110 */
+{ "reml", 0x5c287f3e, 0xffff7fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, XIMMdup }, { C_F } }
+
+/* reml<.f><.cc> ZA,XIMM,XIMMdup 0101110011101000x1111111000xxxxx */
+{ "reml", 0x5ce87f00, 0xffff7fe0, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, XIMMdup }, { C_F, C_CC } }
+
+/* reml<.f> RA,LIMM,LIMMdup 0101111000101000x111111110xxxxxx */
+{ "reml", 0x5e287f80, 0xffff7fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, LIMM, LIMMdup }, { C_F } }
+
+/* reml<.f> ZA,LIMM,LIMMdup 0101111000101000x111111110111110 */
+{ "reml", 0x5e287fbe, 0xffff7fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, LIMMdup }, { C_F } }
+
+/* reml<.f><.cc> ZA,LIMM,LIMMdup 0101111011101000x1111111100xxxxx */
+{ "reml", 0x5ee87f80, 0xffff7fe0, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, LIMMdup }, { C_F, C_CC } }
+
+/* remu<.f> RA_CHK,RB,RC 00101xxx00001001xxxxxxxxxxxxxxxx */
+{ "remu", 0x28090000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, DIVREM, DIV, { RA_CHK, RB, RC }, { C_F } }
+
+/* remu<.f> ZA,RB,RC 00101xxx00001001xxxxxxxxxx111110 */
+{ "remu", 0x2809003e, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, DIVREM, DIV, { ZA, RB, RC }, { C_F } }
+
+/* remu<.f><.cc> RB_CHK,RBdup,RC 00101xxx11001001xxxxxxxxxx0xxxxx */
+{ "remu", 0x28c90000, 0xf8ff0020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, DIVREM, DIV, { RB_CHK, RBdup, RC }, { C_F, C_CC } }
+
+/* remu<.f> RA_CHK,RB,UIMM6_20 00101xxx01001001xxxxxxxxxxxxxxxx */
+{ "remu", 0x28490000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, DIVREM, DIV, { RA_CHK, RB, UIMM6_20 }, { C_F } }
+
+/* remu<.f> ZA,RB,UIMM6_20 00101xxx01001001xxxxxxxxxx111110 */
+{ "remu", 0x2849003e, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, DIVREM, DIV, { ZA, RB, UIMM6_20 }, { C_F } }
+
+/* remu<.f><.cc> RB_CHK,RBdup,UIMM6_20 00101xxx11001001xxxxxxxxxx1xxxxx */
+{ "remu", 0x28c90020, 0xf8ff0020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, DIVREM, DIV, { RB_CHK, RBdup, UIMM6_20 }, { C_F, C_CC } }
+
+/* remu<.f> RB_CHK,RBdup,SIMM12_20 00101xxx10001001xxxxxxxxxxxxxxxx */
+{ "remu", 0x28890000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, DIVREM, DIV, { RB_CHK, RBdup, SIMM12_20 }, { C_F } }
+
+/* remu<.f> RA_CHK,LIMM,RC 0010111000001001x111xxxxxxxxxxxx */
+{ "remu", 0x2e097000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, DIVREM, DIV, { RA_CHK, LIMM, RC }, { C_F } }
+
+/* remu<.f> RA_CHK,RB,LIMM 00101xxx00001001xxxx111110xxxxxx */
+{ "remu", 0x28090f80, 0xf8ff0fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, DIVREM, DIV, { RA_CHK, RB, LIMM }, { C_F } }
+
+/* remu<.f> ZA,LIMM,RC 0010111000001001x111xxxxxx111110 */
+{ "remu", 0x2e09703e, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, DIVREM, DIV, { ZA, LIMM, RC }, { C_F } }
+
+/* remu<.f> ZA,RB,LIMM 00101xxx00001001xxxx111110111110 */
+{ "remu", 0x28090fbe, 0xf8ff0fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, DIVREM, DIV, { ZA, RB, LIMM }, { C_F } }
+
+/* remu<.f><.cc> RB_CHK,RBdup,LIMM 00101xxx11001001xxxx1111100xxxxx */
+{ "remu", 0x28c90f80, 0xf8ff0fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, DIVREM, DIV, { RB_CHK, RBdup, LIMM }, { C_F, C_CC } }
+
+/* remu<.f><.cc> ZA,LIMM,RC 0010111011001001x111xxxxxx0xxxxx */
+{ "remu", 0x2ec97000, 0xffff7020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, DIVREM, DIV, { ZA, LIMM, RC }, { C_F, C_CC } }
+
+/* remu<.f> RA_CHK,LIMM,UIMM6_20 0010111001001001x111xxxxxxxxxxxx */
+{ "remu", 0x2e497000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, DIVREM, DIV, { RA_CHK, LIMM, UIMM6_20 }, { C_F } }
+
+/* remu<.f> ZA,LIMM,UIMM6_20 0010111001001001x111xxxxxx111110 */
+{ "remu", 0x2e49703e, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, DIVREM, DIV, { ZA, LIMM, UIMM6_20 }, { C_F } }
+
+/* remu<.f><.cc> ZA,LIMM,UIMM6_20 0010111011001001x111xxxxxx1xxxxx */
+{ "remu", 0x2ec97020, 0xffff7020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, DIVREM, DIV, { ZA, LIMM, UIMM6_20 }, { C_F, C_CC } }
+
+/* remu<.f> ZA,LIMM,SIMM12_20 0010111010001001x111xxxxxxxxxxxx */
+{ "remu", 0x2e897000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, DIVREM, DIV, { ZA, LIMM, SIMM12_20 }, { C_F } }
+
+/* remu<.f> RA_CHK,LIMM,LIMMdup 0010111000001001x111111110xxxxxx */
+{ "remu", 0x2e097f80, 0xffff7fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, DIVREM, DIV, { RA_CHK, LIMM, LIMMdup }, { C_F } }
+
+/* remu<.f> ZA,LIMM,LIMMdup 0010111000001001x111111110111110 */
+{ "remu", 0x2e097fbe, 0xffff7fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, DIVREM, DIV, { ZA, LIMM, LIMMdup }, { C_F } }
+
+/* remu<.f><.cc> ZA,LIMM,LIMMdup 0010111011001001x1111111100xxxxx */
+{ "remu", 0x2ec97f80, 0xffff7fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, DIVREM, DIV, { ZA, LIMM, LIMMdup }, { C_F, C_CC } }
+
+/* remul<.f> RA,RB,RC 01011xxx00101001xxxxxxxxxxxxxxxx */
+{ "remul", 0x58290000, 0xf8ff0000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, RC }, { C_F } }
+
+/* remul<.f> ZA,RB,RC 01011xxx00101001xxxxxxxxxx111110 */
+{ "remul", 0x5829003e, 0xf8ff003f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, RC }, { C_F } }
+
+/* remul<.f><.cc> RB,RBdup,RC 01011xxx11101001xxxxxxxxxx0xxxxx */
+{ "remul", 0x58e90000, 0xf8ff0020, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, RC }, { C_F, C_CC } }
+
+/* remul<.f> RA,RB,UIMM6_20 01011xxx01101001xxxxxxxxxxxxxxxx */
+{ "remul", 0x58690000, 0xf8ff0000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, UIMM6_20 }, { C_F } }
+
+/* remul<.f> ZA,RB,UIMM6_20 01011xxx01101001xxxxxxxxxx111110 */
+{ "remul", 0x5869003e, 0xf8ff003f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, UIMM6_20 }, { C_F } }
+
+/* remul<.f><.cc> RB,RBdup,UIMM6_20 01011xxx11101001xxxxxxxxxx1xxxxx */
+{ "remul", 0x58e90020, 0xf8ff0020, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, UIMM6_20 }, { C_F, C_CC } }
+
+/* remul<.f> RB,RBdup,SIMM12_20 01011xxx10101001xxxxxxxxxxxxxxxx */
+{ "remul", 0x58a90000, 0xf8ff0000, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, SIMM12_20 }, { C_F } }
+
+/* remul<.f> RA,XIMM,RC 0101110000101001x111xxxxxxxxxxxx */
+{ "remul", 0x5c297000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, XIMM, RC }, { C_F } }
+
+/* remul<.f> RA,RB,XIMM 01011xxx00101001xxxx111100xxxxxx */
+{ "remul", 0x58290f00, 0xf8ff0fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, XIMM }, { C_F } }
+
+/* remul<.f> ZA,XIMM,RC 0101110000101001x111xxxxxx111110 */
+{ "remul", 0x5c29703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, RC }, { C_F } }
+
+/* remul<.f> ZA,RB,XIMM 01011xxx00101001xxxx111100111110 */
+{ "remul", 0x58290f3e, 0xf8ff0fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, XIMM }, { C_F } }
+
+/* remul<.f><.cc> ZA,XIMM,RC 0101110011101001x111xxxxxx0xxxxx */
+{ "remul", 0x5ce97000, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, RC }, { C_F, C_CC } }
+
+/* remul<.f><.cc> RB,RBdup,XIMM 01011xxx11101001xxxx1111000xxxxx */
+{ "remul", 0x58e90f00, 0xf8ff0fe0, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, XIMM }, { C_F, C_CC } }
+
+/* remul<.f> RA,XIMM,UIMM6_20 0101110001101001x111xxxxxxxxxxxx */
+{ "remul", 0x5c697000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, XIMM, UIMM6_20 }, { C_F } }
+
+/* remul<.f> ZA,XIMM,UIMM6_20 0101110001101001x111xxxxxx111110 */
+{ "remul", 0x5c69703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, UIMM6_20 }, { C_F } }
+
+/* remul<.f><.cc> ZA,XIMM,UIMM6_20 0101110011101001x111xxxxxx1xxxxx */
+{ "remul", 0x5ce97020, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, UIMM6_20 }, { C_F, C_CC } }
+
+/* remul<.f> RA,LIMM,RC 0101111000101001x111xxxxxxxxxxxx */
+{ "remul", 0x5e297000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, LIMM, RC }, { C_F } }
+
+/* remul<.f> RA,RB,LIMM 01011xxx00101001xxxx111110xxxxxx */
+{ "remul", 0x58290f80, 0xf8ff0fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, LIMM }, { C_F } }
+
+/* remul<.f> ZA,LIMM,RC 0101111000101001x111xxxxxx111110 */
+{ "remul", 0x5e29703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, RC }, { C_F } }
+
+/* remul<.f> ZA,RB,LIMM 01011xxx00101001xxxx111110111110 */
+{ "remul", 0x58290fbe, 0xf8ff0fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, LIMM }, { C_F } }
+
+/* remul<.f><.cc> ZA,LIMM,RC 0101111011101001x111xxxxxx0xxxxx */
+{ "remul", 0x5ee97000, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, RC }, { C_F, C_CC } }
+
+/* remul<.f><.cc> RB,RBdup,LIMM 01011xxx11101001xxxx1111100xxxxx */
+{ "remul", 0x58e90f80, 0xf8ff0fe0, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, LIMM }, { C_F, C_CC } }
+
+/* remul<.f> RA,LIMM,UIMM6_20 0101111001101001x111xxxxxxxxxxxx */
+{ "remul", 0x5e697000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, LIMM, UIMM6_20 }, { C_F } }
+
+/* remul<.f> ZA,LIMM,UIMM6_20 0101111001101001x111xxxxxx111110 */
+{ "remul", 0x5e69703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, UIMM6_20 }, { C_F } }
+
+/* remul<.f><.cc> ZA,LIMM,UIMM6_20 0101111011101001x111xxxxxx1xxxxx */
+{ "remul", 0x5ee97020, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, UIMM6_20 }, { C_F, C_CC } }
+
+/* remul<.f> ZA,XIMM,SIMM12_20 0101110010101001x111xxxxxxxxxxxx */
+{ "remul", 0x5ca97000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, SIMM12_20 }, { C_F } }
+
+/* remul<.f> ZA,LIMM,SIMM12_20 0101111010101001x111xxxxxxxxxxxx */
+{ "remul", 0x5ea97000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, SIMM12_20 }, { C_F } }
+
+/* remul<.f> RA,XIMM,XIMMdup 0101110000101001x111111100xxxxxx */
+{ "remul", 0x5c297f00, 0xffff7fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, XIMM, XIMMdup }, { C_F } }
+
+/* remul<.f> ZA,XIMM,XIMMdup 0101110000101001x111111100111110 */
+{ "remul", 0x5c297f3e, 0xffff7fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, XIMMdup }, { C_F } }
+
+/* remul<.f><.cc> ZA,XIMM,XIMMdup 0101110011101001x1111111000xxxxx */
+{ "remul", 0x5ce97f00, 0xffff7fe0, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, XIMMdup }, { C_F, C_CC } }
+
+/* remul<.f> RA,LIMM,LIMMdup 0101111000101001x111111110xxxxxx */
+{ "remul", 0x5e297f80, 0xffff7fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, LIMM, LIMMdup }, { C_F } }
+
+/* remul<.f> ZA,LIMM,LIMMdup 0101111000101001x111111110111110 */
+{ "remul", 0x5e297fbe, 0xffff7fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, LIMMdup }, { C_F } }
+
+/* remul<.f><.cc> ZA,LIMM,LIMMdup 0101111011101001x1111111100xxxxx */
+{ "remul", 0x5ee97f80, 0xffff7fe0, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, LIMMdup }, { C_F, C_CC } }
+
+/* rlc<.f> RB,RC 00100xxx00101111xxxxxxxxxx001011 */
+{ "rlc", 0x202f000b, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RB, RC }, { C_F } }
+
+/* rlc<.f> ZA,RC 0010011000101111x111xxxxxx001011 */
+{ "rlc", 0x262f700b, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, RC }, { C_F } }
+
+/* rlc<.f> RB,UIMM6_20 00100xxx01101111xxxxxxxxxx001011 */
+{ "rlc", 0x206f000b, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RB, UIMM6_20 }, { C_F } }
+
+/* rlc<.f> ZA,UIMM6_20 0010011001101111x111xxxxxx001011 */
+{ "rlc", 0x266f700b, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, UIMM6_20 }, { C_F } }
+
+/* rlc<.f> RB,LIMM 00100xxx00101111xxxx111110001011 */
+{ "rlc", 0x202f0f8b, 0xf8ff0fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RB, LIMM }, { C_F } }
+
+/* rlc<.f> ZA,LIMM 0010011000101111x111111110001011 */
+{ "rlc", 0x262f7f8b, 0xffff7fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, LIMM }, { C_F } }
+
+/* rol<.f> RB,RC 00100xxx00101111xxxxxxxxxx001101 */
+{ "rol", 0x202f000d, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RB, RC }, { C_F } }
+
+/* rol<.f> ZA,RC 0010011000101111x111xxxxxx001101 */
+{ "rol", 0x262f700d, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, RC }, { C_F } }
+
+/* rol<.f> RB,UIMM6_20 00100xxx01101111xxxxxxxxxx001101 */
+{ "rol", 0x206f000d, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RB, UIMM6_20 }, { C_F } }
+
+/* rol<.f> ZA,UIMM6_20 0010011001101111x111xxxxxx001101 */
+{ "rol", 0x266f700d, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, UIMM6_20 }, { C_F } }
+
+/* rol<.f> RB,LIMM 00100xxx00101111xxxx111110001101 */
+{ "rol", 0x202f0f8d, 0xf8ff0fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RB, LIMM }, { C_F } }
+
+/* rol<.f> ZA,LIMM 0010011000101111x111111110001101 */
+{ "rol", 0x262f7f8d, 0xffff7fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, LIMM }, { C_F } }
+
+/* rol8<.f> RB,RC 00101xxx00101111xxxxxxxxxx010000 */
+{ "rol8", 0x282f0010, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, SHFT1, { RB, RC }, { C_F } }
+
+/* rol8<.f> ZA,RC 0010111000101111x111xxxxxx010000 */
+{ "rol8", 0x2e2f7010, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, SHFT1, { ZA, RC }, { C_F } }
+
+/* rol8<.f> RB,UIMM6_20 00101xxx01101111xxxxxxxxxx010000 */
+{ "rol8", 0x286f0010, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, SHFT1, { RB, UIMM6_20 }, { C_F } }
+
+/* rol8<.f> ZA,UIMM6_20 0010111001101111x111xxxxxx010000 */
+{ "rol8", 0x2e6f7010, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, SHFT1, { ZA, UIMM6_20 }, { C_F } }
+
+/* rol8<.f> RB,LIMM 00101xxx00101111xxxx111110010000 */
+{ "rol8", 0x282f0f90, 0xf8ff0fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, SHFT1, { RB, LIMM }, { C_F } }
+
+/* rol8<.f> ZA,LIMM 0010111000101111x111111110010000 */
+{ "rol8", 0x2e2f7f90, 0xffff7fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, SHFT1, { ZA, LIMM }, { C_F } }
+
+/* ror<.f> RB,RC 00100xxx00101111xxxxxxxxxx000011 */
+{ "ror", 0x202f0003, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RB, RC }, { C_F } }
+
+/* ror<.f> ZA,RC 0010011000101111x111xxxxxx000011 */
+{ "ror", 0x262f7003, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, RC }, { C_F } }
+
+/* ror<.f> RA,RB,RC 00101xxx00000011xxxxxxxxxxxxxxxx */
+{ "ror", 0x28030000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, SHFT2, { RA, RB, RC }, { C_F } }
+
+/* ror<.f> ZA,RB,RC 00101xxx00000011xxxxxxxxxx111110 */
+{ "ror", 0x2803003e, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, SHFT2, { ZA, RB, RC }, { C_F } }
+
+/* ror<.f><.cc> RB,RBdup,RC 00101xxx11000011xxxxxxxxxx0xxxxx */
+{ "ror", 0x28c30000, 0xf8ff0020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, SHFT2, { RB, RBdup, RC }, { C_F, C_CC } }
+
+/* ror<.f> RB,UIMM6_20 00100xxx01101111xxxxxxxxxx000011 */
+{ "ror", 0x206f0003, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RB, UIMM6_20 }, { C_F } }
+
+/* ror<.f> ZA,UIMM6_20 0010011001101111x111xxxxxx000011 */
+{ "ror", 0x266f7003, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, UIMM6_20 }, { C_F } }
+
+/* ror<.f> RA,RB,UIMM6_20 00101xxx01000011xxxxxxxxxxxxxxxx */
+{ "ror", 0x28430000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, SHFT2, { RA, RB, UIMM6_20 }, { C_F } }
+
+/* ror<.f> ZA,RB,UIMM6_20 00101xxx01000011xxxxxxxxxx111110 */
+{ "ror", 0x2843003e, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, SHFT2, { ZA, RB, UIMM6_20 }, { C_F } }
+
+/* ror<.f><.cc> RB,RBdup,UIMM6_20 00101xxx11000011xxxxxxxxxx1xxxxx */
+{ "ror", 0x28c30020, 0xf8ff0020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, SHFT2, { RB, RBdup, UIMM6_20 }, { C_F, C_CC } }
+
+/* ror<.f> RB,RBdup,SIMM12_20 00101xxx10000011xxxxxxxxxxxxxxxx */
+{ "ror", 0x28830000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, SHFT2, { RB, RBdup, SIMM12_20 }, { C_F } }
+
+/* ror<.f> RB,LIMM 00100xxx00101111xxxx111110000011 */
+{ "ror", 0x202f0f83, 0xf8ff0fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RB, LIMM }, { C_F } }
+
+/* ror<.f> ZA,LIMM 0010011000101111x111111110000011 */
+{ "ror", 0x262f7f83, 0xffff7fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, LIMM }, { C_F } }
+
+/* ror<.f> RA,LIMM,RC 0010111000000011x111xxxxxxxxxxxx */
+{ "ror", 0x2e037000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, SHFT2, { RA, LIMM, RC }, { C_F } }
+
+/* ror<.f> RA,RB,LIMM 00101xxx00000011xxxx111110xxxxxx */
+{ "ror", 0x28030f80, 0xf8ff0fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, SHFT2, { RA, RB, LIMM }, { C_F } }
+
+/* ror<.f> ZA,LIMM,RC 0010111000000011x111xxxxxx111110 */
+{ "ror", 0x2e03703e, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, SHFT2, { ZA, LIMM, RC }, { C_F } }
+
+/* ror<.f> ZA,RB,LIMM 00101xxx00000011xxxx111110111110 */
+{ "ror", 0x28030fbe, 0xf8ff0fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, SHFT2, { ZA, RB, LIMM }, { C_F } }
+
+/* ror<.f><.cc> RB,RBdup,LIMM 00101xxx11000011xxxx1111100xxxxx */
+{ "ror", 0x28c30f80, 0xf8ff0fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, SHFT2, { RB, RBdup, LIMM }, { C_F, C_CC } }
+
+/* ror<.f><.cc> ZA,LIMM,RC 0010111011000011x111xxxxxx0xxxxx */
+{ "ror", 0x2ec37000, 0xffff7020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, SHFT2, { ZA, LIMM, RC }, { C_F, C_CC } }
+
+/* ror<.f> RA,LIMM,UIMM6_20 0010111001000011x111xxxxxxxxxxxx */
+{ "ror", 0x2e437000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, SHFT2, { RA, LIMM, UIMM6_20 }, { C_F } }
+
+/* ror<.f> ZA,LIMM,UIMM6_20 0010111001000011x111xxxxxx111110 */
+{ "ror", 0x2e43703e, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, SHFT2, { ZA, LIMM, UIMM6_20 }, { C_F } }
+
+/* ror<.f><.cc> ZA,LIMM,UIMM6_20 0010111011000011x111xxxxxx1xxxxx */
+{ "ror", 0x2ec37020, 0xffff7020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, SHFT2, { ZA, LIMM, UIMM6_20 }, { C_F, C_CC } }
+
+/* ror<.f> ZA,LIMM,SIMM12_20 0010111010000011x111xxxxxxxxxxxx */
+{ "ror", 0x2e837000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, SHFT2, { ZA, LIMM, SIMM12_20 }, { C_F } }
+
+/* ror<.f> RA,LIMM,LIMMdup 0010111000000011x111111110xxxxxx */
+{ "ror", 0x2e037f80, 0xffff7fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, SHFT2, { RA, LIMM, LIMMdup }, { C_F } }
+
+/* ror<.f> ZA,LIMM,LIMMdup 0010111000000011x111111110111110 */
+{ "ror", 0x2e037fbe, 0xffff7fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, SHFT2, { ZA, LIMM, LIMMdup }, { C_F } }
+
+/* ror<.f><.cc> ZA,LIMM,LIMMdup 0010111011000011x1111111100xxxxx */
+{ "ror", 0x2ec37f80, 0xffff7fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, SHFT2, { ZA, LIMM, LIMMdup }, { C_F, C_CC } }
+
+/* ror8<.f> RB,RC 00101xxx00101111xxxxxxxxxx010001 */
+{ "ror8", 0x282f0011, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, SHFT1, { RB, RC }, { C_F } }
+
+/* ror8<.f> ZA,RC 0010111000101111x111xxxxxx010001 */
+{ "ror8", 0x2e2f7011, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, SHFT1, { ZA, RC }, { C_F } }
+
+/* ror8<.f> RB,UIMM6_20 00101xxx01101111xxxxxxxxxx010001 */
+{ "ror8", 0x286f0011, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, SHFT1, { RB, UIMM6_20 }, { C_F } }
+
+/* ror8<.f> ZA,UIMM6_20 0010111001101111x111xxxxxx010001 */
+{ "ror8", 0x2e6f7011, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, SHFT1, { ZA, UIMM6_20 }, { C_F } }
+
+/* ror8<.f> RB,LIMM 00101xxx00101111xxxx111110010001 */
+{ "ror8", 0x282f0f91, 0xf8ff0fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, SHFT1, { RB, LIMM }, { C_F } }
+
+/* ror8<.f> ZA,LIMM 0010111000101111x111111110010001 */
+{ "ror8", 0x2e2f7f91, 0xffff7fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, SHFT1, { ZA, LIMM }, { C_F } }
+
+/* rrc<.f> RB,RC 00100xxx00101111xxxxxxxxxx000100 */
+{ "rrc", 0x202f0004, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RB, RC }, { C_F } }
+
+/* rrc<.f> ZA,RC 0010011000101111x111xxxxxx000100 */
+{ "rrc", 0x262f7004, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, RC }, { C_F } }
+
+/* rrc<.f> RB,UIMM6_20 00100xxx01101111xxxxxxxxxx000100 */
+{ "rrc", 0x206f0004, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RB, UIMM6_20 }, { C_F } }
+
+/* rrc<.f> ZA,UIMM6_20 0010011001101111x111xxxxxx000100 */
+{ "rrc", 0x266f7004, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, UIMM6_20 }, { C_F } }
+
+/* rrc<.f> RB,LIMM 00100xxx00101111xxxx111110000100 */
+{ "rrc", 0x202f0f84, 0xf8ff0fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RB, LIMM }, { C_F } }
+
+/* rrc<.f> ZA,LIMM 0010011000101111x111111110000100 */
+{ "rrc", 0x262f7f84, 0xffff7fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, LIMM }, { C_F } }
+
+/* rsub<.f> RA,RB,RC 00100xxx00001110xxxxxxxxxxxxxxxx */
+{ "rsub", 0x200e0000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RA, RB, RC }, { C_F } }
+
+/* rsub<.f> ZA,RB,RC 00100xxx00001110xxxxxxxxxx111110 */
+{ "rsub", 0x200e003e, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { ZA, RB, RC }, { C_F } }
+
+/* rsub<.f><.cc> RB,RBdup,RC 00100xxx11001110xxxxxxxxxx0xxxxx */
+{ "rsub", 0x20ce0000, 0xf8ff0020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RB, RBdup, RC }, { C_F, C_CC } }
+
+/* rsub<.f> RA,RB,UIMM6_20 00100xxx01001110xxxxxxxxxxxxxxxx */
+{ "rsub", 0x204e0000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RA, RB, UIMM6_20 }, { C_F } }
+
+/* rsub<.f> ZA,RB,UIMM6_20 00100xxx01001110xxxxxxxxxx111110 */
+{ "rsub", 0x204e003e, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { ZA, RB, UIMM6_20 }, { C_F } }
+
+/* rsub<.f><.cc> RB,RBdup,UIMM6_20 00100xxx11001110xxxxxxxxxx1xxxxx */
+{ "rsub", 0x20ce0020, 0xf8ff0020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RB, RBdup, UIMM6_20 }, { C_F, C_CC } }
+
+/* rsub<.f> RB,RBdup,SIMM12_20 00100xxx10001110xxxxxxxxxxxxxxxx */
+{ "rsub", 0x208e0000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RB, RBdup, SIMM12_20 }, { C_F } }
+
+/* rsub<.f> RA,LIMM,RC 0010011000001110x111xxxxxxxxxxxx */
+{ "rsub", 0x260e7000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RA, LIMM, RC }, { C_F } }
+
+/* rsub<.f> RA,RB,LIMM 00100xxx00001110xxxx111110xxxxxx */
+{ "rsub", 0x200e0f80, 0xf8ff0fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RA, RB, LIMM }, { C_F } }
+
+/* rsub<.f> ZA,LIMM,RC 0010011000001110x111xxxxxx111110 */
+{ "rsub", 0x260e703e, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { ZA, LIMM, RC }, { C_F } }
+
+/* rsub<.f> ZA,RB,LIMM 00100xxx00001110xxxx111110111110 */
+{ "rsub", 0x200e0fbe, 0xf8ff0fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { ZA, RB, LIMM }, { C_F } }
+
+/* rsub<.f><.cc> RB,RBdup,LIMM 00100xxx11001110xxxx1111100xxxxx */
+{ "rsub", 0x20ce0f80, 0xf8ff0fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RB, RBdup, LIMM }, { C_F, C_CC } }
+
+/* rsub<.f><.cc> ZA,LIMM,RC 0010011011001110x111xxxxxx0xxxxx */
+{ "rsub", 0x26ce7000, 0xffff7020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { ZA, LIMM, RC }, { C_F, C_CC } }
+
+/* rsub<.f> RA,LIMM,UIMM6_20 0010011001001110x111xxxxxxxxxxxx */
+{ "rsub", 0x264e7000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RA, LIMM, UIMM6_20 }, { C_F } }
+
+/* rsub<.f> ZA,LIMM,UIMM6_20 0010011001001110x111xxxxxx111110 */
+{ "rsub", 0x264e703e, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { ZA, LIMM, UIMM6_20 }, { C_F } }
+
+/* rsub<.f><.cc> ZA,LIMM,UIMM6_20 0010011011001110x111xxxxxx1xxxxx */
+{ "rsub", 0x26ce7020, 0xffff7020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { ZA, LIMM, UIMM6_20 }, { C_F, C_CC } }
+
+/* rsub<.f> ZA,LIMM,SIMM12_20 0010011010001110x111xxxxxxxxxxxx */
+{ "rsub", 0x268e7000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { ZA, LIMM, SIMM12_20 }, { C_F } }
+
+/* rsub<.f> RA,LIMM,LIMMdup 0010011000001110x111111110xxxxxx */
+{ "rsub", 0x260e7f80, 0xffff7fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RA, LIMM, LIMMdup }, { C_F } }
+
+/* rsub<.f> ZA,LIMM,LIMMdup 0010011000001110x111111110111110 */
+{ "rsub", 0x260e7fbe, 0xffff7fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { ZA, LIMM, LIMMdup }, { C_F } }
+
+/* rsub<.f><.cc> ZA,LIMM,LIMMdup 0010011011001110x1111111100xxxxx */
+{ "rsub", 0x26ce7f80, 0xffff7fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { ZA, LIMM, LIMMdup }, { C_F, C_CC } }
+
+/* rsubl<.f> RA,RB,RC 01011xxx00001110xxxxxxxxxxxxxxxx */
+{ "rsubl", 0x580e0000, 0xf8ff0000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, RC }, { C_F } }
+
+/* rsubl<.f> ZA,RB,RC 01011xxx00001110xxxxxxxxxx111110 */
+{ "rsubl", 0x580e003e, 0xf8ff003f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, RC }, { C_F } }
+
+/* rsubl<.f><.cc> RB,RBdup,RC 01011xxx11001110xxxxxxxxxx0xxxxx */
+{ "rsubl", 0x58ce0000, 0xf8ff0020, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, RC }, { C_F, C_CC } }
+
+/* rsubl<.f> RA,RB,UIMM6_20 01011xxx01001110xxxxxxxxxxxxxxxx */
+{ "rsubl", 0x584e0000, 0xf8ff0000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, UIMM6_20 }, { C_F } }
+
+/* rsubl<.f> ZA,RB,UIMM6_20 01011xxx01001110xxxxxxxxxx111110 */
+{ "rsubl", 0x584e003e, 0xf8ff003f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, UIMM6_20 }, { C_F } }
+
+/* rsubl<.f><.cc> RB,RBdup,UIMM6_20 01011xxx11001110xxxxxxxxxx1xxxxx */
+{ "rsubl", 0x58ce0020, 0xf8ff0020, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, UIMM6_20 }, { C_F, C_CC } }
+
+/* rsubl<.f> RB,RBdup,SIMM12_20 01011xxx10001110xxxxxxxxxxxxxxxx */
+{ "rsubl", 0x588e0000, 0xf8ff0000, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, SIMM12_20 }, { C_F } }
+
+/* rsubl<.f> RA,XIMM,RC 0101110000001110x111xxxxxxxxxxxx */
+{ "rsubl", 0x5c0e7000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, XIMM, RC }, { C_F } }
+
+/* rsubl<.f> RA,RB,XIMM 01011xxx00001110xxxx111100xxxxxx */
+{ "rsubl", 0x580e0f00, 0xf8ff0fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, XIMM }, { C_F } }
+
+/* rsubl<.f> ZA,XIMM,RC 0101110000001110x111xxxxxx111110 */
+{ "rsubl", 0x5c0e703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, RC }, { C_F } }
+
+/* rsubl<.f> ZA,RB,XIMM 01011xxx00001110xxxx111100111110 */
+{ "rsubl", 0x580e0f3e, 0xf8ff0fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, XIMM }, { C_F } }
+
+/* rsubl<.f><.cc> ZA,XIMM,RC 0101110011001110x111xxxxxx0xxxxx */
+{ "rsubl", 0x5cce7000, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, RC }, { C_F, C_CC } }
+
+/* rsubl<.f><.cc> RB,RBdup,XIMM 01011xxx11001110xxxx1111000xxxxx */
+{ "rsubl", 0x58ce0f00, 0xf8ff0fe0, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, XIMM }, { C_F, C_CC } }
+
+/* rsubl<.f> RA,XIMM,UIMM6_20 0101110001001110x111xxxxxxxxxxxx */
+{ "rsubl", 0x5c4e7000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, XIMM, UIMM6_20 }, { C_F } }
+
+/* rsubl<.f> ZA,XIMM,UIMM6_20 0101110001001110x111xxxxxx111110 */
+{ "rsubl", 0x5c4e703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, UIMM6_20 }, { C_F } }
+
+/* rsubl<.f><.cc> ZA,XIMM,UIMM6_20 0101110011001110x111xxxxxx1xxxxx */
+{ "rsubl", 0x5cce7020, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, UIMM6_20 }, { C_F, C_CC } }
+
+/* rsubl<.f> RA,LIMM,RC 0101111000001110x111xxxxxxxxxxxx */
+{ "rsubl", 0x5e0e7000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, LIMM, RC }, { C_F } }
+
+/* rsubl<.f> RA,RB,LIMM 01011xxx00001110xxxx111110xxxxxx */
+{ "rsubl", 0x580e0f80, 0xf8ff0fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, LIMM }, { C_F } }
+
+/* rsubl<.f> ZA,LIMM,RC 0101111000001110x111xxxxxx111110 */
+{ "rsubl", 0x5e0e703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, RC }, { C_F } }
+
+/* rsubl<.f> ZA,RB,LIMM 01011xxx00001110xxxx111110111110 */
+{ "rsubl", 0x580e0fbe, 0xf8ff0fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, LIMM }, { C_F } }
+
+/* rsubl<.f><.cc> ZA,LIMM,RC 0101111011001110x111xxxxxx0xxxxx */
+{ "rsubl", 0x5ece7000, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, RC }, { C_F, C_CC } }
+
+/* rsubl<.f><.cc> RB,RBdup,LIMM 01011xxx11001110xxxx1111100xxxxx */
+{ "rsubl", 0x58ce0f80, 0xf8ff0fe0, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, LIMM }, { C_F, C_CC } }
+
+/* rsubl<.f> RA,LIMM,UIMM6_20 0101111001001110x111xxxxxxxxxxxx */
+{ "rsubl", 0x5e4e7000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, LIMM, UIMM6_20 }, { C_F } }
+
+/* rsubl<.f> ZA,LIMM,UIMM6_20 0101111001001110x111xxxxxx111110 */
+{ "rsubl", 0x5e4e703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, UIMM6_20 }, { C_F } }
+
+/* rsubl<.f><.cc> ZA,LIMM,UIMM6_20 0101111011001110x111xxxxxx1xxxxx */
+{ "rsubl", 0x5ece7020, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, UIMM6_20 }, { C_F, C_CC } }
+
+/* rsubl<.f> ZA,XIMM,SIMM12_20 0101110010001110x111xxxxxxxxxxxx */
+{ "rsubl", 0x5c8e7000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, SIMM12_20 }, { C_F } }
+
+/* rsubl<.f> ZA,LIMM,SIMM12_20 0101111010001110x111xxxxxxxxxxxx */
+{ "rsubl", 0x5e8e7000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, SIMM12_20 }, { C_F } }
+
+/* rsubl<.f> RA,XIMM,XIMMdup 0101110000001110x111111100xxxxxx */
+{ "rsubl", 0x5c0e7f00, 0xffff7fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, XIMM, XIMMdup }, { C_F } }
+
+/* rsubl<.f> ZA,XIMM,XIMMdup 0101110000001110x111111100111110 */
+{ "rsubl", 0x5c0e7f3e, 0xffff7fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, XIMMdup }, { C_F } }
+
+/* rsubl<.f><.cc> ZA,XIMM,XIMMdup 0101110011001110x1111111000xxxxx */
+{ "rsubl", 0x5cce7f00, 0xffff7fe0, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, XIMMdup }, { C_F, C_CC } }
+
+/* rsubl<.f> RA,LIMM,LIMMdup 0101111000001110x111111110xxxxxx */
+{ "rsubl", 0x5e0e7f80, 0xffff7fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, LIMM, LIMMdup }, { C_F } }
+
+/* rsubl<.f> ZA,LIMM,LIMMdup 0101111000001110x111111110111110 */
+{ "rsubl", 0x5e0e7fbe, 0xffff7fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, LIMMdup }, { C_F } }
+
+/* rsubl<.f><.cc> ZA,LIMM,LIMMdup 0101111011001110x1111111100xxxxx */
+{ "rsubl", 0x5ece7f80, 0xffff7fe0, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, LIMMdup }, { C_F, C_CC } }
+
+/* rtie  00100100011011110000000000111111 */
+{ "rtie", 0x246f003f, 0xffffffff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, KERNEL, NONE, {  }, { 0 } }
+
+/* sbc<.f> RA,RB,RC 00100xxx00000011xxxxxxxxxxxxxxxx */
+{ "sbc", 0x20030000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RA, RB, RC }, { C_F } }
+
+/* sbc<.f> ZA,RB,RC 00100xxx00000011xxxxxxxxxx111110 */
+{ "sbc", 0x2003003e, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { ZA, RB, RC }, { C_F } }
+
+/* sbc<.f><.cc> RB,RBdup,RC 00100xxx11000011xxxxxxxxxx0xxxxx */
+{ "sbc", 0x20c30000, 0xf8ff0020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RB, RBdup, RC }, { C_F, C_CC } }
+
+/* sbc<.f> RA,RB,UIMM6_20 00100xxx01000011xxxxxxxxxxxxxxxx */
+{ "sbc", 0x20430000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RA, RB, UIMM6_20 }, { C_F } }
+
+/* sbc<.f> ZA,RB,UIMM6_20 00100xxx01000011xxxxxxxxxx111110 */
+{ "sbc", 0x2043003e, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { ZA, RB, UIMM6_20 }, { C_F } }
+
+/* sbc<.f><.cc> RB,RBdup,UIMM6_20 00100xxx11000011xxxxxxxxxx1xxxxx */
+{ "sbc", 0x20c30020, 0xf8ff0020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RB, RBdup, UIMM6_20 }, { C_F, C_CC } }
+
+/* sbc<.f> RB,RBdup,SIMM12_20 00100xxx10000011xxxxxxxxxxxxxxxx */
+{ "sbc", 0x20830000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RB, RBdup, SIMM12_20 }, { C_F } }
+
+/* sbc<.f> RA,LIMM,RC 0010011000000011x111xxxxxxxxxxxx */
+{ "sbc", 0x26037000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RA, LIMM, RC }, { C_F } }
+
+/* sbc<.f> RA,RB,LIMM 00100xxx00000011xxxx111110xxxxxx */
+{ "sbc", 0x20030f80, 0xf8ff0fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RA, RB, LIMM }, { C_F } }
+
+/* sbc<.f> ZA,LIMM,RC 0010011000000011x111xxxxxx111110 */
+{ "sbc", 0x2603703e, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { ZA, LIMM, RC }, { C_F } }
+
+/* sbc<.f> ZA,RB,LIMM 00100xxx00000011xxxx111110111110 */
+{ "sbc", 0x20030fbe, 0xf8ff0fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { ZA, RB, LIMM }, { C_F } }
+
+/* sbc<.f><.cc> RB,RBdup,LIMM 00100xxx11000011xxxx1111100xxxxx */
+{ "sbc", 0x20c30f80, 0xf8ff0fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RB, RBdup, LIMM }, { C_F, C_CC } }
+
+/* sbc<.f><.cc> ZA,LIMM,RC 0010011011000011x111xxxxxx0xxxxx */
+{ "sbc", 0x26c37000, 0xffff7020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { ZA, LIMM, RC }, { C_F, C_CC } }
+
+/* sbc<.f> RA,LIMM,UIMM6_20 0010011001000011x111xxxxxxxxxxxx */
+{ "sbc", 0x26437000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RA, LIMM, UIMM6_20 }, { C_F } }
+
+/* sbc<.f> ZA,LIMM,UIMM6_20 0010011001000011x111xxxxxx111110 */
+{ "sbc", 0x2643703e, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { ZA, LIMM, UIMM6_20 }, { C_F } }
+
+/* sbc<.f><.cc> ZA,LIMM,UIMM6_20 0010011011000011x111xxxxxx1xxxxx */
+{ "sbc", 0x26c37020, 0xffff7020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { ZA, LIMM, UIMM6_20 }, { C_F, C_CC } }
+
+/* sbc<.f> ZA,LIMM,SIMM12_20 0010011010000011x111xxxxxxxxxxxx */
+{ "sbc", 0x26837000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { ZA, LIMM, SIMM12_20 }, { C_F } }
+
+/* sbc<.f> RA,LIMM,LIMMdup 0010011000000011x111111110xxxxxx */
+{ "sbc", 0x26037f80, 0xffff7fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RA, LIMM, LIMMdup }, { C_F } }
+
+/* sbc<.f> ZA,LIMM,LIMMdup 0010011000000011x111111110111110 */
+{ "sbc", 0x26037fbe, 0xffff7fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { ZA, LIMM, LIMMdup }, { C_F } }
+
+/* sbc<.f><.cc> ZA,LIMM,LIMMdup 0010011011000011x1111111100xxxxx */
+{ "sbc", 0x26c37f80, 0xffff7fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { ZA, LIMM, LIMMdup }, { C_F, C_CC } }
+
+/* sbcl<.f> RA,RB,RC 01011xxx00000011xxxxxxxxxxxxxxxx */
+{ "sbcl", 0x58030000, 0xf8ff0000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, RC }, { C_F } }
+
+/* sbcl<.f> ZA,RB,RC 01011xxx00000011xxxxxxxxxx111110 */
+{ "sbcl", 0x5803003e, 0xf8ff003f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, RC }, { C_F } }
+
+/* sbcl<.f><.cc> RB,RBdup,RC 01011xxx11000011xxxxxxxxxx0xxxxx */
+{ "sbcl", 0x58c30000, 0xf8ff0020, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, RC }, { C_F, C_CC } }
+
+/* sbcl<.f> RA,RB,UIMM6_20 01011xxx01000011xxxxxxxxxxxxxxxx */
+{ "sbcl", 0x58430000, 0xf8ff0000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, UIMM6_20 }, { C_F } }
+
+/* sbcl<.f> ZA,RB,UIMM6_20 01011xxx01000011xxxxxxxxxx111110 */
+{ "sbcl", 0x5843003e, 0xf8ff003f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, UIMM6_20 }, { C_F } }
+
+/* sbcl<.f><.cc> RB,RBdup,UIMM6_20 01011xxx11000011xxxxxxxxxx1xxxxx */
+{ "sbcl", 0x58c30020, 0xf8ff0020, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, UIMM6_20 }, { C_F, C_CC } }
+
+/* sbcl<.f> RB,RBdup,SIMM12_20 01011xxx10000011xxxxxxxxxxxxxxxx */
+{ "sbcl", 0x58830000, 0xf8ff0000, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, SIMM12_20 }, { C_F } }
+
+/* sbcl<.f> RA,XIMM,RC 0101110000000011x111xxxxxxxxxxxx */
+{ "sbcl", 0x5c037000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, XIMM, RC }, { C_F } }
+
+/* sbcl<.f> RA,RB,XIMM 01011xxx00000011xxxx111100xxxxxx */
+{ "sbcl", 0x58030f00, 0xf8ff0fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, XIMM }, { C_F } }
+
+/* sbcl<.f> ZA,XIMM,RC 0101110000000011x111xxxxxx111110 */
+{ "sbcl", 0x5c03703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, RC }, { C_F } }
+
+/* sbcl<.f> ZA,RB,XIMM 01011xxx00000011xxxx111100111110 */
+{ "sbcl", 0x58030f3e, 0xf8ff0fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, XIMM }, { C_F } }
+
+/* sbcl<.f><.cc> ZA,XIMM,RC 0101110011000011x111xxxxxx0xxxxx */
+{ "sbcl", 0x5cc37000, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, RC }, { C_F, C_CC } }
+
+/* sbcl<.f><.cc> RB,RBdup,XIMM 01011xxx11000011xxxx1111000xxxxx */
+{ "sbcl", 0x58c30f00, 0xf8ff0fe0, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, XIMM }, { C_F, C_CC } }
+
+/* sbcl<.f> RA,XIMM,UIMM6_20 0101110001000011x111xxxxxxxxxxxx */
+{ "sbcl", 0x5c437000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, XIMM, UIMM6_20 }, { C_F } }
+
+/* sbcl<.f> ZA,XIMM,UIMM6_20 0101110001000011x111xxxxxx111110 */
+{ "sbcl", 0x5c43703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, UIMM6_20 }, { C_F } }
+
+/* sbcl<.f><.cc> ZA,XIMM,UIMM6_20 0101110011000011x111xxxxxx1xxxxx */
+{ "sbcl", 0x5cc37020, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, UIMM6_20 }, { C_F, C_CC } }
+
+/* sbcl<.f> RA,LIMM,RC 0101111000000011x111xxxxxxxxxxxx */
+{ "sbcl", 0x5e037000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, LIMM, RC }, { C_F } }
+
+/* sbcl<.f> RA,RB,LIMM 01011xxx00000011xxxx111110xxxxxx */
+{ "sbcl", 0x58030f80, 0xf8ff0fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, LIMM }, { C_F } }
+
+/* sbcl<.f> ZA,LIMM,RC 0101111000000011x111xxxxxx111110 */
+{ "sbcl", 0x5e03703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, RC }, { C_F } }
+
+/* sbcl<.f> ZA,RB,LIMM 01011xxx00000011xxxx111110111110 */
+{ "sbcl", 0x58030fbe, 0xf8ff0fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, LIMM }, { C_F } }
+
+/* sbcl<.f><.cc> ZA,LIMM,RC 0101111011000011x111xxxxxx0xxxxx */
+{ "sbcl", 0x5ec37000, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, RC }, { C_F, C_CC } }
+
+/* sbcl<.f><.cc> RB,RBdup,LIMM 01011xxx11000011xxxx1111100xxxxx */
+{ "sbcl", 0x58c30f80, 0xf8ff0fe0, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, LIMM }, { C_F, C_CC } }
+
+/* sbcl<.f> RA,LIMM,UIMM6_20 0101111001000011x111xxxxxxxxxxxx */
+{ "sbcl", 0x5e437000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, LIMM, UIMM6_20 }, { C_F } }
+
+/* sbcl<.f> ZA,LIMM,UIMM6_20 0101111001000011x111xxxxxx111110 */
+{ "sbcl", 0x5e43703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, UIMM6_20 }, { C_F } }
+
+/* sbcl<.f><.cc> ZA,LIMM,UIMM6_20 0101111011000011x111xxxxxx1xxxxx */
+{ "sbcl", 0x5ec37020, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, UIMM6_20 }, { C_F, C_CC } }
+
+/* sbcl<.f> ZA,XIMM,SIMM12_20 0101110010000011x111xxxxxxxxxxxx */
+{ "sbcl", 0x5c837000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, SIMM12_20 }, { C_F } }
+
+/* sbcl<.f> ZA,LIMM,SIMM12_20 0101111010000011x111xxxxxxxxxxxx */
+{ "sbcl", 0x5e837000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, SIMM12_20 }, { C_F } }
+
+/* sbcl<.f> RA,XIMM,XIMMdup 0101110000000011x111111100xxxxxx */
+{ "sbcl", 0x5c037f00, 0xffff7fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, XIMM, XIMMdup }, { C_F } }
+
+/* sbcl<.f> ZA,XIMM,XIMMdup 0101110000000011x111111100111110 */
+{ "sbcl", 0x5c037f3e, 0xffff7fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, XIMMdup }, { C_F } }
+
+/* sbcl<.f><.cc> ZA,XIMM,XIMMdup 0101110011000011x1111111000xxxxx */
+{ "sbcl", 0x5cc37f00, 0xffff7fe0, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, XIMMdup }, { C_F, C_CC } }
+
+/* sbcl<.f> RA,LIMM,LIMMdup 0101111000000011x111111110xxxxxx */
+{ "sbcl", 0x5e037f80, 0xffff7fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, LIMM, LIMMdup }, { C_F } }
+
+/* sbcl<.f> ZA,LIMM,LIMMdup 0101111000000011x111111110111110 */
+{ "sbcl", 0x5e037fbe, 0xffff7fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, LIMMdup }, { C_F } }
+
+/* sbcl<.f><.cc> ZA,LIMM,LIMMdup 0101111011000011x1111111100xxxxx */
+{ "sbcl", 0x5ec37f80, 0xffff7fe0, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, LIMMdup }, { C_F, C_CC } }
+
+/* scond<.di> RB,BRAKET,RC,BRAKETdup 00100xxx00101111xxxxxxxxxx010001 */
+{ "scond", 0x202f0011, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, SCOND, NONE, { RB, BRAKET, RC, BRAKETdup }, { C_DI16 } }
+
+/* scond<.di> RB,BRAKET,UIMM6_20,BRAKETdup 00100xxx01101111xxxxxxxxxx010001 */
+{ "scond", 0x206f0011, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, SCOND, NONE, { RB, BRAKET, UIMM6_20, BRAKETdup }, { C_DI16 } }
+
+/* scond<.di> RB,BRAKET,LIMM,BRAKETdup 00100xxx00101111xxxx111110010001 */
+{ "scond", 0x202f0f91, 0xf8ff0fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, SCOND, NONE, { RB, BRAKET, LIMM, BRAKETdup }, { C_DI16 } }
+
+/* scondl RB,BRAKET,RC,BRAKETdup 01011xxx00101111xxxxxxxxxx010001 */
+{ "scondl", 0x582f0011, 0xf8ff003f, ARC_OPCODE_ARC64, SCOND, NONE, { RB, BRAKET, RC, BRAKETdup }, { C_RL } }
+
+/* scondd<.di> b,c 00100bbb00101111DBBBCCCCCC010011.  */
+{ "scondd", 0x202F0013, 0xF8FF003F, ARC_OPCODE_ARC32, SCOND, NONE, { RB_CHK, BRAKET, RC, BRAKETdup }, { C_DI16, C_ZZ_D }},
+
+/* scondd<.di> b,limm 00100bbb00101111DBBB111110010011.  */
+{ "scondd", 0x202F0F93, 0xF8FF0FFF, ARC_OPCODE_ARC32, SCOND, NONE, { RB_CHK, BRAKET, LIMM, BRAKETdup }, { C_DI16, C_ZZ_D }},
+
+/* seteq<.f> RA,RB,RC 00100xxx00111000xxxxxxxxxxxxxxxx */
+{ "seteq", 0x20380000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RA, RB, RC }, { C_F } }
+
+/* seteq<.f> ZA,RB,RC 00100xxx00111000xxxxxxxxxx111110 */
+{ "seteq", 0x2038003e, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, RB, RC }, { C_F } }
+
+/* seteq<.f><.cc> RB,RBdup,RC 00100xxx11111000xxxxxxxxxx0xxxxx */
+{ "seteq", 0x20f80000, 0xf8ff0020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RB, RBdup, RC }, { C_F, C_CC } }
+
+/* seteq<.f> RA,RB,UIMM6_20 00100xxx01111000xxxxxxxxxxxxxxxx */
+{ "seteq", 0x20780000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RA, RB, UIMM6_20 }, { C_F } }
+
+/* seteq<.f> ZA,RB,UIMM6_20 00100xxx01111000xxxxxxxxxx111110 */
+{ "seteq", 0x2078003e, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, RB, UIMM6_20 }, { C_F } }
+
+/* seteq<.f><.cc> RB,RBdup,UIMM6_20 00100xxx11111000xxxxxxxxxx1xxxxx */
+{ "seteq", 0x20f80020, 0xf8ff0020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RB, RBdup, UIMM6_20 }, { C_F, C_CC } }
+
+/* seteq<.f> RB,RBdup,SIMM12_20 00100xxx10111000xxxxxxxxxxxxxxxx */
+{ "seteq", 0x20b80000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RB, RBdup, SIMM12_20 }, { C_F } }
+
+/* seteq<.f> RA,LIMM,RC 0010011000111000x111xxxxxxxxxxxx */
+{ "seteq", 0x26387000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RA, LIMM, RC }, { C_F } }
+
+/* seteq<.f> RA,RB,LIMM 00100xxx00111000xxxx111110xxxxxx */
+{ "seteq", 0x20380f80, 0xf8ff0fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RA, RB, LIMM }, { C_F } }
+
+/* seteq<.f> ZA,LIMM,RC 0010011000111000x111xxxxxx111110 */
+{ "seteq", 0x2638703e, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, LIMM, RC }, { C_F } }
+
+/* seteq<.f> ZA,RB,LIMM 00100xxx00111000xxxx111110111110 */
+{ "seteq", 0x20380fbe, 0xf8ff0fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, RB, LIMM }, { C_F } }
+
+/* seteq<.f><.cc> RB,RBdup,LIMM 00100xxx11111000xxxx1111100xxxxx */
+{ "seteq", 0x20f80f80, 0xf8ff0fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RB, RBdup, LIMM }, { C_F, C_CC } }
+
+/* seteq<.f><.cc> ZA,LIMM,RC 0010011011111000x111xxxxxx0xxxxx */
+{ "seteq", 0x26f87000, 0xffff7020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, LIMM, RC }, { C_F, C_CC } }
+
+/* seteq<.f> RA,LIMM,UIMM6_20 0010011001111000x111xxxxxxxxxxxx */
+{ "seteq", 0x26787000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RA, LIMM, UIMM6_20 }, { C_F } }
+
+/* seteq<.f> ZA,LIMM,UIMM6_20 0010011001111000x111xxxxxx111110 */
+{ "seteq", 0x2678703e, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, LIMM, UIMM6_20 }, { C_F } }
+
+/* seteq<.f><.cc> ZA,LIMM,UIMM6_20 0010011011111000x111xxxxxx1xxxxx */
+{ "seteq", 0x26f87020, 0xffff7020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, LIMM, UIMM6_20 }, { C_F, C_CC } }
+
+/* seteq<.f> ZA,LIMM,SIMM12_20 0010011010111000x111xxxxxxxxxxxx */
+{ "seteq", 0x26b87000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, LIMM, SIMM12_20 }, { C_F } }
+
+/* seteq<.f> RA,LIMM,LIMMdup 0010011000111000x111111110xxxxxx */
+{ "seteq", 0x26387f80, 0xffff7fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RA, LIMM, LIMMdup }, { C_F } }
+
+/* seteq<.f> ZA,LIMM,LIMMdup 0010011000111000x111111110111110 */
+{ "seteq", 0x26387fbe, 0xffff7fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, LIMM, LIMMdup }, { C_F } }
+
+/* seteq<.f><.cc> ZA,LIMM,LIMMdup 0010011011111000x1111111100xxxxx */
+{ "seteq", 0x26f87f80, 0xffff7fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, LIMM, LIMMdup }, { C_F, C_CC } }
+
+/* seteql<.f> RA,RB,RC 01011xxx00111000xxxxxxxxxxxxxxxx */
+{ "seteql", 0x58380000, 0xf8ff0000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, RC }, { C_F } }
+
+/* seteql<.f> ZA,RB,RC 01011xxx00111000xxxxxxxxxx111110 */
+{ "seteql", 0x5838003e, 0xf8ff003f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, RC }, { C_F } }
+
+/* seteql<.f><.cc> RB,RBdup,RC 01011xxx11111000xxxxxxxxxx0xxxxx */
+{ "seteql", 0x58f80000, 0xf8ff0020, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, RC }, { C_F, C_CC } }
+
+/* seteql<.f> RA,RB,UIMM6_20 01011xxx01111000xxxxxxxxxxxxxxxx */
+{ "seteql", 0x58780000, 0xf8ff0000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, UIMM6_20 }, { C_F } }
+
+/* seteql<.f> ZA,RB,UIMM6_20 01011xxx01111000xxxxxxxxxx111110 */
+{ "seteql", 0x5878003e, 0xf8ff003f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, UIMM6_20 }, { C_F } }
+
+/* seteql<.f><.cc> RB,RBdup,UIMM6_20 01011xxx11111000xxxxxxxxxx1xxxxx */
+{ "seteql", 0x58f80020, 0xf8ff0020, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, UIMM6_20 }, { C_F, C_CC } }
+
+/* seteql<.f> RB,RBdup,SIMM12_20 01011xxx10111000xxxxxxxxxxxxxxxx */
+{ "seteql", 0x58b80000, 0xf8ff0000, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, SIMM12_20 }, { C_F } }
+
+/* seteql<.f> RA,XIMM,RC 0101110000111000x111xxxxxxxxxxxx */
+{ "seteql", 0x5c387000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, XIMM, RC }, { C_F } }
+
+/* seteql<.f> RA,RB,XIMM 01011xxx00111000xxxx111100xxxxxx */
+{ "seteql", 0x58380f00, 0xf8ff0fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, XIMM }, { C_F } }
+
+/* seteql<.f> ZA,XIMM,RC 0101110000111000x111xxxxxx111110 */
+{ "seteql", 0x5c38703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, RC }, { C_F } }
+
+/* seteql<.f> ZA,RB,XIMM 01011xxx00111000xxxx111100111110 */
+{ "seteql", 0x58380f3e, 0xf8ff0fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, XIMM }, { C_F } }
+
+/* seteql<.f><.cc> ZA,XIMM,RC 0101110011111000x111xxxxxx0xxxxx */
+{ "seteql", 0x5cf87000, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, RC }, { C_F, C_CC } }
+
+/* seteql<.f><.cc> RB,RBdup,XIMM 01011xxx11111000xxxx1111000xxxxx */
+{ "seteql", 0x58f80f00, 0xf8ff0fe0, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, XIMM }, { C_F, C_CC } }
+
+/* seteql<.f> RA,XIMM,UIMM6_20 0101110001111000x111xxxxxxxxxxxx */
+{ "seteql", 0x5c787000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, XIMM, UIMM6_20 }, { C_F } }
+
+/* seteql<.f> ZA,XIMM,UIMM6_20 0101110001111000x111xxxxxx111110 */
+{ "seteql", 0x5c78703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, UIMM6_20 }, { C_F } }
+
+/* seteql<.f><.cc> ZA,XIMM,UIMM6_20 0101110011111000x111xxxxxx1xxxxx */
+{ "seteql", 0x5cf87020, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, UIMM6_20 }, { C_F, C_CC } }
+
+/* seteql<.f> RA,LIMM,RC 0101111000111000x111xxxxxxxxxxxx */
+{ "seteql", 0x5e387000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, LIMM, RC }, { C_F } }
+
+/* seteql<.f> RA,RB,LIMM 01011xxx00111000xxxx111110xxxxxx */
+{ "seteql", 0x58380f80, 0xf8ff0fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, LIMM }, { C_F } }
+
+/* seteql<.f> ZA,LIMM,RC 0101111000111000x111xxxxxx111110 */
+{ "seteql", 0x5e38703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, RC }, { C_F } }
+
+/* seteql<.f> ZA,RB,LIMM 01011xxx00111000xxxx111110111110 */
+{ "seteql", 0x58380fbe, 0xf8ff0fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, LIMM }, { C_F } }
+
+/* seteql<.f><.cc> ZA,LIMM,RC 0101111011111000x111xxxxxx0xxxxx */
+{ "seteql", 0x5ef87000, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, RC }, { C_F, C_CC } }
+
+/* seteql<.f><.cc> RB,RBdup,LIMM 01011xxx11111000xxxx1111100xxxxx */
+{ "seteql", 0x58f80f80, 0xf8ff0fe0, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, LIMM }, { C_F, C_CC } }
+
+/* seteql<.f> RA,LIMM,UIMM6_20 0101111001111000x111xxxxxxxxxxxx */
+{ "seteql", 0x5e787000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, LIMM, UIMM6_20 }, { C_F } }
+
+/* seteql<.f> ZA,LIMM,UIMM6_20 0101111001111000x111xxxxxx111110 */
+{ "seteql", 0x5e78703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, UIMM6_20 }, { C_F } }
+
+/* seteql<.f><.cc> ZA,LIMM,UIMM6_20 0101111011111000x111xxxxxx1xxxxx */
+{ "seteql", 0x5ef87020, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, UIMM6_20 }, { C_F, C_CC } }
+
+/* seteql<.f> ZA,XIMM,SIMM12_20 0101110010111000x111xxxxxxxxxxxx */
+{ "seteql", 0x5cb87000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, SIMM12_20 }, { C_F } }
+
+/* seteql<.f> ZA,LIMM,SIMM12_20 0101111010111000x111xxxxxxxxxxxx */
+{ "seteql", 0x5eb87000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, SIMM12_20 }, { C_F } }
+
+/* seteql<.f> RA,XIMM,XIMMdup 0101110000111000x111111100xxxxxx */
+{ "seteql", 0x5c387f00, 0xffff7fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, XIMM, XIMMdup }, { C_F } }
+
+/* seteql<.f> ZA,XIMM,XIMMdup 0101110000111000x111111100111110 */
+{ "seteql", 0x5c387f3e, 0xffff7fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, XIMMdup }, { C_F } }
+
+/* seteql<.f><.cc> ZA,XIMM,XIMMdup 0101110011111000x1111111000xxxxx */
+{ "seteql", 0x5cf87f00, 0xffff7fe0, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, XIMMdup }, { C_F, C_CC } }
+
+/* seteql<.f> RA,LIMM,LIMMdup 0101111000111000x111111110xxxxxx */
+{ "seteql", 0x5e387f80, 0xffff7fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, LIMM, LIMMdup }, { C_F } }
+
+/* seteql<.f> ZA,LIMM,LIMMdup 0101111000111000x111111110111110 */
+{ "seteql", 0x5e387fbe, 0xffff7fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, LIMMdup }, { C_F } }
+
+/* seteql<.f><.cc> ZA,LIMM,LIMMdup 0101111011111000x1111111100xxxxx */
+{ "seteql", 0x5ef87f80, 0xffff7fe0, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, LIMMdup }, { C_F, C_CC } }
+
+/* setge<.f> RA,RB,RC 00100xxx00111011xxxxxxxxxxxxxxxx */
+{ "setge", 0x203b0000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RA, RB, RC }, { C_F } }
+
+/* setge<.f> ZA,RB,RC 00100xxx00111011xxxxxxxxxx111110 */
+{ "setge", 0x203b003e, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, RB, RC }, { C_F } }
+
+/* setge<.f><.cc> RB,RBdup,RC 00100xxx11111011xxxxxxxxxx0xxxxx */
+{ "setge", 0x20fb0000, 0xf8ff0020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RB, RBdup, RC }, { C_F, C_CC } }
+
+/* setge<.f> RA,RB,UIMM6_20 00100xxx01111011xxxxxxxxxxxxxxxx */
+{ "setge", 0x207b0000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RA, RB, UIMM6_20 }, { C_F } }
+
+/* setge<.f> ZA,RB,UIMM6_20 00100xxx01111011xxxxxxxxxx111110 */
+{ "setge", 0x207b003e, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, RB, UIMM6_20 }, { C_F } }
+
+/* setge<.f><.cc> RB,RBdup,UIMM6_20 00100xxx11111011xxxxxxxxxx1xxxxx */
+{ "setge", 0x20fb0020, 0xf8ff0020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RB, RBdup, UIMM6_20 }, { C_F, C_CC } }
+
+/* setge<.f> RB,RBdup,SIMM12_20 00100xxx10111011xxxxxxxxxxxxxxxx */
+{ "setge", 0x20bb0000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RB, RBdup, SIMM12_20 }, { C_F } }
+
+/* setge<.f> RA,LIMM,RC 0010011000111011x111xxxxxxxxxxxx */
+{ "setge", 0x263b7000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RA, LIMM, RC }, { C_F } }
+
+/* setge<.f> RA,RB,LIMM 00100xxx00111011xxxx111110xxxxxx */
+{ "setge", 0x203b0f80, 0xf8ff0fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RA, RB, LIMM }, { C_F } }
+
+/* setge<.f> ZA,LIMM,RC 0010011000111011x111xxxxxx111110 */
+{ "setge", 0x263b703e, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, LIMM, RC }, { C_F } }
+
+/* setge<.f> ZA,RB,LIMM 00100xxx00111011xxxx111110111110 */
+{ "setge", 0x203b0fbe, 0xf8ff0fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, RB, LIMM }, { C_F } }
+
+/* setge<.f><.cc> RB,RBdup,LIMM 00100xxx11111011xxxx1111100xxxxx */
+{ "setge", 0x20fb0f80, 0xf8ff0fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RB, RBdup, LIMM }, { C_F, C_CC } }
+
+/* setge<.f><.cc> ZA,LIMM,RC 0010011011111011x111xxxxxx0xxxxx */
+{ "setge", 0x26fb7000, 0xffff7020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, LIMM, RC }, { C_F, C_CC } }
+
+/* setge<.f> RA,LIMM,UIMM6_20 0010011001111011x111xxxxxxxxxxxx */
+{ "setge", 0x267b7000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RA, LIMM, UIMM6_20 }, { C_F } }
+
+/* setge<.f> ZA,LIMM,UIMM6_20 0010011001111011x111xxxxxx111110 */
+{ "setge", 0x267b703e, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, LIMM, UIMM6_20 }, { C_F } }
+
+/* setge<.f><.cc> ZA,LIMM,UIMM6_20 0010011011111011x111xxxxxx1xxxxx */
+{ "setge", 0x26fb7020, 0xffff7020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, LIMM, UIMM6_20 }, { C_F, C_CC } }
+
+/* setge<.f> ZA,LIMM,SIMM12_20 0010011010111011x111xxxxxxxxxxxx */
+{ "setge", 0x26bb7000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, LIMM, SIMM12_20 }, { C_F } }
+
+/* setge<.f> RA,LIMM,LIMMdup 0010011000111011x111111110xxxxxx */
+{ "setge", 0x263b7f80, 0xffff7fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RA, LIMM, LIMMdup }, { C_F } }
+
+/* setge<.f> ZA,LIMM,LIMMdup 0010011000111011x111111110111110 */
+{ "setge", 0x263b7fbe, 0xffff7fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, LIMM, LIMMdup }, { C_F } }
+
+/* setge<.f><.cc> ZA,LIMM,LIMMdup 0010011011111011x1111111100xxxxx */
+{ "setge", 0x26fb7f80, 0xffff7fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, LIMM, LIMMdup }, { C_F, C_CC } }
+
+/* setgel<.f> RA,RB,RC 01011xxx00111011xxxxxxxxxxxxxxxx */
+{ "setgel", 0x583b0000, 0xf8ff0000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, RC }, { C_F } }
+
+/* setgel<.f> ZA,RB,RC 01011xxx00111011xxxxxxxxxx111110 */
+{ "setgel", 0x583b003e, 0xf8ff003f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, RC }, { C_F } }
+
+/* setgel<.f><.cc> RB,RBdup,RC 01011xxx11111011xxxxxxxxxx0xxxxx */
+{ "setgel", 0x58fb0000, 0xf8ff0020, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, RC }, { C_F, C_CC } }
+
+/* setgel<.f> RA,RB,UIMM6_20 01011xxx01111011xxxxxxxxxxxxxxxx */
+{ "setgel", 0x587b0000, 0xf8ff0000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, UIMM6_20 }, { C_F } }
+
+/* setgel<.f> ZA,RB,UIMM6_20 01011xxx01111011xxxxxxxxxx111110 */
+{ "setgel", 0x587b003e, 0xf8ff003f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, UIMM6_20 }, { C_F } }
+
+/* setgel<.f><.cc> RB,RBdup,UIMM6_20 01011xxx11111011xxxxxxxxxx1xxxxx */
+{ "setgel", 0x58fb0020, 0xf8ff0020, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, UIMM6_20 }, { C_F, C_CC } }
+
+/* setgel<.f> RB,RBdup,SIMM12_20 01011xxx10111011xxxxxxxxxxxxxxxx */
+{ "setgel", 0x58bb0000, 0xf8ff0000, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, SIMM12_20 }, { C_F } }
+
+/* setgel<.f> RA,XIMM,RC 0101110000111011x111xxxxxxxxxxxx */
+{ "setgel", 0x5c3b7000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, XIMM, RC }, { C_F } }
+
+/* setgel<.f> RA,RB,XIMM 01011xxx00111011xxxx111100xxxxxx */
+{ "setgel", 0x583b0f00, 0xf8ff0fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, XIMM }, { C_F } }
+
+/* setgel<.f> ZA,XIMM,RC 0101110000111011x111xxxxxx111110 */
+{ "setgel", 0x5c3b703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, RC }, { C_F } }
+
+/* setgel<.f> ZA,RB,XIMM 01011xxx00111011xxxx111100111110 */
+{ "setgel", 0x583b0f3e, 0xf8ff0fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, XIMM }, { C_F } }
+
+/* setgel<.f><.cc> ZA,XIMM,RC 0101110011111011x111xxxxxx0xxxxx */
+{ "setgel", 0x5cfb7000, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, RC }, { C_F, C_CC } }
+
+/* setgel<.f><.cc> RB,RBdup,XIMM 01011xxx11111011xxxx1111000xxxxx */
+{ "setgel", 0x58fb0f00, 0xf8ff0fe0, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, XIMM }, { C_F, C_CC } }
+
+/* setgel<.f> RA,XIMM,UIMM6_20 0101110001111011x111xxxxxxxxxxxx */
+{ "setgel", 0x5c7b7000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, XIMM, UIMM6_20 }, { C_F } }
+
+/* setgel<.f> ZA,XIMM,UIMM6_20 0101110001111011x111xxxxxx111110 */
+{ "setgel", 0x5c7b703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, UIMM6_20 }, { C_F } }
+
+/* setgel<.f><.cc> ZA,XIMM,UIMM6_20 0101110011111011x111xxxxxx1xxxxx */
+{ "setgel", 0x5cfb7020, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, UIMM6_20 }, { C_F, C_CC } }
+
+/* setgel<.f> RA,LIMM,RC 0101111000111011x111xxxxxxxxxxxx */
+{ "setgel", 0x5e3b7000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, LIMM, RC }, { C_F } }
+
+/* setgel<.f> RA,RB,LIMM 01011xxx00111011xxxx111110xxxxxx */
+{ "setgel", 0x583b0f80, 0xf8ff0fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, LIMM }, { C_F } }
+
+/* setgel<.f> ZA,LIMM,RC 0101111000111011x111xxxxxx111110 */
+{ "setgel", 0x5e3b703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, RC }, { C_F } }
+
+/* setgel<.f> ZA,RB,LIMM 01011xxx00111011xxxx111110111110 */
+{ "setgel", 0x583b0fbe, 0xf8ff0fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, LIMM }, { C_F } }
+
+/* setgel<.f><.cc> ZA,LIMM,RC 0101111011111011x111xxxxxx0xxxxx */
+{ "setgel", 0x5efb7000, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, RC }, { C_F, C_CC } }
+
+/* setgel<.f><.cc> RB,RBdup,LIMM 01011xxx11111011xxxx1111100xxxxx */
+{ "setgel", 0x58fb0f80, 0xf8ff0fe0, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, LIMM }, { C_F, C_CC } }
+
+/* setgel<.f> RA,LIMM,UIMM6_20 0101111001111011x111xxxxxxxxxxxx */
+{ "setgel", 0x5e7b7000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, LIMM, UIMM6_20 }, { C_F } }
+
+/* setgel<.f> ZA,LIMM,UIMM6_20 0101111001111011x111xxxxxx111110 */
+{ "setgel", 0x5e7b703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, UIMM6_20 }, { C_F } }
+
+/* setgel<.f><.cc> ZA,LIMM,UIMM6_20 0101111011111011x111xxxxxx1xxxxx */
+{ "setgel", 0x5efb7020, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, UIMM6_20 }, { C_F, C_CC } }
+
+/* setgel<.f> ZA,XIMM,SIMM12_20 0101110010111011x111xxxxxxxxxxxx */
+{ "setgel", 0x5cbb7000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, SIMM12_20 }, { C_F } }
+
+/* setgel<.f> ZA,LIMM,SIMM12_20 0101111010111011x111xxxxxxxxxxxx */
+{ "setgel", 0x5ebb7000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, SIMM12_20 }, { C_F } }
+
+/* setgel<.f> RA,XIMM,XIMMdup 0101110000111011x111111100xxxxxx */
+{ "setgel", 0x5c3b7f00, 0xffff7fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, XIMM, XIMMdup }, { C_F } }
+
+/* setgel<.f> ZA,XIMM,XIMMdup 0101110000111011x111111100111110 */
+{ "setgel", 0x5c3b7f3e, 0xffff7fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, XIMMdup }, { C_F } }
+
+/* setgel<.f><.cc> ZA,XIMM,XIMMdup 0101110011111011x1111111000xxxxx */
+{ "setgel", 0x5cfb7f00, 0xffff7fe0, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, XIMMdup }, { C_F, C_CC } }
+
+/* setgel<.f> RA,LIMM,LIMMdup 0101111000111011x111111110xxxxxx */
+{ "setgel", 0x5e3b7f80, 0xffff7fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, LIMM, LIMMdup }, { C_F } }
+
+/* setgel<.f> ZA,LIMM,LIMMdup 0101111000111011x111111110111110 */
+{ "setgel", 0x5e3b7fbe, 0xffff7fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, LIMMdup }, { C_F } }
+
+/* setgel<.f><.cc> ZA,LIMM,LIMMdup 0101111011111011x1111111100xxxxx */
+{ "setgel", 0x5efb7f80, 0xffff7fe0, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, LIMMdup }, { C_F, C_CC } }
+
+/* setgt<.f> RA,RB,RC 00100xxx00111111xxxxxxxxxxxxxxxx */
+{ "setgt", 0x203f0000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RA, RB, RC }, { C_F } }
+
+/* setgt<.f> ZA,RB,RC 00100xxx00111111xxxxxxxxxx111110 */
+{ "setgt", 0x203f003e, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, RB, RC }, { C_F } }
+
+/* setgt<.f><.cc> RB,RBdup,RC 00100xxx11111111xxxxxxxxxx0xxxxx */
+{ "setgt", 0x20ff0000, 0xf8ff0020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RB, RBdup, RC }, { C_F, C_CC } }
+
+/* setgt<.f> RA,RB,UIMM6_20 00100xxx01111111xxxxxxxxxxxxxxxx */
+{ "setgt", 0x207f0000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RA, RB, UIMM6_20 }, { C_F } }
+
+/* setgt<.f> ZA,RB,UIMM6_20 00100xxx01111111xxxxxxxxxx111110 */
+{ "setgt", 0x207f003e, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, RB, UIMM6_20 }, { C_F } }
+
+/* setgt<.f><.cc> RB,RBdup,UIMM6_20 00100xxx11111111xxxxxxxxxx1xxxxx */
+{ "setgt", 0x20ff0020, 0xf8ff0020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RB, RBdup, UIMM6_20 }, { C_F, C_CC } }
+
+/* setgt<.f> RB,RBdup,SIMM12_20 00100xxx10111111xxxxxxxxxxxxxxxx */
+{ "setgt", 0x20bf0000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RB, RBdup, SIMM12_20 }, { C_F } }
+
+/* setgt<.f> RA,LIMM,RC 0010011000111111x111xxxxxxxxxxxx */
+{ "setgt", 0x263f7000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RA, LIMM, RC }, { C_F } }
+
+/* setgt<.f> RA,RB,LIMM 00100xxx00111111xxxx111110xxxxxx */
+{ "setgt", 0x203f0f80, 0xf8ff0fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RA, RB, LIMM }, { C_F } }
+
+/* setgt<.f> ZA,LIMM,RC 0010011000111111x111xxxxxx111110 */
+{ "setgt", 0x263f703e, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, LIMM, RC }, { C_F } }
+
+/* setgt<.f> ZA,RB,LIMM 00100xxx00111111xxxx111110111110 */
+{ "setgt", 0x203f0fbe, 0xf8ff0fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, RB, LIMM }, { C_F } }
+
+/* setgt<.f><.cc> RB,RBdup,LIMM 00100xxx11111111xxxx1111100xxxxx */
+{ "setgt", 0x20ff0f80, 0xf8ff0fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RB, RBdup, LIMM }, { C_F, C_CC } }
+
+/* setgt<.f><.cc> ZA,LIMM,RC 0010011011111111x111xxxxxx0xxxxx */
+{ "setgt", 0x26ff7000, 0xffff7020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, LIMM, RC }, { C_F, C_CC } }
+
+/* setgt<.f> RA,LIMM,UIMM6_20 0010011001111111x111xxxxxxxxxxxx */
+{ "setgt", 0x267f7000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RA, LIMM, UIMM6_20 }, { C_F } }
+
+/* setgt<.f> ZA,LIMM,UIMM6_20 0010011001111111x111xxxxxx111110 */
+{ "setgt", 0x267f703e, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, LIMM, UIMM6_20 }, { C_F } }
+
+/* setgt<.f><.cc> ZA,LIMM,UIMM6_20 0010011011111111x111xxxxxx1xxxxx */
+{ "setgt", 0x26ff7020, 0xffff7020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, LIMM, UIMM6_20 }, { C_F, C_CC } }
+
+/* setgt<.f> ZA,LIMM,SIMM12_20 0010011010111111x111xxxxxxxxxxxx */
+{ "setgt", 0x26bf7000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, LIMM, SIMM12_20 }, { C_F } }
+
+/* setgt<.f> RA,LIMM,LIMMdup 0010011000111111x111111110xxxxxx */
+{ "setgt", 0x263f7f80, 0xffff7fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RA, LIMM, LIMMdup }, { C_F } }
+
+/* setgt<.f> ZA,LIMM,LIMMdup 0010011000111111x111111110111110 */
+{ "setgt", 0x263f7fbe, 0xffff7fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, LIMM, LIMMdup }, { C_F } }
+
+/* setgt<.f><.cc> ZA,LIMM,LIMMdup 0010011011111111x1111111100xxxxx */
+{ "setgt", 0x26ff7f80, 0xffff7fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, LIMM, LIMMdup }, { C_F, C_CC } }
+
+/* setgtl<.f> RA,RB,RC 01011xxx00111111xxxxxxxxxxxxxxxx */
+{ "setgtl", 0x583f0000, 0xf8ff0000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, RC }, { C_F } }
+
+/* setgtl<.f> ZA,RB,RC 01011xxx00111111xxxxxxxxxx111110 */
+{ "setgtl", 0x583f003e, 0xf8ff003f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, RC }, { C_F } }
+
+/* setgtl<.f><.cc> RB,RBdup,RC 01011xxx11111111xxxxxxxxxx0xxxxx */
+{ "setgtl", 0x58ff0000, 0xf8ff0020, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, RC }, { C_F, C_CC } }
+
+/* setgtl<.f> RA,RB,UIMM6_20 01011xxx01111111xxxxxxxxxxxxxxxx */
+{ "setgtl", 0x587f0000, 0xf8ff0000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, UIMM6_20 }, { C_F } }
+
+/* setgtl<.f> ZA,RB,UIMM6_20 01011xxx01111111xxxxxxxxxx111110 */
+{ "setgtl", 0x587f003e, 0xf8ff003f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, UIMM6_20 }, { C_F } }
+
+/* setgtl<.f><.cc> RB,RBdup,UIMM6_20 01011xxx11111111xxxxxxxxxx1xxxxx */
+{ "setgtl", 0x58ff0020, 0xf8ff0020, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, UIMM6_20 }, { C_F, C_CC } }
+
+/* setgtl<.f> RB,RBdup,SIMM12_20 01011xxx10111111xxxxxxxxxxxxxxxx */
+{ "setgtl", 0x58bf0000, 0xf8ff0000, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, SIMM12_20 }, { C_F } }
+
+/* setgtl<.f> RA,XIMM,RC 0101110000111111x111xxxxxxxxxxxx */
+{ "setgtl", 0x5c3f7000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, XIMM, RC }, { C_F } }
+
+/* setgtl<.f> RA,RB,XIMM 01011xxx00111111xxxx111100xxxxxx */
+{ "setgtl", 0x583f0f00, 0xf8ff0fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, XIMM }, { C_F } }
+
+/* setgtl<.f> ZA,XIMM,RC 0101110000111111x111xxxxxx111110 */
+{ "setgtl", 0x5c3f703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, RC }, { C_F } }
+
+/* setgtl<.f> ZA,RB,XIMM 01011xxx00111111xxxx111100111110 */
+{ "setgtl", 0x583f0f3e, 0xf8ff0fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, XIMM }, { C_F } }
+
+/* setgtl<.f><.cc> ZA,XIMM,RC 0101110011111111x111xxxxxx0xxxxx */
+{ "setgtl", 0x5cff7000, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, RC }, { C_F, C_CC } }
+
+/* setgtl<.f><.cc> RB,RBdup,XIMM 01011xxx11111111xxxx1111000xxxxx */
+{ "setgtl", 0x58ff0f00, 0xf8ff0fe0, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, XIMM }, { C_F, C_CC } }
+
+/* setgtl<.f> RA,XIMM,UIMM6_20 0101110001111111x111xxxxxxxxxxxx */
+{ "setgtl", 0x5c7f7000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, XIMM, UIMM6_20 }, { C_F } }
+
+/* setgtl<.f> ZA,XIMM,UIMM6_20 0101110001111111x111xxxxxx111110 */
+{ "setgtl", 0x5c7f703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, UIMM6_20 }, { C_F } }
+
+/* setgtl<.f><.cc> ZA,XIMM,UIMM6_20 0101110011111111x111xxxxxx1xxxxx */
+{ "setgtl", 0x5cff7020, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, UIMM6_20 }, { C_F, C_CC } }
+
+/* setgtl<.f> RA,LIMM,RC 0101111000111111x111xxxxxxxxxxxx */
+{ "setgtl", 0x5e3f7000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, LIMM, RC }, { C_F } }
+
+/* setgtl<.f> RA,RB,LIMM 01011xxx00111111xxxx111110xxxxxx */
+{ "setgtl", 0x583f0f80, 0xf8ff0fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, LIMM }, { C_F } }
+
+/* setgtl<.f> ZA,LIMM,RC 0101111000111111x111xxxxxx111110 */
+{ "setgtl", 0x5e3f703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, RC }, { C_F } }
+
+/* setgtl<.f> ZA,RB,LIMM 01011xxx00111111xxxx111110111110 */
+{ "setgtl", 0x583f0fbe, 0xf8ff0fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, LIMM }, { C_F } }
+
+/* setgtl<.f><.cc> ZA,LIMM,RC 0101111011111111x111xxxxxx0xxxxx */
+{ "setgtl", 0x5eff7000, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, RC }, { C_F, C_CC } }
+
+/* setgtl<.f><.cc> RB,RBdup,LIMM 01011xxx11111111xxxx1111100xxxxx */
+{ "setgtl", 0x58ff0f80, 0xf8ff0fe0, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, LIMM }, { C_F, C_CC } }
+
+/* setgtl<.f> RA,LIMM,UIMM6_20 0101111001111111x111xxxxxxxxxxxx */
+{ "setgtl", 0x5e7f7000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, LIMM, UIMM6_20 }, { C_F } }
+
+/* setgtl<.f> ZA,LIMM,UIMM6_20 0101111001111111x111xxxxxx111110 */
+{ "setgtl", 0x5e7f703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, UIMM6_20 }, { C_F } }
+
+/* setgtl<.f><.cc> ZA,LIMM,UIMM6_20 0101111011111111x111xxxxxx1xxxxx */
+{ "setgtl", 0x5eff7020, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, UIMM6_20 }, { C_F, C_CC } }
+
+/* setgtl<.f> ZA,XIMM,SIMM12_20 0101110010111111x111xxxxxxxxxxxx */
+{ "setgtl", 0x5cbf7000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, SIMM12_20 }, { C_F } }
+
+/* setgtl<.f> ZA,LIMM,SIMM12_20 0101111010111111x111xxxxxxxxxxxx */
+{ "setgtl", 0x5ebf7000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, SIMM12_20 }, { C_F } }
+
+/* setgtl<.f> RA,XIMM,XIMMdup 0101110000111111x111111100xxxxxx */
+{ "setgtl", 0x5c3f7f00, 0xffff7fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, XIMM, XIMMdup }, { C_F } }
+
+/* setgtl<.f> ZA,XIMM,XIMMdup 0101110000111111x111111100111110 */
+{ "setgtl", 0x5c3f7f3e, 0xffff7fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, XIMMdup }, { C_F } }
+
+/* setgtl<.f><.cc> ZA,XIMM,XIMMdup 0101110011111111x1111111000xxxxx */
+{ "setgtl", 0x5cff7f00, 0xffff7fe0, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, XIMMdup }, { C_F, C_CC } }
+
+/* setgtl<.f> RA,LIMM,LIMMdup 0101111000111111x111111110xxxxxx */
+{ "setgtl", 0x5e3f7f80, 0xffff7fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, LIMM, LIMMdup }, { C_F } }
+
+/* setgtl<.f> ZA,LIMM,LIMMdup 0101111000111111x111111110111110 */
+{ "setgtl", 0x5e3f7fbe, 0xffff7fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, LIMMdup }, { C_F } }
+
+/* setgtl<.f><.cc> ZA,LIMM,LIMMdup 0101111011111111x1111111100xxxxx */
+{ "setgtl", 0x5eff7f80, 0xffff7fe0, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, LIMMdup }, { C_F, C_CC } }
+
+/* seths<.f> RA,RB,RC 00100xxx00111101xxxxxxxxxxxxxxxx */
+{ "seths", 0x203d0000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RA, RB, RC }, { C_F } }
+
+/* seths<.f> ZA,RB,RC 00100xxx00111101xxxxxxxxxx111110 */
+{ "seths", 0x203d003e, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, RB, RC }, { C_F } }
+
+/* seths<.f><.cc> RB,RBdup,RC 00100xxx11111101xxxxxxxxxx0xxxxx */
+{ "seths", 0x20fd0000, 0xf8ff0020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RB, RBdup, RC }, { C_F, C_CC } }
+
+/* seths<.f> RA,RB,UIMM6_20 00100xxx01111101xxxxxxxxxxxxxxxx */
+{ "seths", 0x207d0000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RA, RB, UIMM6_20 }, { C_F } }
+
+/* seths<.f> ZA,RB,UIMM6_20 00100xxx01111101xxxxxxxxxx111110 */
+{ "seths", 0x207d003e, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, RB, UIMM6_20 }, { C_F } }
+
+/* seths<.f><.cc> RB,RBdup,UIMM6_20 00100xxx11111101xxxxxxxxxx1xxxxx */
+{ "seths", 0x20fd0020, 0xf8ff0020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RB, RBdup, UIMM6_20 }, { C_F, C_CC } }
+
+/* seths<.f> RB,RBdup,SIMM12_20 00100xxx10111101xxxxxxxxxxxxxxxx */
+{ "seths", 0x20bd0000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RB, RBdup, SIMM12_20 }, { C_F } }
+
+/* seths<.f> RA,LIMM,RC 0010011000111101x111xxxxxxxxxxxx */
+{ "seths", 0x263d7000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RA, LIMM, RC }, { C_F } }
+
+/* seths<.f> RA,RB,LIMM 00100xxx00111101xxxx111110xxxxxx */
+{ "seths", 0x203d0f80, 0xf8ff0fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RA, RB, LIMM }, { C_F } }
+
+/* seths<.f> ZA,LIMM,RC 0010011000111101x111xxxxxx111110 */
+{ "seths", 0x263d703e, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, LIMM, RC }, { C_F } }
+
+/* seths<.f> ZA,RB,LIMM 00100xxx00111101xxxx111110111110 */
+{ "seths", 0x203d0fbe, 0xf8ff0fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, RB, LIMM }, { C_F } }
+
+/* seths<.f><.cc> RB,RBdup,LIMM 00100xxx11111101xxxx1111100xxxxx */
+{ "seths", 0x20fd0f80, 0xf8ff0fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RB, RBdup, LIMM }, { C_F, C_CC } }
+
+/* seths<.f><.cc> ZA,LIMM,RC 0010011011111101x111xxxxxx0xxxxx */
+{ "seths", 0x26fd7000, 0xffff7020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, LIMM, RC }, { C_F, C_CC } }
+
+/* seths<.f> RA,LIMM,UIMM6_20 0010011001111101x111xxxxxxxxxxxx */
+{ "seths", 0x267d7000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RA, LIMM, UIMM6_20 }, { C_F } }
+
+/* seths<.f> ZA,LIMM,UIMM6_20 0010011001111101x111xxxxxx111110 */
+{ "seths", 0x267d703e, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, LIMM, UIMM6_20 }, { C_F } }
+
+/* seths<.f><.cc> ZA,LIMM,UIMM6_20 0010011011111101x111xxxxxx1xxxxx */
+{ "seths", 0x26fd7020, 0xffff7020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, LIMM, UIMM6_20 }, { C_F, C_CC } }
+
+/* seths<.f> ZA,LIMM,SIMM12_20 0010011010111101x111xxxxxxxxxxxx */
+{ "seths", 0x26bd7000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, LIMM, SIMM12_20 }, { C_F } }
+
+/* seths<.f> RA,LIMM,LIMMdup 0010011000111101x111111110xxxxxx */
+{ "seths", 0x263d7f80, 0xffff7fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RA, LIMM, LIMMdup }, { C_F } }
+
+/* seths<.f> ZA,LIMM,LIMMdup 0010011000111101x111111110111110 */
+{ "seths", 0x263d7fbe, 0xffff7fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, LIMM, LIMMdup }, { C_F } }
+
+/* seths<.f><.cc> ZA,LIMM,LIMMdup 0010011011111101x1111111100xxxxx */
+{ "seths", 0x26fd7f80, 0xffff7fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, LIMM, LIMMdup }, { C_F, C_CC } }
+
+/* sethsl<.f> RA,RB,RC 01011xxx00111101xxxxxxxxxxxxxxxx */
+{ "sethsl", 0x583d0000, 0xf8ff0000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, RC }, { C_F } }
+
+/* sethsl<.f> ZA,RB,RC 01011xxx00111101xxxxxxxxxx111110 */
+{ "sethsl", 0x583d003e, 0xf8ff003f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, RC }, { C_F } }
+
+/* sethsl<.f><.cc> RB,RBdup,RC 01011xxx11111101xxxxxxxxxx0xxxxx */
+{ "sethsl", 0x58fd0000, 0xf8ff0020, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, RC }, { C_F, C_CC } }
+
+/* sethsl<.f> RA,RB,UIMM6_20 01011xxx01111101xxxxxxxxxxxxxxxx */
+{ "sethsl", 0x587d0000, 0xf8ff0000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, UIMM6_20 }, { C_F } }
+
+/* sethsl<.f> ZA,RB,UIMM6_20 01011xxx01111101xxxxxxxxxx111110 */
+{ "sethsl", 0x587d003e, 0xf8ff003f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, UIMM6_20 }, { C_F } }
+
+/* sethsl<.f><.cc> RB,RBdup,UIMM6_20 01011xxx11111101xxxxxxxxxx1xxxxx */
+{ "sethsl", 0x58fd0020, 0xf8ff0020, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, UIMM6_20 }, { C_F, C_CC } }
+
+/* sethsl<.f> RB,RBdup,SIMM12_20 01011xxx10111101xxxxxxxxxxxxxxxx */
+{ "sethsl", 0x58bd0000, 0xf8ff0000, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, SIMM12_20 }, { C_F } }
+
+/* sethsl<.f> RA,XIMM,RC 0101110000111101x111xxxxxxxxxxxx */
+{ "sethsl", 0x5c3d7000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, XIMM, RC }, { C_F } }
+
+/* sethsl<.f> RA,RB,XIMM 01011xxx00111101xxxx111100xxxxxx */
+{ "sethsl", 0x583d0f00, 0xf8ff0fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, XIMM }, { C_F } }
+
+/* sethsl<.f> ZA,XIMM,RC 0101110000111101x111xxxxxx111110 */
+{ "sethsl", 0x5c3d703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, RC }, { C_F } }
+
+/* sethsl<.f> ZA,RB,XIMM 01011xxx00111101xxxx111100111110 */
+{ "sethsl", 0x583d0f3e, 0xf8ff0fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, XIMM }, { C_F } }
+
+/* sethsl<.f><.cc> ZA,XIMM,RC 0101110011111101x111xxxxxx0xxxxx */
+{ "sethsl", 0x5cfd7000, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, RC }, { C_F, C_CC } }
+
+/* sethsl<.f><.cc> RB,RBdup,XIMM 01011xxx11111101xxxx1111000xxxxx */
+{ "sethsl", 0x58fd0f00, 0xf8ff0fe0, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, XIMM }, { C_F, C_CC } }
+
+/* sethsl<.f> RA,XIMM,UIMM6_20 0101110001111101x111xxxxxxxxxxxx */
+{ "sethsl", 0x5c7d7000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, XIMM, UIMM6_20 }, { C_F } }
+
+/* sethsl<.f> ZA,XIMM,UIMM6_20 0101110001111101x111xxxxxx111110 */
+{ "sethsl", 0x5c7d703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, UIMM6_20 }, { C_F } }
+
+/* sethsl<.f><.cc> ZA,XIMM,UIMM6_20 0101110011111101x111xxxxxx1xxxxx */
+{ "sethsl", 0x5cfd7020, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, UIMM6_20 }, { C_F, C_CC } }
+
+/* sethsl<.f> RA,LIMM,RC 0101111000111101x111xxxxxxxxxxxx */
+{ "sethsl", 0x5e3d7000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, LIMM, RC }, { C_F } }
+
+/* sethsl<.f> RA,RB,LIMM 01011xxx00111101xxxx111110xxxxxx */
+{ "sethsl", 0x583d0f80, 0xf8ff0fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, LIMM }, { C_F } }
+
+/* sethsl<.f> ZA,LIMM,RC 0101111000111101x111xxxxxx111110 */
+{ "sethsl", 0x5e3d703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, RC }, { C_F } }
+
+/* sethsl<.f> ZA,RB,LIMM 01011xxx00111101xxxx111110111110 */
+{ "sethsl", 0x583d0fbe, 0xf8ff0fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, LIMM }, { C_F } }
+
+/* sethsl<.f><.cc> ZA,LIMM,RC 0101111011111101x111xxxxxx0xxxxx */
+{ "sethsl", 0x5efd7000, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, RC }, { C_F, C_CC } }
+
+/* sethsl<.f><.cc> RB,RBdup,LIMM 01011xxx11111101xxxx1111100xxxxx */
+{ "sethsl", 0x58fd0f80, 0xf8ff0fe0, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, LIMM }, { C_F, C_CC } }
+
+/* sethsl<.f> RA,LIMM,UIMM6_20 0101111001111101x111xxxxxxxxxxxx */
+{ "sethsl", 0x5e7d7000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, LIMM, UIMM6_20 }, { C_F } }
+
+/* sethsl<.f> ZA,LIMM,UIMM6_20 0101111001111101x111xxxxxx111110 */
+{ "sethsl", 0x5e7d703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, UIMM6_20 }, { C_F } }
+
+/* sethsl<.f><.cc> ZA,LIMM,UIMM6_20 0101111011111101x111xxxxxx1xxxxx */
+{ "sethsl", 0x5efd7020, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, UIMM6_20 }, { C_F, C_CC } }
+
+/* sethsl<.f> ZA,XIMM,SIMM12_20 0101110010111101x111xxxxxxxxxxxx */
+{ "sethsl", 0x5cbd7000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, SIMM12_20 }, { C_F } }
+
+/* sethsl<.f> ZA,LIMM,SIMM12_20 0101111010111101x111xxxxxxxxxxxx */
+{ "sethsl", 0x5ebd7000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, SIMM12_20 }, { C_F } }
+
+/* sethsl<.f> RA,XIMM,XIMMdup 0101110000111101x111111100xxxxxx */
+{ "sethsl", 0x5c3d7f00, 0xffff7fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, XIMM, XIMMdup }, { C_F } }
+
+/* sethsl<.f> ZA,XIMM,XIMMdup 0101110000111101x111111100111110 */
+{ "sethsl", 0x5c3d7f3e, 0xffff7fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, XIMMdup }, { C_F } }
+
+/* sethsl<.f><.cc> ZA,XIMM,XIMMdup 0101110011111101x1111111000xxxxx */
+{ "sethsl", 0x5cfd7f00, 0xffff7fe0, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, XIMMdup }, { C_F, C_CC } }
+
+/* sethsl<.f> RA,LIMM,LIMMdup 0101111000111101x111111110xxxxxx */
+{ "sethsl", 0x5e3d7f80, 0xffff7fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, LIMM, LIMMdup }, { C_F } }
+
+/* sethsl<.f> ZA,LIMM,LIMMdup 0101111000111101x111111110111110 */
+{ "sethsl", 0x5e3d7fbe, 0xffff7fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, LIMMdup }, { C_F } }
+
+/* sethsl<.f><.cc> ZA,LIMM,LIMMdup 0101111011111101x1111111100xxxxx */
+{ "sethsl", 0x5efd7f80, 0xffff7fe0, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, LIMMdup }, { C_F, C_CC } }
+
+/* seti RC 00100110001011110000xxxxxx111111 */
+{ "seti", 0x262f003f, 0xfffff03f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, CONTROL, NONE, { RC }, { 0 } }
+
+/* seti UIMM6_20 00100110011011110000xxxxxx111111 */
+{ "seti", 0x266f003f, 0xfffff03f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, CONTROL, NONE, { UIMM6_20 }, { 0 } }
+
+/* seti LIMM 00100110001011110000111110111111 */
+{ "seti", 0x262f0fbf, 0xffffffff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, CONTROL, NONE, { LIMM }, { 0 } }
+
+/* seti  00100110011011110000000000111111 */
+{ "seti", 0x266f003f, 0xffffffff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, CONTROL, NONE, {  }, { 0 } }
+
+/* setle<.f> RA,RB,RC 00100xxx00111110xxxxxxxxxxxxxxxx */
+{ "setle", 0x203e0000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RA, RB, RC }, { C_F } }
+
+/* setle<.f> ZA,RB,RC 00100xxx00111110xxxxxxxxxx111110 */
+{ "setle", 0x203e003e, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, RB, RC }, { C_F } }
+
+/* setle<.f><.cc> RB,RBdup,RC 00100xxx11111110xxxxxxxxxx0xxxxx */
+{ "setle", 0x20fe0000, 0xf8ff0020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RB, RBdup, RC }, { C_F, C_CC } }
+
+/* setle<.f> RA,RB,UIMM6_20 00100xxx01111110xxxxxxxxxxxxxxxx */
+{ "setle", 0x207e0000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RA, RB, UIMM6_20 }, { C_F } }
+
+/* setle<.f> ZA,RB,UIMM6_20 00100xxx01111110xxxxxxxxxx111110 */
+{ "setle", 0x207e003e, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, RB, UIMM6_20 }, { C_F } }
+
+/* setle<.f><.cc> RB,RBdup,UIMM6_20 00100xxx11111110xxxxxxxxxx1xxxxx */
+{ "setle", 0x20fe0020, 0xf8ff0020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RB, RBdup, UIMM6_20 }, { C_F, C_CC } }
+
+/* setle<.f> RB,RBdup,SIMM12_20 00100xxx10111110xxxxxxxxxxxxxxxx */
+{ "setle", 0x20be0000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RB, RBdup, SIMM12_20 }, { C_F } }
+
+/* setle<.f> RA,LIMM,RC 0010011000111110x111xxxxxxxxxxxx */
+{ "setle", 0x263e7000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RA, LIMM, RC }, { C_F } }
+
+/* setle<.f> RA,RB,LIMM 00100xxx00111110xxxx111110xxxxxx */
+{ "setle", 0x203e0f80, 0xf8ff0fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RA, RB, LIMM }, { C_F } }
+
+/* setle<.f> ZA,LIMM,RC 0010011000111110x111xxxxxx111110 */
+{ "setle", 0x263e703e, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, LIMM, RC }, { C_F } }
+
+/* setle<.f> ZA,RB,LIMM 00100xxx00111110xxxx111110111110 */
+{ "setle", 0x203e0fbe, 0xf8ff0fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, RB, LIMM }, { C_F } }
+
+/* setle<.f><.cc> RB,RBdup,LIMM 00100xxx11111110xxxx1111100xxxxx */
+{ "setle", 0x20fe0f80, 0xf8ff0fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RB, RBdup, LIMM }, { C_F, C_CC } }
+
+/* setle<.f><.cc> ZA,LIMM,RC 0010011011111110x111xxxxxx0xxxxx */
+{ "setle", 0x26fe7000, 0xffff7020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, LIMM, RC }, { C_F, C_CC } }
+
+/* setle<.f> RA,LIMM,UIMM6_20 0010011001111110x111xxxxxxxxxxxx */
+{ "setle", 0x267e7000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RA, LIMM, UIMM6_20 }, { C_F } }
+
+/* setle<.f> ZA,LIMM,UIMM6_20 0010011001111110x111xxxxxx111110 */
+{ "setle", 0x267e703e, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, LIMM, UIMM6_20 }, { C_F } }
+
+/* setle<.f><.cc> ZA,LIMM,UIMM6_20 0010011011111110x111xxxxxx1xxxxx */
+{ "setle", 0x26fe7020, 0xffff7020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, LIMM, UIMM6_20 }, { C_F, C_CC } }
+
+/* setle<.f> ZA,LIMM,SIMM12_20 0010011010111110x111xxxxxxxxxxxx */
+{ "setle", 0x26be7000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, LIMM, SIMM12_20 }, { C_F } }
+
+/* setle<.f> RA,LIMM,LIMMdup 0010011000111110x111111110xxxxxx */
+{ "setle", 0x263e7f80, 0xffff7fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RA, LIMM, LIMMdup }, { C_F } }
+
+/* setle<.f> ZA,LIMM,LIMMdup 0010011000111110x111111110111110 */
+{ "setle", 0x263e7fbe, 0xffff7fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, LIMM, LIMMdup }, { C_F } }
+
+/* setle<.f><.cc> ZA,LIMM,LIMMdup 0010011011111110x1111111100xxxxx */
+{ "setle", 0x26fe7f80, 0xffff7fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, LIMM, LIMMdup }, { C_F, C_CC } }
+
+/* setlel<.f> RA,RB,RC 01011xxx00111110xxxxxxxxxxxxxxxx */
+{ "setlel", 0x583e0000, 0xf8ff0000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, RC }, { C_F } }
+
+/* setlel<.f> ZA,RB,RC 01011xxx00111110xxxxxxxxxx111110 */
+{ "setlel", 0x583e003e, 0xf8ff003f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, RC }, { C_F } }
+
+/* setlel<.f><.cc> RB,RBdup,RC 01011xxx11111110xxxxxxxxxx0xxxxx */
+{ "setlel", 0x58fe0000, 0xf8ff0020, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, RC }, { C_F, C_CC } }
+
+/* setlel<.f> RA,RB,UIMM6_20 01011xxx01111110xxxxxxxxxxxxxxxx */
+{ "setlel", 0x587e0000, 0xf8ff0000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, UIMM6_20 }, { C_F } }
+
+/* setlel<.f> ZA,RB,UIMM6_20 01011xxx01111110xxxxxxxxxx111110 */
+{ "setlel", 0x587e003e, 0xf8ff003f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, UIMM6_20 }, { C_F } }
+
+/* setlel<.f><.cc> RB,RBdup,UIMM6_20 01011xxx11111110xxxxxxxxxx1xxxxx */
+{ "setlel", 0x58fe0020, 0xf8ff0020, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, UIMM6_20 }, { C_F, C_CC } }
+
+/* setlel<.f> RB,RBdup,SIMM12_20 01011xxx10111110xxxxxxxxxxxxxxxx */
+{ "setlel", 0x58be0000, 0xf8ff0000, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, SIMM12_20 }, { C_F } }
+
+/* setlel<.f> RA,XIMM,RC 0101110000111110x111xxxxxxxxxxxx */
+{ "setlel", 0x5c3e7000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, XIMM, RC }, { C_F } }
+
+/* setlel<.f> RA,RB,XIMM 01011xxx00111110xxxx111100xxxxxx */
+{ "setlel", 0x583e0f00, 0xf8ff0fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, XIMM }, { C_F } }
+
+/* setlel<.f> ZA,XIMM,RC 0101110000111110x111xxxxxx111110 */
+{ "setlel", 0x5c3e703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, RC }, { C_F } }
+
+/* setlel<.f> ZA,RB,XIMM 01011xxx00111110xxxx111100111110 */
+{ "setlel", 0x583e0f3e, 0xf8ff0fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, XIMM }, { C_F } }
+
+/* setlel<.f><.cc> ZA,XIMM,RC 0101110011111110x111xxxxxx0xxxxx */
+{ "setlel", 0x5cfe7000, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, RC }, { C_F, C_CC } }
+
+/* setlel<.f><.cc> RB,RBdup,XIMM 01011xxx11111110xxxx1111000xxxxx */
+{ "setlel", 0x58fe0f00, 0xf8ff0fe0, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, XIMM }, { C_F, C_CC } }
+
+/* setlel<.f> RA,XIMM,UIMM6_20 0101110001111110x111xxxxxxxxxxxx */
+{ "setlel", 0x5c7e7000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, XIMM, UIMM6_20 }, { C_F } }
+
+/* setlel<.f> ZA,XIMM,UIMM6_20 0101110001111110x111xxxxxx111110 */
+{ "setlel", 0x5c7e703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, UIMM6_20 }, { C_F } }
+
+/* setlel<.f><.cc> ZA,XIMM,UIMM6_20 0101110011111110x111xxxxxx1xxxxx */
+{ "setlel", 0x5cfe7020, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, UIMM6_20 }, { C_F, C_CC } }
+
+/* setlel<.f> RA,LIMM,RC 0101111000111110x111xxxxxxxxxxxx */
+{ "setlel", 0x5e3e7000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, LIMM, RC }, { C_F } }
+
+/* setlel<.f> RA,RB,LIMM 01011xxx00111110xxxx111110xxxxxx */
+{ "setlel", 0x583e0f80, 0xf8ff0fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, LIMM }, { C_F } }
+
+/* setlel<.f> ZA,LIMM,RC 0101111000111110x111xxxxxx111110 */
+{ "setlel", 0x5e3e703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, RC }, { C_F } }
+
+/* setlel<.f> ZA,RB,LIMM 01011xxx00111110xxxx111110111110 */
+{ "setlel", 0x583e0fbe, 0xf8ff0fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, LIMM }, { C_F } }
+
+/* setlel<.f><.cc> ZA,LIMM,RC 0101111011111110x111xxxxxx0xxxxx */
+{ "setlel", 0x5efe7000, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, RC }, { C_F, C_CC } }
+
+/* setlel<.f><.cc> RB,RBdup,LIMM 01011xxx11111110xxxx1111100xxxxx */
+{ "setlel", 0x58fe0f80, 0xf8ff0fe0, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, LIMM }, { C_F, C_CC } }
+
+/* setlel<.f> RA,LIMM,UIMM6_20 0101111001111110x111xxxxxxxxxxxx */
+{ "setlel", 0x5e7e7000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, LIMM, UIMM6_20 }, { C_F } }
+
+/* setlel<.f> ZA,LIMM,UIMM6_20 0101111001111110x111xxxxxx111110 */
+{ "setlel", 0x5e7e703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, UIMM6_20 }, { C_F } }
+
+/* setlel<.f><.cc> ZA,LIMM,UIMM6_20 0101111011111110x111xxxxxx1xxxxx */
+{ "setlel", 0x5efe7020, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, UIMM6_20 }, { C_F, C_CC } }
+
+/* setlel<.f> ZA,XIMM,SIMM12_20 0101110010111110x111xxxxxxxxxxxx */
+{ "setlel", 0x5cbe7000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, SIMM12_20 }, { C_F } }
+
+/* setlel<.f> ZA,LIMM,SIMM12_20 0101111010111110x111xxxxxxxxxxxx */
+{ "setlel", 0x5ebe7000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, SIMM12_20 }, { C_F } }
+
+/* setlel<.f> RA,XIMM,XIMMdup 0101110000111110x111111100xxxxxx */
+{ "setlel", 0x5c3e7f00, 0xffff7fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, XIMM, XIMMdup }, { C_F } }
+
+/* setlel<.f> ZA,XIMM,XIMMdup 0101110000111110x111111100111110 */
+{ "setlel", 0x5c3e7f3e, 0xffff7fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, XIMMdup }, { C_F } }
+
+/* setlel<.f><.cc> ZA,XIMM,XIMMdup 0101110011111110x1111111000xxxxx */
+{ "setlel", 0x5cfe7f00, 0xffff7fe0, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, XIMMdup }, { C_F, C_CC } }
+
+/* setlel<.f> RA,LIMM,LIMMdup 0101111000111110x111111110xxxxxx */
+{ "setlel", 0x5e3e7f80, 0xffff7fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, LIMM, LIMMdup }, { C_F } }
+
+/* setlel<.f> ZA,LIMM,LIMMdup 0101111000111110x111111110111110 */
+{ "setlel", 0x5e3e7fbe, 0xffff7fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, LIMMdup }, { C_F } }
+
+/* setlel<.f><.cc> ZA,LIMM,LIMMdup 0101111011111110x1111111100xxxxx */
+{ "setlel", 0x5efe7f80, 0xffff7fe0, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, LIMMdup }, { C_F, C_CC } }
+
+/* setlo<.f> RA,RB,RC 00100xxx00111100xxxxxxxxxxxxxxxx */
+{ "setlo", 0x203c0000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RA, RB, RC }, { C_F } }
+
+/* setlo<.f> ZA,RB,RC 00100xxx00111100xxxxxxxxxx111110 */
+{ "setlo", 0x203c003e, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, RB, RC }, { C_F } }
+
+/* setlo<.f><.cc> RB,RBdup,RC 00100xxx11111100xxxxxxxxxx0xxxxx */
+{ "setlo", 0x20fc0000, 0xf8ff0020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RB, RBdup, RC }, { C_F, C_CC } }
+
+/* setlo<.f> RA,RB,UIMM6_20 00100xxx01111100xxxxxxxxxxxxxxxx */
+{ "setlo", 0x207c0000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RA, RB, UIMM6_20 }, { C_F } }
+
+/* setlo<.f> ZA,RB,UIMM6_20 00100xxx01111100xxxxxxxxxx111110 */
+{ "setlo", 0x207c003e, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, RB, UIMM6_20 }, { C_F } }
+
+/* setlo<.f><.cc> RB,RBdup,UIMM6_20 00100xxx11111100xxxxxxxxxx1xxxxx */
+{ "setlo", 0x20fc0020, 0xf8ff0020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RB, RBdup, UIMM6_20 }, { C_F, C_CC } }
+
+/* setlo<.f> RB,RBdup,SIMM12_20 00100xxx10111100xxxxxxxxxxxxxxxx */
+{ "setlo", 0x20bc0000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RB, RBdup, SIMM12_20 }, { C_F } }
+
+/* setlo<.f> RA,LIMM,RC 0010011000111100x111xxxxxxxxxxxx */
+{ "setlo", 0x263c7000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RA, LIMM, RC }, { C_F } }
+
+/* setlo<.f> RA,RB,LIMM 00100xxx00111100xxxx111110xxxxxx */
+{ "setlo", 0x203c0f80, 0xf8ff0fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RA, RB, LIMM }, { C_F } }
+
+/* setlo<.f> ZA,LIMM,RC 0010011000111100x111xxxxxx111110 */
+{ "setlo", 0x263c703e, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, LIMM, RC }, { C_F } }
+
+/* setlo<.f> ZA,RB,LIMM 00100xxx00111100xxxx111110111110 */
+{ "setlo", 0x203c0fbe, 0xf8ff0fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, RB, LIMM }, { C_F } }
+
+/* setlo<.f><.cc> RB,RBdup,LIMM 00100xxx11111100xxxx1111100xxxxx */
+{ "setlo", 0x20fc0f80, 0xf8ff0fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RB, RBdup, LIMM }, { C_F, C_CC } }
+
+/* setlo<.f><.cc> ZA,LIMM,RC 0010011011111100x111xxxxxx0xxxxx */
+{ "setlo", 0x26fc7000, 0xffff7020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, LIMM, RC }, { C_F, C_CC } }
+
+/* setlo<.f> RA,LIMM,UIMM6_20 0010011001111100x111xxxxxxxxxxxx */
+{ "setlo", 0x267c7000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RA, LIMM, UIMM6_20 }, { C_F } }
+
+/* setlo<.f> ZA,LIMM,UIMM6_20 0010011001111100x111xxxxxx111110 */
+{ "setlo", 0x267c703e, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, LIMM, UIMM6_20 }, { C_F } }
+
+/* setlo<.f><.cc> ZA,LIMM,UIMM6_20 0010011011111100x111xxxxxx1xxxxx */
+{ "setlo", 0x26fc7020, 0xffff7020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, LIMM, UIMM6_20 }, { C_F, C_CC } }
+
+/* setlo<.f> ZA,LIMM,SIMM12_20 0010011010111100x111xxxxxxxxxxxx */
+{ "setlo", 0x26bc7000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, LIMM, SIMM12_20 }, { C_F } }
+
+/* setlo<.f> RA,LIMM,LIMMdup 0010011000111100x111111110xxxxxx */
+{ "setlo", 0x263c7f80, 0xffff7fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RA, LIMM, LIMMdup }, { C_F } }
+
+/* setlo<.f> ZA,LIMM,LIMMdup 0010011000111100x111111110111110 */
+{ "setlo", 0x263c7fbe, 0xffff7fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, LIMM, LIMMdup }, { C_F } }
+
+/* setlo<.f><.cc> ZA,LIMM,LIMMdup 0010011011111100x1111111100xxxxx */
+{ "setlo", 0x26fc7f80, 0xffff7fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, LIMM, LIMMdup }, { C_F, C_CC } }
+
+/* setlol<.f> RA,RB,RC 01011xxx00111100xxxxxxxxxxxxxxxx */
+{ "setlol", 0x583c0000, 0xf8ff0000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, RC }, { C_F } }
+
+/* setlol<.f> ZA,RB,RC 01011xxx00111100xxxxxxxxxx111110 */
+{ "setlol", 0x583c003e, 0xf8ff003f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, RC }, { C_F } }
+
+/* setlol<.f><.cc> RB,RBdup,RC 01011xxx11111100xxxxxxxxxx0xxxxx */
+{ "setlol", 0x58fc0000, 0xf8ff0020, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, RC }, { C_F, C_CC } }
+
+/* setlol<.f> RA,RB,UIMM6_20 01011xxx01111100xxxxxxxxxxxxxxxx */
+{ "setlol", 0x587c0000, 0xf8ff0000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, UIMM6_20 }, { C_F } }
+
+/* setlol<.f> ZA,RB,UIMM6_20 01011xxx01111100xxxxxxxxxx111110 */
+{ "setlol", 0x587c003e, 0xf8ff003f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, UIMM6_20 }, { C_F } }
+
+/* setlol<.f><.cc> RB,RBdup,UIMM6_20 01011xxx11111100xxxxxxxxxx1xxxxx */
+{ "setlol", 0x58fc0020, 0xf8ff0020, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, UIMM6_20 }, { C_F, C_CC } }
+
+/* setlol<.f> RB,RBdup,SIMM12_20 01011xxx10111100xxxxxxxxxxxxxxxx */
+{ "setlol", 0x58bc0000, 0xf8ff0000, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, SIMM12_20 }, { C_F } }
+
+/* setlol<.f> RA,XIMM,RC 0101110000111100x111xxxxxxxxxxxx */
+{ "setlol", 0x5c3c7000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, XIMM, RC }, { C_F } }
+
+/* setlol<.f> RA,RB,XIMM 01011xxx00111100xxxx111100xxxxxx */
+{ "setlol", 0x583c0f00, 0xf8ff0fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, XIMM }, { C_F } }
+
+/* setlol<.f> ZA,XIMM,RC 0101110000111100x111xxxxxx111110 */
+{ "setlol", 0x5c3c703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, RC }, { C_F } }
+
+/* setlol<.f> ZA,RB,XIMM 01011xxx00111100xxxx111100111110 */
+{ "setlol", 0x583c0f3e, 0xf8ff0fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, XIMM }, { C_F } }
+
+/* setlol<.f><.cc> ZA,XIMM,RC 0101110011111100x111xxxxxx0xxxxx */
+{ "setlol", 0x5cfc7000, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, RC }, { C_F, C_CC } }
+
+/* setlol<.f><.cc> RB,RBdup,XIMM 01011xxx11111100xxxx1111000xxxxx */
+{ "setlol", 0x58fc0f00, 0xf8ff0fe0, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, XIMM }, { C_F, C_CC } }
+
+/* setlol<.f> RA,XIMM,UIMM6_20 0101110001111100x111xxxxxxxxxxxx */
+{ "setlol", 0x5c7c7000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, XIMM, UIMM6_20 }, { C_F } }
+
+/* setlol<.f> ZA,XIMM,UIMM6_20 0101110001111100x111xxxxxx111110 */
+{ "setlol", 0x5c7c703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, UIMM6_20 }, { C_F } }
+
+/* setlol<.f><.cc> ZA,XIMM,UIMM6_20 0101110011111100x111xxxxxx1xxxxx */
+{ "setlol", 0x5cfc7020, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, UIMM6_20 }, { C_F, C_CC } }
+
+/* setlol<.f> RA,LIMM,RC 0101111000111100x111xxxxxxxxxxxx */
+{ "setlol", 0x5e3c7000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, LIMM, RC }, { C_F } }
+
+/* setlol<.f> RA,RB,LIMM 01011xxx00111100xxxx111110xxxxxx */
+{ "setlol", 0x583c0f80, 0xf8ff0fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, LIMM }, { C_F } }
+
+/* setlol<.f> ZA,LIMM,RC 0101111000111100x111xxxxxx111110 */
+{ "setlol", 0x5e3c703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, RC }, { C_F } }
+
+/* setlol<.f> ZA,RB,LIMM 01011xxx00111100xxxx111110111110 */
+{ "setlol", 0x583c0fbe, 0xf8ff0fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, LIMM }, { C_F } }
+
+/* setlol<.f><.cc> ZA,LIMM,RC 0101111011111100x111xxxxxx0xxxxx */
+{ "setlol", 0x5efc7000, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, RC }, { C_F, C_CC } }
+
+/* setlol<.f><.cc> RB,RBdup,LIMM 01011xxx11111100xxxx1111100xxxxx */
+{ "setlol", 0x58fc0f80, 0xf8ff0fe0, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, LIMM }, { C_F, C_CC } }
+
+/* setlol<.f> RA,LIMM,UIMM6_20 0101111001111100x111xxxxxxxxxxxx */
+{ "setlol", 0x5e7c7000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, LIMM, UIMM6_20 }, { C_F } }
+
+/* setlol<.f> ZA,LIMM,UIMM6_20 0101111001111100x111xxxxxx111110 */
+{ "setlol", 0x5e7c703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, UIMM6_20 }, { C_F } }
+
+/* setlol<.f><.cc> ZA,LIMM,UIMM6_20 0101111011111100x111xxxxxx1xxxxx */
+{ "setlol", 0x5efc7020, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, UIMM6_20 }, { C_F, C_CC } }
+
+/* setlol<.f> ZA,XIMM,SIMM12_20 0101110010111100x111xxxxxxxxxxxx */
+{ "setlol", 0x5cbc7000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, SIMM12_20 }, { C_F } }
+
+/* setlol<.f> ZA,LIMM,SIMM12_20 0101111010111100x111xxxxxxxxxxxx */
+{ "setlol", 0x5ebc7000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, SIMM12_20 }, { C_F } }
+
+/* setlol<.f> RA,XIMM,XIMMdup 0101110000111100x111111100xxxxxx */
+{ "setlol", 0x5c3c7f00, 0xffff7fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, XIMM, XIMMdup }, { C_F } }
+
+/* setlol<.f> ZA,XIMM,XIMMdup 0101110000111100x111111100111110 */
+{ "setlol", 0x5c3c7f3e, 0xffff7fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, XIMMdup }, { C_F } }
+
+/* setlol<.f><.cc> ZA,XIMM,XIMMdup 0101110011111100x1111111000xxxxx */
+{ "setlol", 0x5cfc7f00, 0xffff7fe0, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, XIMMdup }, { C_F, C_CC } }
+
+/* setlol<.f> RA,LIMM,LIMMdup 0101111000111100x111111110xxxxxx */
+{ "setlol", 0x5e3c7f80, 0xffff7fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, LIMM, LIMMdup }, { C_F } }
+
+/* setlol<.f> ZA,LIMM,LIMMdup 0101111000111100x111111110111110 */
+{ "setlol", 0x5e3c7fbe, 0xffff7fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, LIMMdup }, { C_F } }
+
+/* setlol<.f><.cc> ZA,LIMM,LIMMdup 0101111011111100x1111111100xxxxx */
+{ "setlol", 0x5efc7f80, 0xffff7fe0, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, LIMMdup }, { C_F, C_CC } }
+
+/* setlt<.f> RA,RB,RC 00100xxx00111010xxxxxxxxxxxxxxxx */
+{ "setlt", 0x203a0000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RA, RB, RC }, { C_F } }
+
+/* setlt<.f> ZA,RB,RC 00100xxx00111010xxxxxxxxxx111110 */
+{ "setlt", 0x203a003e, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, RB, RC }, { C_F } }
+
+/* setlt<.f><.cc> RB,RBdup,RC 00100xxx11111010xxxxxxxxxx0xxxxx */
+{ "setlt", 0x20fa0000, 0xf8ff0020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RB, RBdup, RC }, { C_F, C_CC } }
+
+/* setlt<.f> RA,RB,UIMM6_20 00100xxx01111010xxxxxxxxxxxxxxxx */
+{ "setlt", 0x207a0000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RA, RB, UIMM6_20 }, { C_F } }
+
+/* setlt<.f> ZA,RB,UIMM6_20 00100xxx01111010xxxxxxxxxx111110 */
+{ "setlt", 0x207a003e, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, RB, UIMM6_20 }, { C_F } }
+
+/* setlt<.f><.cc> RB,RBdup,UIMM6_20 00100xxx11111010xxxxxxxxxx1xxxxx */
+{ "setlt", 0x20fa0020, 0xf8ff0020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RB, RBdup, UIMM6_20 }, { C_F, C_CC } }
+
+/* setlt<.f> RB,RBdup,SIMM12_20 00100xxx10111010xxxxxxxxxxxxxxxx */
+{ "setlt", 0x20ba0000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RB, RBdup, SIMM12_20 }, { C_F } }
+
+/* setlt<.f> RA,LIMM,RC 0010011000111010x111xxxxxxxxxxxx */
+{ "setlt", 0x263a7000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RA, LIMM, RC }, { C_F } }
+
+/* setlt<.f> RA,RB,LIMM 00100xxx00111010xxxx111110xxxxxx */
+{ "setlt", 0x203a0f80, 0xf8ff0fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RA, RB, LIMM }, { C_F } }
+
+/* setlt<.f> ZA,LIMM,RC 0010011000111010x111xxxxxx111110 */
+{ "setlt", 0x263a703e, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, LIMM, RC }, { C_F } }
+
+/* setlt<.f> ZA,RB,LIMM 00100xxx00111010xxxx111110111110 */
+{ "setlt", 0x203a0fbe, 0xf8ff0fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, RB, LIMM }, { C_F } }
+
+/* setlt<.f><.cc> RB,RBdup,LIMM 00100xxx11111010xxxx1111100xxxxx */
+{ "setlt", 0x20fa0f80, 0xf8ff0fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RB, RBdup, LIMM }, { C_F, C_CC } }
+
+/* setlt<.f><.cc> ZA,LIMM,RC 0010011011111010x111xxxxxx0xxxxx */
+{ "setlt", 0x26fa7000, 0xffff7020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, LIMM, RC }, { C_F, C_CC } }
+
+/* setlt<.f> RA,LIMM,UIMM6_20 0010011001111010x111xxxxxxxxxxxx */
+{ "setlt", 0x267a7000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RA, LIMM, UIMM6_20 }, { C_F } }
+
+/* setlt<.f> ZA,LIMM,UIMM6_20 0010011001111010x111xxxxxx111110 */
+{ "setlt", 0x267a703e, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, LIMM, UIMM6_20 }, { C_F } }
+
+/* setlt<.f><.cc> ZA,LIMM,UIMM6_20 0010011011111010x111xxxxxx1xxxxx */
+{ "setlt", 0x26fa7020, 0xffff7020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, LIMM, UIMM6_20 }, { C_F, C_CC } }
+
+/* setlt<.f> ZA,LIMM,SIMM12_20 0010011010111010x111xxxxxxxxxxxx */
+{ "setlt", 0x26ba7000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, LIMM, SIMM12_20 }, { C_F } }
+
+/* setlt<.f> RA,LIMM,LIMMdup 0010011000111010x111111110xxxxxx */
+{ "setlt", 0x263a7f80, 0xffff7fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RA, LIMM, LIMMdup }, { C_F } }
+
+/* setlt<.f> ZA,LIMM,LIMMdup 0010011000111010x111111110111110 */
+{ "setlt", 0x263a7fbe, 0xffff7fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, LIMM, LIMMdup }, { C_F } }
+
+/* setlt<.f><.cc> ZA,LIMM,LIMMdup 0010011011111010x1111111100xxxxx */
+{ "setlt", 0x26fa7f80, 0xffff7fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, LIMM, LIMMdup }, { C_F, C_CC } }
+
+/* setltl<.f> RA,RB,RC 01011xxx00111010xxxxxxxxxxxxxxxx */
+{ "setltl", 0x583a0000, 0xf8ff0000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, RC }, { C_F } }
+
+/* setltl<.f> ZA,RB,RC 01011xxx00111010xxxxxxxxxx111110 */
+{ "setltl", 0x583a003e, 0xf8ff003f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, RC }, { C_F } }
+
+/* setltl<.f><.cc> RB,RBdup,RC 01011xxx11111010xxxxxxxxxx0xxxxx */
+{ "setltl", 0x58fa0000, 0xf8ff0020, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, RC }, { C_F, C_CC } }
+
+/* setltl<.f> RA,RB,UIMM6_20 01011xxx01111010xxxxxxxxxxxxxxxx */
+{ "setltl", 0x587a0000, 0xf8ff0000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, UIMM6_20 }, { C_F } }
+
+/* setltl<.f> ZA,RB,UIMM6_20 01011xxx01111010xxxxxxxxxx111110 */
+{ "setltl", 0x587a003e, 0xf8ff003f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, UIMM6_20 }, { C_F } }
+
+/* setltl<.f><.cc> RB,RBdup,UIMM6_20 01011xxx11111010xxxxxxxxxx1xxxxx */
+{ "setltl", 0x58fa0020, 0xf8ff0020, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, UIMM6_20 }, { C_F, C_CC } }
+
+/* setltl<.f> RB,RBdup,SIMM12_20 01011xxx10111010xxxxxxxxxxxxxxxx */
+{ "setltl", 0x58ba0000, 0xf8ff0000, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, SIMM12_20 }, { C_F } }
+
+/* setltl<.f> RA,XIMM,RC 0101110000111010x111xxxxxxxxxxxx */
+{ "setltl", 0x5c3a7000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, XIMM, RC }, { C_F } }
+
+/* setltl<.f> RA,RB,XIMM 01011xxx00111010xxxx111100xxxxxx */
+{ "setltl", 0x583a0f00, 0xf8ff0fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, XIMM }, { C_F } }
+
+/* setltl<.f> ZA,XIMM,RC 0101110000111010x111xxxxxx111110 */
+{ "setltl", 0x5c3a703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, RC }, { C_F } }
+
+/* setltl<.f> ZA,RB,XIMM 01011xxx00111010xxxx111100111110 */
+{ "setltl", 0x583a0f3e, 0xf8ff0fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, XIMM }, { C_F } }
+
+/* setltl<.f><.cc> ZA,XIMM,RC 0101110011111010x111xxxxxx0xxxxx */
+{ "setltl", 0x5cfa7000, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, RC }, { C_F, C_CC } }
+
+/* setltl<.f><.cc> RB,RBdup,XIMM 01011xxx11111010xxxx1111000xxxxx */
+{ "setltl", 0x58fa0f00, 0xf8ff0fe0, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, XIMM }, { C_F, C_CC } }
+
+/* setltl<.f> RA,XIMM,UIMM6_20 0101110001111010x111xxxxxxxxxxxx */
+{ "setltl", 0x5c7a7000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, XIMM, UIMM6_20 }, { C_F } }
+
+/* setltl<.f> ZA,XIMM,UIMM6_20 0101110001111010x111xxxxxx111110 */
+{ "setltl", 0x5c7a703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, UIMM6_20 }, { C_F } }
+
+/* setltl<.f><.cc> ZA,XIMM,UIMM6_20 0101110011111010x111xxxxxx1xxxxx */
+{ "setltl", 0x5cfa7020, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, UIMM6_20 }, { C_F, C_CC } }
+
+/* setltl<.f> RA,LIMM,RC 0101111000111010x111xxxxxxxxxxxx */
+{ "setltl", 0x5e3a7000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, LIMM, RC }, { C_F } }
+
+/* setltl<.f> RA,RB,LIMM 01011xxx00111010xxxx111110xxxxxx */
+{ "setltl", 0x583a0f80, 0xf8ff0fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, LIMM }, { C_F } }
+
+/* setltl<.f> ZA,LIMM,RC 0101111000111010x111xxxxxx111110 */
+{ "setltl", 0x5e3a703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, RC }, { C_F } }
+
+/* setltl<.f> ZA,RB,LIMM 01011xxx00111010xxxx111110111110 */
+{ "setltl", 0x583a0fbe, 0xf8ff0fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, LIMM }, { C_F } }
+
+/* setltl<.f><.cc> ZA,LIMM,RC 0101111011111010x111xxxxxx0xxxxx */
+{ "setltl", 0x5efa7000, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, RC }, { C_F, C_CC } }
+
+/* setltl<.f><.cc> RB,RBdup,LIMM 01011xxx11111010xxxx1111100xxxxx */
+{ "setltl", 0x58fa0f80, 0xf8ff0fe0, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, LIMM }, { C_F, C_CC } }
+
+/* setltl<.f> RA,LIMM,UIMM6_20 0101111001111010x111xxxxxxxxxxxx */
+{ "setltl", 0x5e7a7000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, LIMM, UIMM6_20 }, { C_F } }
+
+/* setltl<.f> ZA,LIMM,UIMM6_20 0101111001111010x111xxxxxx111110 */
+{ "setltl", 0x5e7a703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, UIMM6_20 }, { C_F } }
+
+/* setltl<.f><.cc> ZA,LIMM,UIMM6_20 0101111011111010x111xxxxxx1xxxxx */
+{ "setltl", 0x5efa7020, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, UIMM6_20 }, { C_F, C_CC } }
+
+/* setltl<.f> ZA,XIMM,SIMM12_20 0101110010111010x111xxxxxxxxxxxx */
+{ "setltl", 0x5cba7000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, SIMM12_20 }, { C_F } }
+
+/* setltl<.f> ZA,LIMM,SIMM12_20 0101111010111010x111xxxxxxxxxxxx */
+{ "setltl", 0x5eba7000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, SIMM12_20 }, { C_F } }
+
+/* setltl<.f> RA,XIMM,XIMMdup 0101110000111010x111111100xxxxxx */
+{ "setltl", 0x5c3a7f00, 0xffff7fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, XIMM, XIMMdup }, { C_F } }
+
+/* setltl<.f> ZA,XIMM,XIMMdup 0101110000111010x111111100111110 */
+{ "setltl", 0x5c3a7f3e, 0xffff7fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, XIMMdup }, { C_F } }
+
+/* setltl<.f><.cc> ZA,XIMM,XIMMdup 0101110011111010x1111111000xxxxx */
+{ "setltl", 0x5cfa7f00, 0xffff7fe0, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, XIMMdup }, { C_F, C_CC } }
+
+/* setltl<.f> RA,LIMM,LIMMdup 0101111000111010x111111110xxxxxx */
+{ "setltl", 0x5e3a7f80, 0xffff7fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, LIMM, LIMMdup }, { C_F } }
+
+/* setltl<.f> ZA,LIMM,LIMMdup 0101111000111010x111111110111110 */
+{ "setltl", 0x5e3a7fbe, 0xffff7fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, LIMMdup }, { C_F } }
+
+/* setltl<.f><.cc> ZA,LIMM,LIMMdup 0101111011111010x1111111100xxxxx */
+{ "setltl", 0x5efa7f80, 0xffff7fe0, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, LIMMdup }, { C_F, C_CC } }
+
+/* setne<.f> RA,RB,RC 00100xxx00111001xxxxxxxxxxxxxxxx */
+{ "setne", 0x20390000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RA, RB, RC }, { C_F } }
+
+/* setne<.f> ZA,RB,RC 00100xxx00111001xxxxxxxxxx111110 */
+{ "setne", 0x2039003e, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, RB, RC }, { C_F } }
+
+/* setne<.f><.cc> RB,RBdup,RC 00100xxx11111001xxxxxxxxxx0xxxxx */
+{ "setne", 0x20f90000, 0xf8ff0020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RB, RBdup, RC }, { C_F, C_CC } }
+
+/* setne<.f> RA,RB,UIMM6_20 00100xxx01111001xxxxxxxxxxxxxxxx */
+{ "setne", 0x20790000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RA, RB, UIMM6_20 }, { C_F } }
+
+/* setne<.f> ZA,RB,UIMM6_20 00100xxx01111001xxxxxxxxxx111110 */
+{ "setne", 0x2079003e, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, RB, UIMM6_20 }, { C_F } }
+
+/* setne<.f><.cc> RB,RBdup,UIMM6_20 00100xxx11111001xxxxxxxxxx1xxxxx */
+{ "setne", 0x20f90020, 0xf8ff0020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RB, RBdup, UIMM6_20 }, { C_F, C_CC } }
+
+/* setne<.f> RB,RBdup,SIMM12_20 00100xxx10111001xxxxxxxxxxxxxxxx */
+{ "setne", 0x20b90000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RB, RBdup, SIMM12_20 }, { C_F } }
+
+/* setne<.f> RA,LIMM,RC 0010011000111001x111xxxxxxxxxxxx */
+{ "setne", 0x26397000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RA, LIMM, RC }, { C_F } }
+
+/* setne<.f> RA,RB,LIMM 00100xxx00111001xxxx111110xxxxxx */
+{ "setne", 0x20390f80, 0xf8ff0fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RA, RB, LIMM }, { C_F } }
+
+/* setne<.f> ZA,LIMM,RC 0010011000111001x111xxxxxx111110 */
+{ "setne", 0x2639703e, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, LIMM, RC }, { C_F } }
+
+/* setne<.f> ZA,RB,LIMM 00100xxx00111001xxxx111110111110 */
+{ "setne", 0x20390fbe, 0xf8ff0fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, RB, LIMM }, { C_F } }
+
+/* setne<.f><.cc> RB,RBdup,LIMM 00100xxx11111001xxxx1111100xxxxx */
+{ "setne", 0x20f90f80, 0xf8ff0fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RB, RBdup, LIMM }, { C_F, C_CC } }
+
+/* setne<.f><.cc> ZA,LIMM,RC 0010011011111001x111xxxxxx0xxxxx */
+{ "setne", 0x26f97000, 0xffff7020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, LIMM, RC }, { C_F, C_CC } }
+
+/* setne<.f> RA,LIMM,UIMM6_20 0010011001111001x111xxxxxxxxxxxx */
+{ "setne", 0x26797000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RA, LIMM, UIMM6_20 }, { C_F } }
+
+/* setne<.f> ZA,LIMM,UIMM6_20 0010011001111001x111xxxxxx111110 */
+{ "setne", 0x2679703e, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, LIMM, UIMM6_20 }, { C_F } }
+
+/* setne<.f><.cc> ZA,LIMM,UIMM6_20 0010011011111001x111xxxxxx1xxxxx */
+{ "setne", 0x26f97020, 0xffff7020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, LIMM, UIMM6_20 }, { C_F, C_CC } }
+
+/* setne<.f> ZA,LIMM,SIMM12_20 0010011010111001x111xxxxxxxxxxxx */
+{ "setne", 0x26b97000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, LIMM, SIMM12_20 }, { C_F } }
+
+/* setne<.f> RA,LIMM,LIMMdup 0010011000111001x111111110xxxxxx */
+{ "setne", 0x26397f80, 0xffff7fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RA, LIMM, LIMMdup }, { C_F } }
+
+/* setne<.f> ZA,LIMM,LIMMdup 0010011000111001x111111110111110 */
+{ "setne", 0x26397fbe, 0xffff7fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, LIMM, LIMMdup }, { C_F } }
+
+/* setne<.f><.cc> ZA,LIMM,LIMMdup 0010011011111001x1111111100xxxxx */
+{ "setne", 0x26f97f80, 0xffff7fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, LIMM, LIMMdup }, { C_F, C_CC } }
+
+/* setnel<.f> RA,RB,RC 01011xxx00111001xxxxxxxxxxxxxxxx */
+{ "setnel", 0x58390000, 0xf8ff0000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, RC }, { C_F } }
+
+/* setnel<.f> ZA,RB,RC 01011xxx00111001xxxxxxxxxx111110 */
+{ "setnel", 0x5839003e, 0xf8ff003f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, RC }, { C_F } }
+
+/* setnel<.f><.cc> RB,RBdup,RC 01011xxx11111001xxxxxxxxxx0xxxxx */
+{ "setnel", 0x58f90000, 0xf8ff0020, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, RC }, { C_F, C_CC } }
+
+/* setnel<.f> RA,RB,UIMM6_20 01011xxx01111001xxxxxxxxxxxxxxxx */
+{ "setnel", 0x58790000, 0xf8ff0000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, UIMM6_20 }, { C_F } }
+
+/* setnel<.f> ZA,RB,UIMM6_20 01011xxx01111001xxxxxxxxxx111110 */
+{ "setnel", 0x5879003e, 0xf8ff003f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, UIMM6_20 }, { C_F } }
+
+/* setnel<.f><.cc> RB,RBdup,UIMM6_20 01011xxx11111001xxxxxxxxxx1xxxxx */
+{ "setnel", 0x58f90020, 0xf8ff0020, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, UIMM6_20 }, { C_F, C_CC } }
+
+/* setnel<.f> RB,RBdup,SIMM12_20 01011xxx10111001xxxxxxxxxxxxxxxx */
+{ "setnel", 0x58b90000, 0xf8ff0000, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, SIMM12_20 }, { C_F } }
+
+/* setnel<.f> RA,XIMM,RC 0101110000111001x111xxxxxxxxxxxx */
+{ "setnel", 0x5c397000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, XIMM, RC }, { C_F } }
+
+/* setnel<.f> RA,RB,XIMM 01011xxx00111001xxxx111100xxxxxx */
+{ "setnel", 0x58390f00, 0xf8ff0fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, XIMM }, { C_F } }
+
+/* setnel<.f> ZA,XIMM,RC 0101110000111001x111xxxxxx111110 */
+{ "setnel", 0x5c39703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, RC }, { C_F } }
+
+/* setnel<.f> ZA,RB,XIMM 01011xxx00111001xxxx111100111110 */
+{ "setnel", 0x58390f3e, 0xf8ff0fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, XIMM }, { C_F } }
+
+/* setnel<.f><.cc> ZA,XIMM,RC 0101110011111001x111xxxxxx0xxxxx */
+{ "setnel", 0x5cf97000, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, RC }, { C_F, C_CC } }
+
+/* setnel<.f><.cc> RB,RBdup,XIMM 01011xxx11111001xxxx1111000xxxxx */
+{ "setnel", 0x58f90f00, 0xf8ff0fe0, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, XIMM }, { C_F, C_CC } }
+
+/* setnel<.f> RA,XIMM,UIMM6_20 0101110001111001x111xxxxxxxxxxxx */
+{ "setnel", 0x5c797000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, XIMM, UIMM6_20 }, { C_F } }
+
+/* setnel<.f> ZA,XIMM,UIMM6_20 0101110001111001x111xxxxxx111110 */
+{ "setnel", 0x5c79703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, UIMM6_20 }, { C_F } }
+
+/* setnel<.f><.cc> ZA,XIMM,UIMM6_20 0101110011111001x111xxxxxx1xxxxx */
+{ "setnel", 0x5cf97020, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, UIMM6_20 }, { C_F, C_CC } }
+
+/* setnel<.f> RA,LIMM,RC 0101111000111001x111xxxxxxxxxxxx */
+{ "setnel", 0x5e397000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, LIMM, RC }, { C_F } }
+
+/* setnel<.f> RA,RB,LIMM 01011xxx00111001xxxx111110xxxxxx */
+{ "setnel", 0x58390f80, 0xf8ff0fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, LIMM }, { C_F } }
+
+/* setnel<.f> ZA,LIMM,RC 0101111000111001x111xxxxxx111110 */
+{ "setnel", 0x5e39703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, RC }, { C_F } }
+
+/* setnel<.f> ZA,RB,LIMM 01011xxx00111001xxxx111110111110 */
+{ "setnel", 0x58390fbe, 0xf8ff0fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, LIMM }, { C_F } }
+
+/* setnel<.f><.cc> ZA,LIMM,RC 0101111011111001x111xxxxxx0xxxxx */
+{ "setnel", 0x5ef97000, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, RC }, { C_F, C_CC } }
+
+/* setnel<.f><.cc> RB,RBdup,LIMM 01011xxx11111001xxxx1111100xxxxx */
+{ "setnel", 0x58f90f80, 0xf8ff0fe0, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, LIMM }, { C_F, C_CC } }
+
+/* setnel<.f> RA,LIMM,UIMM6_20 0101111001111001x111xxxxxxxxxxxx */
+{ "setnel", 0x5e797000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, LIMM, UIMM6_20 }, { C_F } }
+
+/* setnel<.f> ZA,LIMM,UIMM6_20 0101111001111001x111xxxxxx111110 */
+{ "setnel", 0x5e79703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, UIMM6_20 }, { C_F } }
+
+/* setnel<.f><.cc> ZA,LIMM,UIMM6_20 0101111011111001x111xxxxxx1xxxxx */
+{ "setnel", 0x5ef97020, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, UIMM6_20 }, { C_F, C_CC } }
+
+/* setnel<.f> ZA,XIMM,SIMM12_20 0101110010111001x111xxxxxxxxxxxx */
+{ "setnel", 0x5cb97000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, SIMM12_20 }, { C_F } }
+
+/* setnel<.f> ZA,LIMM,SIMM12_20 0101111010111001x111xxxxxxxxxxxx */
+{ "setnel", 0x5eb97000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, SIMM12_20 }, { C_F } }
+
+/* setnel<.f> RA,XIMM,XIMMdup 0101110000111001x111111100xxxxxx */
+{ "setnel", 0x5c397f00, 0xffff7fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, XIMM, XIMMdup }, { C_F } }
+
+/* setnel<.f> ZA,XIMM,XIMMdup 0101110000111001x111111100111110 */
+{ "setnel", 0x5c397f3e, 0xffff7fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, XIMMdup }, { C_F } }
+
+/* setnel<.f><.cc> ZA,XIMM,XIMMdup 0101110011111001x1111111000xxxxx */
+{ "setnel", 0x5cf97f00, 0xffff7fe0, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, XIMMdup }, { C_F, C_CC } }
+
+/* setnel<.f> RA,LIMM,LIMMdup 0101111000111001x111111110xxxxxx */
+{ "setnel", 0x5e397f80, 0xffff7fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, LIMM, LIMMdup }, { C_F } }
+
+/* setnel<.f> ZA,LIMM,LIMMdup 0101111000111001x111111110111110 */
+{ "setnel", 0x5e397fbe, 0xffff7fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, LIMMdup }, { C_F } }
+
+/* setnel<.f><.cc> ZA,LIMM,LIMMdup 0101111011111001x1111111100xxxxx */
+{ "setnel", 0x5ef97f80, 0xffff7fe0, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, LIMMdup }, { C_F, C_CC } }
+
+/* sexb<.f> RB,RC 00100xxx00101111xxxxxxxxxx000101 */
+{ "sexb", 0x202f0005, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RB, RC }, { C_F } }
+
+/* sexb<.f> ZA,RC 0010011000101111x111xxxxxx000101 */
+{ "sexb", 0x262f7005, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { ZA, RC }, { C_F } }
+
+/* sexb<.f> RB,UIMM6_20 00100xxx01101111xxxxxxxxxx000101 */
+{ "sexb", 0x206f0005, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RB, UIMM6_20 }, { C_F } }
+
+/* sexb<.f> ZA,UIMM6_20 0010011001101111x111xxxxxx000101 */
+{ "sexb", 0x266f7005, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { ZA, UIMM6_20 }, { C_F } }
+
+/* sexb<.f> RB,LIMM 00100xxx00101111xxxx111110000101 */
+{ "sexb", 0x202f0f85, 0xf8ff0fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RB, LIMM }, { C_F } }
+
+/* sexb<.f> ZA,LIMM 0010011000101111x111111110000101 */
+{ "sexb", 0x262f7f85, 0xffff7fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { ZA, LIMM }, { C_F } }
+
+/* sexbl<.f> RB,RC 01011xxx00101111xxxxxxxxxx000101 */
+{ "sexbl", 0x582f0005, 0xf8ff003f, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RC }, { C_F } }
+
+/* sexbl<.f> ZA,RC 0101111000101111x111xxxxxx000101 */
+{ "sexbl", 0x5e2f7005, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RC }, { C_F } }
+
+/* sexbl<.f> RB,UIMM6_20 01011xxx01101111xxxxxxxxxx000101 */
+{ "sexbl", 0x586f0005, 0xf8ff003f, ARC_OPCODE_ARC64, ARITH, NONE, { RB, UIMM6_20 }, { C_F } }
+
+/* sexbl<.f> ZA,UIMM6_20 0101111001101111x111xxxxxx000101 */
+{ "sexbl", 0x5e6f7005, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, UIMM6_20 }, { C_F } }
+
+/* sexbl<.f> RB,XIMM 01011xxx00101111xxxx111100000101 */
+{ "sexbl", 0x582f0f05, 0xf8ff0fff, ARC_OPCODE_ARC64, ARITH, NONE, { RB, XIMM }, { C_F } }
+
+/* sexbl<.f> ZA,XIMM 0101111000101111x111111100000101 */
+{ "sexbl", 0x5e2f7f05, 0xffff7fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM }, { C_F } }
+
+/* sexbl<.f> RB,LIMM 01011xxx00101111xxxx111110000101 */
+{ "sexbl", 0x582f0f85, 0xf8ff0fff, ARC_OPCODE_ARC64, ARITH, NONE, { RB, LIMM }, { C_F } }
+
+/* sexbl<.f> ZA,LIMM 0101111000101111x111111110000101 */
+{ "sexbl", 0x5e2f7f85, 0xffff7fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM }, { C_F } }
+
+/* sexb_s RB_S,RC_S 01111xxxxxx01101 */
+{ "sexb_s", 0x0000780d, 0x0000f81f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RB_S, RC_S }, { 0 } }
+
+/* sexh<.f> RB,RC 00100xxx00101111xxxxxxxxxx000110 */
+{ "sexh", 0x202f0006, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RB, RC }, { C_F } }
+
+/* sexh<.f> ZA,RC 0010011000101111x111xxxxxx000110 */
+{ "sexh", 0x262f7006, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { ZA, RC }, { C_F } }
+
+/* sexh<.f> RB,UIMM6_20 00100xxx01101111xxxxxxxxxx000110 */
+{ "sexh", 0x206f0006, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RB, UIMM6_20 }, { C_F } }
+
+/* sexh<.f> ZA,UIMM6_20 0010011001101111x111xxxxxx000110 */
+{ "sexh", 0x266f7006, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { ZA, UIMM6_20 }, { C_F } }
+
+/* sexh<.f> RB,LIMM 00100xxx00101111xxxx111110000110 */
+{ "sexh", 0x202f0f86, 0xf8ff0fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RB, LIMM }, { C_F } }
+
+/* sexh<.f> ZA,LIMM 0010011000101111x111111110000110 */
+{ "sexh", 0x262f7f86, 0xffff7fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { ZA, LIMM }, { C_F } }
+
+/* sexhl<.f> RB,RC 01011xxx00101111xxxxxxxxxx000110 */
+{ "sexhl", 0x582f0006, 0xf8ff003f, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RC }, { C_F } }
+
+/* sexhl<.f> ZA,RC 0101111000101111x111xxxxxx000110 */
+{ "sexhl", 0x5e2f7006, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RC }, { C_F } }
+
+/* sexhl<.f> RB,UIMM6_20 01011xxx01101111xxxxxxxxxx000110 */
+{ "sexhl", 0x586f0006, 0xf8ff003f, ARC_OPCODE_ARC64, ARITH, NONE, { RB, UIMM6_20 }, { C_F } }
+
+/* sexhl<.f> ZA,UIMM6_20 0101111001101111x111xxxxxx000110 */
+{ "sexhl", 0x5e6f7006, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, UIMM6_20 }, { C_F } }
+
+/* sexhl<.f> RB,XIMM 01011xxx00101111xxxx111100000110 */
+{ "sexhl", 0x582f0f06, 0xf8ff0fff, ARC_OPCODE_ARC64, ARITH, NONE, { RB, XIMM }, { C_F } }
+
+/* sexhl<.f> ZA,XIMM 0101111000101111x111111100000110 */
+{ "sexhl", 0x5e2f7f06, 0xffff7fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM }, { C_F } }
+
+/* sexhl<.f> RB,LIMM 01011xxx00101111xxxx111110000110 */
+{ "sexhl", 0x582f0f86, 0xf8ff0fff, ARC_OPCODE_ARC64, ARITH, NONE, { RB, LIMM }, { C_F } }
+
+/* sexhl<.f> ZA,LIMM 0101111000101111x111111110000110 */
+{ "sexhl", 0x5e2f7f86, 0xffff7fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM }, { C_F } }
+
+/* sexh_s RB_S,RC_S 01111xxxxxx01110 */
+{ "sexh_s", 0x0000780e, 0x0000f81f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, NONE, { RB_S, RC_S }, { 0 } }
+
+/* sexwl<.f> RB,RC 01011xxx00101111xxxxxxxxxx000111 */
+{ "sexwl", 0x582f0007, 0xf8ff003f, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RC }, { C_F } }
+
+/* sexwl<.f> ZA,RC 0101111000101111x111xxxxxx000111 */
+{ "sexwl", 0x5e2f7007, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RC }, { C_F } }
+
+/* sexwl<.f> RB,UIMM6_20 01011xxx01101111xxxxxxxxxx000111 */
+{ "sexwl", 0x586f0007, 0xf8ff003f, ARC_OPCODE_ARC64, ARITH, NONE, { RB, UIMM6_20 }, { C_F } }
+
+/* sexwl<.f> ZA,UIMM6_20 0101111001101111x111xxxxxx000111 */
+{ "sexwl", 0x5e6f7007, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, UIMM6_20 }, { C_F } }
+
+/* sexwl<.f> RB,XIMM 01011xxx00101111xxxx111100000111 */
+{ "sexwl", 0x582f0f07, 0xf8ff0fff, ARC_OPCODE_ARC64, ARITH, NONE, { RB, XIMM }, { C_F } }
+
+/* sexwl<.f> ZA,XIMM 0101111000101111x111111100000111 */
+{ "sexwl", 0x5e2f7f07, 0xffff7fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM }, { C_F } }
+
+/* sexwl<.f> RB,LIMM 01011xxx00101111xxxx111110000111 */
+{ "sexwl", 0x582f0f87, 0xf8ff0fff, ARC_OPCODE_ARC64, ARITH, NONE, { RB, LIMM }, { C_F } }
+
+/* sexwl<.f> ZA,LIMM 0101111000101111x111111110000111 */
+{ "sexwl", 0x5e2f7f87, 0xffff7fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM }, { C_F } }
+
+/* sleep RC 00100001001011110000xxxxxx111111 */
+{ "sleep", 0x212f003f, 0xfffff03f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, KERNEL, NONE, { RC }, { 0 } }
+
+/* sleep UIMM6_20 00100001011011110000xxxxxx111111 */
+{ "sleep", 0x216f003f, 0xfffff03f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, KERNEL, NONE, { UIMM6_20 }, { 0 } }
+
+/* sleep LIMM 00100001001011110000111110111111 */
+{ "sleep", 0x212f0fbf, 0xffffffff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, KERNEL, NONE, { LIMM }, { 0 } }
+
+/* sleep  00100001011011110000000000111111 */
+{ "sleep", 0x216f003f, 0xffffffff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, KERNEL, NONE, {  }, { 0 } }
+
+/* sr RB_CHK,BRAKET,RC,BRAKETdup 00100xxx00101011xxxxxxxxxxxxxxxx */
+{ "sr", 0x202b0000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, AUXREG, NONE, { RB_CHK, BRAKET, RC, BRAKETdup }, { 0 } }
+
+/* sr RB_CHK,BRAKET,UIMM6_20,BRAKETdup 00100xxx01101011xxxxxxxxxx000000 */
+{ "sr", 0x206b0000, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, AUXREG, NONE, { RB_CHK, BRAKET, UIMM6_20, BRAKETdup }, { 0 } }
+
+/* sr RB_CHK,BRAKET,SIMM12_20,BRAKETdup 00100xxx10101011xxxxxxxxxxxxxxxx */
+{ "sr", 0x20ab0000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, AUXREG, NONE, { RB_CHK, BRAKET, SIMM12_20, BRAKETdup }, { 0 } }
+
+/* sr LIMM,BRAKET,RC,BRAKETdup 0010011000101011x111xxxxxxxxxxxx */
+{ "sr", 0x262b7000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, AUXREG, NONE, { LIMM, BRAKET, RC, BRAKETdup }, { 0 } }
+
+/* sr RB_CHK,BRAKET,LIMM,BRAKETdup 00100xxx00101011xxxx111110xxxxxx */
+{ "sr", 0x202b0f80, 0xf8ff0fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, AUXREG, NONE, { RB_CHK, BRAKET, LIMM, BRAKETdup }, { 0 } }
+
+/* sr LIMM,BRAKET,UIMM6_20,BRAKETdup 0010011001101011x111xxxxxx000000 */
+{ "sr", 0x266b7000, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, AUXREG, NONE, { LIMM, BRAKET, UIMM6_20, BRAKETdup }, { 0 } }
+
+/* sr LIMM,BRAKET,SIMM12_20,BRAKETdup 0010011010101011x111xxxxxxxxxxxx */
+{ "sr", 0x26ab7000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, AUXREG, NONE, { LIMM, BRAKET, SIMM12_20, BRAKETdup }, { 0 } }
+
+/* sr LIMM,BRAKET,LIMMdup,BRAKETdup 0010011000101011x111111110xxxxxx */
+{ "sr", 0x262b7f80, 0xffff7fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, AUXREG, NONE, { LIMM, BRAKET, LIMMdup, BRAKETdup }, { 0 } }
+
+/* srl RB_CHK,BRAKET,RC,BRAKETdup 01011xxx001010110xxxxxxxxxxxxxxx */
+{ "srl", 0x582b0000, 0xf8ff8000, ARC_OPCODE_ARC64, AUXREG, NONE, { RB_CHK, BRAKET, RC, BRAKETdup }, { 0 } }
+
+/* srl RB_CHK,BRAKET,UIMM6_20,BRAKETdup 01011xxx011010110xxxxxxxxxxxxxxx */
+{ "srl", 0x586b0000, 0xf8ff8000, ARC_OPCODE_ARC64, AUXREG, NONE, { RB_CHK, BRAKET, UIMM6_20, BRAKETdup }, { 0 } }
+
+/* srl RB_CHK,BRAKET,SIMM12_20,BRAKETdup 01011xxx101010110xxxxxxxxxxxxxxx */
+{ "srl", 0x58ab0000, 0xf8ff8000, ARC_OPCODE_ARC64, AUXREG, NONE, { RB_CHK, BRAKET, SIMM12_20, BRAKETdup }, { 0 } }
+
+/* srl RB_CHK,BRAKET,XIMM,BRAKETdup 01011xxx001010110xxx111100xxxxxx */
+{ "srl", 0x582b0f00, 0xf8ff8fc0, ARC_OPCODE_ARC64, AUXREG, NONE, { RB_CHK, BRAKET, XIMM, BRAKETdup }, { 0 } }
+
+/* srl RB_CHK,BRAKET,LIMM,BRAKETdup 01011xxx001010110xxx111110xxxxxx */
+{ "srl", 0x582b0f80, 0xf8ff8fc0, ARC_OPCODE_ARC64, AUXREG, NONE, { RB_CHK, BRAKET, LIMM, BRAKETdup }, { 0 } }
+
+/* st<.di><.aa> RC,BRAKET,RB,SIMM9_8,BRAKETdup 00011xxxxxxxxxxxxxxxxxxxxxxxxxx0 */
+{ "st", 0x18000000, 0xf8000001, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, STORE, NONE, { RC, BRAKET, RB, SIMM9_8, BRAKETdup }, { C_ZZ29, C_DI26, C_AA27 } }
+
+/* st<.di><.aa> W6,BRAKET,RB,SIMM9_8,BRAKETdup 00011xxxxxxxxxxxxxxxxxxxxxxxxxx1 */
+{ "st", 0x18000001, 0xf8000001, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, STORE, NONE, { W6, BRAKET, RB, SIMM9_8, BRAKETdup }, { C_ZZW6, C_DI26, C_AA27 } }
+
+/* st<.aa> W6,BRAKET,RB,SIMM9_8,BRAKETdup 00011xxxxxxxxxxxxxxxxxxxxx0xxxx1 */
+{ "st", 0x18000001, 0xf8000021, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, STORE, NONE, { W6, BRAKET, RB, SIMM9_8, BRAKETdup }, { C_ZZH1, C_AA27 } }
+
+/* st<.di><.aa> LIMM,BRAKET,RB,SIMM9_8,BRAKETdup 00011xxxxxxxxxxxxxxx111110xxxxx0 */
+{ "st", 0x18000f80, 0xf8000fc1, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, STORE, NONE, { LIMM, BRAKET, RB, SIMM9_8, BRAKETdup }, { C_ZZ29, C_DI26, C_AA27 } }
+
+/* st<.di> RC,BRAKET,LIMM,SIMM9_8,BRAKETdup 00011110xxxxxxxxx111xxxxxxxxxxx0 */
+{ "st", 0x1e007000, 0xff007001, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, STORE, NONE, { RC, BRAKET, LIMM, SIMM9_8, BRAKETdup }, { C_ZZ29, C_DI26 } }
+
+/* st<.di> W6,BRAKET,LIMM,SIMM9_8,BRAKETdup 00011110xxxxxxxxx111xxxxxxxxxxx1 */
+{ "st", 0x1e007001, 0xff007001, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, STORE, NONE, { W6, BRAKET, LIMM, SIMM9_8, BRAKETdup }, { C_ZZW6, C_DI26 } }
+
+/* st W6,BRAKET,LIMM,SIMM9_8,BRAKETdup 00011110xxxxxxxxx111xxxxxx0xxxx1 */
+{ "st", 0x1e007001, 0xff007021, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, STORE, NONE, { W6, BRAKET, LIMM, SIMM9_8, BRAKETdup }, { C_ZZH1 } }
+
+/* st<.di> LIMM,BRAKET,LIMMdup,SIMM9_8,BRAKETdup 00011110xxxxxxxxx111111110xxxxx0 */
+{ "st", 0x1e007f80, 0xff007fc1, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, STORE, NONE, { LIMM, BRAKET, LIMMdup, SIMM9_8, BRAKETdup }, { C_ZZ29, C_DI26 } }
+
+/* stb_s RC_S,BRAKET,RB_S,UIMM5_11_S,BRAKETdup 10101xxxxxxxxxxx */
+{ "stb_s", 0x0000a800, 0x0000f800, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, STORE, NONE, { RC_S, BRAKET, RB_S, UIMM5_11_S, BRAKETdup }, { C_ZZ_B } }
+
+/* stb_s RB_S,BRAKET,SP_S,UIMM7_A32_11_S,BRAKETdup 11000xxx011xxxxx */
+{ "stb_s", 0x0000c060, 0x0000f8e0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, STORE, NONE, { RB_S, BRAKET, SP_S, UIMM7_A32_11_S, BRAKETdup }, { C_ZZ_B } }
+
+/* std<.di><.aa> RCD,BRAKET,RB,BRAKETdup 00011xxx000000000xxxxxxxxxxxx110 */
+{ "std", 0x18000006, 0xf8ff8007, ARC_OPCODE_ARC32, STORE, NONE, { RCD, BRAKET, RB, BRAKETdup }, { C_DI26, C_AA27 } }
+
+/* std<.di><.aa> W6,BRAKET,RB,BRAKETdup 00011xxx000000000xxxxxxxxxxxx111 */
+{ "std", 0x18000007, 0xf8ff8007, ARC_OPCODE_ARC32, STORE, NONE, { W6, BRAKET, RB, BRAKETdup }, { C_DI26, C_AA27 } }
+
+/* std<.di><.aa> LIMM,BRAKET,RB,BRAKETdup 00011xxx000000000xxx111110xxx110 */
+{ "std", 0x18000f86, 0xf8ff8fc7, ARC_OPCODE_ARC32, STORE, NONE, { LIMM, BRAKET, RB, BRAKETdup }, { C_DI26, C_AA27 } }
+
+/* std<.di><.aa> RCD,BRAKET,LIMM,BRAKETdup 00011110000000000111xxxxxxxxx110 */
+{ "std", 0x1e007006, 0xfffff007, ARC_OPCODE_ARC32, STORE, NONE, { RCD, BRAKET, LIMM, BRAKETdup }, { C_DI26, C_AA27 } }
+
+/* std<.di><.aa> W6,BRAKET,LIMM,BRAKETdup 00011110000000000111xxxxxxxxx111 */
+{ "std", 0x1e007007, 0xfffff007, ARC_OPCODE_ARC32, STORE, NONE, { W6, BRAKET, LIMM, BRAKETdup }, { C_DI26, C_AA27 } }
+
+/* std<.di><.aa> LIMM,BRAKET,LIMMdup,BRAKETdup 00011110000000000111111110xxx110 */
+{ "std", 0x1e007f86, 0xffffffc7, ARC_OPCODE_ARC32, STORE, NONE, { LIMM, BRAKET, LIMMdup, BRAKETdup }, { C_DI26, C_AA27 } }
+
+/* std<.di><.aa> RCD,BRAKET,RB,SIMM9_8,BRAKETdup 00011xxxxxxxxxxxxxxxxxxxxxxxx110 */
+{ "std", 0x18000006, 0xf8000007, ARC_OPCODE_ARC32, STORE, NONE, { RCD, BRAKET, RB, SIMM9_8, BRAKETdup }, { C_DI26, C_AA27 } }
+
+/* std<.di><.aa> W6,BRAKET,RB,SIMM9_8,BRAKETdup 00011xxxxxxxxxxxxxxxxxxxxxxxx111 */
+{ "std", 0x18000007, 0xf8000007, ARC_OPCODE_ARC32, STORE, NONE, { W6, BRAKET, RB, SIMM9_8, BRAKETdup }, { C_DI26, C_AA27 } }
+
+/* std<.di><.aa> LIMM,BRAKET,RB,SIMM9_8,BRAKETdup 00011xxxxxxxxxxxxxxx111110xxx110 */
+{ "std", 0x18000f86, 0xf8000fc7, ARC_OPCODE_ARC32, STORE, NONE, { LIMM, BRAKET, RB, SIMM9_8, BRAKETdup }, { C_DI26, C_AA27 } }
+
+/* std<.di><.aa> RCD,BRAKET,LIMM,SIMM9_8,BRAKETdup 00011110xxxxxxxxx111xxxxxxxxx110 */
+{ "std", 0x1e007006, 0xff007007, ARC_OPCODE_ARC32, STORE, NONE, { RCD, BRAKET, LIMM, SIMM9_8, BRAKETdup }, { C_DI26, C_AA27 } }
+
+/* std<.di><.aa> W6,BRAKET,LIMM,SIMM9_8,BRAKETdup 00011110xxxxxxxxx111xxxxxxxxx111 */
+{ "std", 0x1e007007, 0xff007007, ARC_OPCODE_ARC32, STORE, NONE, { W6, BRAKET, LIMM, SIMM9_8, BRAKETdup }, { C_DI26, C_AA27 } }
+
+/* std<.di><.aa> LIMM,BRAKET,LIMMdup,SIMM9_8,BRAKETdup 00011110xxxxxxxxx111111110xxx110 */
+{ "std", 0x1e007f86, 0xff007fc7, ARC_OPCODE_ARC32, STORE, NONE, { LIMM, BRAKET, LIMMdup, SIMM9_8, BRAKETdup }, { C_DI26, C_AA27 } }
+
+/* sth_s RC_S,BRAKET,RB_S,UIMM6_A16_11_S,BRAKETdup 10110xxxxxxxxxxx */
+{ "sth_s", 0x0000b000, 0x0000f800, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, STORE, NONE, { RC_S, BRAKET, RB_S, UIMM6_A16_11_S, BRAKETdup }, { C_ZZ_H } }
+
+/* st_s RB_S,BRAKET,SP_S,UIMM7_A32_11_S,BRAKETdup 11000xxx010xxxxx */
+{ "st_s", 0x0000c040, 0x0000f8e0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, STORE, NONE, { RB_S, BRAKET, SP_S, UIMM7_A32_11_S, BRAKETdup }, { 0 } }
+
+/* st_s RC_S,BRAKET,RB_S,UIMM7_A32_11_S,BRAKETdup 10100xxxxxxxxxxx */
+{ "st_s", 0x0000a000, 0x0000f800, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, STORE, NONE, { RC_S, BRAKET, RB_S, UIMM7_A32_11_S, BRAKETdup }, { 0 } }
+
+/* st_s R0_S,BRAKET,GP_S,SIMM11_A32_13_S,BRAKETdup 01010xxxxxx10xxx */
+{ "st_s", 0x00005010, 0x0000f818, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, STORE, CD, { R0_S, BRAKET, GP_S, SIMM11_A32_13_S, BRAKETdup }, { 0 } }
+
+/* sub<.f> RA,RB,RC 00100xxx00000010xxxxxxxxxxxxxxxx */
+{ "sub", 0x20020000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, SUB, NONE, { RA, RB, RC }, { C_F } }
+
+/* sub<.f> ZA,RB,RC 00100xxx00000010xxxxxxxxxx111110 */
+{ "sub", 0x2002003e, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, SUB, NONE, { ZA, RB, RC }, { C_F } }
+
+/* sub<.f><.cc> RB,RBdup,RC 00100xxx11000010xxxxxxxxxx0xxxxx */
+{ "sub", 0x20c20000, 0xf8ff0020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, SUB, NONE, { RB, RBdup, RC }, { C_F, C_CC } }
+
+/* sub<.f> RA,RB,UIMM6_20 00100xxx01000010xxxxxxxxxxxxxxxx */
+{ "sub", 0x20420000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, SUB, NONE, { RA, RB, UIMM6_20 }, { C_F } }
+
+/* sub<.f> ZA,RB,UIMM6_20 00100xxx01000010xxxxxxxxxx111110 */
+{ "sub", 0x2042003e, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, SUB, NONE, { ZA, RB, UIMM6_20 }, { C_F } }
+
+/* sub<.f><.cc> RB,RBdup,UIMM6_20 00100xxx11000010xxxxxxxxxx1xxxxx */
+{ "sub", 0x20c20020, 0xf8ff0020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, SUB, NONE, { RB, RBdup, UIMM6_20 }, { C_F, C_CC } }
+
+/* sub<.f> RB,RBdup,SIMM12_20 00100xxx10000010xxxxxxxxxxxxxxxx */
+{ "sub", 0x20820000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, SUB, NONE, { RB, RBdup, SIMM12_20 }, { C_F } }
+
+/* sub<.f> RA,LIMM,RC 0010011000000010x111xxxxxxxxxxxx */
+{ "sub", 0x26027000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, SUB, NONE, { RA, LIMM, RC }, { C_F } }
+
+/* sub<.f> RA,RB,LIMM 00100xxx00000010xxxx111110xxxxxx */
+{ "sub", 0x20020f80, 0xf8ff0fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, SUB, NONE, { RA, RB, LIMM }, { C_F } }
+
+/* sub<.f> ZA,LIMM,RC 0010011000000010x111xxxxxx111110 */
+{ "sub", 0x2602703e, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, SUB, NONE, { ZA, LIMM, RC }, { C_F } }
+
+/* sub<.f> ZA,RB,LIMM 00100xxx00000010xxxx111110111110 */
+{ "sub", 0x20020fbe, 0xf8ff0fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, SUB, NONE, { ZA, RB, LIMM }, { C_F } }
+
+/* sub<.f><.cc> RB,RBdup,LIMM 00100xxx11000010xxxx1111100xxxxx */
+{ "sub", 0x20c20f80, 0xf8ff0fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, SUB, NONE, { RB, RBdup, LIMM }, { C_F, C_CC } }
+
+/* sub<.f><.cc> ZA,LIMM,RC 0010011011000010x111xxxxxx0xxxxx */
+{ "sub", 0x26c27000, 0xffff7020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, SUB, NONE, { ZA, LIMM, RC }, { C_F, C_CC } }
+
+/* sub<.f> RA,LIMM,UIMM6_20 0010011001000010x111xxxxxxxxxxxx */
+{ "sub", 0x26427000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, SUB, NONE, { RA, LIMM, UIMM6_20 }, { C_F } }
+
+/* sub<.f> ZA,LIMM,UIMM6_20 0010011001000010x111xxxxxx111110 */
+{ "sub", 0x2642703e, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, SUB, NONE, { ZA, LIMM, UIMM6_20 }, { C_F } }
+
+/* sub<.f><.cc> ZA,LIMM,UIMM6_20 0010011011000010x111xxxxxx1xxxxx */
+{ "sub", 0x26c27020, 0xffff7020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, SUB, NONE, { ZA, LIMM, UIMM6_20 }, { C_F, C_CC } }
+
+/* sub<.f> ZA,LIMM,SIMM12_20 0010011010000010x111xxxxxxxxxxxx */
+{ "sub", 0x26827000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, SUB, NONE, { ZA, LIMM, SIMM12_20 }, { C_F } }
+
+/* sub<.f> RA,LIMM,LIMMdup 0010011000000010x111111110xxxxxx */
+{ "sub", 0x26027f80, 0xffff7fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, SUB, NONE, { RA, LIMM, LIMMdup }, { C_F } }
+
+/* sub<.f> ZA,LIMM,LIMMdup 0010011000000010x111111110111110 */
+{ "sub", 0x26027fbe, 0xffff7fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, SUB, NONE, { ZA, LIMM, LIMMdup }, { C_F } }
+
+/* sub<.f><.cc> ZA,LIMM,LIMMdup 0010011011000010x1111111100xxxxx */
+{ "sub", 0x26c27f80, 0xffff7fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, SUB, NONE, { ZA, LIMM, LIMMdup }, { C_F, C_CC } }
+
+/* sub1<.f> RA,RB,RC 00100xxx00010111xxxxxxxxxxxxxxxx */
+{ "sub1", 0x20170000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, SUB, NONE, { RA, RB, RC }, { C_F } }
+
+/* sub1<.f> ZA,RB,RC 00100xxx00010111xxxxxxxxxx111110 */
+{ "sub1", 0x2017003e, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, SUB, NONE, { ZA, RB, RC }, { C_F } }
+
+/* sub1<.f><.cc> RB,RBdup,RC 00100xxx11010111xxxxxxxxxx0xxxxx */
+{ "sub1", 0x20d70000, 0xf8ff0020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, SUB, NONE, { RB, RBdup, RC }, { C_F, C_CC } }
+
+/* sub1<.f> RA,RB,UIMM6_20 00100xxx01010111xxxxxxxxxxxxxxxx */
+{ "sub1", 0x20570000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, SUB, NONE, { RA, RB, UIMM6_20 }, { C_F } }
+
+/* sub1<.f> ZA,RB,UIMM6_20 00100xxx01010111xxxxxxxxxx111110 */
+{ "sub1", 0x2057003e, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, SUB, NONE, { ZA, RB, UIMM6_20 }, { C_F } }
+
+/* sub1<.f><.cc> RB,RBdup,UIMM6_20 00100xxx11010111xxxxxxxxxx1xxxxx */
+{ "sub1", 0x20d70020, 0xf8ff0020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, SUB, NONE, { RB, RBdup, UIMM6_20 }, { C_F, C_CC } }
+
+/* sub1<.f> RB,RBdup,SIMM12_20 00100xxx10010111xxxxxxxxxxxxxxxx */
+{ "sub1", 0x20970000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, SUB, NONE, { RB, RBdup, SIMM12_20 }, { C_F } }
+
+/* sub1<.f> RA,LIMM,RC 0010011000010111x111xxxxxxxxxxxx */
+{ "sub1", 0x26177000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, SUB, NONE, { RA, LIMM, RC }, { C_F } }
+
+/* sub1<.f> RA,RB,LIMM 00100xxx00010111xxxx111110xxxxxx */
+{ "sub1", 0x20170f80, 0xf8ff0fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, SUB, NONE, { RA, RB, LIMM }, { C_F } }
+
+/* sub1<.f> ZA,LIMM,RC 0010011000010111x111xxxxxx111110 */
+{ "sub1", 0x2617703e, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, SUB, NONE, { ZA, LIMM, RC }, { C_F } }
+
+/* sub1<.f> ZA,RB,LIMM 00100xxx00010111xxxx111110111110 */
+{ "sub1", 0x20170fbe, 0xf8ff0fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, SUB, NONE, { ZA, RB, LIMM }, { C_F } }
+
+/* sub1<.f><.cc> RB,RBdup,LIMM 00100xxx11010111xxxx1111100xxxxx */
+{ "sub1", 0x20d70f80, 0xf8ff0fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, SUB, NONE, { RB, RBdup, LIMM }, { C_F, C_CC } }
+
+/* sub1<.f><.cc> ZA,LIMM,RC 0010011011010111x111xxxxxx0xxxxx */
+{ "sub1", 0x26d77000, 0xffff7020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, SUB, NONE, { ZA, LIMM, RC }, { C_F, C_CC } }
+
+/* sub1<.f> RA,LIMM,UIMM6_20 0010011001010111x111xxxxxxxxxxxx */
+{ "sub1", 0x26577000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, SUB, NONE, { RA, LIMM, UIMM6_20 }, { C_F } }
+
+/* sub1<.f> ZA,LIMM,UIMM6_20 0010011001010111x111xxxxxx111110 */
+{ "sub1", 0x2657703e, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, SUB, NONE, { ZA, LIMM, UIMM6_20 }, { C_F } }
+
+/* sub1<.f><.cc> ZA,LIMM,UIMM6_20 0010011011010111x111xxxxxx1xxxxx */
+{ "sub1", 0x26d77020, 0xffff7020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, SUB, NONE, { ZA, LIMM, UIMM6_20 }, { C_F, C_CC } }
+
+/* sub1<.f> ZA,LIMM,SIMM12_20 0010011010010111x111xxxxxxxxxxxx */
+{ "sub1", 0x26977000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, SUB, NONE, { ZA, LIMM, SIMM12_20 }, { C_F } }
+
+/* sub1<.f> RA,LIMM,LIMMdup 0010011000010111x111111110xxxxxx */
+{ "sub1", 0x26177f80, 0xffff7fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, SUB, NONE, { RA, LIMM, LIMMdup }, { C_F } }
+
+/* sub1<.f> ZA,LIMM,LIMMdup 0010011000010111x111111110111110 */
+{ "sub1", 0x26177fbe, 0xffff7fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, SUB, NONE, { ZA, LIMM, LIMMdup }, { C_F } }
+
+/* sub1<.f><.cc> ZA,LIMM,LIMMdup 0010011011010111x1111111100xxxxx */
+{ "sub1", 0x26d77f80, 0xffff7fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, SUB, NONE, { ZA, LIMM, LIMMdup }, { C_F, C_CC } }
+
+/* sub1l<.f> RA,RB,RC 01011xxx00010111xxxxxxxxxxxxxxxx */
+{ "sub1l", 0x58170000, 0xf8ff0000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, RC }, { C_F } }
+
+/* sub1l<.f> ZA,RB,RC 01011xxx00010111xxxxxxxxxx111110 */
+{ "sub1l", 0x5817003e, 0xf8ff003f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, RC }, { C_F } }
+
+/* sub1l<.f><.cc> RB,RBdup,RC 01011xxx11010111xxxxxxxxxx0xxxxx */
+{ "sub1l", 0x58d70000, 0xf8ff0020, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, RC }, { C_F, C_CC } }
+
+/* sub1l<.f> RA,RB,UIMM6_20 01011xxx01010111xxxxxxxxxxxxxxxx */
+{ "sub1l", 0x58570000, 0xf8ff0000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, UIMM6_20 }, { C_F } }
+
+/* sub1l<.f> ZA,RB,UIMM6_20 01011xxx01010111xxxxxxxxxx111110 */
+{ "sub1l", 0x5857003e, 0xf8ff003f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, UIMM6_20 }, { C_F } }
+
+/* sub1l<.f><.cc> RB,RBdup,UIMM6_20 01011xxx11010111xxxxxxxxxx1xxxxx */
+{ "sub1l", 0x58d70020, 0xf8ff0020, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, UIMM6_20 }, { C_F, C_CC } }
+
+/* sub1l<.f> RB,RBdup,SIMM12_20 01011xxx10010111xxxxxxxxxxxxxxxx */
+{ "sub1l", 0x58970000, 0xf8ff0000, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, SIMM12_20 }, { C_F } }
+
+/* sub1l<.f> RA,XIMM,RC 0101110000010111x111xxxxxxxxxxxx */
+{ "sub1l", 0x5c177000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, XIMM, RC }, { C_F } }
+
+/* sub1l<.f> RA,RB,XIMM 01011xxx00010111xxxx111100xxxxxx */
+{ "sub1l", 0x58170f00, 0xf8ff0fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, XIMM }, { C_F } }
+
+/* sub1l<.f> ZA,XIMM,RC 0101110000010111x111xxxxxx111110 */
+{ "sub1l", 0x5c17703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, RC }, { C_F } }
+
+/* sub1l<.f> ZA,RB,XIMM 01011xxx00010111xxxx111100111110 */
+{ "sub1l", 0x58170f3e, 0xf8ff0fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, XIMM }, { C_F } }
+
+/* sub1l<.f><.cc> ZA,XIMM,RC 0101110011010111x111xxxxxx0xxxxx */
+{ "sub1l", 0x5cd77000, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, RC }, { C_F, C_CC } }
+
+/* sub1l<.f><.cc> RB,RBdup,XIMM 01011xxx11010111xxxx1111000xxxxx */
+{ "sub1l", 0x58d70f00, 0xf8ff0fe0, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, XIMM }, { C_F, C_CC } }
+
+/* sub1l<.f> RA,XIMM,UIMM6_20 0101110001010111x111xxxxxxxxxxxx */
+{ "sub1l", 0x5c577000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, XIMM, UIMM6_20 }, { C_F } }
+
+/* sub1l<.f> ZA,XIMM,UIMM6_20 0101110001010111x111xxxxxx111110 */
+{ "sub1l", 0x5c57703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, UIMM6_20 }, { C_F } }
+
+/* sub1l<.f><.cc> ZA,XIMM,UIMM6_20 0101110011010111x111xxxxxx1xxxxx */
+{ "sub1l", 0x5cd77020, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, UIMM6_20 }, { C_F, C_CC } }
+
+/* sub1l<.f> RA,LIMM,RC 0101111000010111x111xxxxxxxxxxxx */
+{ "sub1l", 0x5e177000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, LIMM, RC }, { C_F } }
+
+/* sub1l<.f> RA,RB,LIMM 01011xxx00010111xxxx111110xxxxxx */
+{ "sub1l", 0x58170f80, 0xf8ff0fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, LIMM }, { C_F } }
+
+/* sub1l<.f> ZA,LIMM,RC 0101111000010111x111xxxxxx111110 */
+{ "sub1l", 0x5e17703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, RC }, { C_F } }
+
+/* sub1l<.f> ZA,RB,LIMM 01011xxx00010111xxxx111110111110 */
+{ "sub1l", 0x58170fbe, 0xf8ff0fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, LIMM }, { C_F } }
+
+/* sub1l<.f><.cc> ZA,LIMM,RC 0101111011010111x111xxxxxx0xxxxx */
+{ "sub1l", 0x5ed77000, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, RC }, { C_F, C_CC } }
+
+/* sub1l<.f><.cc> RB,RBdup,LIMM 01011xxx11010111xxxx1111100xxxxx */
+{ "sub1l", 0x58d70f80, 0xf8ff0fe0, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, LIMM }, { C_F, C_CC } }
+
+/* sub1l<.f> RA,LIMM,UIMM6_20 0101111001010111x111xxxxxxxxxxxx */
+{ "sub1l", 0x5e577000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, LIMM, UIMM6_20 }, { C_F } }
+
+/* sub1l<.f> ZA,LIMM,UIMM6_20 0101111001010111x111xxxxxx111110 */
+{ "sub1l", 0x5e57703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, UIMM6_20 }, { C_F } }
+
+/* sub1l<.f><.cc> ZA,LIMM,UIMM6_20 0101111011010111x111xxxxxx1xxxxx */
+{ "sub1l", 0x5ed77020, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, UIMM6_20 }, { C_F, C_CC } }
+
+/* sub1l<.f> ZA,XIMM,SIMM12_20 0101110010010111x111xxxxxxxxxxxx */
+{ "sub1l", 0x5c977000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, SIMM12_20 }, { C_F } }
+
+/* sub1l<.f> ZA,LIMM,SIMM12_20 0101111010010111x111xxxxxxxxxxxx */
+{ "sub1l", 0x5e977000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, SIMM12_20 }, { C_F } }
+
+/* sub1l<.f> RA,XIMM,XIMMdup 0101110000010111x111111100xxxxxx */
+{ "sub1l", 0x5c177f00, 0xffff7fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, XIMM, XIMMdup }, { C_F } }
+
+/* sub1l<.f> ZA,XIMM,XIMMdup 0101110000010111x111111100111110 */
+{ "sub1l", 0x5c177f3e, 0xffff7fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, XIMMdup }, { C_F } }
+
+/* sub1l<.f><.cc> ZA,XIMM,XIMMdup 0101110011010111x1111111000xxxxx */
+{ "sub1l", 0x5cd77f00, 0xffff7fe0, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, XIMMdup }, { C_F, C_CC } }
+
+/* sub1l<.f> RA,LIMM,LIMMdup 0101111000010111x111111110xxxxxx */
+{ "sub1l", 0x5e177f80, 0xffff7fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, LIMM, LIMMdup }, { C_F } }
+
+/* sub1l<.f> ZA,LIMM,LIMMdup 0101111000010111x111111110111110 */
+{ "sub1l", 0x5e177fbe, 0xffff7fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, LIMMdup }, { C_F } }
+
+/* sub1l<.f><.cc> ZA,LIMM,LIMMdup 0101111011010111x1111111100xxxxx */
+{ "sub1l", 0x5ed77f80, 0xffff7fe0, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, LIMMdup }, { C_F, C_CC } }
+
+/* sub2<.f> RA,RB,RC 00100xxx00011000xxxxxxxxxxxxxxxx */
+{ "sub2", 0x20180000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, SUB, NONE, { RA, RB, RC }, { C_F } }
+
+/* sub2<.f> ZA,RB,RC 00100xxx00011000xxxxxxxxxx111110 */
+{ "sub2", 0x2018003e, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, SUB, NONE, { ZA, RB, RC }, { C_F } }
+
+/* sub2<.f><.cc> RB,RBdup,RC 00100xxx11011000xxxxxxxxxx0xxxxx */
+{ "sub2", 0x20d80000, 0xf8ff0020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, SUB, NONE, { RB, RBdup, RC }, { C_F, C_CC } }
+
+/* sub2<.f> RA,RB,UIMM6_20 00100xxx01011000xxxxxxxxxxxxxxxx */
+{ "sub2", 0x20580000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, SUB, NONE, { RA, RB, UIMM6_20 }, { C_F } }
+
+/* sub2<.f> ZA,RB,UIMM6_20 00100xxx01011000xxxxxxxxxx111110 */
+{ "sub2", 0x2058003e, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, SUB, NONE, { ZA, RB, UIMM6_20 }, { C_F } }
+
+/* sub2<.f><.cc> RB,RBdup,UIMM6_20 00100xxx11011000xxxxxxxxxx1xxxxx */
+{ "sub2", 0x20d80020, 0xf8ff0020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, SUB, NONE, { RB, RBdup, UIMM6_20 }, { C_F, C_CC } }
+
+/* sub2<.f> RB,RBdup,SIMM12_20 00100xxx10011000xxxxxxxxxxxxxxxx */
+{ "sub2", 0x20980000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, SUB, NONE, { RB, RBdup, SIMM12_20 }, { C_F } }
+
+/* sub2<.f> RA,LIMM,RC 0010011000011000x111xxxxxxxxxxxx */
+{ "sub2", 0x26187000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, SUB, NONE, { RA, LIMM, RC }, { C_F } }
+
+/* sub2<.f> RA,RB,LIMM 00100xxx00011000xxxx111110xxxxxx */
+{ "sub2", 0x20180f80, 0xf8ff0fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, SUB, NONE, { RA, RB, LIMM }, { C_F } }
+
+/* sub2<.f> ZA,LIMM,RC 0010011000011000x111xxxxxx111110 */
+{ "sub2", 0x2618703e, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, SUB, NONE, { ZA, LIMM, RC }, { C_F } }
+
+/* sub2<.f> ZA,RB,LIMM 00100xxx00011000xxxx111110111110 */
+{ "sub2", 0x20180fbe, 0xf8ff0fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, SUB, NONE, { ZA, RB, LIMM }, { C_F } }
+
+/* sub2<.f><.cc> RB,RBdup,LIMM 00100xxx11011000xxxx1111100xxxxx */
+{ "sub2", 0x20d80f80, 0xf8ff0fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, SUB, NONE, { RB, RBdup, LIMM }, { C_F, C_CC } }
+
+/* sub2<.f><.cc> ZA,LIMM,RC 0010011011011000x111xxxxxx0xxxxx */
+{ "sub2", 0x26d87000, 0xffff7020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, SUB, NONE, { ZA, LIMM, RC }, { C_F, C_CC } }
+
+/* sub2<.f> RA,LIMM,UIMM6_20 0010011001011000x111xxxxxxxxxxxx */
+{ "sub2", 0x26587000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, SUB, NONE, { RA, LIMM, UIMM6_20 }, { C_F } }
+
+/* sub2<.f> ZA,LIMM,UIMM6_20 0010011001011000x111xxxxxx111110 */
+{ "sub2", 0x2658703e, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, SUB, NONE, { ZA, LIMM, UIMM6_20 }, { C_F } }
+
+/* sub2<.f><.cc> ZA,LIMM,UIMM6_20 0010011011011000x111xxxxxx1xxxxx */
+{ "sub2", 0x26d87020, 0xffff7020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, SUB, NONE, { ZA, LIMM, UIMM6_20 }, { C_F, C_CC } }
+
+/* sub2<.f> ZA,LIMM,SIMM12_20 0010011010011000x111xxxxxxxxxxxx */
+{ "sub2", 0x26987000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, SUB, NONE, { ZA, LIMM, SIMM12_20 }, { C_F } }
+
+/* sub2<.f> RA,LIMM,LIMMdup 0010011000011000x111111110xxxxxx */
+{ "sub2", 0x26187f80, 0xffff7fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, SUB, NONE, { RA, LIMM, LIMMdup }, { C_F } }
+
+/* sub2<.f> ZA,LIMM,LIMMdup 0010011000011000x111111110111110 */
+{ "sub2", 0x26187fbe, 0xffff7fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, SUB, NONE, { ZA, LIMM, LIMMdup }, { C_F } }
+
+/* sub2<.f><.cc> ZA,LIMM,LIMMdup 0010011011011000x1111111100xxxxx */
+{ "sub2", 0x26d87f80, 0xffff7fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, SUB, NONE, { ZA, LIMM, LIMMdup }, { C_F, C_CC } }
+
+/* sub2l<.f> RA,RB,RC 01011xxx00011000xxxxxxxxxxxxxxxx */
+{ "sub2l", 0x58180000, 0xf8ff0000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, RC }, { C_F } }
+
+/* sub2l<.f> ZA,RB,RC 01011xxx00011000xxxxxxxxxx111110 */
+{ "sub2l", 0x5818003e, 0xf8ff003f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, RC }, { C_F } }
+
+/* sub2l<.f><.cc> RB,RBdup,RC 01011xxx11011000xxxxxxxxxx0xxxxx */
+{ "sub2l", 0x58d80000, 0xf8ff0020, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, RC }, { C_F, C_CC } }
+
+/* sub2l<.f> RA,RB,UIMM6_20 01011xxx01011000xxxxxxxxxxxxxxxx */
+{ "sub2l", 0x58580000, 0xf8ff0000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, UIMM6_20 }, { C_F } }
+
+/* sub2l<.f> ZA,RB,UIMM6_20 01011xxx01011000xxxxxxxxxx111110 */
+{ "sub2l", 0x5858003e, 0xf8ff003f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, UIMM6_20 }, { C_F } }
+
+/* sub2l<.f><.cc> RB,RBdup,UIMM6_20 01011xxx11011000xxxxxxxxxx1xxxxx */
+{ "sub2l", 0x58d80020, 0xf8ff0020, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, UIMM6_20 }, { C_F, C_CC } }
+
+/* sub2l<.f> RB,RBdup,SIMM12_20 01011xxx10011000xxxxxxxxxxxxxxxx */
+{ "sub2l", 0x58980000, 0xf8ff0000, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, SIMM12_20 }, { C_F } }
+
+/* sub2l<.f> RA,XIMM,RC 0101110000011000x111xxxxxxxxxxxx */
+{ "sub2l", 0x5c187000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, XIMM, RC }, { C_F } }
+
+/* sub2l<.f> RA,RB,XIMM 01011xxx00011000xxxx111100xxxxxx */
+{ "sub2l", 0x58180f00, 0xf8ff0fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, XIMM }, { C_F } }
+
+/* sub2l<.f> ZA,XIMM,RC 0101110000011000x111xxxxxx111110 */
+{ "sub2l", 0x5c18703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, RC }, { C_F } }
+
+/* sub2l<.f> ZA,RB,XIMM 01011xxx00011000xxxx111100111110 */
+{ "sub2l", 0x58180f3e, 0xf8ff0fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, XIMM }, { C_F } }
+
+/* sub2l<.f><.cc> ZA,XIMM,RC 0101110011011000x111xxxxxx0xxxxx */
+{ "sub2l", 0x5cd87000, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, RC }, { C_F, C_CC } }
+
+/* sub2l<.f><.cc> RB,RBdup,XIMM 01011xxx11011000xxxx1111000xxxxx */
+{ "sub2l", 0x58d80f00, 0xf8ff0fe0, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, XIMM }, { C_F, C_CC } }
+
+/* sub2l<.f> RA,XIMM,UIMM6_20 0101110001011000x111xxxxxxxxxxxx */
+{ "sub2l", 0x5c587000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, XIMM, UIMM6_20 }, { C_F } }
+
+/* sub2l<.f> ZA,XIMM,UIMM6_20 0101110001011000x111xxxxxx111110 */
+{ "sub2l", 0x5c58703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, UIMM6_20 }, { C_F } }
+
+/* sub2l<.f><.cc> ZA,XIMM,UIMM6_20 0101110011011000x111xxxxxx1xxxxx */
+{ "sub2l", 0x5cd87020, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, UIMM6_20 }, { C_F, C_CC } }
+
+/* sub2l<.f> RA,LIMM,RC 0101111000011000x111xxxxxxxxxxxx */
+{ "sub2l", 0x5e187000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, LIMM, RC }, { C_F } }
+
+/* sub2l<.f> RA,RB,LIMM 01011xxx00011000xxxx111110xxxxxx */
+{ "sub2l", 0x58180f80, 0xf8ff0fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, LIMM }, { C_F } }
+
+/* sub2l<.f> ZA,LIMM,RC 0101111000011000x111xxxxxx111110 */
+{ "sub2l", 0x5e18703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, RC }, { C_F } }
+
+/* sub2l<.f> ZA,RB,LIMM 01011xxx00011000xxxx111110111110 */
+{ "sub2l", 0x58180fbe, 0xf8ff0fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, LIMM }, { C_F } }
+
+/* sub2l<.f><.cc> ZA,LIMM,RC 0101111011011000x111xxxxxx0xxxxx */
+{ "sub2l", 0x5ed87000, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, RC }, { C_F, C_CC } }
+
+/* sub2l<.f><.cc> RB,RBdup,LIMM 01011xxx11011000xxxx1111100xxxxx */
+{ "sub2l", 0x58d80f80, 0xf8ff0fe0, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, LIMM }, { C_F, C_CC } }
+
+/* sub2l<.f> RA,LIMM,UIMM6_20 0101111001011000x111xxxxxxxxxxxx */
+{ "sub2l", 0x5e587000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, LIMM, UIMM6_20 }, { C_F } }
+
+/* sub2l<.f> ZA,LIMM,UIMM6_20 0101111001011000x111xxxxxx111110 */
+{ "sub2l", 0x5e58703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, UIMM6_20 }, { C_F } }
+
+/* sub2l<.f><.cc> ZA,LIMM,UIMM6_20 0101111011011000x111xxxxxx1xxxxx */
+{ "sub2l", 0x5ed87020, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, UIMM6_20 }, { C_F, C_CC } }
+
+/* sub2l<.f> ZA,XIMM,SIMM12_20 0101110010011000x111xxxxxxxxxxxx */
+{ "sub2l", 0x5c987000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, SIMM12_20 }, { C_F } }
+
+/* sub2l<.f> ZA,LIMM,SIMM12_20 0101111010011000x111xxxxxxxxxxxx */
+{ "sub2l", 0x5e987000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, SIMM12_20 }, { C_F } }
+
+/* sub2l<.f> RA,XIMM,XIMMdup 0101110000011000x111111100xxxxxx */
+{ "sub2l", 0x5c187f00, 0xffff7fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, XIMM, XIMMdup }, { C_F } }
+
+/* sub2l<.f> ZA,XIMM,XIMMdup 0101110000011000x111111100111110 */
+{ "sub2l", 0x5c187f3e, 0xffff7fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, XIMMdup }, { C_F } }
+
+/* sub2l<.f><.cc> ZA,XIMM,XIMMdup 0101110011011000x1111111000xxxxx */
+{ "sub2l", 0x5cd87f00, 0xffff7fe0, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, XIMMdup }, { C_F, C_CC } }
+
+/* sub2l<.f> RA,LIMM,LIMMdup 0101111000011000x111111110xxxxxx */
+{ "sub2l", 0x5e187f80, 0xffff7fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, LIMM, LIMMdup }, { C_F } }
+
+/* sub2l<.f> ZA,LIMM,LIMMdup 0101111000011000x111111110111110 */
+{ "sub2l", 0x5e187fbe, 0xffff7fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, LIMMdup }, { C_F } }
+
+/* sub2l<.f><.cc> ZA,LIMM,LIMMdup 0101111011011000x1111111100xxxxx */
+{ "sub2l", 0x5ed87f80, 0xffff7fe0, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, LIMMdup }, { C_F, C_CC } }
+
+/* sub3<.f> RA,RB,RC 00100xxx00011001xxxxxxxxxxxxxxxx */
+{ "sub3", 0x20190000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, SUB, NONE, { RA, RB, RC }, { C_F } }
+
+/* sub3<.f> ZA,RB,RC 00100xxx00011001xxxxxxxxxx111110 */
+{ "sub3", 0x2019003e, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, SUB, NONE, { ZA, RB, RC }, { C_F } }
+
+/* sub3<.f><.cc> RB,RBdup,RC 00100xxx11011001xxxxxxxxxx0xxxxx */
+{ "sub3", 0x20d90000, 0xf8ff0020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, SUB, NONE, { RB, RBdup, RC }, { C_F, C_CC } }
+
+/* sub3<.f> RA,RB,UIMM6_20 00100xxx01011001xxxxxxxxxxxxxxxx */
+{ "sub3", 0x20590000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, SUB, NONE, { RA, RB, UIMM6_20 }, { C_F } }
+
+/* sub3<.f> ZA,RB,UIMM6_20 00100xxx01011001xxxxxxxxxx111110 */
+{ "sub3", 0x2059003e, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, SUB, NONE, { ZA, RB, UIMM6_20 }, { C_F } }
+
+/* sub3<.f><.cc> RB,RBdup,UIMM6_20 00100xxx11011001xxxxxxxxxx1xxxxx */
+{ "sub3", 0x20d90020, 0xf8ff0020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, SUB, NONE, { RB, RBdup, UIMM6_20 }, { C_F, C_CC } }
+
+/* sub3<.f> RB,RBdup,SIMM12_20 00100xxx10011001xxxxxxxxxxxxxxxx */
+{ "sub3", 0x20990000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, SUB, NONE, { RB, RBdup, SIMM12_20 }, { C_F } }
+
+/* sub3<.f> RA,LIMM,RC 0010011000011001x111xxxxxxxxxxxx */
+{ "sub3", 0x26197000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, SUB, NONE, { RA, LIMM, RC }, { C_F } }
+
+/* sub3<.f> RA,RB,LIMM 00100xxx00011001xxxx111110xxxxxx */
+{ "sub3", 0x20190f80, 0xf8ff0fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, SUB, NONE, { RA, RB, LIMM }, { C_F } }
+
+/* sub3<.f> ZA,LIMM,RC 0010011000011001x111xxxxxx111110 */
+{ "sub3", 0x2619703e, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, SUB, NONE, { ZA, LIMM, RC }, { C_F } }
+
+/* sub3<.f> ZA,RB,LIMM 00100xxx00011001xxxx111110111110 */
+{ "sub3", 0x20190fbe, 0xf8ff0fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, SUB, NONE, { ZA, RB, LIMM }, { C_F } }
+
+/* sub3<.f><.cc> RB,RBdup,LIMM 00100xxx11011001xxxx1111100xxxxx */
+{ "sub3", 0x20d90f80, 0xf8ff0fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, SUB, NONE, { RB, RBdup, LIMM }, { C_F, C_CC } }
+
+/* sub3<.f><.cc> ZA,LIMM,RC 0010011011011001x111xxxxxx0xxxxx */
+{ "sub3", 0x26d97000, 0xffff7020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, SUB, NONE, { ZA, LIMM, RC }, { C_F, C_CC } }
+
+/* sub3<.f> RA,LIMM,UIMM6_20 0010011001011001x111xxxxxxxxxxxx */
+{ "sub3", 0x26597000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, SUB, NONE, { RA, LIMM, UIMM6_20 }, { C_F } }
+
+/* sub3<.f> ZA,LIMM,UIMM6_20 0010011001011001x111xxxxxx111110 */
+{ "sub3", 0x2659703e, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, SUB, NONE, { ZA, LIMM, UIMM6_20 }, { C_F } }
+
+/* sub3<.f><.cc> ZA,LIMM,UIMM6_20 0010011011011001x111xxxxxx1xxxxx */
+{ "sub3", 0x26d97020, 0xffff7020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, SUB, NONE, { ZA, LIMM, UIMM6_20 }, { C_F, C_CC } }
+
+/* sub3<.f> ZA,LIMM,SIMM12_20 0010011010011001x111xxxxxxxxxxxx */
+{ "sub3", 0x26997000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, SUB, NONE, { ZA, LIMM, SIMM12_20 }, { C_F } }
+
+/* sub3<.f> RA,LIMM,LIMMdup 0010011000011001x111111110xxxxxx */
+{ "sub3", 0x26197f80, 0xffff7fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, SUB, NONE, { RA, LIMM, LIMMdup }, { C_F } }
+
+/* sub3<.f> ZA,LIMM,LIMMdup 0010011000011001x111111110111110 */
+{ "sub3", 0x26197fbe, 0xffff7fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, SUB, NONE, { ZA, LIMM, LIMMdup }, { C_F } }
+
+/* sub3<.f><.cc> ZA,LIMM,LIMMdup 0010011011011001x1111111100xxxxx */
+{ "sub3", 0x26d97f80, 0xffff7fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, SUB, NONE, { ZA, LIMM, LIMMdup }, { C_F, C_CC } }
+
+/* sub3l<.f> RA,RB,RC 01011xxx00011001xxxxxxxxxxxxxxxx */
+{ "sub3l", 0x58190000, 0xf8ff0000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, RC }, { C_F } }
+
+/* sub3l<.f> ZA,RB,RC 01011xxx00011001xxxxxxxxxx111110 */
+{ "sub3l", 0x5819003e, 0xf8ff003f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, RC }, { C_F } }
+
+/* sub3l<.f><.cc> RB,RBdup,RC 01011xxx11011001xxxxxxxxxx0xxxxx */
+{ "sub3l", 0x58d90000, 0xf8ff0020, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, RC }, { C_F, C_CC } }
+
+/* sub3l<.f> RA,RB,UIMM6_20 01011xxx01011001xxxxxxxxxxxxxxxx */
+{ "sub3l", 0x58590000, 0xf8ff0000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, UIMM6_20 }, { C_F } }
+
+/* sub3l<.f> ZA,RB,UIMM6_20 01011xxx01011001xxxxxxxxxx111110 */
+{ "sub3l", 0x5859003e, 0xf8ff003f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, UIMM6_20 }, { C_F } }
+
+/* sub3l<.f><.cc> RB,RBdup,UIMM6_20 01011xxx11011001xxxxxxxxxx1xxxxx */
+{ "sub3l", 0x58d90020, 0xf8ff0020, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, UIMM6_20 }, { C_F, C_CC } }
+
+/* sub3l<.f> RB,RBdup,SIMM12_20 01011xxx10011001xxxxxxxxxxxxxxxx */
+{ "sub3l", 0x58990000, 0xf8ff0000, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, SIMM12_20 }, { C_F } }
+
+/* sub3l<.f> RA,XIMM,RC 0101110000011001x111xxxxxxxxxxxx */
+{ "sub3l", 0x5c197000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, XIMM, RC }, { C_F } }
+
+/* sub3l<.f> RA,RB,XIMM 01011xxx00011001xxxx111100xxxxxx */
+{ "sub3l", 0x58190f00, 0xf8ff0fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, XIMM }, { C_F } }
+
+/* sub3l<.f> ZA,XIMM,RC 0101110000011001x111xxxxxx111110 */
+{ "sub3l", 0x5c19703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, RC }, { C_F } }
+
+/* sub3l<.f> ZA,RB,XIMM 01011xxx00011001xxxx111100111110 */
+{ "sub3l", 0x58190f3e, 0xf8ff0fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, XIMM }, { C_F } }
+
+/* sub3l<.f><.cc> ZA,XIMM,RC 0101110011011001x111xxxxxx0xxxxx */
+{ "sub3l", 0x5cd97000, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, RC }, { C_F, C_CC } }
+
+/* sub3l<.f><.cc> RB,RBdup,XIMM 01011xxx11011001xxxx1111000xxxxx */
+{ "sub3l", 0x58d90f00, 0xf8ff0fe0, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, XIMM }, { C_F, C_CC } }
+
+/* sub3l<.f> RA,XIMM,UIMM6_20 0101110001011001x111xxxxxxxxxxxx */
+{ "sub3l", 0x5c597000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, XIMM, UIMM6_20 }, { C_F } }
+
+/* sub3l<.f> ZA,XIMM,UIMM6_20 0101110001011001x111xxxxxx111110 */
+{ "sub3l", 0x5c59703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, UIMM6_20 }, { C_F } }
+
+/* sub3l<.f><.cc> ZA,XIMM,UIMM6_20 0101110011011001x111xxxxxx1xxxxx */
+{ "sub3l", 0x5cd97020, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, UIMM6_20 }, { C_F, C_CC } }
+
+/* sub3l<.f> RA,LIMM,RC 0101111000011001x111xxxxxxxxxxxx */
+{ "sub3l", 0x5e197000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, LIMM, RC }, { C_F } }
+
+/* sub3l<.f> RA,RB,LIMM 01011xxx00011001xxxx111110xxxxxx */
+{ "sub3l", 0x58190f80, 0xf8ff0fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, LIMM }, { C_F } }
+
+/* sub3l<.f> ZA,LIMM,RC 0101111000011001x111xxxxxx111110 */
+{ "sub3l", 0x5e19703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, RC }, { C_F } }
+
+/* sub3l<.f> ZA,RB,LIMM 01011xxx00011001xxxx111110111110 */
+{ "sub3l", 0x58190fbe, 0xf8ff0fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, LIMM }, { C_F } }
+
+/* sub3l<.f><.cc> ZA,LIMM,RC 0101111011011001x111xxxxxx0xxxxx */
+{ "sub3l", 0x5ed97000, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, RC }, { C_F, C_CC } }
+
+/* sub3l<.f><.cc> RB,RBdup,LIMM 01011xxx11011001xxxx1111100xxxxx */
+{ "sub3l", 0x58d90f80, 0xf8ff0fe0, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, LIMM }, { C_F, C_CC } }
+
+/* sub3l<.f> RA,LIMM,UIMM6_20 0101111001011001x111xxxxxxxxxxxx */
+{ "sub3l", 0x5e597000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, LIMM, UIMM6_20 }, { C_F } }
+
+/* sub3l<.f> ZA,LIMM,UIMM6_20 0101111001011001x111xxxxxx111110 */
+{ "sub3l", 0x5e59703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, UIMM6_20 }, { C_F } }
+
+/* sub3l<.f><.cc> ZA,LIMM,UIMM6_20 0101111011011001x111xxxxxx1xxxxx */
+{ "sub3l", 0x5ed97020, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, UIMM6_20 }, { C_F, C_CC } }
+
+/* sub3l<.f> ZA,XIMM,SIMM12_20 0101110010011001x111xxxxxxxxxxxx */
+{ "sub3l", 0x5c997000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, SIMM12_20 }, { C_F } }
+
+/* sub3l<.f> ZA,LIMM,SIMM12_20 0101111010011001x111xxxxxxxxxxxx */
+{ "sub3l", 0x5e997000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, SIMM12_20 }, { C_F } }
+
+/* sub3l<.f> RA,XIMM,XIMMdup 0101110000011001x111111100xxxxxx */
+{ "sub3l", 0x5c197f00, 0xffff7fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, XIMM, XIMMdup }, { C_F } }
+
+/* sub3l<.f> ZA,XIMM,XIMMdup 0101110000011001x111111100111110 */
+{ "sub3l", 0x5c197f3e, 0xffff7fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, XIMMdup }, { C_F } }
+
+/* sub3l<.f><.cc> ZA,XIMM,XIMMdup 0101110011011001x1111111000xxxxx */
+{ "sub3l", 0x5cd97f00, 0xffff7fe0, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, XIMMdup }, { C_F, C_CC } }
+
+/* sub3l<.f> RA,LIMM,LIMMdup 0101111000011001x111111110xxxxxx */
+{ "sub3l", 0x5e197f80, 0xffff7fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, LIMM, LIMMdup }, { C_F } }
+
+/* sub3l<.f> ZA,LIMM,LIMMdup 0101111000011001x111111110111110 */
+{ "sub3l", 0x5e197fbe, 0xffff7fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, LIMMdup }, { C_F } }
+
+/* sub3l<.f><.cc> ZA,LIMM,LIMMdup 0101111011011001x1111111100xxxxx */
+{ "sub3l", 0x5ed97f80, 0xffff7fe0, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, LIMMdup }, { C_F, C_CC } }
+
+/* subl<.f> RA,RB,RC 01011xxx00000010xxxxxxxxxxxxxxxx */
+{ "subl", 0x58020000, 0xf8ff0000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, RC }, { C_F } }
+
+/* subl<.f> ZA,RB,RC 01011xxx00000010xxxxxxxxxx111110 */
+{ "subl", 0x5802003e, 0xf8ff003f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, RC }, { C_F } }
+
+/* subl<.f><.cc> RB,RBdup,RC 01011xxx11000010xxxxxxxxxx0xxxxx */
+{ "subl", 0x58c20000, 0xf8ff0020, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, RC }, { C_F, C_CC } }
+
+/* subl<.f> RA,RB,UIMM6_20 01011xxx01000010xxxxxxxxxxxxxxxx */
+{ "subl", 0x58420000, 0xf8ff0000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, UIMM6_20 }, { C_F } }
+
+/* subl<.f> ZA,RB,UIMM6_20 01011xxx01000010xxxxxxxxxx111110 */
+{ "subl", 0x5842003e, 0xf8ff003f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, UIMM6_20 }, { C_F } }
+
+/* subl<.f><.cc> RB,RBdup,UIMM6_20 01011xxx11000010xxxxxxxxxx1xxxxx */
+{ "subl", 0x58c20020, 0xf8ff0020, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, UIMM6_20 }, { C_F, C_CC } }
+
+/* subl<.f> RB,RBdup,SIMM12_20 01011xxx10000010xxxxxxxxxxxxxxxx */
+{ "subl", 0x58820000, 0xf8ff0000, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, SIMM12_20 }, { C_F } }
+
+/* subl<.f> RA,XIMM,RC 0101110000000010x111xxxxxxxxxxxx */
+{ "subl", 0x5c027000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, XIMM, RC }, { C_F } }
+
+/* subl<.f> RA,RB,XIMM 01011xxx00000010xxxx111100xxxxxx */
+{ "subl", 0x58020f00, 0xf8ff0fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, XIMM }, { C_F } }
+
+/* subl<.f> ZA,XIMM,RC 0101110000000010x111xxxxxx111110 */
+{ "subl", 0x5c02703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, RC }, { C_F } }
+
+/* subl<.f> ZA,RB,XIMM 01011xxx00000010xxxx111100111110 */
+{ "subl", 0x58020f3e, 0xf8ff0fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, XIMM }, { C_F } }
+
+/* subl<.f><.cc> ZA,XIMM,RC 0101110011000010x111xxxxxx0xxxxx */
+{ "subl", 0x5cc27000, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, RC }, { C_F, C_CC } }
+
+/* subl<.f><.cc> RB,RBdup,XIMM 01011xxx11000010xxxx1111000xxxxx */
+{ "subl", 0x58c20f00, 0xf8ff0fe0, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, XIMM }, { C_F, C_CC } }
+
+/* subl<.f> RA,XIMM,UIMM6_20 0101110001000010x111xxxxxxxxxxxx */
+{ "subl", 0x5c427000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, XIMM, UIMM6_20 }, { C_F } }
+
+/* subl<.f> ZA,XIMM,UIMM6_20 0101110001000010x111xxxxxx111110 */
+{ "subl", 0x5c42703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, UIMM6_20 }, { C_F } }
+
+/* subl<.f><.cc> ZA,XIMM,UIMM6_20 0101110011000010x111xxxxxx1xxxxx */
+{ "subl", 0x5cc27020, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, UIMM6_20 }, { C_F, C_CC } }
+
+/* subl<.f> RA,LIMM,RC 0101111000000010x111xxxxxxxxxxxx */
+{ "subl", 0x5e027000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, LIMM, RC }, { C_F } }
+
+/* subl<.f> RA,RB,LIMM 01011xxx00000010xxxx111110xxxxxx */
+{ "subl", 0x58020f80, 0xf8ff0fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, LIMM }, { C_F } }
+
+/* subl<.f> ZA,LIMM,RC 0101111000000010x111xxxxxx111110 */
+{ "subl", 0x5e02703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, RC }, { C_F } }
+
+/* subl<.f> ZA,RB,LIMM 01011xxx00000010xxxx111110111110 */
+{ "subl", 0x58020fbe, 0xf8ff0fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, LIMM }, { C_F } }
+
+/* subl<.f><.cc> ZA,LIMM,RC 0101111011000010x111xxxxxx0xxxxx */
+{ "subl", 0x5ec27000, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, RC }, { C_F, C_CC } }
+
+/* subl<.f><.cc> RB,RBdup,LIMM 01011xxx11000010xxxx1111100xxxxx */
+{ "subl", 0x58c20f80, 0xf8ff0fe0, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, LIMM }, { C_F, C_CC } }
+
+/* subl<.f> RA,LIMM,UIMM6_20 0101111001000010x111xxxxxxxxxxxx */
+{ "subl", 0x5e427000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, LIMM, UIMM6_20 }, { C_F } }
+
+/* subl<.f> ZA,LIMM,UIMM6_20 0101111001000010x111xxxxxx111110 */
+{ "subl", 0x5e42703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, UIMM6_20 }, { C_F } }
+
+/* subl<.f><.cc> ZA,LIMM,UIMM6_20 0101111011000010x111xxxxxx1xxxxx */
+{ "subl", 0x5ec27020, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, UIMM6_20 }, { C_F, C_CC } }
+
+/* subl<.f> ZA,XIMM,SIMM12_20 0101110010000010x111xxxxxxxxxxxx */
+{ "subl", 0x5c827000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, SIMM12_20 }, { C_F } }
+
+/* subl<.f> ZA,LIMM,SIMM12_20 0101111010000010x111xxxxxxxxxxxx */
+{ "subl", 0x5e827000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, SIMM12_20 }, { C_F } }
+
+/* subl<.f> RA,XIMM,XIMMdup 0101110000000010x111111100xxxxxx */
+{ "subl", 0x5c027f00, 0xffff7fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, XIMM, XIMMdup }, { C_F } }
+
+/* subl<.f> ZA,XIMM,XIMMdup 0101110000000010x111111100111110 */
+{ "subl", 0x5c027f3e, 0xffff7fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, XIMMdup }, { C_F } }
+
+/* subl<.f><.cc> ZA,XIMM,XIMMdup 0101110011000010x1111111000xxxxx */
+{ "subl", 0x5cc27f00, 0xffff7fe0, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, XIMMdup }, { C_F, C_CC } }
+
+/* subl<.f> RA,LIMM,LIMMdup 0101111000000010x111111110xxxxxx */
+{ "subl", 0x5e027f80, 0xffff7fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, LIMM, LIMMdup }, { C_F } }
+
+/* subl<.f> ZA,LIMM,LIMMdup 0101111000000010x111111110111110 */
+{ "subl", 0x5e027fbe, 0xffff7fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, LIMMdup }, { C_F } }
+
+/* subl<.f><.cc> ZA,LIMM,LIMMdup 0101111011000010x1111111100xxxxx */
+{ "subl", 0x5ec27f80, 0xffff7fe0, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, LIMMdup }, { C_F, C_CC } }
+
+/* subl_s SP_S,SP_Sdup,UIMM9_A32_11_S 11000xx1101xxxxx */
+{ "subl_s", 0x0000c1a0, 0x0000f9e0, ARC_OPCODE_ARC64, ARITH, NONE, { SP_S, SP_Sdup, UIMM9_A32_11_S }, { 0 } }
+
+/* subl_s RB_S,RB_Sdup,RC_S 01111xxxxxx00011 */
+{ "subl_s", 0x00007803, 0x0000f81f, ARC_OPCODE_ARC64, ARITH, NONE, { RB_S, RB_Sdup, RC_S }, { 0 } }
+
+/* sub_s RB_S,RB_Sdup,RB_Sdup 01111xxx11000000 */
+{ "sub_s", 0x000078c0, 0x0000f8ff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, SUB, NONE, { RB_S, RB_Sdup, RB_Sdup }, { C_NE, C_CC_NE } }
+
+/* sub_s RB_S,RB_Sdup,RC_S 01111xxxxxx00010 */
+{ "sub_s", 0x00007802, 0x0000f81f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, SUB, NONE, { RB_S, RB_Sdup, RC_S }, { 0 } }
+
+/* sub_s RA_S,RB_S,RC_S 01001xxxxxx10xxx */
+{ "sub_s", 0x00004810, 0x0000f818, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, SUB, CD, { RA_S, RB_S, RC_S }, { 0 } }
+
+/* sub_s RB_S,RB_Sdup,UIMM5_11_S 10111xxx011xxxxx */
+{ "sub_s", 0x0000b860, 0x0000f8e0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, SUB, NONE, { RB_S, RB_Sdup, UIMM5_11_S }, { 0 } }
+
+/* sub_s SP,SP,u7 11000001101uuuuu.  */
+{ "sub_s", 0x0000C1A0, 0x0000FFE0, ARC_OPCODE_ARC32, SUB, NONE, { SP_S, SP_Sdup, UIMM7_A32_11_S }, { 0 }},
+
+/* swap<.f> RB,RC 00101xxx00101111xxxxxxxxxx000000 */
+{ "swap", 0x282f0000, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, SWAP, { RB, RC }, { C_F } }
+
+/* swap<.f> ZA,RC 0010111000101111x111xxxxxx000000 */
+{ "swap", 0x2e2f7000, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, SWAP, { ZA, RC }, { C_F } }
+
+/* swap<.f> RB,UIMM6_20 00101xxx01101111xxxxxxxxxx000000 */
+{ "swap", 0x286f0000, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, SWAP, { RB, UIMM6_20 }, { C_F } }
+
+/* swap<.f> ZA,UIMM6_20 0010111001101111x111xxxxxx000000 */
+{ "swap", 0x2e6f7000, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, SWAP, { ZA, UIMM6_20 }, { C_F } }
+
+/* swap<.f> RB,LIMM 00101xxx00101111xxxx111110000000 */
+{ "swap", 0x282f0f80, 0xf8ff0fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, SWAP, { RB, LIMM }, { C_F } }
+
+/* swap<.f> ZA,LIMM 0010111000101111x111111110000000 */
+{ "swap", 0x2e2f7f80, 0xffff7fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, SWAP, { ZA, LIMM }, { C_F } }
+
+/* swape<.f> RB,RC 00101xxx00101111xxxxxxxxxx001001 */
+{ "swape", 0x282f0009, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, SWAP, { RB, RC }, { C_F } }
+
+/* swape<.f> ZA,RC 0010111000101111x111xxxxxx001001 */
+{ "swape", 0x2e2f7009, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, SWAP, { ZA, RC }, { C_F } }
+
+/* swape<.f> RB,UIMM6_20 00101xxx01101111xxxxxxxxxx001001 */
+{ "swape", 0x286f0009, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, SWAP, { RB, UIMM6_20 }, { C_F } }
+
+/* swape<.f> ZA,UIMM6_20 0010111001101111x111xxxxxx001001 */
+{ "swape", 0x2e6f7009, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, SWAP, { ZA, UIMM6_20 }, { C_F } }
+
+/* swape<.f> RB,LIMM 00101xxx00101111xxxx111110001001 */
+{ "swape", 0x282f0f89, 0xf8ff0fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, SWAP, { RB, LIMM }, { C_F } }
+
+/* swape<.f> ZA,LIMM 0010111000101111x111111110001001 */
+{ "swape", 0x2e2f7f89, 0xffff7fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, SWAP, { ZA, LIMM }, { C_F } }
+
+/* swapel<.f> RB,RC 01011xxx00101111xxxxxxxxxx101001 */
+{ "swapel", 0x582f0029, 0xf8ff003f, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RC }, { C_F } }
+
+/* swapel<.f> ZA,RC 0101111000101111x111xxxxxx101001 */
+{ "swapel", 0x5e2f7029, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RC }, { C_F } }
+
+/* swapel<.f> RB,UIMM6_20 01011xxx01101111xxxxxxxxxx101001 */
+{ "swapel", 0x586f0029, 0xf8ff003f, ARC_OPCODE_ARC64, ARITH, NONE, { RB, UIMM6_20 }, { C_F } }
+
+/* swapel<.f> ZA,UIMM6_20 0101111001101111x111xxxxxx101001 */
+{ "swapel", 0x5e6f7029, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, UIMM6_20 }, { C_F } }
+
+/* swapel<.f> RB,XIMM 01011xxx00101111xxxx111100101001 */
+{ "swapel", 0x582f0f29, 0xf8ff0fff, ARC_OPCODE_ARC64, ARITH, NONE, { RB, XIMM }, { C_F } }
+
+/* swapel<.f> ZA,XIMM 0101111000101111x111111100101001 */
+{ "swapel", 0x5e2f7f29, 0xffff7fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM }, { C_F } }
+
+/* swapel<.f> RB,LIMM 01011xxx00101111xxxx111110101001 */
+{ "swapel", 0x582f0fa9, 0xf8ff0fff, ARC_OPCODE_ARC64, ARITH, NONE, { RB, LIMM }, { C_F } }
+
+/* swapel<.f> ZA,LIMM 0101111000101111x111111110101001 */
+{ "swapel", 0x5e2f7fa9, 0xffff7fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM }, { C_F } }
+
+/* swapl<.f> RB,RC 01011xxx00101111xxxxxxxxxx100000 */
+{ "swapl", 0x582f0020, 0xf8ff003f, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RC }, { C_F } }
+
+/* swapl<.f> ZA,RC 0101111000101111x111xxxxxx100000 */
+{ "swapl", 0x5e2f7020, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RC }, { C_F } }
+
+/* swapl<.f> RB,UIMM6_20 01011xxx01101111xxxxxxxxxx100000 */
+{ "swapl", 0x586f0020, 0xf8ff003f, ARC_OPCODE_ARC64, ARITH, NONE, { RB, UIMM6_20 }, { C_F } }
+
+/* swapl<.f> ZA,UIMM6_20 0101111001101111x111xxxxxx100000 */
+{ "swapl", 0x5e6f7020, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, UIMM6_20 }, { C_F } }
+
+/* swapl<.f> RB,XIMM 01011xxx00101111xxxx111100100000 */
+{ "swapl", 0x582f0f20, 0xf8ff0fff, ARC_OPCODE_ARC64, ARITH, NONE, { RB, XIMM }, { C_F } }
+
+/* swapl<.f> ZA,XIMM 0101111000101111x111111100100000 */
+{ "swapl", 0x5e2f7f20, 0xffff7fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM }, { C_F } }
+
+/* swapl<.f> RB,LIMM 01011xxx00101111xxxx111110100000 */
+{ "swapl", 0x582f0fa0, 0xf8ff0fff, ARC_OPCODE_ARC64, ARITH, NONE, { RB, LIMM }, { C_F } }
+
+/* swapl<.f> ZA,LIMM 0101111000101111x111111110100000 */
+{ "swapl", 0x5e2f7fa0, 0xffff7fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM }, { C_F } }
+
+/* swi  00100010011011110000000000111111 */
+{ "swi", 0x226f003f, 0xffffffff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, KERNEL, NONE, {  }, { 0 } }
+
+/* swi_s  0111101011100000 */
+{ "swi_s", 0x00007ae0, 0x0000ffff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, KERNEL, NONE, {  }, { 0 } }
+
+/* swi_s UIMM6_5_S 01111xxxxxx11111 */
+{ "swi_s", 0x0000781f, 0x0000f81f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, KERNEL, NONE, { UIMM6_5_S }, { 0 } }
+
+/* sync  00100011011011110000000000111111 */
+{ "sync", 0x236f003f, 0xffffffff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, CONTROL, NONE, {  }, { 0 } }
+
+/* trap_s UIMM6_5_S 01111xxxxxx11110 */
+{ "trap_s", 0x0000781e, 0x0000f81f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, KERNEL, NONE, { UIMM6_5_S }, { 0 } }
+
+/* tst RB,RC 00100xxx000010111xxxxxxxxxxxxxxx */
+{ "tst", 0x200b8000, 0xf8ff8000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RB, RC }, { 0 } }
+
+/* tst<.cc> RB,RC 00100xxx110010111xxxxxxxxx0xxxxx */
+{ "tst", 0x20cb8000, 0xf8ff8020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RB, RC }, { C_CC } }
+
+/* tst RB,UIMM6_20 00100xxx010010111xxxxxxxxxxxxxxx */
+{ "tst", 0x204b8000, 0xf8ff8000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RB, UIMM6_20 }, { 0 } }
+
+/* tst<.cc> RB,UIMM6_20 00100xxx110010111xxxxxxxxx1xxxxx */
+{ "tst", 0x20cb8020, 0xf8ff8020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RB, UIMM6_20 }, { C_CC } }
+
+/* tst RB,SIMM12_20 00100xxx100010111xxxxxxxxxxxxxxx */
+{ "tst", 0x208b8000, 0xf8ff8000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RB, SIMM12_20 }, { 0 } }
+
+/* tst LIMM,RC 00100110000010111111xxxxxxxxxxxx */
+{ "tst", 0x260bf000, 0xfffff000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { LIMM, RC }, { 0 } }
+
+/* tst RB,LIMM 00100xxx000010111xxx111110xxxxxx */
+{ "tst", 0x200b8f80, 0xf8ff8fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RB, LIMM }, { 0 } }
+
+/* tst<.cc> RB,LIMM 00100xxx110010111xxx1111100xxxxx */
+{ "tst", 0x20cb8f80, 0xf8ff8fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RB, LIMM }, { C_CC } }
+
+/* tst<.cc> LIMM,RC 00100110110010111111xxxxxx0xxxxx */
+{ "tst", 0x26cbf000, 0xfffff020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { LIMM, RC }, { C_CC } }
+
+/* tst LIMM,UIMM6_20 00100110010010111111xxxxxxxxxxxx */
+{ "tst", 0x264bf000, 0xfffff000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { LIMM, UIMM6_20 }, { 0 } }
+
+/* tst<.cc> LIMM,UIMM6_20 00100110110010111111xxxxxx1xxxxx */
+{ "tst", 0x26cbf020, 0xfffff020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { LIMM, UIMM6_20 }, { C_CC } }
+
+/* tst LIMM,SIMM12_20 00100110100010111111xxxxxxxxxxxx */
+{ "tst", 0x268bf000, 0xfffff000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { LIMM, SIMM12_20 }, { 0 } }
+
+/* tst LIMM,LIMMdup 00100110000010111111111110xxxxxx */
+{ "tst", 0x260bff80, 0xffffffc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { LIMM, LIMMdup }, { 0 } }
+
+/* tst<.cc> LIMM,LIMMdup 001001101100101111111111100xxxxx */
+{ "tst", 0x26cbff80, 0xffffffe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { LIMM, LIMMdup }, { C_CC } }
+
+/* tstl RB,RC 01011xxx000010111xxxxxxxxxxxxxxx */
+{ "tstl", 0x580b8000, 0xf8ff8000, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RC }, { 0 } }
+
+/* tstl<.cc> RB,RC 01011xxx110010111xxxxxxxxx0xxxxx */
+{ "tstl", 0x58cb8000, 0xf8ff8020, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RC }, { C_CC } }
+
+/* tstl RB,UIMM6_20 01011xxx010010111xxxxxxxxxxxxxxx */
+{ "tstl", 0x584b8000, 0xf8ff8000, ARC_OPCODE_ARC64, ARITH, NONE, { RB, UIMM6_20 }, { 0 } }
+
+/* tstl<.cc> RB,UIMM6_20 01011xxx110010111xxxxxxxxx1xxxxx */
+{ "tstl", 0x58cb8020, 0xf8ff8020, ARC_OPCODE_ARC64, ARITH, NONE, { RB, UIMM6_20 }, { C_CC } }
+
+/* tstl RB,SIMM12_20 01011xxx100010111xxxxxxxxxxxxxxx */
+{ "tstl", 0x588b8000, 0xf8ff8000, ARC_OPCODE_ARC64, ARITH, NONE, { RB, SIMM12_20 }, { 0 } }
+
+/* tstl RB,XIMM 01011xxx000010111xxx111100xxxxxx */
+{ "tstl", 0x580b8f00, 0xf8ff8fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RB, XIMM }, { 0 } }
+
+/* tstl<.cc> RB,XIMM 01011xxx110010111xxx1111000xxxxx */
+{ "tstl", 0x58cb8f00, 0xf8ff8fe0, ARC_OPCODE_ARC64, ARITH, NONE, { RB, XIMM }, { C_CC } }
+
+/* tstl RB,LIMM 01011xxx000010111xxx111110xxxxxx */
+{ "tstl", 0x580b8f80, 0xf8ff8fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RB, LIMM }, { 0 } }
+
+/* tstl<.cc> RB,LIMM 01011xxx110010111xxx1111100xxxxx */
+{ "tstl", 0x58cb8f80, 0xf8ff8fe0, ARC_OPCODE_ARC64, ARITH, NONE, { RB, LIMM }, { C_CC } }
+
+/* tst_s RB_S,RC_S 01111xxxxxx01011 */
+{ "tst_s", 0x0000780b, 0x0000f81f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RB_S, RC_S }, { 0 } }
+
+/* unimp_s  0111100111100000 */
+{ "unimp_s", 0x000079e0, 0x0000ffff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, KERNEL, NONE, {  }, { 0 } }
+
+/* vadd2 RA_CHK,RB,RC 00101xxx001111000xxxxxxxxxxxxxxx */
+{ "vadd2", 0x283c0000, 0xf8ff8000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RA_CHK, RB, RC }, { 0 } }
+
+/* vadd2 ZA,RB,RC 00101xxx001111000xxxxxxxxx111110 */
+{ "vadd2", 0x283c003e, 0xf8ff803f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, RB, RC }, { 0 } }
+
+/* vadd2<.cc> RB_CHK,RBdup,RC 00101xxx111111000xxxxxxxxx0xxxxx */
+{ "vadd2", 0x28fc0000, 0xf8ff8020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RB_CHK, RBdup, RC }, { C_CC } }
+
+/* vadd2 RA_CHK,RB,UIMM6_20 00101xxx011111000xxxxxxxxxxxxxxx */
+{ "vadd2", 0x287c0000, 0xf8ff8000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RA_CHK, RB, UIMM6_20_SPLITW }, { 0 } }
+
+/* vadd2 ZA,RB,UIMM6_20 00101xxx011111000xxxxxxxxx111110 */
+{ "vadd2", 0x287c003e, 0xf8ff803f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, RB, UIMM6_20_SPLITW }, { 0 } }
+
+/* vadd2<.cc> RB_CHK,RBdup,UIMM6_20 00101xxx111111000xxxxxxxxx1xxxxx */
+{ "vadd2", 0x28fc0020, 0xf8ff8020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RB_CHK, RBdup, UIMM6_20_SPLITW }, { C_CC } }
+
+/* vadd2 RB_CHK,RBdup,SIMM12_20 00101xxx101111000xxxxxxxxxxxxxxx */
+{ "vadd2", 0x28bc0000, 0xf8ff8000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RB_CHK, RBdup, SIMM12_20_SPLITW }, { 0 } }
+
+/* vadd2 RA_CHK,LIMM,RC 00101110001111000111xxxxxxxxxxxx */
+{ "vadd2", 0x2e3c7000, 0xfffff000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RA_CHK, LIMM, RC }, { 0 } }
+
+/* vadd2 RA_CHK,RB,LIMM 00101xxx001111000xxx111110xxxxxx */
+{ "vadd2", 0x283c0f80, 0xf8ff8fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RA_CHK, RB, LIMM }, { 0 } }
+
+/* vadd2 ZA,LIMM,RC 00101110001111000111xxxxxx111110 */
+{ "vadd2", 0x2e3c703e, 0xfffff03f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, LIMM, RC }, { 0 } }
+
+/* vadd2 ZA,RB,LIMM 00101xxx001111000xxx111110111110 */
+{ "vadd2", 0x283c0fbe, 0xf8ff8fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, RB, LIMM }, { 0 } }
+
+/* vadd2<.cc> RB_CHK,RBdup,LIMM 00101xxx111111000xxx1111100xxxxx */
+{ "vadd2", 0x28fc0f80, 0xf8ff8fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RB_CHK, RBdup, LIMM }, { C_CC } }
+
+/* vadd2<.cc> ZA,LIMM,RC 00101110111111000111xxxxxx0xxxxx */
+{ "vadd2", 0x2efc7000, 0xfffff020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, LIMM, RC }, { C_CC } }
+
+/* vadd2 RA_CHK,LIMM,UIMM6_20 00101110011111000111xxxxxxxxxxxx */
+{ "vadd2", 0x2e7c7000, 0xfffff000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RA_CHK, LIMM, UIMM6_20_SPLITW }, { 0 } }
+
+/* vadd2 ZA,LIMM,UIMM6_20 00101110011111000111xxxxxx111110 */
+{ "vadd2", 0x2e7c703e, 0xfffff03f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, LIMM, UIMM6_20_SPLITW }, { 0 } }
+
+/* vadd2<.cc> ZA,LIMM,UIMM6_20 00101110111111000111xxxxxx1xxxxx */
+{ "vadd2", 0x2efc7020, 0xfffff020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, LIMM, UIMM6_20_SPLITW }, { C_CC } }
+
+/* vadd2 ZA,LIMM,SIMM12_20 00101110101111000111xxxxxxxxxxxx */
+{ "vadd2", 0x2ebc7000, 0xfffff000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, LIMM, SIMM12_20 }, { 0 } }
+
+/* vadd2 RA_CHK,LIMM,LIMMdup 00101110001111000111111110xxxxxx */
+{ "vadd2", 0x2e3c7f80, 0xffffffc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RA_CHK, LIMM, LIMMdup }, { 0 } }
+
+/* vadd2 ZA,LIMM,LIMMdup 00101110001111000111111110111110 */
+{ "vadd2", 0x2e3c7fbe, 0xffffffff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, LIMM, LIMMdup }, { 0 } }
+
+/* vadd2<.cc> ZA,LIMM,LIMMdup 001011101111110001111111100xxxxx */
+{ "vadd2", 0x2efc7f80, 0xffffffe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, LIMM, LIMMdup }, { C_CC } }
+
+/* vadd2h RA_CHK,RB,RC 00101xxx000101000xxxxxxxxxxxxxxx */
+{ "vadd2h", 0x28140000, 0xf8ff8000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { RA_CHK, RB, RC }, { 0 } }
+
+/* vadd2h ZA,RB,RC 00101xxx000101000xxxxxxxxx111110 */
+{ "vadd2h", 0x2814003e, 0xf8ff803f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { ZA, RB, RC }, { 0 } }
+
+/* vadd2h<.cc> RB_CHK,RBdup,RC 00101xxx110101000xxxxxxxxx0xxxxx */
+{ "vadd2h", 0x28d40000, 0xf8ff8020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { RB_CHK, RBdup, RC }, { C_CC } }
+
+/* vadd2h RA_CHK,RB,UIMM6_20 00101xxx010101000xxxxxxxxxxxxxxx */
+{ "vadd2h", 0x28540000, 0xf8ff8000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { RA_CHK, RB, UIMM6_20_SPLITH }, { 0 } }
+
+/* vadd2h ZA,RB,UIMM6_20 00101xxx010101000xxxxxxxxx111110 */
+{ "vadd2h", 0x2854003e, 0xf8ff803f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { ZA, RB, UIMM6_20_SPLITH }, { 0 } }
+
+/* vadd2h<.cc> RB_CHK,RBdup,UIMM6_20 00101xxx110101000xxxxxxxxx1xxxxx */
+{ "vadd2h", 0x28d40020, 0xf8ff8020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { RB_CHK, RBdup, UIMM6_20_SPLITH }, { C_CC } }
+
+/* vadd2h RB_CHK,RBdup,SIMM12_20 00101xxx100101000xxxxxxxxxxxxxxx */
+{ "vadd2h", 0x28940000, 0xf8ff8000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { RB_CHK, RBdup, SIMM12_20_SPLITH }, { 0 } }
+
+/* vadd2h RA_CHK,LIMM,RC 00101110000101000111xxxxxxxxxxxx */
+{ "vadd2h", 0x2e147000, 0xfffff000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { RA_CHK, LIMM, RC }, { 0 } }
+
+/* vadd2h RA_CHK,RB,LIMM 00101xxx000101000xxx111110xxxxxx */
+{ "vadd2h", 0x28140f80, 0xf8ff8fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { RA_CHK, RB, LIMM }, { 0 } }
+
+/* vadd2h ZA,LIMM,RC 00101110000101000111xxxxxx111110 */
+{ "vadd2h", 0x2e14703e, 0xfffff03f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { ZA, LIMM, RC }, { 0 } }
+
+/* vadd2h ZA,RB,LIMM 00101xxx000101000xxx111110111110 */
+{ "vadd2h", 0x28140fbe, 0xf8ff8fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { ZA, RB, LIMM }, { 0 } }
+
+/* vadd2h<.cc> RB_CHK,RBdup,LIMM 00101xxx110101000xxx1111100xxxxx */
+{ "vadd2h", 0x28d40f80, 0xf8ff8fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { RB_CHK, RBdup, LIMM }, { C_CC } }
+
+/* vadd2h<.cc> ZA,LIMM,RC 00101110110101000111xxxxxx0xxxxx */
+{ "vadd2h", 0x2ed47000, 0xfffff020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { ZA, LIMM, RC }, { C_CC } }
+
+/* vadd2h RA_CHK,LIMM,UIMM6_20 00101110010101000111xxxxxxxxxxxx */
+{ "vadd2h", 0x2e547000, 0xfffff000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { RA_CHK, LIMM, UIMM6_20_SPLITH }, { 0 } }
+
+/* vadd2h ZA,LIMM,UIMM6_20 00101110010101000111xxxxxx111110 */
+{ "vadd2h", 0x2e54703e, 0xfffff03f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { ZA, LIMM, UIMM6_20_SPLITH }, { 0 } }
+
+/* vadd2h<.cc> ZA,LIMM,UIMM6_20 00101110110101000111xxxxxx1xxxxx */
+{ "vadd2h", 0x2ed47020, 0xfffff020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { ZA, LIMM, UIMM6_20_SPLITH }, { C_CC } }
+
+/* vadd2h ZA,LIMM,SIMM12_20 00101110100101000111xxxxxxxxxxxx */
+{ "vadd2h", 0x2e947000, 0xfffff000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { ZA, LIMM, SIMM12_20 }, { 0 } }
+
+/* vadd2h RA_CHK,LIMM,LIMMdup 00101110000101000111111110xxxxxx */
+{ "vadd2h", 0x2e147f80, 0xffffffc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { RA_CHK, LIMM, LIMMdup }, { 0 } }
+
+/* vadd2h ZA,LIMM,LIMMdup 00101110000101000111111110111110 */
+{ "vadd2h", 0x2e147fbe, 0xffffffff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { ZA, LIMM, LIMMdup }, { 0 } }
+
+/* vadd2h<.cc> ZA,LIMM,LIMMdup 001011101101010001111111100xxxxx */
+{ "vadd2h", 0x2ed47f80, 0xffffffe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { ZA, LIMM, LIMMdup }, { C_CC } }
+
+/* vadd4h RA_CHK,RB,RC 00101xxx001110000xxxxxxxxxxxxxxx */
+{ "vadd4h", 0x28380000, 0xf8ff8000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RA_CHK, RB, RC }, { 0 } }
+
+/* vadd4h ZA,RB,RC 00101xxx001110000xxxxxxxxx111110 */
+{ "vadd4h", 0x2838003e, 0xf8ff803f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, RB, RC }, { 0 } }
+
+/* vadd4h<.cc> RB_CHK,RBdup,RC 00101xxx111110000xxxxxxxxx0xxxxx */
+{ "vadd4h", 0x28f80000, 0xf8ff8020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RB_CHK, RBdup, RC }, { C_CC } }
+
+/* vadd4h RA_CHK,RB,UIMM6_20 00101xxx011110000xxxxxxxxxxxxxxx */
+{ "vadd4h", 0x28780000, 0xf8ff8000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RA_CHK, RB, UIMM6_20_SPLITH }, { 0 } }
+
+/* vadd4h ZA,RB,UIMM6_20 00101xxx011110000xxxxxxxxx111110 */
+{ "vadd4h", 0x2878003e, 0xf8ff803f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, RB, UIMM6_20_SPLITH }, { 0 } }
+
+/* vadd4h<.cc> RB_CHK,RBdup,UIMM6_20 00101xxx111110000xxxxxxxxx1xxxxx */
+{ "vadd4h", 0x28f80020, 0xf8ff8020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RB_CHK, RBdup, UIMM6_20_SPLITH }, { C_CC } }
+
+/* vadd4h RB_CHK,RBdup,SIMM12_20 00101xxx101110000xxxxxxxxxxxxxxx */
+{ "vadd4h", 0x28b80000, 0xf8ff8000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RB_CHK, RBdup, SIMM12_20_SPLITH }, { 0 } }
+
+/* vadd4h RA_CHK,LIMM,RC 00101110001110000111xxxxxxxxxxxx */
+{ "vadd4h", 0x2e387000, 0xfffff000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RA_CHK, LIMM, RC }, { 0 } }
+
+/* vadd4h RA_CHK,RB,LIMM 00101xxx001110000xxx111110xxxxxx */
+{ "vadd4h", 0x28380f80, 0xf8ff8fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RA_CHK, RB, LIMM }, { 0 } }
+
+/* vadd4h ZA,LIMM,RC 00101110001110000111xxxxxx111110 */
+{ "vadd4h", 0x2e38703e, 0xfffff03f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, LIMM, RC }, { 0 } }
+
+/* vadd4h ZA,RB,LIMM 00101xxx001110000xxx111110111110 */
+{ "vadd4h", 0x28380fbe, 0xf8ff8fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, RB, LIMM }, { 0 } }
+
+/* vadd4h<.cc> RB_CHK,RBdup,LIMM 00101xxx111110000xxx1111100xxxxx */
+{ "vadd4h", 0x28f80f80, 0xf8ff8fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RB_CHK, RBdup, LIMM }, { C_CC } }
+
+/* vadd4h<.cc> ZA,LIMM,RC 00101110111110000111xxxxxx0xxxxx */
+{ "vadd4h", 0x2ef87000, 0xfffff020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, LIMM, RC }, { C_CC } }
+
+/* vadd4h RA_CHK,LIMM,UIMM6_20 00101110011110000111xxxxxxxxxxxx */
+{ "vadd4h", 0x2e787000, 0xfffff000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RA_CHK, LIMM, UIMM6_20_SPLITH }, { 0 } }
+
+/* vadd4h ZA,LIMM,UIMM6_20 00101110011110000111xxxxxx111110 */
+{ "vadd4h", 0x2e78703e, 0xfffff03f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, LIMM, UIMM6_20_SPLITH }, { 0 } }
+
+/* vadd4h<.cc> ZA,LIMM,UIMM6_20 00101110111110000111xxxxxx1xxxxx */
+{ "vadd4h", 0x2ef87020, 0xfffff020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, LIMM, UIMM6_20_SPLITH }, { C_CC } }
+
+/* vadd4h ZA,LIMM,SIMM12_20 00101110101110000111xxxxxxxxxxxx */
+{ "vadd4h", 0x2eb87000, 0xfffff000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, LIMM, SIMM12_20 }, { 0 } }
+
+/* vadd4h RA_CHK,LIMM,LIMMdup 00101110001110000111111110xxxxxx */
+{ "vadd4h", 0x2e387f80, 0xffffffc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RA_CHK, LIMM, LIMMdup }, { 0 } }
+
+/* vadd4h ZA,LIMM,LIMMdup 00101110001110000111111110111110 */
+{ "vadd4h", 0x2e387fbe, 0xffffffff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, LIMM, LIMMdup }, { 0 } }
+
+/* vadd4h<.cc> ZA,LIMM,LIMMdup 001011101111100001111111100xxxxx */
+{ "vadd4h", 0x2ef87f80, 0xffffffe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, LIMM, LIMMdup }, { C_CC } }
+
+/* vaddsub RA_CHK,RB,RC 00101xxx001111100xxxxxxxxxxxxxxx */
+{ "vaddsub", 0x283e0000, 0xf8ff8000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RA_CHK, RB, RC }, { 0 } }
+
+/* vaddsub ZA,RB,RC 00101xxx001111100xxxxxxxxx111110 */
+{ "vaddsub", 0x283e003e, 0xf8ff803f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, RB, RC }, { 0 } }
+
+/* vaddsub<.cc> RB_CHK,RBdup,RC 00101xxx111111100xxxxxxxxx0xxxxx */
+{ "vaddsub", 0x28fe0000, 0xf8ff8020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RB_CHK, RBdup, RC }, { C_CC } }
+
+/* vaddsub RA_CHK,RB,UIMM6_20 00101xxx011111100xxxxxxxxxxxxxxx */
+{ "vaddsub", 0x287e0000, 0xf8ff8000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RA_CHK, RB, UIMM6_20_SPLITW }, { 0 } }
+
+/* vaddsub ZA,RB,UIMM6_20 00101xxx011111100xxxxxxxxx111110 */
+{ "vaddsub", 0x287e003e, 0xf8ff803f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, RB, UIMM6_20_SPLITW }, { 0 } }
+
+/* vaddsub<.cc> RB_CHK,RBdup,UIMM6_20 00101xxx111111100xxxxxxxxx1xxxxx */
+{ "vaddsub", 0x28fe0020, 0xf8ff8020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RB_CHK, RBdup, UIMM6_20_SPLITW }, { C_CC } }
+
+/* vaddsub RB_CHK,RBdup,SIMM12_20 00101xxx101111100xxxxxxxxxxxxxxx */
+{ "vaddsub", 0x28be0000, 0xf8ff8000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RB_CHK, RBdup, SIMM12_20_SPLITW }, { 0 } }
+
+/* vaddsub RA_CHK,LIMM,RC 00101110001111100111xxxxxxxxxxxx */
+{ "vaddsub", 0x2e3e7000, 0xfffff000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RA_CHK, LIMM, RC }, { 0 } }
+
+/* vaddsub RA_CHK,RB,LIMM 00101xxx001111100xxx111110xxxxxx */
+{ "vaddsub", 0x283e0f80, 0xf8ff8fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RA_CHK, RB, LIMM }, { 0 } }
+
+/* vaddsub ZA,LIMM,RC 00101110001111100111xxxxxx111110 */
+{ "vaddsub", 0x2e3e703e, 0xfffff03f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, LIMM, RC }, { 0 } }
+
+/* vaddsub ZA,RB,LIMM 00101xxx001111100xxx111110111110 */
+{ "vaddsub", 0x283e0fbe, 0xf8ff8fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, RB, LIMM }, { 0 } }
+
+/* vaddsub<.cc> RB_CHK,RBdup,LIMM 00101xxx111111100xxx1111100xxxxx */
+{ "vaddsub", 0x28fe0f80, 0xf8ff8fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RB_CHK, RBdup, LIMM }, { C_CC } }
+
+/* vaddsub<.cc> ZA,LIMM,RC 00101110111111100111xxxxxx0xxxxx */
+{ "vaddsub", 0x2efe7000, 0xfffff020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, LIMM, RC }, { C_CC } }
+
+/* vaddsub RA_CHK,LIMM,UIMM6_20 00101110011111100111xxxxxxxxxxxx */
+{ "vaddsub", 0x2e7e7000, 0xfffff000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RA_CHK, LIMM, UIMM6_20_SPLITW }, { 0 } }
+
+/* vaddsub ZA,LIMM,UIMM6_20 00101110011111100111xxxxxx111110 */
+{ "vaddsub", 0x2e7e703e, 0xfffff03f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, LIMM, UIMM6_20_SPLITW }, { 0 } }
+
+/* vaddsub<.cc> ZA,LIMM,UIMM6_20 00101110111111100111xxxxxx1xxxxx */
+{ "vaddsub", 0x2efe7020, 0xfffff020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, LIMM, UIMM6_20_SPLITW }, { C_CC } }
+
+/* vaddsub ZA,LIMM,SIMM12_20 00101110101111100111xxxxxxxxxxxx */
+{ "vaddsub", 0x2ebe7000, 0xfffff000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, LIMM, SIMM12_20_SPLITW }, { 0 } }
+
+/* vaddsub RA_CHK,LIMM,LIMMdup 00101110001111100111111110xxxxxx */
+{ "vaddsub", 0x2e3e7f80, 0xffffffc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RA_CHK, LIMM, LIMMdup }, { 0 } }
+
+/* vaddsub ZA,LIMM,LIMMdup 00101110001111100111111110111110 */
+{ "vaddsub", 0x2e3e7fbe, 0xffffffff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, LIMM, LIMMdup }, { 0 } }
+
+/* vaddsub<.cc> ZA,LIMM,LIMMdup 001011101111111001111111100xxxxx */
+{ "vaddsub", 0x2efe7f80, 0xffffffe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, LIMM, LIMMdup }, { C_CC } }
+
+/* vaddsub2h RA_CHK,RB,RC 00101xxx000101100xxxxxxxxxxxxxxx */
+{ "vaddsub2h", 0x28160000, 0xf8ff8000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { RA_CHK, RB, RC }, { 0 } }
+
+/* vaddsub2h ZA,RB,RC 00101xxx000101100xxxxxxxxx111110 */
+{ "vaddsub2h", 0x2816003e, 0xf8ff803f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { ZA, RB, RC }, { 0 } }
+
+/* vaddsub2h<.cc> RB_CHK,RBdup,RC 00101xxx110101100xxxxxxxxx0xxxxx */
+{ "vaddsub2h", 0x28d60000, 0xf8ff8020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { RB_CHK, RBdup, RC }, { C_CC } }
+
+/* vaddsub2h RA_CHK,RB,UIMM6_20 00101xxx010101100xxxxxxxxxxxxxxx */
+{ "vaddsub2h", 0x28560000, 0xf8ff8000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { RA_CHK, RB, UIMM6_20_SPLITH }, { 0 } }
+
+/* vaddsub2h ZA,RB,UIMM6_20 00101xxx010101100xxxxxxxxx111110 */
+{ "vaddsub2h", 0x2856003e, 0xf8ff803f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { ZA, RB, UIMM6_20_SPLITH }, { 0 } }
+
+/* vaddsub2h<.cc> RB_CHK,RBdup,UIMM6_20 00101xxx110101100xxxxxxxxx1xxxxx */
+{ "vaddsub2h", 0x28d60020, 0xf8ff8020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { RB_CHK, RBdup, UIMM6_20_SPLITH }, { C_CC } }
+
+/* vaddsub2h RB_CHK,RBdup,SIMM12_20 00101xxx100101100xxxxxxxxxxxxxxx */
+{ "vaddsub2h", 0x28960000, 0xf8ff8000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { RB_CHK, RBdup, SIMM12_20_SPLITH }, { 0 } }
+
+/* vaddsub2h RA_CHK,LIMM,RC 00101110000101100111xxxxxxxxxxxx */
+{ "vaddsub2h", 0x2e167000, 0xfffff000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { RA_CHK, LIMM, RC }, { 0 } }
+
+/* vaddsub2h RA_CHK,RB,LIMM 00101xxx000101100xxx111110xxxxxx */
+{ "vaddsub2h", 0x28160f80, 0xf8ff8fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { RA_CHK, RB, LIMM }, { 0 } }
+
+/* vaddsub2h ZA,LIMM,RC 00101110000101100111xxxxxx111110 */
+{ "vaddsub2h", 0x2e16703e, 0xfffff03f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { ZA, LIMM, RC }, { 0 } }
+
+/* vaddsub2h ZA,RB,LIMM 00101xxx000101100xxx111110111110 */
+{ "vaddsub2h", 0x28160fbe, 0xf8ff8fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { ZA, RB, LIMM }, { 0 } }
+
+/* vaddsub2h<.cc> RB_CHK,RBdup,LIMM 00101xxx110101100xxx1111100xxxxx */
+{ "vaddsub2h", 0x28d60f80, 0xf8ff8fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { RB_CHK, RBdup, LIMM }, { C_CC } }
+
+/* vaddsub2h<.cc> ZA,LIMM,RC 00101110110101100111xxxxxx0xxxxx */
+{ "vaddsub2h", 0x2ed67000, 0xfffff020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { ZA, LIMM, RC }, { C_CC } }
+
+/* vaddsub2h RA_CHK,LIMM,UIMM6_20 00101110010101100111xxxxxxxxxxxx */
+{ "vaddsub2h", 0x2e567000, 0xfffff000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { RA_CHK, LIMM, UIMM6_20_SPLITH }, { 0 } }
+
+/* vaddsub2h ZA,LIMM,UIMM6_20 00101110010101100111xxxxxx111110 */
+{ "vaddsub2h", 0x2e56703e, 0xfffff03f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { ZA, LIMM, UIMM6_20_SPLITH }, { 0 } }
+
+/* vaddsub2h<.cc> ZA,LIMM,UIMM6_20 00101110110101100111xxxxxx1xxxxx */
+{ "vaddsub2h", 0x2ed67020, 0xfffff020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { ZA, LIMM, UIMM6_20_SPLITH }, { C_CC } }
+
+/* vaddsub2h ZA,LIMM,SIMM12_20 00101110100101100111xxxxxxxxxxxx */
+{ "vaddsub2h", 0x2e967000, 0xfffff000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { ZA, LIMM, SIMM12_20_SPLITH }, { 0 } }
+
+/* vaddsub2h RA_CHK,LIMM,LIMMdup 00101110000101100111111110xxxxxx */
+{ "vaddsub2h", 0x2e167f80, 0xffffffc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { RA_CHK, LIMM, LIMMdup }, { 0 } }
+
+/* vaddsub2h ZA,LIMM,LIMMdup 00101110000101100111111110111110 */
+{ "vaddsub2h", 0x2e167fbe, 0xffffffff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { ZA, LIMM, LIMMdup }, { 0 } }
+
+/* vaddsub2h<.cc> ZA,LIMM,LIMMdup 001011101101011001111111100xxxxx */
+{ "vaddsub2h", 0x2ed67f80, 0xffffffe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { ZA, LIMM, LIMMdup }, { C_CC } }
+
+/* vaddsub4h RA_CHK,RB,RC 00101xxx001110100xxxxxxxxxxxxxxx */
+{ "vaddsub4h", 0x283a0000, 0xf8ff8000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RA_CHK, RB, RC }, { 0 } }
+
+/* vaddsub4h ZA,RB,RC 00101xxx001110100xxxxxxxxx111110 */
+{ "vaddsub4h", 0x283a003e, 0xf8ff803f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, RB, RC }, { 0 } }
+
+/* vaddsub4h<.cc> RB_CHK,RBdup,RC 00101xxx111110100xxxxxxxxx0xxxxx */
+{ "vaddsub4h", 0x28fa0000, 0xf8ff8020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RB_CHK, RBdup, RC }, { C_CC } }
+
+/* vaddsub4h RA_CHK,RB,UIMM6_20 00101xxx011110100xxxxxxxxxxxxxxx */
+{ "vaddsub4h", 0x287a0000, 0xf8ff8000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RA_CHK, RB, UIMM6_20_SPLITH }, { 0 } }
+
+/* vaddsub4h ZA,RB,UIMM6_20 00101xxx011110100xxxxxxxxx111110 */
+{ "vaddsub4h", 0x287a003e, 0xf8ff803f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, RB, UIMM6_20_SPLITH }, { 0 } }
+
+/* vaddsub4h<.cc> RB_CHK,RBdup,UIMM6_20 00101xxx111110100xxxxxxxxx1xxxxx */
+{ "vaddsub4h", 0x28fa0020, 0xf8ff8020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RB_CHK, RBdup, UIMM6_20_SPLITH }, { C_CC } }
+
+/* vaddsub4h RB_CHK,RBdup,SIMM12_20 00101xxx101110100xxxxxxxxxxxxxxx */
+{ "vaddsub4h", 0x28ba0000, 0xf8ff8000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RB_CHK, RBdup, SIMM12_20_SPLITH }, { 0 } }
+
+/* vaddsub4h RA_CHK,LIMM,RC 00101110001110100111xxxxxxxxxxxx */
+{ "vaddsub4h", 0x2e3a7000, 0xfffff000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RA_CHK, LIMM, RC }, { 0 } }
+
+/* vaddsub4h RA_CHK,RB,LIMM 00101xxx001110100xxx111110xxxxxx */
+{ "vaddsub4h", 0x283a0f80, 0xf8ff8fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RA_CHK, RB, LIMM }, { 0 } }
+
+/* vaddsub4h ZA,LIMM,RC 00101110001110100111xxxxxx111110 */
+{ "vaddsub4h", 0x2e3a703e, 0xfffff03f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, LIMM, RC }, { 0 } }
+
+/* vaddsub4h ZA,RB,LIMM 00101xxx001110100xxx111110111110 */
+{ "vaddsub4h", 0x283a0fbe, 0xf8ff8fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, RB, LIMM }, { 0 } }
+
+/* vaddsub4h<.cc> RB_CHK,RBdup,LIMM 00101xxx111110100xxx1111100xxxxx */
+{ "vaddsub4h", 0x28fa0f80, 0xf8ff8fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RB_CHK, RBdup, LIMM }, { C_CC } }
+
+/* vaddsub4h<.cc> ZA,LIMM,RC 00101110111110100111xxxxxx0xxxxx */
+{ "vaddsub4h", 0x2efa7000, 0xfffff020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, LIMM, RC }, { C_CC } }
+
+/* vaddsub4h RA_CHK,LIMM,UIMM6_20 00101110011110100111xxxxxxxxxxxx */
+{ "vaddsub4h", 0x2e7a7000, 0xfffff000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RA_CHK, LIMM, UIMM6_20_SPLITH }, { 0 } }
+
+/* vaddsub4h ZA,LIMM,UIMM6_20 00101110011110100111xxxxxx111110 */
+{ "vaddsub4h", 0x2e7a703e, 0xfffff03f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, LIMM, UIMM6_20_SPLITH }, { 0 } }
+
+/* vaddsub4h<.cc> ZA,LIMM,UIMM6_20 00101110111110100111xxxxxx1xxxxx */
+{ "vaddsub4h", 0x2efa7020, 0xfffff020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, LIMM, UIMM6_20_SPLITH }, { C_CC } }
+
+/* vaddsub4h ZA,LIMM,SIMM12_20 00101110101110100111xxxxxxxxxxxx */
+{ "vaddsub4h", 0x2eba7000, 0xfffff000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, LIMM, SIMM12_20_SPLITH }, { 0 } }
+
+/* vaddsub4h RA_CHK,LIMM,LIMMdup 00101110001110100111111110xxxxxx */
+{ "vaddsub4h", 0x2e3a7f80, 0xffffffc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RA_CHK, LIMM, LIMMdup }, { 0 } }
+
+/* vaddsub4h ZA,LIMM,LIMMdup 00101110001110100111111110111110 */
+{ "vaddsub4h", 0x2e3a7fbe, 0xffffffff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, LIMM, LIMMdup }, { 0 } }
+
+/* vaddsub4h<.cc> ZA,LIMM,LIMMdup 001011101111101001111111100xxxxx */
+{ "vaddsub4h", 0x2efa7f80, 0xffffffe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, LIMM, LIMMdup }, { C_CC } }
+
+/* vmac2h RA_CHK,RB,RC 00101xxx000111100xxxxxxxxxxxxxxx */
+{ "vmac2h", 0x281e0000, 0xf8ff8000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, NONE, { RA_CHK, RB, RC }, { 0 } }
+
+/* vmac2h ZA,RB,RC 00101xxx000111100xxxxxxxxx111110 */
+{ "vmac2h", 0x281e003e, 0xf8ff803f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, NONE, { ZA, RB, RC }, { 0 } }
+
+/* vmac2h<.cc> RB_CHK,RBdup,RC 00101xxx110111100xxxxxxxxx0xxxxx */
+{ "vmac2h", 0x28de0000, 0xf8ff8020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, NONE, { RB_CHK, RBdup, RC }, { C_CC } }
+
+/* vmac2h RA_CHK,RB,UIMM6_20 00101xxx010111100xxxxxxxxxxxxxxx */
+{ "vmac2h", 0x285e0000, 0xf8ff8000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, NONE, { RA_CHK, RB, UIMM6_20_SPLITH }, { 0 } }
+
+/* vmac2h ZA,RB,UIMM6_20 00101xxx010111100xxxxxxxxx111110 */
+{ "vmac2h", 0x285e003e, 0xf8ff803f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, NONE, { ZA, RB, UIMM6_20_SPLITH }, { 0 } }
+
+/* vmac2h<.cc> RB_CHK,RBdup,UIMM6_20 00101xxx110111100xxxxxxxxx1xxxxx */
+{ "vmac2h", 0x28de0020, 0xf8ff8020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, NONE, { RB_CHK, RBdup, UIMM6_20_SPLITH }, { C_CC } }
+
+/* vmac2h RB_CHK,RBdup,SIMM12_20 00101xxx100111100xxxxxxxxxxxxxxx */
+{ "vmac2h", 0x289e0000, 0xf8ff8000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, NONE, { RB_CHK, RBdup, SIMM12_20_SPLITH }, { 0 } }
+
+/* vmac2h RA_CHK,LIMM,RC 00101110000111100111xxxxxxxxxxxx */
+{ "vmac2h", 0x2e1e7000, 0xfffff000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, NONE, { RA_CHK, LIMM, RC }, { 0 } }
+
+/* vmac2h RA_CHK,RB,LIMM 00101xxx000111100xxx111110xxxxxx */
+{ "vmac2h", 0x281e0f80, 0xf8ff8fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, NONE, { RA_CHK, RB, LIMM }, { 0 } }
+
+/* vmac2h ZA,LIMM,RC 00101110000111100111xxxxxx111110 */
+{ "vmac2h", 0x2e1e703e, 0xfffff03f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, NONE, { ZA, LIMM, RC }, { 0 } }
+
+/* vmac2h ZA,RB,LIMM 00101xxx000111100xxx111110111110 */
+{ "vmac2h", 0x281e0fbe, 0xf8ff8fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, NONE, { ZA, RB, LIMM }, { 0 } }
+
+/* vmac2h<.cc> RB_CHK,RBdup,LIMM 00101xxx110111100xxx1111100xxxxx */
+{ "vmac2h", 0x28de0f80, 0xf8ff8fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, NONE, { RB_CHK, RBdup, LIMM }, { C_CC } }
+
+/* vmac2h<.cc> ZA,LIMM,RC 00101110110111100111xxxxxx0xxxxx */
+{ "vmac2h", 0x2ede7000, 0xfffff020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, NONE, { ZA, LIMM, RC }, { C_CC } }
+
+/* vmac2h RA_CHK,LIMM,UIMM6_20 00101110010111100111xxxxxxxxxxxx */
+{ "vmac2h", 0x2e5e7000, 0xfffff000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, NONE, { RA_CHK, LIMM, UIMM6_20_SPLITH }, { 0 } }
+
+/* vmac2h ZA,LIMM,UIMM6_20 00101110010111100111xxxxxx111110 */
+{ "vmac2h", 0x2e5e703e, 0xfffff03f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, NONE, { ZA, LIMM, UIMM6_20_SPLITH }, { 0 } }
+
+/* vmac2h<.cc> ZA,LIMM,UIMM6_20 00101110110111100111xxxxxx1xxxxx */
+{ "vmac2h", 0x2ede7020, 0xfffff020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, NONE, { ZA, LIMM, UIMM6_20_SPLITH }, { C_CC } }
+
+/* vmac2h ZA,LIMM,SIMM12_20 00101110100111100111xxxxxxxxxxxx */
+{ "vmac2h", 0x2e9e7000, 0xfffff000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, NONE, { ZA, LIMM, SIMM12_20_SPLITH }, { 0 } }
+
+/* vmac2h RA_CHK,LIMM,LIMMdup 00101110000111100111111110xxxxxx */
+{ "vmac2h", 0x2e1e7f80, 0xffffffc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, NONE, { RA_CHK, LIMM, LIMMdup }, { 0 } }
+
+/* vmac2h ZA,LIMM,LIMMdup 00101110000111100111111110111110 */
+{ "vmac2h", 0x2e1e7fbe, 0xffffffff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, NONE, { ZA, LIMM, LIMMdup }, { 0 } }
+
+/* vmac2h<.cc> ZA,LIMM,LIMMdup 001011101101111001111111100xxxxx */
+{ "vmac2h", 0x2ede7f80, 0xffffffe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, NONE, { ZA, LIMM, LIMMdup }, { C_CC } }
+
+/* vmac2hu RA_CHK,RB,RC 00101xxx000111110xxxxxxxxxxxxxxx */
+{ "vmac2hu", 0x281f0000, 0xf8ff8000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, NONE, { RA_CHK, RB, RC }, { 0 } }
+
+/* vmac2hu ZA,RB,RC 00101xxx000111110xxxxxxxxx111110 */
+{ "vmac2hu", 0x281f003e, 0xf8ff803f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, NONE, { ZA, RB, RC }, { 0 } }
+
+/* vmac2hu<.cc> RB_CHK,RBdup,RC 00101xxx110111110xxxxxxxxx0xxxxx */
+{ "vmac2hu", 0x28df0000, 0xf8ff8020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, NONE, { RB_CHK, RBdup, RC }, { C_CC } }
+
+/* vmac2hu RA_CHK,RB,UIMM6_20 00101xxx010111110xxxxxxxxxxxxxxx */
+{ "vmac2hu", 0x285f0000, 0xf8ff8000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, NONE, { RA_CHK, RB, UIMM6_20_SPLITH }, { 0 } }
+
+/* vmac2hu ZA,RB,UIMM6_20 00101xxx010111110xxxxxxxxx111110 */
+{ "vmac2hu", 0x285f003e, 0xf8ff803f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, NONE, { ZA, RB, UIMM6_20_SPLITH }, { 0 } }
+
+/* vmac2hu<.cc> RB_CHK,RBdup,UIMM6_20 00101xxx110111110xxxxxxxxx1xxxxx */
+{ "vmac2hu", 0x28df0020, 0xf8ff8020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, NONE, { RB_CHK, RBdup, UIMM6_20_SPLITH }, { C_CC } }
+
+/* vmac2hu RB_CHK,RBdup,SIMM12_20 00101xxx100111110xxxxxxxxxxxxxxx */
+{ "vmac2hu", 0x289f0000, 0xf8ff8000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, NONE, { RB_CHK, RBdup, SIMM12_20_SPLITH }, { 0 } }
+
+/* vmac2hu RA_CHK,LIMM,RC 00101110000111110111xxxxxxxxxxxx */
+{ "vmac2hu", 0x2e1f7000, 0xfffff000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, NONE, { RA_CHK, LIMM, RC }, { 0 } }
+
+/* vmac2hu RA_CHK,RB,LIMM 00101xxx000111110xxx111110xxxxxx */
+{ "vmac2hu", 0x281f0f80, 0xf8ff8fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, NONE, { RA_CHK, RB, LIMM }, { 0 } }
+
+/* vmac2hu ZA,LIMM,RC 00101110000111110111xxxxxx111110 */
+{ "vmac2hu", 0x2e1f703e, 0xfffff03f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, NONE, { ZA, LIMM, RC }, { 0 } }
+
+/* vmac2hu ZA,RB,LIMM 00101xxx000111110xxx111110111110 */
+{ "vmac2hu", 0x281f0fbe, 0xf8ff8fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, NONE, { ZA, RB, LIMM }, { 0 } }
+
+/* vmac2hu<.cc> RB_CHK,RBdup,LIMM 00101xxx110111110xxx1111100xxxxx */
+{ "vmac2hu", 0x28df0f80, 0xf8ff8fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, NONE, { RB_CHK, RBdup, LIMM }, { C_CC } }
+
+/* vmac2hu<.cc> ZA,LIMM,RC 00101110110111110111xxxxxx0xxxxx */
+{ "vmac2hu", 0x2edf7000, 0xfffff020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, NONE, { ZA, LIMM, RC }, { C_CC } }
+
+/* vmac2hu RA_CHK,LIMM,UIMM6_20 00101110010111110111xxxxxxxxxxxx */
+{ "vmac2hu", 0x2e5f7000, 0xfffff000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, NONE, { RA_CHK, LIMM, UIMM6_20_SPLITH }, { 0 } }
+
+/* vmac2hu ZA,LIMM,UIMM6_20 00101110010111110111xxxxxx111110 */
+{ "vmac2hu", 0x2e5f703e, 0xfffff03f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, NONE, { ZA, LIMM, UIMM6_20_SPLITH }, { 0 } }
+
+/* vmac2hu<.cc> ZA,LIMM,UIMM6_20 00101110110111110111xxxxxx1xxxxx */
+{ "vmac2hu", 0x2edf7020, 0xfffff020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, NONE, { ZA, LIMM, UIMM6_20_SPLITH }, { C_CC } }
+
+/* vmac2hu ZA,LIMM,SIMM12_20 00101110100111110111xxxxxxxxxxxx */
+{ "vmac2hu", 0x2e9f7000, 0xfffff000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, NONE, { ZA, LIMM, SIMM12_20_SPLITH }, { 0 } }
+
+/* vmac2hu RA_CHK,LIMM,LIMMdup 00101110000111110111111110xxxxxx */
+{ "vmac2hu", 0x2e1f7f80, 0xffffffc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, NONE, { RA_CHK, LIMM, LIMMdup }, { 0 } }
+
+/* vmac2hu ZA,LIMM,LIMMdup 00101110000111110111111110111110 */
+{ "vmac2hu", 0x2e1f7fbe, 0xffffffff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, NONE, { ZA, LIMM, LIMMdup }, { 0 } }
+
+/* vmac2hu<.cc> ZA,LIMM,LIMMdup 001011101101111101111111100xxxxx */
+{ "vmac2hu", 0x2edf7f80, 0xffffffe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, NONE, { ZA, LIMM, LIMMdup }, { C_CC } }
+
+/* vmpy2h RA_CHK,RB,RC 00101xxx000111000xxxxxxxxxxxxxxx */
+{ "vmpy2h", 0x281c0000, 0xf8ff8000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY8E, { RA_CHK, RB, RC }, { 0 } }
+
+/* vmpy2h ZA,RB,RC 00101xxx000111000xxxxxxxxx111110 */
+{ "vmpy2h", 0x281c003e, 0xf8ff803f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY8E, { ZA, RB, RC }, { 0 } }
+
+/* vmpy2h<.cc> RB_CHK,RBdup,RC 00101xxx110111000xxxxxxxxx0xxxxx */
+{ "vmpy2h", 0x28dc0000, 0xf8ff8020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY8E, { RB_CHK, RBdup, RC }, { C_CC } }
+
+/* vmpy2h RA_CHK,RB,UIMM6_20 00101xxx010111000xxxxxxxxxxxxxxx */
+{ "vmpy2h", 0x285c0000, 0xf8ff8000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY8E, { RA_CHK, RB, UIMM6_20 }, { 0 } }
+
+/* vmpy2h ZA,RB,UIMM6_20 00101xxx010111000xxxxxxxxx111110 */
+{ "vmpy2h", 0x285c003e, 0xf8ff803f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY8E, { ZA, RB, UIMM6_20 }, { 0 } }
+
+/* vmpy2h<.cc> RB_CHK,RBdup,UIMM6_20 00101xxx110111000xxxxxxxxx1xxxxx */
+{ "vmpy2h", 0x28dc0020, 0xf8ff8020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY8E, { RB_CHK, RBdup, UIMM6_20 }, { C_CC } }
+
+/* vmpy2h RB_CHK,RBdup,SIMM12_20 00101xxx100111000xxxxxxxxxxxxxxx */
+{ "vmpy2h", 0x289c0000, 0xf8ff8000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY8E, { RB_CHK, RBdup, SIMM12_20 }, { 0 } }
+
+/* vmpy2h RA_CHK,LIMM,RC 00101110000111000111xxxxxxxxxxxx */
+{ "vmpy2h", 0x2e1c7000, 0xfffff000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY8E, { RA_CHK, LIMM, RC }, { 0 } }
+
+/* vmpy2h RA_CHK,RB,LIMM 00101xxx000111000xxx111110xxxxxx */
+{ "vmpy2h", 0x281c0f80, 0xf8ff8fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY8E, { RA_CHK, RB, LIMM }, { 0 } }
+
+/* vmpy2h ZA,LIMM,RC 00101110000111000111xxxxxx111110 */
+{ "vmpy2h", 0x2e1c703e, 0xfffff03f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY8E, { ZA, LIMM, RC }, { 0 } }
+
+/* vmpy2h ZA,RB,LIMM 00101xxx000111000xxx111110111110 */
+{ "vmpy2h", 0x281c0fbe, 0xf8ff8fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY8E, { ZA, RB, LIMM }, { 0 } }
+
+/* vmpy2h<.cc> RB_CHK,RBdup,LIMM 00101xxx110111000xxx1111100xxxxx */
+{ "vmpy2h", 0x28dc0f80, 0xf8ff8fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY8E, { RB_CHK, RBdup, LIMM }, { C_CC } }
+
+/* vmpy2h<.cc> ZA,LIMM,RC 00101110110111000111xxxxxx0xxxxx */
+{ "vmpy2h", 0x2edc7000, 0xfffff020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY8E, { ZA, LIMM, RC }, { C_CC } }
+
+/* vmpy2h RA_CHK,LIMM,UIMM6_20 00101110010111000111xxxxxxxxxxxx */
+{ "vmpy2h", 0x2e5c7000, 0xfffff000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY8E, { RA_CHK, LIMM, UIMM6_20 }, { 0 } }
+
+/* vmpy2h ZA,LIMM,UIMM6_20 00101110010111000111xxxxxx111110 */
+{ "vmpy2h", 0x2e5c703e, 0xfffff03f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY8E, { ZA, LIMM, UIMM6_20 }, { 0 } }
+
+/* vmpy2h<.cc> ZA,LIMM,UIMM6_20 00101110110111000111xxxxxx1xxxxx */
+{ "vmpy2h", 0x2edc7020, 0xfffff020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY8E, { ZA, LIMM, UIMM6_20 }, { C_CC } }
+
+/* vmpy2h ZA,LIMM,SIMM12_20 00101110100111000111xxxxxxxxxxxx */
+{ "vmpy2h", 0x2e9c7000, 0xfffff000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY8E, { ZA, LIMM, SIMM12_20 }, { 0 } }
+
+/* vmpy2h RA_CHK,LIMM,LIMMdup 00101110000111000111111110xxxxxx */
+{ "vmpy2h", 0x2e1c7f80, 0xffffffc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY8E, { RA_CHK, LIMM, LIMMdup }, { 0 } }
+
+/* vmpy2h ZA,LIMM,LIMMdup 00101110000111000111111110111110 */
+{ "vmpy2h", 0x2e1c7fbe, 0xffffffff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY8E, { ZA, LIMM, LIMMdup }, { 0 } }
+
+/* vmpy2h<.cc> ZA,LIMM,LIMMdup 001011101101110001111111100xxxxx */
+{ "vmpy2h", 0x2edc7f80, 0xffffffe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY8E, { ZA, LIMM, LIMMdup }, { C_CC } }
+
+/* vmpy2hu RA_CHK,RB,RC 00101xxx000111010xxxxxxxxxxxxxxx */
+{ "vmpy2hu", 0x281d0000, 0xf8ff8000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY8E, { RA_CHK, RB, RC }, { 0 } }
+
+/* vmpy2hu ZA,RB,RC 00101xxx000111010xxxxxxxxx111110 */
+{ "vmpy2hu", 0x281d003e, 0xf8ff803f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY8E, { ZA, RB, RC }, { 0 } }
+
+/* vmpy2hu<.cc> RB_CHK,RBdup,RC 00101xxx110111010xxxxxxxxx0xxxxx */
+{ "vmpy2hu", 0x28dd0000, 0xf8ff8020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY8E, { RB_CHK, RBdup, RC }, { C_CC } }
+
+/* vmpy2hu RA_CHK,RB,UIMM6_20 00101xxx010111010xxxxxxxxxxxxxxx */
+{ "vmpy2hu", 0x285d0000, 0xf8ff8000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY8E, { RA_CHK, RB, UIMM6_20 }, { 0 } }
+
+/* vmpy2hu ZA,RB,UIMM6_20 00101xxx010111010xxxxxxxxx111110 */
+{ "vmpy2hu", 0x285d003e, 0xf8ff803f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY8E, { ZA, RB, UIMM6_20 }, { 0 } }
+
+/* vmpy2hu<.cc> RB_CHK,RBdup,UIMM6_20 00101xxx110111010xxxxxxxxx1xxxxx */
+{ "vmpy2hu", 0x28dd0020, 0xf8ff8020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY8E, { RB_CHK, RBdup, UIMM6_20 }, { C_CC } }
+
+/* vmpy2hu RB_CHK,RBdup,SIMM12_20 00101xxx100111010xxxxxxxxxxxxxxx */
+{ "vmpy2hu", 0x289d0000, 0xf8ff8000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY8E, { RB_CHK, RBdup, SIMM12_20 }, { 0 } }
+
+/* vmpy2hu RA_CHK,LIMM,RC 00101110000111010111xxxxxxxxxxxx */
+{ "vmpy2hu", 0x2e1d7000, 0xfffff000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY8E, { RA_CHK, LIMM, RC }, { 0 } }
+
+/* vmpy2hu RA_CHK,RB,LIMM 00101xxx000111010xxx111110xxxxxx */
+{ "vmpy2hu", 0x281d0f80, 0xf8ff8fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY8E, { RA_CHK, RB, LIMM }, { 0 } }
+
+/* vmpy2hu ZA,LIMM,RC 00101110000111010111xxxxxx111110 */
+{ "vmpy2hu", 0x2e1d703e, 0xfffff03f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY8E, { ZA, LIMM, RC }, { 0 } }
+
+/* vmpy2hu ZA,RB,LIMM 00101xxx000111010xxx111110111110 */
+{ "vmpy2hu", 0x281d0fbe, 0xf8ff8fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY8E, { ZA, RB, LIMM }, { 0 } }
+
+/* vmpy2hu<.cc> RB_CHK,RBdup,LIMM 00101xxx110111010xxx1111100xxxxx */
+{ "vmpy2hu", 0x28dd0f80, 0xf8ff8fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY8E, { RB_CHK, RBdup, LIMM }, { C_CC } }
+
+/* vmpy2hu<.cc> ZA,LIMM,RC 00101110110111010111xxxxxx0xxxxx */
+{ "vmpy2hu", 0x2edd7000, 0xfffff020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY8E, { ZA, LIMM, RC }, { C_CC } }
+
+/* vmpy2hu RA_CHK,LIMM,UIMM6_20 00101110010111010111xxxxxxxxxxxx */
+{ "vmpy2hu", 0x2e5d7000, 0xfffff000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY8E, { RA_CHK, LIMM, UIMM6_20 }, { 0 } }
+
+/* vmpy2hu ZA,LIMM,UIMM6_20 00101110010111010111xxxxxx111110 */
+{ "vmpy2hu", 0x2e5d703e, 0xfffff03f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY8E, { ZA, LIMM, UIMM6_20 }, { 0 } }
+
+/* vmpy2hu<.cc> ZA,LIMM,UIMM6_20 00101110110111010111xxxxxx1xxxxx */
+{ "vmpy2hu", 0x2edd7020, 0xfffff020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY8E, { ZA, LIMM, UIMM6_20 }, { C_CC } }
+
+/* vmpy2hu ZA,LIMM,SIMM12_20 00101110100111010111xxxxxxxxxxxx */
+{ "vmpy2hu", 0x2e9d7000, 0xfffff000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY8E, { ZA, LIMM, SIMM12_20 }, { 0 } }
+
+/* vmpy2hu RA_CHK,LIMM,LIMMdup 00101110000111010111111110xxxxxx */
+{ "vmpy2hu", 0x2e1d7f80, 0xffffffc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY8E, { RA_CHK, LIMM, LIMMdup }, { 0 } }
+
+/* vmpy2hu ZA,LIMM,LIMMdup 00101110000111010111111110111110 */
+{ "vmpy2hu", 0x2e1d7fbe, 0xffffffff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY8E, { ZA, LIMM, LIMMdup }, { 0 } }
+
+/* vmpy2hu<.cc> ZA,LIMM,LIMMdup 001011101101110101111111100xxxxx */
+{ "vmpy2hu", 0x2edd7f80, 0xffffffe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY8E, { ZA, LIMM, LIMMdup }, { C_CC } }
+
+/* vsub2 RA_CHK,RB,RC 00101xxx001111010xxxxxxxxxxxxxxx */
+{ "vsub2", 0x283d0000, 0xf8ff8000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RA_CHK, RB, RC }, { 0 } }
+
+/* vsub2 ZA,RB,RC 00101xxx001111010xxxxxxxxx111110 */
+{ "vsub2", 0x283d003e, 0xf8ff803f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, RB, RC }, { 0 } }
+
+/* vsub2<.cc> RB_CHK,RBdup,RC 00101xxx111111010xxxxxxxxx0xxxxx */
+{ "vsub2", 0x28fd0000, 0xf8ff8020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RB_CHK, RBdup, RC }, { C_CC } }
+
+/* vsub2 RA_CHK,RB,UIMM6_20 00101xxx011111010xxxxxxxxxxxxxxx */
+{ "vsub2", 0x287d0000, 0xf8ff8000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RA_CHK, RB, UIMM6_20_SPLITW }, { 0 } }
+
+/* vsub2 ZA,RB,UIMM6_20 00101xxx011111010xxxxxxxxx111110 */
+{ "vsub2", 0x287d003e, 0xf8ff803f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, RB, UIMM6_20_SPLITW }, { 0 } }
+
+/* vsub2<.cc> RB_CHK,RBdup,UIMM6_20 00101xxx111111010xxxxxxxxx1xxxxx */
+{ "vsub2", 0x28fd0020, 0xf8ff8020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RB_CHK, RBdup, UIMM6_20_SPLITW }, { C_CC } }
+
+/* vsub2 RB_CHK,RBdup,SIMM12_20 00101xxx101111010xxxxxxxxxxxxxxx */
+{ "vsub2", 0x28bd0000, 0xf8ff8000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RB_CHK, RBdup, SIMM12_20_SPLITW }, { 0 } }
+
+/* vsub2 RA_CHK,LIMM,RC 00101110001111010111xxxxxxxxxxxx */
+{ "vsub2", 0x2e3d7000, 0xfffff000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RA_CHK, LIMM, RC }, { 0 } }
+
+/* vsub2 RA_CHK,RB,LIMM 00101xxx001111010xxx111110xxxxxx */
+{ "vsub2", 0x283d0f80, 0xf8ff8fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RA_CHK, RB, LIMM }, { 0 } }
+
+/* vsub2 ZA,LIMM,RC 00101110001111010111xxxxxx111110 */
+{ "vsub2", 0x2e3d703e, 0xfffff03f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, LIMM, RC }, { 0 } }
+
+/* vsub2 ZA,RB,LIMM 00101xxx001111010xxx111110111110 */
+{ "vsub2", 0x283d0fbe, 0xf8ff8fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, RB, LIMM }, { 0 } }
+
+/* vsub2<.cc> RB_CHK,RBdup,LIMM 00101xxx111111010xxx1111100xxxxx */
+{ "vsub2", 0x28fd0f80, 0xf8ff8fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RB_CHK, RBdup, LIMM }, { C_CC } }
+
+/* vsub2<.cc> ZA,LIMM,RC 00101110111111010111xxxxxx0xxxxx */
+{ "vsub2", 0x2efd7000, 0xfffff020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, LIMM, RC }, { C_CC } }
+
+/* vsub2 RA_CHK,LIMM,UIMM6_20 00101110011111010111xxxxxxxxxxxx */
+{ "vsub2", 0x2e7d7000, 0xfffff000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RA_CHK, LIMM, UIMM6_20_SPLITW }, { 0 } }
+
+/* vsub2 ZA,LIMM,UIMM6_20 00101110011111010111xxxxxx111110 */
+{ "vsub2", 0x2e7d703e, 0xfffff03f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, LIMM, UIMM6_20_SPLITW }, { 0 } }
+
+/* vsub2<.cc> ZA,LIMM,UIMM6_20 00101110111111010111xxxxxx1xxxxx */
+{ "vsub2", 0x2efd7020, 0xfffff020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, LIMM, UIMM6_20_SPLITW }, { C_CC } }
+
+/* vsub2 ZA,LIMM,SIMM12_20 00101110101111010111xxxxxxxxxxxx */
+{ "vsub2", 0x2ebd7000, 0xfffff000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, LIMM, SIMM12_20_SPLITW }, { 0 } }
+
+/* vsub2 RA_CHK,LIMM,LIMMdup 00101110001111010111111110xxxxxx */
+{ "vsub2", 0x2e3d7f80, 0xffffffc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RA_CHK, LIMM, LIMMdup }, { 0 } }
+
+/* vsub2 ZA,LIMM,LIMMdup 00101110001111010111111110111110 */
+{ "vsub2", 0x2e3d7fbe, 0xffffffff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, LIMM, LIMMdup }, { 0 } }
+
+/* vsub2<.cc> ZA,LIMM,LIMMdup 001011101111110101111111100xxxxx */
+{ "vsub2", 0x2efd7f80, 0xffffffe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, LIMM, LIMMdup }, { C_CC } }
+
+/* vsub2h RA_CHK,RB,RC 00101xxx000101010xxxxxxxxxxxxxxx */
+{ "vsub2h", 0x28150000, 0xf8ff8000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { RA_CHK, RB, RC }, { 0 } }
+
+/* vsub2h ZA,RB,RC 00101xxx000101010xxxxxxxxx111110 */
+{ "vsub2h", 0x2815003e, 0xf8ff803f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { ZA, RB, RC }, { 0 } }
+
+/* vsub2h<.cc> RB_CHK,RBdup,RC 00101xxx110101010xxxxxxxxx0xxxxx */
+{ "vsub2h", 0x28d50000, 0xf8ff8020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { RB_CHK, RBdup, RC }, { C_CC } }
+
+/* vsub2h RA_CHK,RB,UIMM6_20 00101xxx010101010xxxxxxxxxxxxxxx */
+{ "vsub2h", 0x28550000, 0xf8ff8000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { RA_CHK, RB, UIMM6_20_SPLITH }, { 0 } }
+
+/* vsub2h ZA,RB,UIMM6_20 00101xxx010101010xxxxxxxxx111110 */
+{ "vsub2h", 0x2855003e, 0xf8ff803f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { ZA, RB, UIMM6_20_SPLITH }, { 0 } }
+
+/* vsub2h<.cc> RB_CHK,RBdup,UIMM6_20 00101xxx110101010xxxxxxxxx1xxxxx */
+{ "vsub2h", 0x28d50020, 0xf8ff8020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { RB_CHK, RBdup, UIMM6_20_SPLITH }, { C_CC } }
+
+/* vsub2h RB_CHK,RBdup,SIMM12_20 00101xxx100101010xxxxxxxxxxxxxxx */
+{ "vsub2h", 0x28950000, 0xf8ff8000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { RB_CHK, RBdup, SIMM12_20_SPLITH }, { 0 } }
+
+/* vsub2h RA_CHK,LIMM,RC 00101110000101010111xxxxxxxxxxxx */
+{ "vsub2h", 0x2e157000, 0xfffff000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { RA_CHK, LIMM, RC }, { 0 } }
+
+/* vsub2h RA_CHK,RB,LIMM 00101xxx000101010xxx111110xxxxxx */
+{ "vsub2h", 0x28150f80, 0xf8ff8fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { RA_CHK, RB, LIMM }, { 0 } }
+
+/* vsub2h ZA,LIMM,RC 00101110000101010111xxxxxx111110 */
+{ "vsub2h", 0x2e15703e, 0xfffff03f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { ZA, LIMM, RC }, { 0 } }
+
+/* vsub2h ZA,RB,LIMM 00101xxx000101010xxx111110111110 */
+{ "vsub2h", 0x28150fbe, 0xf8ff8fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { ZA, RB, LIMM }, { 0 } }
+
+/* vsub2h<.cc> RB_CHK,RBdup,LIMM 00101xxx110101010xxx1111100xxxxx */
+{ "vsub2h", 0x28d50f80, 0xf8ff8fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { RB_CHK, RBdup, LIMM }, { C_CC } }
+
+/* vsub2h<.cc> ZA,LIMM,RC 00101110110101010111xxxxxx0xxxxx */
+{ "vsub2h", 0x2ed57000, 0xfffff020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { ZA, LIMM, RC }, { C_CC } }
+
+/* vsub2h RA_CHK,LIMM,UIMM6_20 00101110010101010111xxxxxxxxxxxx */
+{ "vsub2h", 0x2e557000, 0xfffff000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { RA_CHK, LIMM, UIMM6_20_SPLITH }, { 0 } }
+
+/* vsub2h ZA,LIMM,UIMM6_20 00101110010101010111xxxxxx111110 */
+{ "vsub2h", 0x2e55703e, 0xfffff03f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { ZA, LIMM, UIMM6_20_SPLITH }, { 0 } }
+
+/* vsub2h<.cc> ZA,LIMM,UIMM6_20 00101110110101010111xxxxxx1xxxxx */
+{ "vsub2h", 0x2ed57020, 0xfffff020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { ZA, LIMM, UIMM6_20_SPLITH }, { C_CC } }
+
+/* vsub2h ZA,LIMM,SIMM12_20 00101110100101010111xxxxxxxxxxxx */
+{ "vsub2h", 0x2e957000, 0xfffff000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { ZA, LIMM, SIMM12_20_SPLITH }, { 0 } }
+
+/* vsub2h RA_CHK,LIMM,LIMMdup 00101110000101010111111110xxxxxx */
+{ "vsub2h", 0x2e157f80, 0xffffffc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { RA_CHK, LIMM, LIMMdup }, { 0 } }
+
+/* vsub2h ZA,LIMM,LIMMdup 00101110000101010111111110111110 */
+{ "vsub2h", 0x2e157fbe, 0xffffffff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { ZA, LIMM, LIMMdup }, { 0 } }
+
+/* vsub2h<.cc> ZA,LIMM,LIMMdup 001011101101010101111111100xxxxx */
+{ "vsub2h", 0x2ed57f80, 0xffffffe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { ZA, LIMM, LIMMdup }, { C_CC } }
+
+/* vsub4h RA_CHK,RB,RC 00101xxx001110010xxxxxxxxxxxxxxx */
+{ "vsub4h", 0x28390000, 0xf8ff8000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RA_CHK, RB, RC }, { 0 } }
+
+/* vsub4h ZA,RB,RC 00101xxx001110010xxxxxxxxx111110 */
+{ "vsub4h", 0x2839003e, 0xf8ff803f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, RB, RC }, { 0 } }
+
+/* vsub4h<.cc> RB_CHK,RBdup,RC 00101xxx111110010xxxxxxxxx0xxxxx */
+{ "vsub4h", 0x28f90000, 0xf8ff8020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RB_CHK, RBdup, RC }, { C_CC } }
+
+/* vsub4h RA_CHK,RB,UIMM6_20 00101xxx011110010xxxxxxxxxxxxxxx */
+{ "vsub4h", 0x28790000, 0xf8ff8000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RA_CHK, RB, UIMM6_20_SPLITH }, { 0 } }
+
+/* vsub4h ZA,RB,UIMM6_20 00101xxx011110010xxxxxxxxx111110 */
+{ "vsub4h", 0x2879003e, 0xf8ff803f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, RB, UIMM6_20_SPLITH }, { 0 } }
+
+/* vsub4h<.cc> RB_CHK,RBdup,UIMM6_20 00101xxx111110010xxxxxxxxx1xxxxx */
+{ "vsub4h", 0x28f90020, 0xf8ff8020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RB_CHK, RBdup, UIMM6_20_SPLITH }, { C_CC } }
+
+/* vsub4h RB_CHK,RBdup,SIMM12_20 00101xxx101110010xxxxxxxxxxxxxxx */
+{ "vsub4h", 0x28b90000, 0xf8ff8000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RB_CHK, RBdup, SIMM12_20_SPLITH }, { 0 } }
+
+/* vsub4h RA_CHK,LIMM,RC 00101110001110010111xxxxxxxxxxxx */
+{ "vsub4h", 0x2e397000, 0xfffff000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RA_CHK, LIMM, RC }, { 0 } }
+
+/* vsub4h RA_CHK,RB,LIMM 00101xxx001110010xxx111110xxxxxx */
+{ "vsub4h", 0x28390f80, 0xf8ff8fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RA_CHK, RB, LIMM }, { 0 } }
+
+/* vsub4h ZA,LIMM,RC 00101110001110010111xxxxxx111110 */
+{ "vsub4h", 0x2e39703e, 0xfffff03f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, LIMM, RC }, { 0 } }
+
+/* vsub4h ZA,RB,LIMM 00101xxx001110010xxx111110111110 */
+{ "vsub4h", 0x28390fbe, 0xf8ff8fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, RB, LIMM }, { 0 } }
+
+/* vsub4h<.cc> RB_CHK,RBdup,LIMM 00101xxx111110010xxx1111100xxxxx */
+{ "vsub4h", 0x28f90f80, 0xf8ff8fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RB_CHK, RBdup, LIMM }, { C_CC } }
+
+/* vsub4h<.cc> ZA,LIMM,RC 00101110111110010111xxxxxx0xxxxx */
+{ "vsub4h", 0x2ef97000, 0xfffff020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, LIMM, RC }, { C_CC } }
+
+/* vsub4h RA_CHK,LIMM,UIMM6_20 00101110011110010111xxxxxxxxxxxx */
+{ "vsub4h", 0x2e797000, 0xfffff000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RA_CHK, LIMM, UIMM6_20_SPLITH }, { 0 } }
+
+/* vsub4h ZA,LIMM,UIMM6_20 00101110011110010111xxxxxx111110 */
+{ "vsub4h", 0x2e79703e, 0xfffff03f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, LIMM, UIMM6_20_SPLITH }, { 0 } }
+
+/* vsub4h<.cc> ZA,LIMM,UIMM6_20 00101110111110010111xxxxxx1xxxxx */
+{ "vsub4h", 0x2ef97020, 0xfffff020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, LIMM, UIMM6_20_SPLITH }, { C_CC } }
+
+/* vsub4h ZA,LIMM,SIMM12_20 00101110101110010111xxxxxxxxxxxx */
+{ "vsub4h", 0x2eb97000, 0xfffff000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, LIMM, SIMM12_20_SPLITH }, { 0 } }
+
+/* vsub4h RA_CHK,LIMM,LIMMdup 00101110001110010111111110xxxxxx */
+{ "vsub4h", 0x2e397f80, 0xffffffc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RA_CHK, LIMM, LIMMdup }, { 0 } }
+
+/* vsub4h ZA,LIMM,LIMMdup 00101110001110010111111110111110 */
+{ "vsub4h", 0x2e397fbe, 0xffffffff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, LIMM, LIMMdup }, { 0 } }
+
+/* vsub4h<.cc> ZA,LIMM,LIMMdup 001011101111100101111111100xxxxx */
+{ "vsub4h", 0x2ef97f80, 0xffffffe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, LIMM, LIMMdup }, { C_CC } }
+
+/* vsubadd RA_CHK,RB,RC 00101xxx001111110xxxxxxxxxxxxxxx */
+{ "vsubadd", 0x283f0000, 0xf8ff8000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RA_CHK, RB, RC }, { 0 } }
+
+/* vsubadd ZA,RB,RC 00101xxx001111110xxxxxxxxx111110 */
+{ "vsubadd", 0x283f003e, 0xf8ff803f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, RB, RC }, { 0 } }
+
+/* vsubadd<.cc> RB_CHK,RBdup,RC 00101xxx111111110xxxxxxxxx0xxxxx */
+{ "vsubadd", 0x28ff0000, 0xf8ff8020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RB_CHK, RBdup, RC }, { C_CC } }
+
+/* vsubadd RA_CHK,RB,UIMM6_20 00101xxx011111110xxxxxxxxxxxxxxx */
+{ "vsubadd", 0x287f0000, 0xf8ff8000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RA_CHK, RB, UIMM6_20_SPLITW }, { 0 } }
+
+/* vsubadd ZA,RB,UIMM6_20 00101xxx011111110xxxxxxxxx111110 */
+{ "vsubadd", 0x287f003e, 0xf8ff803f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, RB, UIMM6_20_SPLITW }, { 0 } }
+
+/* vsubadd<.cc> RB_CHK,RBdup,UIMM6_20 00101xxx111111110xxxxxxxxx1xxxxx */
+{ "vsubadd", 0x28ff0020, 0xf8ff8020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RB_CHK, RBdup, UIMM6_20_SPLITW }, { C_CC } }
+
+/* vsubadd RB_CHK,RBdup,SIMM12_20 00101xxx101111110xxxxxxxxxxxxxxx */
+{ "vsubadd", 0x28bf0000, 0xf8ff8000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RB_CHK, RBdup, SIMM12_20_SPLITW }, { 0 } }
+
+/* vsubadd RA_CHK,LIMM,RC 00101110001111110111xxxxxxxxxxxx */
+{ "vsubadd", 0x2e3f7000, 0xfffff000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RA_CHK, LIMM, RC }, { 0 } }
+
+/* vsubadd RA_CHK,RB,LIMM 00101xxx001111110xxx111110xxxxxx */
+{ "vsubadd", 0x283f0f80, 0xf8ff8fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RA_CHK, RB, LIMM }, { 0 } }
+
+/* vsubadd ZA,LIMM,RC 00101110001111110111xxxxxx111110 */
+{ "vsubadd", 0x2e3f703e, 0xfffff03f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, LIMM, RC }, { 0 } }
+
+/* vsubadd ZA,RB,LIMM 00101xxx001111110xxx111110111110 */
+{ "vsubadd", 0x283f0fbe, 0xf8ff8fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, RB, LIMM }, { 0 } }
+
+/* vsubadd<.cc> RB_CHK,RBdup,LIMM 00101xxx111111110xxx1111100xxxxx */
+{ "vsubadd", 0x28ff0f80, 0xf8ff8fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RB_CHK, RBdup, LIMM }, { C_CC } }
+
+/* vsubadd<.cc> ZA,LIMM,RC 00101110111111110111xxxxxx0xxxxx */
+{ "vsubadd", 0x2eff7000, 0xfffff020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, LIMM, RC }, { C_CC } }
+
+/* vsubadd RA_CHK,LIMM,UIMM6_20 00101110011111110111xxxxxxxxxxxx */
+{ "vsubadd", 0x2e7f7000, 0xfffff000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RA_CHK, LIMM, UIMM6_20_SPLITW }, { 0 } }
+
+/* vsubadd ZA,LIMM,UIMM6_20 00101110011111110111xxxxxx111110 */
+{ "vsubadd", 0x2e7f703e, 0xfffff03f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, LIMM, UIMM6_20_SPLITW }, { 0 } }
+
+/* vsubadd<.cc> ZA,LIMM,UIMM6_20 00101110111111110111xxxxxx1xxxxx */
+{ "vsubadd", 0x2eff7020, 0xfffff020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, LIMM, UIMM6_20_SPLITW }, { C_CC } }
+
+/* vsubadd ZA,LIMM,SIMM12_20 00101110101111110111xxxxxxxxxxxx */
+{ "vsubadd", 0x2ebf7000, 0xfffff000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, LIMM, SIMM12_20_SPLITW }, { 0 } }
+
+/* vsubadd RA_CHK,LIMM,LIMMdup 00101110001111110111111110xxxxxx */
+{ "vsubadd", 0x2e3f7f80, 0xffffffc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RA_CHK, LIMM, LIMMdup }, { 0 } }
+
+/* vsubadd ZA,LIMM,LIMMdup 00101110001111110111111110111110 */
+{ "vsubadd", 0x2e3f7fbe, 0xffffffff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, LIMM, LIMMdup }, { 0 } }
+
+/* vsubadd<.cc> ZA,LIMM,LIMMdup 001011101111111101111111100xxxxx */
+{ "vsubadd", 0x2eff7f80, 0xffffffe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, LIMM, LIMMdup }, { C_CC } }
+
+/* vsubadd2h RA_CHK,RB,RC 00101xxx000101110xxxxxxxxxxxxxxx */
+{ "vsubadd2h", 0x28170000, 0xf8ff8000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { RA_CHK, RB, RC }, { 0 } }
+
+/* vsubadd2h ZA,RB,RC 00101xxx000101110xxxxxxxxx111110 */
+{ "vsubadd2h", 0x2817003e, 0xf8ff803f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { ZA, RB, RC }, { 0 } }
+
+/* vsubadd2h<.cc> RB_CHK,RBdup,RC 00101xxx110101110xxxxxxxxx0xxxxx */
+{ "vsubadd2h", 0x28d70000, 0xf8ff8020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { RB_CHK, RBdup, RC }, { C_CC } }
+
+/* vsubadd2h RA_CHK,RB,UIMM6_20 00101xxx010101110xxxxxxxxxxxxxxx */
+{ "vsubadd2h", 0x28570000, 0xf8ff8000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { RA_CHK, RB, UIMM6_20_SPLITH }, { 0 } }
+
+/* vsubadd2h ZA,RB,UIMM6_20 00101xxx010101110xxxxxxxxx111110 */
+{ "vsubadd2h", 0x2857003e, 0xf8ff803f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { ZA, RB, UIMM6_20_SPLITH }, { 0 } }
+
+/* vsubadd2h<.cc> RB_CHK,RBdup,UIMM6_20 00101xxx110101110xxxxxxxxx1xxxxx */
+{ "vsubadd2h", 0x28d70020, 0xf8ff8020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { RB_CHK, RBdup, UIMM6_20_SPLITH }, { C_CC } }
+
+/* vsubadd2h RB_CHK,RBdup,SIMM12_20 00101xxx100101110xxxxxxxxxxxxxxx */
+{ "vsubadd2h", 0x28970000, 0xf8ff8000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { RB_CHK, RBdup, SIMM12_20_SPLITH }, { 0 } }
+
+/* vsubadd2h RA_CHK,LIMM,RC 00101110000101110111xxxxxxxxxxxx */
+{ "vsubadd2h", 0x2e177000, 0xfffff000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { RA_CHK, LIMM, RC }, { 0 } }
+
+/* vsubadd2h RA_CHK,RB,LIMM 00101xxx000101110xxx111110xxxxxx */
+{ "vsubadd2h", 0x28170f80, 0xf8ff8fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { RA_CHK, RB, LIMM }, { 0 } }
+
+/* vsubadd2h ZA,LIMM,RC 00101110000101110111xxxxxx111110 */
+{ "vsubadd2h", 0x2e17703e, 0xfffff03f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { ZA, LIMM, RC }, { 0 } }
+
+/* vsubadd2h ZA,RB,LIMM 00101xxx000101110xxx111110111110 */
+{ "vsubadd2h", 0x28170fbe, 0xf8ff8fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { ZA, RB, LIMM }, { 0 } }
+
+/* vsubadd2h<.cc> RB_CHK,RBdup,LIMM 00101xxx110101110xxx1111100xxxxx */
+{ "vsubadd2h", 0x28d70f80, 0xf8ff8fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { RB_CHK, RBdup, LIMM }, { C_CC } }
+
+/* vsubadd2h<.cc> ZA,LIMM,RC 00101110110101110111xxxxxx0xxxxx */
+{ "vsubadd2h", 0x2ed77000, 0xfffff020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { ZA, LIMM, RC }, { C_CC } }
+
+/* vsubadd2h RA_CHK,LIMM,UIMM6_20 00101110010101110111xxxxxxxxxxxx */
+{ "vsubadd2h", 0x2e577000, 0xfffff000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { RA_CHK, LIMM, UIMM6_20_SPLITH }, { 0 } }
+
+/* vsubadd2h ZA,LIMM,UIMM6_20 00101110010101110111xxxxxx111110 */
+{ "vsubadd2h", 0x2e57703e, 0xfffff03f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { ZA, LIMM, UIMM6_20_SPLITH }, { 0 } }
+
+/* vsubadd2h<.cc> ZA,LIMM,UIMM6_20 00101110110101110111xxxxxx1xxxxx */
+{ "vsubadd2h", 0x2ed77020, 0xfffff020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { ZA, LIMM, UIMM6_20_SPLITH }, { C_CC } }
+
+/* vsubadd2h ZA,LIMM,SIMM12_20 00101110100101110111xxxxxxxxxxxx */
+{ "vsubadd2h", 0x2e977000, 0xfffff000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { ZA, LIMM, SIMM12_20_SPLITH }, { 0 } }
+
+/* vsubadd2h RA_CHK,LIMM,LIMMdup 00101110000101110111111110xxxxxx */
+{ "vsubadd2h", 0x2e177f80, 0xffffffc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { RA_CHK, LIMM, LIMMdup }, { 0 } }
+
+/* vsubadd2h ZA,LIMM,LIMMdup 00101110000101110111111110111110 */
+{ "vsubadd2h", 0x2e177fbe, 0xffffffff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { ZA, LIMM, LIMMdup }, { 0 } }
+
+/* vsubadd2h<.cc> ZA,LIMM,LIMMdup 001011101101011101111111100xxxxx */
+{ "vsubadd2h", 0x2ed77f80, 0xffffffe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY7E, { ZA, LIMM, LIMMdup }, { C_CC } }
+
+/* vsubadd4h RA_CHK,RB,RC 00101xxx001110110xxxxxxxxxxxxxxx */
+{ "vsubadd4h", 0x283b0000, 0xf8ff8000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RA_CHK, RB, RC }, { 0 } }
+
+/* vsubadd4h ZA,RB,RC 00101xxx001110110xxxxxxxxx111110 */
+{ "vsubadd4h", 0x283b003e, 0xf8ff803f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, RB, RC }, { 0 } }
+
+/* vsubadd4h<.cc> RB_CHK,RBdup,RC 00101xxx111110110xxxxxxxxx0xxxxx */
+{ "vsubadd4h", 0x28fb0000, 0xf8ff8020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RB_CHK, RBdup, RC }, { C_CC } }
+
+/* vsubadd4h RA_CHK,RB,UIMM6_20 00101xxx011110110xxxxxxxxxxxxxxx */
+{ "vsubadd4h", 0x287b0000, 0xf8ff8000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RA_CHK, RB, UIMM6_20_SPLITH }, { 0 } }
+
+/* vsubadd4h ZA,RB,UIMM6_20 00101xxx011110110xxxxxxxxx111110 */
+{ "vsubadd4h", 0x287b003e, 0xf8ff803f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, RB, UIMM6_20_SPLITH }, { 0 } }
+
+/* vsubadd4h<.cc> RB_CHK,RBdup,UIMM6_20 00101xxx111110110xxxxxxxxx1xxxxx */
+{ "vsubadd4h", 0x28fb0020, 0xf8ff8020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RB_CHK, RBdup, UIMM6_20_SPLITH }, { C_CC } }
+
+/* vsubadd4h RB_CHK,RBdup,SIMM12_20 00101xxx101110110xxxxxxxxxxxxxxx */
+{ "vsubadd4h", 0x28bb0000, 0xf8ff8000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RB_CHK, RBdup, SIMM12_20_SPLITH }, { 0 } }
+
+/* vsubadd4h RA_CHK,LIMM,RC 00101110001110110111xxxxxxxxxxxx */
+{ "vsubadd4h", 0x2e3b7000, 0xfffff000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RA_CHK, LIMM, RC }, { 0 } }
+
+/* vsubadd4h RA_CHK,RB,LIMM 00101xxx001110110xxx111110xxxxxx */
+{ "vsubadd4h", 0x283b0f80, 0xf8ff8fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RA_CHK, RB, LIMM }, { 0 } }
+
+/* vsubadd4h ZA,LIMM,RC 00101110001110110111xxxxxx111110 */
+{ "vsubadd4h", 0x2e3b703e, 0xfffff03f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, LIMM, RC }, { 0 } }
+
+/* vsubadd4h ZA,RB,LIMM 00101xxx001110110xxx111110111110 */
+{ "vsubadd4h", 0x283b0fbe, 0xf8ff8fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, RB, LIMM }, { 0 } }
+
+/* vsubadd4h<.cc> RB_CHK,RBdup,LIMM 00101xxx111110110xxx1111100xxxxx */
+{ "vsubadd4h", 0x28fb0f80, 0xf8ff8fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RB_CHK, RBdup, LIMM }, { C_CC } }
+
+/* vsubadd4h<.cc> ZA,LIMM,RC 00101110111110110111xxxxxx0xxxxx */
+{ "vsubadd4h", 0x2efb7000, 0xfffff020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, LIMM, RC }, { C_CC } }
+
+/* vsubadd4h RA_CHK,LIMM,UIMM6_20 00101110011110110111xxxxxxxxxxxx */
+{ "vsubadd4h", 0x2e7b7000, 0xfffff000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RA_CHK, LIMM, UIMM6_20_SPLITH }, { 0 } }
+
+/* vsubadd4h ZA,LIMM,UIMM6_20 00101110011110110111xxxxxx111110 */
+{ "vsubadd4h", 0x2e7b703e, 0xfffff03f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, LIMM, UIMM6_20_SPLITH }, { 0 } }
+
+/* vsubadd4h<.cc> ZA,LIMM,UIMM6_20 00101110111110110111xxxxxx1xxxxx */
+{ "vsubadd4h", 0x2efb7020, 0xfffff020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, LIMM, UIMM6_20_SPLITH }, { C_CC } }
+
+/* vsubadd4h ZA,LIMM,SIMM12_20 00101110101110110111xxxxxxxxxxxx */
+{ "vsubadd4h", 0x2ebb7000, 0xfffff000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, LIMM, SIMM12_20_SPLITH }, { 0 } }
+
+/* vsubadd4h RA_CHK,LIMM,LIMMdup 00101110001110110111111110xxxxxx */
+{ "vsubadd4h", 0x2e3b7f80, 0xffffffc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { RA_CHK, LIMM, LIMMdup }, { 0 } }
+
+/* vsubadd4h ZA,LIMM,LIMMdup 00101110001110110111111110111110 */
+{ "vsubadd4h", 0x2e3b7fbe, 0xffffffff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, LIMM, LIMMdup }, { 0 } }
+
+/* vsubadd4h<.cc> ZA,LIMM,LIMMdup 001011101111101101111111100xxxxx */
+{ "vsubadd4h", 0x2efb7f80, 0xffffffe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MPY, MPY9E, { ZA, LIMM, LIMMdup }, { C_CC } }
+
+/* wevt RC 00100000001011110001xxxxxx111111 */
+{ "wevt", 0x202f103f, 0xfffff03f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, KERNEL, NONE, { RC }, { 0 } }
+
+/* wevt  00100000011011110001000000111111 */
+{ "wevt", 0x206f103f, 0xffffffff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, KERNEL, NONE, {  }, { 0 } }
+
+/* wevt UIMM6_20 00100000011011110001xxxxxx111111 */
+{ "wevt", 0x206f103f, 0xfffff03f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, KERNEL, NONE, { UIMM6_20 }, { 0 } }
+
+/* wlfc RC 00100001001011110001xxxxxx111111 */
+{ "wlfc", 0x212f103f, 0xfffff03f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, KERNEL, NONE, { RC }, { 0 } }
+
+/* wlfc UIMM6_20 00100001011011110001xxxxxx111111 */
+{ "wlfc", 0x216f103f, 0xfffff03f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, KERNEL, NONE, { UIMM6_20 }, { 0 } }
+
+/* xbfu<.f> RA,RB,RC 00100xxx00101101xxxxxxxxxxxxxxxx */
+{ "xbfu", 0x202d0000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, SHFT2, { RA, RB, RC }, { C_F } }
+
+/* xbfu<.f> ZA,RB,RC 00100xxx00101101xxxxxxxxxx111110 */
+{ "xbfu", 0x202d003e, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, SHFT2, { ZA, RB, RC }, { C_F } }
+
+/* xbfu<.f><.cc> RB,RBdup,RC 00100xxx11101101xxxxxxxxxx0xxxxx */
+{ "xbfu", 0x20ed0000, 0xf8ff0020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, SHFT2, { RB, RBdup, RC }, { C_F, C_CC } }
+
+/* xbfu<.f> RA,RB,UIMM6_20 00100xxx01101101xxxxxxxxxxxxxxxx */
+{ "xbfu", 0x206d0000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, SHFT2, { RA, RB, UIMM6_20 }, { C_F } }
+
+/* xbfu<.f> ZA,RB,UIMM6_20 00100xxx01101101xxxxxxxxxx111110 */
+{ "xbfu", 0x206d003e, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, SHFT2, { ZA, RB, UIMM6_20 }, { C_F } }
+
+/* xbfu<.f><.cc> RB,RBdup,UIMM6_20 00100xxx11101101xxxxxxxxxx1xxxxx */
+{ "xbfu", 0x20ed0020, 0xf8ff0020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, SHFT2, { RB, RBdup, UIMM6_20 }, { C_F, C_CC } }
+
+/* xbfu<.f> RB,RBdup,SIMM12_20 00100xxx10101101xxxxxxxxxxxxxxxx */
+{ "xbfu", 0x20ad0000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, SHFT2, { RB, RBdup, SIMM12_20 }, { C_F } }
+
+/* xbfu<.f> RA,LIMM,RC 0010011000101101x111xxxxxxxxxxxx */
+{ "xbfu", 0x262d7000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, SHFT2, { RA, LIMM, RC }, { C_F } }
+
+/* xbfu<.f> RA,RB,LIMM 00100xxx00101101xxxx111110xxxxxx */
+{ "xbfu", 0x202d0f80, 0xf8ff0fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, SHFT2, { RA, RB, LIMM }, { C_F } }
+
+/* xbfu<.f> ZA,LIMM,RC 0010011000101101x111xxxxxx111110 */
+{ "xbfu", 0x262d703e, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, SHFT2, { ZA, LIMM, RC }, { C_F } }
+
+/* xbfu<.f> ZA,RB,LIMM 00100xxx00101101xxxx111110111110 */
+{ "xbfu", 0x202d0fbe, 0xf8ff0fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, SHFT2, { ZA, RB, LIMM }, { C_F } }
+
+/* xbfu<.f><.cc> RB,RBdup,LIMM 00100xxx11101101xxxx1111100xxxxx */
+{ "xbfu", 0x20ed0f80, 0xf8ff0fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, SHFT2, { RB, RBdup, LIMM }, { C_F, C_CC } }
+
+/* xbfu<.f><.cc> ZA,LIMM,RC 0010011011101101x111xxxxxx0xxxxx */
+{ "xbfu", 0x26ed7000, 0xffff7020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, SHFT2, { ZA, LIMM, RC }, { C_F, C_CC } }
+
+/* xbfu<.f> RA,LIMM,UIMM6_20 0010011001101101x111xxxxxxxxxxxx */
+{ "xbfu", 0x266d7000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, SHFT2, { RA, LIMM, UIMM6_20 }, { C_F } }
+
+/* xbfu<.f> ZA,LIMM,UIMM6_20 0010011001101101x111xxxxxx111110 */
+{ "xbfu", 0x266d703e, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, SHFT2, { ZA, LIMM, UIMM6_20 }, { C_F } }
+
+/* xbfu<.f><.cc> ZA,LIMM,UIMM6_20 0010011011101101x111xxxxxx1xxxxx */
+{ "xbfu", 0x26ed7020, 0xffff7020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, SHFT2, { ZA, LIMM, UIMM6_20 }, { C_F, C_CC } }
+
+/* xbfu<.f> ZA,LIMM,SIMM12_20 0010011010101101x111xxxxxxxxxxxx */
+{ "xbfu", 0x26ad7000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, SHFT2, { ZA, LIMM, SIMM12_20 }, { C_F } }
+
+/* xbfu<.f> RA,LIMM,LIMMdup 0010011000101101x111111110xxxxxx */
+{ "xbfu", 0x262d7f80, 0xffff7fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, SHFT2, { RA, LIMM, LIMMdup }, { C_F } }
+
+/* xbfu<.f> ZA,LIMM,LIMMdup 0010011000101101x111111110111110 */
+{ "xbfu", 0x262d7fbe, 0xffff7fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, SHFT2, { ZA, LIMM, LIMMdup }, { C_F } }
+
+/* xbfu<.f><.cc> ZA,LIMM,LIMMdup 0010011011101101x1111111100xxxxx */
+{ "xbfu", 0x26ed7f80, 0xffff7fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, ARITH, SHFT2, { ZA, LIMM, LIMMdup }, { C_F, C_CC } }
+
+/* xbful<.f> RA,RB,RC 01011xxx00101101xxxxxxxxxxxxxxxx */
+{ "xbful", 0x582d0000, 0xf8ff0000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, RC }, { C_F } }
+
+/* xbful<.f> ZA,RB,RC 01011xxx00101101xxxxxxxxxx111110 */
+{ "xbful", 0x582d003e, 0xf8ff003f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, RC }, { C_F } }
+
+/* xbful<.f><.cc> RB,RBdup,RC 01011xxx11101101xxxxxxxxxx0xxxxx */
+{ "xbful", 0x58ed0000, 0xf8ff0020, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, RC }, { C_F, C_CC } }
+
+/* xbful<.f> RA,RB,UIMM6_20 01011xxx01101101xxxxxxxxxxxxxxxx */
+{ "xbful", 0x586d0000, 0xf8ff0000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, UIMM6_20 }, { C_F } }
+
+/* xbful<.f> ZA,RB,UIMM6_20 01011xxx01101101xxxxxxxxxx111110 */
+{ "xbful", 0x586d003e, 0xf8ff003f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, UIMM6_20 }, { C_F } }
+
+/* xbful<.f><.cc> RB,RBdup,UIMM6_20 01011xxx11101101xxxxxxxxxx1xxxxx */
+{ "xbful", 0x58ed0020, 0xf8ff0020, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, UIMM6_20 }, { C_F, C_CC } }
+
+/* xbful<.f> RB,RBdup,SIMM12_20 01011xxx10101101xxxxxxxxxxxxxxxx */
+{ "xbful", 0x58ad0000, 0xf8ff0000, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, SIMM12_20 }, { C_F } }
+
+/* xbful<.f> RA,XIMM,RC 0101110000101101x111xxxxxxxxxxxx */
+{ "xbful", 0x5c2d7000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, XIMM, RC }, { C_F } }
+
+/* xbful<.f> RA,RB,XIMM 01011xxx00101101xxxx111100xxxxxx */
+{ "xbful", 0x582d0f00, 0xf8ff0fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, XIMM }, { C_F } }
+
+/* xbful<.f> ZA,XIMM,RC 0101110000101101x111xxxxxx111110 */
+{ "xbful", 0x5c2d703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, RC }, { C_F } }
+
+/* xbful<.f> ZA,RB,XIMM 01011xxx00101101xxxx111100111110 */
+{ "xbful", 0x582d0f3e, 0xf8ff0fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, XIMM }, { C_F } }
+
+/* xbful<.f><.cc> ZA,XIMM,RC 0101110011101101x111xxxxxx0xxxxx */
+{ "xbful", 0x5ced7000, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, RC }, { C_F, C_CC } }
+
+/* xbful<.f><.cc> RB,RBdup,XIMM 01011xxx11101101xxxx1111000xxxxx */
+{ "xbful", 0x58ed0f00, 0xf8ff0fe0, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, XIMM }, { C_F, C_CC } }
+
+/* xbful<.f> RA,XIMM,UIMM6_20 0101110001101101x111xxxxxxxxxxxx */
+{ "xbful", 0x5c6d7000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, XIMM, UIMM6_20 }, { C_F } }
+
+/* xbful<.f> ZA,XIMM,UIMM6_20 0101110001101101x111xxxxxx111110 */
+{ "xbful", 0x5c6d703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, UIMM6_20 }, { C_F } }
+
+/* xbful<.f><.cc> ZA,XIMM,UIMM6_20 0101110011101101x111xxxxxx1xxxxx */
+{ "xbful", 0x5ced7020, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, UIMM6_20 }, { C_F, C_CC } }
+
+/* xbful<.f> RA,LIMM,RC 0101111000101101x111xxxxxxxxxxxx */
+{ "xbful", 0x5e2d7000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, LIMM, RC }, { C_F } }
+
+/* xbful<.f> RA,RB,LIMM 01011xxx00101101xxxx111110xxxxxx */
+{ "xbful", 0x582d0f80, 0xf8ff0fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, LIMM }, { C_F } }
+
+/* xbful<.f> ZA,LIMM,RC 0101111000101101x111xxxxxx111110 */
+{ "xbful", 0x5e2d703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, RC }, { C_F } }
+
+/* xbful<.f> ZA,RB,LIMM 01011xxx00101101xxxx111110111110 */
+{ "xbful", 0x582d0fbe, 0xf8ff0fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, LIMM }, { C_F } }
+
+/* xbful<.f><.cc> ZA,LIMM,RC 0101111011101101x111xxxxxx0xxxxx */
+{ "xbful", 0x5eed7000, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, RC }, { C_F, C_CC } }
+
+/* xbful<.f><.cc> RB,RBdup,LIMM 01011xxx11101101xxxx1111100xxxxx */
+{ "xbful", 0x58ed0f80, 0xf8ff0fe0, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, LIMM }, { C_F, C_CC } }
+
+/* xbful<.f> RA,LIMM,UIMM6_20 0101111001101101x111xxxxxxxxxxxx */
+{ "xbful", 0x5e6d7000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, LIMM, UIMM6_20 }, { C_F } }
+
+/* xbful<.f> ZA,LIMM,UIMM6_20 0101111001101101x111xxxxxx111110 */
+{ "xbful", 0x5e6d703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, UIMM6_20 }, { C_F } }
+
+/* xbful<.f><.cc> ZA,LIMM,UIMM6_20 0101111011101101x111xxxxxx1xxxxx */
+{ "xbful", 0x5eed7020, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, UIMM6_20 }, { C_F, C_CC } }
+
+/* xbful<.f> ZA,XIMM,SIMM12_20 0101110010101101x111xxxxxxxxxxxx */
+{ "xbful", 0x5cad7000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, SIMM12_20 }, { C_F } }
+
+/* xbful<.f> ZA,LIMM,SIMM12_20 0101111010101101x111xxxxxxxxxxxx */
+{ "xbful", 0x5ead7000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, SIMM12_20 }, { C_F } }
+
+/* xbful<.f> RA,XIMM,XIMMdup 0101110000101101x111111100xxxxxx */
+{ "xbful", 0x5c2d7f00, 0xffff7fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, XIMM, XIMMdup }, { C_F } }
+
+/* xbful<.f> ZA,XIMM,XIMMdup 0101110000101101x111111100111110 */
+{ "xbful", 0x5c2d7f3e, 0xffff7fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, XIMMdup }, { C_F } }
+
+/* xbful<.f><.cc> ZA,XIMM,XIMMdup 0101110011101101x1111111000xxxxx */
+{ "xbful", 0x5ced7f00, 0xffff7fe0, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, XIMMdup }, { C_F, C_CC } }
+
+/* xbful<.f> RA,LIMM,LIMMdup 0101111000101101x111111110xxxxxx */
+{ "xbful", 0x5e2d7f80, 0xffff7fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, LIMM, LIMMdup }, { C_F } }
+
+/* xbful<.f> ZA,LIMM,LIMMdup 0101111000101101x111111110111110 */
+{ "xbful", 0x5e2d7fbe, 0xffff7fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, LIMMdup }, { C_F } }
+
+/* xbful<.f><.cc> ZA,LIMM,LIMMdup 0101111011101101x1111111100xxxxx */
+{ "xbful", 0x5eed7f80, 0xffff7fe0, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, LIMMdup }, { C_F, C_CC } }
+
+/* xor<.f> RA,RB,RC 00100xxx00000111xxxxxxxxxxxxxxxx */
+{ "xor", 0x20070000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RA, RB, RC }, { C_F } }
+
+/* xor<.f> ZA,RB,RC 00100xxx00000111xxxxxxxxxx111110 */
+{ "xor", 0x2007003e, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, RB, RC }, { C_F } }
+
+/* xor<.f><.cc> RB,RBdup,RC 00100xxx11000111xxxxxxxxxx0xxxxx */
+{ "xor", 0x20c70000, 0xf8ff0020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RB, RBdup, RC }, { C_F, C_CC } }
+
+/* xor<.f> RA,RB,UIMM6_20 00100xxx01000111xxxxxxxxxxxxxxxx */
+{ "xor", 0x20470000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RA, RB, UIMM6_20 }, { C_F } }
+
+/* xor<.f> ZA,RB,UIMM6_20 00100xxx01000111xxxxxxxxxx111110 */
+{ "xor", 0x2047003e, 0xf8ff003f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, RB, UIMM6_20 }, { C_F } }
+
+/* xor<.f><.cc> RB,RBdup,UIMM6_20 00100xxx11000111xxxxxxxxxx1xxxxx */
+{ "xor", 0x20c70020, 0xf8ff0020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RB, RBdup, UIMM6_20 }, { C_F, C_CC } }
+
+/* xor<.f> RB,RBdup,SIMM12_20 00100xxx10000111xxxxxxxxxxxxxxxx */
+{ "xor", 0x20870000, 0xf8ff0000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RB, RBdup, SIMM12_20 }, { C_F } }
+
+/* xor<.f> RA,LIMM,RC 0010011000000111x111xxxxxxxxxxxx */
+{ "xor", 0x26077000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RA, LIMM, RC }, { C_F } }
+
+/* xor<.f> RA,RB,LIMM 00100xxx00000111xxxx111110xxxxxx */
+{ "xor", 0x20070f80, 0xf8ff0fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RA, RB, LIMM }, { C_F } }
+
+/* xor<.f> ZA,LIMM,RC 0010011000000111x111xxxxxx111110 */
+{ "xor", 0x2607703e, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, LIMM, RC }, { C_F } }
+
+/* xor<.f> ZA,RB,LIMM 00100xxx00000111xxxx111110111110 */
+{ "xor", 0x20070fbe, 0xf8ff0fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, RB, LIMM }, { C_F } }
+
+/* xor<.f><.cc> ZA,LIMM,RC 0010011011000111x111xxxxxx0xxxxx */
+{ "xor", 0x26c77000, 0xffff7020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, LIMM, RC }, { C_F, C_CC } }
+
+/* xor<.f><.cc> RB,RBdup,LIMM 00100xxx11000111xxxx1111100xxxxx */
+{ "xor", 0x20c70f80, 0xf8ff0fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RB, RBdup, LIMM }, { C_F, C_CC } }
+
+/* xor<.f> RA,LIMM,UIMM6_20 0010011001000111x111xxxxxxxxxxxx */
+{ "xor", 0x26477000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RA, LIMM, UIMM6_20 }, { C_F } }
+
+/* xor<.f> ZA,LIMM,UIMM6_20 0010011001000111x111xxxxxx111110 */
+{ "xor", 0x2647703e, 0xffff703f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, LIMM, UIMM6_20 }, { C_F } }
+
+/* xor<.f><.cc> ZA,LIMM,UIMM6_20 0010011011000111x111xxxxxx1xxxxx */
+{ "xor", 0x26c77020, 0xffff7020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, LIMM, UIMM6_20 }, { C_F, C_CC } }
+
+/* xor<.f> ZA,LIMM,SIMM12_20 0010011010000111x111xxxxxxxxxxxx */
+{ "xor", 0x26877000, 0xffff7000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, LIMM, SIMM12_20 }, { C_F } }
+
+/* xor<.f> RA,LIMM,LIMMdup 0010011000000111x111111110xxxxxx */
+{ "xor", 0x26077f80, 0xffff7fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RA, LIMM, LIMMdup }, { C_F } }
+
+/* xor<.f> ZA,LIMM,LIMMdup 0010011000000111x111111110111110 */
+{ "xor", 0x26077fbe, 0xffff7fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, LIMM, LIMMdup }, { C_F } }
+
+/* xor<.f><.cc> ZA,LIMM,LIMMdup 0010011011000111x1111111100xxxxx */
+{ "xor", 0x26c77f80, 0xffff7fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { ZA, LIMM, LIMMdup }, { C_F, C_CC } }
+
+/* xorl<.f> RA,RB,RC 01011xxx00000111xxxxxxxxxxxxxxxx */
+{ "xorl", 0x58070000, 0xf8ff0000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, RC }, { C_F } }
+
+/* xorl<.f> ZA,RB,RC 01011xxx00000111xxxxxxxxxx111110 */
+{ "xorl", 0x5807003e, 0xf8ff003f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, RC }, { C_F } }
+
+/* xorl<.f><.cc> RB,RBdup,RC 01011xxx11000111xxxxxxxxxx0xxxxx */
+{ "xorl", 0x58c70000, 0xf8ff0020, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, RC }, { C_F, C_CC } }
+
+/* xorl<.f> RA,RB,UIMM6_20 01011xxx01000111xxxxxxxxxxxxxxxx */
+{ "xorl", 0x58470000, 0xf8ff0000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, UIMM6_20 }, { C_F } }
+
+/* xorl<.f> ZA,RB,UIMM6_20 01011xxx01000111xxxxxxxxxx111110 */
+{ "xorl", 0x5847003e, 0xf8ff003f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, UIMM6_20 }, { C_F } }
+
+/* xorl<.f><.cc> RB,RBdup,UIMM6_20 01011xxx11000111xxxxxxxxxx1xxxxx */
+{ "xorl", 0x58c70020, 0xf8ff0020, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, UIMM6_20 }, { C_F, C_CC } }
+
+/* xorl<.f> RB,RBdup,SIMM12_20 01011xxx10000111xxxxxxxxxxxxxxxx */
+{ "xorl", 0x58870000, 0xf8ff0000, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, SIMM12_20 }, { C_F } }
+
+/* xorl<.f> RA,XIMM,RC 0101110000000111x111xxxxxxxxxxxx */
+{ "xorl", 0x5c077000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, XIMM, RC }, { C_F } }
+
+/* xorl<.f> RA,RB,XIMM 01011xxx00000111xxxx111100xxxxxx */
+{ "xorl", 0x58070f00, 0xf8ff0fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, XIMM }, { C_F } }
+
+/* xorl<.f> ZA,XIMM,RC 0101110000000111x111xxxxxx111110 */
+{ "xorl", 0x5c07703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, RC }, { C_F } }
+
+/* xorl<.f> ZA,RB,XIMM 01011xxx00000111xxxx111100111110 */
+{ "xorl", 0x58070f3e, 0xf8ff0fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, XIMM }, { C_F } }
+
+/* xorl<.f><.cc> ZA,XIMM,RC 0101110011000111x111xxxxxx0xxxxx */
+{ "xorl", 0x5cc77000, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, RC }, { C_F, C_CC } }
+
+/* xorl<.f><.cc> RB,RBdup,XIMM 01011xxx11000111xxxx1111000xxxxx */
+{ "xorl", 0x58c70f00, 0xf8ff0fe0, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, XIMM }, { C_F, C_CC } }
+
+/* xorl<.f> RA,XIMM,UIMM6_20 0101110001000111x111xxxxxxxxxxxx */
+{ "xorl", 0x5c477000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, XIMM, UIMM6_20 }, { C_F } }
+
+/* xorl<.f> ZA,XIMM,UIMM6_20 0101110001000111x111xxxxxx111110 */
+{ "xorl", 0x5c47703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, UIMM6_20 }, { C_F } }
+
+/* xorl<.f><.cc> ZA,XIMM,UIMM6_20 0101110011000111x111xxxxxx1xxxxx */
+{ "xorl", 0x5cc77020, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, UIMM6_20 }, { C_F, C_CC } }
+
+/* xorl<.f> RA,LIMM,RC 0101111000000111x111xxxxxxxxxxxx */
+{ "xorl", 0x5e077000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, LIMM, RC }, { C_F } }
+
+/* xorl<.f> RA,RB,LIMM 01011xxx00000111xxxx111110xxxxxx */
+{ "xorl", 0x58070f80, 0xf8ff0fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, LIMM }, { C_F } }
+
+/* xorl<.f> ZA,LIMM,RC 0101111000000111x111xxxxxx111110 */
+{ "xorl", 0x5e07703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, RC }, { C_F } }
+
+/* xorl<.f> ZA,RB,LIMM 01011xxx00000111xxxx111110111110 */
+{ "xorl", 0x58070fbe, 0xf8ff0fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, LIMM }, { C_F } }
+
+/* xorl<.f><.cc> ZA,LIMM,RC 0101111011000111x111xxxxxx0xxxxx */
+{ "xorl", 0x5ec77000, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, RC }, { C_F, C_CC } }
+
+/* xorl<.f><.cc> RB,RBdup,LIMM 01011xxx11000111xxxx1111100xxxxx */
+{ "xorl", 0x58c70f80, 0xf8ff0fe0, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, LIMM }, { C_F, C_CC } }
+
+/* xorl<.f> RA,LIMM,UIMM6_20 0101111001000111x111xxxxxxxxxxxx */
+{ "xorl", 0x5e477000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, LIMM, UIMM6_20 }, { C_F } }
+
+/* xorl<.f> ZA,LIMM,UIMM6_20 0101111001000111x111xxxxxx111110 */
+{ "xorl", 0x5e47703e, 0xffff703f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, UIMM6_20 }, { C_F } }
+
+/* xorl<.f><.cc> ZA,LIMM,UIMM6_20 0101111011000111x111xxxxxx1xxxxx */
+{ "xorl", 0x5ec77020, 0xffff7020, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, UIMM6_20 }, { C_F, C_CC } }
+
+/* xorl<.f> ZA,XIMM,SIMM12_20 0101110010000111x111xxxxxxxxxxxx */
+{ "xorl", 0x5c877000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, SIMM12_20 }, { C_F } }
+
+/* xorl<.f> ZA,LIMM,SIMM12_20 0101111010000111x111xxxxxxxxxxxx */
+{ "xorl", 0x5e877000, 0xffff7000, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, SIMM12_20 }, { C_F } }
+
+/* xorl<.f> RA,XIMM,XIMMdup 0101110000000111x111111100xxxxxx */
+{ "xorl", 0x5c077f00, 0xffff7fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, XIMM, XIMMdup }, { C_F } }
+
+/* xorl<.f> ZA,XIMM,XIMMdup 0101110000000111x111111100111110 */
+{ "xorl", 0x5c077f3e, 0xffff7fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, XIMMdup }, { C_F } }
+
+/* xorl<.f><.cc> ZA,XIMM,XIMMdup 0101110011000111x1111111000xxxxx */
+{ "xorl", 0x5cc77f00, 0xffff7fe0, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, XIMM, XIMMdup }, { C_F, C_CC } }
+
+/* xorl<.f> RA,LIMM,LIMMdup 0101111000000111x111111110xxxxxx */
+{ "xorl", 0x5e077f80, 0xffff7fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, LIMM, LIMMdup }, { C_F } }
+
+/* xorl<.f> ZA,LIMM,LIMMdup 0101111000000111x111111110111110 */
+{ "xorl", 0x5e077fbe, 0xffff7fff, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, LIMMdup }, { C_F } }
+
+/* xorl<.f><.cc> ZA,LIMM,LIMMdup 0101111011000111x1111111100xxxxx */
+{ "xorl", 0x5ec77f80, 0xffff7fe0, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, LIMM, LIMMdup }, { C_F, C_CC } }
+
+/* xor_s RB_S,RB_Sdup,RC_S 01111xxxxxx00111 */
+{ "xor_s", 0x00007807, 0x0000f81f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, LOGICAL, NONE, { RB_S, RB_Sdup, RC_S }, { 0 } }
+
+/* fhmadd FA,FB,FC,FD 11100xxxxxxxx00000xx1xxxxx0xxxxx */
+{ "fhmadd", 0xe0000800, 0xf807c820, ARC_OPCODE_ARC64, FLOAT, NONE, { FA, FB, FC, FD }, { 0 } }
+
+/* fhmsub FA,FB,FC,FD 11100xxxxxxxx00000xx1xxxxx1xxxxx */
+{ "fhmsub", 0xe0000820, 0xf807c820, ARC_OPCODE_ARC64, FLOAT, NONE, { FA, FB, FC, FD }, { 0 } }
+
+/* fhnmadd FA,FB,FC,FD 11100xxxxxxxx00100xx1xxxxx0xxxxx */
+{ "fhnmadd", 0xe0010800, 0xf807c820, ARC_OPCODE_ARC64, FLOAT, NONE, { FA, FB, FC, FD }, { 0 } }
+
+/* fhnmsub FA,FB,FC,FD 11100xxxxxxxx00100xx1xxxxx1xxxxx */
+{ "fhnmsub", 0xe0010820, 0xf807c820, ARC_OPCODE_ARC64, FLOAT, NONE, { FA, FB, FC, FD }, { 0 } }
+
+/* fsmadd FA,FB,FC,FD 11100xxxxxxxx00001xx1xxxxx0xxxxx */
+{ "fsmadd", 0xe0004800, 0xf807c820, ARC_OPCODE_ARC64, FLOAT, NONE, { FA, FB, FC, FD }, { 0 } }
+
+/* fsmsub FA,FB,FC,FD 11100xxxxxxxx00001xx1xxxxx1xxxxx */
+{ "fsmsub", 0xe0004820, 0xf807c820, ARC_OPCODE_ARC64, FLOAT, NONE, { FA, FB, FC, FD }, { 0 } }
+
+/* fsnmadd FA,FB,FC,FD 11100xxxxxxxx00101xx1xxxxx0xxxxx */
+{ "fsnmadd", 0xe0014800, 0xf807c820, ARC_OPCODE_ARC64, FLOAT, NONE, { FA, FB, FC, FD }, { 0 } }
+
+/* fsnmsub FA,FB,FC,FD 11100xxxxxxxx00101xx1xxxxx1xxxxx */
+{ "fsnmsub", 0xe0014820, 0xf807c820, ARC_OPCODE_ARC64, FLOAT, NONE, { FA, FB, FC, FD }, { 0 } }
+
+/* fdmadd FA,FB,FC,FD 11100xxxxxxxx00010xx1xxxxx0xxxxx */
+{ "fdmadd", 0xe0008800, 0xf807c820, ARC_OPCODE_ARC64, FLOAT, NONE, { FA, FB, FC, FD }, { 0 } }
+
+/* fdmsub FA,FB,FC,FD 11100xxxxxxxx00010xx1xxxxx1xxxxx */
+{ "fdmsub", 0xe0008820, 0xf807c820, ARC_OPCODE_ARC64, FLOAT, NONE, { FA, FB, FC, FD }, { 0 } }
+
+/* fdnmadd FA,FB,FC,FD 11100xxxxxxxx00110xx1xxxxx0xxxxx */
+{ "fdnmadd", 0xe0018800, 0xf807c820, ARC_OPCODE_ARC64, FLOAT, NONE, { FA, FB, FC, FD }, { 0 } }
+
+/* fdnmsub FA,FB,FC,FD 11100xxxxxxxx00110xx1xxxxx1xxxxx */
+{ "fdnmsub", 0xe0018820, 0xf807c820, ARC_OPCODE_ARC64, FLOAT, NONE, { FA, FB, FC, FD }, { 0 } }
+
+/* vfhmadd FA,FB,FC,FD 11100xxxxxxxx01000xx1xxxxx0xxxxx */
+{ "vfhmadd", 0xe0020800, 0xf807c820, ARC_OPCODE_ARC64, FLOAT, NONE, { FA, FB, FC, FD }, { 0 } }
+
+/* vfhmsub FA,FB,FC,FD 11100xxxxxxxx01000xx1xxxxx1xxxxx */
+{ "vfhmsub", 0xe0020820, 0xf807c820, ARC_OPCODE_ARC64, FLOAT, NONE, { FA, FB, FC, FD }, { 0 } }
+
+/* vfhnmadd FA,FB,FC,FD 11100xxxxxxxx01100xx1xxxxx0xxxxx */
+{ "vfhnmadd", 0xe0030800, 0xf807c820, ARC_OPCODE_ARC64, FLOAT, NONE, { FA, FB, FC, FD }, { 0 } }
+
+/* vfhnmsub FA,FB,FC,FD 11100xxxxxxxx01100xx1xxxxx1xxxxx */
+{ "vfhnmsub", 0xe0030820, 0xf807c820, ARC_OPCODE_ARC64, FLOAT, NONE, { FA, FB, FC, FD }, { 0 } }
+
+/* vfhmadds FA,FB,FC,FD 11100xxxxxxxx11000xx1xxxxx0xxxxx */
+{ "vfhmadds", 0xe0060800, 0xf807c820, ARC_OPCODE_ARC64, FLOAT, NONE, { FA, FB, FC, FD }, { 0 } }
+
+/* vfhmsubs FA,FB,FC,FD 11100xxxxxxxx11000xx1xxxxx1xxxxx */
+{ "vfhmsubs", 0xe0060820, 0xf807c820, ARC_OPCODE_ARC64, FLOAT, NONE, { FA, FB, FC, FD }, { 0 } }
+
+/* vfhnmadds FA,FB,FC,FD 11100xxxxxxxx11100xx1xxxxx0xxxxx */
+{ "vfhnmadds", 0xe0070800, 0xf807c820, ARC_OPCODE_ARC64, FLOAT, NONE, { FA, FB, FC, FD }, { 0 } }
+
+/* vfhnmsubs FA,FB,FC,FD 11100xxxxxxxx11100xx1xxxxx1xxxxx */
+{ "vfhnmsubs", 0xe0070820, 0xf807c820, ARC_OPCODE_ARC64, FLOAT, NONE, { FA, FB, FC, FD }, { 0 } }
+
+/* vfsmadd FA,FB,FC,FD 11100xxxxxxxx01001xx1xxxxx0xxxxx */
+{ "vfsmadd", 0xe0024800, 0xf807c820, ARC_OPCODE_ARC64, FLOAT, NONE, { FA, FB, FC, FD }, { 0 } }
+
+/* vfsmsub FA,FB,FC,FD 11100xxxxxxxx01001xx1xxxxx1xxxxx */
+{ "vfsmsub", 0xe0024820, 0xf807c820, ARC_OPCODE_ARC64, FLOAT, NONE, { FA, FB, FC, FD }, { 0 } }
+
+/* vfsnmadd FA,FB,FC,FD 11100xxxxxxxx01101xx1xxxxx0xxxxx */
+{ "vfsnmadd", 0xe0034800, 0xf807c820, ARC_OPCODE_ARC64, FLOAT, NONE, { FA, FB, FC, FD }, { 0 } }
+
+/* vfsnmsub FA,FB,FC,FD 11100xxxxxxxx01101xx1xxxxx1xxxxx */
+{ "vfsnmsub", 0xe0034820, 0xf807c820, ARC_OPCODE_ARC64, FLOAT, NONE, { FA, FB, FC, FD }, { 0 } }
+
+/* vfsmadds FA,FB,FC,FD 11100xxxxxxxx11001xx1xxxxx0xxxxx */
+{ "vfsmadds", 0xe0064800, 0xf807c820, ARC_OPCODE_ARC64, FLOAT, NONE, { FA, FB, FC, FD }, { 0 } }
+
+/* vfsmsubs FA,FB,FC,FD 11100xxxxxxxx11001xx1xxxxx1xxxxx */
+{ "vfsmsubs", 0xe0064820, 0xf807c820, ARC_OPCODE_ARC64, FLOAT, NONE, { FA, FB, FC, FD }, { 0 } }
+
+/* vfsnmadds FA,FB,FC,FD 11100xxxxxxxx11101xx1xxxxx0xxxxx */
+{ "vfsnmadds", 0xe0074800, 0xf807c820, ARC_OPCODE_ARC64, FLOAT, NONE, { FA, FB, FC, FD }, { 0 } }
+
+/* vfsnmsubs FA,FB,FC,FD 11100xxxxxxxx11101xx1xxxxx1xxxxx */
+{ "vfsnmsubs", 0xe0074820, 0xf807c820, ARC_OPCODE_ARC64, FLOAT, NONE, { FA, FB, FC, FD }, { 0 } }
+
+/* vfdmadd FDA,FDB,FDC,FDD 11100xxxxxxxx01010xx1xxxxx0xxxxx */
+{ "vfdmadd", 0xe0028800, 0xf807c820, ARC_OPCODE_ARC64, FLOAT, NONE, { FDA, FDB, FDC, FDD }, { 0 } }
+
+/* vfdmsub FDA,FDB,FDC,FDD 11100xxxxxxxx01010xx1xxxxx1xxxxx */
+{ "vfdmsub", 0xe0028820, 0xf807c820, ARC_OPCODE_ARC64, FLOAT, NONE, { FDA, FDB, FDC, FDD }, { 0 } }
+
+/* vfdnmadd FDA,FDB,FDC,FDD 11100xxxxxxxx01110xx1xxxxx0xxxxx */
+{ "vfdnmadd", 0xe0038800, 0xf807c820, ARC_OPCODE_ARC64, FLOAT, NONE, { FDA, FDB, FDC, FDD }, { 0 } }
+
+/* vfdnmsub FDA,FDB,FDC,FDD 11100xxxxxxxx01110xx1xxxxx1xxxxx */
+{ "vfdnmsub", 0xe0038820, 0xf807c820, ARC_OPCODE_ARC64, FLOAT, NONE, { FDA, FDB, FDC, FDD }, { 0 } }
+
+/* vfdmadds FDA,FDB,FDC,FDD 11100xxxxxxxx11010xx1xxxxx0xxxxx */
+{ "vfdmadds", 0xe0068800, 0xf807c820, ARC_OPCODE_ARC64, FLOAT, NONE, { FDA, FDB, FDC, FDD }, { 0 } }
+
+/* vfdmsubs FDA,FDB,FDC,FDD 11100xxxxxxxx11010xx1xxxxx1xxxxx */
+{ "vfdmsubs", 0xe0068820, 0xf807c820, ARC_OPCODE_ARC64, FLOAT, NONE, { FDA, FDB, FDC, FDD }, { 0 } }
+
+/* vfdnmadds FDA,FDB,FDC,FDD 11100xxxxxxxx11110xx1xxxxx0xxxxx */
+{ "vfdnmadds", 0xe0078800, 0xf807c820, ARC_OPCODE_ARC64, FLOAT, NONE, { FDA, FDB, FDC, FDD }, { 0 } }
+
+/* vfdnmsubs FDA,FDB,FDC,FDD 11100xxxxxxxx11110xx1xxxxx1xxxxx */
+{ "vfdnmsubs", 0xe0078820, 0xf807c820, ARC_OPCODE_ARC64, FLOAT, NONE, { FDA, FDB, FDC, FDD }, { 0 } }
+
+/* fhadd FA,FB,FC 11100xxx0000000000xx0xxxxx1xxxxx */
+{ "fhadd", 0xe0000020, 0xf8ffc820, ARC_OPCODE_ARC64, FLOAT, NONE, { FA, FB, FC }, { 0 } }
+
+/* fhsub FA,FB,FC 11100xxx0000000100xx0xxxxx1xxxxx */
+{ "fhsub", 0xe0010020, 0xf8ffc820, ARC_OPCODE_ARC64, FLOAT, NONE, { FA, FB, FC }, { 0 } }
+
+/* fhmul FA,FB,FC 11100xxx0000001000xx0xxxxx1xxxxx */
+{ "fhmul", 0xe0020020, 0xf8ffc820, ARC_OPCODE_ARC64, FLOAT, NONE, { FA, FB, FC }, { 0 } }
+
+/* fhdiv FA,FB,FC 11100xxx0000001100xx0xxxxx1xxxxx */
+{ "fhdiv", 0xe0030020, 0xf8ffc820, ARC_OPCODE_ARC64, FLOAT, NONE, { FA, FB, FC }, { 0 } }
+
+/* fhmin FA,FB,FC 11100xxx0000011000xx0xxxxx1xxxxx */
+{ "fhmin", 0xe0060020, 0xf8ffc820, ARC_OPCODE_ARC64, FLOAT, NONE, { FA, FB, FC }, { 0 } }
+
+/* fhmax FA,FB,FC 11100xxx0000011100xx0xxxxx1xxxxx */
+{ "fhmax", 0xe0070020, 0xf8ffc820, ARC_OPCODE_ARC64, FLOAT, NONE, { FA, FB, FC }, { 0 } }
+
+/* fhsgnj FA,FB,FC 11100xxx0000100000xx0xxxxx1xxxxx */
+{ "fhsgnj", 0xe0080020, 0xf8ffc820, ARC_OPCODE_ARC64, FLOAT, NONE, { FA, FB, FC }, { 0 } }
+
+/* fhsgnjn FA,FB,FC 11100xxx0000101000xx0xxxxx1xxxxx */
+{ "fhsgnjn", 0xe00a0020, 0xf8ffc820, ARC_OPCODE_ARC64, FLOAT, NONE, { FA, FB, FC }, { 0 } }
+
+/* fhsgnjx FA,FB,FC 11100xxx0000101100xx0xxxxx1xxxxx */
+{ "fhsgnjx", 0xe00b0020, 0xf8ffc820, ARC_OPCODE_ARC64, FLOAT, NONE, { FA, FB, FC }, { 0 } }
+
+/* fsadd FA,FB,FC 11100xxx0000000001xx0xxxxx1xxxxx */
+{ "fsadd", 0xe0004020, 0xf8ffc820, ARC_OPCODE_ARC64, FLOAT, NONE, { FA, FB, FC }, { 0 } }
+
+/* fssub FA,FB,FC 11100xxx0000000101xx0xxxxx1xxxxx */
+{ "fssub", 0xe0014020, 0xf8ffc820, ARC_OPCODE_ARC64, FLOAT, NONE, { FA, FB, FC }, { 0 } }
+
+/* fsmul FA,FB,FC 11100xxx0000001001xx0xxxxx1xxxxx */
+{ "fsmul", 0xe0024020, 0xf8ffc820, ARC_OPCODE_ARC64, FLOAT, NONE, { FA, FB, FC }, { 0 } }
+
+/* fsdiv FA,FB,FC 11100xxx0000001101xx0xxxxx1xxxxx */
+{ "fsdiv", 0xe0034020, 0xf8ffc820, ARC_OPCODE_ARC64, FLOAT, NONE, { FA, FB, FC }, { 0 } }
+
+/* fsmin FA,FB,FC 11100xxx0000011001xx0xxxxx1xxxxx */
+{ "fsmin", 0xe0064020, 0xf8ffc820, ARC_OPCODE_ARC64, FLOAT, NONE, { FA, FB, FC }, { 0 } }
+
+/* fsmax FA,FB,FC 11100xxx0000011101xx0xxxxx1xxxxx */
+{ "fsmax", 0xe0074020, 0xf8ffc820, ARC_OPCODE_ARC64, FLOAT, NONE, { FA, FB, FC }, { 0 } }
+
+/* fssgnj FA,FB,FC 11100xxx0000100001xx0xxxxx1xxxxx */
+{ "fssgnj", 0xe0084020, 0xf8ffc820, ARC_OPCODE_ARC64, FLOAT, NONE, { FA, FB, FC }, { 0 } }
+
+/* fssgnjn FA,FB,FC 11100xxx0000101001xx0xxxxx1xxxxx */
+{ "fssgnjn", 0xe00a4020, 0xf8ffc820, ARC_OPCODE_ARC64, FLOAT, NONE, { FA, FB, FC }, { 0 } }
+
+/* fssgnjx FA,FB,FC 11100xxx0000101101xx0xxxxx1xxxxx */
+{ "fssgnjx", 0xe00b4020, 0xf8ffc820, ARC_OPCODE_ARC64, FLOAT, NONE, { FA, FB, FC }, { 0 } }
+
+/* fdadd FA,FB,FC 11100xxx0000000010xx0xxxxx1xxxxx */
+{ "fdadd", 0xe0008020, 0xf8ffc820, ARC_OPCODE_ARC64, FLOAT, NONE, { FA, FB, FC }, { 0 } }
+
+/* fdsub FA,FB,FC 11100xxx0000000110xx0xxxxx1xxxxx */
+{ "fdsub", 0xe0018020, 0xf8ffc820, ARC_OPCODE_ARC64, FLOAT, NONE, { FA, FB, FC }, { 0 } }
+
+/* fdmul FA,FB,FC 11100xxx0000001010xx0xxxxx1xxxxx */
+{ "fdmul", 0xe0028020, 0xf8ffc820, ARC_OPCODE_ARC64, FLOAT, NONE, { FA, FB, FC }, { 0 } }
+
+/* fddiv FA,FB,FC 11100xxx0000001110xx0xxxxx1xxxxx */
+{ "fddiv", 0xe0038020, 0xf8ffc820, ARC_OPCODE_ARC64, FLOAT, NONE, { FA, FB, FC }, { 0 } }
+
+/* fdmin FA,FB,FC 11100xxx0000011010xx0xxxxx1xxxxx */
+{ "fdmin", 0xe0068020, 0xf8ffc820, ARC_OPCODE_ARC64, FLOAT, NONE, { FA, FB, FC }, { 0 } }
+
+/* fdmax FA,FB,FC 11100xxx0000011110xx0xxxxx1xxxxx */
+{ "fdmax", 0xe0078020, 0xf8ffc820, ARC_OPCODE_ARC64, FLOAT, NONE, { FA, FB, FC }, { 0 } }
+
+/* fdsgnj FA,FB,FC 11100xxx0000100010xx0xxxxx1xxxxx */
+{ "fdsgnj", 0xe0088020, 0xf8ffc820, ARC_OPCODE_ARC64, FLOAT, NONE, { FA, FB, FC }, { 0 } }
+
+/* fdsgnjn FA,FB,FC 11100xxx0000101010xx0xxxxx1xxxxx */
+{ "fdsgnjn", 0xe00a8020, 0xf8ffc820, ARC_OPCODE_ARC64, FLOAT, NONE, { FA, FB, FC }, { 0 } }
+
+/* fdsgnjx FA,FB,FC 11100xxx0000101110xx0xxxxx1xxxxx */
+{ "fdsgnjx", 0xe00b8020, 0xf8ffc820, ARC_OPCODE_ARC64, FLOAT, NONE, { FA, FB, FC }, { 0 } }
+
+/* fhcmp FB,FC 11100xxx0000010000xx0xxxxx1xxxxx */
+{ "fhcmp", 0xe0040020, 0xf8ffc820, ARC_OPCODE_ARC64, FLOAT, NONE, { FB, FC }, { 0 } }
+
+/* fhcmpf FB,FC 11100xxx0000010100xx0xxxxx1xxxxx */
+{ "fhcmpf", 0xe0050020, 0xf8ffc820, ARC_OPCODE_ARC64, FLOAT, NONE, { FB, FC }, { 0 } }
+
+/* fscmp FB,FC 11100xxx0000010001xx0xxxxx1xxxxx */
+{ "fscmp", 0xe0044020, 0xf8ffc820, ARC_OPCODE_ARC64, FLOAT, NONE, { FB, FC }, { 0 } }
+
+/* fscmpf FB,FC 11100xxx0000010101xx0xxxxx1xxxxx */
+{ "fscmpf", 0xe0054020, 0xf8ffc820, ARC_OPCODE_ARC64, FLOAT, NONE, { FB, FC }, { 0 } }
+
+/* fdcmp FB,FC 11100xxx0000010010xx0xxxxx1xxxxx */
+{ "fdcmp", 0xe0048020, 0xf8ffc820, ARC_OPCODE_ARC64, FLOAT, NONE, { FB, FC }, { 0 } }
+
+/* fdcmpf FB,FC 11100xxx0000010110xx0xxxxx1xxxxx */
+{ "fdcmpf", 0xe0058020, 0xf8ffc820, ARC_OPCODE_ARC64, FLOAT, NONE, { FB, FC }, { 0 } }
+
+/* vfhadd FA,FB,FC 11100xxx0001000000xx0xxxxx1xxxxx */
+{ "vfhadd", 0xe0100020, 0xf8ffc820, ARC_OPCODE_ARC64, FLOAT, NONE, { FA, FB, FC }, { 0 } }
+
+/* vfhsub FA,FB,FC 11100xxx0001000100xx0xxxxx1xxxxx */
+{ "vfhsub", 0xe0110020, 0xf8ffc820, ARC_OPCODE_ARC64, FLOAT, NONE, { FA, FB, FC }, { 0 } }
+
+/* vfhmul FA,FB,FC 11100xxx0001001000xx0xxxxx1xxxxx */
+{ "vfhmul", 0xe0120020, 0xf8ffc820, ARC_OPCODE_ARC64, FLOAT, NONE, { FA, FB, FC }, { 0 } }
+
+/* vfhdiv FA,FB,FC 11100xxx0001001100xx0xxxxx1xxxxx */
+{ "vfhdiv", 0xe0130020, 0xf8ffc820, ARC_OPCODE_ARC64, FLOAT, NONE, { FA, FB, FC }, { 0 } }
+
+/* vfhadds FA,FB,FC 11100xxx0001010000xx0xxxxx1xxxxx */
+{ "vfhadds", 0xe0140020, 0xf8ffc820, ARC_OPCODE_ARC64, FLOAT, NONE, { FA, FB, FC }, { 0 } }
+
+/* vfhsubs FA,FB,FC 11100xxx0001010100xx0xxxxx1xxxxx */
+{ "vfhsubs", 0xe0150020, 0xf8ffc820, ARC_OPCODE_ARC64, FLOAT, NONE, { FA, FB, FC }, { 0 } }
+
+/* vfhmuls FA,FB,FC 11100xxx0001011000xx0xxxxx1xxxxx */
+{ "vfhmuls", 0xe0160020, 0xf8ffc820, ARC_OPCODE_ARC64, FLOAT, NONE, { FA, FB, FC }, { 0 } }
+
+/* vfhdivs FA,FB,FC 11100xxx0001011100xx0xxxxx1xxxxx */
+{ "vfhdivs", 0xe0170020, 0xf8ffc820, ARC_OPCODE_ARC64, FLOAT, NONE, { FA, FB, FC }, { 0 } }
+
+/* vfhunpkl FA,FB,FC 11100xxx0001100000xx0xxxxx1xxxxx */
+{ "vfhunpkl", 0xe0180020, 0xf8ffc820, ARC_OPCODE_ARC64, FLOAT, NONE, { FA, FB, FC }, { 0 } }
+
+/* vfhunpkm FA,FB,FC 11100xxx0001100100xx0xxxxx1xxxxx */
+{ "vfhunpkm", 0xe0190020, 0xf8ffc820, ARC_OPCODE_ARC64, FLOAT, NONE, { FA, FB, FC }, { 0 } }
+
+/* vfhpackl FA,FB,FC 11100xxx0001101000xx0xxxxx1xxxxx */
+{ "vfhpackl", 0xe01a0020, 0xf8ffc820, ARC_OPCODE_ARC64, FLOAT, NONE, { FA, FB, FC }, { 0 } }
+
+/* vfhpackm FA,FB,FC 11100xxx0001101100xx0xxxxx1xxxxx */
+{ "vfhpackm", 0xe01b0020, 0xf8ffc820, ARC_OPCODE_ARC64, FLOAT, NONE, { FA, FB, FC }, { 0 } }
+
+/* vfhbflyl FA,FB,FC 11100xxx0001110000xx0xxxxx1xxxxx */
+{ "vfhbflyl", 0xe01c0020, 0xf8ffc820, ARC_OPCODE_ARC64, FLOAT, NONE, { FA, FB, FC }, { 0 } }
+
+/* vfhbflym FA,FB,FC 11100xxx0001110100xx0xxxxx1xxxxx */
+{ "vfhbflym", 0xe01d0020, 0xf8ffc820, ARC_OPCODE_ARC64, FLOAT, NONE, { FA, FB, FC }, { 0 } }
+
+/* vfhaddsub FA,FB,FC 11100xxx0001111000xx0xxxxx1xxxxx */
+{ "vfhaddsub", 0xe01e0020, 0xf8ffc820, ARC_OPCODE_ARC64, FLOAT, NONE, { FA, FB, FC }, { 0 } }
+
+/* vfhsubadd FA,FB,FC 11100xxx0001111100xx0xxxxx1xxxxx */
+{ "vfhsubadd", 0xe01f0020, 0xf8ffc820, ARC_OPCODE_ARC64, FLOAT, NONE, { FA, FB, FC }, { 0 } }
+
+/* vfsadd FA,FB,FC 11100xxx0001000001xx0xxxxx1xxxxx */
+{ "vfsadd", 0xe0104020, 0xf8ffc820, ARC_OPCODE_ARC64, FLOAT, NONE, { FA, FB, FC }, { 0 } }
+
+/* vfssub FA,FB,FC 11100xxx0001000101xx0xxxxx1xxxxx */
+{ "vfssub", 0xe0114020, 0xf8ffc820, ARC_OPCODE_ARC64, FLOAT, NONE, { FA, FB, FC }, { 0 } }
+
+/* vfsmul FA,FB,FC 11100xxx0001001001xx0xxxxx1xxxxx */
+{ "vfsmul", 0xe0124020, 0xf8ffc820, ARC_OPCODE_ARC64, FLOAT, NONE, { FA, FB, FC }, { 0 } }
+
+/* vfsdiv FA,FB,FC 11100xxx0001001101xx0xxxxx1xxxxx */
+{ "vfsdiv", 0xe0134020, 0xf8ffc820, ARC_OPCODE_ARC64, FLOAT, NONE, { FA, FB, FC }, { 0 } }
+
+/* vfsadds FA,FB,FC 11100xxx0001010001xx0xxxxx1xxxxx */
+{ "vfsadds", 0xe0144020, 0xf8ffc820, ARC_OPCODE_ARC64, FLOAT, NONE, { FA, FB, FC }, { 0 } }
+
+/* vfssubs FA,FB,FC 11100xxx0001010101xx0xxxxx1xxxxx */
+{ "vfssubs", 0xe0154020, 0xf8ffc820, ARC_OPCODE_ARC64, FLOAT, NONE, { FA, FB, FC }, { 0 } }
+
+/* vfsmuls FA,FB,FC 11100xxx0001011001xx0xxxxx1xxxxx */
+{ "vfsmuls", 0xe0164020, 0xf8ffc820, ARC_OPCODE_ARC64, FLOAT, NONE, { FA, FB, FC }, { 0 } }
+
+/* vfsdivs FA,FB,FC 11100xxx0001011101xx0xxxxx1xxxxx */
+{ "vfsdivs", 0xe0174020, 0xf8ffc820, ARC_OPCODE_ARC64, FLOAT, NONE, { FA, FB, FC }, { 0 } }
+
+/* vfsunpkl FA,FB,FC 11100xxx0001100001xx0xxxxx1xxxxx */
+{ "vfsunpkl", 0xe0184020, 0xf8ffc820, ARC_OPCODE_ARC64, FLOAT, NONE, { FA, FB, FC }, { 0 } }
+
+/* vfsunpkm FA,FB,FC 11100xxx0001100101xx0xxxxx1xxxxx */
+{ "vfsunpkm", 0xe0194020, 0xf8ffc820, ARC_OPCODE_ARC64, FLOAT, NONE, { FA, FB, FC }, { 0 } }
+
+/* vfspackl FA,FB,FC 11100xxx0001101001xx0xxxxx1xxxxx */
+{ "vfspackl", 0xe01a4020, 0xf8ffc820, ARC_OPCODE_ARC64, FLOAT, NONE, { FA, FB, FC }, { 0 } }
+
+/* vfspackm FA,FB,FC 11100xxx0001101101xx0xxxxx1xxxxx */
+{ "vfspackm", 0xe01b4020, 0xf8ffc820, ARC_OPCODE_ARC64, FLOAT, NONE, { FA, FB, FC }, { 0 } }
+
+/* vfsbflyl FA,FB,FC 11100xxx0001110001xx0xxxxx1xxxxx */
+{ "vfsbflyl", 0xe01c4020, 0xf8ffc820, ARC_OPCODE_ARC64, FLOAT, NONE, { FA, FB, FC }, { 0 } }
+
+/* vfsbflym FA,FB,FC 11100xxx0001110101xx0xxxxx1xxxxx */
+{ "vfsbflym", 0xe01d4020, 0xf8ffc820, ARC_OPCODE_ARC64, FLOAT, NONE, { FA, FB, FC }, { 0 } }
+
+/* vfsaddsub FA,FB,FC 11100xxx0001111001xx0xxxxx1xxxxx */
+{ "vfsaddsub", 0xe01e4020, 0xf8ffc820, ARC_OPCODE_ARC64, FLOAT, NONE, { FA, FB, FC }, { 0 } }
+
+/* vfssubadd FA,FB,FC 11100xxx0001111101xx0xxxxx1xxxxx */
+{ "vfssubadd", 0xe01f4020, 0xf8ffc820, ARC_OPCODE_ARC64, FLOAT, NONE, { FA, FB, FC }, { 0 } }
+
+/* vfdadd FDA,FDB,FDC 11100xxx0001000010xx0xxxxx1xxxxx */
+{ "vfdadd", 0xe0108020, 0xf8ffc820, ARC_OPCODE_ARC64, FLOAT, NONE, { FDA, FDB, FDC }, { 0 } }
+
+/* vfdsub FDA,FDB,FDC 11100xxx0001000110xx0xxxxx1xxxxx */
+{ "vfdsub", 0xe0118020, 0xf8ffc820, ARC_OPCODE_ARC64, FLOAT, NONE, { FDA, FDB, FDC }, { 0 } }
+
+/* vfdmul FDA,FDB,FDC 11100xxx0001001010xx0xxxxx1xxxxx */
+{ "vfdmul", 0xe0128020, 0xf8ffc820, ARC_OPCODE_ARC64, FLOAT, NONE, { FDA, FDB, FDC }, { 0 } }
+
+/* vfddiv FDA,FDB,FDC 11100xxx0001001110xx0xxxxx1xxxxx */
+{ "vfddiv", 0xe0138020, 0xf8ffc820, ARC_OPCODE_ARC64, FLOAT, NONE, { FDA, FDB, FDC }, { 0 } }
+
+/* vfdadds FDA,FDB,FDC 11100xxx0001010010xx0xxxxx1xxxxx */
+{ "vfdadds", 0xe0148020, 0xf8ffc820, ARC_OPCODE_ARC64, FLOAT, NONE, { FDA, FDB, FDC }, { 0 } }
+
+/* vfdsubs FDA,FDB,FDC 11100xxx0001010110xx0xxxxx1xxxxx */
+{ "vfdsubs", 0xe0158020, 0xf8ffc820, ARC_OPCODE_ARC64, FLOAT, NONE, { FDA, FDB, FDC }, { 0 } }
+
+/* vfdmuls FDA,FDB,FDC 11100xxx0001011010xx0xxxxx1xxxxx */
+{ "vfdmuls", 0xe0168020, 0xf8ffc820, ARC_OPCODE_ARC64, FLOAT, NONE, { FDA, FDB, FDC }, { 0 } }
+
+/* vfddivs FDA,FDB,FDC 11100xxx0001011110xx0xxxxx1xxxxx */
+{ "vfddivs", 0xe0178020, 0xf8ffc820, ARC_OPCODE_ARC64, FLOAT, NONE, { FDA, FDB, FDC }, { 0 } }
+
+/* vfdunpkl FDA,FDB,FDC 11100xxx0001100010xx0xxxxx1xxxxx */
+{ "vfdunpkl", 0xe0188020, 0xf8ffc820, ARC_OPCODE_ARC64, FLOAT, NONE, { FDA, FDB, FDC }, { 0 } }
+
+/* vfdunpkm FDA,FDB,FDC 11100xxx0001100110xx0xxxxx1xxxxx */
+{ "vfdunpkm", 0xe0198020, 0xf8ffc820, ARC_OPCODE_ARC64, FLOAT, NONE, { FDA, FDB, FDC }, { 0 } }
+
+/* vfdpackl FDA,FDB,FDC 11100xxx0001101010xx0xxxxx1xxxxx */
+{ "vfdpackl", 0xe01a8020, 0xf8ffc820, ARC_OPCODE_ARC64, FLOAT, NONE, { FDA, FDB, FDC }, { 0 } }
+
+/* vfdpackm FDA,FDB,FDC 11100xxx0001101110xx0xxxxx1xxxxx */
+{ "vfdpackm", 0xe01b8020, 0xf8ffc820, ARC_OPCODE_ARC64, FLOAT, NONE, { FDA, FDB, FDC }, { 0 } }
+
+/* vfdbflyl FDA,FDB,FDC 11100xxx0001110010xx0xxxxx1xxxxx */
+{ "vfdbflyl", 0xe01c8020, 0xf8ffc820, ARC_OPCODE_ARC64, FLOAT, NONE, { FDA, FDB, FDC }, { 0 } }
+
+/* vfdbflym FDA,FDB,FDC 11100xxx0001110110xx0xxxxx1xxxxx */
+{ "vfdbflym", 0xe01d8020, 0xf8ffc820, ARC_OPCODE_ARC64, FLOAT, NONE, { FDA, FDB, FDC }, { 0 } }
+
+/* vfdaddsub FDA,FDB,FDC 11100xxx0001111010xx0xxxxx1xxxxx */
+{ "vfdaddsub", 0xe01e8020, 0xf8ffc820, ARC_OPCODE_ARC64, FLOAT, NONE, { FDA, FDB, FDC }, { 0 } }
+
+/* vfdsubadd FDA,FDB,FDC 11100xxx0001111110xx0xxxxx1xxxxx */
+{ "vfdsubadd", 0xe01f8020, 0xf8ffc820, ARC_OPCODE_ARC64, FLOAT, NONE, { FDA, FDB, FDC }, { 0 } }
+
+/* fhsqrt FA,FB 111000000100000000000xxxxx1xxxxx */
+{ "fhsqrt", 0xe0400020, 0xfffff820, ARC_OPCODE_ARC64, FLOAT, NONE, { FA, FB }, { 0 } }
+
+/* fssqrt FA,FB 111000000100000001000xxxxx1xxxxx */
+{ "fssqrt", 0xe0404020, 0xfffff820, ARC_OPCODE_ARC64, FLOAT, NONE, { FA, FB }, { 0 } }
+
+/* fdsqrt FA,FB 111000000100000010000xxxxx1xxxxx */
+{ "fdsqrt", 0xe0408020, 0xfffff820, ARC_OPCODE_ARC64, FLOAT, NONE, { FA, FB }, { 0 } }
+
+/* vfhsqrt FA,FB 111000000100000100000xxxxx1xxxxx */
+{ "vfhsqrt", 0xe0410020, 0xfffff820, ARC_OPCODE_ARC64, FLOAT, NONE, { FA, FB }, { 0 } }
+
+/* vfssqrt FA,FB 111000000100000101000xxxxx1xxxxx */
+{ "vfssqrt", 0xe0414020, 0xfffff820, ARC_OPCODE_ARC64, FLOAT, NONE, { FA, FB }, { 0 } }
+
+/* vfdsqrt FDA,FDB 111000000100000110000xxxxx1xxxxx */
+{ "vfdsqrt", 0xe0418020, 0xfffff820, ARC_OPCODE_ARC64, FLOAT, NONE, { FDA, FDB }, { 0 } }
+
+/* vfhexch FA,FB 111000000100001000000xxxxx1xxxxx */
+{ "vfhexch", 0xe0420020, 0xfffff820, ARC_OPCODE_ARC64, FLOAT, NONE, { FA, FB }, { 0 } }
+
+/* vfsexch FA,FB 111000000100001001000xxxxx1xxxxx */
+{ "vfsexch", 0xe0424020, 0xfffff820, ARC_OPCODE_ARC64, FLOAT, NONE, { FA, FB }, { 0 } }
+
+/* vfdexch FDA,FDB 111000000100001010000xxxxx1xxxxx */
+{ "vfdexch", 0xe0428020, 0xfffff820, ARC_OPCODE_ARC64, FLOAT, NONE, { FDA, FDB }, { 0 } }
+
+/* fhmov FA,FB 11100xxx0100100000xx0xxxxx1xxxxx */
+{ "fhmov", 0xe0480020, 0xf8ffc820, ARC_OPCODE_ARC64, FLOAT, NONE, { FA, FB }, { C_FPCC } }
+
+/* fsmov FA,FB 11100xxx0100100001xx0xxxxx1xxxxx */
+{ "fsmov", 0xe0484020, 0xf8ffc820, ARC_OPCODE_ARC64, FLOAT, NONE, { FA, FB }, { C_FPCC } }
+
+/* fdmov FA,FB 11100xxx0100100010xx0xxxxx1xxxxx */
+{ "fdmov", 0xe0488020, 0xf8ffc820, ARC_OPCODE_ARC64, FLOAT, NONE, { FA, FB }, { C_FPCC } }
+
+/* vfhmov FA,FB 11100xxx0100100100xx0xxxxx1xxxxx */
+{ "vfhmov", 0xe0490020, 0xf8ffc820, ARC_OPCODE_ARC64, FLOAT, NONE, { FA, FB }, { C_FPCC } }
+
+/* vfsmov FA,FB 11100xxx0100100101xx0xxxxx1xxxxx */
+{ "vfsmov", 0xe0494020, 0xf8ffc820, ARC_OPCODE_ARC64, FLOAT, NONE, { FA, FB }, { C_FPCC } }
+
+/* vfdmov FA,FB 11100xxx0100100110xx0xxxxx1xxxxx */
+{ "vfdmov", 0xe0498020, 0xf8ffc820, ARC_OPCODE_ARC64, FLOAT, NONE, { FA, FB }, { C_FPCC } }
+
+/* fuint2s FA,FRB 11100xxx1110000000xx0xxxxx100000 */
+{ "fuint2s", 0xe0e00020, 0xf8ffc83f, ARC_OPCODE_ARC64, FLOAT, NONE, { FA, FRB }, { 0 } }
+
+/* fuint2d FA,FRB 11100xxx1110000100xx0xxxxx100000 */
+{ "fuint2d", 0xe0e10020, 0xf8ffc83f, ARC_OPCODE_ARC64, FLOAT, NONE, { FA, FRB }, { 0 } }
+
+/* ful2s FA,FRB 11100xxx1110001000xx0xxxxx100000 */
+{ "ful2s", 0xe0e20020, 0xf8ffc83f, ARC_OPCODE_ARC64, FLOAT, NONE, { FA, FRB }, { 0 } }
+
+/* ful2d FA,FRB 11100xxx1110001100xx0xxxxx100000 */
+{ "ful2d", 0xe0e30020, 0xf8ffc83f, ARC_OPCODE_ARC64, FLOAT, NONE, { FA, FRB }, { 0 } }
+
+/* fs2uint FRD,FC 11100xxx0110000000xx0xxxxx100001 */
+{ "fs2uint", 0xe0600021, 0xf8ffc83f, ARC_OPCODE_ARC64, FLOAT, NONE, { FRD, FC }, { 0 } }
+
+/* fs2ul FRD,FC 11100xxx0110000100xx0xxxxx100001 */
+{ "fs2ul", 0xe0610021, 0xf8ffc83f, ARC_OPCODE_ARC64, FLOAT, NONE, { FRD, FC }, { 0 } }
+
+/* fd2uint FRD,FC 11100xxx0110001000xx0xxxxx100001 */
+{ "fd2uint", 0xe0620021, 0xf8ffc83f, ARC_OPCODE_ARC64, FLOAT, NONE, { FRD, FC }, { 0 } }
+
+/* fd2ul FRD,FC 11100xxx0110001100xx0xxxxx100001 */
+{ "fd2ul", 0xe0630021, 0xf8ffc83f, ARC_OPCODE_ARC64, FLOAT, NONE, { FRD, FC }, { 0 } }
+
+/* fint2s FA,FRB 11100xxx1110000000xx0xxxxx100010 */
+{ "fint2s", 0xe0e00022, 0xf8ffc83f, ARC_OPCODE_ARC64, FLOAT, NONE, { FA, FRB }, { 0 } }
+
+/* fint2d FA,FRB 11100xxx1110000100xx0xxxxx100010 */
+{ "fint2d", 0xe0e10022, 0xf8ffc83f, ARC_OPCODE_ARC64, FLOAT, NONE, { FA, FRB }, { 0 } }
+
+/* fl2s FA,FRB 11100xxx1110001000xx0xxxxx100010 */
+{ "fl2s", 0xe0e20022, 0xf8ffc83f, ARC_OPCODE_ARC64, FLOAT, NONE, { FA, FRB }, { 0 } }
+
+/* fl2d FA,FRB 11100xxx1110001100xx0xxxxx100010 */
+{ "fl2d", 0xe0e30022, 0xf8ffc83f, ARC_OPCODE_ARC64, FLOAT, NONE, { FA, FRB }, { 0 } }
+
+/* fs2int FRD,FC 11100xxx0110000000xx0xxxxx100011 */
+{ "fs2int", 0xe0600023, 0xf8ffc83f, ARC_OPCODE_ARC64, FLOAT, NONE, { FRD, FC }, { 0 } }
+
+/* fs2l FRD,FC 11100xxx0110000100xx0xxxxx100011 */
+{ "fs2l", 0xe0610023, 0xf8ffc83f, ARC_OPCODE_ARC64, FLOAT, NONE, { FRD, FC }, { 0 } }
+
+/* fd2int FRD,FC 11100xxx0110001000xx0xxxxx100011 */
+{ "fd2int", 0xe0620023, 0xf8ffc83f, ARC_OPCODE_ARC64, FLOAT, NONE, { FRD, FC }, { 0 } }
+
+/* fd2l FRD,FC 11100xxx0110001100xx0xxxxx100011 */
+{ "fd2l", 0xe0630023, 0xf8ffc83f, ARC_OPCODE_ARC64, FLOAT, NONE, { FRD, FC }, { 0 } }
+
+/* fs2d FA,FC 11100xxx0110000100xx0xxxxx100100 */
+{ "fs2d", 0xe0610024, 0xf8ffc83f, ARC_OPCODE_ARC64, FLOAT, NONE, { FA, FC }, { 0 } }
+
+/* fd2s FA,FC 11100xxx0110001000xx0xxxxx100100 */
+{ "fd2s", 0xe0620024, 0xf8ffc83f, ARC_OPCODE_ARC64, FLOAT, NONE, { FA, FC }, { 0 } }
+
+/* fsrnd FA,FC 11100xxx0110000000xx0xxxxx100110 */
+{ "fsrnd", 0xe0600026, 0xf8ffc83f, ARC_OPCODE_ARC64, FLOAT, NONE, { FA, FC }, { 0 } }
+
+/* fdrnd FA,FC 11100xxx0110001100xx0xxxxx100110 */
+{ "fdrnd", 0xe0630026, 0xf8ffc83f, ARC_OPCODE_ARC64, FLOAT, NONE, { FA, FC }, { 0 } }
+
+/* fs2uint_rz FRD,FC 11100xxx0110000000xx0xxxxx101001 */
+{ "fs2uint_rz", 0xe0600029, 0xf8ffc83f, ARC_OPCODE_ARC64, FLOAT, NONE, { FRD, FC }, { 0 } }
+
+/* fs2ul_rz FRD,FC 11100xxx0110000100xx0xxxxx101001 */
+{ "fs2ul_rz", 0xe0610029, 0xf8ffc83f, ARC_OPCODE_ARC64, FLOAT, NONE, { FRD, FC }, { 0 } }
+
+/* fd2uint_rz FRD,FC 11100xxx0110001000xx0xxxxx101001 */
+{ "fd2uint_rz", 0xe0620029, 0xf8ffc83f, ARC_OPCODE_ARC64, FLOAT, NONE, { FRD, FC }, { 0 } }
+
+/* fd2ul_rz FRD,FC 11100xxx0110001100xx0xxxxx101001 */
+{ "fd2ul_rz", 0xe0630029, 0xf8ffc83f, ARC_OPCODE_ARC64, FLOAT, NONE, { FRD, FC }, { 0 } }
+
+/* fs2int_rz FRD,FC 11100xxx0110000000xx0xxxxx101011 */
+{ "fs2int_rz", 0xe060002b, 0xf8ffc83f, ARC_OPCODE_ARC64, FLOAT, NONE, { FRD, FC }, { 0 } }
+
+/* fs2l_rz FRD,FC 11100xxx0110000100xx0xxxxx101011 */
+{ "fs2l_rz", 0xe061002b, 0xf8ffc83f, ARC_OPCODE_ARC64, FLOAT, NONE, { FRD, FC }, { 0 } }
+
+/* fd2int_rz FRD,FC 11100xxx0110001000xx0xxxxx101011 */
+{ "fd2int_rz", 0xe062002b, 0xf8ffc83f, ARC_OPCODE_ARC64, FLOAT, NONE, { FRD, FC }, { 0 } }
+
+/* fd2l_rz FRD,FC 11100xxx0110001100xx0xxxxx101011 */
+{ "fd2l_rz", 0xe063002b, 0xf8ffc83f, ARC_OPCODE_ARC64, FLOAT, NONE, { FRD, FC }, { 0 } }
+
+/* fsrnd_rz FA,FC 11100xxx0110000000xx0xxxxx101110 */
+{ "fsrnd_rz", 0xe060002e, 0xf8ffc83f, ARC_OPCODE_ARC64, FLOAT, NONE, { FA, FC }, { 0 } }
+
+/* fdrnd_rz FA,FC 11100xxx0110001100xx0xxxxx101110 */
+{ "fdrnd_rz", 0xe063002e, 0xf8ffc83f, ARC_OPCODE_ARC64, FLOAT, NONE, { FA, FC }, { 0 } }
+
+/* fmvi2s FA,FRB 11100xxx1110000000xx0xxxxx110000 */
+{ "fmvi2s", 0xe0e00030, 0xf8ffc83f, ARC_OPCODE_ARC64, FLOAT, NONE, { FA, FRB }, { 0 } }
+
+/* fmvl2d FA,FRB 11100xxx1110001100xx0xxxxx110000 */
+{ "fmvl2d", 0xe0e30030, 0xf8ffc83f, ARC_OPCODE_ARC64, FLOAT, NONE, { FA, FRB }, { 0 } }
+
+/* fmvs2i FRD,FC 11100xxx0110000000xx0xxxxx110001 */
+{ "fmvs2i", 0xe0600031, 0xf8ffc83f, ARC_OPCODE_ARC64, FLOAT, NONE, { FRD, FC }, { 0 } }
+
+/* fmvd2l FRD,FC 11100xxx0110001100xx0xxxxx110001 */
+{ "fmvd2l", 0xe0630031, 0xf8ffc83f, ARC_OPCODE_ARC64, FLOAT, NONE, { FRD, FC }, { 0 } }
+
+/* fs2h FA,FC 11100xxx0110000000xx0xxxxx110100 */
+{ "fs2h", 0xe0600034, 0xf8ffc83f, ARC_OPCODE_ARC64, FLOAT, NONE, { FA, FC }, { 0 } }
+
+/* fh2s FA,FC 11100xxx0110000000xx0xxxxx110101 */
+{ "fh2s", 0xe0600035, 0xf8ffc83f, ARC_OPCODE_ARC64, FLOAT, NONE, { FA, FC }, { 0 } }
+
+/* fs2h_rz FA,FC 11100xxx0110000000xx0xxxxx111100 */
+{ "fs2h_rz", 0xe060003c, 0xf8ffc83f, ARC_OPCODE_ARC64, FLOAT, NONE, { FA, FC }, { 0 } }
+
+/* fld16<.aa> FA,BRAKET,RB,SIMM9_8,BRAKETdup 01101xxxxxxxxxxxxxxx0xxxxx0xx100 */
+{ "fld16", 0x68000004, 0xf8000827, ARC_OPCODE_ARC64, LOAD, NONE, { FA, BRAKET, RB, SIMM9_8, BRAKETdup }, { C_AA27 } }
+
+/* fld16 FA,BRAKET,LIMM,BRAKETdup 011011100000000001110xxxxx000100 */
+{ "fld16", 0x6e007004, 0xfffff83f, ARC_OPCODE_ARC64, LOAD, NONE, { FA, BRAKET, LIMM, BRAKETdup }, { 0 } }
+
+/* fld32<.aa> FA,BRAKET,RB,SIMM9_8,BRAKETdup 01101xxxxxxxxxxxxxxx0xxxxx0xx000 */
+{ "fld32", 0x68000000, 0xf8000827, ARC_OPCODE_ARC64, LOAD, NONE, { FA, BRAKET, RB, SIMM9_8, BRAKETdup }, { C_AA27 } }
+
+/* fld32 FA,BRAKET,LIMM,BRAKETdup 011011100000000001110xxxxx000000 */
+{ "fld32", 0x6e007000, 0xfffff83f, ARC_OPCODE_ARC64, LOAD, NONE, { FA, BRAKET, LIMM, BRAKETdup }, { 0 } }
+
+/* fld64<.aa> FA,BRAKET,RB,SIMM9_8,BRAKETdup 01101xxxxxxxxxxxxxxx0xxxxx0xx010 */
+{ "fld64", 0x68000002, 0xf8000827, ARC_OPCODE_ARC64, LOAD, NONE, { FA, BRAKET, RB, SIMM9_8, BRAKETdup }, { C_AA27 } }
+
+/* fld64 FA,BRAKET,LIMM,BRAKETdup 011011100000000001110xxxxx000010 */
+{ "fld64", 0x6e007002, 0xfffff83f, ARC_OPCODE_ARC64, LOAD, NONE, { FA, BRAKET, LIMM, BRAKETdup }, { 0 } }
+
+/* fldd32<.aa> FA,BRAKET,RB,SIMM9_8,BRAKETdup 01101xxxxxxxxxxxxxxx0xxxxx1xx000 */
+{ "fldd32", 0x68000020, 0xf8000827, ARC_OPCODE_ARC64, LOAD, NONE, { FA, BRAKET, RB, SIMM9_8, BRAKETdup }, { C_AA27 } }
+
+/* fldd32 FA,BRAKET,LIMM,BRAKETdup 011011100000000001110xxxxx100000 */
+{ "fldd32", 0x6e007020, 0xfffff83f, ARC_OPCODE_ARC64, LOAD, NONE, { FA, BRAKET, LIMM, BRAKETdup }, { 0 } }
+
+/* fldd64<.aa> FA,BRAKET,RB,SIMM9_8,BRAKETdup 01101xxxxxxxxxxxxxxx0xxxxx1xx010 */
+{ "fldd64", 0x68000022, 0xf8000827, ARC_OPCODE_ARC64, LOAD, NONE, { FA, BRAKET, RB, SIMM9_8, BRAKETdup }, { C_AA27 } }
+
+/* fldd64 FA,BRAKET,LIMM,BRAKETdup 011011100000000001110xxxxx100010 */
+{ "fldd64", 0x6e007022, 0xfffff83f, ARC_OPCODE_ARC64, LOAD, NONE, { FA, BRAKET, LIMM, BRAKETdup }, { 0 } }
+
+/* fst16<.aa> FA,BRAKET,RB,SIMM9_8,BRAKETdup 01101xxxxxxxxxxxxxxx0xxxxx0xx101 */
+{ "fst16", 0x68000005, 0xf8000827, ARC_OPCODE_ARC64, STORE, NONE, { FA, BRAKET, RB, SIMM9_8, BRAKETdup }, { C_AA27 } }
+
+/* fst16 FA,BRAKET,LIMM,BRAKETdup 011011100000000001110xxxxx000101 */
+{ "fst16", 0x6e007005, 0xfffff83f, ARC_OPCODE_ARC64, LOAD, NONE, { FA, BRAKET, LIMM, BRAKETdup }, { 0 } }
+
+/* fst32<.aa> FA,BRAKET,RB,SIMM9_8,BRAKETdup 01101xxxxxxxxxxxxxxx0xxxxx0xx001 */
+{ "fst32", 0x68000001, 0xf8000827, ARC_OPCODE_ARC64, STORE, NONE, { FA, BRAKET, RB, SIMM9_8, BRAKETdup }, { C_AA27 } }
+
+/* fst32 FA,BRAKET,LIMM,BRAKETdup 011011100000000001110xxxxx000001 */
+{ "fst32", 0x6e007001, 0xfffff83f, ARC_OPCODE_ARC64, LOAD, NONE, { FA, BRAKET, LIMM, BRAKETdup }, { 0 } }
+
+/* fst64<.aa> FA,BRAKET,RB,SIMM9_8,BRAKETdup 01101xxxxxxxxxxxxxxx0xxxxx0xx011 */
+{ "fst64", 0x68000003, 0xf8000827, ARC_OPCODE_ARC64, STORE, NONE, { FA, BRAKET, RB, SIMM9_8, BRAKETdup }, { C_AA27 } }
+
+/* fst64 FA,BRAKET,LIMM,BRAKETdup 011011100000000001110xxxxx000011 */
+{ "fst64", 0x6e007003, 0xfffff83f, ARC_OPCODE_ARC64, LOAD, NONE, { FA, BRAKET, LIMM, BRAKETdup }, { 0 } }
+
+/* fstd32<.aa> FA,BRAKET,RB,SIMM9_8,BRAKETdup 01101xxxxxxxxxxxxxxx0xxxxx1xx001 */
+{ "fstd32", 0x68000021, 0xf8000827, ARC_OPCODE_ARC64, STORE, NONE, { FA, BRAKET, RB, SIMM9_8, BRAKETdup }, { C_AA27 } }
+
+/* fstd32 FA,BRAKET,LIMM,BRAKETdup 011011100000000001110xxxxx100001 */
+{ "fstd32", 0x6e007021, 0xfffff83f, ARC_OPCODE_ARC64, LOAD, NONE, { FA, BRAKET, LIMM, BRAKETdup }, { 0 } }
+
+/* fstd64<.aa> FA,BRAKET,RB,SIMM9_8,BRAKETdup 01101xxxxxxxxxxxxxxx0xxxxx1xx011 */
+{ "fstd64", 0x68000023, 0xf8000827, ARC_OPCODE_ARC64, STORE, NONE, { FA, BRAKET, RB, SIMM9_8, BRAKETdup }, { C_AA27 } }
+
+/* fstd64 FA,BRAKET,LIMM,BRAKETdup 011011100000000001110xxxxx100011 */
+{ "fstd64", 0x6e007023, 0xfffff83f, ARC_OPCODE_ARC64, LOAD, NONE, { FA, BRAKET, LIMM, BRAKETdup }, { 0 } }
+
+/* vfhext FA,FB,BRAKET,UIMM5_FP,BRAKETdup 11100xxx0101000000xx0xxxxx1xxxxx */
+{ "vfhext", 0xe0500020, 0xf8ffc820, ARC_OPCODE_ARC64, FLOAT, NONE, { FA, FB, BRAKET, UIMM5_FP, BRAKETdup }, { 0 } }
+
+/* vfhext FA,FB,BRAKET,FRB,BRAKETdup 11100xxx1000000000xx0xxxxx1xxxxx */
+{ "vfhext", 0xe0800020, 0xf8ffc820, ARC_OPCODE_ARC64, FLOAT, NONE, { FA, FB, BRAKET, FRB, BRAKETdup }, { 0 } }
+
+/* vfsext FA,FB,BRAKET,UIMM5_FP,BRAKETdup 11100xxx0101000001xx0xxxxx1xxxxx */
+{ "vfsext", 0xe0504020, 0xf8ffc820, ARC_OPCODE_ARC64, FLOAT, NONE, { FA, FB, BRAKET, UIMM5_FP, BRAKETdup }, { 0 } }
+
+/* vfsext FA,FB,BRAKET,FRB,BRAKETdup 11100xxx1000000001xx0xxxxx1xxxxx */
+{ "vfsext", 0xe0804020, 0xf8ffc820, ARC_OPCODE_ARC64, FLOAT, NONE, { FA, FB, BRAKET, FRB, BRAKETdup }, { 0 } }
+
+/* vfdext FA,FB,BRAKET,UIMM5_FP,BRAKETdup 11100xxx0101000010xx0xxxxx1xxxxx */
+{ "vfdext", 0xe0508020, 0xf8ffc820, ARC_OPCODE_ARC64, FLOAT, NONE, { FA, FB, BRAKET, UIMM5_FP, BRAKETdup }, { 0 } }
+
+/* vfdext FA,FB,BRAKET,FRB,BRAKETdup 11100xxx1000000010xx0xxxxx1xxxxx */
+{ "vfdext", 0xe0808020, 0xf8ffc820, ARC_OPCODE_ARC64, FLOAT, NONE, { FA, FB, BRAKET, FRB, BRAKETdup }, { 0 } }
+
+/* vfhins FA,BRAKET,UIMM5_FP,BRAKETdup,FB 11100xxx0101000100xx0xxxxx1xxxxx */
+{ "vfhins", 0xe0510020, 0xf8ffc820, ARC_OPCODE_ARC64, FLOAT, NONE, { FA, BRAKET, UIMM5_FP, BRAKETdup, FB }, { 0 } }
+
+/* vfhins FA,BRAKET,FRB,BRAKETdup,FB 11100xxx1000000100xx0xxxxx1xxxxx */
+{ "vfhins", 0xe0810020, 0xf8ffc820, ARC_OPCODE_ARC64, FLOAT, NONE, { FA, BRAKET, FRB, BRAKETdup, FB }, { 0 } }
+
+/* vfsins FA,BRAKET,UIMM5_FP,BRAKETdup,FB 11100xxx0101000101xx0xxxxx1xxxxx */
+{ "vfsins", 0xe0514020, 0xf8ffc820, ARC_OPCODE_ARC64, FLOAT, NONE, { FA, BRAKET, UIMM5_FP, BRAKETdup, FB }, { 0 } }
+
+/* vfsins FA,BRAKET,FRB,BRAKETdup,FB 11100xxx1000000101xx0xxxxx1xxxxx */
+{ "vfsins", 0xe0814020, 0xf8ffc820, ARC_OPCODE_ARC64, FLOAT, NONE, { FA, BRAKET, FRB, BRAKETdup, FB }, { 0 } }
+
+/* vfdins FA,BRAKET,UIMM5_FP,BRAKETdup,FB 11100xxx0101000110xx0xxxxx1xxxxx */
+{ "vfdins", 0xe0518020, 0xf8ffc820, ARC_OPCODE_ARC64, FLOAT, NONE, { FA, BRAKET, UIMM5_FP, BRAKETdup, FB }, { 0 } }
+
+/* vfdins FA,BRAKET,FRB,BRAKETdup,FB 11100xxx1000000110xx0xxxxx1xxxxx */
+{ "vfdins", 0xe0818020, 0xf8ffc820, ARC_OPCODE_ARC64, FLOAT, NONE, { FA, BRAKET, FRB, BRAKETdup, FB }, { 0 } }
+
+/* vfhrep FA,FB 111000000101001000000xxxxx1xxxxx */
+{ "vfhrep", 0xe0520020, 0xfffff820, ARC_OPCODE_ARC64, FLOAT, NONE, { FA, FB }, { 0 } }
+
+/* vfsrep FA,FB 111000000101001001000xxxxx1xxxxx */
+{ "vfsrep", 0xe0524020, 0xfffff820, ARC_OPCODE_ARC64, FLOAT, NONE, { FA, FB }, { 0 } }
+
+/* vfdrep FA,FB 111000000101001010000xxxxx1xxxxx */
+{ "vfdrep", 0xe0528020, 0xfffff820, ARC_OPCODE_ARC64, FLOAT, NONE, { FA, FB }, { 0 } }
+
+/* vmin2 RA,RB,RC 00101xxx001110001xxxxxxxxxxxxxxx */
+{ "vmin2", 0x28388000, 0xf8ff8000, ARC_OPCODE_ARC64, MOVE, NONE, { RA, RB, RC }, { 0 } }
+
+/* vmin2 ZA,RB,RC 00101xxx001110001xxxxxxxxx111110 */
+{ "vmin2", 0x2838803e, 0xf8ff803f, ARC_OPCODE_ARC64, MOVE, NONE, { ZA, RB, RC }, { 0 } }
+
+/* vmin2<.cc> RB,RBdup,RC 00101xxx111110001xxxxxxxxx0xxxxx */
+{ "vmin2", 0x28f88000, 0xf8ff8020, ARC_OPCODE_ARC64, MOVE, NONE, { RB, RBdup, RC }, { C_CC } }
+
+/* vmin2 RA,RB,UIMM6_20 00101xxx011110001xxxxxxxxxxxxxxx */
+{ "vmin2", 0x28788000, 0xf8ff8000, ARC_OPCODE_ARC64, MOVE, NONE, { RA, RB, UIMM6_20 }, { 0 } }
+
+/* vmin2 ZA,RB,UIMM6_20 00101xxx011110001xxxxxxxxx111110 */
+{ "vmin2", 0x2878803e, 0xf8ff803f, ARC_OPCODE_ARC64, MOVE, NONE, { ZA, RB, UIMM6_20 }, { 0 } }
+
+/* vmin2<.cc> RB,RBdup,UIMM6_20 00101xxx111110001xxxxxxxxx1xxxxx */
+{ "vmin2", 0x28f88020, 0xf8ff8020, ARC_OPCODE_ARC64, MOVE, NONE, { RB, RBdup, UIMM6_20 }, { C_CC } }
+
+/* vmin2 RB,RBdup,SIMM12_20 00101xxx101110001xxxxxxxxxxxxxxx */
+{ "vmin2", 0x28b88000, 0xf8ff8000, ARC_OPCODE_ARC64, MOVE, NONE, { RB, RBdup, SIMM12_20 }, { 0 } }
+
+/* vmin2 RA,LIMM,RC 00101110001110001111xxxxxxxxxxxx */
+{ "vmin2", 0x2e38f000, 0xfffff000, ARC_OPCODE_ARC64, MOVE, NONE, { RA, LIMM, RC }, { 0 } }
+
+/* vmin2 RA,RB,LIMM 00101xxx001110001xxx111110xxxxxx */
+{ "vmin2", 0x28388f80, 0xf8ff8fc0, ARC_OPCODE_ARC64, MOVE, NONE, { RA, RB, LIMM }, { 0 } }
+
+/* vmin2 ZA,LIMM,RC 00101110001110001111xxxxxx111110 */
+{ "vmin2", 0x2e38f03e, 0xfffff03f, ARC_OPCODE_ARC64, MOVE, NONE, { ZA, LIMM, RC }, { 0 } }
+
+/* vmin2 ZA,RB,LIMM 00101xxx001110001xxx111110111110 */
+{ "vmin2", 0x28388fbe, 0xf8ff8fff, ARC_OPCODE_ARC64, MOVE, NONE, { ZA, RB, LIMM }, { 0 } }
+
+/* vmin2<.cc> ZA,LIMM,RC 00101110111110001111xxxxxx0xxxxx */
+{ "vmin2", 0x2ef8f000, 0xfffff020, ARC_OPCODE_ARC64, MOVE, NONE, { ZA, LIMM, RC }, { C_CC } }
+
+/* vmin2<.cc> RB,RBdup,LIMM 00101xxx111110001xxx1111100xxxxx */
+{ "vmin2", 0x28f88f80, 0xf8ff8fe0, ARC_OPCODE_ARC64, MOVE, NONE, { RB, RBdup, LIMM }, { C_CC } }
+
+/* vmin2 RA,LIMM,UIMM6_20 00101110011110001111xxxxxxxxxxxx */
+{ "vmin2", 0x2e78f000, 0xfffff000, ARC_OPCODE_ARC64, MOVE, NONE, { RA, LIMM, UIMM6_20 }, { 0 } }
+
+/* vmin2 ZA,LIMM,UIMM6_20 00101110011110001111xxxxxx111110 */
+{ "vmin2", 0x2e78f03e, 0xfffff03f, ARC_OPCODE_ARC64, MOVE, NONE, { ZA, LIMM, UIMM6_20 }, { 0 } }
+
+/* vmin2<.cc> ZA,LIMM,UIMM6_20 00101110111110001111xxxxxx1xxxxx */
+{ "vmin2", 0x2ef8f020, 0xfffff020, ARC_OPCODE_ARC64, MOVE, NONE, { ZA, LIMM, UIMM6_20 }, { C_CC } }
+
+/* vmin2 ZA,LIMM,SIMM12_20 00101110101110001111xxxxxxxxxxxx */
+{ "vmin2", 0x2eb8f000, 0xfffff000, ARC_OPCODE_ARC64, MOVE, NONE, { ZA, LIMM, SIMM12_20 }, { 0 } }
+
+/* vmin2 RA,LIMM,LIMMdup 00101110001110001111111110xxxxxx */
+{ "vmin2", 0x2e38ff80, 0xffffffc0, ARC_OPCODE_ARC64, MOVE, NONE, { RA, LIMM, LIMMdup }, { 0 } }
+
+/* vmin2 ZA,LIMM,LIMMdup 00101110001110001111111110111110 */
+{ "vmin2", 0x2e38ffbe, 0xffffffff, ARC_OPCODE_ARC64, MOVE, NONE, { ZA, LIMM, LIMMdup }, { 0 } }
+
+/* vmin2<.cc> ZA,LIMM,LIMMdup 001011101111100011111111100xxxxx */
+{ "vmin2", 0x2ef8ff80, 0xffffffe0, ARC_OPCODE_ARC64, MOVE, NONE, { ZA, LIMM, LIMMdup }, { C_CC } }
+
+/* vmin2 RA,RB,RC 00100xxx000100010xxxxxxxxxxxxxxx */
+{ "vmin2", 0x20110000, 0xf8ff8000, ARC_OPCODE_ARC32, MOVE, NONE, { RA, RB, RC }, { 0 } }
+
+/* vmin2 ZA,RB,RC 00100xxx000100010xxxxxxxxx111110 */
+{ "vmin2", 0x2011003e, 0xf8ff803f, ARC_OPCODE_ARC32, MOVE, NONE, { ZA, RB, RC }, { 0 } }
+
+/* vmin2<.cc> RB,RBdup,RC 00100xxx110100010xxxxxxxxx0xxxxx */
+{ "vmin2", 0x20d10000, 0xf8ff8020, ARC_OPCODE_ARC32, MOVE, NONE, { RB, RBdup, RC }, { C_CC } }
+
+/* vmin2 RA,RB,UIMM6_20 00100xxx010100010xxxxxxxxxxxxxxx */
+{ "vmin2", 0x20510000, 0xf8ff8000, ARC_OPCODE_ARC32, MOVE, NONE, { RA, RB, UIMM6_20 }, { 0 } }
+
+/* vmin2 ZA,RB,UIMM6_20 00100xxx010100010xxxxxxxxx111110 */
+{ "vmin2", 0x2051003e, 0xf8ff803f, ARC_OPCODE_ARC32, MOVE, NONE, { ZA, RB, UIMM6_20 }, { 0 } }
+
+/* vmin2<.cc> RB,RBdup,UIMM6_20 00100xxx110100010xxxxxxxxx1xxxxx */
+{ "vmin2", 0x20d10020, 0xf8ff8020, ARC_OPCODE_ARC32, MOVE, NONE, { RB, RBdup, UIMM6_20 }, { C_CC } }
+
+/* vmin2 RB,RBdup,SIMM12_20 00100xxx100100010xxxxxxxxxxxxxxx */
+{ "vmin2", 0x20910000, 0xf8ff8000, ARC_OPCODE_ARC32, MOVE, NONE, { RB, RBdup, SIMM12_20 }, { 0 } }
+
+/* vmin2 RA,LIMM,RC 00100110000100010111xxxxxxxxxxxx */
+{ "vmin2", 0x26117000, 0xfffff000, ARC_OPCODE_ARC32, MOVE, NONE, { RA, LIMM, RC }, { 0 } }
+
+/* vmin2 RA,RB,LIMM 00100xxx000100010xxx111110xxxxxx */
+{ "vmin2", 0x20110f80, 0xf8ff8fc0, ARC_OPCODE_ARC32, MOVE, NONE, { RA, RB, LIMM }, { 0 } }
+
+/* vmin2 ZA,LIMM,RC 00100110000100010111xxxxxx111110 */
+{ "vmin2", 0x2611703e, 0xfffff03f, ARC_OPCODE_ARC32, MOVE, NONE, { ZA, LIMM, RC }, { 0 } }
+
+/* vmin2 ZA,RB,LIMM 00100xxx000100010xxx111110111110 */
+{ "vmin2", 0x20110fbe, 0xf8ff8fff, ARC_OPCODE_ARC32, MOVE, NONE, { ZA, RB, LIMM }, { 0 } }
+
+/* vmin2<.cc> ZA,LIMM,RC 00100110110100010111xxxxxx0xxxxx */
+{ "vmin2", 0x26d17000, 0xfffff020, ARC_OPCODE_ARC32, MOVE, NONE, { ZA, LIMM, RC }, { C_CC } }
+
+/* vmin2<.cc> RB,RBdup,LIMM 00100xxx110100010xxx1111100xxxxx */
+{ "vmin2", 0x20d10f80, 0xf8ff8fe0, ARC_OPCODE_ARC32, MOVE, NONE, { RB, RBdup, LIMM }, { C_CC } }
+
+/* vmin2 RA,LIMM,UIMM6_20 00100110010100010111xxxxxxxxxxxx */
+{ "vmin2", 0x26517000, 0xfffff000, ARC_OPCODE_ARC32, MOVE, NONE, { RA, LIMM, UIMM6_20 }, { 0 } }
+
+/* vmin2 ZA,LIMM,UIMM6_20 00100110010100010111xxxxxx111110 */
+{ "vmin2", 0x2651703e, 0xfffff03f, ARC_OPCODE_ARC32, MOVE, NONE, { ZA, LIMM, UIMM6_20 }, { 0 } }
+
+/* vmin2<.cc> ZA,LIMM,UIMM6_20 00100110110100010111xxxxxx1xxxxx */
+{ "vmin2", 0x26d17020, 0xfffff020, ARC_OPCODE_ARC32, MOVE, NONE, { ZA, LIMM, UIMM6_20 }, { C_CC } }
+
+/* vmin2 ZA,LIMM,SIMM12_20 00100110100100010111xxxxxxxxxxxx */
+{ "vmin2", 0x26917000, 0xfffff000, ARC_OPCODE_ARC32, MOVE, NONE, { ZA, LIMM, SIMM12_20 }, { 0 } }
+
+/* vmin2 RA,LIMM,LIMMdup 00100110000100010111111110xxxxxx */
+{ "vmin2", 0x26117f80, 0xffffffc0, ARC_OPCODE_ARC32, MOVE, NONE, { RA, LIMM, LIMMdup }, { 0 } }
+
+/* vmin2 ZA,LIMM,LIMMdup 00100110000100010111111110111110 */
+{ "vmin2", 0x26117fbe, 0xffffffff, ARC_OPCODE_ARC32, MOVE, NONE, { ZA, LIMM, LIMMdup }, { 0 } }
+
+/* vmin2<.cc> ZA,LIMM,LIMMdup 001001101101000101111111100xxxxx */
+{ "vmin2", 0x26d17f80, 0xffffffe0, ARC_OPCODE_ARC32, MOVE, NONE, { ZA, LIMM, LIMMdup }, { C_CC } }
+
+/* vmax2 RA,RB,RC 00101xxx001110011xxxxxxxxxxxxxxx */
+{ "vmax2", 0x28398000, 0xf8ff8000, ARC_OPCODE_ARC64, MOVE, NONE, { RA, RB, RC }, { 0 } }
+
+/* vmax2 ZA,RB,RC 00101xxx001110011xxxxxxxxx111110 */
+{ "vmax2", 0x2839803e, 0xf8ff803f, ARC_OPCODE_ARC64, MOVE, NONE, { ZA, RB, RC }, { 0 } }
+
+/* vmax2<.cc> RB,RBdup,RC 00101xxx111110011xxxxxxxxx0xxxxx */
+{ "vmax2", 0x28f98000, 0xf8ff8020, ARC_OPCODE_ARC64, MOVE, NONE, { RB, RBdup, RC }, { C_CC } }
+
+/* vmax2 RA,RB,UIMM6_20 00101xxx011110011xxxxxxxxxxxxxxx */
+{ "vmax2", 0x28798000, 0xf8ff8000, ARC_OPCODE_ARC64, MOVE, NONE, { RA, RB, UIMM6_20 }, { 0 } }
+
+/* vmax2 ZA,RB,UIMM6_20 00101xxx011110011xxxxxxxxx111110 */
+{ "vmax2", 0x2879803e, 0xf8ff803f, ARC_OPCODE_ARC64, MOVE, NONE, { ZA, RB, UIMM6_20 }, { 0 } }
+
+/* vmax2<.cc> RB,RBdup,UIMM6_20 00101xxx111110011xxxxxxxxx1xxxxx */
+{ "vmax2", 0x28f98020, 0xf8ff8020, ARC_OPCODE_ARC64, MOVE, NONE, { RB, RBdup, UIMM6_20 }, { C_CC } }
+
+/* vmax2 RB,RBdup,SIMM12_20 00101xxx101110011xxxxxxxxxxxxxxx */
+{ "vmax2", 0x28b98000, 0xf8ff8000, ARC_OPCODE_ARC64, MOVE, NONE, { RB, RBdup, SIMM12_20 }, { 0 } }
+
+/* vmax2 RA,LIMM,RC 00101110001110011111xxxxxxxxxxxx */
+{ "vmax2", 0x2e39f000, 0xfffff000, ARC_OPCODE_ARC64, MOVE, NONE, { RA, LIMM, RC }, { 0 } }
+
+/* vmax2 RA,RB,LIMM 00101xxx001110011xxx111110xxxxxx */
+{ "vmax2", 0x28398f80, 0xf8ff8fc0, ARC_OPCODE_ARC64, MOVE, NONE, { RA, RB, LIMM }, { 0 } }
+
+/* vmax2 ZA,LIMM,RC 00101110001110011111xxxxxx111110 */
+{ "vmax2", 0x2e39f03e, 0xfffff03f, ARC_OPCODE_ARC64, MOVE, NONE, { ZA, LIMM, RC }, { 0 } }
+
+/* vmax2 ZA,RB,LIMM 00101xxx001110011xxx111110111110 */
+{ "vmax2", 0x28398fbe, 0xf8ff8fff, ARC_OPCODE_ARC64, MOVE, NONE, { ZA, RB, LIMM }, { 0 } }
+
+/* vmax2<.cc> ZA,LIMM,RC 00101110111110011111xxxxxx0xxxxx */
+{ "vmax2", 0x2ef9f000, 0xfffff020, ARC_OPCODE_ARC64, MOVE, NONE, { ZA, LIMM, RC }, { C_CC } }
+
+/* vmax2<.cc> RB,RBdup,LIMM 00101xxx111110011xxx1111100xxxxx */
+{ "vmax2", 0x28f98f80, 0xf8ff8fe0, ARC_OPCODE_ARC64, MOVE, NONE, { RB, RBdup, LIMM }, { C_CC } }
+
+/* vmax2 RA,LIMM,UIMM6_20 00101110011110011111xxxxxxxxxxxx */
+{ "vmax2", 0x2e79f000, 0xfffff000, ARC_OPCODE_ARC64, MOVE, NONE, { RA, LIMM, UIMM6_20 }, { 0 } }
+
+/* vmax2 ZA,LIMM,UIMM6_20 00101110011110011111xxxxxx111110 */
+{ "vmax2", 0x2e79f03e, 0xfffff03f, ARC_OPCODE_ARC64, MOVE, NONE, { ZA, LIMM, UIMM6_20 }, { 0 } }
+
+/* vmax2<.cc> ZA,LIMM,UIMM6_20 00101110111110011111xxxxxx1xxxxx */
+{ "vmax2", 0x2ef9f020, 0xfffff020, ARC_OPCODE_ARC64, MOVE, NONE, { ZA, LIMM, UIMM6_20 }, { C_CC } }
+
+/* vmax2 ZA,LIMM,SIMM12_20 00101110101110011111xxxxxxxxxxxx */
+{ "vmax2", 0x2eb9f000, 0xfffff000, ARC_OPCODE_ARC64, MOVE, NONE, { ZA, LIMM, SIMM12_20 }, { 0 } }
+
+/* vmax2 RA,LIMM,LIMMdup 00101110001110011111111110xxxxxx */
+{ "vmax2", 0x2e39ff80, 0xffffffc0, ARC_OPCODE_ARC64, MOVE, NONE, { RA, LIMM, LIMMdup }, { 0 } }
+
+/* vmax2 ZA,LIMM,LIMMdup 00101110001110011111111110111110 */
+{ "vmax2", 0x2e39ffbe, 0xffffffff, ARC_OPCODE_ARC64, MOVE, NONE, { ZA, LIMM, LIMMdup }, { 0 } }
+
+/* vmax2<.cc> ZA,LIMM,LIMMdup 001011101111100111111111100xxxxx */
+{ "vmax2", 0x2ef9ff80, 0xffffffe0, ARC_OPCODE_ARC64, MOVE, NONE, { ZA, LIMM, LIMMdup }, { C_CC } }
+
+/* vmax2 RA,RB,RC 00100xxx000010110xxxxxxxxxxxxxxx */
+{ "vmax2", 0x200b0000, 0xf8ff8000, ARC_OPCODE_ARC32, MOVE, NONE, { RA, RB, RC }, { 0 } }
+
+/* vmax2 ZA,RB,RC 00100xxx000010110xxxxxxxxx111110 */
+{ "vmax2", 0x200b003e, 0xf8ff803f, ARC_OPCODE_ARC32, MOVE, NONE, { ZA, RB, RC }, { 0 } }
+
+/* vmax2<.cc> RB,RBdup,RC 00100xxx110010110xxxxxxxxx0xxxxx */
+{ "vmax2", 0x20cb0000, 0xf8ff8020, ARC_OPCODE_ARC32, MOVE, NONE, { RB, RBdup, RC }, { C_CC } }
+
+/* vmax2 RA,RB,UIMM6_20 00100xxx010010110xxxxxxxxxxxxxxx */
+{ "vmax2", 0x204b0000, 0xf8ff8000, ARC_OPCODE_ARC32, MOVE, NONE, { RA, RB, UIMM6_20 }, { 0 } }
+
+/* vmax2 ZA,RB,UIMM6_20 00100xxx010010110xxxxxxxxx111110 */
+{ "vmax2", 0x204b003e, 0xf8ff803f, ARC_OPCODE_ARC32, MOVE, NONE, { ZA, RB, UIMM6_20 }, { 0 } }
+
+/* vmax2<.cc> RB,RBdup,UIMM6_20 00100xxx110010110xxxxxxxxx1xxxxx */
+{ "vmax2", 0x20cb0020, 0xf8ff8020, ARC_OPCODE_ARC32, MOVE, NONE, { RB, RBdup, UIMM6_20 }, { C_CC } }
+
+/* vmax2 RB,RBdup,SIMM12_20 00100xxx100010110xxxxxxxxxxxxxxx */
+{ "vmax2", 0x208b0000, 0xf8ff8000, ARC_OPCODE_ARC32, MOVE, NONE, { RB, RBdup, SIMM12_20 }, { 0 } }
+
+/* vmax2 RA,LIMM,RC 00100110000010110111xxxxxxxxxxxx */
+{ "vmax2", 0x260b7000, 0xfffff000, ARC_OPCODE_ARC32, MOVE, NONE, { RA, LIMM, RC }, { 0 } }
+
+/* vmax2 RA,RB,LIMM 00100xxx000010110xxx111110xxxxxx */
+{ "vmax2", 0x200b0f80, 0xf8ff8fc0, ARC_OPCODE_ARC32, MOVE, NONE, { RA, RB, LIMM }, { 0 } }
+
+/* vmax2 ZA,LIMM,RC 00100110000010110111xxxxxx111110 */
+{ "vmax2", 0x260b703e, 0xfffff03f, ARC_OPCODE_ARC32, MOVE, NONE, { ZA, LIMM, RC }, { 0 } }
+
+/* vmax2 ZA,RB,LIMM 00100xxx000010110xxx111110111110 */
+{ "vmax2", 0x200b0fbe, 0xf8ff8fff, ARC_OPCODE_ARC32, MOVE, NONE, { ZA, RB, LIMM }, { 0 } }
+
+/* vmax2<.cc> ZA,LIMM,RC 00100110110010110111xxxxxx0xxxxx */
+{ "vmax2", 0x26cb7000, 0xfffff020, ARC_OPCODE_ARC32, MOVE, NONE, { ZA, LIMM, RC }, { C_CC } }
+
+/* vmax2<.cc> RB,RBdup,LIMM 00100xxx110010110xxx1111100xxxxx */
+{ "vmax2", 0x20cb0f80, 0xf8ff8fe0, ARC_OPCODE_ARC32, MOVE, NONE, { RB, RBdup, LIMM }, { C_CC } }
+
+/* vmax2 RA,LIMM,UIMM6_20 00100110010010110111xxxxxxxxxxxx */
+{ "vmax2", 0x264b7000, 0xfffff000, ARC_OPCODE_ARC32, MOVE, NONE, { RA, LIMM, UIMM6_20 }, { 0 } }
+
+/* vmax2 ZA,LIMM,UIMM6_20 00100110010010110111xxxxxx111110 */
+{ "vmax2", 0x264b703e, 0xfffff03f, ARC_OPCODE_ARC32, MOVE, NONE, { ZA, LIMM, UIMM6_20 }, { 0 } }
+
+/* vmax2<.cc> ZA,LIMM,UIMM6_20 00100110110010110111xxxxxx1xxxxx */
+{ "vmax2", 0x26cb7020, 0xfffff020, ARC_OPCODE_ARC32, MOVE, NONE, { ZA, LIMM, UIMM6_20 }, { C_CC } }
+
+/* vmax2 ZA,LIMM,SIMM12_20 00100110100010110111xxxxxxxxxxxx */
+{ "vmax2", 0x268b7000, 0xfffff000, ARC_OPCODE_ARC32, MOVE, NONE, { ZA, LIMM, SIMM12_20 }, { 0 } }
+
+/* vmax2 RA,LIMM,LIMMdup 00100110000010110111111110xxxxxx */
+{ "vmax2", 0x260b7f80, 0xffffffc0, ARC_OPCODE_ARC32, MOVE, NONE, { RA, LIMM, LIMMdup }, { 0 } }
+
+/* vmax2 ZA,LIMM,LIMMdup 00100110000010110111111110111110 */
+{ "vmax2", 0x260b7fbe, 0xffffffff, ARC_OPCODE_ARC32, MOVE, NONE, { ZA, LIMM, LIMMdup }, { 0 } }
+
+/* vmax2<.cc> ZA,LIMM,LIMMdup 001001101100101101111111100xxxxx */
+{ "vmax2", 0x26cb7f80, 0xffffffe0, ARC_OPCODE_ARC32, MOVE, NONE, { ZA, LIMM, LIMMdup }, { C_CC } }
+
+/* vpack4hl RA,RB,RC 01011xxx001100001xxxxxxxxxxxxxxx */
+{ "vpack4hl", 0x58308000, 0xf8ff8000, ARC_OPCODE_ARC64, MOVE, NONE, { RA, RB, RC }, { 0 } }
+
+/* vpack4hl ZA,RB,RC 01011xxx001100001xxxxxxxxx111110 */
+{ "vpack4hl", 0x5830803e, 0xf8ff803f, ARC_OPCODE_ARC64, MOVE, NONE, { ZA, RB, RC }, { 0 } }
+
+/* vpack4hl<.cc> RB,RBdup,RC 01011xxx111100001xxxxxxxxx0xxxxx */
+{ "vpack4hl", 0x58f08000, 0xf8ff8020, ARC_OPCODE_ARC64, MOVE, NONE, { RB, RBdup, RC }, { C_CC } }
+
+/* vpack4hl RA,RB,UIMM6_20 01011xxx011100001xxxxxxxxxxxxxxx */
+{ "vpack4hl", 0x58708000, 0xf8ff8000, ARC_OPCODE_ARC64, MOVE, NONE, { RA, RB, UIMM6_20 }, { 0 } }
+
+/* vpack4hl ZA,RB,UIMM6_20 01011xxx011100001xxxxxxxxx111110 */
+{ "vpack4hl", 0x5870803e, 0xf8ff803f, ARC_OPCODE_ARC64, MOVE, NONE, { ZA, RB, UIMM6_20 }, { 0 } }
+
+/* vpack4hl<.cc> RB,RBdup,UIMM6_20 01011xxx111100001xxxxxxxxx1xxxxx */
+{ "vpack4hl", 0x58f08020, 0xf8ff8020, ARC_OPCODE_ARC64, MOVE, NONE, { RB, RBdup, UIMM6_20 }, { C_CC } }
+
+/* vpack4hl RB,RBdup,SIMM12_20 01011xxx101100001xxxxxxxxxxxxxxx */
+{ "vpack4hl", 0x58b08000, 0xf8ff8000, ARC_OPCODE_ARC64, MOVE, NONE, { RB, RBdup, SIMM12_20 }, { 0 } }
+
+/* vpack4hl RA,LIMM,RC 01011110001100001111xxxxxxxxxxxx */
+{ "vpack4hl", 0x5e30f000, 0xfffff000, ARC_OPCODE_ARC64, MOVE, NONE, { RA, LIMM, RC }, { 0 } }
+
+/* vpack4hl RA,RB,LIMM 01011xxx001100001xxx111110xxxxxx */
+{ "vpack4hl", 0x58308f80, 0xf8ff8fc0, ARC_OPCODE_ARC64, MOVE, NONE, { RA, RB, LIMM }, { 0 } }
+
+/* vpack4hl ZA,LIMM,RC 01011110001100001111xxxxxx111110 */
+{ "vpack4hl", 0x5e30f03e, 0xfffff03f, ARC_OPCODE_ARC64, MOVE, NONE, { ZA, LIMM, RC }, { 0 } }
+
+/* vpack4hl ZA,RB,LIMM 01011xxx001100001xxx111110111110 */
+{ "vpack4hl", 0x58308fbe, 0xf8ff8fff, ARC_OPCODE_ARC64, MOVE, NONE, { ZA, RB, LIMM }, { 0 } }
+
+/* vpack4hl<.cc> ZA,LIMM,RC 01011110111100001111xxxxxx0xxxxx */
+{ "vpack4hl", 0x5ef0f000, 0xfffff020, ARC_OPCODE_ARC64, MOVE, NONE, { ZA, LIMM, RC }, { C_CC } }
+
+/* vpack4hl<.cc> RB,RBdup,LIMM 01011xxx111100001xxx1111100xxxxx */
+{ "vpack4hl", 0x58f08f80, 0xf8ff8fe0, ARC_OPCODE_ARC64, MOVE, NONE, { RB, RBdup, LIMM }, { C_CC } }
+
+/* vpack4hl RA,LIMM,UIMM6_20 01011110011100001111xxxxxxxxxxxx */
+{ "vpack4hl", 0x5e70f000, 0xfffff000, ARC_OPCODE_ARC64, MOVE, NONE, { RA, LIMM, UIMM6_20 }, { 0 } }
+
+/* vpack4hl ZA,LIMM,UIMM6_20 01011110011100001111xxxxxx111110 */
+{ "vpack4hl", 0x5e70f03e, 0xfffff03f, ARC_OPCODE_ARC64, MOVE, NONE, { ZA, LIMM, UIMM6_20 }, { 0 } }
+
+/* vpack4hl<.cc> ZA,LIMM,UIMM6_20 01011110111100001111xxxxxx1xxxxx */
+{ "vpack4hl", 0x5ef0f020, 0xfffff020, ARC_OPCODE_ARC64, MOVE, NONE, { ZA, LIMM, UIMM6_20 }, { C_CC } }
+
+/* vpack4hl ZA,LIMM,SIMM12_20 01011110101100001111xxxxxxxxxxxx */
+{ "vpack4hl", 0x5eb0f000, 0xfffff000, ARC_OPCODE_ARC64, MOVE, NONE, { ZA, LIMM, SIMM12_20 }, { 0 } }
+
+/* vpack4hl RA,LIMM,LIMMdup 01011110001100001111111110xxxxxx */
+{ "vpack4hl", 0x5e30ff80, 0xffffffc0, ARC_OPCODE_ARC64, MOVE, NONE, { RA, LIMM, LIMMdup }, { 0 } }
+
+/* vpack4hl ZA,LIMM,LIMMdup 01011110001100001111111110111110 */
+{ "vpack4hl", 0x5e30ffbe, 0xffffffff, ARC_OPCODE_ARC64, MOVE, NONE, { ZA, LIMM, LIMMdup }, { 0 } }
+
+/* vpack4hl<.cc> ZA,LIMM,LIMMdup 010111101111000011111111100xxxxx */
+{ "vpack4hl", 0x5ef0ff80, 0xffffffe0, ARC_OPCODE_ARC64, MOVE, NONE, { ZA, LIMM, LIMMdup }, { C_CC } }
+
+/* vpack4hm RA,RB,RC 01011xxx001100011xxxxxxxxxxxxxxx */
+{ "vpack4hm", 0x58318000, 0xf8ff8000, ARC_OPCODE_ARC64, MOVE, NONE, { RA, RB, RC }, { 0 } }
+
+/* vpack4hm ZA,RB,RC 01011xxx001100011xxxxxxxxx111110 */
+{ "vpack4hm", 0x5831803e, 0xf8ff803f, ARC_OPCODE_ARC64, MOVE, NONE, { ZA, RB, RC }, { 0 } }
+
+/* vpack4hm<.cc> RB,RBdup,RC 01011xxx111100011xxxxxxxxx0xxxxx */
+{ "vpack4hm", 0x58f18000, 0xf8ff8020, ARC_OPCODE_ARC64, MOVE, NONE, { RB, RBdup, RC }, { C_CC } }
+
+/* vpack4hm RA,RB,UIMM6_20 01011xxx011100011xxxxxxxxxxxxxxx */
+{ "vpack4hm", 0x58718000, 0xf8ff8000, ARC_OPCODE_ARC64, MOVE, NONE, { RA, RB, UIMM6_20 }, { 0 } }
+
+/* vpack4hm ZA,RB,UIMM6_20 01011xxx011100011xxxxxxxxx111110 */
+{ "vpack4hm", 0x5871803e, 0xf8ff803f, ARC_OPCODE_ARC64, MOVE, NONE, { ZA, RB, UIMM6_20 }, { 0 } }
+
+/* vpack4hm<.cc> RB,RBdup,UIMM6_20 01011xxx111100011xxxxxxxxx1xxxxx */
+{ "vpack4hm", 0x58f18020, 0xf8ff8020, ARC_OPCODE_ARC64, MOVE, NONE, { RB, RBdup, UIMM6_20 }, { C_CC } }
+
+/* vpack4hm RB,RBdup,SIMM12_20 01011xxx101100011xxxxxxxxxxxxxxx */
+{ "vpack4hm", 0x58b18000, 0xf8ff8000, ARC_OPCODE_ARC64, MOVE, NONE, { RB, RBdup, SIMM12_20 }, { 0 } }
+
+/* vpack4hm RA,LIMM,RC 01011110001100011111xxxxxxxxxxxx */
+{ "vpack4hm", 0x5e31f000, 0xfffff000, ARC_OPCODE_ARC64, MOVE, NONE, { RA, LIMM, RC }, { 0 } }
+
+/* vpack4hm RA,RB,LIMM 01011xxx001100011xxx111110xxxxxx */
+{ "vpack4hm", 0x58318f80, 0xf8ff8fc0, ARC_OPCODE_ARC64, MOVE, NONE, { RA, RB, LIMM }, { 0 } }
+
+/* vpack4hm ZA,LIMM,RC 01011110001100011111xxxxxx111110 */
+{ "vpack4hm", 0x5e31f03e, 0xfffff03f, ARC_OPCODE_ARC64, MOVE, NONE, { ZA, LIMM, RC }, { 0 } }
+
+/* vpack4hm ZA,RB,LIMM 01011xxx001100011xxx111110111110 */
+{ "vpack4hm", 0x58318fbe, 0xf8ff8fff, ARC_OPCODE_ARC64, MOVE, NONE, { ZA, RB, LIMM }, { 0 } }
+
+/* vpack4hm<.cc> ZA,LIMM,RC 01011110111100011111xxxxxx0xxxxx */
+{ "vpack4hm", 0x5ef1f000, 0xfffff020, ARC_OPCODE_ARC64, MOVE, NONE, { ZA, LIMM, RC }, { C_CC } }
+
+/* vpack4hm<.cc> RB,RBdup,LIMM 01011xxx111100011xxx1111100xxxxx */
+{ "vpack4hm", 0x58f18f80, 0xf8ff8fe0, ARC_OPCODE_ARC64, MOVE, NONE, { RB, RBdup, LIMM }, { C_CC } }
+
+/* vpack4hm RA,LIMM,UIMM6_20 01011110011100011111xxxxxxxxxxxx */
+{ "vpack4hm", 0x5e71f000, 0xfffff000, ARC_OPCODE_ARC64, MOVE, NONE, { RA, LIMM, UIMM6_20 }, { 0 } }
+
+/* vpack4hm ZA,LIMM,UIMM6_20 01011110011100011111xxxxxx111110 */
+{ "vpack4hm", 0x5e71f03e, 0xfffff03f, ARC_OPCODE_ARC64, MOVE, NONE, { ZA, LIMM, UIMM6_20 }, { 0 } }
+
+/* vpack4hm<.cc> ZA,LIMM,UIMM6_20 01011110111100011111xxxxxx1xxxxx */
+{ "vpack4hm", 0x5ef1f020, 0xfffff020, ARC_OPCODE_ARC64, MOVE, NONE, { ZA, LIMM, UIMM6_20 }, { C_CC } }
+
+/* vpack4hm ZA,LIMM,SIMM12_20 01011110101100011111xxxxxxxxxxxx */
+{ "vpack4hm", 0x5eb1f000, 0xfffff000, ARC_OPCODE_ARC64, MOVE, NONE, { ZA, LIMM, SIMM12_20 }, { 0 } }
+
+/* vpack4hm RA,LIMM,LIMMdup 01011110001100011111111110xxxxxx */
+{ "vpack4hm", 0x5e31ff80, 0xffffffc0, ARC_OPCODE_ARC64, MOVE, NONE, { RA, LIMM, LIMMdup }, { 0 } }
+
+/* vpack4hm ZA,LIMM,LIMMdup 01011110001100011111111110111110 */
+{ "vpack4hm", 0x5e31ffbe, 0xffffffff, ARC_OPCODE_ARC64, MOVE, NONE, { ZA, LIMM, LIMMdup }, { 0 } }
+
+/* vpack4hm<.cc> ZA,LIMM,LIMMdup 010111101111000111111111100xxxxx */
+{ "vpack4hm", 0x5ef1ff80, 0xffffffe0, ARC_OPCODE_ARC64, MOVE, NONE, { ZA, LIMM, LIMMdup }, { C_CC } }
+
+/* vpack2wl RA,RB,RC 01011xxx001100101xxxxxxxxxxxxxxx */
+{ "vpack2wl", 0x58328000, 0xf8ff8000, ARC_OPCODE_ARC64, MOVE, NONE, { RA, RB, RC }, { 0 } }
+
+/* vpack2wl ZA,RB,RC 01011xxx001100101xxxxxxxxx111110 */
+{ "vpack2wl", 0x5832803e, 0xf8ff803f, ARC_OPCODE_ARC64, MOVE, NONE, { ZA, RB, RC }, { 0 } }
+
+/* vpack2wl<.cc> RB,RBdup,RC 01011xxx111100101xxxxxxxxx0xxxxx */
+{ "vpack2wl", 0x58f28000, 0xf8ff8020, ARC_OPCODE_ARC64, MOVE, NONE, { RB, RBdup, RC }, { C_CC } }
+
+/* vpack2wl RA,RB,UIMM6_20 01011xxx011100101xxxxxxxxxxxxxxx */
+{ "vpack2wl", 0x58728000, 0xf8ff8000, ARC_OPCODE_ARC64, MOVE, NONE, { RA, RB, UIMM6_20 }, { 0 } }
+
+/* vpack2wl ZA,RB,UIMM6_20 01011xxx011100101xxxxxxxxx111110 */
+{ "vpack2wl", 0x5872803e, 0xf8ff803f, ARC_OPCODE_ARC64, MOVE, NONE, { ZA, RB, UIMM6_20 }, { 0 } }
+
+/* vpack2wl<.cc> RB,RBdup,UIMM6_20 01011xxx111100101xxxxxxxxx1xxxxx */
+{ "vpack2wl", 0x58f28020, 0xf8ff8020, ARC_OPCODE_ARC64, MOVE, NONE, { RB, RBdup, UIMM6_20 }, { C_CC } }
+
+/* vpack2wl RB,RBdup,SIMM12_20 01011xxx101100101xxxxxxxxxxxxxxx */
+{ "vpack2wl", 0x58b28000, 0xf8ff8000, ARC_OPCODE_ARC64, MOVE, NONE, { RB, RBdup, SIMM12_20 }, { 0 } }
+
+/* vpack2wl RA,LIMM,RC 01011110001100101111xxxxxxxxxxxx */
+{ "vpack2wl", 0x5e32f000, 0xfffff000, ARC_OPCODE_ARC64, MOVE, NONE, { RA, LIMM, RC }, { 0 } }
+
+/* vpack2wl RA,RB,LIMM 01011xxx001100101xxx111110xxxxxx */
+{ "vpack2wl", 0x58328f80, 0xf8ff8fc0, ARC_OPCODE_ARC64, MOVE, NONE, { RA, RB, LIMM }, { 0 } }
+
+/* vpack2wl ZA,LIMM,RC 01011110001100101111xxxxxx111110 */
+{ "vpack2wl", 0x5e32f03e, 0xfffff03f, ARC_OPCODE_ARC64, MOVE, NONE, { ZA, LIMM, RC }, { 0 } }
+
+/* vpack2wl ZA,RB,LIMM 01011xxx001100101xxx111110111110 */
+{ "vpack2wl", 0x58328fbe, 0xf8ff8fff, ARC_OPCODE_ARC64, MOVE, NONE, { ZA, RB, LIMM }, { 0 } }
+
+/* vpack2wl<.cc> ZA,LIMM,RC 01011110111100101111xxxxxx0xxxxx */
+{ "vpack2wl", 0x5ef2f000, 0xfffff020, ARC_OPCODE_ARC64, MOVE, NONE, { ZA, LIMM, RC }, { C_CC } }
+
+/* vpack2wl<.cc> RB,RBdup,LIMM 01011xxx111100101xxx1111100xxxxx */
+{ "vpack2wl", 0x58f28f80, 0xf8ff8fe0, ARC_OPCODE_ARC64, MOVE, NONE, { RB, RBdup, LIMM }, { C_CC } }
+
+/* vpack2wl RA,LIMM,UIMM6_20 01011110011100101111xxxxxxxxxxxx */
+{ "vpack2wl", 0x5e72f000, 0xfffff000, ARC_OPCODE_ARC64, MOVE, NONE, { RA, LIMM, UIMM6_20 }, { 0 } }
+
+/* vpack2wl ZA,LIMM,UIMM6_20 01011110011100101111xxxxxx111110 */
+{ "vpack2wl", 0x5e72f03e, 0xfffff03f, ARC_OPCODE_ARC64, MOVE, NONE, { ZA, LIMM, UIMM6_20 }, { 0 } }
+
+/* vpack2wl<.cc> ZA,LIMM,UIMM6_20 01011110111100101111xxxxxx1xxxxx */
+{ "vpack2wl", 0x5ef2f020, 0xfffff020, ARC_OPCODE_ARC64, MOVE, NONE, { ZA, LIMM, UIMM6_20 }, { C_CC } }
+
+/* vpack2wl ZA,LIMM,SIMM12_20 01011110101100101111xxxxxxxxxxxx */
+{ "vpack2wl", 0x5eb2f000, 0xfffff000, ARC_OPCODE_ARC64, MOVE, NONE, { ZA, LIMM, SIMM12_20 }, { 0 } }
+
+/* vpack2wl RA,LIMM,LIMMdup 01011110001100101111111110xxxxxx */
+{ "vpack2wl", 0x5e32ff80, 0xffffffc0, ARC_OPCODE_ARC64, MOVE, NONE, { RA, LIMM, LIMMdup }, { 0 } }
+
+/* vpack2wl ZA,LIMM,LIMMdup 01011110001100101111111110111110 */
+{ "vpack2wl", 0x5e32ffbe, 0xffffffff, ARC_OPCODE_ARC64, MOVE, NONE, { ZA, LIMM, LIMMdup }, { 0 } }
+
+/* vpack2wl<.cc> ZA,LIMM,LIMMdup 010111101111001011111111100xxxxx */
+{ "vpack2wl", 0x5ef2ff80, 0xffffffe0, ARC_OPCODE_ARC64, MOVE, NONE, { ZA, LIMM, LIMMdup }, { C_CC } }
+
+/* vpack2wm RA,RB,RC 01011xxx001100111xxxxxxxxxxxxxxx */
+{ "vpack2wm", 0x58338000, 0xf8ff8000, ARC_OPCODE_ARC64, MOVE, NONE, { RA, RB, RC }, { 0 } }
+
+/* vpack2wm ZA,RB,RC 01011xxx001100111xxxxxxxxx111110 */
+{ "vpack2wm", 0x5833803e, 0xf8ff803f, ARC_OPCODE_ARC64, MOVE, NONE, { ZA, RB, RC }, { 0 } }
+
+/* vpack2wm<.cc> RB,RBdup,RC 01011xxx111100111xxxxxxxxx0xxxxx */
+{ "vpack2wm", 0x58f38000, 0xf8ff8020, ARC_OPCODE_ARC64, MOVE, NONE, { RB, RBdup, RC }, { C_CC } }
+
+/* vpack2wm RA,RB,UIMM6_20 01011xxx011100111xxxxxxxxxxxxxxx */
+{ "vpack2wm", 0x58738000, 0xf8ff8000, ARC_OPCODE_ARC64, MOVE, NONE, { RA, RB, UIMM6_20 }, { 0 } }
+
+/* vpack2wm ZA,RB,UIMM6_20 01011xxx011100111xxxxxxxxx111110 */
+{ "vpack2wm", 0x5873803e, 0xf8ff803f, ARC_OPCODE_ARC64, MOVE, NONE, { ZA, RB, UIMM6_20 }, { 0 } }
+
+/* vpack2wm<.cc> RB,RBdup,UIMM6_20 01011xxx111100111xxxxxxxxx1xxxxx */
+{ "vpack2wm", 0x58f38020, 0xf8ff8020, ARC_OPCODE_ARC64, MOVE, NONE, { RB, RBdup, UIMM6_20 }, { C_CC } }
+
+/* vpack2wm RB,RBdup,SIMM12_20 01011xxx101100111xxxxxxxxxxxxxxx */
+{ "vpack2wm", 0x58b38000, 0xf8ff8000, ARC_OPCODE_ARC64, MOVE, NONE, { RB, RBdup, SIMM12_20 }, { 0 } }
+
+/* vpack2wm RA,LIMM,RC 01011110001100111111xxxxxxxxxxxx */
+{ "vpack2wm", 0x5e33f000, 0xfffff000, ARC_OPCODE_ARC64, MOVE, NONE, { RA, LIMM, RC }, { 0 } }
+
+/* vpack2wm RA,RB,LIMM 01011xxx001100111xxx111110xxxxxx */
+{ "vpack2wm", 0x58338f80, 0xf8ff8fc0, ARC_OPCODE_ARC64, MOVE, NONE, { RA, RB, LIMM }, { 0 } }
+
+/* vpack2wm ZA,LIMM,RC 01011110001100111111xxxxxx111110 */
+{ "vpack2wm", 0x5e33f03e, 0xfffff03f, ARC_OPCODE_ARC64, MOVE, NONE, { ZA, LIMM, RC }, { 0 } }
+
+/* vpack2wm ZA,RB,LIMM 01011xxx001100111xxx111110111110 */
+{ "vpack2wm", 0x58338fbe, 0xf8ff8fff, ARC_OPCODE_ARC64, MOVE, NONE, { ZA, RB, LIMM }, { 0 } }
+
+/* vpack2wm<.cc> ZA,LIMM,RC 01011110111100111111xxxxxx0xxxxx */
+{ "vpack2wm", 0x5ef3f000, 0xfffff020, ARC_OPCODE_ARC64, MOVE, NONE, { ZA, LIMM, RC }, { C_CC } }
+
+/* vpack2wm<.cc> RB,RBdup,LIMM 01011xxx111100111xxx1111100xxxxx */
+{ "vpack2wm", 0x58f38f80, 0xf8ff8fe0, ARC_OPCODE_ARC64, MOVE, NONE, { RB, RBdup, LIMM }, { C_CC } }
+
+/* vpack2wm RA,LIMM,UIMM6_20 01011110011100111111xxxxxxxxxxxx */
+{ "vpack2wm", 0x5e73f000, 0xfffff000, ARC_OPCODE_ARC64, MOVE, NONE, { RA, LIMM, UIMM6_20 }, { 0 } }
+
+/* vpack2wm ZA,LIMM,UIMM6_20 01011110011100111111xxxxxx111110 */
+{ "vpack2wm", 0x5e73f03e, 0xfffff03f, ARC_OPCODE_ARC64, MOVE, NONE, { ZA, LIMM, UIMM6_20 }, { 0 } }
+
+/* vpack2wm<.cc> ZA,LIMM,UIMM6_20 01011110111100111111xxxxxx1xxxxx */
+{ "vpack2wm", 0x5ef3f020, 0xfffff020, ARC_OPCODE_ARC64, MOVE, NONE, { ZA, LIMM, UIMM6_20 }, { C_CC } }
+
+/* vpack2wm ZA,LIMM,SIMM12_20 01011110101100111111xxxxxxxxxxxx */
+{ "vpack2wm", 0x5eb3f000, 0xfffff000, ARC_OPCODE_ARC64, MOVE, NONE, { ZA, LIMM, SIMM12_20 }, { 0 } }
+
+/* vpack2wm RA,LIMM,LIMMdup 01011110001100111111111110xxxxxx */
+{ "vpack2wm", 0x5e33ff80, 0xffffffc0, ARC_OPCODE_ARC64, MOVE, NONE, { RA, LIMM, LIMMdup }, { 0 } }
+
+/* vpack2wm ZA,LIMM,LIMMdup 01011110001100111111111110111110 */
+{ "vpack2wm", 0x5e33ffbe, 0xffffffff, ARC_OPCODE_ARC64, MOVE, NONE, { ZA, LIMM, LIMMdup }, { 0 } }
+
+/* vpack2wm<.cc> ZA,LIMM,LIMMdup 010111101111001111111111100xxxxx */
+{ "vpack2wm", 0x5ef3ff80, 0xffffffe0, ARC_OPCODE_ARC64, MOVE, NONE, { ZA, LIMM, LIMMdup }, { C_CC } }
+
+/* vpack2hm RA,RB,RC 00101xxx001010011xxxxxxxxxxxxxxx */
+{ "vpack2hm", 0x28298000, 0xf8ff8000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MOVE, NONE, { RA, RB, RC }, { 0 } }
+
+/* vpack2hm ZA,RB,RC 00101xxx001010011xxxxxxxxx111110 */
+{ "vpack2hm", 0x2829803e, 0xf8ff803f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MOVE, NONE, { ZA, RB, RC }, { 0 } }
+
+/* vpack2hm<.cc> RB,RBdup,RC 00101xxx111010011xxxxxxxxx0xxxxx */
+{ "vpack2hm", 0x28e98000, 0xf8ff8020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MOVE, NONE, { RB, RBdup, RC }, { C_CC } }
+
+/* vpack2hm RA,RB,UIMM6_20 00101xxx011010011xxxxxxxxxxxxxxx */
+{ "vpack2hm", 0x28698000, 0xf8ff8000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MOVE, NONE, { RA, RB, UIMM6_20 }, { 0 } }
+
+/* vpack2hm ZA,RB,UIMM6_20 00101xxx011010011xxxxxxxxx111110 */
+{ "vpack2hm", 0x2869803e, 0xf8ff803f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MOVE, NONE, { ZA, RB, UIMM6_20 }, { 0 } }
+
+/* vpack2hm<.cc> RB,RBdup,UIMM6_20 00101xxx111010011xxxxxxxxx1xxxxx */
+{ "vpack2hm", 0x28e98020, 0xf8ff8020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MOVE, NONE, { RB, RBdup, UIMM6_20 }, { C_CC } }
+
+/* vpack2hm RB,RBdup,SIMM12_20 00101xxx101010011xxxxxxxxxxxxxxx */
+{ "vpack2hm", 0x28a98000, 0xf8ff8000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MOVE, NONE, { RB, RBdup, SIMM12_20 }, { 0 } }
+
+/* vpack2hm RA,LIMM,RC 00101110001010011111xxxxxxxxxxxx */
+{ "vpack2hm", 0x2e29f000, 0xfffff000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MOVE, NONE, { RA, LIMM, RC }, { 0 } }
+
+/* vpack2hm RA,RB,LIMM 00101xxx001010011xxx111110xxxxxx */
+{ "vpack2hm", 0x28298f80, 0xf8ff8fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MOVE, NONE, { RA, RB, LIMM }, { 0 } }
+
+/* vpack2hm ZA,LIMM,RC 00101110001010011111xxxxxx111110 */
+{ "vpack2hm", 0x2e29f03e, 0xfffff03f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MOVE, NONE, { ZA, LIMM, RC }, { 0 } }
+
+/* vpack2hm ZA,RB,LIMM 00101xxx001010011xxx111110111110 */
+{ "vpack2hm", 0x28298fbe, 0xf8ff8fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MOVE, NONE, { ZA, RB, LIMM }, { 0 } }
+
+/* vpack2hm<.cc> ZA,LIMM,RC 00101110111010011111xxxxxx0xxxxx */
+{ "vpack2hm", 0x2ee9f000, 0xfffff020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MOVE, NONE, { ZA, LIMM, RC }, { C_CC } }
+
+/* vpack2hm<.cc> RB,RBdup,LIMM 00101xxx111010011xxx1111100xxxxx */
+{ "vpack2hm", 0x28e98f80, 0xf8ff8fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MOVE, NONE, { RB, RBdup, LIMM }, { C_CC } }
+
+/* vpack2hm RA,LIMM,UIMM6_20 00101110011010011111xxxxxxxxxxxx */
+{ "vpack2hm", 0x2e69f000, 0xfffff000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MOVE, NONE, { RA, LIMM, UIMM6_20 }, { 0 } }
+
+/* vpack2hm ZA,LIMM,UIMM6_20 00101110011010011111xxxxxx111110 */
+{ "vpack2hm", 0x2e69f03e, 0xfffff03f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MOVE, NONE, { ZA, LIMM, UIMM6_20 }, { 0 } }
+
+/* vpack2hm<.cc> ZA,LIMM,UIMM6_20 00101110111010011111xxxxxx1xxxxx */
+{ "vpack2hm", 0x2ee9f020, 0xfffff020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MOVE, NONE, { ZA, LIMM, UIMM6_20 }, { C_CC } }
+
+/* vpack2hm ZA,LIMM,SIMM12_20 00101110101010011111xxxxxxxxxxxx */
+{ "vpack2hm", 0x2ea9f000, 0xfffff000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MOVE, NONE, { ZA, LIMM, SIMM12_20 }, { 0 } }
+
+/* vpack2hm RA,LIMM,LIMMdup 00101110001010011111111110xxxxxx */
+{ "vpack2hm", 0x2e29ff80, 0xffffffc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MOVE, NONE, { RA, LIMM, LIMMdup }, { 0 } }
+
+/* vpack2hm ZA,LIMM,LIMMdup 00101110001010011111111110111110 */
+{ "vpack2hm", 0x2e29ffbe, 0xffffffff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MOVE, NONE, { ZA, LIMM, LIMMdup }, { 0 } }
+
+/* vpack2hm<.cc> ZA,LIMM,LIMMdup 001011101110100111111111100xxxxx */
+{ "vpack2hm", 0x2ee9ff80, 0xffffffe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MOVE, NONE, { ZA, LIMM, LIMMdup }, { C_CC } }
+
+/* mpyl RA,RB,RC 01011xxx001100000xxxxxxxxxxxxxxx */
+{ "mpyl", 0x58300000, 0xf8ff8000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, RC }, { 0 } }
+
+/* mpyl ZA,RB,RC 01011xxx001100000xxxxxxxxx111110 */
+{ "mpyl", 0x5830003e, 0xf8ff803f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, RC }, { 0 } }
+
+/* mpyl<.cc> RB,RBdup,RC 01011xxx111100000xxxxxxxxx0xxxxx */
+{ "mpyl", 0x58f00000, 0xf8ff8020, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, RC }, { C_CC } }
+
+/* mpyl RA,RB,UIMM6_20 01011xxx011100000xxxxxxxxxxxxxxx */
+{ "mpyl", 0x58700000, 0xf8ff8000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, UIMM6_20 }, { 0 } }
+
+/* mpyl ZA,RB,UIMM6_20 01011xxx011100000xxxxxxxxx111110 */
+{ "mpyl", 0x5870003e, 0xf8ff803f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, UIMM6_20 }, { 0 } }
+
+/* mpyl<.cc> RB,RBdup,UIMM6_20 01011xxx111100000xxxxxxxxx1xxxxx */
+{ "mpyl", 0x58f00020, 0xf8ff8020, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, UIMM6_20 }, { C_CC } }
+
+/* mpyl RB,RBdup,SIMM12_20 01011xxx101100000xxxxxxxxxxxxxxx */
+{ "mpyl", 0x58b00000, 0xf8ff8000, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, SIMM12_20 }, { 0 } }
+
+/* mpyl RA,XIMM,RC 01011100001100000111xxxxxxxxxxxx */
+{ "mpyl", 0x5c307000, 0xfffff000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, XIMM, RC }, { 0 } }
+
+/* mpyl RA,RB,XIMM 01011xxx001100000xxx111100xxxxxx */
+{ "mpyl", 0x58300f00, 0xf8ff8fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, XIMM }, { 0 } }
+
+/* mpyl<.cc> RB,RBdup,XIMM 01011xxx111100000xxx1111000xxxxx */
+{ "mpyl", 0x58f00f00, 0xf8ff8fe0, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, XIMM }, { C_CC } }
+
+/* mpyl RA,XIMM,UIMM6_20 01011100011100000111xxxxxxxxxxxx */
+{ "mpyl", 0x5c707000, 0xfffff000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, XIMM, UIMM6_20 }, { 0 } }
+
+/* mpyl RA,LIMM,RC 01011110001100000111xxxxxxxxxxxx */
+{ "mpyl", 0x5e307000, 0xfffff000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, LIMM, RC }, { 0 } }
+
+/* mpyl RA,RB,LIMM 01011xxx001100000xxx111110xxxxxx */
+{ "mpyl", 0x58300f80, 0xf8ff8fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, LIMM }, { 0 } }
+
+/* mpyl<.cc> RB,RBdup,LIMM 01011xxx111100000xxx1111100xxxxx */
+{ "mpyl", 0x58f00f80, 0xf8ff8fe0, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, LIMM }, { C_CC } }
+
+/* mpyl RA,LIMM,UIMM6_20 01011110011100000111xxxxxxxxxxxx */
+{ "mpyl", 0x5e707000, 0xfffff000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, LIMM, UIMM6_20 }, { 0 } }
+
+/* mpyml RA,RB,RC 01011xxx001100010xxxxxxxxxxxxxxx */
+{ "mpyml", 0x58310000, 0xf8ff8000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, RC }, { 0 } }
+
+/* mpyml ZA,RB,RC 01011xxx001100010xxxxxxxxx111110 */
+{ "mpyml", 0x5831003e, 0xf8ff803f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, RC }, { 0 } }
+
+/* mpyml<.cc> RB,RBdup,RC 01011xxx111100010xxxxxxxxx0xxxxx */
+{ "mpyml", 0x58f10000, 0xf8ff8020, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, RC }, { C_CC } }
+
+/* mpyml RA,RB,UIMM6_20 01011xxx011100010xxxxxxxxxxxxxxx */
+{ "mpyml", 0x58710000, 0xf8ff8000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, UIMM6_20 }, { 0 } }
+
+/* mpyml ZA,RB,UIMM6_20 01011xxx011100010xxxxxxxxx111110 */
+{ "mpyml", 0x5871003e, 0xf8ff803f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, UIMM6_20 }, { 0 } }
+
+/* mpyml<.cc> RB,RBdup,UIMM6_20 01011xxx111100010xxxxxxxxx1xxxxx */
+{ "mpyml", 0x58f10020, 0xf8ff8020, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, UIMM6_20 }, { C_CC } }
+
+/* mpyml RB,RBdup,SIMM12_20 01011xxx101100010xxxxxxxxxxxxxxx */
+{ "mpyml", 0x58b10000, 0xf8ff8000, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, SIMM12_20 }, { 0 } }
+
+/* mpyml RA,XIMM,RC 01011100001100010111xxxxxxxxxxxx */
+{ "mpyml", 0x5c317000, 0xfffff000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, XIMM, RC }, { 0 } }
+
+/* mpyml RA,RB,XIMM 01011xxx001100010xxx111100xxxxxx */
+{ "mpyml", 0x58310f00, 0xf8ff8fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, XIMM }, { 0 } }
+
+/* mpyml<.cc> RB,RBdup,XIMM 01011xxx111100010xxx1111000xxxxx */
+{ "mpyml", 0x58f10f00, 0xf8ff8fe0, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, XIMM }, { C_CC } }
+
+/* mpyml RA,XIMM,UIMM6_20 01011100011100010111xxxxxxxxxxxx */
+{ "mpyml", 0x5c717000, 0xfffff000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, XIMM, UIMM6_20 }, { 0 } }
+
+/* mpyml RA,LIMM,RC 01011110001100010111xxxxxxxxxxxx */
+{ "mpyml", 0x5e317000, 0xfffff000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, LIMM, RC }, { 0 } }
+
+/* mpyml RA,RB,LIMM 01011xxx001100010xxx111110xxxxxx */
+{ "mpyml", 0x58310f80, 0xf8ff8fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, LIMM }, { 0 } }
+
+/* mpyml<.cc> RB,RBdup,LIMM 01011xxx111100010xxx1111100xxxxx */
+{ "mpyml", 0x58f10f80, 0xf8ff8fe0, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, LIMM }, { C_CC } }
+
+/* mpyml RA,LIMM,UIMM6_20 01011110011100010111xxxxxxxxxxxx */
+{ "mpyml", 0x5e717000, 0xfffff000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, LIMM, UIMM6_20 }, { 0 } }
+
+/* mpymul RA,RB,RC 01011xxx001100100xxxxxxxxxxxxxxx */
+{ "mpymul", 0x58320000, 0xf8ff8000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, RC }, { 0 } }
+
+/* mpymul ZA,RB,RC 01011xxx001100100xxxxxxxxx111110 */
+{ "mpymul", 0x5832003e, 0xf8ff803f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, RC }, { 0 } }
+
+/* mpymul<.cc> RB,RBdup,RC 01011xxx111100100xxxxxxxxx0xxxxx */
+{ "mpymul", 0x58f20000, 0xf8ff8020, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, RC }, { C_CC } }
+
+/* mpymul RA,RB,UIMM6_20 01011xxx011100100xxxxxxxxxxxxxxx */
+{ "mpymul", 0x58720000, 0xf8ff8000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, UIMM6_20 }, { 0 } }
+
+/* mpymul ZA,RB,UIMM6_20 01011xxx011100100xxxxxxxxx111110 */
+{ "mpymul", 0x5872003e, 0xf8ff803f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, UIMM6_20 }, { 0 } }
+
+/* mpymul<.cc> RB,RBdup,UIMM6_20 01011xxx111100100xxxxxxxxx1xxxxx */
+{ "mpymul", 0x58f20020, 0xf8ff8020, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, UIMM6_20 }, { C_CC } }
+
+/* mpymul RB,RBdup,SIMM12_20 01011xxx101100100xxxxxxxxxxxxxxx */
+{ "mpymul", 0x58b20000, 0xf8ff8000, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, SIMM12_20 }, { 0 } }
+
+/* mpymul RA,XIMM,RC 01011100001100100111xxxxxxxxxxxx */
+{ "mpymul", 0x5c327000, 0xfffff000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, XIMM, RC }, { 0 } }
+
+/* mpymul RA,RB,XIMM 01011xxx001100100xxx111100xxxxxx */
+{ "mpymul", 0x58320f00, 0xf8ff8fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, XIMM }, { 0 } }
+
+/* mpymul<.cc> RB,RBdup,XIMM 01011xxx111100100xxx1111000xxxxx */
+{ "mpymul", 0x58f20f00, 0xf8ff8fe0, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, XIMM }, { C_CC } }
+
+/* mpymul RA,XIMM,UIMM6_20 01011100011100100111xxxxxxxxxxxx */
+{ "mpymul", 0x5c727000, 0xfffff000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, XIMM, UIMM6_20 }, { 0 } }
+
+/* mpymul RA,LIMM,RC 01011110001100100111xxxxxxxxxxxx */
+{ "mpymul", 0x5e327000, 0xfffff000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, LIMM, RC }, { 0 } }
+
+/* mpymul RA,RB,LIMM 01011xxx001100100xxx111110xxxxxx */
+{ "mpymul", 0x58320f80, 0xf8ff8fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, LIMM }, { 0 } }
+
+/* mpymul<.cc> RB,RBdup,LIMM 01011xxx111100100xxx1111100xxxxx */
+{ "mpymul", 0x58f20f80, 0xf8ff8fe0, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, LIMM }, { C_CC } }
+
+/* mpymul RA,LIMM,UIMM6_20 01011110011100100111xxxxxxxxxxxx */
+{ "mpymul", 0x5e727000, 0xfffff000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, LIMM, UIMM6_20 }, { 0 } }
+
+/* mpymsul RA,RB,RC 01011xxx001100110xxxxxxxxxxxxxxx */
+{ "mpymsul", 0x58330000, 0xf8ff8000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, RC }, { 0 } }
+
+/* mpymsul ZA,RB,RC 01011xxx001100110xxxxxxxxx111110 */
+{ "mpymsul", 0x5833003e, 0xf8ff803f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, RC }, { 0 } }
+
+/* mpymsul<.cc> RB,RBdup,RC 01011xxx111100110xxxxxxxxx0xxxxx */
+{ "mpymsul", 0x58f30000, 0xf8ff8020, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, RC }, { C_CC } }
+
+/* mpymsul RA,RB,UIMM6_20 01011xxx011100110xxxxxxxxxxxxxxx */
+{ "mpymsul", 0x58730000, 0xf8ff8000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, UIMM6_20 }, { 0 } }
+
+/* mpymsul ZA,RB,UIMM6_20 01011xxx011100110xxxxxxxxx111110 */
+{ "mpymsul", 0x5873003e, 0xf8ff803f, ARC_OPCODE_ARC64, ARITH, NONE, { ZA, RB, UIMM6_20 }, { 0 } }
+
+/* mpymsul<.cc> RB,RBdup,UIMM6_20 01011xxx111100110xxxxxxxxx1xxxxx */
+{ "mpymsul", 0x58f30020, 0xf8ff8020, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, UIMM6_20 }, { C_CC } }
+
+/* mpymsul RB,RBdup,SIMM12_20 01011xxx101100110xxxxxxxxxxxxxxx */
+{ "mpymsul", 0x58b30000, 0xf8ff8000, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, SIMM12_20 }, { 0 } }
+
+/* mpymsul RA,XIMM,RC 01011100001100110111xxxxxxxxxxxx */
+{ "mpymsul", 0x5c337000, 0xfffff000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, XIMM, RC }, { 0 } }
+
+/* mpymsul RA,RB,XIMM 01011xxx001100110xxx111100xxxxxx */
+{ "mpymsul", 0x58330f00, 0xf8ff8fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, XIMM }, { 0 } }
+
+/* mpymsul<.cc> RB,RBdup,XIMM 01011xxx111100110xxx1111000xxxxx */
+{ "mpymsul", 0x58f30f00, 0xf8ff8fe0, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, XIMM }, { C_CC } }
+
+/* mpymsul RA,XIMM,UIMM6_20 01011100011100110111xxxxxxxxxxxx */
+{ "mpymsul", 0x5c737000, 0xfffff000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, XIMM, UIMM6_20 }, { 0 } }
+
+/* mpymsul RA,LIMM,RC 01011110001100110111xxxxxxxxxxxx */
+{ "mpymsul", 0x5e337000, 0xfffff000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, LIMM, RC }, { 0 } }
+
+/* mpymsul RA,RB,LIMM 01011xxx001100110xxx111110xxxxxx */
+{ "mpymsul", 0x58330f80, 0xf8ff8fc0, ARC_OPCODE_ARC64, ARITH, NONE, { RA, RB, LIMM }, { 0 } }
+
+/* mpymsul<.cc> RB,RBdup,LIMM 01011xxx111100110xxx1111100xxxxx */
+{ "mpymsul", 0x58f30f80, 0xf8ff8fe0, ARC_OPCODE_ARC64, ARITH, NONE, { RB, RBdup, LIMM }, { C_CC } }
+
+/* mpymsul RA,LIMM,UIMM6_20 01011110011100110111xxxxxxxxxxxx */
+{ "mpymsul", 0x5e737000, 0xfffff000, ARC_OPCODE_ARC64, ARITH, NONE, { RA, LIMM, UIMM6_20 }, { 0 } }
+
+/* vpack2hl RA,RB,RC 00101xxx001010010xxxxxxxxxxxxxxx */
+{ "vpack2hl", 0x28290000, 0xf8ff8000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MOVE, NONE, { RA, RB, RC }, { 0 } }
+
+/* vpack2hl ZA,RB,RC 00101xxx001010010xxxxxxxxx111110 */
+{ "vpack2hl", 0x2829003e, 0xf8ff803f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MOVE, NONE, { ZA, RB, RC }, { 0 } }
+
+/* vpack2hl<.cc> RB,RBdup,RC 00101xxx111010010xxxxxxxxx0xxxxx */
+{ "vpack2hl", 0x28e90000, 0xf8ff8020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MOVE, NONE, { RB, RBdup, RC }, { C_CC } }
+
+/* vpack2hl RA,RB,UIMM6_20 00101xxx011010010xxxxxxxxxxxxxxx */
+{ "vpack2hl", 0x28690000, 0xf8ff8000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MOVE, NONE, { RA, RB, UIMM6_20 }, { 0 } }
+
+/* vpack2hl ZA,RB,UIMM6_20 00101xxx011010010xxxxxxxxx111110 */
+{ "vpack2hl", 0x2869003e, 0xf8ff803f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MOVE, NONE, { ZA, RB, UIMM6_20 }, { 0 } }
+
+/* vpack2hl<.cc> RB,RBdup,UIMM6_20 00101xxx111010010xxxxxxxxx1xxxxx */
+{ "vpack2hl", 0x28e90020, 0xf8ff8020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MOVE, NONE, { RB, RBdup, UIMM6_20 }, { C_CC } }
+
+/* vpack2hl RB,RBdup,SIMM12_20 00101xxx101010010xxxxxxxxxxxxxxx */
+{ "vpack2hl", 0x28a90000, 0xf8ff8000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MOVE, NONE, { RB, RBdup, SIMM12_20 }, { 0 } }
+
+/* vpack2hl RA,LIMM,RC 00101110001010010111xxxxxxxxxxxx */
+{ "vpack2hl", 0x2e297000, 0xfffff000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MOVE, NONE, { RA, LIMM, RC }, { 0 } }
+
+/* vpack2hl RA,RB,LIMM 00101xxx001010010xxx111110xxxxxx */
+{ "vpack2hl", 0x28290f80, 0xf8ff8fc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MOVE, NONE, { RA, RB, LIMM }, { 0 } }
+
+/* vpack2hl ZA,LIMM,RC 00101110001010010111xxxxxx111110 */
+{ "vpack2hl", 0x2e29703e, 0xfffff03f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MOVE, NONE, { ZA, LIMM, RC }, { 0 } }
+
+/* vpack2hl ZA,RB,LIMM 00101xxx001010010xxx111110111110 */
+{ "vpack2hl", 0x28290fbe, 0xf8ff8fff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MOVE, NONE, { ZA, RB, LIMM }, { 0 } }
+
+/* vpack2hl<.cc> ZA,LIMM,RC 00101110111010010111xxxxxx0xxxxx */
+{ "vpack2hl", 0x2ee97000, 0xfffff020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MOVE, NONE, { ZA, LIMM, RC }, { C_CC } }
+
+/* vpack2hl<.cc> RB,RBdup,LIMM 00101xxx111010010xxx1111100xxxxx */
+{ "vpack2hl", 0x28e90f80, 0xf8ff8fe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MOVE, NONE, { RB, RBdup, LIMM }, { C_CC } }
+
+/* vpack2hl RA,LIMM,UIMM6_20 00101110011010010111xxxxxxxxxxxx */
+{ "vpack2hl", 0x2e697000, 0xfffff000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MOVE, NONE, { RA, LIMM, UIMM6_20 }, { 0 } }
+
+/* vpack2hl ZA,LIMM,UIMM6_20 00101110011010010111xxxxxx111110 */
+{ "vpack2hl", 0x2e69703e, 0xfffff03f, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MOVE, NONE, { ZA, LIMM, UIMM6_20 }, { 0 } }
+
+/* vpack2hl<.cc> ZA,LIMM,UIMM6_20 00101110111010010111xxxxxx1xxxxx */
+{ "vpack2hl", 0x2ee97020, 0xfffff020, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MOVE, NONE, { ZA, LIMM, UIMM6_20 }, { C_CC } }
+
+/* vpack2hl ZA,LIMM,SIMM12_20 00101110101010010111xxxxxxxxxxxx */
+{ "vpack2hl", 0x2ea97000, 0xfffff000, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MOVE, NONE, { ZA, LIMM, SIMM12_20 }, { 0 } }
+
+/* vpack2hl RA,LIMM,LIMMdup 00101110001010010111111110xxxxxx */
+{ "vpack2hl", 0x2e297f80, 0xffffffc0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MOVE, NONE, { RA, LIMM, LIMMdup }, { 0 } }
+
+/* vpack2hl ZA,LIMM,LIMMdup 00101110001010010111111110111110 */
+{ "vpack2hl", 0x2e297fbe, 0xffffffff, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MOVE, NONE, { ZA, LIMM, LIMMdup }, { 0 } }
+
+/* vpack2hl<.cc> ZA,LIMM,LIMMdup 001011101110100101111111100xxxxx */
+{ "vpack2hl", 0x2ee97f80, 0xffffffe0, ARC_OPCODE_ARC64 | ARC_OPCODE_ARC32, MOVE, NONE, { ZA, LIMM, LIMMdup }, { C_CC } }
+
