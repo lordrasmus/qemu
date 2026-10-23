@@ -19,6 +19,7 @@
 #pragma GCC poison TARGET_M68K
 #pragma GCC poison TARGET_MICROBLAZE
 #pragma GCC poison TARGET_KVX
+#pragma GCC poison TARGET_AVR32
 #pragma GCC poison TARGET_MIPS
 #pragma GCC poison TARGET_NIOS2
 #pragma GCC poison TARGET_ABI_MIPSN32

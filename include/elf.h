@@ -173,6 +173,7 @@ typedef struct mips_elf_abiflags_v0 {
 #define EM_CRIS             76  /* Axis Communications 32-bit embedded processor */
 
 #define EM_AVR              83  /* AVR 8-bit microcontroller */
+#define EM_AVR32        0x18ad  /* Atmel AVR32 */
 
 #define EM_V850             87  /* NEC v850 */
 
