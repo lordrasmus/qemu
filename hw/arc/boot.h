@@ -8,6 +8,7 @@ struct arc_boot_info {
     uint64_t ram_size;
     const char *kernel_filename;
     const char *kernel_cmdline;
+    const char *initrd_filename;
 };
 
 void arc_cpu_reset(void *opaque);

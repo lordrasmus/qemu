@@ -124,6 +124,7 @@ static void virt_init(MachineState *machine)
     boot_info.ram_size = machine->ram_size;
     boot_info.kernel_filename = machine->kernel_filename;
     boot_info.kernel_cmdline = machine->kernel_cmdline;
+    boot_info.initrd_filename = machine->initrd_filename;
 
     for (n = 0; n < smp_cpus; n++) {
 #if defined(TARGET_ARC32)
