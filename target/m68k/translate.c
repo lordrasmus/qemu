@@ -4836,32 +4836,31 @@ static void gen_op_fmove_fcr(CPUM68KState *env, DisasContext *s,
      *
      */
 
-    if (is_write && mode == 4) {
-        for (i = 2; i >= 0; i--, mask >>= 1) {
-            if (mask & 1) {
+    /*
+     * The registers always go to ascending addresses in the order FPCR,
+     * FPSR, FPIAR; with -(An), An is first lowered by the whole size
+     * (M68000 PRM, FMOVEM control registers).
+     */
+    if (mode == 4) {
+        /* gen_lea() has already subtracted the size of one register */
+        tcg_gen_subi_i32(addr, addr, 4 * (ctpop32(mask) - 1));
+        tmp = tcg_temp_new();
+        tcg_gen_mov_i32(tmp, addr);
+    }
+    for (i = 2; i >= 0; i--) {
+        if (mask & (1 << i)) {
+            if (is_write) {
                 gen_qemu_store_fcr(s, addr, 1 << i);
-                if (mask != 1) {
-                    tcg_gen_subi_i32(addr, addr, opsize_bytes(OS_LONG));
-                }
+            } else {
+                gen_qemu_load_fcr(s, addr, 1 << i);
             }
-       }
-       tcg_gen_mov_i32(AREG(insn, 0), addr);
-    } else {
-        for (i = 0; i < 3; i++, mask >>= 1) {
-            if (mask & 1) {
-                if (is_write) {
-                    gen_qemu_store_fcr(s, addr, 1 << i);
-                } else {
-                    gen_qemu_load_fcr(s, addr, 1 << i);
-                }
-                if (mask != 1 || mode == 3) {
-                    tcg_gen_addi_i32(addr, addr, opsize_bytes(OS_LONG));
-                }
-            }
+            tcg_gen_addi_i32(addr, addr, opsize_bytes(OS_LONG));
         }
-        if (mode == 3) {
-            tcg_gen_mov_i32(AREG(insn, 0), addr);
-        }
+    }
+    if (mode == 3) {
+        tcg_gen_mov_i32(AREG(insn, 0), addr);
+    } else if (mode == 4) {
+        tcg_gen_mov_i32(AREG(insn, 0), tmp);
     }
 }
 
