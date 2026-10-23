@@ -1,0 +1,13 @@
+config NIOS2_10M50
+    bool
+    default y
+    depends on NIOS2 && FDT
+    select DEVICE_TREE
+    select SERIAL_MM
+    select ALTERA_TIMER
+    select NIOS2_VIC
+
+config NIOS2_GENERIC_NOMMU
+    bool
+    default y
+    depends on NIOS2

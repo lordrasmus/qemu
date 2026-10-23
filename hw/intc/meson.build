@@ -95,3 +95,4 @@ specific_ss.add(when: ['CONFIG_KVM', 'CONFIG_LOONGARCH_DINTC'],
 specific_ss.add(when: 'CONFIG_H8300H_INTC', if_true: files('h8300h_intc.c'))
 specific_ss.add(when: 'CONFIG_H8S_INTC', if_true: files('h8s_intc.c'))
 specific_ss.add(when: 'CONFIG_CSKY_MIC', if_true: files('csky_mic.c', 'csky_intc.c'))
+specific_ss.add(when: 'CONFIG_NIOS2_VIC', if_true: files('nios2_vic.c'))
