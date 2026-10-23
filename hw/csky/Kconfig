@@ -1,0 +1,10 @@
+config CSKY_VIRT
+    bool
+    default y
+    depends on CSKYV2 && FDT
+    select DEVICE_TREE
+    select CSKY_MIC
+    select CSKY_MPTIMER
+    select CSKY_UART
+    select CSKY_EXIT
+    select VIRTIO_MMIO

@@ -132,3 +132,6 @@ config LOONGARCH_EXTIOI
 
 config LOONGARCH_DINTC
     bool
+
+config CSKY_MIC
+    bool

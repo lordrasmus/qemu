@@ -215,6 +215,9 @@ typedef struct mips_elf_abiflags_v0 {
 
 #define EM_AARCH64          183
 
+#define EM_CSKY             252 /* C-SKY */
+#define EM_CSKY_OLD         39  /* C-SKY, pre-registration number */
+
 #define EF_AVR_MACH         0x7F /* Mask for AVR e_flags to get core type */
 
 #define EM_ARC_COMPACT      93  /* Synopsys ARCompact */
