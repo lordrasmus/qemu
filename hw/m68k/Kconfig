@@ -46,3 +46,9 @@ config M68K_VIRT
     select GOLDFISH_TTY
     select GOLDFISH_RTC
     select VIRTIO_MMIO
+
+config M68328
+    bool
+    default y
+    depends on M68K
+    select SERIAL_MM
