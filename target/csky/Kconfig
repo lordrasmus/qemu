@@ -1,0 +1,3 @@
+config CSKYV2
+    bool
+    select SEMIHOSTING

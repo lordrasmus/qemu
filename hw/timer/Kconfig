@@ -74,3 +74,7 @@ config RENESAS_TPU
 
 config HEX_QTIMER
     bool
+
+config CSKY_MPTIMER
+    bool
+    select PTIMER

@@ -207,6 +207,9 @@ enum bfd_architecture
   bfd_arch_tic30,      /* Texas Instruments TMS320C30 */
   bfd_arch_v850,       /* NEC V850 */
 #define bfd_mach_v850          0
+  bfd_arch_csky,       /* C-SKY */
+#define bfd_mach_csky_v1 1
+#define bfd_mach_csky_v2 2
   bfd_arch_arc,        /* Argonaut RISC Core */
 #define bfd_mach_arc_a4        0
 #define bfd_mach_arc_a5        1
@@ -462,6 +465,8 @@ int print_insn_riscv128         (bfd_vma, disassemble_info*);
 int print_insn_rx(bfd_vma, disassemble_info *);
 int print_insn_hexagon(bfd_vma, disassemble_info *);
 int print_insn_arc(bfd_vma, disassemble_info *);
+int print_insn_csky_v1(bfd_vma, disassemble_info *);
+int print_insn_csky_v2(bfd_vma, disassemble_info *);
 int print_insn_loongarch(bfd_vma, disassemble_info *);
 
 #ifdef CONFIG_CAPSTONE

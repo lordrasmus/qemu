@@ -264,3 +264,6 @@ config K230_DECOMP_GZIP
     bool
 
 source macio/Kconfig
+
+config CSKY_EXIT
+    bool

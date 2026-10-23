@@ -54,6 +54,7 @@ source cpu/Kconfig
 source alpha/Kconfig
 source arc/Kconfig
 source avr/Kconfig
+source csky/Kconfig
 source hexagon/Kconfig
 source h8300/Kconfig
 source hppa/Kconfig
