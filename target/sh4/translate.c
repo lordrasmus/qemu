@@ -208,6 +208,15 @@ static void gen_write_sr(TCGv src)
     tcg_gen_extract_i32(cpu_sr_t, src, SR_T, 1);
 }
 
+/* SH-2 has no MD, RB, BL or FD: keep MD and FD set, RB and BL clear */
+static void gen_sh2_fix_sr(DisasContext *ctx, TCGv sr)
+{
+    if (ctx->features & SH_FEATURE_SH2) {
+        tcg_gen_andi_i32(sr, sr, ~((1u << SR_RB) | (1u << SR_BL)));
+        tcg_gen_ori_i32(sr, sr, (1u << SR_MD) | (1u << SR_FD));
+    }
+}
+
 static inline void gen_save_cpu_state(DisasContext *ctx, bool save_pc)
 {
     if (save_pc) {
@@ -439,8 +448,22 @@ static void _decode_opc(DisasContext * ctx)
     case 0x002b: /* rte */
         CHECK_PRIVILEGED
         CHECK_NOT_DELAY_SLOT
-        gen_write_sr(cpu_ssr);
-        tcg_gen_mov_i32(cpu_delayed_pc, cpu_spc);
+        if (ctx->features & SH_FEATURE_SH2) {
+            /* SH-2 pops PC, then SR */
+            TCGv sr = tcg_temp_new();
+
+            tcg_gen_qemu_ld_i32(cpu_delayed_pc, REG(15), ctx->memidx,
+                                MO_TEUL | MO_ALIGN);
+            tcg_gen_addi_i32(sr, REG(15), 4);
+            tcg_gen_qemu_ld_i32(sr, sr, ctx->memidx, MO_TEUL | MO_ALIGN);
+            tcg_gen_addi_i32(REG(15), REG(15), 8);
+            tcg_gen_andi_i32(sr, sr, 0x700083f3);
+            gen_sh2_fix_sr(ctx, sr);
+            gen_write_sr(sr);
+        } else {
+            gen_write_sr(cpu_ssr);
+            tcg_gen_mov_i32(cpu_delayed_pc, cpu_spc);
+        }
         ctx->envflags |= TB_FLAG_DELAY_SLOT_RTE;
         ctx->delayed_pc = (uint32_t) - 1;
         ctx->base.is_jmp = DISAS_STOP;
@@ -730,6 +753,17 @@ static void _decode_opc(DisasContext * ctx)
             tcg_gen_setcondi_i32(TCG_COND_NE, cpu_sr_t, cmp1, 0);
         }
         return;
+    case 0x2003: /* cas.l Rm,Rn,@R0 (J2) */
+        if (ctx->features & SH_FEATURE_CAS) {
+            TCGv old = tcg_temp_new();
+
+            tcg_gen_atomic_cmpxchg_i32(old, REG(0), REG(B7_4), REG(B11_8),
+                                       ctx->memidx, MO_TEUL | MO_ALIGN);
+            tcg_gen_setcond_i32(TCG_COND_EQ, cpu_sr_t, old, REG(B7_4));
+            tcg_gen_mov_i32(REG(B11_8), old);
+            return;
+        }
+        break;
     case 0x2007: /* div0s Rm,Rn */
         tcg_gen_shri_i32(cpu_sr_q, REG(B11_8), 31);         /* SR_Q */
         tcg_gen_shri_i32(cpu_sr_m, REG(B7_4), 31);          /* SR_M */
@@ -1355,6 +1389,7 @@ static void _decode_opc(DisasContext * ctx)
         {
             TCGv val = tcg_temp_new();
             tcg_gen_andi_i32(val, REG(B11_8), 0x700083f3);
+            gen_sh2_fix_sr(ctx, val);
             gen_write_sr(val);
             ctx->base.is_jmp = DISAS_STOP;
         }
@@ -1366,6 +1401,7 @@ static void _decode_opc(DisasContext * ctx)
             tcg_gen_qemu_ld_i32(val, REG(B11_8), ctx->memidx,
                                 MO_TESL | MO_ALIGN);
             tcg_gen_andi_i32(val, val, 0x700083f3);
+            gen_sh2_fix_sr(ctx, val);
             gen_write_sr(val);
             tcg_gen_addi_i32(REG(B11_8), REG(B11_8), 4);
             ctx->base.is_jmp = DISAS_STOP;

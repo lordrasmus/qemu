@@ -59,6 +59,7 @@ struct XilinxUARTLite {
     SysBusDevice parent_obj;
 
     EndianMode model_endianness;
+    bool pulse_irq;
     MemoryRegion mmio;
     CharFrontend chr;
     qemu_irq irq;
@@ -70,9 +71,25 @@ struct XilinxUARTLite {
     uint32_t regs[R_MAX];
 };
 
+/*
+ * The hardware raises a pulse when the receive FIFO gets data or the
+ * transmit FIFO runs empty; "pulse-irq" models that for edge-triggered
+ * interrupt controllers. Without it the line stays up (the old model).
+ */
+static void uart_event_irq(XilinxUARTLite *s)
+{
+    if (s->pulse_irq && (s->regs[R_CTRL] & CONTROL_IE)) {
+        qemu_irq_pulse(s->irq);
+    }
+}
+
 static void uart_update_irq(XilinxUARTLite *s)
 {
     unsigned int irq;
+
+    if (s->pulse_irq) {
+        return;
+    }
 
     if (s->rx_fifo_len)
         s->regs[R_STATUS] |= STATUS_IE;
@@ -156,6 +173,7 @@ uart_write(void *opaque, hwaddr addr,
 
             /* hax.  */
             s->regs[R_STATUS] |= STATUS_IE;
+            uart_event_irq(s);
             break;
 
         default:
@@ -184,6 +202,7 @@ static const MemoryRegionOps uart_ops[2] = {
 static const Property xilinx_uartlite_properties[] = {
     DEFINE_PROP_ENDIAN_NODEFAULT("endianness", XilinxUARTLite, model_endianness),
     DEFINE_PROP_CHR("chardev", XilinxUARTLite, chr),
+    DEFINE_PROP_BOOL("pulse-irq", XilinxUARTLite, pulse_irq, false),
 };
 
 static void uart_rx(void *opaque, const uint8_t *buf, int size)
@@ -202,6 +221,7 @@ static void uart_rx(void *opaque, const uint8_t *buf, int size)
 
     uart_update_status(s);
     uart_update_irq(s);
+    uart_event_irq(s);
 }
 
 static int uart_can_rx(void *opaque)

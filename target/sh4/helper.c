@@ -25,6 +25,7 @@
 #include "exec/target_page.h"
 #include "exec/log.h"
 #include "accel/tcg/cpu-loop.h"
+#include "accel/tcg/cpu-ldst.h"
 #include "qemu/plugin.h"
 
 #if !defined(CONFIG_USER_ONLY)
@@ -57,12 +58,88 @@ int cpu_sh4_is_cached(CPUSH4State *env, uint32_t addr)
 
 #else /* !CONFIG_USER_ONLY */
 
+/*
+ * SH-2: SR and PC go onto the stack and the handler comes from the vector
+ * table at VBR. Exceptions keep their SH-4 codes until here.
+ */
+static void sh2_cpu_do_interrupt(CPUState *cs)
+{
+    CPUSH4State *env = cpu_env(cs);
+    uint64_t last_pc = env->pc;
+    uint32_t pc = env->pc, sp;
+    int vector, level = -1;
+
+    if (cs->exception_index != -1) {
+        switch (cs->exception_index) {
+        case 0x180:                     /* illegal instruction */
+        case 0x800:                     /* FPU instruction */
+            vector = 4;
+            break;
+        case 0x1a0:                     /* illegal slot instruction */
+        case 0x820:
+            vector = 6;
+            break;
+        case 0x0e0:                     /* address errors */
+        case 0x100:
+            vector = 9;
+            break;
+        case 0x160:                     /* trapa */
+            vector = env->tra >> 2;
+            pc += 2;
+            break;
+        default:
+            qemu_system_reset_request(SHUTDOWN_CAUSE_GUEST_RESET);
+            return;
+        }
+    } else {
+        if (!env->sh2_irq_ack) {
+            return;
+        }
+        vector = env->sh2_irq_ack(env->sh2_irq_opaque,
+                                  (env->sr >> 4) & 0xf, &level);
+        if (vector < 0) {
+            return;
+        }
+    }
+    env->in_sleep = 0;
+    env->lock_addr = -1;
+
+    if (env->flags & TB_FLAG_DELAY_SLOT_MASK) {
+        /* Branch instruction should be executed again before delay slot. */
+        pc -= 2;
+        env->flags &= ~TB_FLAG_DELAY_SLOT_MASK;
+    }
+
+    qemu_log_mask(CPU_LOG_INT, "sh2 vector %d at pc 0x%08x\n", vector, pc);
+
+    sp = env->gregs[15] - 4;
+    cpu_stl_be_mmuidx_ra(env, sp, cpu_read_sr(env), 0, 0);
+    sp -= 4;
+    cpu_stl_be_mmuidx_ra(env, sp, pc, 0, 0);
+    env->gregs[15] = sp;
+    if (level >= 0) {
+        env->sr = (env->sr & ~(0xfu << 4)) | (level << 4);
+    }
+    env->pc = cpu_ldl_be_mmuidx_ra(env, env->vbr + vector * 4, 0, 0);
+
+    if (cs->exception_index != -1) {
+        qemu_plugin_vcpu_exception_cb(cs, last_pc);
+    } else {
+        qemu_plugin_vcpu_interrupt_cb(cs, last_pc);
+    }
+}
+
 void superh_cpu_do_interrupt(CPUState *cs)
 {
     CPUSH4State *env = cpu_env(cs);
     int do_irq = cpu_test_interrupt(cs, CPU_INTERRUPT_HARD);
     int do_exp, irq_vector = cs->exception_index;
     uint64_t last_pc = env->pc;
+
+    if (env->features & SH_FEATURE_SH2) {
+        sh2_cpu_do_interrupt(cs);
+        return;
+    }
 
     /* prioritize exceptions over interrupts */
 
@@ -401,6 +478,12 @@ static int get_physical_address(CPUSH4State *env, hwaddr* physical,
                                 int *prot, vaddr address,
                                 MMUAccessType access_type)
 {
+    if (env->features & SH_FEATURE_SH2) {
+        *physical = address;
+        *prot = PAGE_READ | PAGE_WRITE | PAGE_EXEC;
+        return MMU_OK;
+    }
+
     /* P1, P2 and P4 areas do not use translation */
     if ((address >= 0x80000000 && address < 0xc0000000) || address >= 0xe0000000) {
         if (!(env->sr & (1u << SR_MD))

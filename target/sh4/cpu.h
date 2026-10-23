@@ -32,6 +32,7 @@
 #define SH_CPU_SH7751  (1 << 3)
 #define SH_CPU_SH7751R (1 << 4)
 #define SH_CPU_SH7785  (1 << 5)
+#define SH_CPU_J2      (1 << 6)
 #define SH_CPU_SH7750_ALL (SH_CPU_SH7750 | SH_CPU_SH7750S | SH_CPU_SH7750R)
 #define SH_CPU_SH7751_ALL (SH_CPU_SH7751 | SH_CPU_SH7751R)
 
@@ -127,6 +128,8 @@ typedef struct tlb_t {
 enum sh_features {
     SH_FEATURE_SH4A = 1,
     SH_FEATURE_BCR3_AND_BCR4 = 2,
+    SH_FEATURE_SH2 = 4,         /* SH-2 exception model, no MMU/FPU */
+    SH_FEATURE_CAS = 8,         /* J2 cas.l */
 };
 
 typedef struct memory_content {
@@ -199,6 +202,12 @@ typedef struct CPUArchState {
     uint32_t features;
 
     void *intc_handle;
+    /*
+     * SH-2: the interrupt controller returns the vector of the highest
+     * pending interrupt above @imask and its level, or -1.
+     */
+    int (*sh2_irq_ack)(void *opaque, int imask, int *level);
+    void *sh2_irq_opaque;
     int in_sleep;               /* SR_BL ignored during sleep */
     memory_content *movcal_backup;
     memory_content **movcal_backup_tail;
