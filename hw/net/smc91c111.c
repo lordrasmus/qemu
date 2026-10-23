@@ -23,6 +23,8 @@
 
 /* Number of 2k memory pages available.  */
 #define NUM_PACKETS 4
+/* The SMC91C96 has room for three.  */
+#define NUM_PACKETS_96 3
 /*
  * Maximum size of a data frame, including the leading status word
  * and byte count fields and the trailing CRC, last data byte
@@ -68,6 +70,7 @@ struct smc91c111_state {
     uint8_t data[NUM_PACKETS][MAX_PACKET_SIZE];
     uint8_t int_level;
     uint8_t int_mask;
+    uint32_t type;      /* 0: SMC91C111, 1: SMC91C96 */
     MemoryRegion mmio;
 };
 
@@ -100,6 +103,11 @@ static const VMStateDescription vmstate_smc91c111 = {
         VMSTATE_END_OF_LIST()
     }
 };
+
+static int smc91c111_num_packets(smc91c111_state *s)
+{
+    return s->type ? NUM_PACKETS_96 : NUM_PACKETS;
+}
 
 #define RCR_SOFT_RST  0x8000
 #define RCR_STRIP_CRC 0x0200
@@ -163,8 +171,8 @@ static bool smc91c111_can_receive(smc91c111_state *s)
     if ((s->rcr & RCR_RXEN) == 0 || (s->rcr & RCR_SOFT_RST)) {
         return true;
     }
-    if (s->allocated == (1 << NUM_PACKETS) - 1 ||
-        s->rx_fifo_len == NUM_PACKETS) {
+    if (s->allocated == (1 << smc91c111_num_packets(s)) - 1 ||
+        s->rx_fifo_len == smc91c111_num_packets(s)) {
         return false;
     }
     return true;
@@ -181,11 +189,11 @@ static inline void smc91c111_flush_queued_packets(smc91c111_state *s)
 static int smc91c111_allocate_packet(smc91c111_state *s)
 {
     int i;
-    if (s->allocated == (1 << NUM_PACKETS) - 1) {
+    if (s->allocated == (1 << smc91c111_num_packets(s)) - 1) {
         return 0x80;
     }
 
-    for (i = 0; i < NUM_PACKETS; i++) {
+    for (i = 0; i < smc91c111_num_packets(s); i++) {
         if ((s->allocated & (1 << i)) == 0)
             break;
     }
@@ -267,7 +275,7 @@ static void smc91c111_complete_tx_packet(smc91c111_state *s, int packetnum)
     if (s->ctr & CTR_AUTO_RELEASE) {
         /* Race?  */
         smc91c111_release_packet(s, packetnum);
-    } else if (s->tx_fifo_done_len < NUM_PACKETS) {
+    } else if (s->tx_fifo_done_len < smc91c111_num_packets(s)) {
         s->tx_fifo_done[s->tx_fifo_done_len++] = packetnum;
     }
 }
@@ -361,7 +369,7 @@ static void smc91c111_queue_tx(smc91c111_state *s, int packet)
                       packet);
         return;
     }
-    if (s->tx_fifo_len == NUM_PACKETS)
+    if (s->tx_fifo_len == smc91c111_num_packets(s))
         return;
     s->tx_fifo[s->tx_fifo_len++] = packet;
     smc91c111_do_tx(s);
@@ -651,13 +659,13 @@ static uint32_t smc91c111_readb(void *opaque, hwaddr offset)
             /* Not implemented.  */
             return 0;
         case 8: /* Memory size.  */
-            return NUM_PACKETS;
+            return smc91c111_num_packets(s);
         case 9: /* Free memory available.  */
             {
                 int i;
                 int n;
                 n = 0;
-                for (i = 0; i < NUM_PACKETS; i++) {
+                for (i = 0; i < smc91c111_num_packets(s); i++) {
                     if (s->allocated & (1 << i))
                         n++;
                 }
@@ -753,7 +761,7 @@ static uint32_t smc91c111_readb(void *opaque, hwaddr offset)
         case 9:
             return 0x33;
         case 10: /* Revision.  */
-            return 0x91;
+            return s->type ? 0x46 : 0x91;
         case 11:
             return 0x33;
         case 12:
@@ -823,7 +831,7 @@ static ssize_t smc91c111_receive(NetClientState *nc, const uint8_t *buf, size_t 
     else
         packetsize = (size & ~1);
     packetsize += 6;
-    crc = (s->rcr & RCR_STRIP_CRC) == 0;
+    crc = s->type == 0 && (s->rcr & RCR_STRIP_CRC) == 0;
     if (crc)
         packetsize += 4;
     /* TODO: Flag overrun and receive errors.  */
@@ -923,6 +931,7 @@ static void smc91c111_realize(DeviceState *dev, Error **errp)
 
 static const Property smc91c111_properties[] = {
     DEFINE_NIC_PROPERTIES(smc91c111_state, conf),
+    DEFINE_PROP_UINT32("chiptype", smc91c111_state, type, 0),
 };
 
 static void smc91c111_class_init(ObjectClass *klass, const void *data)
@@ -956,6 +965,20 @@ void smc91c111_init(uint32_t base, qemu_irq irq)
 
     dev = qdev_new(TYPE_SMC91C111);
     qemu_configure_nic_device(dev, true, NULL);
+    s = SYS_BUS_DEVICE(dev);
+    sysbus_realize_and_unref(s, &error_fatal);
+    sysbus_mmio_map(s, 0, base);
+    sysbus_connect_irq(s, 0, irq);
+}
+
+void smc91c96_init(uint32_t base, qemu_irq irq)
+{
+    DeviceState *dev;
+    SysBusDevice *s;
+
+    dev = qdev_new(TYPE_SMC91C111);
+    qemu_configure_nic_device(dev, true, NULL);
+    qdev_prop_set_uint32(dev, "chiptype", 1);
     s = SYS_BUS_DEVICE(dev);
     sysbus_realize_and_unref(s, &error_fatal);
     sysbus_mmio_map(s, 0, base);

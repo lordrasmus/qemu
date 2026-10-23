@@ -2,6 +2,7 @@
 subdir('alpha')
 subdir('arm')
 subdir('avr')
+subdir('h8300')
 subdir('hppa')
 subdir('hexagon')
 subdir('xenpv') # i386 uses it
