@@ -58,6 +58,7 @@ source csky/Kconfig
 source hexagon/Kconfig
 source h8300/Kconfig
 source hppa/Kconfig
+source kvx/Kconfig
 source i386/Kconfig
 source loongarch/Kconfig
 source m68k/Kconfig

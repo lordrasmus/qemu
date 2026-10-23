@@ -1,0 +1,12 @@
+system_ss.add(
+  when: 'CONFIG_MPPA_CLUSTER',
+  if_true: files(
+    'dma.c',
+    'rx-channel.c',
+    'mem.c',
+    'tx-comp-queue.c',
+    'tx-job-queue.c',
+    'tx-thread.c',
+    'irq-errors.c',
+    'bundle.c',
+    ))
