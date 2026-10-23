@@ -113,7 +113,8 @@ static void sh2_cpu_do_interrupt(CPUState *cs)
     qemu_log_mask(CPU_LOG_INT, "sh2 vector %d at pc 0x%08x\n", vector, pc);
 
     sp = env->gregs[15] - 4;
-    cpu_stl_be_mmuidx_ra(env, sp, cpu_read_sr(env), 0, 0);
+    /* only the SH-2 bits: T, S, IMASK, Q, M */
+    cpu_stl_be_mmuidx_ra(env, sp, cpu_read_sr(env) & 0x3f3, 0, 0);
     sp -= 4;
     cpu_stl_be_mmuidx_ra(env, sp, pc, 0, 0);
     env->gregs[15] = sp;
