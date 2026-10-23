@@ -49,7 +49,15 @@
 #define FLASH_SIZE (16 * MiB)
 
 #define SDRAM_BASE 0x0c000000 /* Physical location of SDRAM: Area 3 */
-#define SDRAM_SIZE 0x04000000
+/*
+ * SDRAM grows from 0x0c000000; the SM501 register window sits at
+ * 0x13e00000, so 0x07e00000 (126 MiB) would be the ceiling; 0x07000000
+ * (112 MiB) leaves margin.  Its 8 MiB VRAM aperture at 0x10000000 is
+ * shadowed, which is harmless for -nographic use.
+ */
+#ifndef SDRAM_SIZE
+#define SDRAM_SIZE 0x07000000
+#endif
 
 #define SM501_VRAM_SIZE 0x800000
 
