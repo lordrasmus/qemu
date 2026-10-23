@@ -1,0 +1,5 @@
+config AP7000
+    bool
+    default y
+    depends on AVR32
+    select UNIMP
