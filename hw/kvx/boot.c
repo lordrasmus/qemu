@@ -99,6 +99,36 @@ static void fdt_set_bootargs(KvxBootInfo *info)
                             info->kernel_cmdline);
 }
 
+/* -initrd goes to the top of the DDR and is announced in /chosen */
+static void load_initrd(KvxBootInfo *info)
+{
+    uint64_t top = info->ddr_base + info->ddr_size;
+    ssize_t size;
+    uint64_t start;
+
+    if (!info->initrd_filename || !info->fdt) {
+        return;
+    }
+    size = get_image_size(info->initrd_filename, NULL);
+    if (size < 0) {
+        error_report("could not load initrd '%s'", info->initrd_filename);
+        exit(1);
+    }
+    start = QEMU_ALIGN_DOWN(top - size, 64 * KiB);
+    if (start < info->kernel_high + 8 * MiB ||
+        load_image_targphys_as(info->initrd_filename, start, top - start,
+                               info->as, NULL) != size) {
+        error_report("could not load initrd '%s'", info->initrd_filename);
+        exit(1);
+    }
+    if (fdt_path_offset(info->fdt, "/chosen") < 0) {
+        qemu_fdt_add_subnode(info->fdt, "/chosen");
+    }
+    qemu_fdt_setprop_u64(info->fdt, "/chosen", "linux,initrd-start", start);
+    qemu_fdt_setprop_u64(info->fdt, "/chosen", "linux,initrd-end",
+                         start + size);
+}
+
 static void setup_and_load_dtb(KvxBootInfo *info)
 {
     if (info->fdt == NULL) {
@@ -353,5 +383,6 @@ static void load_kernel(KvxBootInfo *info)
 void kvx_boot(KvxBootInfo *info)
 {
     load_kernel(info);
+    load_initrd(info);
     setup_and_load_dtb(info);
 }

@@ -23,6 +23,7 @@ typedef struct KvxBootInfo {
     /* Bootloader params */
     const char *kernel_filename;
     const char *kernel_cmdline;
+    const char *initrd_filename;
     void *fdt;
     int fdt_size;
     uint64_t ddr_base;

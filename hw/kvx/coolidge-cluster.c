@@ -742,6 +742,7 @@ static void boot_cluster(KvxCoolidgeClusterState *cluster)
 
     cluster->boot_info.kernel_filename = MACHINE(s)->kernel_filename;
     cluster->boot_info.kernel_cmdline = MACHINE(s)->kernel_cmdline;
+    cluster->boot_info.initrd_filename = MACHINE(s)->initrd_filename;
     cluster->boot_info.fdt = MACHINE(s)->fdt;
     cluster->boot_info.fdt_size = cluster->fdt_size;
     cluster->boot_info.ddr_base =
