@@ -323,6 +323,8 @@ static void ccr_cond(DisasCompare *dc, uint32_t cond)
         dc->cond = (cond == 14) ? TCG_COND_NE : TCG_COND_EQ;
         dc->value = dc->temp;
         break;
+    default:
+        g_assert_not_reached();
     }
 }
 
@@ -587,7 +589,6 @@ static bool trans_MOV_rm(DisasContext *ctx, arg_MOV_mr *a)
 static bool trans_MOV_rmp(DisasContext *ctx, arg_MOV_mr *a)
 {
     TCGv temp = tcg_temp_new();
-    TCGv mem = tcg_temp_new();
 
     tcg_gen_subi_i32(cpu_regs[a->er], cpu_regs[a->er], 1 << a->sz);
     switch(a->sz) {
@@ -1754,9 +1755,8 @@ static bool trans_BOR_a(DisasContext *ctx, arg_BOR_a *a)
 
 static bool trans_BST_r(DisasContext *ctx, arg_BST_r *a)
 {
-    TCGv temp, mask;
+    TCGv temp;
     temp = tcg_temp_new();
-    mask = tcg_temp_new();
     h8300_gen_reg_ldb(a->r, temp, false);
     tcg_gen_deposit_i32(temp, temp, cpu_ccr_c, a->imm, 1);
     h8300_gen_reg_stb(a->r, temp);
@@ -1765,9 +1765,8 @@ static bool trans_BST_r(DisasContext *ctx, arg_BST_r *a)
     
 static bool trans_BST_m(DisasContext *ctx, arg_BST_m *a)
 {
-    TCGv temp, mask;
+    TCGv temp;
     temp = tcg_temp_new();
-    mask = tcg_temp_new();
     tcg_gen_qemu_ld_i32(temp, cpu_regs[a->er], 0, MO_8 | MO_TE);
     tcg_gen_deposit_i32(temp, temp, cpu_ccr_c, a->imm, 1);
     tcg_gen_qemu_st_i32(temp, cpu_regs[a->er], 0, MO_8 | MO_TE);
@@ -1776,9 +1775,8 @@ static bool trans_BST_m(DisasContext *ctx, arg_BST_m *a)
     
 static bool trans_BST_a(DisasContext *ctx, arg_BST_a *a)
 {
-    TCGv temp, mask, mem;
+    TCGv temp, mem;
     temp = tcg_temp_new();
-    mask = tcg_temp_new();
     mem = h8300_temp_const(a->abs);
     tcg_gen_qemu_ld_i32(temp, mem, 0, MO_8 | MO_TE);
     tcg_gen_deposit_i32(temp, temp, cpu_ccr_c, a->imm, 1);

@@ -264,11 +264,11 @@ static uint64_t tpu_ch_read(void *opaque, int ch, hwaddr addr, unsigned size)
         return read_tcnt(tpu, ch);
     case A_TGRA:
     case A_TGRB:
-        return tpu->ch[ch].tgr[addr - A_TGRA];
+        return tpu->ch[ch].tgr[(addr - A_TGRA) / 2];
     case A_TGRC:
     case A_TGRD:
         if (ch == 0 || ch == 3) {
-            return tpu->ch[ch].tgr[addr - A_TGRA];
+            return tpu->ch[ch].tgr[(addr - A_TGRA) / 2];
         } else {
             return 0;
         }
@@ -346,13 +346,13 @@ static void tpu_ch_write(void *opaque, int ch, hwaddr addr,
         break;
     case A_TGRA:
     case A_TGRB:
-        tpu->ch[ch].tgr[addr - A_TGRA] = val;
+        tpu->ch[ch].tgr[(addr - A_TGRA) / 2] = val;
         set_next_event(tpu);
         break;
     case A_TGRC:
     case A_TGRD:
         if (ch == 0 || ch == 3) {
-            tpu->ch[ch].tgr[addr - A_TGRA] = val;
+            tpu->ch[ch].tgr[(addr - A_TGRA) / 2] = val;
             set_next_event(tpu);
         }
         break;
