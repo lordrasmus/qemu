@@ -1167,38 +1167,66 @@ static bool trans_ICALL(DisasContext *ctx, arg_ICALL *a){
     return true;
 }
 
-static bool trans_LDD_f1(DisasContext *ctx, arg_LDD_f1 *a){
-    TCGv ptr = cpu_r[a->rp];
-    TCGv rd = cpu_r[a->rd*2];
-    TCGv rdp = cpu_r[a->rd*2+1];
 
-    tcg_gen_qemu_ld_i32(rdp, ptr, ctx->mem_idx, MO_BEUL);
-    tcg_gen_addi_i32(ptr, ptr, 4);
-    tcg_gen_qemu_ld_i32(rd, ptr, ctx->mem_idx, MO_BEUL);
-    tcg_gen_addi_i32(ptr, ptr, 4);
+/*
+ * Pre-decrement and post-increment forms: the base register is written
+ * after the memory access, so a faulting access can be restarted.
+ */
+static void gen_ld_predec(DisasContext *ctx, int rd, int rp, int size,
+                          MemOp mop)
+{
+    TCGv addr = tcg_temp_new_i32();
+    TCGv val = tcg_temp_new_i32();
+
+    tcg_gen_subi_i32(addr, cpu_r[rp], size);
+    tcg_gen_qemu_ld_i32(val, addr, ctx->mem_idx, mop);
+    tcg_gen_mov_i32(cpu_r[rp], addr);
+    tcg_gen_mov_i32(cpu_r[rd], val);
+}
+
+static void gen_st_predec(DisasContext *ctx, int rs, int rp, int size,
+                          MemOp mop)
+{
+    TCGv addr = tcg_temp_new_i32();
+
+    tcg_gen_subi_i32(addr, cpu_r[rp], size);
+    tcg_gen_qemu_st_i32(rs == rp ? addr : cpu_r[rs], addr, ctx->mem_idx, mop);
+    tcg_gen_mov_i32(cpu_r[rp], addr);
+}
+
+static bool trans_LDD_f1(DisasContext *ctx, arg_LDD_f1 *a)
+{
+    TCGv addr = tcg_temp_new_i32();
+    TCGv hi = tcg_temp_new_i32();
+    TCGv lo = tcg_temp_new_i32();
+
+    tcg_gen_mov_i32(addr, cpu_r[a->rp]);
+    tcg_gen_qemu_ld_i32(hi, addr, ctx->mem_idx, MO_BEUL);
+    tcg_gen_addi_i32(addr, addr, 4);
+    tcg_gen_qemu_ld_i32(lo, addr, ctx->mem_idx, MO_BEUL);
+    tcg_gen_addi_i32(cpu_r[a->rp], addr, 4);
+    tcg_gen_mov_i32(cpu_r[a->rd * 2 + 1], hi);
+    tcg_gen_mov_i32(cpu_r[a->rd * 2], lo);
 
     ctx->base.pc_next += 2;
-
     return true;
 }
 
-static bool trans_LDD_f2(DisasContext *ctx, arg_LDD_f2 *a){
-    TCGv ptr = tcg_temp_new_i32();
-    tcg_gen_mov_i32(ptr, cpu_r[a->rp]);
-    TCGv rd = cpu_r[a->rd*2];
-    TCGv rdp = cpu_r[a->rd*2+1];
+static bool trans_LDD_f2(DisasContext *ctx, arg_LDD_f2 *a)
+{
+    TCGv addr = tcg_temp_new_i32();
+    TCGv hi = tcg_temp_new_i32();
+    TCGv lo = tcg_temp_new_i32();
 
-    tcg_gen_subi_i32(ptr, ptr, 8);
-    tcg_gen_qemu_ld_i32(rdp, ptr, ctx->mem_idx, MO_BEUL);
-    tcg_gen_addi_i32(ptr, ptr, 4);
-
-    tcg_gen_qemu_ld_i32(rd, ptr, ctx->mem_idx, MO_BEUL);
-    tcg_gen_subi_i32(ptr, ptr, 4);
-
-    tcg_gen_mov_i32(cpu_r[a->rp], ptr);
+    tcg_gen_subi_i32(addr, cpu_r[a->rp], 8);
+    tcg_gen_qemu_ld_i32(hi, addr, ctx->mem_idx, MO_BEUL);
+    tcg_gen_addi_i32(lo, addr, 4);
+    tcg_gen_qemu_ld_i32(lo, lo, ctx->mem_idx, MO_BEUL);
+    tcg_gen_mov_i32(cpu_r[a->rp], addr);
+    tcg_gen_mov_i32(cpu_r[a->rd * 2 + 1], hi);
+    tcg_gen_mov_i32(cpu_r[a->rd * 2], lo);
 
     ctx->base.pc_next += 2;
-
     return true;
 }
 
@@ -1315,10 +1343,9 @@ static bool trans_LDub_f1(DisasContext *ctx, arg_LDub_f1 *a){
     return true;
 }
 
-static bool trans_LDub_f2(DisasContext *ctx, arg_LDub_f2 *a){
-    tcg_gen_qemu_ld_tl(cpu_r[a->rd], cpu_r[a->rp], ctx->mem_idx, MO_UB);
-    tcg_gen_subi_i32(cpu_r[a->rp], cpu_r[a->rp], 0x1);
-
+static bool trans_LDub_f2(DisasContext *ctx, arg_LDub_f2 *a)
+{
+    gen_ld_predec(ctx, a->rd, a->rp, 1, MO_UB);
     ctx->base.pc_next += 2;
     return true;
 }
@@ -1392,9 +1419,9 @@ static bool trans_LDSH_f1(DisasContext *ctx, arg_LDSH_f1 *a){
 }
 
 //TODO: add tests
-static bool trans_LDSH_f2(DisasContext *ctx, arg_LDSH_f2 *a){
-    tcg_gen_subi_i32(cpu_r[a->rp], cpu_r[a->rp], 0x2);
-    tcg_gen_qemu_ld_tl(cpu_r[a->rd], cpu_r[a->rp], ctx->mem_idx, MO_BESW);
+static bool trans_LDSH_f2(DisasContext *ctx, arg_LDSH_f2 *a)
+{
+    gen_ld_predec(ctx, a->rd, a->rp, 2, MO_BESW);
     ctx->base.pc_next += 2;
     return true;
 }
@@ -1463,10 +1490,9 @@ static bool trans_LDUH_f1(DisasContext *ctx, arg_LDUH_f1 *a){
 }
 
 //TODO: add tests
-static bool trans_LDUH_f2(DisasContext *ctx, arg_LDUH_f2 *a){
-    tcg_gen_subi_i32(cpu_r[a->rp], cpu_r[a->rp], 2);
-    tcg_gen_qemu_ld_tl(cpu_r[a->rd], cpu_r[a->rp], ctx->mem_idx, MO_BEUW);
-
+static bool trans_LDUH_f2(DisasContext *ctx, arg_LDUH_f2 *a)
+{
+    gen_ld_predec(ctx, a->rd, a->rp, 2, MO_BEUW);
     ctx->base.pc_next += 2;
     return true;
 }
@@ -1541,14 +1567,12 @@ static bool trans_LDW_f1(DisasContext *ctx, arg_LDW_f1 *a){
 }
 
 //TODO: add tests
-static bool trans_LDW_f2(DisasContext *ctx, arg_LDW_f2 *a){
-    tcg_gen_subi_i32(cpu_r[a->rp], cpu_r[a->rp], 0x4);
-    tcg_gen_qemu_ld_i32(cpu_r[a->rd], cpu_r[a->rp], ctx->mem_idx, MO_BEUL);
-
-    if(a->rd == PC_REG){
+static bool trans_LDW_f2(DisasContext *ctx, arg_LDW_f2 *a)
+{
+    gen_ld_predec(ctx, a->rd, a->rp, 4, MO_BEUL);
+    if (a->rd == PC_REG) {
         ctx->base.is_jmp = DISAS_JUMP;
     }
-
     ctx->base.pc_next += 2;
     return true;
 }
@@ -1757,7 +1781,7 @@ static bool trans_LDM(DisasContext *ctx, arg_LDM *a){
             if(((reglist >> 14) & 1) == 0 && ((reglist >> 12) &1) == 0){
                 tcg_gen_movi_i32(cpu_r[12], 0);
             }
-            else if((reglist >> 14) == 0 && (reglist >> 12) == 1){
+            else if (((reglist >> 14) & 1) == 0 && ((reglist >> 12) & 1) == 1) {
                 tcg_gen_movi_i32(cpu_r[12], 1);
             }
             else{
@@ -2713,145 +2737,86 @@ static bool trans_ORL(DisasContext *ctx, arg_ORH *a){
     return true;
 }
 
-static bool trans_POPM(DisasContext *ctx, arg_POPM *a){
-    bool setFlags = false;
+/*
+ * PUSHM/POPM: SP is only written once all memory accesses are done, so a
+ * fault (e.g. a copy-on-write stack page) leaves it unchanged and the
+ * instruction can be restarted.
+ */
+static bool trans_POPM(DisasContext *ctx, arg_POPM *a)
+{
+    /* pop order, lowest address first; bit numbers of the list */
+    static const struct { int bit, reg; } order[] = {
+        { 8, PC_REG }, { 7, LR_REG }, { 6, 12 }, { 5, 11 }, { 4, 10 },
+        { 3, 9 }, { 3, 8 }, { 2, 7 }, { 2, 6 }, { 2, 5 }, { 2, 4 },
+        { 1, 3 }, { 1, 2 }, { 1, 1 }, { 1, 0 },
+    };
+    bool pc = (a->list >> 8) & 1;
+    bool retval = pc && (a->list & 1);
+    TCGv val[ARRAY_SIZE(order)];
+    TCGv addr = tcg_temp_new_i32();
+    int n = 0;
 
-    if (((a->list >> 8) & 1) == 1 && (((a->list >> 0) & 1) == 1)){
-        tcg_gen_qemu_ld_tl(cpu_r[PC_REG], cpu_r[SP_REG], ctx->mem_idx, MO_BEUL);
-        tcg_gen_addi_i32(cpu_r[SP_REG], cpu_r[SP_REG], 0x4);
-        ctx->base.is_jmp = DISAS_JUMP;
+    for (int i = 0; i < ARRAY_SIZE(order); i++) {
+        val[i] = NULL;
+        if (!((a->list >> order[i].bit) & 1)) {
+            continue;
+        }
+        /* with PC and k, LR and R12 select the return value instead */
+        if (retval && (order[i].reg == LR_REG || order[i].reg == 12)) {
+            continue;
+        }
+        val[i] = tcg_temp_new_i32();
+        tcg_gen_addi_i32(addr, cpu_r[SP_REG], 4 * n++);
+        tcg_gen_qemu_ld_tl(val[i], addr, ctx->mem_idx, MO_BEUL);
+    }
+    for (int i = 0; i < ARRAY_SIZE(order); i++) {
+        if (val[i]) {
+            tcg_gen_mov_i32(cpu_r[order[i].reg], val[i]);
+        }
+    }
+    tcg_gen_addi_i32(cpu_r[SP_REG], cpu_r[SP_REG], 4 * n);
 
-        if (((a->list >> 6) & 1) == 0 && ((a->list >> 7) & 1) == 0){
+    if (retval) {
+        if ((a->list >> 7) & 1) {
+            tcg_gen_movi_i32(cpu_r[12], -1);
+        } else if ((a->list >> 6) & 1) {
+            tcg_gen_movi_i32(cpu_r[12], 1);
+        } else {
             tcg_gen_movi_i32(cpu_r[12], 0);
         }
-        else if (((a->list >> 6) & 1) == 1 && ((a->list >> 7) & 1) == 0){
-            tcg_gen_movi_i32(cpu_r[12], 1);
-        }
-        else{
-            tcg_gen_movi_i32(cpu_r[12], -1);
-        }
-        setFlags = true;
     }
-    else{
-        if(((a->list >> 8) & 1) == 1){
-            tcg_gen_qemu_ld_tl(cpu_r[PC_REG], cpu_r[SP_REG], ctx->mem_idx, MO_BEUL);
-            tcg_gen_addi_i32(cpu_r[SP_REG], cpu_r[SP_REG], 0x4);
-            ctx->base.is_jmp = DISAS_JUMP;
-        }
-        if(((a->list >> 7) & 1) == 1){
-            tcg_gen_qemu_ld_tl(cpu_r[LR_REG], cpu_r[SP_REG], ctx->mem_idx, MO_BEUL);
-            tcg_gen_addi_i32(cpu_r[SP_REG], cpu_r[SP_REG], 0x4);
-
-        }
-        if(((a->list >> 6) & 1) == 1){
-            tcg_gen_qemu_ld_tl(cpu_r[12], cpu_r[SP_REG], ctx->mem_idx, MO_BEUL);
-            tcg_gen_addi_i32(cpu_r[SP_REG], cpu_r[SP_REG], 0x4);
-
-        }
-        if(((a->list >> 8) & 1) == 1){
-            setFlags = true;
-        }
-    }
-
-    if(((a->list >> 5) & 1) == 1){
-        tcg_gen_qemu_ld_tl(cpu_r[11], cpu_r[SP_REG], ctx->mem_idx, MO_BEUL);
-        tcg_gen_addi_i32(cpu_r[SP_REG], cpu_r[SP_REG], 0x4);
-
-    }
-    if(((a->list >> 4) & 1) == 1){
-        tcg_gen_qemu_ld_tl(cpu_r[10], cpu_r[SP_REG], ctx->mem_idx, MO_BEUL);
-        tcg_gen_addi_i32(cpu_r[SP_REG], cpu_r[SP_REG], 0x4);
-    }
-
-    if(((a->list >> 3) & 1) == 1){
-        tcg_gen_qemu_ld_tl(cpu_r[9], cpu_r[SP_REG], ctx->mem_idx, MO_BEUL);
-        tcg_gen_addi_i32(cpu_r[SP_REG], cpu_r[SP_REG], 0x4);
-        tcg_gen_qemu_ld_tl(cpu_r[8], cpu_r[SP_REG], ctx->mem_idx, MO_BEUL);
-        tcg_gen_addi_i32(cpu_r[SP_REG], cpu_r[SP_REG], 0x4);
-    }
-
-    if(((a->list >> 2) & 1) == 1){
-        tcg_gen_qemu_ld_tl(cpu_r[7], cpu_r[SP_REG], ctx->mem_idx, MO_BEUL);
-        tcg_gen_addi_i32(cpu_r[SP_REG], cpu_r[SP_REG], 0x4);
-        tcg_gen_qemu_ld_tl(cpu_r[6], cpu_r[SP_REG], ctx->mem_idx, MO_BEUL);
-        tcg_gen_addi_i32(cpu_r[SP_REG], cpu_r[SP_REG], 0x4);
-        tcg_gen_qemu_ld_tl(cpu_r[5], cpu_r[SP_REG], ctx->mem_idx, MO_BEUL);
-        tcg_gen_addi_i32(cpu_r[SP_REG], cpu_r[SP_REG], 0x4);
-        tcg_gen_qemu_ld_tl(cpu_r[4], cpu_r[SP_REG], ctx->mem_idx, MO_BEUL);
-        tcg_gen_addi_i32(cpu_r[SP_REG], cpu_r[SP_REG], 0x4);
-    }
-    if(((a->list >> 1) & 1) == 1){
-        tcg_gen_qemu_ld_tl(cpu_r[3], cpu_r[SP_REG], ctx->mem_idx, MO_BEUL);
-        tcg_gen_addi_i32(cpu_r[SP_REG], cpu_r[SP_REG], 0x4);
-        tcg_gen_qemu_ld_tl(cpu_r[2], cpu_r[SP_REG], ctx->mem_idx, MO_BEUL);
-        tcg_gen_addi_i32(cpu_r[SP_REG], cpu_r[SP_REG], 0x4);
-        tcg_gen_qemu_ld_tl(cpu_r[1], cpu_r[SP_REG], ctx->mem_idx, MO_BEUL);
-        tcg_gen_addi_i32(cpu_r[SP_REG], cpu_r[SP_REG], 0x4);
-        tcg_gen_qemu_ld_tl(cpu_r[0], cpu_r[SP_REG], ctx->mem_idx, MO_BEUL);
-        tcg_gen_addi_i32(cpu_r[SP_REG], cpu_r[SP_REG], 0x4);
-    }
-
-    if(setFlags){
+    if (pc) {
         tcg_gen_movi_i32(cpu_sflags[sflagV], 0);
         tcg_gen_movi_i32(cpu_sflags[sflagC], 0);
-        TCGv res = tcg_temp_new_i32();
-        tcg_gen_mov_i32(res, cpu_r[12]);
-        tcg_gen_setcondi_i32(TCG_COND_EQ, cpu_sflags[sflagZ], res, 0);
-        tcg_gen_shri_i32(cpu_sflags[sflagN], res, 31);
+        tcg_gen_setcondi_i32(TCG_COND_EQ, cpu_sflags[sflagZ], cpu_r[12], 0);
+        tcg_gen_shri_i32(cpu_sflags[sflagN], cpu_r[12], 31);
+        ctx->base.is_jmp = DISAS_JUMP;
     }
 
     ctx->base.pc_next += 2;
     return true;
 }
 
-static bool trans_PUSHM(DisasContext *ctx, arg_PUSHM *a){
-    TCGv sp = cpu_r[SP_REG];
-    if (((a->list >> 0) & 1) == 1){
-        tcg_gen_subi_i32(sp, sp, 0x4);
-        tcg_gen_qemu_st_tl(cpu_r[0], sp, ctx->mem_idx, MO_BEUL);
-        tcg_gen_subi_i32(sp, sp, 0x4);
-        tcg_gen_qemu_st_tl(cpu_r[1], sp, ctx->mem_idx, MO_BEUL);
-        tcg_gen_subi_i32(sp, sp, 0x4);
-        tcg_gen_qemu_st_tl(cpu_r[2], sp, ctx->mem_idx, MO_BEUL);
-        tcg_gen_subi_i32(sp, sp, 0x4);
-        tcg_gen_qemu_st_tl(cpu_r[3], sp, ctx->mem_idx, MO_BEUL);
+static bool trans_PUSHM(DisasContext *ctx, arg_PUSHM *a)
+{
+    /* push order, highest address first */
+    static const struct { int bit, reg; } order[] = {
+        { 0, 0 }, { 0, 1 }, { 0, 2 }, { 0, 3 },
+        { 1, 4 }, { 1, 5 }, { 1, 6 }, { 1, 7 },
+        { 2, 8 }, { 2, 9 }, { 3, 10 }, { 4, 11 }, { 5, 12 },
+        { 6, LR_REG }, { 7, PC_REG },
+    };
+    TCGv addr = tcg_temp_new_i32();
+    int n = 0;
+
+    for (int i = 0; i < ARRAY_SIZE(order); i++) {
+        if ((a->list >> order[i].bit) & 1) {
+            tcg_gen_subi_i32(addr, cpu_r[SP_REG], 4 * ++n);
+            tcg_gen_qemu_st_tl(cpu_r[order[i].reg], addr, ctx->mem_idx,
+                               MO_BEUL);
+        }
     }
-    if (((a->list >> 1) & 1) == 1){
-        tcg_gen_subi_i32(sp, sp, 0x4);
-        tcg_gen_qemu_st_tl(cpu_r[4], sp, ctx->mem_idx, MO_BEUL);
-        tcg_gen_subi_i32(sp, sp, 0x4);
-        tcg_gen_qemu_st_tl(cpu_r[5], sp, ctx->mem_idx, MO_BEUL);
-        tcg_gen_subi_i32(sp, sp, 0x4);
-        tcg_gen_qemu_st_tl(cpu_r[6], sp, ctx->mem_idx, MO_BEUL);
-        tcg_gen_subi_i32(sp, sp, 0x4);
-        tcg_gen_qemu_st_tl(cpu_r[7], sp, ctx->mem_idx, MO_BEUL);
-    }
-    if (((a->list >> 2) & 1) == 1) {
-        tcg_gen_subi_i32(sp, sp, 0x4);
-        tcg_gen_qemu_st_tl(cpu_r[8], sp, ctx->mem_idx, MO_BEUL);
-        tcg_gen_subi_i32(sp, sp, 0x4);
-        tcg_gen_qemu_st_tl(cpu_r[9], sp, ctx->mem_idx, MO_BEUL);
-    }
-    if (((a->list >> 3) & 1) == 1) {
-        tcg_gen_subi_i32(sp, sp, 0x4);
-        tcg_gen_qemu_st_tl(cpu_r[10], sp, ctx->mem_idx, MO_BEUL);
-    }
-    if (((a->list >> 4) & 1) == 1) {
-        tcg_gen_subi_i32(sp, sp, 0x4);
-        tcg_gen_qemu_st_tl(cpu_r[11], sp, ctx->mem_idx, MO_BEUL);
-    }
-    if (((a->list >> 5) & 1) == 1) {
-        tcg_gen_subi_i32(sp, sp, 0x4);
-        tcg_gen_qemu_st_tl(cpu_r[12], sp, ctx->mem_idx, MO_BEUL);
-    }
-    if (((a->list >> 6) & 1) == 1) {
-        tcg_gen_subi_i32(sp, sp, 0x4);
-        tcg_gen_qemu_st_tl(cpu_r[LR_REG], sp, ctx->mem_idx, MO_BEUL);
-    }
-    if (((a->list >> 7) & 1) == 1) {
-        tcg_gen_subi_i32(sp, sp, 0x4);
-        tcg_gen_qemu_st_tl(cpu_r[PC_REG], sp, ctx->mem_idx, MO_BEUL);
-    }
+    tcg_gen_subi_i32(cpu_r[SP_REG], cpu_r[SP_REG], 4 * n);
 
     ctx->base.pc_next += 2;
     return true;
@@ -3307,12 +3272,9 @@ static bool trans_STB_f1(DisasContext *ctx, arg_STB_f1 *a){
     return true;
 }
 
-static bool trans_STB_f2(DisasContext *ctx, arg_STB_f2 *a){
-    TCGv ptr = cpu_r[a->rp];
-    TCGv rs = cpu_r[a->rs];
-    tcg_gen_subi_i32(ptr, ptr, 0x1);
-    tcg_gen_qemu_st_tl(rs, ptr, ctx->mem_idx, MO_UB);
-
+static bool trans_STB_f2(DisasContext *ctx, arg_STB_f2 *a)
+{
+    gen_st_predec(ctx, a->rs, a->rp, 1, MO_UB);
     ctx->base.pc_next += 2;
     return true;
 }
@@ -3371,30 +3333,31 @@ static bool trans_STBc(DisasContext *ctx, arg_STBc *a){
     return true;
 }
 
-static bool trans_STD_f1(DisasContext *ctx, arg_STD_f1 *a){
-    TCGv ptr = cpu_r[a->rp];
-    TCGv rs = cpu_r[a->rs*2];
-    TCGv rsp = cpu_r[a->rs*2 + 1];
+static bool trans_STD_f1(DisasContext *ctx, arg_STD_f1 *a)
+{
+    TCGv addr = tcg_temp_new_i32();
 
-    tcg_gen_qemu_st_i32(rsp, ptr, ctx->mem_idx, MO_BEUL);
-    tcg_gen_addi_i32(ptr, ptr, 4);
-    tcg_gen_qemu_st_i32(rs, ptr, ctx->mem_idx, MO_BEUL);
-    tcg_gen_addi_i32(ptr, ptr, 4);
+    tcg_gen_mov_i32(addr, cpu_r[a->rp]);
+    tcg_gen_qemu_st_i32(cpu_r[a->rs * 2 + 1], addr, ctx->mem_idx, MO_BEUL);
+    tcg_gen_addi_i32(addr, addr, 4);
+    tcg_gen_qemu_st_i32(cpu_r[a->rs * 2], addr, ctx->mem_idx, MO_BEUL);
+    tcg_gen_addi_i32(cpu_r[a->rp], addr, 4);
 
     ctx->base.pc_next += 2;
     return true;
 }
 
 
-static bool trans_STD_f2(DisasContext *ctx, arg_STD_f2 *a){
-    TCGv ptr = cpu_r[a->rp];
-    TCGv rs = cpu_r[a->rs*2];
-    TCGv rsp = cpu_r[a->rs*2 + 1];
+static bool trans_STD_f2(DisasContext *ctx, arg_STD_f2 *a)
+{
+    TCGv addr = tcg_temp_new_i32();
+    TCGv lo = tcg_temp_new_i32();
 
-    tcg_gen_subi_i32(ptr, ptr, 0x4);
-    tcg_gen_qemu_st_i32(rs, ptr, ctx->mem_idx, MO_BEUL);
-    tcg_gen_subi_i32(ptr, ptr, 0x4);
-    tcg_gen_qemu_st_i32(rsp, ptr, ctx->mem_idx, MO_BEUL);
+    tcg_gen_subi_i32(addr, cpu_r[a->rp], 8);
+    tcg_gen_qemu_st_i32(cpu_r[a->rs * 2 + 1], addr, ctx->mem_idx, MO_BEUL);
+    tcg_gen_addi_i32(lo, addr, 4);
+    tcg_gen_qemu_st_i32(cpu_r[a->rs * 2], lo, ctx->mem_idx, MO_BEUL);
+    tcg_gen_mov_i32(cpu_r[a->rp], addr);
 
     ctx->base.pc_next += 2;
     return true;
@@ -3413,7 +3376,7 @@ static bool trans_STD_f3(DisasContext *ctx, arg_STD_f3 *a){
     tcg_gen_qemu_st_i32(rs, ptr, ctx->mem_idx, MO_BEUL);
     tcg_gen_addi_i32(ptr, ptr, 4);
 
-    ctx->base.pc_next += 4;
+    ctx->base.pc_next += 2;
     return true;
 }
 
@@ -3452,10 +3415,9 @@ static bool trans_STH_f1(DisasContext *ctx, arg_STH_f1 *a){
     return true;
 }
 
-static bool trans_STH_f2(DisasContext *ctx, arg_STH_f2 *a){
-    tcg_gen_subi_i32(cpu_r[a->rp], cpu_r[a->rp], 2);
-    tcg_gen_qemu_st_tl(cpu_r[a->rs], cpu_r[a->rp], ctx->mem_idx, MO_BEUW);
-
+static bool trans_STH_f2(DisasContext *ctx, arg_STH_f2 *a)
+{
+    gen_st_predec(ctx, a->rs, a->rp, 2, MO_BEUW);
     ctx->base.pc_next += 2;
     return true;
 }
@@ -3569,10 +3531,9 @@ static bool trans_STW_f1(DisasContext *ctx, arg_STW_f1 *a){
     return true;
 }
 
-static bool trans_STW_f2(DisasContext *ctx, arg_STW_f2 *a){
-    tcg_gen_subi_i32(cpu_r[a->rp], cpu_r[a->rp], 4);
-    tcg_gen_qemu_st_tl(cpu_r[a->rs], cpu_r[a->rp], ctx->mem_idx, MO_BEUL);
-
+static bool trans_STW_f2(DisasContext *ctx, arg_STW_f2 *a)
+{
+    gen_st_predec(ctx, a->rs, a->rp, 4, MO_BEUL);
     ctx->base.pc_next += 2;
     return true;
 }
