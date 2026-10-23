@@ -267,6 +267,61 @@ static void leon3_irq_manager(CPUSPARCState *env, int intno)
     leon3_cache_control_int(env);
 }
 
+/*
+ * -initrd: load the image below the top of RAM and tell the kernel where
+ * it is through the "HdrS" header at the start of its text, the way sun4m
+ * does.  The kernel may sit inside a loader such as Gaisler's mklinuximg,
+ * so look for the header anywhere in what load_elf() mapped.  The image
+ * stays 1 MiB clear of the top: the tiny bootloader points %sp there.
+ * sparc_ramdisk_image is relative to phys_base, the start of RAM.
+ */
+static void leon3_load_initrd(const char *filename, ram_addr_t ram_size,
+                              uint64_t low, uint64_t high)
+{
+    hwaddr ram_top = LEON3_RAM_OFFSET + ram_size;
+    hwaddr addr;
+    int size;
+    uint64_t a;
+
+    /*
+     * The header sits at the start of the kernel text.  load_elf() may
+     * also map pieces outside RAM (mklinuximg has a BSS-only segment up
+     * there), so bound the search to RAM and to the first 16 MiB.
+     */
+    low = MAX(low, LEON3_RAM_OFFSET);
+    high = MIN(MIN(high, ram_top), low + 16 * MiB);
+
+    size = get_image_size(filename, NULL);
+    if (size < 0 || size > ram_size / 2) {
+        error_report("could not load initrd '%s'", filename);
+        exit(1);
+    }
+    /*
+     * sparc32 maps only the first 192 MiB (SRMMU_MAXMEM) directly, and the
+     * kernel turns the initrd address into a lowmem pointer, so keep the
+     * image below that.  An overlap with the kernel is reported by the ROM
+     * loader at reset.
+     */
+    addr = MIN(ram_top - 1 * MiB, LEON3_RAM_OFFSET + 192 * MiB) - size;
+    addr = QEMU_ALIGN_DOWN(addr, 4 * KiB);
+    if (load_image_targphys(filename, addr, size, NULL) != size) {
+        error_report("could not load initrd '%s'", filename);
+        exit(1);
+    }
+
+    for (a = QEMU_ALIGN_UP(low, 4); a + 24 <= high; a += 4) {
+        uint8_t *ptr = rom_ptr(a, 24);
+
+        if (ptr && ldl_be_p(ptr) == 0x48647253) { /* HdrS */
+            stl_be_p(ptr + 16, addr - LEON3_RAM_OFFSET);
+            stl_be_p(ptr + 20, size);
+            return;
+        }
+    }
+    error_report("initrd: no HdrS header in the kernel image");
+    exit(1);
+}
+
 static void leon3_generic_hw_init(MachineState *machine)
 {
     ram_addr_t ram_size = machine->ram_size;
@@ -390,9 +445,10 @@ static void leon3_generic_hw_init(MachineState *machine)
     if (kernel_filename != NULL) {
         long     kernel_size;
         uint64_t entry;
+        uint64_t kernel_low = 0, kernel_high = 0;
 
         kernel_size = load_elf(kernel_filename, NULL, NULL, NULL,
-                               &entry, NULL, NULL, NULL,
+                               &entry, &kernel_low, &kernel_high, NULL,
                                ELFDATA2MSB, EM_SPARC, 0, 0);
         if (kernel_size < 0) {
             kernel_size = load_uimage(kernel_filename, NULL, &entry,
@@ -401,6 +457,10 @@ static void leon3_generic_hw_init(MachineState *machine)
         if (kernel_size < 0) {
             error_report("could not load kernel '%s'", kernel_filename);
             exit(1);
+        }
+        if (machine->initrd_filename) {
+            leon3_load_initrd(machine->initrd_filename, ram_size,
+                              kernel_low, kernel_high);
         }
         if (bios_size <= 0) {
             /*

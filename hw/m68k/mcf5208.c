@@ -32,6 +32,7 @@
 #include "hw/core/boards.h"
 #include "hw/core/loader.h"
 #include "hw/core/sysbus.h"
+#include "system/address-spaces.h"
 #include "elf.h"
 
 #define SYS_FREQ 166666666
@@ -274,6 +275,73 @@ static void mcf_fec_init(MemoryRegion *sysmem, hwaddr base, DeviceState *intc)
     memory_region_add_subregion(sysmem, base, sysbus_mmio_get_region(s, 0));
 }
 
+/*
+ * Hand -append and -initrd to the kernel the way U-Boot does: with
+ * CONFIG_UBOOT the ColdFire kernel reads bd_info, initrd start/end and
+ * command line start/end from sp[1] .. sp[5] of the stack it is entered
+ * with (arch/m68k/kernel/uboot.c).  Everything goes to the top of the RAM
+ * the kernel sees, which is the power of two that SDCS0 reports.
+ */
+static void mcf5208_setup_uboot_args(MachineState *machine,
+                                     CPUM68KState *env)
+{
+    const char *cmdline = machine->kernel_cmdline;
+    hwaddr ram_top = 0x40000000 + pow2floor(machine->ram_size);
+    hwaddr args = ram_top - 4 * KiB;
+    hwaddr cmd = args + 256;
+    hwaddr initrd_start = 0, initrd_end = 0;
+    hwaddr cmd_start = 0, cmd_end = 0;
+    uint32_t sp[6];
+    int i;
+
+    if (!machine->initrd_filename && !(cmdline && *cmdline)) {
+        return;
+    }
+
+    if (cmdline && *cmdline) {
+        size_t len = MIN(strlen(cmdline) + 1, 4 * KiB - 256);
+
+        address_space_write(&address_space_memory, cmd,
+                            MEMTXATTRS_UNSPECIFIED, cmdline, len);
+        cmd_start = cmd;
+        cmd_end = cmd + len - 1;
+    }
+
+    if (machine->initrd_filename) {
+        int size = get_image_size(machine->initrd_filename, NULL);
+
+        if (size < 0) {
+            error_report("Could not load initrd '%s'",
+                         machine->initrd_filename);
+            exit(1);
+        }
+        initrd_start = QEMU_ALIGN_DOWN(args - size, 4 * KiB);
+        if (load_image_targphys(machine->initrd_filename, initrd_start,
+                                args - initrd_start, NULL) != size) {
+            error_report("Could not load initrd '%s'",
+                         machine->initrd_filename);
+            exit(1);
+        }
+        initrd_end = initrd_start + size;
+    }
+
+    sp[0] = 0;                  /* return address */
+    sp[1] = 0;                  /* bd_info */
+    sp[2] = initrd_start;
+    sp[3] = initrd_end;
+    sp[4] = cmd_start;
+    sp[5] = cmd_end;
+    for (i = 0; i < ARRAY_SIZE(sp); i++) {
+        stl_be_phys(&address_space_memory, args + i * 4, sp[i]);
+    }
+    /*
+     * Without CACR.EUSP a ColdFire has a single stack pointer, which qemu
+     * keeps in the USP slot once the guest writes CACR -- and the kernel
+     * does that before it saves %sp.  Seed every slot.
+     */
+    env->aregs[7] = env->sp[M68K_SSP] = env->sp[M68K_USP] = args;
+}
+
 static void mcf5208evb_init(MachineState *machine)
 {
     ram_addr_t ram_size = machine->ram_size;
@@ -386,6 +454,7 @@ static void mcf5208evb_init(MachineState *machine)
         exit(1);
     }
 
+    mcf5208_setup_uboot_args(machine, env);
     env->pc = entry;
 }
 
