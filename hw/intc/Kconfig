@@ -135,3 +135,6 @@ config LOONGARCH_DINTC
 
 config CSKY_MIC
     bool
+
+config NIOS2_VIC
+    bool
