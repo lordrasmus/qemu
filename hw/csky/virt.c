@@ -28,6 +28,35 @@ static struct csky_boot_info virt_binfo = {
     .freq           = 50000000ll,
 };
 
+/*
+ * /chosen: -append replaces the default command line, and -initrd is
+ * announced where hw/csky/boot.c loads it.
+ */
+#define VIRT_INITRD_ADDR 0x0a000000
+
+static void virt_fdt_chosen(MachineState *machine, void *fdt,
+                            const char *default_args)
+{
+    const char *args = machine->kernel_cmdline;
+
+    qemu_fdt_add_subnode(fdt, "/chosen");
+    qemu_fdt_setprop_string(fdt, "/chosen", "bootargs",
+                            args && *args ? args : default_args);
+    if (machine->initrd_filename) {
+        ssize_t size = get_image_size(machine->initrd_filename, NULL);
+
+        if (size < 0 || VIRT_INITRD_ADDR + size > machine->ram_size) {
+            error_report("could not load initrd '%s'",
+                         machine->initrd_filename);
+            exit(1);
+        }
+        qemu_fdt_setprop_cell(fdt, "/chosen", "linux,initrd-start",
+                              VIRT_INITRD_ADDR);
+        qemu_fdt_setprop_cell(fdt, "/chosen", "linux,initrd-end",
+                              VIRT_INITRD_ADDR + size);
+    }
+}
+
 static void *create_smp_fdt(MachineState *machine)
 {
     void *fdt;
@@ -124,12 +153,9 @@ static void *create_smp_fdt(MachineState *machine)
         g_free(nodename);
     }
 
-    qemu_fdt_add_subnode(fdt, "/chosen");
-    //"console=ttyS0,115200
-    qemu_fdt_setprop_string(fdt, "/chosen", "bootargs",
-    "console=ttyS0,115200 \
-     rdinit=/sbin/init root=/dev/ram0 \
-     clk_ignore_unused loglevel=7");
+    virt_fdt_chosen(machine, fdt,
+                    "console=ttyS0,115200 rdinit=/sbin/init root=/dev/ram0 "
+                    "clk_ignore_unused loglevel=7");
     return fdt;
 }
 
@@ -247,9 +273,8 @@ static void *create_fdt(MachineState *machine)
         g_free(nodename);
     }
 
-    qemu_fdt_add_subnode(fdt, "/chosen");
-    qemu_fdt_setprop_string(fdt, "/chosen", "bootargs",
-    "console=ttyS0,115200 rdinit=/sbin/init root=/dev/ram0");
+    virt_fdt_chosen(machine, fdt,
+                    "console=ttyS0,115200 rdinit=/sbin/init root=/dev/ram0");
     return fdt;
 }
 
@@ -404,6 +429,7 @@ static void mp860_init(MachineState *machine)
     sysbus_create_simple("csky_exit", 0xffffc000, NULL);
 
     virt_binfo.kernel_filename = machine->kernel_filename;
+    virt_binfo.initrd_filename = machine->initrd_filename;
     csky_load_kernel(cpu, &virt_binfo);
 }
 
@@ -511,6 +537,7 @@ static void virt_init(MachineState *machine)
         cpu->env.mmu_default = 1;
 
         virt_binfo.kernel_filename = machine->kernel_filename;
+        virt_binfo.initrd_filename = machine->initrd_filename;
         csky_load_kernel(cpu, &virt_binfo);
 }
 
