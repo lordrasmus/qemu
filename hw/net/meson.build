@@ -27,6 +27,7 @@ system_ss.add(when: 'CONFIG_ALLWINNER_EMAC', if_true: files('allwinner_emac.c'))
 system_ss.add(when: 'CONFIG_ALLWINNER_SUN8I_EMAC', if_true: files('allwinner-sun8i-emac.c'))
 system_ss.add(when: 'CONFIG_IMX_FEC', if_true: files('imx_fec.c'))
 system_ss.add(when: 'CONFIG_MSF2', if_true: files('msf2-emac.c'))
+system_ss.add(when: 'CONFIG_NE2000_LOCAL', if_true: files('ne2000-local.c'))
 
 system_ss.add(when: 'CONFIG_CADENCE', if_true: files('cadence_gem.c'))
 system_ss.add(when: 'CONFIG_STELLARIS_ENET', if_true: files('stellaris_enet.c'))

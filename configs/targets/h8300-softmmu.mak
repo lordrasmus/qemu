@@ -1,0 +1,5 @@
+TARGET_ARCH=h8300
+# all boards require libfdt
+TARGET_NEED_FDT=y
+TARGET_BIG_ENDIAN=y
+TARGET_LONG_BITS=32

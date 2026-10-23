@@ -66,5 +66,11 @@ config STELLARIS_GPTM
 config AVR_TIMER16
     bool
 
+config RENESAS_TMR16
+    bool
+
+config RENESAS_TPU
+    bool
+
 config HEX_QTIMER
     bool

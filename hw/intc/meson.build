@@ -92,3 +92,5 @@ specific_ss.add(when: ['CONFIG_KVM', 'CONFIG_LOONGARCH_EXTIOI'],
 specific_ss.add(when: 'CONFIG_LOONGARCH_DINTC', if_true: files('loongarch_dintc.c'))
 specific_ss.add(when: ['CONFIG_KVM', 'CONFIG_LOONGARCH_DINTC'],
                if_true: files('loongarch_dintc_kvm.c'))
+specific_ss.add(when: 'CONFIG_H8300H_INTC', if_true: files('h8300h_intc.c'))
+specific_ss.add(when: 'CONFIG_H8S_INTC', if_true: files('h8s_intc.c'))

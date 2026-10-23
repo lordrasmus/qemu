@@ -1,0 +1,30 @@
+config H83069
+    bool
+    select RENESAS_TMR
+    select RENESAS_TMR16
+    select RENESAS_SCI
+    select H8300H_INTC
+
+config H8S2674
+    bool
+    select RENESAS_TMR
+    select RENESAS_TPU
+    select RENESAS_SCI
+    select H8S_INTC
+
+config H8300_KANEBEBE
+    bool
+    default y
+    depends on H8300 && FDT
+    select DEVICE_TREE
+    select H83069
+    select NE2000_LOCAL
+
+config H8300_EDOSK2674
+    bool
+    default y
+    depends on H8300 && FDT
+    select DEVICE_TREE
+    select H8S2674
+    select PFLASH_CFI01
+    select SMC91C111

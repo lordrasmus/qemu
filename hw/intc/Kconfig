@@ -95,6 +95,12 @@ config GOLDFISH_PIC
 config M68K_IRQC
     bool
 
+config H8300H_INTC
+    bool
+
+config H8S_INTC
+    bool
+
 config LOONGSON_IPI_COMMON
     bool
 
