@@ -320,10 +320,15 @@ static void xtfpga_init(const XtfpgaBoardDesc *board, MachineState *machine)
 
     /* Use presence of kernel file name as 'boot from SRAM' switch. */
     if (kernel_filename) {
-        uint32_t entry_point = env->pc;
+        /*
+         * The CPU is not reset before the first system reset, so env->pc
+         * does not hold the reset vector yet.
+         */
+        uint32_t reset_pc =
+            env->config->exception_vector[EXC_RESET0 + env->static_vectors];
+        uint32_t entry_point = reset_pc;
         size_t bp_size = 3 * get_tag_size(0); /* first/last and memory tags */
-        uint32_t tagptr = env->config->sysrom.location[0].addr +
-            board->sram_size;
+        uint32_t tagptr;
         uint32_t cur_tagptr;
         BpMemInfo memory_location = {
             .type = tswap32(MEMORY_TYPE_CONVENTIONAL),
@@ -351,8 +356,14 @@ static void xtfpga_init(const XtfpgaBoardDesc *board, MachineState *machine)
             bp_size += get_tag_size(sizeof(BpMemInfo));
         }
 
-        /* Put kernel bootparameters to the end of that SRAM */
-        tagptr = (tagptr - bp_size) & ~0xff;
+        /*
+         * Put the boot parameters at the top of lowmem, as U-Boot does.  At
+         * the end of the system SRAM they are out of reach of an MMUv3
+         * kernel: its head.S only turns a2 into a KSEG address when it
+         * points into RAM, and the tags (with -initrd and -append) are
+         * then silently ignored.  The initrd stays below them.
+         */
+        tagptr = (lowmem_end - bp_size) & ~0xff;
         cur_tagptr = put_tag(tagptr, BP_TAG_FIRST, 0, NULL);
         cur_tagptr = put_tag(cur_tagptr, BP_TAG_MEMORY,
                              sizeof(memory_location), &memory_location);
@@ -380,12 +391,12 @@ static void xtfpga_init(const XtfpgaBoardDesc *board, MachineState *machine)
         if (initrd_filename) {
             BpMemInfo initrd_location = { 0 };
             int initrd_size = load_ramdisk(initrd_filename, cur_lowmem,
-                                           lowmem_end - cur_lowmem);
+                                           tagptr - cur_lowmem);
 
             if (initrd_size < 0) {
                 initrd_size = load_image_targphys(initrd_filename,
                                                   cur_lowmem,
-                                                  lowmem_end - cur_lowmem,
+                                                  tagptr - cur_lowmem,
                                                   NULL);
             }
             if (initrd_size < 0) {
@@ -421,7 +432,7 @@ static void xtfpga_init(const XtfpgaBoardDesc *board, MachineState *machine)
                 exit(EXIT_FAILURE);
             }
         }
-        if (entry_point != env->pc) {
+        if (entry_point != reset_pc) {
             uint8_t boot_be[] = {
                 0x60, 0x00, 0x08,       /* j    1f */
                 0x00,                   /* .literal_position */
@@ -450,7 +461,7 @@ static void xtfpga_init(const XtfpgaBoardDesc *board, MachineState *machine)
 
             memcpy(boot + 4, &entry_pc, sizeof(entry_pc));
             memcpy(boot + 8, &entry_a2, sizeof(entry_a2));
-            physical_memory_write(env->pc, boot, boot_sz);
+            physical_memory_write(reset_pc, boot, boot_sz);
         }
     } else {
         if (flash) {
