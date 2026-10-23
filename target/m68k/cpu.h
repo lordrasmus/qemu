@@ -136,6 +136,13 @@ typedef struct CPUArchState {
         bool fault;
         uint32_t ttr[4];
         uint32_t mmusr;
+        /* 68030 / 68851 */
+        uint32_t tc030;
+        uint64_t crp030;
+        uint64_t srp030;
+        uint32_t tt030[2];
+        uint16_t mmusr030;
+        bool insn_fault030;
     } mmu;
 
     /* Control registers.  */
@@ -143,6 +150,7 @@ typedef struct CPUArchState {
     uint32_t mbar;
     uint32_t rambar0;
     uint32_t cacr;
+    uint32_t caar;
     uint32_t sfc;
     uint32_t dfc;
 
@@ -186,6 +194,10 @@ struct M68kCPUClass {
 void m68k_cpu_do_interrupt(CPUState *cpu);
 bool m68k_cpu_exec_interrupt(CPUState *cpu, int int_req);
 hwaddr m68k_cpu_get_phys_addr_debug(CPUState *cpu, vaddr addr);
+bool m68k_030_tlb_fill(CPUState *cs, vaddr address, int size,
+                       MMUAccessType access, int mmu_idx,
+                       bool probe, uintptr_t retaddr);
+hwaddr m68k_030_get_phys_addr_debug(CPUM68KState *env, vaddr addr);
 #endif /* !CONFIG_USER_ONLY */
 void m68k_cpu_dump_state(CPUState *cpu, FILE *f, int flags);
 int m68k_cpu_gdb_read_register(CPUState *cpu, GByteArray *buf, int reg);
@@ -286,6 +298,22 @@ typedef enum {
 
 /* bus access transfer type codes */
 #define M68K_BA_TT_MOVE16    0x08
+
+/* 68030 MMU status register (68851 PSR) */
+#define M68K_MMU_B_030   0x8000
+#define M68K_MMU_L_030   0x4000
+#define M68K_MMU_S_030   0x2000
+#define M68K_MMU_W_030   0x0800
+#define M68K_MMU_I_030   0x0400
+#define M68K_MMU_M_030   0x0200
+#define M68K_MMU_T_030   0x0040
+
+/* 68030 special status word of a bus cycle fault frame */
+#define M68K_SSW_FC_030  0x8000
+#define M68K_SSW_FB_030  0x4000
+#define M68K_SSW_DF_030  0x0100
+#define M68K_SSW_RM_030  0x0080
+#define M68K_SSW_RW_030  0x0040
 
 /* bits for 68040 MMU status register (mmusr) */
 #define M68K_MMU_B_040   0x0800
@@ -556,6 +584,8 @@ enum m68k_features {
     M68K_FEATURE_EXCEPTION_FORMAT_VEC,
     /* LINK.L (680[2346]0, and CPU32) */
     M68K_FEATURE_LINKL,
+    /* 68030 MMU, or a 68851 next to a 68020 */
+    M68K_FEATURE_PMMU030,
 };
 
 static inline bool m68k_feature(CPUM68KState *env, int feature)

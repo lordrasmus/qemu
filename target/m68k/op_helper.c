@@ -74,6 +74,14 @@ throwaway:
         case 7:
             sp += 52;
             break;
+        case 0xa:
+            /* our restart offset, see the format $A frame below */
+            env->pc += cpu_ldl_be_mmuidx_ra(env, sp + 12, MMU_KERNEL_IDX, 0);
+            sp += 24;
+            break;
+        case 0xb:
+            sp += 84;
+            break;
         }
     }
     env->aregs[7] = sp;
@@ -344,6 +352,39 @@ static void m68k_interrupt_all(CPUM68KState *env, int is_hw)
     case EXCP_ACCESS:
         if (env->mmu.fault) {
             cpu_abort(cs, "DOUBLE MMU FAULT\n");
+        }
+        if (m68k_feature(env, M68K_FEATURE_PMMU030)) {
+            /*
+             * Short bus cycle fault frame. The 68030 resumes the faulted
+             * cycle; QEMU restarts the instruction instead. For a fetch
+             * fault the stacked PC is chosen so that PC + 4 is the fault
+             * address (stage B), and the distance to the restart PC goes
+             * into an internal word for RTE.
+             */
+            uint32_t frame_pc = env->pc;
+
+            if (env->mmu.insn_fault030) {
+                frame_pc = env->mmu.ar - 4;
+            }
+            env->mmu.fault = true;
+            sp -= 4;                                    /* internal */
+            cpu_stl_be_mmuidx_ra(env, sp, 0, MMU_KERNEL_IDX, 0);
+            sp -= 4;                                    /* data output */
+            cpu_stl_be_mmuidx_ra(env, sp, 0, MMU_KERNEL_IDX, 0);
+            sp -= 4;                                    /* internal */
+            cpu_stl_be_mmuidx_ra(env, sp, env->pc - frame_pc,
+                                 MMU_KERNEL_IDX, 0);
+            sp -= 4;                                    /* fault address */
+            cpu_stl_be_mmuidx_ra(env, sp, env->mmu.ar, MMU_KERNEL_IDX, 0);
+            sp -= 4;                                    /* pipe stages C, B */
+            cpu_stl_be_mmuidx_ra(env, sp, 0, MMU_KERNEL_IDX, 0);
+            sp -= 2;
+            cpu_stw_be_mmuidx_ra(env, sp, env->mmu.ssw, MMU_KERNEL_IDX, 0);
+            sp -= 2;                                    /* internal */
+            cpu_stw_be_mmuidx_ra(env, sp, 0, MMU_KERNEL_IDX, 0);
+            do_stack_frame(env, &sp, 0xa, oldsr, 0, frame_pc);
+            env->mmu.fault = false;
+            break;
         }
         env->mmu.fault = true;
         /* push data 3 */

@@ -16,6 +16,7 @@ m68k_common_system_ss.add(files('gdbstub.c'))
 
 m68k_system_ss = ss.source_set()
 m68k_system_ss.add(files(
+  'mmu030.c',
   'monitor.c'
 ))
 m68k_system_ss.add(when: ['CONFIG_SEMIHOSTING'],
