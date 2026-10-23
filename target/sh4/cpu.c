@@ -147,6 +147,10 @@ static void superh_cpu_reset_hold(Object *obj, ResetType type)
 #else
     env->sr = (1u << SR_MD) | (1u << SR_RB) | (1u << SR_BL) |
               (1u << SR_I3) | (1u << SR_I2) | (1u << SR_I1) | (1u << SR_I0);
+    if (env->features & SH_FEATURE_SH2) {
+        /* no MD/RB/BL; keep MD set and the FPU disabled */
+        env->sr = (1u << SR_MD) | (1u << SR_FD) | (0xfu << 4);
+    }
     env->fpscr = FPSCR_DN | FPSCR_RM_ZERO; /* CPU reset value according to SH4 manual */
     set_float_rounding_mode(float_round_to_zero, &env->fp_status);
     set_flush_to_zero(1, &env->fp_status);
@@ -256,6 +260,18 @@ static void sh7785_class_init(ObjectClass *oc, const void *data)
     scc->pvr = 0x10300700;
     scc->prr = 0x00000200;
     scc->cvr = 0x71440211;
+}
+
+static void j2_cpu_initfn(Object *obj)
+{
+    CPUSH4State *env = cpu_env(CPU(obj));
+
+    env->id = SH_CPU_J2;
+    env->features = SH_FEATURE_SH2 | SH_FEATURE_CAS;
+}
+
+static void j2_class_init(ObjectClass *oc, const void *data)
+{
 }
 
 static void superh_cpu_realizefn(DeviceState *dev, Error **errp)
@@ -373,6 +389,7 @@ static const TypeInfo superh_cpu_type_infos[] = {
                            sh7751r_cpu_initfn),
     DEFINE_SUPERH_CPU_TYPE(TYPE_SH7785_CPU, sh7785_class_init,
                            sh7785_cpu_initfn),
+    DEFINE_SUPERH_CPU_TYPE(TYPE_J2_CPU, j2_class_init, j2_cpu_initfn),
 
 };
 
