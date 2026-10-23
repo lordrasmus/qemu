@@ -208,7 +208,13 @@ static void gen_write_sr(TCGv src)
     tcg_gen_extract_i32(cpu_sr_t, src, SR_T, 1);
 }
 
-/* SH-2 has no MD, RB, BL or FD: keep MD and FD set, RB and BL clear */
+/*
+ * SH-2 has no MD, RB, BL or FD: QEMU keeps MD and FD set internally (for
+ * the privilege check and to make FPU instructions illegal), RB and BL
+ * clear. Software sees only the SH-2 bits; Linux even keeps its own mode
+ * flag in bit 30 of the stacked SR.
+ */
+#define SH2_SR_MASK 0x3f3
 static void gen_sh2_fix_sr(DisasContext *ctx, TCGv sr)
 {
     if (ctx->features & SH_FEATURE_SH2) {
@@ -1410,6 +1416,9 @@ static void _decode_opc(DisasContext * ctx)
     case 0x0002: /* stc SR,Rn */
         CHECK_PRIVILEGED
         gen_read_sr(REG(B11_8));
+        if (ctx->features & SH_FEATURE_SH2) {
+            tcg_gen_andi_i32(REG(B11_8), REG(B11_8), SH2_SR_MASK);
+        }
         return;
     case 0x4003: /* stc SR,@-Rn */
         CHECK_PRIVILEGED
@@ -1418,6 +1427,9 @@ static void _decode_opc(DisasContext * ctx)
             TCGv val = tcg_temp_new();
             tcg_gen_subi_i32(addr, REG(B11_8), 4);
             gen_read_sr(val);
+            if (ctx->features & SH_FEATURE_SH2) {
+                tcg_gen_andi_i32(val, val, SH2_SR_MASK);
+            }
             tcg_gen_qemu_st_i32(val, addr, ctx->memidx, MO_TEUL | MO_ALIGN);
             tcg_gen_mov_i32(REG(B11_8), addr);
         }
