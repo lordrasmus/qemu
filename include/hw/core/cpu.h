@@ -267,6 +267,10 @@ struct CPUTLBEntryFull {
             uint8_t shareability;
             bool guarded;
         } arm;
+        struct {
+            /* The page is not in the A_MODIFIED state (ATOMICTOCLEAN trap) */
+            bool not_a_modified;
+        } kvx;
     } extra;
 };
 

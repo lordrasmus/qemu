@@ -1,0 +1,7 @@
+config MPPA_CLUSTER
+    bool
+    default y
+    depends on KVX && FDT
+    select DEVICE_TREE
+    select SERIAL_MM
+    select CPU_CLUSTER
