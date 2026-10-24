@@ -73,20 +73,14 @@ enum {
     ASTAT_VS = 25,
 };
 
-/*
- * The copies AC0_COPY and V_COPY are not stored: they always read as AC0
- * and V, and writing ASTAT sets AC0 and V from the main bits.
- */
-#define ASTAT_STORED_MASK \
-    ((1u << ASTAT_AZ) | (1u << ASTAT_AN) | (1u << ASTAT_CC) | \
-     (1u << ASTAT_AQ) | (1u << ASTAT_RND_MOD) | (1u << ASTAT_AC0) | \
-     (1u << ASTAT_AC1) | (1u << ASTAT_AV0) | (1u << ASTAT_AV0S) | \
-     (1u << ASTAT_AV1) | (1u << ASTAT_AV1S) | (1u << ASTAT_V) | \
-     (1u << ASTAT_VS))
-
 typedef struct CPUArchState {
     uint32_t reg[BFIN_NREGS];
-    /* one 0/1 word per ASTAT bit, only the ASTAT_STORED_MASK ones used */
+    /*
+     * one 0/1 word per ASTAT bit.  Every bit is stored, the reserved ones
+     * too; AC0_COPY and V_COPY follow AC0 and V when an instruction
+     * produces them, but ASTAT writes and CC moves set each bit alone,
+     * as ADI's hardware test vectors (random_*, b0) show
+     */
     uint32_t astat[32];
     uint32_t pc;
 

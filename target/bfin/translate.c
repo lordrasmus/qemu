@@ -64,6 +64,7 @@ static const char * const reg_names[BFIN_NREGS] = {
 
 static const char * const astat_names[32] = {
     [ASTAT_AZ] = "az", [ASTAT_AN] = "an", [ASTAT_CC] = "cc",
+    [ASTAT_AC0_COPY] = "ac0_copy", [ASTAT_V_COPY] = "v_copy",
     [ASTAT_AQ] = "aq", [ASTAT_RND_MOD] = "rnd_mod",
     [ASTAT_AC0] = "ac0", [ASTAT_AC1] = "ac1",
     [ASTAT_AV0] = "av0", [ASTAT_AV0S] = "av0s",
@@ -768,6 +769,12 @@ static void gen_astat_clr(int bit)
     tcg_gen_movi_i32(cpu_astat[bit], 0);
 }
 
+/* an instruction result in AC0 or V also lands in its copy bit */
+static void gen_ac0_copy(void)
+{
+    tcg_gen_mov_i32(cpu_astat[ASTAT_AC0_COPY], cpu_astat[ASTAT_AC0]);
+}
+
 static void gen_az_an(TCGv_i32 res)
 {
     tcg_gen_setcondi_i32(TCG_COND_EQ, cpu_astat[ASTAT_AZ], res, 0);
@@ -778,6 +785,7 @@ static void gen_az_an(TCGv_i32 res)
 static void gen_v(TCGv_i32 v)
 {
     tcg_gen_mov_i32(cpu_astat[ASTAT_V], v);
+    tcg_gen_mov_i32(cpu_astat[ASTAT_V_COPY], v);
     tcg_gen_or_i32(cpu_astat[ASTAT_VS], cpu_astat[ASTAT_VS], v);
 }
 
@@ -789,6 +797,7 @@ static void gen_add_flags(TCGv_i32 res, TCGv_i32 a, TCGv_i32 b)
 
     gen_az_an(res);
     tcg_gen_setcond_i32(TCG_COND_LTU, cpu_astat[ASTAT_AC0], res, a);
+    gen_ac0_copy();
     tcg_gen_xor_i32(t, res, a);
     tcg_gen_xor_i32(u, res, b);
     tcg_gen_and_i32(t, t, u);
@@ -804,6 +813,7 @@ static void gen_sub_flags(TCGv_i32 res, TCGv_i32 a, TCGv_i32 b)
 
     gen_az_an(res);
     tcg_gen_setcond_i32(TCG_COND_GEU, cpu_astat[ASTAT_AC0], a, b);
+    gen_ac0_copy();
     tcg_gen_xor_i32(t, a, b);
     tcg_gen_xor_i32(u, res, a);
     tcg_gen_and_i32(t, t, u);
@@ -816,6 +826,7 @@ static void gen_shift_flags(TCGv_i32 res)
 {
     gen_az_an(res);
     gen_astat_clr(ASTAT_V);
+    gen_astat_clr(ASTAT_V_COPY);
 }
 
 /* AZ and AN from res, AC0 and V cleared: logical results */
@@ -823,7 +834,9 @@ static void gen_logic_flags(TCGv_i32 res)
 {
     gen_az_an(res);
     gen_astat_clr(ASTAT_AC0);
+    gen_astat_clr(ASTAT_AC0_COPY);
     gen_astat_clr(ASTAT_V);
+    gen_astat_clr(ASTAT_V_COPY);
 }
 
 /* ---------------------------------------------------- 16-bit compute */
@@ -923,6 +936,7 @@ static bool trans_ALU2op(DisasContext *ctx, arg_ALU2op *a)
         tcg_gen_setcondi_i32(TCG_COND_EQ, t, a0, INT32_MIN);
         gen_v(t);
         tcg_gen_setcondi_i32(TCG_COND_EQ, cpu_astat[ASTAT_AC0], a0, 0);
+        gen_ac0_copy();
         return true;
     case 15:                                        /* Dreg = ~Dreg */
         tcg_gen_not_i32(d, s);
@@ -1135,6 +1149,7 @@ static bool trans_CCflag(DisasContext *ctx, arg_CCflag *a)
         tcg_gen_setcondi_i32(TCG_COND_EQ, cpu_astat[ASTAT_AZ], diff, 0);
         tcg_gen_setcond_i32(TCG_COND_LT, cpu_astat[ASTAT_AN], x, y);
         tcg_gen_setcond_i32(TCG_COND_GEU, cpu_astat[ASTAT_AC0], x, y);
+        gen_ac0_copy();
     }
     tcg_gen_mov_i32(cpu_astat[ASTAT_CC], res);
     return true;
@@ -1309,13 +1324,9 @@ static bool trans_dsp32alu(DisasContext *ctx, arg_dsp32alu *a)
         return false;
     }
     switch (a->aopcde) {
-    case 0: case 1: case 2: case 3: case 4: case 6: case 7: case 8:
-    case 9: case 10: case 11: case 14: case 15: case 16:
-        break;
-    case 12:
-        if (a->aop != 3) {
-            return dsp_unimpl(ctx, "dsp32alu");
-        }
+    case 0: case 1: case 2: case 3: case 4: case 5: case 6: case 7:
+    case 8: case 9: case 10: case 11: case 12: case 14: case 15: case 16:
+    case 17:
         break;
     case 18:
         if (a->aop != 3) {
