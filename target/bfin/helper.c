@@ -24,21 +24,15 @@ uint32_t bfin_get_astat(CPUBfinState *env)
     uint32_t val = 0;
 
     for (int i = 0; i < 32; i++) {
-        if (ASTAT_STORED_MASK & (1u << i)) {
-            val |= (env->astat[i] & 1) << i;
-        }
+        val |= (env->astat[i] & 1) << i;
     }
-    val |= (env->astat[ASTAT_AC0] & 1) << ASTAT_AC0_COPY;
-    val |= (env->astat[ASTAT_V] & 1) << ASTAT_V_COPY;
     return val;
 }
 
 void bfin_set_astat(CPUBfinState *env, uint32_t val)
 {
     for (int i = 0; i < 32; i++) {
-        if (ASTAT_STORED_MASK & (1u << i)) {
-            env->astat[i] = (val >> i) & 1;
-        }
+        env->astat[i] = (val >> i) & 1;
     }
 }
 
@@ -288,7 +282,7 @@ void helper_cc_acc(CPUBfinState *env, uint32_t op)
 
     env->astat[ASTAT_AZ] = a0 == a1;
     env->astat[ASTAT_AN] = a0 < a1;
-    env->astat[ASTAT_AC0] = ua0 >= ua1;
+    env->astat[ASTAT_AC0] = env->astat[ASTAT_AC0_COPY] = ua0 >= ua1;
     env->astat[ASTAT_CC] = op == 0 ? a0 == a1 : op == 1 ? a0 < a1 : a0 <= a1;
 }
 

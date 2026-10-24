@@ -93,11 +93,16 @@ static void set_acc(CPUBfinState *env, int n, int64_t v)
 static void set_flag(CPUBfinState *env, int bit, bool v)
 {
     env->astat[bit] = v;
+    if (bit == ASTAT_AC0) {
+        env->astat[ASTAT_AC0_COPY] = v;
+    } else if (bit == ASTAT_V) {
+        env->astat[ASTAT_V_COPY] = v;
+    }
 }
 
 static void set_v(CPUBfinState *env, bool v)
 {
-    env->astat[ASTAT_V] = v;
+    set_flag(env, ASTAT_V, v);
     if (v) {
         env->astat[ASTAT_VS] = 1;
     }
@@ -474,13 +479,17 @@ void helper_dsp32shift(CPUBfinState *env, uint32_t insn)
 /* ------------------------------------------------------------- ALU */
 
 /* 16-bit add/sub with optional saturation; AC is the carry out */
-static uint16_t alu16(CPUBfinState *env, uint16_t x, uint16_t y, bool sub,
-                      bool sat, bool *v, bool *ac)
+static uint16_t alu16s(CPUBfinState *env, uint16_t x, uint16_t y, bool sub,
+                       bool sat, int scale, bool *v, bool *ac)
 {
     int32_t r = sub ? (int16_t)x - (int16_t)y : (int16_t)x + (int16_t)y;
     uint32_t u = sub ? (uint32_t)x + (uint16_t)~y + 1 : (uint32_t)x + y;
 
     *ac = u >> 16;
+    /* (ASR)/(ASL) scale the exact result, before saturation (PRM) */
+    if (scale) {
+        r = scale > 0 ? r * 2 : r >> 1;
+    }
     if (r > INT16_MAX || r < INT16_MIN) {
         *v = true;
         if (sat) {
@@ -488,6 +497,12 @@ static uint16_t alu16(CPUBfinState *env, uint16_t x, uint16_t y, bool sub,
         }
     }
     return r;
+}
+
+static uint16_t alu16(CPUBfinState *env, uint16_t x, uint16_t y, bool sub,
+                      bool sat, bool *v, bool *ac)
+{
+    return alu16s(env, x, y, sub, sat, 0, v, ac);
 }
 
 static uint32_t alu32(CPUBfinState *env, uint32_t x, uint32_t y, bool sub,
@@ -516,35 +531,27 @@ static void vec_flags(CPUBfinState *env, uint32_t r, bool v, bool ac0, bool ac1)
     set_flag(env, ASTAT_AC1, ac1);
 }
 
-static uint16_t vec_scale(int32_t r16, int aop)
+/*
+ * src0 +|+ src1 and friends: aop bit 1 selects - for the high half,
+ * bit 0 for the low half
+ */
+static uint32_t vec16(CPUBfinState *env, uint32_t a, uint32_t b, int aop,
+                      bool sat, int scale, bool *v, bool *ac0, bool *ac1)
 {
-    return r16;
+    uint16_t hi = alu16s(env, a >> 16, b >> 16, aop & 2, sat, scale, v, ac1);
+    uint16_t lo = alu16s(env, a, b, aop & 1, sat, scale, v, ac0);
+
+    return ((uint32_t)hi << 16) | lo;
 }
 
-/*
- * Dreg = src0 +|+ src1 and friends: aop bit 1 selects - for the high
- * half, bit 0 for the low half; x (CO) crosses the result halves.
- */
-static void alu_vec(CPUBfinState *env, int dst, uint32_t a, uint32_t b,
-                    int aop, bool sat, bool co, int scale)
+static bool any_half_zero(uint32_t r)
 {
-    bool v = false, ac0, ac1;
-    uint16_t hi = alu16(env, a >> 16, b >> 16, aop & 2, sat, &v, &ac1);
-    uint16_t lo = alu16(env, a, b, aop & 1, sat, &v, &ac0);
-    uint32_t r;
+    return (r & 0xffff) == 0 || (r >> 16) == 0;
+}
 
-    if (scale) {
-        /* (ASR) halves, (ASL) doubles the 16-bit results */
-        int32_t h = scale > 0 ? (int16_t)hi << 1 : (int16_t)hi >> 1;
-        int32_t l = scale > 0 ? (int16_t)lo << 1 : (int16_t)lo >> 1;
-
-        hi = sat ? sat16(h, &v) : h;
-        lo = sat ? sat16(l, &v) : l;
-    }
-    r = co ? ((uint32_t)lo << 16) | hi : ((uint32_t)hi << 16) | lo;
-    set_dreg(env, dst, r);
-    vec_flags(env, r, v, ac0, ac1);
-    (void)vec_scale;
+static bool any_half_neg(uint32_t r)
+{
+    return ((r >> 15) & 1) || (r >> 31);
 }
 
 /* accumulator results: AZ, AN from the 40-bit value, AV saturation */
@@ -585,17 +592,32 @@ void helper_dsp32alu(CPUBfinState *env, uint32_t insn)
 
     switch (aopcde) {
     case 0:                                         /* +|+ +|- -|+ -|- */
-        alu_vec(env, dst0, a, b, aop, s, x, 0);
-        break;
-    case 1:                                         /* dual vector */
         {
-            bool sat = s, co = x;
-            int scale = aop == 2 ? -1 : aop == 3 ? 1 : 0;
-            int first = hl ? 1 : 0;
+            bool ac0, ac1;
+            uint32_t r = vec16(env, a, b, aop, s, 0, &v, &ac0, &ac1);
 
-            /* hl=0: dst1 = +|+, dst0 = -|-; hl=1: dst1 = +|-, dst0 = -|+ */
-            alu_vec(env, dst1, a, b, first, sat, co, scale);
-            alu_vec(env, dst0, a, b, 3 - first, sat, co, scale);
+            /* (CO) crosses the result halves */
+            set_dreg(env, dst0, x ? ror32(r, 16) : r);
+            vec_flags(env, r, v, ac0, ac1);
+        }
+        break;
+    case 1:
+        /*
+         * quad: hl=0 dst1 = +|+, dst0 = -|-; hl=1 dst1 = +|-, dst0 = -|+.
+         * AC0/AC1 stay (PRM "unaffected if a quad operation"); (CO)
+         * crosses the second result only, as ADI's c_dsp32alu_rrppmm
+         * hardware vectors have it
+         */
+        {
+            int scale = aop == 2 ? -1 : aop == 3 ? 1 : 0;
+            uint32_t r1 = vec16(env, a, b, hl, s, scale, &v, &ac, &ac);
+            uint32_t r0 = vec16(env, a, b, 3 - hl, s, scale, &v, &ac, &ac);
+
+            set_dreg(env, dst1, r1);
+            set_dreg(env, dst0, x ? ror32(r0, 16) : r0);
+            set_flag(env, ASTAT_AZ, any_half_zero(r0) || any_half_zero(r1));
+            set_flag(env, ASTAT_AN, any_half_neg(r0) || any_half_neg(r1));
+            set_v(env, v);
         }
         break;
     case 2:                                         /* half add */
@@ -631,6 +653,43 @@ void helper_dsp32alu(CPUBfinState *env, uint32_t insn)
             set_v(env, v);
             set_flag(env, ASTAT_AC0, ac);
             set_flag(env, ASTAT_AC1, ac1);
+        }
+        break;
+    case 5:
+        /*
+         * aop 0/1: Dreg_lo_hi = Dreg +/- Dreg (RND12), operands scaled
+         * up by 4, rounded and saturated; aop 2/3: (RND20), scaled down
+         * by 4, rounded, V cleared.  Both round biased, whatever RND_MOD
+         */
+        {
+            int64_t x0 = (int32_t)a, x1 = (int32_t)b, r;
+            uint16_t h;
+
+            /*
+             * (RND20) subtracts by adding the shifted negation: ADI's
+             * c_dsp32alu_rh_rnd20_m vectors round 0x8911 - 0x5678891b to
+             * 0xfa98, not the 0xfa99 that shifting both first gives
+             */
+            if (aop & 1) {
+                x1 = -x1;
+            }
+            if (aop < 2) {
+                x0 <<= 4;
+                x1 <<= 4;
+            } else {
+                x0 >>= 4;
+                x1 >>= 4;
+            }
+            r = (x0 + x1 + 0x8000) >> 16;
+            if (aop < 2) {
+                h = sat16(r, &v);
+                set_v(env, v);
+            } else {
+                h = r;
+                set_flag(env, ASTAT_V, 0);
+            }
+            set_half(env, dst0, hl, h);
+            set_az_an(env, (int16_t)h, 16);
         }
         break;
     case 6:                                         /* vector MAX/MIN/ABS */
@@ -706,7 +765,9 @@ void helper_dsp32alu(CPUBfinState *env, uint32_t insn)
             int n = aop >> 1;
             uint16_t h = a >> (hl ? 16 : 0);
 
-            if (aop & 1) {
+            if (s) {                                /* A0 = Dreg, A1 = Dreg */
+                set_acc(env, n, (int32_t)a);
+            } else if (aop & 1) {
                 env->reg[BFIN_A0X + 2 * n] = h & 0xff;
             } else {
                 env->reg[BFIN_A0W + 2 * n] =
@@ -750,6 +811,45 @@ void helper_dsp32alu(CPUBfinState *env, uint32_t insn)
             set_half(env, dst0, hl, w >> 16);
             set_az_an(env, (int16_t)(w >> 16), 16);
             set_v(env, v);
+        } else if (aop == 0) {
+            /*
+             * Dreg_hi = Dreg_lo = SIGN (src0_hi) * src1_hi + SIGN (src0_lo)
+             * * src1_lo: unsaturated, no status bits
+             */
+            int16_t h = (int16_t)(a >> 16) < 0 ? -(int16_t)(b >> 16) : b >> 16;
+            int16_t l = (int16_t)a < 0 ? -(int16_t)b : b;
+            uint16_t r = h + l;
+
+            set_dreg(env, dst0, ((uint32_t)r << 16) | r);
+        } else if (aop == 1) {
+            /* Dreg = A1.L + A1.H, Dreg = A0.L + A0.H, no status bits */
+            uint32_t w1 = env->reg[BFIN_A1W], w0 = env->reg[BFIN_A0W];
+
+            set_dreg(env, dst1, (int16_t)w1 + (int16_t)(w1 >> 16));
+            set_dreg(env, dst0, (int16_t)w0 + (int16_t)(w0 >> 16));
+        }
+        break;
+    case 17:
+        /*
+         * dst1 = A1 + A0, dst0 = A1 - A0 (aop 1: A0 - A1), 32-bit results,
+         * (S) saturates.  AC1 is the carry of the add, AC0 of the subtract,
+         * both on the 40-bit Accumulators
+         */
+        {
+            int64_t x0 = get_acc(env, 0), x1 = get_acc(env, 1);
+            uint64_t u0 = x0 & MAKE_64BIT_MASK(0, 40);
+            uint64_t u1 = x1 & MAKE_64BIT_MASK(0, 40);
+            int64_t r1 = x1 + x0, r0 = aop ? x0 - x1 : x1 - x0;
+            int64_t s1 = sat32(r1, &v), s0 = sat32(r0, &v);
+            uint32_t d1 = s ? s1 : r1, d0 = s ? s0 : r0;
+
+            set_dreg(env, dst1, d1);
+            set_dreg(env, dst0, d0);
+            set_v(env, v);
+            set_flag(env, ASTAT_AN, (d0 | d1) >> 31);
+            set_flag(env, ASTAT_AZ, d0 == 0 || d1 == 0);
+            set_flag(env, ASTAT_AC1, u0 + u1 > MAKE_64BIT_MASK(0, 40));
+            set_flag(env, ASTAT_AC0, aop ? u1 <= u0 : u0 <= u1);
         }
         break;
     case 14:                                        /* A = -A */
@@ -907,6 +1007,8 @@ static void mac(CPUBfinState *env, uint32_t insn, bool mult)
     int dst = extract32(insn, 6, 3);
     int src0 = extract32(insn, 3, 3);
     int src1 = extract32(insn, 0, 3);
+    /* both MACs read the sources before either writes its result */
+    uint32_t a = get_dreg(env, src0), b = get_dreg(env, src1);
     bool v = false;
     bool any_v = false;
 
@@ -920,8 +1022,8 @@ static void mac(CPUBfinState *env, uint32_t insn, bool mult)
             continue;
         }
         if (mult || op != 3) {
-            uint16_t x = get_half(env, src0, n ? h01 : h00);
-            uint16_t y = get_half(env, src1, n ? h11 : h10);
+            uint16_t x = a >> ((n ? h01 : h00) * 16);
+            uint16_t y = b >> ((n ? h11 : h10) * 16);
             int64_t prod = mac_product(x, y, mmod, n && mm, &v);
 
             if (mult) {
