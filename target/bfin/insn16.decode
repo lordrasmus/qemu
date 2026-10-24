@@ -1,0 +1,40 @@
+# Blackfin 16-bit instructions
+#
+# Encodings from the Blackfin Processor Programming Reference, Rev. 2.2,
+# appendix C.  An instruction word whose top two bits are 11 starts a
+# 32-bit instruction (see insn32.decode).
+#
+# SPDX-License-Identifier: GPL-2.0-or-later
+
+ProgCtrl        0000 0000 prgfunc:4 poprnd:4
+CaCTRL          0000 0010 01 a:1 op:2 reg:3
+PushPopReg      0000 0001 0 w:1 grp:3 reg:3
+PushPopMultiple 0000 010 d:1 p:1 w:1 dr:3 pr:3
+ccMV            0000 011 t:1 d:1 s:1 dst:3 src:3
+CCflag          0000 1 i:1 opc:3 g:1 y:3 x:3
+CC2dreg         0000 0010 000 op:2 reg:3
+CC2stat         0000 0011 d:1 op:2 cbit:5
+
+BRCC            0001 t:1 b:1 offset:s10
+UJUMP           0010 offset:s12
+REGMV           0011 gd:3 gs:3 dst:3 src:3
+
+ALU2op          0100 00 opc:4 src:3 dst:3
+PTR2op          0100 010 opc:3 src:3 dst:3
+LOGI2op         0100 1 opc:3 src:5 dst:3
+COMP3op         0101 opc:3 dst:3 src1:3 src0:3
+COMPI2opD       0110 0 op:1 isrc:s7 dst:3
+COMPI2opP       0110 1 op:1 src:s7 dst:3
+
+LDSTpmod        1000 w:1 aop:2 reg:3 idx:3 ptr:3
+{
+  dagMODim      1001 1110 br:1 11 op:1 m:2 i:2
+  dagMODik      1001 1111 0110 op:2 i:2
+  dspLDST       1001 11 w:1 aop:2 m:2 i:2 reg:3
+  LDST          1001 sz:2 w:1 aop:2 z:1 ptr:3 reg:3
+}
+{
+  LDSTiiFP      1011 10 w:1 offset:5 reg:4
+  LDSTii        101 w:1 op:2 offset:4 ptr:3 reg:3
+}
+

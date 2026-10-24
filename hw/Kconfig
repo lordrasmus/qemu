@@ -61,6 +61,7 @@ source h8300/Kconfig
 source hppa/Kconfig
 source kvx/Kconfig
 source avr32/Kconfig
+source bfin/Kconfig
 source i386/Kconfig
 source loongarch/Kconfig
 source m68k/Kconfig

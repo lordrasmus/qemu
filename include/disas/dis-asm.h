@@ -212,6 +212,7 @@ enum bfd_architecture
   bfd_arch_v850,       /* NEC V850 */
 #define bfd_mach_v850          0
   bfd_arch_avr32,       /* Atmel AVR32 */
+  bfd_arch_bfin,        /* Analog Devices Blackfin */
   bfd_arch_kvx,        /* Kalray VLIW core of the MPPA processor family */
 #define bfd_mach_kv3_1                0
 #define bfd_mach_kv3_1_64             1
