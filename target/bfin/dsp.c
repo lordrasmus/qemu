@@ -572,7 +572,8 @@ void helper_dsp32shift(CPUBfinState *env, uint32_t insn)
             uint32_t r;
 
             if (sop < 2) {
-                uint64_t f = p + l > 32 ? (uint64_t)b >> p : extract64(b, p, l);
+                /* bits above bit 31 read as zero; a zero length gives 0 */
+                uint64_t f = (uint64_t)b >> p;
 
                 r = l == 0 ? 0 : (sop ? sextract64(f, 0, l) : f & MAKE_64BIT_MASK(0, l));
             } else {
