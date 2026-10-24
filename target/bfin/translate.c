@@ -31,6 +31,7 @@ typedef struct DisasContext {
     bool super;
     int mem_idx;
     uint32_t lb[2];             /* loop bottoms this TB was built for */
+    bool call;                  /* this instruction is a CALL */
 } DisasContext;
 
 /* jumped away, or needs a lookup of cpu_pc */
@@ -43,7 +44,7 @@ typedef struct DisasContext {
 #define DISAS_EXIT_JUMP DISAS_TARGET_3
 
 /* what gen_hwloop() does when a loop goes round */
-enum { HWLOOP_GOTO, HWLOOP_SETPC, HWLOOP_DEC };
+enum { HWLOOP_GOTO, HWLOOP_SETPC, HWLOOP_DEC, HWLOOP_CALL };
 
 static void gen_hwloop(DisasContext *ctx, uint32_t pc, int mode);
 
@@ -219,6 +220,11 @@ static void gen_set_reg(DisasContext *ctx, int r, TCGv_i32 val)
     case BFIN_CYCLES2:
         gen_helper_set_cycles(tcg_env, tcg_constant_i32(r == BFIN_CYCLES2),
                               val);
+        break;
+    case BFIN_LT0:
+    case BFIN_LT1:
+        /* instruction addresses: bit 0 reads as zero (ADI hwloop-lt-bits) */
+        tcg_gen_andi_i32(cpu_reg[r], val, ~1u);
         break;
     case BFIN_LB0:
     case BFIN_LB1:
@@ -1498,6 +1504,7 @@ static bool trans_ProgCtrl(DisasContext *ctx, arg_ProgCtrl *a)
         }
         tcg_gen_andi_i32(cpu_pc, preg, ~1u);
         tcg_gen_movi_i32(cpu_reg[BFIN_RETS], insn_pc(ctx) + 2);
+        ctx->call = true;
         ctx->base.is_jmp = DISAS_JUMP;
         return true;
     case 7:                                         /* CALL (PC + Preg) */
@@ -1509,6 +1516,7 @@ static bool trans_ProgCtrl(DisasContext *ctx, arg_ProgCtrl *a)
         tcg_gen_andi_i32(cpu_pc, cpu_pc, ~1u);
         if (a->prgfunc == 7) {
             tcg_gen_movi_i32(cpu_reg[BFIN_RETS], insn_pc(ctx) + 2);
+            ctx->call = true;
         }
         ctx->base.is_jmp = DISAS_JUMP;
         return true;
@@ -1580,6 +1588,7 @@ static bool trans_CALLa(DisasContext *ctx, arg_CALLa *a)
 
     if (a->s) {
         tcg_gen_movi_i32(cpu_reg[BFIN_RETS], insn_pc(ctx) + 4);
+        ctx->call = true;
     }
     gen_jump_imm(ctx, insn_pc(ctx) + off);
     return true;
@@ -1638,7 +1647,10 @@ static void gen_hwloop(DisasContext *ctx, uint32_t pc, int mode)
         tcg_gen_brcondi_i32(TCG_COND_EQ, lc, 0, done);
         tcg_gen_subi_i32(lc, lc, 1);
         tcg_gen_brcondi_i32(TCG_COND_EQ, lc, 0, done);
-        if (mode != HWLOOP_DEC) {
+        if (mode == HWLOOP_CALL) {
+            /* a CALL at the bottom returns to where the loop goes on */
+            tcg_gen_mov_i32(cpu_reg[BFIN_RETS], cpu_reg[BFIN_LT0 + 3 * n]);
+        } else if (mode != HWLOOP_DEC) {
             tcg_gen_mov_i32(cpu_pc, cpu_reg[BFIN_LT0 + 3 * n]);
         }
         if (mode == HWLOOP_GOTO) {
@@ -1685,6 +1697,7 @@ static void bfin_tr_translate_insn(DisasContextBase *dcbase, CPUState *cs)
     uint16_t iw0 = fetch16(ctx, env, pc);
     bool ok;
 
+    ctx->call = false;
     if (is_insn32(iw0)) {
         uint32_t insn = ((uint32_t)iw0 << 16) | fetch16(ctx, env, pc + 2);
 
@@ -1732,7 +1745,7 @@ static void bfin_tr_translate_insn(DisasContextBase *dcbase, CPUState *cs)
         break;
     case DISAS_JUMP:
     case DISAS_EXIT_JUMP:
-        gen_hwloop(ctx, pc, HWLOOP_DEC);
+        gen_hwloop(ctx, pc, ctx->call ? HWLOOP_CALL : HWLOOP_DEC);
         break;
     default:                    /* BRCC has done it, exceptions don't */
         break;

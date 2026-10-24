@@ -103,6 +103,8 @@ typedef struct CPUArchState {
     uint32_t dsp_wb[8];
 
     uint64_t cycles_base;           /* virtual ns at CYCLES = 0 */
+
+    uint32_t cycles2_shadow;     /* CYCLES2 as of the last CYCLES read */
     uint32_t clock_freq;
 } CPUBfinState;
 

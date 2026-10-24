@@ -83,6 +83,7 @@ static void bfin_cpu_reset_hold(Object *obj, ResetType type)
     /* coming out of reset the core services the reset event */
     env->ipend = 1u << 1;
     env->cycles_base = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
+    env->cycles2_shadow = 0;
     env->pc = env->evt[1];
 }
 
