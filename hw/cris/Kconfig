@@ -1,0 +1,4 @@
+config ETRAX100LX
+    bool
+    default y
+    depends on CRIS
