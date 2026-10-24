@@ -16,6 +16,7 @@
 #pragma GCC poison TARGET_HEXAGON
 #pragma GCC poison TARGET_HPPA
 #pragma GCC poison TARGET_LOONGARCH64
+#pragma GCC poison TARGET_CRIS
 #pragma GCC poison TARGET_M68K
 #pragma GCC poison TARGET_MICROBLAZE
 #pragma GCC poison TARGET_KVX
@@ -52,6 +53,7 @@
 
 #pragma GCC poison CONFIG_ALPHA_DIS
 #pragma GCC poison CONFIG_ARC_DIS
+#pragma GCC poison CONFIG_CRIS_DIS
 #pragma GCC poison CONFIG_CSKY_DIS
 #pragma GCC poison CONFIG_HPPA_DIS
 #pragma GCC poison CONFIG_I386_DIS

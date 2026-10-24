@@ -1,3 +1,4 @@
+common_ss.add(when: 'CONFIG_CRIS_DIS', if_true: files('cris.c'))
 common_ss.add(when: 'CONFIG_ALPHA_DIS', if_true: files('alpha.c'))
 common_ss.add(when: 'CONFIG_CSKY_DIS', if_true: files('csky.c'))
 common_ss.add(when: 'CONFIG_HEXAGON_DIS', if_true: files('hexagon.c'))

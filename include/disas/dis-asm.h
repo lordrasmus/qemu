@@ -204,6 +204,10 @@ enum bfd_architecture
 #define bfd_mach_arm_iWMMXt2  13
   bfd_arch_ns32k,      /* National Semiconductors ns32000 */
   bfd_arch_w65,        /* WDC 65816 */
+  bfd_arch_cris,       /* Axis CRIS */
+#define bfd_mach_cris_v0_v10   255
+#define bfd_mach_cris_v32      32
+#define bfd_mach_cris_v10_v32  1032
   bfd_arch_tic30,      /* Texas Instruments TMS320C30 */
   bfd_arch_v850,       /* NEC V850 */
 #define bfd_mach_v850          0
@@ -462,6 +466,8 @@ int print_insn_big_powerpc      (bfd_vma, disassemble_info*);
 int print_insn_little_powerpc   (bfd_vma, disassemble_info*);
 int print_insn_rs6000           (bfd_vma, disassemble_info*);
 int print_insn_w65              (bfd_vma, disassemble_info*);
+int print_insn_crisv32          (bfd_vma, disassemble_info*);
+int print_insn_crisv10          (bfd_vma, disassemble_info*);
 int print_insn_d10v             (bfd_vma, disassemble_info*);
 int print_insn_v850             (bfd_vma, disassemble_info*);
 int print_insn_tic30            (bfd_vma, disassemble_info*);

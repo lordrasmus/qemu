@@ -2,6 +2,7 @@ source alpha/Kconfig
 source arc/Kconfig
 source arm/Kconfig
 source avr/Kconfig
+source cris/Kconfig
 source csky/Kconfig
 source h8300/Kconfig
 source hppa/Kconfig
