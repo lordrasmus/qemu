@@ -61,6 +61,7 @@ typedef struct BfinBoard {
 
     /* kernel entry and command line, applied after every CPU reset */
     uint32_t entry, cmdline;
+    uint32_t sdbctl;            /* EBIU_SDBCTL for the RAM size */
 
     /* UART0 */
     CharFrontend chr;
@@ -467,10 +468,10 @@ static uint64_t sys_mmr_read(void *opaque, hwaddr off, unsigned size)
         return 0x227c80cb;
     case 0xffc00a14:
         /*
-         * EBIU_SDBCTL as the boot loader leaves it: EBCAW_10 | EBSZ_64 |
-         * EBE; Linux sizes its memory from EBSZ
+         * EBIU_SDBCTL as the boot loader leaves it: EBCAW_10 | EBSZ | EBE;
+         * Linux sizes its memory from EBSZ
          */
-        return store_get(b, addr) ?: 0x25;
+        return store_get(b, addr) ?: b->sdbctl;
     case 0xffc0010c:
         return b->sic_imask;
     case 0xffc00110 ... 0xffc0011c:
@@ -567,7 +568,39 @@ static void bf537_stamp_init(MachineState *machine)
 {
     MemoryRegion *sysmem = get_system_memory();
     BfinBoard *b = g_new0(BfinBoard, 1);
+    g_autofree char *initrd_arg = NULL;
     uint64_t entry;
+    uint32_t ebsz;
+
+    /*
+     * EBSZ of EBIU_SDBCTL (HWR table 6-14 lists 16 to 128 MiB for the
+     * BF537; 256 and 512 MiB use the encodings of the larger parts, so a
+     * test rootfs that does not fit the STAMP's 64 MiB still runs)
+     */
+    switch (machine->ram_size) {
+    case 16 * MiB:
+        ebsz = 0x0;
+        break;
+    case 32 * MiB:
+        ebsz = 0x2;
+        break;
+    case 64 * MiB:
+        ebsz = 0x4;
+        break;
+    case 128 * MiB:
+        ebsz = 0x6;
+        break;
+    case 256 * MiB:
+        ebsz = 0x8;
+        break;
+    case 512 * MiB:
+        ebsz = 0xa;
+        break;
+    default:
+        error_report("RAM size must be 16, 32, 64, 128, 256 or 512 MiB");
+        exit(1);
+    }
+    b->sdbctl = 0x20 | ebsz | 1;            /* EBCAW_10 | EBSZ | EBE */
 
     b->cpu = BFIN_CPU(cpu_create(machine->cpu_type));
     for (int i = 0; i < 16; i++) {
@@ -608,11 +641,34 @@ static void bf537_stamp_init(MachineState *machine)
             exit(1);
         }
         b->entry = entry;
+    }
+    if (machine->initrd_filename) {
+        /*
+         * below the 1 MiB the kernel keeps for uncached DMA at the top of
+         * memory; Linux learns of it through "initrd=start,size"
+         */
+        int64_t size = get_image_size(machine->initrd_filename, NULL);
+        uint32_t start;
+
+        if (size <= 0 || size > machine->ram_size / 2) {
+            error_report("could not load initrd '%s'",
+                         machine->initrd_filename);
+            exit(1);
+        }
+        start = (machine->ram_size - 2 * MiB - size) & ~(uint32_t)0xfff;
+        load_image_targphys(machine->initrd_filename, start, size, NULL);
+        initrd_arg = g_strdup_printf("initrd=0x%x,0x%" PRIx64, start, size);
+    }
+    if (machine->kernel_filename) {
         /* the kernel takes its command line from R0 (head.S) */
-        if (machine->kernel_cmdline && *machine->kernel_cmdline) {
-            b->cmdline = SDRAM_SIZE - 4 * KiB;
-            rom_add_blob_fixed("cmdline", machine->kernel_cmdline,
-                               strlen(machine->kernel_cmdline) + 1, b->cmdline);
+        g_autofree char *cmd = g_strjoin(" ",
+                                 machine->kernel_cmdline ?: "",
+                                 initrd_arg ?: "", NULL);
+
+        g_strstrip(cmd);
+        if (*cmd) {
+            b->cmdline = machine->ram_size - 4 * KiB;
+            rom_add_blob_fixed("cmdline", cmd, strlen(cmd) + 1, b->cmdline);
         }
     }
     qemu_register_reset(bf537_reset, b);
