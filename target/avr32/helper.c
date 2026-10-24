@@ -297,22 +297,37 @@ static uint32_t avr32_count(CPUAVR32State *env)
                     NANOSECONDS_PER_SECOND);
 }
 
-static void avr32_compare_schedule(CPUAVR32State *env)
+/*
+ * Arm the compare timer.  Right after a match the next one is a full COUNT
+ * wrap away.  A freshly written COMPARE that is already behind COUNT is a
+ * deadline missed between Linux's read of COUNT and its write of COMPARE:
+ * on hardware min_delta (50 cycles) covers that window, but here host time
+ * passes between the two instructions.  Linux never programs more than
+ * max_idle_ns ahead (< 2^31 cycles), so treat such a value as due now
+ * instead of waiting about 30 s for the wrap.
+ */
+static void avr32_compare_schedule(CPUAVR32State *env, bool after_match)
 {
     uint32_t compare = env->sysr[SYSREG_COMPARE];
+    int64_t now = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
+    uint32_t diff;
     uint64_t ticks;
 
     if (!compare) {
         timer_del(env->compare_timer);
         return;
     }
-    /* COUNT wraps without a match if COMPARE is already behind it */
-    ticks = compare;
-    if (compare <= avr32_count(env)) {
-        ticks += 1ull << 32;
+    diff = compare - avr32_count(env);
+    if (after_match) {
+        ticks = diff ? diff : 1ull << 32;
+    } else if (diff == 0 || diff >= 0x80000000u) {
+        timer_mod(env->compare_timer, now);
+        return;
+    } else {
+        ticks = diff;
     }
-    timer_mod(env->compare_timer, env->count_base +
-              muldiv64(ticks, NANOSECONDS_PER_SECOND, env->count_freq));
+    timer_mod(env->compare_timer,
+              now + muldiv64(ticks, NANOSECONDS_PER_SECOND, env->count_freq));
 }
 
 void avr32_compare_timer_cb(void *opaque)
@@ -327,7 +342,7 @@ void avr32_compare_timer_cb(void *opaque)
      */
     env->compare_pending = true;
     qemu_irq_raise(env->compare_irq);
-    avr32_compare_schedule(env);
+    avr32_compare_schedule(env, true);
 }
 
 /*
@@ -362,13 +377,13 @@ void helper_mtsr(CPUAVR32State *env, uint32_t n, uint32_t val)
         env->count_base = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) -
                           muldiv64(val, NANOSECONDS_PER_SECOND,
                                    env->count_freq);
-        avr32_compare_schedule(env);
+        avr32_compare_schedule(env, false);
         break;
     case SYSREG_COMPARE:
         env->sysr[n] = val;
         env->compare_pending = false;
         qemu_irq_lower(env->compare_irq);
-        avr32_compare_schedule(env);
+        avr32_compare_schedule(env, false);
         break;
     case SYSREG_TLBEHI:
         /* QEMU's TLB does not know about ASIDs */
