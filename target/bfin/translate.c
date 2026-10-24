@@ -62,14 +62,13 @@ static const char * const reg_names[BFIN_NREGS] = {
     "usp", "seqstat", "syscfg", "reti", "retx", "retn", "rete", "emudat",
 };
 
+/* every ASTAT bit, the reserved ones too: CC moves reach all 32 */
 static const char * const astat_names[32] = {
-    [ASTAT_AZ] = "az", [ASTAT_AN] = "an", [ASTAT_CC] = "cc",
-    [ASTAT_AC0_COPY] = "ac0_copy", [ASTAT_V_COPY] = "v_copy",
-    [ASTAT_AQ] = "aq", [ASTAT_RND_MOD] = "rnd_mod",
-    [ASTAT_AC0] = "ac0", [ASTAT_AC1] = "ac1",
-    [ASTAT_AV0] = "av0", [ASTAT_AV0S] = "av0s",
-    [ASTAT_AV1] = "av1", [ASTAT_AV1S] = "av1s",
-    [ASTAT_V] = "v", [ASTAT_VS] = "vs",
+    "az", "an", "ac0_copy", "v_copy", "astat4", "cc", "aq", "astat7",
+    "rnd_mod", "astat9", "astat10", "astat11", "ac0", "ac1", "astat14",
+    "astat15", "av0", "av0s", "av1", "av1s", "astat20", "astat21",
+    "astat22", "astat23", "v", "vs", "astat26", "astat27", "astat28",
+    "astat29", "astat30", "astat31",
 };
 
 void bfin_tcg_init(void)
@@ -81,10 +80,8 @@ void bfin_tcg_init(void)
         }
     }
     for (int i = 0; i < 32; i++) {
-        if (astat_names[i]) {
-            cpu_astat[i] = tcg_global_mem_new_i32(tcg_env,
-                             offsetof(CPUBfinState, astat[i]), astat_names[i]);
-        }
+        cpu_astat[i] = tcg_global_mem_new_i32(tcg_env,
+                         offsetof(CPUBfinState, astat[i]), astat_names[i]);
     }
     cpu_pc = tcg_global_mem_new_i32(tcg_env, offsetof(CPUBfinState, pc), "pc");
 }
@@ -1195,21 +1192,19 @@ static bool trans_CC2dreg(DisasContext *ctx, arg_CC2dreg *a)
 }
 
 /*
- * CC op= statbit, statbit op= CC for AZ, AN, AC0, AC1, V, VS, AV0, AV0S,
- * AV1, AV1S and AQ (chapter 11, "Move CC").
+ * CC op= statbit, statbit op= CC (chapter 11, "Move CC").  The syntax
+ * names AZ, AN, AC0, AC1, V, VS, AV0, AV0S, AV1, AV1S and AQ, but the
+ * opcode ranges (0x0300-0x03ff) span all 32 ASTAT bits and the hardware
+ * takes the reserved ones (ADI's cc-astat-bits, se_undefinedinstruction2).
+ * CC itself as the other operand is disallowed
  */
 static bool trans_CC2stat(DisasContext *ctx, arg_CC2stat *a)
 {
-    static const uint32_t statbits =
-        (1u << ASTAT_AZ) | (1u << ASTAT_AN) | (1u << ASTAT_AC0) |
-        (1u << ASTAT_AC1) | (1u << ASTAT_V) | (1u << ASTAT_VS) |
-        (1u << ASTAT_AV0) | (1u << ASTAT_AV0S) | (1u << ASTAT_AV1) |
-        (1u << ASTAT_AV1S) | (1u << ASTAT_AQ);
     TCGv_i32 cc = cpu_astat[ASTAT_CC];
     TCGv_i32 sb;
     TCGv_i32 dst, src;
 
-    if (ctx->parallel || !(statbits & (1u << a->cbit))) {
+    if (ctx->parallel || a->cbit == ASTAT_CC) {
         return false;
     }
     sb = cpu_astat[a->cbit];
@@ -1229,9 +1224,7 @@ static bool trans_CC2stat(DisasContext *ctx, arg_CC2stat *a)
         tcg_gen_xor_i32(dst, dst, src);
         break;
     }
-    if (a->d && a->cbit == ASTAT_V) {
-        tcg_gen_or_i32(cpu_astat[ASTAT_VS], cpu_astat[ASTAT_VS], sb);
-    }
+    /* V = CC leaves VS alone (ADI's cc-astat-bits) */
     return true;
 }
 
@@ -1422,8 +1415,12 @@ static bool trans_ProgCtrl(DisasContext *ctx, arg_ProgCtrl *a)
     TCGv_i32 preg = cpu_reg[BFIN_P0 + (r & 7)];
 
     if (ctx->parallel) {
-        /* only the 16-bit NOP, and only in slot 3 */
-        return a->prgfunc == 0 && r == 0 && ctx->slot == 1;
+        /*
+         * only the 16-bit NOP; table 20-4 lists it for slot 3, and the
+         * tools fill an unused slot of either kind with it (PRM
+         * "Parallel Issue Syntax"), e.g. DISALGNEXCPT || NOP || load
+         */
+        return a->prgfunc == 0 && r == 0;
     }
     switch (a->prgfunc) {
     case 0:
