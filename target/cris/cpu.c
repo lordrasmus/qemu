@@ -1,0 +1,376 @@
+/*
+ * QEMU CRIS CPU
+ *
+ * Copyright (c) 2008 AXIS Communications AB
+ * Written by Edgar E. Iglesias.
+ *
+ * Copyright (c) 2012 SUSE LINUX Products GmbH
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, see
+ * <http://www.gnu.org/licenses/lgpl-2.1.html>
+ */
+
+#include "qemu/osdep.h"
+#include "qapi/error.h"
+#include "qemu/qemu-print.h"
+#include "cpu.h"
+#include "mmu.h"
+#include "exec/translation-block.h"
+#include "exec/cputlb.h"
+#include "accel/tcg/cpu-ops.h"
+
+
+static void cris_cpu_set_pc(CPUState *cs, vaddr value)
+{
+    CRISCPU *cpu = CRIS_CPU(cs);
+
+    cpu->env.pc = value;
+}
+
+static vaddr cris_cpu_get_pc(CPUState *cs)
+{
+    CRISCPU *cpu = CRIS_CPU(cs);
+
+    return cpu->env.pc;
+}
+
+static void cris_restore_state_to_opc(CPUState *cs,
+                                      const TranslationBlock *tb,
+                                      const uint64_t *data)
+{
+    CRISCPU *cpu = CRIS_CPU(cs);
+
+    /* CRISv10 marks a delay slot with bit 0: restart at the branch */
+    if (cpu->env.pregs[PR_VR] < 32) {
+        cpu->env.pc = data[0] & ~1;
+        cpu->env.v10_insn_len = data[1];
+        cpu->env.v10_insn_pc = data[2];
+        cpu->env.v10_bf_dslot = data[0] & 1;
+    } else {
+        cpu->env.pc = data[0];
+    }
+}
+
+static bool cris_cpu_has_work(CPUState *cs)
+{
+    return cpu_test_interrupt(cs, CPU_INTERRUPT_HARD | CPU_INTERRUPT_NMI);
+}
+
+static TCGTBCPUState cris_get_tb_cpu_state(CPUState *cs)
+{
+    CPUCRISState *env = cpu_env(cs);
+
+    return (TCGTBCPUState){
+        .pc = env->pc,
+        .flags = env->dslot |
+                 (env->pregs[PR_CCS] & (S_FLAG | P_FLAG | U_FLAG |
+                                        X_FLAG | PFIX_FLAG)) |
+                 (env->v10_user ? CRIS_TBFLAG_V10_USER : 0),
+    };
+}
+
+static int cris_cpu_mmu_index(CPUState *cs, bool ifetch)
+{
+    CPUCRISState *env = cpu_env(cs);
+
+    /* on CRISv10 the U flag does not say which mode the CPU is in */
+    if (env->pregs[PR_VR] < 32) {
+        return env->v10_user ? MMU_USER_IDX : 0;
+    }
+    return !!(env->pregs[PR_CCS] & U_FLAG);
+}
+
+static void cris_cpu_reset_hold(Object *obj, ResetType type)
+{
+    CPUState *cs = CPU(obj);
+    CRISCPUClass *ccc = CRIS_CPU_GET_CLASS(obj);
+    CPUCRISState *env = cpu_env(cs);
+    uint32_t vr;
+
+    if (ccc->parent_phases.hold) {
+        ccc->parent_phases.hold(obj, type);
+    }
+
+    vr = env->pregs[PR_VR];
+    memset(env, 0, offsetof(CPUCRISState, end_reset_fields));
+    env->pregs[PR_VR] = vr;
+
+#if defined(CONFIG_USER_ONLY)
+    /* start in user mode with interrupts enabled.  */
+    env->pregs[PR_CCS] |= U_FLAG | I_FLAG | P_FLAG;
+#else
+    cris_mmu_init(env);
+    env->pregs[PR_CCS] = 0;
+#endif
+}
+
+static ObjectClass *cris_cpu_class_by_name(const char *cpu_model)
+{
+    ObjectClass *oc;
+    char *typename;
+
+#if defined(CONFIG_USER_ONLY)
+    if (strcasecmp(cpu_model, "any") == 0) {
+        return object_class_by_name(CRIS_CPU_TYPE_NAME("crisv32"));
+    }
+#endif
+
+    typename = g_strdup_printf(CRIS_CPU_TYPE_NAME("%s"), cpu_model);
+    oc = object_class_by_name(typename);
+    g_free(typename);
+
+    return oc;
+}
+
+static void cris_cpu_realizefn(DeviceState *dev, Error **errp)
+{
+    CPUState *cs = CPU(dev);
+    CRISCPUClass *ccc = CRIS_CPU_GET_CLASS(dev);
+    Error *local_err = NULL;
+
+    cpu_common_realize(cs, &local_err);
+    if (local_err != NULL) {
+        error_propagate(errp, local_err);
+        return;
+    }
+
+    cpu_reset(cs);
+    qemu_init_vcpu(cs);
+
+    ccc->parent_realize(dev, errp);
+}
+
+#ifndef CONFIG_USER_ONLY
+static void cris_cpu_set_irq(void *opaque, int irq, int level)
+{
+    CRISCPU *cpu = opaque;
+    CPUState *cs = CPU(cpu);
+    int type = irq == CRIS_CPU_IRQ ? CPU_INTERRUPT_HARD : CPU_INTERRUPT_NMI;
+
+    if (irq == CRIS_CPU_IRQ) {
+        /*
+         * The PIC passes us the vector for the IRQ as the value it sends
+         * over the qemu_irq line
+         */
+        cpu->env.interrupt_vector = level;
+    }
+
+    if (level) {
+        cpu_interrupt(cs, type);
+    } else {
+        cpu_reset_interrupt(cs, type);
+    }
+}
+#endif
+
+static void cris_disas_set_info(const CPUState *cpu, disassemble_info *info)
+{
+    info->endian = BFD_ENDIAN_LITTLE;
+    if (cpu_env((CPUState *)cpu)->pregs[PR_VR] != 32) {
+        info->mach = bfd_mach_cris_v0_v10;
+        info->print_insn = print_insn_crisv10;
+    } else {
+        info->mach = bfd_mach_cris_v32;
+        info->print_insn = print_insn_crisv32;
+    }
+}
+
+static void cris_cpu_initfn(Object *obj)
+{
+    CRISCPU *cpu = CRIS_CPU(obj);
+    CRISCPUClass *ccc = CRIS_CPU_GET_CLASS(obj);
+    CPUCRISState *env = &cpu->env;
+
+    env->pregs[PR_VR] = ccc->vr;
+
+#ifndef CONFIG_USER_ONLY
+    /* IRQ and NMI lines.  */
+    qdev_init_gpio_in(DEVICE(cpu), cris_cpu_set_irq, 2);
+#endif
+}
+
+#ifndef CONFIG_USER_ONLY
+#include "hw/core/sysemu-cpu-ops.h"
+
+static const struct SysemuCPUOps cris_sysemu_ops = {
+    .has_work = cris_cpu_has_work,
+    .get_phys_addr_debug = cris_cpu_get_phys_page_debug,
+};
+#endif
+
+static const TCGCPUOps crisv10_tcg_ops = {
+    /* MTTCG not yet supported: require strict ordering */
+    .guest_default_memory_order = TCG_MO_ALL,
+    .mttcg_supported = false,
+
+    .initialize = cris_initialize_crisv10_tcg,
+    .translate_code = cris_translate_code,
+    .get_tb_cpu_state = cris_get_tb_cpu_state,
+    .restore_state_to_opc = cris_restore_state_to_opc,
+    .mmu_index = cris_cpu_mmu_index,
+    .pointer_wrap = cpu_pointer_wrap_uint32,
+
+#ifndef CONFIG_USER_ONLY
+    .tlb_fill = cris_cpu_tlb_fill,
+    .cpu_exec_interrupt = cris_cpu_exec_interrupt,
+    .cpu_exec_halt = cris_cpu_has_work,
+    .cpu_exec_reset = cpu_reset,
+    .do_interrupt = crisv10_cpu_do_interrupt,
+#endif /* !CONFIG_USER_ONLY */
+};
+
+static const TCGCPUOps crisv32_tcg_ops = {
+    /* MTTCG not yet supported: require strict ordering */
+    .guest_default_memory_order = TCG_MO_ALL,
+    .mttcg_supported = false,
+
+    .initialize = cris_initialize_tcg,
+    .translate_code = cris_translate_code,
+    .get_tb_cpu_state = cris_get_tb_cpu_state,
+    .restore_state_to_opc = cris_restore_state_to_opc,
+    .mmu_index = cris_cpu_mmu_index,
+    .pointer_wrap = cpu_pointer_wrap_uint32,
+
+#ifndef CONFIG_USER_ONLY
+    .tlb_fill = cris_cpu_tlb_fill,
+    .cpu_exec_interrupt = cris_cpu_exec_interrupt,
+    .cpu_exec_halt = cris_cpu_has_work,
+    .cpu_exec_reset = cpu_reset,
+    .do_interrupt = cris_cpu_do_interrupt,
+#endif /* !CONFIG_USER_ONLY */
+};
+
+static void crisv8_cpu_class_init(ObjectClass *oc, const void *data)
+{
+    CPUClass *cc = CPU_CLASS(oc);
+    CRISCPUClass *ccc = CRIS_CPU_CLASS(oc);
+
+    cc->gdb_num_core_regs = 32;
+    ccc->vr = 8;
+    cc->gdb_read_register = crisv10_cpu_gdb_read_register;
+    cc->tcg_ops = &crisv10_tcg_ops;
+}
+
+static void crisv9_cpu_class_init(ObjectClass *oc, const void *data)
+{
+    CPUClass *cc = CPU_CLASS(oc);
+    CRISCPUClass *ccc = CRIS_CPU_CLASS(oc);
+
+    cc->gdb_num_core_regs = 32;
+    ccc->vr = 9;
+    cc->gdb_read_register = crisv10_cpu_gdb_read_register;
+    cc->tcg_ops = &crisv10_tcg_ops;
+}
+
+static void crisv10_cpu_class_init(ObjectClass *oc, const void *data)
+{
+    CPUClass *cc = CPU_CLASS(oc);
+    CRISCPUClass *ccc = CRIS_CPU_CLASS(oc);
+
+    cc->gdb_num_core_regs = 32;
+    ccc->vr = 10;
+    cc->gdb_read_register = crisv10_cpu_gdb_read_register;
+    cc->tcg_ops = &crisv10_tcg_ops;
+}
+
+static void crisv11_cpu_class_init(ObjectClass *oc, const void *data)
+{
+    CPUClass *cc = CPU_CLASS(oc);
+    CRISCPUClass *ccc = CRIS_CPU_CLASS(oc);
+
+    cc->gdb_num_core_regs = 32;
+    ccc->vr = 11;
+    cc->gdb_read_register = crisv10_cpu_gdb_read_register;
+    cc->tcg_ops = &crisv10_tcg_ops;
+}
+
+static void crisv17_cpu_class_init(ObjectClass *oc, const void *data)
+{
+    CPUClass *cc = CPU_CLASS(oc);
+    CRISCPUClass *ccc = CRIS_CPU_CLASS(oc);
+
+    cc->gdb_num_core_regs = 32;
+    ccc->vr = 17;
+    cc->gdb_read_register = crisv10_cpu_gdb_read_register;
+    cc->tcg_ops = &crisv10_tcg_ops;
+}
+
+static void crisv32_cpu_class_init(ObjectClass *oc, const void *data)
+{
+    CPUClass *cc = CPU_CLASS(oc);
+    CRISCPUClass *ccc = CRIS_CPU_CLASS(oc);
+
+    ccc->vr = 32;
+    cc->tcg_ops = &crisv32_tcg_ops;
+}
+
+static void cris_cpu_class_init(ObjectClass *oc, const void *data)
+{
+    DeviceClass *dc = DEVICE_CLASS(oc);
+    CPUClass *cc = CPU_CLASS(oc);
+    CRISCPUClass *ccc = CRIS_CPU_CLASS(oc);
+    ResettableClass *rc = RESETTABLE_CLASS(oc);
+
+    device_class_set_parent_realize(dc, cris_cpu_realizefn,
+                                    &ccc->parent_realize);
+
+    resettable_class_set_parent_phases(rc, NULL, cris_cpu_reset_hold, NULL,
+                                       &ccc->parent_phases);
+
+    cc->class_by_name = cris_cpu_class_by_name;
+    cc->dump_state = cris_cpu_dump_state;
+    cc->set_pc = cris_cpu_set_pc;
+    cc->get_pc = cris_cpu_get_pc;
+    cc->gdb_read_register = cris_cpu_gdb_read_register;
+    cc->gdb_write_register = cris_cpu_gdb_write_register;
+#ifndef CONFIG_USER_ONLY
+    dc->vmsd = &vmstate_cris_cpu;
+    cc->sysemu_ops = &cris_sysemu_ops;
+#endif
+
+    /* the subclasses override this; the accelerator asks the base class */
+    cc->tcg_ops = &crisv32_tcg_ops;
+    cc->gdb_num_core_regs = 49;
+    cc->gdb_stop_before_watchpoint = true;
+
+    cc->disas_set_info = cris_disas_set_info;
+}
+
+#define DEFINE_CRIS_CPU_TYPE(cpu_model, initfn) \
+     {                                          \
+         .parent = TYPE_CRIS_CPU,               \
+         .class_init = initfn,                  \
+         .name = CRIS_CPU_TYPE_NAME(cpu_model), \
+     }
+
+static const TypeInfo cris_cpu_model_type_infos[] = {
+    {
+        .name = TYPE_CRIS_CPU,
+        .parent = TYPE_CPU,
+        .instance_size = sizeof(CRISCPU),
+        .instance_align = __alignof(CRISCPU),
+        .instance_init = cris_cpu_initfn,
+        .abstract = true,
+        .class_size = sizeof(CRISCPUClass),
+        .class_init = cris_cpu_class_init,
+    },
+    DEFINE_CRIS_CPU_TYPE("crisv8", crisv8_cpu_class_init),
+    DEFINE_CRIS_CPU_TYPE("crisv9", crisv9_cpu_class_init),
+    DEFINE_CRIS_CPU_TYPE("crisv10", crisv10_cpu_class_init),
+    DEFINE_CRIS_CPU_TYPE("crisv11", crisv11_cpu_class_init),
+    DEFINE_CRIS_CPU_TYPE("crisv17", crisv17_cpu_class_init),
+    DEFINE_CRIS_CPU_TYPE("crisv32", crisv32_cpu_class_init),
+};
+
+DEFINE_TYPES(cris_cpu_model_type_infos)

@@ -3244,6 +3244,7 @@ disassemblers = {
   'arc' : ['CONFIG_ARC_DIS'],
   'csky' : ['CONFIG_CSKY_DIS'],
   'avr' : ['CONFIG_AVR_DIS'],
+  'cris' : ['CONFIG_CRIS_DIS'],
   'hexagon' : ['CONFIG_HEXAGON_DIS'],
   'hppa' : ['CONFIG_HPPA_DIS'],
   'i386' : ['CONFIG_I386_DIS'],
