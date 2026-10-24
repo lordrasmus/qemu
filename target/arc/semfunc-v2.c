@@ -4679,7 +4679,17 @@ arc_gen_ABS(DisasCtxt *ctx, TCGv src, TCGv dest)
     if ((getFFlag () == true)) {
         setZFlag(dest);
         setNFlag(dest);
-        tcg_gen_mov_tl(temp_4, Zero());
+        /*
+         * ARCompact sets C to the sign of the source; libgcc's ARC700
+         * __floatsidf takes the sign of the result from it ("abs.f" then
+         * "bclr.c"), so with C clear every negative int converted to a
+         * positive double.
+         */
+        if (env_archcpu(ctx->env)->family & ARC_OPCODE_ARCV1) {
+            tcg_gen_shri_tl(temp_4, lsrc, 31);
+        } else {
+            tcg_gen_mov_tl(temp_4, Zero());
+        }
         setCFlag(temp_4);
         tcg_gen_mov_tl(temp_5, getNFlag());
         setVFlag(temp_5);
