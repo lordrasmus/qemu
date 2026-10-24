@@ -69,7 +69,12 @@ static const Property arc_cpu_properties[] = {
     DEFINE_PROP_UINT32("num-regs", ARCCPU, cfg.rgf_num_regs, 32),
     DEFINE_PROP_UINT32("num-banks", ARCCPU, cfg.rgf_num_banks, 0),
     DEFINE_PROP_BOOL("rtc-opt", ARCCPU, cfg.rtc_option, false),
-    DEFINE_PROP_UINT32("freq_hz", ARCCPU, cfg.freq_hz, 4600000),
+    /*
+     * The timers count at this rate, while Linux takes the rate from the
+     * core clock in its device tree: 50 MHz in haps_hs.dts, which the virt
+     * machine runs.  At the old 4.6 MHz every guest second took ~11 s.
+     */
+    DEFINE_PROP_UINT32("freq_hz", ARCCPU, cfg.freq_hz, 50000000),
 
     DEFINE_PROP_STRING("mmuv6-version", ARCCPU, cfg.mmuv6_version),
 };
