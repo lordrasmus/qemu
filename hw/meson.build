@@ -9,6 +9,7 @@ subdir('h8300')
 subdir('hppa')
 subdir('kvx')
 subdir('avr32')
+subdir('bfin')
 subdir('hexagon')
 subdir('xenpv') # i386 uses it
 subdir('i386')

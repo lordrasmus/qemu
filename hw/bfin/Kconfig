@@ -1,0 +1,4 @@
+config BF537_STAMP
+    bool
+    default y
+    depends on BFIN
