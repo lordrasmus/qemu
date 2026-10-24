@@ -8,8 +8,9 @@
  * the register space is plain storage.
  *
  * -kernel takes a Linux vmlinux and starts it the way the Axis boot
- * loader does: r8 says the DRAM is set up, r10/r11 pass -append. The
- * kernel has no initrd support; the root file system is its initramfs.
+ * loader does: r8 says the DRAM is set up, r10/r11 pass -append. -initrd
+ * is passed on that command line as "initrd=<start>,<size>", which the
+ * 4.9 kernel only understands with kernel-cris-initrd.patch.
  *
  * Register layout: arch/cris/include/uapi/arch-v10/arch/sv_addr.agh.
  *
@@ -428,6 +429,42 @@ static void etrax_reset(void *opaque)
     }
 }
 
+/*
+ * The command line goes to the last 4K of DRAM, the initrd page aligned
+ * below it.  Linux 4.9 needs kernel-cris-initrd.patch to take the initrd,
+ * announced as "initrd=<start>,<size>" on the command line.
+ */
+static void etrax_load_boot_data(MachineState *ms, EtraxState *s)
+{
+    hwaddr top = ETRAX_DRAM_BASE + ms->ram_size - 4 * KiB;
+    char buf[256] = { 0 };          /* the kernel copies 256 bytes */
+
+    pstrcpy(buf, sizeof(buf), ms->kernel_cmdline ? ms->kernel_cmdline : "");
+    if (ms->initrd_filename) {
+        int64_t size = get_image_size(ms->initrd_filename, NULL);
+        hwaddr start;
+
+        if (size <= 0) {
+            error_report("could not load initrd '%s'", ms->initrd_filename);
+            exit(1);
+        }
+        start = (top - size) & ~(hwaddr)(8 * KiB - 1);
+        if (start < ETRAX_DRAM_BASE + ms->ram_size / 2 ||
+            load_image_targphys(ms->initrd_filename, start, size,
+                                NULL) != size) {
+            error_report("could not load initrd '%s'", ms->initrd_filename);
+            exit(1);
+        }
+        snprintf(buf + strlen(buf), sizeof(buf) - strlen(buf),
+                 "%sinitrd=0x%" HWADDR_PRIx ",%" PRId64,
+                 buf[0] ? " " : "", start, size);
+    }
+    if (buf[0]) {
+        s->cmdline = top;
+        rom_add_blob_fixed("cmdline", buf, sizeof(buf), s->cmdline);
+    }
+}
+
 static void etrax_init(MachineState *ms)
 {
     MemoryRegion *sysmem = get_system_memory();
@@ -455,18 +492,7 @@ static void etrax_init(MachineState *ms)
             exit(1);
         }
         s->entry = entry;
-        if (ms->initrd_filename) {
-            warn_report("the ETRAX 100LX kernel takes no initrd; "
-                        "-initrd is ignored");
-        }
-        if (ms->kernel_cmdline && *ms->kernel_cmdline) {
-            /* the kernel copies 256 bytes */
-            char buf[256] = { 0 };
-
-            s->cmdline = ETRAX_DRAM_BASE + ms->ram_size - 4 * KiB;
-            pstrcpy(buf, sizeof(buf), ms->kernel_cmdline);
-            rom_add_blob_fixed("cmdline", buf, sizeof(buf), s->cmdline);
-        }
+        etrax_load_boot_data(ms, s);
     }
     qemu_register_reset(etrax_reset, s);
 }
