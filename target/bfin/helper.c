@@ -226,11 +226,21 @@ static uint64_t bfin_cycles(CPUBfinState *env)
     return muldiv64(ns, env->clock_freq, NANOSECONDS_PER_SECOND);
 }
 
+/*
+ * A read of CYCLES latches CYCLES2 into a shadow, which reads of CYCLES2
+ * return, so the two halves read in that order belong together (PRM
+ * "CYCLES and CYCLES2 Registers")
+ */
 uint32_t helper_get_cycles(CPUBfinState *env, uint32_t high)
 {
-    uint64_t c = bfin_cycles(env);
+    uint64_t c;
 
-    return high ? c >> 32 : (uint32_t)c;
+    if (high) {
+        return env->cycles2_shadow;
+    }
+    c = bfin_cycles(env);
+    env->cycles2_shadow = c >> 32;
+    return c;
 }
 
 void helper_set_cycles(CPUBfinState *env, uint32_t high, uint32_t val)

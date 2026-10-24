@@ -260,8 +260,22 @@ static void tmr_expire(void *opaque)
         b->tcount = b->tperiod;
         tmr_arm(b);
     } else {
+        /* the count stops at 0; TMREN stays as written (ADI's timer tests) */
         b->tcount = 0;
-        b->tcntl &= ~TCNTL_TMREN;
+        timer_del(b->tmr);
+    }
+}
+
+/*
+ * The expiry callback runs from the main loop, possibly after the guest
+ * has polled; catch up on a read so a short count is seen as expired
+ */
+static void tmr_sync(BfinBoard *b)
+{
+    if (tmr_running(b) && b->tcount &&
+        qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) >=
+        b->tmr_start + (int64_t)(b->tcount * tmr_ns_per_tick(b))) {
+        tmr_expire(b);
     }
 }
 
@@ -378,12 +392,14 @@ static uint64_t core_mmr_read(void *opaque, hwaddr off, unsigned size)
     case 0xffe0210c:
         return env->ilat;
     case 0xffe03000:
+        tmr_sync(b);
         return b->tcntl;
     case 0xffe03004:
         return b->tperiod;
     case 0xffe03008:
         return b->tscale;
     case 0xffe0300c:
+        tmr_sync(b);
         return tmr_count(b);
     case 0xffe05000:                            /* DSPID: ADI, BF5xx */
         return 0xe5040003;
