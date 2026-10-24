@@ -6225,8 +6225,26 @@ static void m68k_tr_translate_insn(DisasContextBase *dcbase, CPUState *cpu)
 {
     DisasContext *dc = container_of(dcbase, DisasContext, base);
     CPUM68KState *env = cpu_env(cpu);
-    uint16_t insn = read_im16(env, dc);
+    uint16_t insn;
 
+    /*
+     * Instructions are word aligned; fetching from an odd address is an
+     * address error on every 680x0 and ColdFire.  Decoding there instead
+     * read the opcode across the word boundary and could hit the
+     * translator's page bookkeeping assertions.
+     */
+    if (dc->base.pc_next & 1) {
+        qemu_log_mask(LOG_GUEST_ERROR,
+                      "m68k: instruction fetch from odd address 0x%08x\n",
+                      (uint32_t) dc->base.pc_next);
+        gen_exception(dc, dc->base.pc_next, EXCP_ADDRESS);
+        dc->pc_prev = dc->base.pc_next;
+        /* A TB must not be empty. */
+        dc->base.pc_next += 1;
+        return;
+    }
+
+    insn = read_im16(env, dc);
     opcode_table[insn](env, dc, insn);
     do_writebacks(dc);
 
