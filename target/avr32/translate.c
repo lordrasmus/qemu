@@ -759,9 +759,9 @@ static bool trans_BREV_r(DisasContext *ctx, arg_BREV_r *a){
 }
 
 static bool trans_BST(DisasContext *ctx, arg_BST *a){
-    TCGv temp = tcg_temp_new_i32();
-    tcg_gen_shli_i32(temp, cpu_sflags[sflagC], a->bp5);
-    tcg_gen_or_i32(cpu_r[a->rd], cpu_r[a->rd], temp);
+    /* Rd[bp5] = C, which clears the bit as well as setting it */
+    tcg_gen_deposit_i32(cpu_r[a->rd], cpu_r[a->rd], cpu_sflags[sflagC],
+                        a->bp5, 1);
 
     ctx->base.pc_next += 4;
     return true;
@@ -3851,7 +3851,8 @@ static bool trans_SUBc_f1(DisasContext *ctx, arg_SUBc_f1 *a){
     tcg_gen_movi_i32(k, sign_extend_8(a->imm8));
     tcg_gen_mov_i32(cpu_r[a->rd], res);
 
-    if(a->f == 1){
+    /* f clear is SUBF{cond4}, which sets the flags; f set is SUB{cond4} */
+    if (a->f == 0) {
         //z-flag
         tcg_gen_setcondi_i32(TCG_COND_EQ, cpu_sflags[sflagZ], res, 0);
         //n-flag
