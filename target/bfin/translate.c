@@ -1324,14 +1324,8 @@ static bool trans_dsp32alu(DisasContext *ctx, arg_dsp32alu *a)
         return false;
     }
     switch (a->aopcde) {
-    case 0: case 1: case 2: case 3: case 4: case 5: case 6: case 7:
-    case 8: case 9: case 10: case 11: case 12: case 14: case 15: case 16:
-    case 17:
-        break;
-    case 18:
-        if (a->aop != 3) {
-            return dsp_unimpl(ctx, "dsp32alu");
-        }
+    case 0 ... 18:
+    case 20 ... 24:
         break;
     default:
         return dsp_unimpl(ctx, "dsp32alu");
@@ -1356,12 +1350,6 @@ static bool trans_dsp32shift(DisasContext *ctx, arg_dsp32shift *a)
     if (!shift_valid(dsp32shift_valid, ARRAY_SIZE(dsp32shift_valid),
                      a->sopcde, a->sop, a->hls)) {
         return false;
-    }
-    switch (a->sopcde) {
-    case 0: case 1: case 2: case 3: case 4: case 5: case 6: case 10: case 13:
-        break;
-    default:                    /* EXPADJ, BITMUX, VIT_MAX, BXOR */
-        return dsp_unimpl(ctx, "dsp32shift");
     }
     gen_dsp(ctx, gen_helper_dsp32shift);
     return true;

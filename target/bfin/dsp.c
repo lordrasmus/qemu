@@ -427,6 +427,131 @@ void helper_dsp32shift(CPUBfinState *env, uint32_t insn)
             set_half(env, dst, 0, signbits40(get_acc(env, sop)));
         }
         break;
+    case 7:
+        /*
+         * Dreg_lo = EXPADJ (sample, Dreg_lo): the smaller of the sample's
+         * exponent (redundant sign bits) and the reference.  The sample
+         * is the src1 field: sop 0 word, 1 both halves (V), 2 low, 3 high
+         */
+        /*
+         * The hardware compares only the exponent bits, 5 for a word and
+         * 4 for a half, and returns the winner whole: ADI's
+         * c_dsp32shift_expadj_l vectors give EXPADJ (0x1000, 0x1001) =
+         * 0x1001, not the 2 a plain minimum would
+         */
+        {
+            uint16_t e = a;
+            unsigned m = sop == 0 ? 0x1f : 0xf;
+            uint16_t x[2];
+            int cnt = 1;
+
+            if (sop == 0) {
+                x[0] = signbits32(b);
+            } else if (sop == 1) {
+                x[0] = signbits16(b >> 16);
+                x[1] = signbits16(b);
+                cnt = 2;
+            } else {
+                x[0] = signbits16(b >> (sop == 3 ? 16 : 0));
+            }
+            for (int i = 0; i < cnt; i++) {
+                if ((x[i] & m) < (e & m)) {
+                    e = x[i];
+                }
+            }
+            set_half(env, dst, 0, e);
+        }
+        break;
+    case 8:
+        /*
+         * BITMUX (source_1, source_0, A0): source_1 is the src0 field,
+         * source_0 the src1 field (PRM tables 13-3..13-5).  (ASR) shifts
+         * the LSBs into A0 bits 39 (source_0) and 38 (source_1), (ASL) the
+         * MSBs into bits 1 (source_0) and 0 (source_1)
+         */
+        {
+            uint64_t acc = get_acc(env, 0) & MAKE_64BIT_MASK(0, 40);
+
+            if (sop == 0) {
+                acc = (acc >> 2) | ((uint64_t)(a & 1) << 38) |
+                      ((uint64_t)(b & 1) << 39);
+                set_dreg(env, src0, a >> 1);
+                set_dreg(env, src1, b >> 1);
+            } else {
+                acc = (acc << 2) | (a >> 31) | ((b >> 31) << 1);
+                set_dreg(env, src0, a << 1);
+                set_dreg(env, src1, b << 1);
+            }
+            set_acc(env, 0, sextract64(acc, 0, 40));
+        }
+        break;
+    case 9:
+        /*
+         * VIT_MAX: the larger of each register's halves; A0 shifts by one
+         * (single) or two (dual) places and records which half won, 1 for
+         * the high one.  ASL appends at bit 0, ASR at bit 31; the first
+         * operand (src1 field) fills dest.H and the LSB.  The hardware
+         * takes the sign of the 16-bit difference, not a signed compare:
+         * ADI's c_dsp32shift_vmax keeps 0xc001 out of 0x4300c001
+         */
+        {
+            uint64_t acc = get_acc(env, 0) & MAKE_64BIT_MASK(0, 40);
+            bool asr = sop & 1;
+            int16_t yh = b >> 16, yl = b, zh = a >> 16, zl = a;
+            bool y = !((uint16_t)(yh - yl) & 0x8000);
+            bool z = !((uint16_t)(zh - zl) & 0x8000);
+
+            if (sop < 2) {
+                acc = asr ? acc >> 1 : acc << 1;
+                if (y) {
+                    acc |= asr ? 0x80000000u : 1;
+                }
+                set_half(env, dst, 0, y ? yh : yl);
+            } else {
+                acc = asr ? acc >> 2 : acc << 2;
+                if (y) {
+                    acc |= asr ? 0x80000000u : 1;
+                }
+                if (z) {
+                    acc |= asr ? 0x40000000u : 2;
+                }
+                set_dreg(env, dst, ((uint32_t)(uint16_t)(y ? yh : yl) << 16) |
+                                   (uint16_t)(z ? zh : zl));
+            }
+            set_acc(env, 0, sextract64(acc, 0, 40));
+        }
+        break;
+    case 11:
+    case 12:
+        /*
+         * BXORSHIFT, BXOR: XOR reduction of A0 masked by Dreg (11, the
+         * src0 field) or A1 (12).  11/0 shifts A0 left first and keeps
+         * it; 12 XORs in CC, 12/0 shifts the result into A0 and leaves
+         * CC, 12/1 writes CC
+         */
+        {
+            uint64_t acc = get_acc(env, 0) & MAKE_64BIT_MASK(0, 40);
+            uint64_t mask = sopcde == 11 ? a
+                          : get_acc(env, 1) & MAKE_64BIT_MASK(0, 40);
+            bool cc;
+
+            if (sopcde == 11 && sop == 0) {
+                acc = (acc << 1) & MAKE_64BIT_MASK(0, 40);
+                set_acc(env, 0, sextract64(acc, 0, 40));
+            }
+            cc = ctpop64(acc & mask) & 1;
+            if (sopcde == 12) {
+                cc ^= env->astat[ASTAT_CC];
+                if (sop == 0) {
+                    acc = ((acc << 1) | cc) & MAKE_64BIT_MASK(0, 40);
+                    set_acc(env, 0, sextract64(acc, 0, 40));
+                    break;
+                }
+            }
+            env->astat[ASTAT_CC] = cc;
+            set_half(env, dst, 0, cc);
+        }
+        break;
     case 10:                                        /* EXTRACT, DEPOSIT */
         {
             int p = extract32(a, 8, 5), l = extract32(a, 0, 5);
@@ -466,11 +591,15 @@ void helper_dsp32shift(CPUBfinState *env, uint32_t insn)
             set_v(env, 0);
         }
         break;
-    case 13:                                        /* ALIGN8/16/24 */
+    case 13:
+        /*
+         * ALIGN8/16/24 (src_reg_1, src_reg_0): src_reg_1 is the upper
+         * word and, as for PACK, the src1 field
+         */
         {
             int s = 8 * (sop + 1);
 
-            set_dreg(env, dst, (uint32_t)(((uint64_t)a << 32 | b) >> s));
+            set_dreg(env, dst, (uint32_t)(((uint64_t)b << 32 | a) >> s));
         }
         break;
     }
@@ -552,6 +681,31 @@ static bool any_half_zero(uint32_t r)
 static bool any_half_neg(uint32_t r)
 {
     return ((r >> 15) & 1) || (r >> 31);
+}
+
+/*
+ * The video pixel instructions read src0 and src1 as register pairs
+ * R1:0 or R3:2 and take an unaligned word out of each: the low two bits
+ * of I0 (pair src0) and I1 (pair src1) give the byte offset; (R) swaps
+ * the registers within the pair (PRM chapter 18)
+ */
+static uint32_t byte_align(CPUBfinState *env, int pair, int ireg, bool rev)
+{
+    uint32_t lo = get_dreg(env, pair), hi = get_dreg(env, pair + 1);
+    int n = env->reg[BFIN_I0 + ireg] & 3;
+
+    if (rev) {
+        uint32_t t = lo;
+
+        lo = hi;
+        hi = t;
+    }
+    return n ? (lo >> (8 * n)) | (hi << (32 - 8 * n)) : lo;
+}
+
+static unsigned byte_of(uint32_t w, int n)
+{
+    return (w >> (8 * n)) & 0xff;
 }
 
 /* accumulator results: AZ, AN from the 40-bit value, AV saturation */
@@ -852,6 +1006,139 @@ void helper_dsp32alu(CPUBfinState *env, uint32_t insn)
             set_flag(env, ASTAT_AC0, aop ? u1 <= u0 : u0 <= u1);
         }
         break;
+    case 13:
+        /*
+         * (dst1, dst0) = SEARCH src0 (GT, GE, LT, LE): each half against
+         * the low half of A1 (high) or A0 (low); a winner is copied, sign
+         * extended, into the Accumulator and P0 into the destination
+         */
+        {
+            uint32_t p0 = env->reg[BFIN_P0];
+
+            for (int n = 0; n < 2; n++) {
+                int16_t hv = a >> (16 * n);
+                int16_t acc = env->reg[BFIN_A0W + 2 * n];
+                bool up = aop == 0 ? hv > acc : aop == 1 ? hv >= acc
+                        : aop == 2 ? hv < acc : hv <= acc;
+
+                if (up) {
+                    set_acc(env, n, hv);
+                    set_dreg(env, n ? dst1 : dst0, p0);
+                }
+            }
+        }
+        break;
+    case 18:
+        if (aop == 0) {
+            /*
+             * SAA: |y - z| of each byte added to A0.L, A0.H, A1.L, A1.H,
+             * each saturating at 16 bits unsigned; the extensions clear
+             */
+            uint32_t y = byte_align(env, src0, 0, s);
+            uint32_t z = byte_align(env, src1, 1, s);
+
+            for (int n = 0; n < 2; n++) {
+                uint32_t w = env->reg[BFIN_A0W + 2 * n], r = 0;
+
+                for (int h = 0; h < 2; h++) {
+                    int i = 2 * n + h;
+                    unsigned d = abs((int)byte_of(y, i) - (int)byte_of(z, i));
+
+                    r |= MIN((w >> (16 * h) & 0xffff) + d, 0xffffu) << (16 * h);
+                }
+                env->reg[BFIN_A0W + 2 * n] = r;
+                env->reg[BFIN_A0X + 2 * n] = 0;
+            }
+        }
+        /* aop 3: DISALGNEXCPT, misaligned loads do not trap here anyway */
+        break;
+    case 20:
+        /* BYTEOP1P: byte-wise mean, rounded up unless (T) (aop 1) */
+        {
+            uint32_t y = byte_align(env, src0, 0, s);
+            uint32_t z = byte_align(env, src1, 1, s), r = 0;
+
+            for (int i = 0; i < 4; i++) {
+                r |= ((byte_of(y, i) + byte_of(z, i) + !aop) >> 1) << (8 * i);
+            }
+            set_dreg(env, dst0, r);
+        }
+        break;
+    case 21:
+        /*
+         * BYTEOP16P (aop 0) / BYTEOP16M (aop 1): byte-wise sum or
+         * difference as half-words, bytes 0-1 into dst0, 2-3 into dst1
+         */
+        {
+            uint32_t y = byte_align(env, src0, 0, s);
+            uint32_t z = byte_align(env, src1, 1, s);
+            uint16_t h[4];
+
+            for (int i = 0; i < 4; i++) {
+                h[i] = aop ? byte_of(y, i) - byte_of(z, i)
+                           : byte_of(y, i) + byte_of(z, i);
+            }
+            set_dreg(env, dst0, h[0] | (uint32_t)h[1] << 16);
+            set_dreg(env, dst1, h[2] | (uint32_t)h[3] << 16);
+        }
+        break;
+    case 22:
+        /*
+         * BYTEOP2P: mean of the two byte pairs of each half, both pairs
+         * aligned by I0 only; aop 0 rounds, 1 truncates; HL puts the
+         * results in the high bytes of the half-words
+         */
+        {
+            uint32_t y = byte_align(env, src0, 0, s);
+            uint32_t z = byte_align(env, src1, 0, s), r = 0;
+
+            for (int n = 0; n < 2; n++) {
+                unsigned sum = byte_of(y, 2 * n) + byte_of(y, 2 * n + 1) +
+                               byte_of(z, 2 * n) + byte_of(z, 2 * n + 1) +
+                               (aop ? 0 : 2);
+
+                r |= ((sum >> 2) & 0xff) << (16 * n + 8 * hl);
+            }
+            set_dreg(env, dst0, r);
+        }
+        break;
+    case 23:
+        /*
+         * BYTEOP3P: a signed half of the src0 pair plus a byte of the
+         * src1 pair, clipped to 0..255, into the low (LO) or high (HI)
+         * byte of each half-word.  The bytes are 1 and 3 for (LO), 0 and
+         * 2 for (HI); the PRM tables 18-3/4 are images only, ADI's
+         * c_dsp32alu_byteop3p vectors confirm the choice
+         */
+        {
+            uint32_t y = byte_align(env, src0, 0, s);
+            uint32_t z = byte_align(env, src1, 1, s), r = 0;
+
+            for (int n = 0; n < 2; n++) {
+                int sum = (int16_t)(y >> (16 * n)) +
+                          (int)byte_of(z, 2 * n + !hl);
+
+                r |= (uint32_t)MIN(MAX(sum, 0), 255) << (16 * n + 8 * hl);
+            }
+            set_dreg(env, dst0, r);
+        }
+        break;
+    case 24:
+        if (aop == 0) {
+            /* BYTEPACK: the low bytes of each half of src0 and src1 */
+            set_dreg(env, dst0, byte_of(a, 0) | byte_of(a, 2) << 8 |
+                                byte_of(b, 0) << 16 | byte_of(b, 2) << 24);
+        } else {
+            /*
+             * (dst1, dst0) = BYTEUNPACK src0 pair: four bytes from the
+             * offset I0 gives, zero-extended into the half-words
+             */
+            uint32_t y = byte_align(env, src0, 0, s);
+
+            set_dreg(env, dst0, byte_of(y, 0) | byte_of(y, 1) << 16);
+            set_dreg(env, dst1, byte_of(y, 2) | byte_of(y, 3) << 16);
+        }
+        break;
     case 14:                                        /* A = -A */
     case 16:                                        /* A = ABS A */
         {
@@ -879,8 +1166,6 @@ void helper_dsp32alu(CPUBfinState *env, uint32_t insn)
             set_dreg(env, dst0, r);
             vec_flags(env, r, v, ac0, ac1);
         }
-        break;
-    case 18:                                        /* DISALGNEXCPT */
         break;
     }
 }
