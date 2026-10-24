@@ -1214,7 +1214,24 @@ arc_gen_sleep(DisasCtxt *ctx, TCGv a)
 {
     uint32_t param = 0;
 
-    if (ctx->insn.operands[0].type & ARC_OPERAND_IR) {
+    /*
+     * On ARCompact the operand's bits 0 and 1 set STATUS32.E1 and E2 before
+     * the core sleeps; the kernel idles with "sleep 0x3" and interrupts
+     * disabled.  The ARCv2 reading (bit 4 plus a level) left them off.
+     */
+    if (env_archcpu(ctx->env)->family & ARC_OPCODE_ARCV1) {
+        if (ctx->insn.operands[0].type & ARC_OPERAND_IR) {
+            TCGv tmp = tcg_temp_new();
+
+            tcg_gen_andi_tl(tmp, a, 3);
+            tcg_gen_shli_tl(tmp, tmp, R_STATUS32_E1f_SHIFT);
+            tcg_gen_or_tl(cpu_pstate, cpu_pstate, tmp);
+        } else {
+            param = ctx->insn.operands[0].value;
+            tcg_gen_ori_tl(cpu_pstate, cpu_pstate,
+                           (param & 3) << R_STATUS32_E1f_SHIFT);
+        }
+    } else if (ctx->insn.operands[0].type & ARC_OPERAND_IR) {
         TCGv tmp3 = tcg_temp_new();
         TCGv tmp4 = tcg_temp_new();
         TCGLabel *done_L = gen_new_label();
