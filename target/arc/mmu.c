@@ -278,6 +278,34 @@ arc_mmu_lookup_tlb(uint32_t vaddr, uint32_t compare_mask, struct arc_mmu *mmu,
 }
 
 /*
+ * TLBProbe and TLBGetIndex compare against TLBPD0 as the kernel wrote it:
+ * the VPN and that ASID, not the current PID, and with no valid bit of its
+ * own -- tlb_entry_lkup() in arch/arc/mm/tlb.c stores just vaddr | asid.
+ */
+static int
+arc_mmu_probe(struct arc_mmu *mmu, uint32_t pd0, uint32_t *index)
+{
+    uint32_t set = (VPN(pd0) >> MMU_V3_PAGE_BITS) & (N_SETS - 1);
+    int found = 0;
+    int w;
+
+    for (w = 0; w < N_WAYS; w++) {
+        struct arc_tlb_e *tlb = &mmu->nTLB[set][w];
+
+        if ((tlb->pd0 & PD0_V) == 0 || VPN(tlb->pd0) != VPN(pd0)) {
+            continue;
+        }
+        if (((tlb->pd0 | pd0) & PD0_G) == 0
+            && (tlb->pd0 & PD0_ASID) != (pd0 & PD0_ASID)) {
+            continue;
+        }
+        found++;
+        *index = set * N_WAYS + w;
+    }
+    return found;
+}
+
+/*
  * TLB Insert/Delete triggered by writing the cmd to TLBCommand Aux
  *  - Requires PD0 and PD1 be setup apriori
  */
@@ -420,10 +448,8 @@ arc_mmu_aux_set_tlbcmd(const struct arc_aux_reg_detail *aux_reg_detail,
      * stayed valid -- a freed page kept its translation.
      */
     if (val == TLB_CMD_PROBE) {
-        int found = 0;
         uint32_t idx = 0;
-
-        arc_mmu_lookup_tlb(pd0, matching_mask | PD0_V, mmu, &found, &idx);
+        int found = arc_mmu_probe(mmu, pd0, &idx);
 
         if (found == 0) {
             mmu->tlbindex = TLB_LKUP_ERR;
@@ -440,11 +466,29 @@ arc_mmu_aux_set_tlbcmd(const struct arc_aux_reg_detail *aux_reg_detail,
         return;
     }
 
-    /* TLBGetIndex reports the index of the set the VPN selects. */
+    /*
+     * TLBGetIndex picks the slot the following TLBWrite fills: the set comes
+     * from the VPN, the way is the hardware's choice.  The ARCompact TLB miss
+     * handler relies on that ("way = random" in arch/arc/mm/tlbex.S).  Always
+     * answering way 0 left one usable entry per set, and an instruction whose
+     * code and data pages share a set evicted one with the other forever.
+     * Reuse a matching entry, else a free way, else go round robin.
+     */
     if (val == TLB_CMD_GETINDEX) {
         uint32_t set = (VPN(pd0) >> MMU_V3_PAGE_BITS) & (N_SETS - 1);
+        uint32_t idx = 0;
+        int w;
 
-        mmu->tlbindex = set * N_WAYS;
+        if (arc_mmu_probe(mmu, pd0, &idx) == 0) {
+            idx = set * N_WAYS + mmu->way_sel[set];
+            for (w = 0; w < N_WAYS; w++) {
+                if ((mmu->nTLB[set][w].pd0 & PD0_V) == 0) {
+                    idx = set * N_WAYS + w;
+                    break;
+                }
+            }
+        }
+        mmu->tlbindex = idx;
         return;
     }
 
