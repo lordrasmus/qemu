@@ -289,16 +289,20 @@ void helper_cc_acc(CPUBfinState *env, uint32_t op)
 /* Ireg + M with circular buffer wraparound, chapter 5 */
 uint32_t helper_dag_add(uint32_t i, uint32_t m, uint32_t b, uint32_t l)
 {
-    uint32_t n = i + m;
+    /*
+     * the PRM's comparisons are on the mathematical sum: 0 - 10 lies
+     * below a base of 0 (ADI's cir1 test), so do them without wrapping
+     */
+    int64_t n = (int64_t)i + (int32_t)m;
 
     if (l == 0) {
         return n;
     }
     if ((int32_t)m >= 0) {
-        if (n >= b + l) {
+        if (n >= (int64_t)b + l) {
             n -= l;
         }
-    } else if (n < b) {
+    } else if (n < (int64_t)b) {
         n += l;
     }
     return n;
