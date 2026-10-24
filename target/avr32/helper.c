@@ -319,10 +319,12 @@ void avr32_compare_timer_cb(void *opaque)
 {
     AVR32CPU *cpu = opaque;
     CPUAVR32State *env = &cpu->env;
-    int64_t now = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
 
-    /* COUNT is cleared on a compare match */
-    env->count_base = now;
+    /*
+     * Clear-on-compare came with architecture document rev. B (2007); the
+     * AP7000 core keeps COUNT running, and Linux uses it as a continuous
+     * clocksource while programming COMPARE = COUNT + delta.
+     */
     env->compare_pending = true;
     qemu_irq_raise(env->compare_irq);
     avr32_compare_schedule(env);
