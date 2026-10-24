@@ -462,6 +462,46 @@ target_ulong helper_overflow_add_flag(target_ulong dest, target_ulong b,
     return overflow_add_flag(dest, b, c, TARGET_LONG_BITS);
 }
 
+/*
+ * ASRS (extended arithmetic): shift b right by the signed amount c, which is
+ * clamped to -32..31; a negative amount shifts left and saturates to the
+ * largest value of b's sign.  asrs_sat reports whether it saturated.
+ */
+static int32_t asrs_calc(int32_t b, int32_t c, bool *sat)
+{
+    int64_t r;
+
+    *sat = false;
+    if (c >= 0) {
+        return b >> MIN(c, 31);
+    }
+    r = (int64_t) b << MIN(-(int64_t) c, 32);
+    if (r > INT32_MAX) {
+        *sat = true;
+        return INT32_MAX;
+    }
+    if (r < INT32_MIN) {
+        *sat = true;
+        return INT32_MIN;
+    }
+    return r;
+}
+
+target_ulong helper_asrs(target_ulong b, target_ulong c)
+{
+    bool sat;
+
+    return (uint32_t) asrs_calc(b, c, &sat);
+}
+
+target_ulong helper_asrs_sat(target_ulong b, target_ulong c)
+{
+    bool sat;
+
+    asrs_calc(b, c, &sat);
+    return sat;
+}
+
 static inline target_ulong
 overflow_sub_flag(target_ulong dest, target_ulong b, target_ulong c,
                   uint8_t size)
