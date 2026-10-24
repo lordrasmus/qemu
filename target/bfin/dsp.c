@@ -282,6 +282,12 @@ static void shift_word(CPUBfinState *env, int dst, int src, int n, int kind)
     set_v(env, kind != 2 && ov);
 }
 
+/*
+ * Accumulator shifts do not saturate.  AVn is cleared, except that the
+ * arithmetic ones set it for a zero result: the PRM's "AV0 is set if
+ * result is zero" reads like a slip, but ADI's random_0011/0014 vectors
+ * (overflowing left shifts, AV0 left clear) agree with it
+ */
 static void shift_acc(CPUBfinState *env, int a, int n, int kind)
 {
     bool ov = false;
@@ -289,9 +295,10 @@ static void shift_acc(CPUBfinState *env, int a, int n, int kind)
     int64_t r = shift_val(kind == 2 ? (v & MAKE_64BIT_MASK(0, 40)) : v, 40, n,
                           kind != 2, false, &ov);
 
-    set_acc(env, a, sextract64(r, 0, 40));
+    r = sextract64(r, 0, 40);
+    set_acc(env, a, r);
     set_az_an(env, r, 40);
-    set_av(env, a, kind != 2 && ov);
+    set_av(env, a, kind != 2 && r == 0);
 }
 
 /* rotate @bits bits plus CC by @n (positive left) */
@@ -344,12 +351,19 @@ void helper_dsp32shiftimm(CPUBfinState *env, uint32_t insn)
     int src = extract32(insn, 0, 3);
     int kind = sop == 0 ? 0 : sop == 1 ? 1 : 2;
 
+    /*
+     * The 16-bit forms use the low five bits of the magnitude: ADI's
+     * random_0018 vectors turn R1.H >>> 29 (immag -29) into a left shift
+     * by 3.  Every count the PRM allows reads the same either way
+     */
+    int imm5 = sextract32(insn, 3, 5);
+
     switch (sopcde) {
     case 0:
-        shift_half(env, dst, hls >> 1, src, hls & 1, imm, kind);
+        shift_half(env, dst, hls >> 1, src, hls & 1, imm5, kind);
         break;
     case 1:
-        shift_vec(env, dst, src, imm, kind);
+        shift_vec(env, dst, src, imm5, kind);
         break;
     case 2:
         if (sop == 3) {
@@ -1009,8 +1023,10 @@ void helper_dsp32alu(CPUBfinState *env, uint32_t insn)
     case 13:
         /*
          * (dst1, dst0) = SEARCH src0 (GT, GE, LT, LE): each half against
-         * the low half of A1 (high) or A0 (low); a winner is copied, sign
-         * extended, into the Accumulator and P0 into the destination
+         * the low half of A1 (high) or A0 (low); a winner replaces it and
+         * P0 goes into the destination.  The surviving half is written
+         * back sign extended either way: ADI's random_0007 vectors turn
+         * an unchanged A0 of 0x0142357aea into 0x7aea
          */
         {
             uint32_t p0 = env->reg[BFIN_P0];
@@ -1021,8 +1037,8 @@ void helper_dsp32alu(CPUBfinState *env, uint32_t insn)
                 bool up = aop == 0 ? hv > acc : aop == 1 ? hv >= acc
                         : aop == 2 ? hv < acc : hv <= acc;
 
+                set_acc(env, n, up ? hv : acc);
                 if (up) {
-                    set_acc(env, n, hv);
                     set_dreg(env, n ? dst1 : dst0, p0);
                 }
             }
@@ -1151,6 +1167,14 @@ void helper_dsp32alu(CPUBfinState *env, uint32_t insn)
                 if (!(dsts & (1 << n))) {
                     continue;
                 }
+                /*
+                 * negate sets the carry of the destination Accumulator
+                 * when the source is zero: the PRM names AC0 only, ADI's
+                 * random_0008 vectors show A1 = -A1 writing AC1
+                 */
+                if (aopcde == 14 && aop != 3) {
+                    set_flag(env, n ? ASTAT_AC1 : ASTAT_AC0, val == 0);
+                }
                 val = aopcde == 14 || val < 0 ? -val : val;
                 acc_result(env, n, sat40(val, &ov), ov);
             }
@@ -1189,6 +1213,35 @@ static bool mm_integer(int mmod)
 }
 
 /*
+ * MAC1 in mixed mode (M) produces a signed result, so the unsigned
+ * modes saturate and extract it as their signed counterparts (ADI's
+ * issue119 vectors: (M, FU) leaves 0xc0000000 alone)
+ */
+static int mm_mixed(int mmod)
+{
+    switch (mmod) {
+    case MM_FU:
+        return MM_DEF;
+    case MM_TFU:
+        return MM_T;
+    case MM_IU:
+        return MM_IS;
+    }
+    return mmod;
+}
+
+/*
+ * The unsigned modes read the Accumulator without its sign extension:
+ * ADI's issue103 vectors extract A1 = 0xfff12ebeaa (FU) as 0xffffffff
+ */
+static int64_t mac_acc(CPUBfinState *env, int n, int mode)
+{
+    int64_t acc = get_acc(env, n);
+
+    return mm_unsigned(mode) ? acc & MAKE_64BIT_MASK(0, 40) : acc;
+}
+
+/*
  * The 16 x 16 product of one MAC unit.  Fraction modes shift the signed
  * product left one bit; 0x8000 * 0x8000 saturates to 0x7fffffff.
  * mixed (M, MAC1 only): src0 signed, src1 unsigned, no shift.
@@ -1215,7 +1268,8 @@ static int64_t mac_product(uint16_t x, uint16_t y, int mmod, bool mixed,
 /* saturate an accumulator value for the mode: W32 at 32 bits */
 static int64_t acc_sat(int64_t v, int mmod, bool *ov)
 {
-    if (mmod == MM_W32) {
+    /* IH keeps the Accumulator at 32.0 precision too (PRM table 15-4) */
+    if (mmod == MM_W32 || mmod == MM_IH) {
         return sat32(v, ov);
     }
     if (mm_unsigned(mmod)) {
@@ -1300,12 +1354,14 @@ static void mac(CPUBfinState *env, uint32_t insn, bool mult)
     for (int n = 0; n < 2; n++) {
         int op = n ? op1 : op0;
         int w = n ? w1 : w0;
+        int mode;
         bool ov = false;
         int64_t val;
 
         if (mult ? !w : (op == 3 && !w)) {
             continue;
         }
+        mode = n && mm ? mm_mixed(mmod) : mmod;
         if (mult || op != 3) {
             uint16_t x = a >> ((n ? h01 : h00) * 16);
             uint16_t y = b >> ((n ? h11 : h10) * 16);
@@ -1314,24 +1370,24 @@ static void mac(CPUBfinState *env, uint32_t insn, bool mult)
             if (mult) {
                 val = prod;
             } else {
-                int64_t acc = get_acc(env, n);
+                int64_t acc = mac_acc(env, n, mode);
 
                 val = op == 0 ? prod : op == 1 ? acc + prod : acc - prod;
-                val = acc_sat(val, mmod, &ov);
+                val = acc_sat(val, mode, &ov);
                 set_acc(env, n, val);
                 set_av(env, n, ov);
             }
         } else {
-            val = get_acc(env, n);
+            val = mac_acc(env, n, mode);
         }
         if (!w) {
             continue;
         }
         ov = false;
         if (p) {
-            set_dreg(env, dst + n, extract_word(val, mmod, &ov));
+            set_dreg(env, dst + n, extract_word(val, mode, &ov));
         } else {
-            set_half(env, dst, n, extract_half(env, val, mmod, &ov));
+            set_half(env, dst, n, extract_half(env, val, mode, &ov));
         }
         any_v |= ov;
     }
