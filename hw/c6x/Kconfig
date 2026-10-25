@@ -1,0 +1,7 @@
+config C6X_DSK6455
+    bool
+    default y
+    depends on C6X && FDT
+    select SERIAL_MM
+    select PTIMER
+    select DEVICE_TREE

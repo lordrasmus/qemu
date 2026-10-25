@@ -69,6 +69,7 @@ source m68k/Kconfig
 source meta/Kconfig
 source microblaze/Kconfig
 source mips/Kconfig
+source c6x/Kconfig
 source nds32/Kconfig
 source nios2/Kconfig
 source or1k/Kconfig
