@@ -320,7 +320,7 @@ uint64_t helper_fsingle_pack2(uint64_t a, uint64_t flags)
     float32 r;
 
     if (a & SF_DONE) {
-        return a >> 32;
+        return (int32_t)(a >> 32);
     }
     /* gcc's float(uns)sisf2: magnitude * 2^(exp - 158) */
     fp_status_init(&st);
@@ -328,5 +328,5 @@ uint64_t helper_fsingle_pack2(uint64_t a, uint64_t flags)
     if (a & (1 << 10)) {
         r = float32_chs(r);
     }
-    return float32_val(r);
+    return (int32_t)float32_val(r);
 }
