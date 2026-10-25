@@ -106,6 +106,10 @@ typedef struct CPUArchState {
 
     uint32_t cycles2_shadow;     /* CYCLES2 as of the last CYCLES read */
     uint32_t clock_freq;
+
+    /* DCPLB_FAULT_ADDR and ICPLB_FAULT_ADDR, set by misaligned accesses */
+    uint32_t dcplb_fault_addr;
+    uint32_t icplb_fault_addr;
 } CPUBfinState;
 
 struct ArchCPU {
@@ -151,6 +155,9 @@ bool bfin_cpu_exec_interrupt(CPUState *cs, int interrupt_request);
 bool bfin_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
                        MMUAccessType access_type, int mmu_idx,
                        bool probe, uintptr_t retaddr);
+G_NORETURN void bfin_cpu_do_unaligned_access(CPUState *cs, vaddr addr,
+                                             MMUAccessType access_type,
+                                             int mmu_idx, uintptr_t retaddr);
 hwaddr bfin_cpu_get_phys_page_debug(CPUState *cs, vaddr addr);
 
 void bfin_tcg_init(void);

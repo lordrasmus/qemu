@@ -382,6 +382,32 @@ bool bfin_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
     return true;
 }
 
+/*
+ * A load or store that is not aligned to its size raises the data
+ * misaligned exception (EXCAUSE 0x24), a fetch from an odd address the
+ * instruction one (0x2a); the address goes to the fault register Linux
+ * reports as si_addr, and RETX points at the faulting instruction.
+ */
+G_NORETURN void bfin_cpu_do_unaligned_access(CPUState *cs, vaddr addr,
+                                             MMUAccessType access_type,
+                                             int mmu_idx, uintptr_t retaddr)
+{
+    CPUBfinState *env = cpu_env(cs);
+    uint32_t excause;
+
+    cpu_restore_state(cs, retaddr);
+    if (access_type == MMU_INST_FETCH) {
+        env->icplb_fault_addr = addr;
+        excause = 0x2a;
+    } else {
+        env->dcplb_fault_addr = addr;
+        excause = 0x24;
+    }
+    env->reg[BFIN_SEQSTAT] = deposit32(env->reg[BFIN_SEQSTAT], 0, 6, excause);
+    cs->exception_index = EXCP_BFIN_EXCEPTION;
+    cpu_loop_exit(cs);
+}
+
 hwaddr bfin_cpu_get_phys_page_debug(CPUState *cs, vaddr addr)
 {
     return addr & TARGET_PAGE_MASK;
