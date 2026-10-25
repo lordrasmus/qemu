@@ -608,6 +608,10 @@ static uint64_t core_mmr_read(void *opaque, hwaddr off, unsigned size)
     case 0xffe0300c:
         tmr_sync(b);
         return tmr_count(b);
+    case 0xffe00008:                            /* DCPLB_FAULT_ADDR */
+        return env->dcplb_fault_addr;
+    case 0xffe01008:                            /* ICPLB_FAULT_ADDR */
+        return env->icplb_fault_addr;
     case 0xffe05000:                            /* DSPID: ADI, BF5xx */
         return 0xe5040003;
     }
