@@ -18,19 +18,46 @@
 
 #include "qemu/osdep.h"
 #include "qapi/error.h"
+#include "qapi/visitor.h"
+#include "qemu/error-report.h"
 #include "cpu.h"
 #include "hw/core/sysbus.h"
 #include "hw/core/loader.h"
 #include "hw/block/flash.h"
 #include "hw/net/smc91c111.h"
+#include "hw/virtio/virtio-mmio.h"
 #include "hw/h8300/h8s2674.h"
 #include "system/system.h"
 #include "system/qtest.h"
 #include "system/device_tree.h"
 #include "hw/core/boards.h"
 
-#define DRAM_BASE 0x00400000
-#define DTB_ADDR (DRAM_BASE + machine->ram_size - dtb_size)
+/*
+ * The board has 4 MiB of boot flash below its DRAM.  ram-base moves the DRAM
+ * down and shrinks the flash to what is left below it, for a machine with
+ * more RAM than the board: -kernel and a virtio disk need the flash only for
+ * the vector table.  The DRAM must end below the Ethernet chip at 0xf80000.
+ */
+#define DRAM_BASE_DEFAULT 0x00400000
+#define DRAM_END          0x00f80000
+
+typedef struct EDOSK2674MachineState {
+    MachineState parent_obj;
+    uint32_t ram_base;
+} EDOSK2674MachineState;
+
+#define TYPE_EDOSK2674_MACHINE MACHINE_TYPE_NAME("edosk2674")
+OBJECT_DECLARE_SIMPLE_TYPE(EDOSK2674MachineState, EDOSK2674_MACHINE)
+/*
+ * Not on the real board: a virtio-mmio transport, so a disk of any size can
+ * hold the root file system.  The 24-bit address space leaves no room for
+ * one in flash or RAM.  Vector 38 is the A/D converter's, which is not
+ * modelled; Linux only sets priorities, never IER, so the IRQ0..15 pins
+ * would stay masked.
+ */
+#define VIRTIO_BASE 0x00f90000
+#define VIRTIO_IRQ  38
+#define DTB_ADDR (dram_base + machine->ram_size - dtb_size)
 
 static void setup_vector(unsigned int base, PFlashCFI01 *fl)
 {
@@ -59,6 +86,8 @@ static void setup_vector(unsigned int base, PFlashCFI01 *fl)
 
 static void edosk2674_init(MachineState *machine)
 {
+    EDOSK2674MachineState *ems = EDOSK2674_MACHINE(machine);
+    uint32_t dram_base = ems->ram_base;
     H8S2674State *s = g_new(H8S2674State, 1);
     MemoryRegion *sysmem = get_system_memory();
     MemoryRegion *sdram = g_new(MemoryRegion, 1);
@@ -68,13 +97,21 @@ static void edosk2674_init(MachineState *machine)
     int dtb_size;
     DriveInfo *dinfo;
     PFlashCFI01 *flash;
+    DeviceState *virtio;
+
+    if (dram_base < 128 * KiB || dram_base % (128 * KiB) ||
+        dram_base + machine->ram_size > DRAM_END) {
+        error_report("ram-base must be a multiple of 128 KiB, and the RAM "
+                     "must end at or below 0x%x", DRAM_END);
+        exit(1);
+    }
 
     /* Allocate memory space */
     memory_region_init_ram(sdram, NULL, "sdram", machine->ram_size,
                            &error_fatal);
-    memory_region_add_subregion(sysmem, DRAM_BASE, sdram);
+    memory_region_add_subregion(sysmem, dram_base, sdram);
     dinfo = drive_get(IF_PFLASH, 0, 0);
-    flash = pflash_cfi01_register(0x0, "edosk2674.flash", 4 * MiB,
+    flash = pflash_cfi01_register(0x0, "edosk2674.flash", dram_base,
                           dinfo ? blk_by_legacy_dinfo(dinfo) : NULL,
                           128 * KiB, 2, 0x0089, 0x0016, 0x0000, 0x0000,
                           0);
@@ -93,11 +130,20 @@ static void edosk2674_init(MachineState *machine)
     sysbus_realize(SYS_BUS_DEVICE(s), &error_abort);
 
     smc91c96_init(0xf80000, s->irq[16]);
+    /*
+     * Modern (v2) transport: legacy virtio-mmio uses the guest's byte order
+     * for its registers, but Linux reads them little-endian.
+     */
+    virtio = qdev_new(TYPE_VIRTIO_MMIO);
+    qdev_prop_set_bit(virtio, "force-legacy", false);
+    sysbus_realize_and_unref(SYS_BUS_DEVICE(virtio), &error_fatal);
+    sysbus_mmio_map(SYS_BUS_DEVICE(virtio), 0, VIRTIO_BASE);
+    sysbus_connect_irq(SYS_BUS_DEVICE(virtio), 0, s->irq[VIRTIO_IRQ]);
 
     /* Load kernel and dtb */
     if (kernel_filename) {
         h8300_load_image(H8300_CPU(first_cpu), kernel_filename,
-                      DRAM_BASE, machine->ram_size);
+                      dram_base, machine->ram_size);
         setup_vector(0xffc000 - 0x200, flash);
         if (dtb_filename) {
             dtb = load_device_tree(dtb_filename, &dtb_size);
@@ -117,6 +163,29 @@ static void edosk2674_init(MachineState *machine)
     }
 }
 
+static void edosk2674_instance_init(Object *obj)
+{
+    EDOSK2674_MACHINE(obj)->ram_base = DRAM_BASE_DEFAULT;
+}
+
+static void edosk2674_get_ram_base(Object *obj, Visitor *v, const char *name,
+                                   void *opaque, Error **errp)
+{
+    uint32_t value = EDOSK2674_MACHINE(obj)->ram_base;
+
+    visit_type_uint32(v, name, &value, errp);
+}
+
+static void edosk2674_set_ram_base(Object *obj, Visitor *v, const char *name,
+                                   void *opaque, Error **errp)
+{
+    uint32_t value;
+
+    if (visit_type_uint32(v, name, &value, errp)) {
+        EDOSK2674_MACHINE(obj)->ram_base = value;
+    }
+}
+
 static void edosk2674_class_init(ObjectClass *oc, const void *data)
 {
     MachineClass *mc = MACHINE_CLASS(oc);
@@ -126,11 +195,19 @@ static void edosk2674_class_init(ObjectClass *oc, const void *data)
     mc->is_default = 0;
     mc->default_cpu_type = TYPE_H8S2674_CPU;
     mc->default_ram_size = 8 * MiB;
+
+    object_class_property_add(oc, "ram-base", "uint32",
+                              edosk2674_get_ram_base, edosk2674_set_ram_base,
+                              NULL, NULL);
+    object_class_property_set_description(oc, "ram-base",
+        "Start of the DRAM; the boot flash shrinks to what lies below it");
 }
 
 static const TypeInfo edosk2674_type = {
-    .name = MACHINE_TYPE_NAME("edosk2674"),
+    .name = TYPE_EDOSK2674_MACHINE,
     .parent = TYPE_MACHINE,
+    .instance_size = sizeof(EDOSK2674MachineState),
+    .instance_init = edosk2674_instance_init,
     .class_init = edosk2674_class_init,
 };
 
