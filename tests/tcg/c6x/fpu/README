@@ -1,0 +1,50 @@
+C674x floating-point instruction tests
+======================================
+
+gen.py turns the special-case rules of TI's "TMS320C674x DSP CPU and
+Instruction Set Reference Guide" (SPRUFE8B, July 2010) into test vectors
+for the 30 floating-point instructions (ABS, ADD, SUB, MPY*, CMP*, the
+conversions and the RCP/RSQR approximations).  The model works on exact
+rationals and uses no host floating point, so it checks the emulation
+against the manual and not against softfloat.  main.c runs each
+instruction on its own through inline asm and prints every mismatch.
+
+Covered: signed zeros, denormals (read as signed zero, flushed on
+output), infinities, quiet and signalling NaNs, NaN_out and its sign,
+overflow and underflow, rounding to nearest, integer saturation.
+
+Not covered:
+- the rounding modes and the FADCR/FAUCR/FMCR status bits;
+- whether underflow is detected before or after rounding, on which the
+  manual is silent: such vectors accept both 0 and the smallest normal;
+- RCP/RSQR beyond the promised 2^-8, as the exact seed tables are not
+  documented;
+- deviations of real hardware from the manual.
+
+Building needs a C6000 cross compiler (CROSS_COMPILE, default
+tic6x-openadk-uclinux-) and python3.
+
+qemu
+----
+  make run-qemu QEMU=<build>/qemu-system-c6x
+
+The bare-metal program prints "fails N" and leaves qemu through the
+dsk6455 exit port with status 0 or 1.
+
+Real hardware
+-------------
+The instructions exist on C674x (C6748, OMAP-L138) and C66x (C6678)
+cores; the C6455 that qemu's dsk6455 models has no FPU, so the tests
+need a different board there.
+
+- Under Linux: "make fpu-linux" builds an ordinary program that only
+  needs printf and putchar.
+- Bare metal, e.g. loaded over JTAG: point the console at the board's
+  16550 UART and leave out the exit port, which only qemu has; the
+  program then spins after printing.  For a C6748 with UART2 and DDR:
+
+    make fpu-baremetal.elf BM_DEFS=-DUART_BASE=0x01d0d000 \
+        BM_LDFLAGS="-Wl,--defsym,RAM_BASE=0xc0000000 -Wl,--defsym,RAM_SIZE=0x4000000"
+
+  The UART must be set up (clock, baud rate) by whatever loads the
+  program.  This configuration has not been tried on hardware.
