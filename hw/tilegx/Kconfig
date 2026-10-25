@@ -1,0 +1,4 @@
+config TILEGX_HV
+    bool
+    default y
+    depends on TILEGX

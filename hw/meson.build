@@ -27,6 +27,7 @@ subdir('s390x')
 subdir('sh4')
 subdir('sparc')
 subdir('sparc64')
+subdir('tilegx')
 subdir('tricore')
 subdir('xtensa')
 

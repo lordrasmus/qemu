@@ -218,6 +218,7 @@ typedef struct mips_elf_abiflags_v0 {
 #define EM_AARCH64          183
 
 #define EM_CSKY             252 /* C-SKY */
+#define EM_TILEGX           191 /* TILE-Gx */
 #define EM_KVX              0x100 /* Kalray KVX */
 #define EM_CSKY_OLD         39  /* C-SKY, pre-registration number */
 
