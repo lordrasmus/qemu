@@ -501,9 +501,7 @@ static TileExcp gen_rr_opcode(DisasContext *dc, unsigned opext,
         if (srca || dest) {
             return TILEGX_EXCP_OPCODE_UNKNOWN;
         }
-        if (dc->mmuidx == MMU_USER_IDX) {
-            return INT_GPV;
-        }
+        tcg_gen_movi_tl(cpu_pc, dc->pc);
         gen_helper_iret(tcg_env);
         tcg_gen_exit_tb(NULL, 0);
         dc->exit_tb = true;
