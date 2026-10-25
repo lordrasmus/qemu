@@ -1,0 +1,2 @@
+config C6X
+    bool

@@ -27,6 +27,7 @@
 #pragma GCC poison TARGET_MIPS
 #pragma GCC poison TARGET_NIOS2
 #pragma GCC poison TARGET_NDS32
+#pragma GCC poison TARGET_C6X
 #pragma GCC poison TARGET_ABI_MIPSN32
 #pragma GCC poison TARGET_ABI_MIPSO32
 #pragma GCC poison TARGET_MIPS64
