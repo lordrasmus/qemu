@@ -222,13 +222,20 @@ void helper_exception(CPUTLGState *env, uint32_t excp)
     cpu_loop_exit(cs);
 }
 
+/*
+ * iret is allowed where the PL's own EX_CONTEXT SPRs are: Linux lets PL0
+ * use it, and uClibc's longjmp does.  It never raises the PL.
+ */
 void helper_iret(CPUTLGState *env)
 {
     int pl = env->cpl;
     uint64_t ex1 = env->ex_context[pl][1];
 
+    if (pl < env->mpl[INT_INTCTRL_0 - pl]) {
+        tilegx_raise_exception(env, INT_GPV, GETPC());
+    }
     env->pc = env->ex_context[pl][0] & ~7ULL;
-    env->cpl = ex1 & 3;
+    env->cpl = MIN(ex1 & 3, pl);
     env->ics = (ex1 >> 2) & 1;
     tilegx_update_irq(env);
 }
