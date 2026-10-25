@@ -3704,6 +3704,7 @@ if have_system or have_user
     'target/loongarch',
     'target/kvx',
     'target/mips/tcg',
+    'target/nds32',
     'target/nios2',
     'target/ppc',
     'target/riscv',
