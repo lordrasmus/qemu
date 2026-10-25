@@ -178,3 +178,4 @@ system_ss.add(when: 'CONFIG_LASI', if_true: files('lasi.c'))
 
 system_ss.add(when: 'CONFIG_AXIADO_CLK', if_true: files('axiado_clk.c'))
 system_ss.add(when: 'CONFIG_CSKY_EXIT', if_true: files('csky_exit.c'))
+system_ss.add(when: 'CONFIG_MILKYMIST', if_true: files('milkymist-hpdmc.c'))

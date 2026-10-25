@@ -361,3 +361,12 @@ loongarch_extioi_writew(uint64_t addr, uint64_t val) "addr: 0x%"PRIx64 "val: 0x%
 # riscv_aplic.c
 riscv_aplic_read(uint64_t offset, unsigned size, uint64_t value) "offset: 0x%" PRIx64 ", size: %u, value: 0x%" PRIx64
 riscv_aplic_write(uint64_t offset, unsigned size, uint64_t value) "offset: 0x%" PRIx64 ", size: %u, value: 0x%" PRIx64
+
+# lm32_pic.c
+lm32_pic_raise_irq(void) "Raise CPU interrupt"
+lm32_pic_lower_irq(void) "Lower CPU interrupt"
+lm32_pic_interrupt(int irq, int level) "Set IRQ%d %d"
+lm32_pic_set_im(uint32_t im) "im 0x%08x"
+lm32_pic_set_ip(uint32_t ip) "ip 0x%08x"
+lm32_pic_get_im(uint32_t im) "im 0x%08x"
+lm32_pic_get_ip(uint32_t ip) "ip 0x%08x"
