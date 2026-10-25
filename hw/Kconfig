@@ -67,6 +67,7 @@ source loongarch/Kconfig
 source m68k/Kconfig
 source microblaze/Kconfig
 source mips/Kconfig
+source nds32/Kconfig
 source nios2/Kconfig
 source or1k/Kconfig
 source ppc/Kconfig
