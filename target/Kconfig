@@ -25,6 +25,7 @@ source tricore/Kconfig
 source xtensa/Kconfig
 source hexagon/Kconfig
 source kvx/Kconfig
+source lm32/Kconfig
 source avr32/Kconfig
 source bfin/Kconfig
 

@@ -1,0 +1,10 @@
+config LM32_DEVICES
+    bool
+    select PTIMER
+
+config MILKYMIST
+    bool
+    default y
+    depends on LM32
+    select LM32_DEVICES
+    select UNIMP

@@ -474,3 +474,6 @@ restore_host_x86_igvm(void) ""
 # tt_atlantis_prcm.c
 tt_atlantis_prcm_read(uint32_t domain, uint64_t offset, uint64_t data) "domain 0x%02x offset 0x%" PRIx64 " data 0x%" PRIx64
 tt_atlantis_prcm_write(uint32_t domain, uint64_t offset, uint64_t data) "domain 0x%02x offset 0x%" PRIx64 " data 0x%" PRIx64
+# milkymist-hpdmc.c
+milkymist_hpdmc_memory_read(uint32_t addr, uint32_t value) "addr=0x%08x value=0x%08x"
+milkymist_hpdmc_memory_write(uint32_t addr, uint32_t value) "addr=0x%08x value=0x%08x"

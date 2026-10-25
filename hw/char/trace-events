@@ -142,3 +142,15 @@ stm32f2xx_usart_receive(char *id, uint8_t chr) " %s receiving '%c'"
 # riscv_htif.c
 htif_uart_write_to_host(uint8_t device, uint8_t cmd, uint64_t payload) "device: %u cmd: %02u payload: %016" PRIx64
 htif_uart_unknown_device_command(uint8_t device, uint8_t cmd, uint64_t payload) "device: %u cmd: %02u payload: %016" PRIx64
+
+# lm32_juart.c
+lm32_juart_get_jtx(uint32_t value) "jtx 0x%08x"
+lm32_juart_set_jtx(uint32_t value) "jtx 0x%08x"
+lm32_juart_get_jrx(uint32_t value) "jrx 0x%08x"
+lm32_juart_set_jrx(uint32_t value) "jrx 0x%08x"
+
+# milkymist-uart.c
+milkymist_uart_memory_read(uint32_t addr, uint32_t value) "addr 0x%08x value 0x%08x"
+milkymist_uart_memory_write(uint32_t addr, uint32_t value) "addr 0x%08x value 0x%08x"
+milkymist_uart_raise_irq(void) "Raise IRQ"
+milkymist_uart_lower_irq(void) "Lower IRQ"
