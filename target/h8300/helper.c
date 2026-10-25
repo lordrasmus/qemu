@@ -44,11 +44,16 @@ void h8300_cpu_unpack_exr(CPUH8300State *env, uint32_t exr)
     env->exr_t = FIELD_EX8(exr, EXR, T);
 }
 
-void h8300_cpu_do_interrupt(CPUState *cs)
+/*
+ * Take an exception (TRAPA, ...) or the interrupt the INTC asked for.  Which
+ * one is the caller's to say: an interrupt can be pending while TRAPA is
+ * delivered, and taking it then would lose the trap -- the system call would
+ * return its own number.
+ */
+static void h8300_cpu_enter(CPUState *cs, bool do_irq)
 {
     H8300CPU *cpu = H8300_CPU(cs);
     CPUH8300State *env = &cpu->env;
-    int do_irq = cpu_test_interrupt(cs, CPU_INTERRUPT_HARD);
     uint32_t save_ccr_pc;
 
     uint32_t exr;
@@ -84,6 +89,11 @@ void h8300_cpu_do_interrupt(CPUState *cs)
     }
 }
 
+void h8300_cpu_do_interrupt(CPUState *cs)
+{
+    h8300_cpu_enter(cs, false);
+}
+
 bool h8300_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
 {
     H8300CPU *cpu = H8300_CPU(cs);
@@ -105,7 +115,7 @@ bool h8300_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
     if ((interrupt_request & CPU_INTERRUPT_HARD) &&
         pri <= env->req_pri) {
         env->ack_irq = env->req_irq;
-        h8300_cpu_do_interrupt(cs);
+        h8300_cpu_enter(cs, true);
         return true;
     } else {
         qemu_set_irq(env->ack, 0);
