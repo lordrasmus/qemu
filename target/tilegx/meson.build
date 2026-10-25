@@ -1,6 +1,7 @@
 tilegx_ss = ss.source_set()
 tilegx_ss.add(files(
   'cpu.c',
+  'fpu_helper.c',
   'helper.c',
   'simd_helper.c',
   'translate.c',

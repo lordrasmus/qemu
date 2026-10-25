@@ -594,7 +594,9 @@ static TileExcp gen_rr_opcode(DisasContext *dc, unsigned opext,
         break;
     case OE_RR_X0(FSINGLE_PACK1):
     case OE_RR_Y0(FSINGLE_PACK1):
-        return TILEGX_EXCP_OPCODE_UNIMPLEMENTED;
+        gen_helper_fsingle_pack1(tdest, tsrca);
+        mnemonic = "fsingle_pack1";
+        break;
     case OE_RR_X1(LD1S):
         memop = MO_SB;
         mnemonic = "ld1s"; /* prefetch_l1_fault */
@@ -881,14 +883,37 @@ static TileExcp gen_rrr_opcode(DisasContext *dc, unsigned opext,
         mnemonic = "exch";
         break;
     case OE_RRR(FDOUBLE_ADDSUB, 0, X0):
+        gen_helper_fdouble_addsub(tdest, load_gr(dc, dest), tsrca, tsrcb);
+        mnemonic = "fdouble_addsub";
+        break;
     case OE_RRR(FDOUBLE_ADD_FLAGS, 0, X0):
+        gen_helper_fdouble_add_flags(tdest, tsrca, tsrcb);
+        mnemonic = "fdouble_add_flags";
+        break;
     case OE_RRR(FDOUBLE_MUL_FLAGS, 0, X0):
+        gen_helper_fdouble_mul_flags(tdest, tsrca, tsrcb);
+        mnemonic = "fdouble_mul_flags";
+        break;
     case OE_RRR(FDOUBLE_PACK1, 0, X0):
+        gen_helper_fdouble_pack1(tdest, tsrca, tsrcb);
+        mnemonic = "fdouble_pack1";
+        break;
     case OE_RRR(FDOUBLE_PACK2, 0, X0):
+        gen_helper_fdouble_pack2(tdest, load_gr(dc, dest), tsrca, tsrcb);
+        mnemonic = "fdouble_pack2";
+        break;
     case OE_RRR(FDOUBLE_SUB_FLAGS, 0, X0):
+        gen_helper_fdouble_sub_flags(tdest, tsrca, tsrcb);
+        mnemonic = "fdouble_sub_flags";
+        break;
     case OE_RRR(FDOUBLE_UNPACK_MAX, 0, X0):
+        gen_helper_fdouble_unpack_max(tdest, tsrca, tsrcb);
+        mnemonic = "fdouble_unpack_max";
+        break;
     case OE_RRR(FDOUBLE_UNPACK_MIN, 0, X0):
-        return TILEGX_EXCP_OPCODE_UNIMPLEMENTED;
+        gen_helper_fdouble_unpack_min(tdest, tsrca, tsrcb);
+        mnemonic = "fdouble_unpack_min";
+        break;
     case OE_RRR(FETCHADD4, 0, X1):
         gen_atomic(dc, tdest, tsrca, tsrcb, AT_FETCHADD, true);
         mnemonic = "fetchadd4";
@@ -922,12 +947,29 @@ static TileExcp gen_rrr_opcode(DisasContext *dc, unsigned opext,
         mnemonic = "fetchor";
         break;
     case OE_RRR(FSINGLE_ADD1, 0, X0):
+        gen_helper_fsingle_add1(tdest, tsrca, tsrcb);
+        mnemonic = "fsingle_add1";
+        break;
     case OE_RRR(FSINGLE_ADDSUB2, 0, X0):
+        gen_helper_fsingle_addsub2(tdest, load_gr(dc, dest), tsrca, tsrcb);
+        mnemonic = "fsingle_addsub2";
+        break;
     case OE_RRR(FSINGLE_MUL1, 0, X0):
+        gen_helper_fsingle_mul1(tdest, tsrca, tsrcb);
+        mnemonic = "fsingle_mul1";
+        break;
     case OE_RRR(FSINGLE_MUL2, 0, X0):
+        gen_helper_fsingle_mul2(tdest, tsrca, tsrcb);
+        mnemonic = "fsingle_mul2";
+        break;
     case OE_RRR(FSINGLE_PACK2, 0, X0):
+        gen_helper_fsingle_pack2(tdest, tsrca, tsrcb);
+        mnemonic = "fsingle_pack2";
+        break;
     case OE_RRR(FSINGLE_SUB1, 0, X0):
-        return TILEGX_EXCP_OPCODE_UNIMPLEMENTED;
+        gen_helper_fsingle_sub1(tdest, tsrca, tsrcb);
+        mnemonic = "fsingle_sub1";
+        break;
     case OE_RRR(MNZ, 0, X0):
     case OE_RRR(MNZ, 0, X1):
     case OE_RRR(MNZ, 4, Y0):
