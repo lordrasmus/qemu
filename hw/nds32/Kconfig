@@ -1,0 +1,7 @@
+config NDS32_AE3XX
+    bool
+    default y
+    depends on NDS32 && FDT
+    select SERIAL_MM
+    select PTIMER
+    select DEVICE_TREE
