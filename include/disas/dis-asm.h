@@ -217,6 +217,8 @@ enum bfd_architecture
 #define bfd_mach_kv3_1                0
 #define bfd_mach_kv3_1_64             1
 #define bfd_mach_kv3_1_usr            2
+  bfd_arch_lm32,       /* Lattice Mico32 */
+#define bfd_mach_lm32 1
   bfd_arch_nios2,      /* Nios II */
 #define bfd_mach_nios2          0
 #define bfd_mach_nios2r1        1
@@ -482,6 +484,7 @@ int print_insn_rx(bfd_vma, disassemble_info *);
 int print_insn_hexagon(bfd_vma, disassemble_info *);
 int print_insn_arc(bfd_vma, disassemble_info *);
 int print_insn_kvx(bfd_vma, disassemble_info *);
+int print_insn_lm32(bfd_vma, disassemble_info *);
 int print_insn_nios2(bfd_vma, disassemble_info *);
 int print_insn_csky_v1(bfd_vma, disassemble_info *);
 int print_insn_csky_v2(bfd_vma, disassemble_info *);

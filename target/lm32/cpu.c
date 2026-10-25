@@ -114,6 +114,13 @@ static void lm32_cpu_reset_hold(Object *obj, ResetType type)
     lm32_cpu_init_cfg_reg(cpu);
 }
 
+static void lm32_cpu_disas_set_info(const CPUState *cpu, disassemble_info *info)
+{
+    info->endian = BFD_ENDIAN_BIG;
+    info->mach = bfd_mach_lm32;
+    info->print_insn = print_insn_lm32;
+}
+
 static void lm32_cpu_realizefn(DeviceState *dev, Error **errp)
 {
     CPUState *cs = CPU(dev);
@@ -248,6 +255,7 @@ static void lm32_cpu_class_init(ObjectClass *oc, const void *data)
     cc->sysemu_ops = &lm32_sysemu_ops;
     cc->gdb_num_core_regs = 32 + 7;
     cc->gdb_stop_before_watchpoint = true;
+    cc->disas_set_info = lm32_cpu_disas_set_info;
     cc->tcg_ops = &lm32_tcg_ops;
 }
 

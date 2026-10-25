@@ -3252,6 +3252,7 @@ disassemblers = {
   'm68k' : ['CONFIG_M68K_DIS'],
   'microblaze' : ['CONFIG_MICROBLAZE_DIS'],
   'kvx' : ['CONFIG_KVX_DIS'],
+  'lm32' : ['CONFIG_LM32_DIS'],
   'mips' : ['CONFIG_MIPS_DIS'],
   'nios2' : ['CONFIG_NIOS2_DIS'],
   'or1k' : ['CONFIG_OPENRISC_DIS'],
