@@ -8,8 +8,8 @@
  *  - 64 MiB SDRAM at 0, the L1 SRAM banks
  *  - core MMRs: event controller (EVT, IMASK, IPEND, ILAT), core timer,
  *    DSPID; everything else there stores what is written
- *  - system MMRs: PLL, CHIPID, system interrupt controller, UART0;
- *    everything else stores what is written
+ *  - system MMRs: PLL, CHIPID, system interrupt controller, UART0 and
+ *    its DMA channels, memory DMA; everything else stores what is written
  *
  * SPDX-License-Identifier: GPL-2.0-or-later
  */
@@ -66,6 +66,11 @@ typedef struct BfinBoard {
     /* UART0 */
     CharFrontend chr;
     uint8_t rbr, ier, lcr, mcr, lsr, scr, gctl, dll, dlh;
+
+    /* peripheral DMA channels 8 and 9, UART0 RX and TX */
+    struct {
+        uint32_t addr, x, y, status;
+    } pdma[2];
 } BfinBoard;
 
 /* ----------------------------------------------------------- SIC */
@@ -112,17 +117,30 @@ static void sic_set(BfinBoard *b, int pid, bool level)
 #define IER_ETBEI   0x02
 #define LCR_DLAB    0x80
 
-/* RX while data is ready, TX while the holding register is empty */
+static bool pdma_enabled(BfinBoard *b, int n);
+static bool pdma_irq(BfinBoard *b, int n);
+static bool pdma_running(BfinBoard *b, int n);
+static void pdma_rx(BfinBoard *b, uint8_t ch);
+
+/*
+ * RX while data is ready, TX while the holding register is empty; with
+ * its DMA channel enabled the line is the channel's interrupt instead
+ */
 static void uart_update(BfinBoard *b)
 {
-    sic_set(b, PID_UART0_RX, (b->lsr & LSR_DR) && (b->ier & IER_ERBFI));
-    sic_set(b, PID_UART0_TX, (b->lsr & LSR_THRE) && (b->ier & IER_ETBEI));
+    sic_set(b, PID_UART0_RX, pdma_enabled(b, 0) ? pdma_irq(b, 0) :
+            (b->lsr & LSR_DR) && (b->ier & IER_ERBFI));
+    sic_set(b, PID_UART0_TX, pdma_enabled(b, 1) ? pdma_irq(b, 1) :
+            (b->lsr & LSR_THRE) && (b->ier & IER_ETBEI));
 }
 
 static int uart_can_receive(void *opaque)
 {
     BfinBoard *b = opaque;
 
+    if (pdma_enabled(b, 0)) {
+        return pdma_running(b, 0);
+    }
     return !(b->lsr & LSR_DR);
 }
 
@@ -130,6 +148,12 @@ static void uart_receive(void *opaque, const uint8_t *buf, int size)
 {
     BfinBoard *b = opaque;
 
+    if (pdma_enabled(b, 0)) {
+        for (int i = 0; i < size && pdma_running(b, 0); i++) {
+            pdma_rx(b, buf[i]);
+        }
+        return;
+    }
     b->rbr = buf[0];
     b->lsr |= LSR_DR;
     uart_update(b);
@@ -364,6 +388,188 @@ static void mdma_run(BfinBoard *b, int n)
     }
 }
 
+/* -------------------------------------------------- peripheral DMA */
+
+/*
+ * The UART0 channels in their default mapping (HWR table 5-7): channel 8
+ * receives, channel 9 transmits, register blocks at 0xffc00c00 + 0x40 * n.
+ * Linux's bfin_uart takes them unless built with SERIAL_BFIN_PIO.  Stop
+ * and autobuffer flow, 1D and 2D, 8-bit words; no descriptors.  A
+ * transmit buffer leaves at once, as a character written to THR does.
+ */
+#define PDMA_BASE       0xffc00c00u
+#define PDMA_UART0_RX   8
+#define DMA_CURR_ADDR   0x24
+#define DMA_PMAP        0x2c
+#define DMA_CURR_X      0x30
+#define DMA_CURR_Y      0x38
+#define WNR             0x02
+#define DI_SEL          0x40
+#define DMAFLOW         0x7000
+#define DMAFLOW_AUTO    0x1000
+#define DMA_RUN         0x08
+
+static hwaddr pdma_reg(int n, hwaddr off)
+{
+    return PDMA_BASE + 0x40 * (PDMA_UART0_RX + n) + off;
+}
+
+static uint32_t pdma_cfg(BfinBoard *b, int n)
+{
+    return store_get(b, pdma_reg(n, DMA_CONFIG));
+}
+
+static bool pdma_enabled(BfinBoard *b, int n)
+{
+    return pdma_cfg(b, n) & DMAEN;
+}
+
+static bool pdma_running(BfinBoard *b, int n)
+{
+    return b->pdma[n].status & DMA_RUN;
+}
+
+static bool pdma_irq(BfinBoard *b, int n)
+{
+    return (b->pdma[n].status & DMA_DONE) && (pdma_cfg(b, n) & DI_EN);
+}
+
+static uint32_t pdma_count(BfinBoard *b, int n, hwaddr off)
+{
+    return (store_get(b, pdma_reg(n, off)) & 0xffff) ?: 0x10000;
+}
+
+/* load the work unit's start values */
+static void pdma_load(BfinBoard *b, int n)
+{
+    b->pdma[n].addr = store_get(b, pdma_reg(n, DMA_START));
+    b->pdma[n].x = pdma_count(b, n, DMA_XCOUNT);
+    b->pdma[n].y = pdma_cfg(b, n) & DMA2D ? pdma_count(b, n, DMA_YCOUNT) : 1;
+}
+
+/*
+ * Advance past one element: XMODIFY within a row, YMODIFY after its last
+ * element.  An interrupt comes after every row with DI_SEL, otherwise
+ * after the work unit, which then restarts in autobuffer mode and stops
+ * the channel in stop mode.
+ */
+static void pdma_step(BfinBoard *b, int n)
+{
+    uint32_t cfg = pdma_cfg(b, n);
+    bool row_end = --b->pdma[n].x == 0;
+
+    if (!row_end) {
+        b->pdma[n].addr += (int16_t)store_get(b, pdma_reg(n, DMA_XMODIFY));
+        return;
+    }
+    if (b->pdma[n].y > 1) {
+        b->pdma[n].addr += (int16_t)store_get(b, pdma_reg(n, DMA_YMODIFY));
+        b->pdma[n].x = pdma_count(b, n, DMA_XCOUNT);
+        b->pdma[n].y--;
+        if (cfg & DI_SEL) {
+            b->pdma[n].status |= DMA_DONE;
+        }
+    } else {
+        b->pdma[n].status |= DMA_DONE;
+        if ((cfg & DMAFLOW) == DMAFLOW_AUTO) {
+            pdma_load(b, n);
+        } else {
+            b->pdma[n].status &= ~DMA_RUN;
+        }
+    }
+    uart_update(b);
+}
+
+static void pdma_rx(BfinBoard *b, uint8_t ch)
+{
+    dma_memory_write(&address_space_memory, b->pdma[0].addr, &ch, 1,
+                     MEMTXATTRS_UNSPECIFIED);
+    pdma_step(b, 0);
+}
+
+static void pdma_tx(BfinBoard *b)
+{
+    if ((pdma_cfg(b, 1) & DMAFLOW) != 0) {
+        qemu_log_mask(LOG_UNIMP, "bfin uart0 tx dma: only stop mode\n");
+        return;
+    }
+    while (pdma_running(b, 1)) {
+        uint8_t ch;
+
+        dma_memory_read(&address_space_memory, b->pdma[1].addr, &ch, 1,
+                        MEMTXATTRS_UNSPECIFIED);
+        qemu_chr_fe_write_all(&b->chr, &ch, 1);
+        pdma_step(b, 1);
+    }
+}
+
+static uint32_t pdma_read(BfinBoard *b, hwaddr addr)
+{
+    int ch = (addr - PDMA_BASE) / 0x40, n = ch - PDMA_UART0_RX;
+    hwaddr off = addr & 0x3f;
+
+    if (off == DMA_PMAP) {
+        return store_get(b, addr) ?: ch << 12;
+    }
+    if (n != 0 && n != 1) {
+        return store_get(b, addr);
+    }
+    switch (off) {
+    case DMA_CURR_ADDR:
+        return b->pdma[n].addr;
+    case DMA_IRQ_STATUS:
+        return b->pdma[n].status;
+    case DMA_CURR_X:
+        return b->pdma[n].x & 0xffff;
+    case DMA_CURR_Y:
+        return b->pdma[n].y & 0xffff;
+    }
+    return store_get(b, addr);
+}
+
+static void pdma_write(BfinBoard *b, hwaddr addr, uint32_t v)
+{
+    int n = (addr - PDMA_BASE) / 0x40 - PDMA_UART0_RX;
+    hwaddr off = addr & 0x3f;
+    bool was_on;
+
+    if (n != 0 && n != 1) {
+        store_set(b, addr, v);
+        return;
+    }
+    if (off == DMA_IRQ_STATUS) {
+        /* DONE and ERR are write-1-to-clear */
+        b->pdma[n].status &= ~(v & (DMA_DONE | DMA_ERR));
+        uart_update(b);
+        return;
+    }
+    was_on = pdma_enabled(b, n);
+    store_set(b, addr, v);
+    if (off != DMA_CONFIG) {
+        return;
+    }
+    if (!(v & DMAEN)) {
+        b->pdma[n].status &= ~DMA_RUN;
+    } else if (!was_on) {
+        if (((v & WNR) != 0) != (n == 0) || ((v >> 2) & 3) != 0) {
+            qemu_log_mask(LOG_GUEST_ERROR,
+                          "bfin uart0 dma%d: config 0x%x\n", 8 + n, v);
+        }
+        if ((v & DMAFLOW) > DMAFLOW_AUTO) {
+            qemu_log_mask(LOG_UNIMP,
+                          "bfin uart0 dma%d: no descriptor flow\n", 8 + n);
+        }
+        pdma_load(b, n);
+        b->pdma[n].status |= DMA_RUN;
+        if (n == 1) {
+            pdma_tx(b);
+        } else {
+            qemu_chr_fe_accept_input(&b->chr);
+        }
+    }
+    uart_update(b);
+}
+
 /* ------------------------------------------------------- MMR space */
 
 static uint32_t store_get(BfinBoard *b, hwaddr addr)
@@ -482,6 +688,8 @@ static uint64_t sys_mmr_read(void *opaque, hwaddr off, unsigned size)
         return b->sic_iwr;
     case 0xffc00400 ... 0xffc0042f:
         return uart_read(b, addr - 0xffc00400);
+    case 0xffc00c00 ... 0xffc00eff:
+        return pdma_read(b, addr);
     }
     return store_get(b, addr);
 }
@@ -507,6 +715,9 @@ static void sys_mmr_write(void *opaque, hwaddr off, uint64_t v, unsigned size)
         return;
     case 0xffc00400 ... 0xffc0042f:
         uart_write(b, addr - 0xffc00400, v);
+        return;
+    case 0xffc00c00 ... 0xffc00eff:
+        pdma_write(b, addr, v);
         return;
     case 0xffc00f00 ... 0xffc00fff:
         if ((addr & 0x3f) == DMA_IRQ_STATUS) {
