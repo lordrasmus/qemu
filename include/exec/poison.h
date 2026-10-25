@@ -19,6 +19,7 @@
 #pragma GCC poison TARGET_LOONGARCH64
 #pragma GCC poison TARGET_CRIS
 #pragma GCC poison TARGET_M68K
+#pragma GCC poison TARGET_META
 #pragma GCC poison TARGET_MICROBLAZE
 #pragma GCC poison TARGET_KVX
 #pragma GCC poison TARGET_AVR32

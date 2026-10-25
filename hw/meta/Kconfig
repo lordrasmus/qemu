@@ -1,0 +1,7 @@
+config META_01SP
+    bool
+    default y
+    depends on META
+    select PTIMER
+    select UNIMP
+    select DEVICE_TREE

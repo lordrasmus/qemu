@@ -16,6 +16,7 @@ subdir('xenpv') # i386 uses it
 subdir('i386')
 subdir('loongarch')
 subdir('m68k')
+subdir('meta')
 subdir('microblaze')
 subdir('mips')
 subdir('nds32')

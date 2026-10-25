@@ -9,6 +9,7 @@ source hppa/Kconfig
 source i386/Kconfig
 source loongarch/Kconfig
 source m68k/Kconfig
+source meta/Kconfig
 source microblaze/Kconfig
 source mips/Kconfig
 source nds32/Kconfig
