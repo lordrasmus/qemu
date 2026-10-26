@@ -64,6 +64,7 @@ typedef struct MacfbState {
     uint32_t width, height; /* in pixels */
     uint8_t depth;
     uint8_t type;
+    bool vga_palette;
 
     uint32_t regs[MACFB_NUM_REGS];
     const MacFbMode *mode;
