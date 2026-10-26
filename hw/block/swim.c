@@ -363,6 +363,14 @@ static uint64_t iwmctrl_read(void *opaque, hwaddr addr, unsigned size)
     case IWM_READALLONES:
         value = 0xff;
         break;
+    case IWM_READSTATUS0:
+    case IWM_READSTATUS1:
+        /* mode register, motor on, no drive answering the sense line */
+        value = (swimctrl->iwmregs[IWM_WRITESETMODE] & 0x1f) | 0x80;
+        if (swimctrl->iwm_latches & (1 << IWMLB_MOTORON)) {
+            value |= 0x20;
+        }
+        break;
     default:
         value = 0;
         break;
