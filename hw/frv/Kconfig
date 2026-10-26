@@ -1,0 +1,7 @@
+config FRV_MB93091
+    bool
+    default y
+    depends on FRV
+    select SERIAL_MM
+    select PTIMER
+    select UNIMP
