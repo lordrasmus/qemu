@@ -1,0 +1,2 @@
+config V850
+    bool

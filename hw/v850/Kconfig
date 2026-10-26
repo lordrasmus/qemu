@@ -1,0 +1,4 @@
+config V850_SIM
+    bool
+    default y
+    depends on V850

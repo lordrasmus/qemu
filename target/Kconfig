@@ -26,6 +26,7 @@ source sh4/Kconfig
 source sparc/Kconfig
 source tilegx/Kconfig
 source tricore/Kconfig
+source v850/Kconfig
 source xtensa/Kconfig
 source hexagon/Kconfig
 source kvx/Kconfig

@@ -45,6 +45,7 @@
 #pragma GCC poison TARGET_SPARC64
 #pragma GCC poison TARGET_TILEGX
 #pragma GCC poison TARGET_TRICORE
+#pragma GCC poison TARGET_V850
 #pragma GCC poison TARGET_XTENSA
 
 #pragma GCC poison TARGET_HAS_BFLT
