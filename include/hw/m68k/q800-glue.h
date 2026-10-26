@@ -34,6 +34,7 @@ struct GLUEState {
     M68kCPU *cpu;
     uint8_t ipr;
     uint8_t auxmode;
+    bool classic_only;
     qemu_irq irqs[2];
     QEMUTimer *nmi_release;
 };
