@@ -4,3 +4,4 @@ config IA64_VIRT
     depends on IA64
     select SERIAL_ISA
     select ISA_BUS
+    select VIRTIO_MMIO

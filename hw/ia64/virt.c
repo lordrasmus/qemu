@@ -31,6 +31,7 @@
 #include "hw/isa/isa.h"
 #include "hw/char/serial-isa.h"
 #include "hw/ia64/iosapic.h"
+#include "hw/virtio/virtio-mmio.h"
 #include "system/system.h"
 #include "system/reset.h"
 #include "system/runstate.h"
@@ -62,6 +63,10 @@
 #define IOPORT_SIZE     (64 * MiB)
 #define IOSAPIC_BASE    0xfec00000ull
 #define PIB_BASE        0xfee00000ull           /* processor interrupt block */
+#define VIRTIO_BASE     0xfed00000ull           /* virtio-mmio transports */
+#define VIRTIO_SIZE     0x200
+#define VIRTIO_NUM      8
+#define VIRTIO_GSI      16                      /* first I/O SAPIC pin */
 
 #define PAGE_OFFSET     0xe000000000000000ull
 
@@ -229,9 +234,9 @@ static void acpi_finish(uint64_t pa)
     acpi_checksum(pa, ldl_le_p(virt.fw + pa - FW_BASE + 4), 9);
 }
 
-/* AML with single-byte package lengths (each package < 64 bytes) */
+/* AML with one- or two-byte package lengths (each package < 4 KB) */
 typedef struct Aml {
-    uint8_t b[256];
+    uint8_t b[4096];
     int n;
 } Aml;
 
@@ -249,10 +254,60 @@ static void aml_bytes(Aml *a, const void *p, int len)
 /* Wrap body as a package: op bytes, PkgLength, body. */
 static void aml_pkg(Aml *out, const uint8_t *op, int oplen, const Aml *body)
 {
-    assert(body->n + 1 < 64);
     aml_bytes(out, op, oplen);
-    aml_byte(out, body->n + 1);
+    if (body->n + 1 < 64) {
+        aml_byte(out, body->n + 1);
+    } else {
+        int len = body->n + 2;
+
+        assert(len < 4096);
+        aml_byte(out, 0x40 | (len & 0xf));
+        aml_byte(out, len >> 4);
+    }
     aml_bytes(out, body->b, body->n);
+}
+
+static void aml_name_crs(Aml *dev, const uint8_t *crs, int len)
+{
+    static const uint8_t buffer_op[] = { 0x11 };
+    Aml buf = { .n = 0 };
+
+    aml_byte(&buf, 0x0a);                       /* BytePrefix: size */
+    aml_byte(&buf, len);
+    aml_bytes(&buf, crs, len);
+    aml_byte(dev, 0x08);                        /* Name(_CRS, Buffer) */
+    aml_bytes(dev, "_CRS", 4);
+    aml_pkg(dev, buffer_op, 1, &buf);
+}
+
+/* virtio-mmio transport i: LNRO0005, its registers and a level GSI */
+static void aml_virtio(Aml *sb, int i)
+{
+    static const uint8_t device_op[] = { 0x5b, 0x82 };
+    uint8_t crs[] = {
+        0x86, 0x09, 0x00, 0x01, 0, 0, 0, 0, 0, 0, 0, 0, /* Memory32Fixed RW */
+        0x89, 0x06, 0x00, 0x01, 0x01, 0, 0, 0, 0,       /* Interrupt, level */
+        0x79, 0x00,
+    };
+    Aml dev = { .n = 0 };
+    char name[5];
+
+    stl_le_p(crs + 4, VIRTIO_BASE + i * VIRTIO_SIZE);
+    stl_le_p(crs + 8, VIRTIO_SIZE);
+    stl_le_p(crs + 17, VIRTIO_GSI + i);
+
+    snprintf(name, sizeof(name), "VR%02d", i);
+    aml_bytes(&dev, name, 4);
+    aml_byte(&dev, 0x08);                       /* Name(_HID, "LNRO0005") */
+    aml_bytes(&dev, "_HID", 4);
+    aml_byte(&dev, 0x0d);
+    aml_bytes(&dev, "LNRO0005", 9);
+    aml_byte(&dev, 0x08);                       /* Name(_UID, i) */
+    aml_bytes(&dev, "_UID", 4);
+    aml_byte(&dev, 0x0a);
+    aml_byte(&dev, i);
+    aml_name_crs(&dev, crs, sizeof(crs));
+    aml_pkg(sb, device_op, 2, &dev);
 }
 
 static uint64_t build_dsdt(uint64_t pa)
@@ -286,6 +341,9 @@ static uint64_t build_dsdt(uint64_t pa)
 
     aml_bytes(&sb, "\\_SB_", 5);
     aml_pkg(&sb, device_op, 2, &dev);
+    for (int i = 0; i < VIRTIO_NUM; i++) {
+        aml_virtio(&sb, i);
+    }
 
     aml_pkg(&all, scope_op, 1, &sb);
 
@@ -469,6 +527,8 @@ static void build_efi(MachineState *ms, uint64_t rsdp, uint64_t initrd,
     md[n++] = (MemDesc){ EFI_RUNTIME_DATA, FW_DATA_END, FW_END,
                          EFI_MEM_WB | EFI_MEM_RUNTIME };
     md[n++] = (MemDesc){ EFI_MMIO, IOSAPIC_BASE, IOSAPIC_BASE + 0x100000,
+                         EFI_MEM_UC | EFI_MEM_RUNTIME };
+    md[n++] = (MemDesc){ EFI_MMIO, VIRTIO_BASE, VIRTIO_BASE + 0x1000,
                          EFI_MEM_UC | EFI_MEM_RUNTIME };
     md[n++] = (MemDesc){ EFI_MMIO, PIB_BASE, PIB_BASE + 0x200000,
                          EFI_MEM_UC | EFI_MEM_RUNTIME };
@@ -697,6 +757,19 @@ static void efi_call(CPUIA64State *env, int svc)
 
 static void virt_firmware_call(CPUIA64State *env, uint32_t n)
 {
+    /*
+     * Firmware on a real machine runs through the TLB and evicts translation
+     * cache entries, which the architecture allows at any time.  SMP Linux
+     * depends on it: per_cpu_init() moves the boot CPU's per-CPU area and
+     * repoints ar.k3, but the old PERCPU_ADDR translation is never purged.
+     * ia64_tlb_init() would write the ptce parameters through it into the old
+     * area, and every later flush_tlb_all() would read zero loop counts and
+     * purge nothing.  PAL_CACHE_SUMMARY runs in between, so drop the caches
+     * on every firmware call except the one the idle loop makes.
+     */
+    if (n != FW_CALL_PAL || env->gr[28] != 29) {
+        ia64_tlb_flush_all(env);
+    }
     if (n == FW_CALL_PAL) {
         pal_call(env);
     } else if (n == FW_CALL_SAL) {
@@ -753,6 +826,15 @@ static void virt_init(MachineState *ms)
     }
     isa_bus_register_input_irqs(isa_bus, isa_irqs);
     serial_hds_isa_init(isa_bus, 0, 1);
+
+    /*
+     * virtio-mmio transports, created from the top down so that the first
+     * -device lands on the lowest address, as on arm/virt.
+     */
+    for (int i = VIRTIO_NUM - 1; i >= 0; i--) {
+        sysbus_create_simple(TYPE_VIRTIO_MMIO, VIRTIO_BASE + i * VIRTIO_SIZE,
+                             qdev_get_gpio_in(virt.iosapic, VIRTIO_GSI + i));
+    }
 
     if (!ms->kernel_filename) {
         error_report("ia64 virt: -kernel is required");
