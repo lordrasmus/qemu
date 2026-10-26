@@ -2205,6 +2205,11 @@ DISAS_INSN(arith_im)
     bool with_SR = ((insn & 0x3f) == 0x3c);
 
     op = (insn >> 9) & 7;
+    if (((insn >> 6) & 3) == 3) {
+        /* size 3 is CMP2/CHK2 where their addressing modes allow it */
+        disas_undef(env, s, insn);
+        return;
+    }
     opsize = insn_opsize(insn);
     switch (opsize) {
     case OS_BYTE:
