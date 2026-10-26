@@ -79,9 +79,10 @@ void v850_cpu_do_interrupt(CPUState *cs)
     cs->exception_index = -1;
 }
 
+/* No MMU: the debug address is the physical one, page offset included */
 hwaddr v850_cpu_get_phys_page_debug(CPUState *cs, vaddr addr)
 {
-    return addr & TARGET_PAGE_MASK;
+    return addr;
 }
 
 /* No MMU, no protection */
