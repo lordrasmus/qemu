@@ -47,6 +47,7 @@
 #include <poll.h>
 #include "qapi/error.h"
 #include "qemu/defer-call.h"
+#include "qemu/main-loop.h"
 #include "qemu/rcu_queue.h"
 #include "aio-posix.h"
 #include "trace.h"
@@ -430,7 +431,24 @@ static int fdmon_io_uring_wait(AioContext *ctx, AioHandlerList *ready_list,
 
     assert(ret >= 0);
 
-    return process_cq_ring(ctx, ready_list);
+    ret = process_cq_ring(ctx, ready_list);
+
+    /*
+     * process_cq_ring() re-armed the one-shot IORING_OP_POLL_ADDs of the
+     * handlers that fired, but only queued the sqes.  qemu_aio_context may
+     * be polled by any thread that holds the BQL, e.g. a vCPU doing
+     * synchronous block I/O, while the main loop thread sleeps in ppoll()
+     * on the ring fd with the BQL released.  Nobody would submit the sqes
+     * before that ppoll() returns, so a later aio_notify() or fd event
+     * could not post a cqe and wake it up.
+     */
+    if (ctx == qemu_get_aio_context() &&
+        io_uring_sq_ready(&ctx->fdmon_io_uring)) {
+        while (io_uring_submit(&ctx->fdmon_io_uring) == -EINTR) {
+            /* Keep trying if syscall was interrupted */
+        }
+    }
+    return ret;
 }
 
 static bool fdmon_io_uring_need_wait(AioContext *ctx)
