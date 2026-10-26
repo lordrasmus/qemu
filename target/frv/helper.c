@@ -227,7 +227,7 @@ void frv_spr_write(CPUFRVState *env, int spr, uint32_t val)
 
 hwaddr frv_cpu_get_phys_page_debug(CPUState *cs, vaddr addr)
 {
-    return addr & TARGET_PAGE_MASK;
+    return addr;
 }
 
 /* No MMU: virtual and physical addresses are the same */
