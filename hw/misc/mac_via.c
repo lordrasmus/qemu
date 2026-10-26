@@ -1388,6 +1388,8 @@ static void mos6522_q800_via2_reset_hold(Object *obj, ResetType type)
     ms->b = 0;
     ms->dira = 0;
     ms->a = 0x7f;
+    /* no slot asks for service: CA1 idles high, the first request is an edge */
+    ms->last_irq_levels |= VIA2_IRQ_NUBUS;
 }
 
 static void via2_nubus_irq_request(void *opaque, int n, int level)
