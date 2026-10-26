@@ -75,8 +75,9 @@
 
 #define VIA_BASE              (IO_BASE + 0x00000)
 #define SCC_BASE              (IO_BASE + 0x04000)
-#define SCSI_DMA_BASE         (IO_BASE + 0x06000)
+#define SCSI_DMA_BASE         (IO_BASE + 0x06000)     /* with handshake */
 #define SCSI_BASE             (IO_BASE + 0x10000)
+#define SCSI_PDMA_BASE        (IO_BASE + 0x12000)     /* without */
 #define ASC_BASE              (IO_BASE + 0x14000)
 #define SWIM_BASE             (IO_BASE + 0x16000)
 
@@ -117,6 +118,7 @@ struct MacIIMachineState {
     MemoryRegion *ram_mirror;
     MemoryRegion macio;
     MemoryRegion macio_alias;
+    MemoryRegion scsi_pdma_alias;
     QemuInputHandlerState *abs_mouse;
     int mouse_x, mouse_y;
 };
@@ -498,6 +500,12 @@ static void macii_machine_init(MachineState *machine)
                                 sysbus_mmio_get_region(sysbus, 0));
     memory_region_add_subregion(&m->macio, SCSI_DMA_BASE - IO_BASE,
                                 sysbus_mmio_get_region(sysbus, 1));
+    /* the ROM's SCSI Manager reads and writes blind through this one */
+    memory_region_init_alias(&m->scsi_pdma_alias, OBJECT(machine),
+                             "ncr5380-pdma-alias",
+                             sysbus_mmio_get_region(sysbus, 1), 0, 0x2000);
+    memory_region_add_subregion(&m->macio, SCSI_PDMA_BASE - IO_BASE,
+                                &m->scsi_pdma_alias);
     scsi_bus_legacy_handle_cmdline(&m->ncr5380.bus);
 
     /* Apple Sound Chip */
@@ -668,6 +676,23 @@ static void macii_machine_init(MachineState *machine)
     }
 }
 
+/* what Mac OS expects of SCSI disks and CD-ROMs, as on the Quadra 800 */
+static GlobalProperty hw_compat_macii[] = {
+    { "scsi-hd", "quirk_mode_page_vendor_specific_apple", "on" },
+    { "scsi-hd", "quirk_mode_page_set_block_size", "on" },
+    { "scsi-hd", "vendor", " SEAGATE" },
+    { "scsi-hd", "product", "          ST225N" },
+    { "scsi-hd", "ver", "1.0 " },
+    { "scsi-cd", "quirk_mode_page_apple_vendor", "on" },
+    { "scsi-cd", "quirk_mode_sense_rom_use_dbd", "on" },
+    { "scsi-cd", "quirk_mode_page_vendor_specific_apple", "on" },
+    { "scsi-cd", "quirk_mode_page_set_block_size", "on" },
+    { "scsi-cd", "quirk_mode_page_truncated", "on" },
+    { "scsi-cd", "vendor", "MATSHITA" },
+    { "scsi-cd", "product", "CD-ROM CR-8005" },
+    { "scsi-cd", "ver", "1.0k" },
+};
+
 static void macii_machine_class_init(ObjectClass *oc, const void *data)
 {
     static const char * const valid_cpu_types[] = {
@@ -686,6 +711,8 @@ static void macii_machine_class_init(ObjectClass *oc, const void *data)
     mc->default_ram_id = "m68k_mac.ram";
     mc->default_ram_size = 128 * MiB;
     machine_add_audiodev_property(mc);
+    compat_props_add(mc->compat_props, hw_compat_macii,
+                     G_N_ELEMENTS(hw_compat_macii));
 }
 
 static const TypeInfo macii_machine_typeinfo = {
