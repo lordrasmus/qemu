@@ -924,6 +924,31 @@ static void via1_timer_calibration_hack(MOS6522Q800VIA1State *v1s, int addr,
      */
     int old_timer_hack_state = v1s->timer_hack_state;
 
+    if (!v1s->q800_cpuid && v1s->timer_hack_state < 4) {
+        /*
+         * The Mac II family ROMs calibrate with the T2 interrupt enabled,
+         * T2 loaded with 0x30f (1 ms) once per value, and turn the
+         * interrupt off again at the end. TIMEDBRA overflows to 0 here.
+         */
+        if (addr == VIA_REG_IER && val == 0xa0) {
+            v1s->timer_hack_state = 1;
+        } else if (v1s->timer_hack_state >= 1 && addr == VIA_REG_T2CH &&
+                   val == 0x3) {
+            v1s->timer_hack_state = 3;
+        } else if (v1s->timer_hack_state == 3 && addr == VIA_REG_IER &&
+                   val == 0x20) {
+            stw_be_phys(&address_space_memory, MACOS_TIMEDBRA,
+                        MACOS_TIMEDBRA_VALUE);
+            stw_be_phys(&address_space_memory, MACOS_TIMESCCB,
+                        MACOS_TIMESCCB_VALUE);
+            v1s->timer_hack_state = 4;
+        }
+        if (old_timer_hack_state != v1s->timer_hack_state) {
+            trace_via1_timer_hack_state(v1s->timer_hack_state);
+        }
+        return;
+    }
+
     switch (v1s->timer_hack_state) {
     case 0:
         if (addr == VIA_REG_PCR && val == 0x22) {
