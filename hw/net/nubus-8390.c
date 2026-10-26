@@ -16,6 +16,7 @@
 #include "hw/core/irq.h"
 #include "hw/core/qdev-properties.h"
 #include "hw/nubus/nubus.h"
+#include "hw/nubus/nubus-declrom.h"
 #include "net/net.h"
 #include "ne2000.h"
 #include "qom/object.h"
@@ -27,6 +28,7 @@ OBJECT_DECLARE_SIMPLE_TYPE(Nubus8390State, NUBUS_8390)
 #define CARD_REG_OFFSET     0x10000
 #define CARD_REG_SIZE       0x40
 #define DECL_ROM_SIZE       0x1000      /* one page, the ROM at its end */
+#define DECL_ROM_MAX        0x100
 
 struct Nubus8390State {
     NubusDevice parent_obj;
@@ -37,131 +39,68 @@ struct Nubus8390State {
     MemoryRegion rom;
 };
 
-/* sResource IDs and values, see Apple's "Designing Cards and Drivers" */
-#define RESID_TYPE          0x01
-#define RESID_NAME          0x02
-#define RESID_MINOR_BASEOS  0x0a
-#define RESID_MINOR_LENGTH  0x0b
-#define RESID_BOARDID       0x20
+/* sResource IDs, see Apple's "Designing Cards and Drivers" */
 #define RESID_MAC_ADDRESS   0x80
-#define RESID_END           0xff
-
-#define ROM_TEST_PATTERN    0x5a932bc7
-
-typedef struct RomBuilder {
-    uint8_t *p;
-    int pos;
-} RomBuilder;
-
-static void rom_put8(RomBuilder *b, uint8_t v)
-{
-    b->p[b->pos++] = v;
-}
-
-static void rom_put16(RomBuilder *b, uint16_t v)
-{
-    rom_put8(b, v >> 8);
-    rom_put8(b, v);
-}
-
-static void rom_put32(RomBuilder *b, uint32_t v)
-{
-    rom_put16(b, v >> 16);
-    rom_put16(b, v);
-}
-
-/* a directory entry: ID and a 24-bit value or offset from the entry */
-static void rom_entry(uint8_t *p, int pos, uint8_t id, uint32_t data)
-{
-    p[pos] = id;
-    p[pos + 1] = data >> 16;
-    p[pos + 2] = data >> 8;
-    p[pos + 3] = data;
-}
-
-static void rom_entry_off(uint8_t *p, int pos, uint8_t id, int target)
-{
-    rom_entry(p, pos, id, (target - pos) & 0xffffff);
-}
 
 /*
- * Build the declaration ROM into the last 256 bytes of @rom, all four byte
- * lanes in use:
+ * The declaration ROM, all four byte lanes in use:
  *
  *   0x00  root directory: board sResource 0x01, Ethernet sResource 0x80
  *   0x10  board directory: type, name, board ID
  *   0x30  Ethernet directory: type, name, memory offset/length, MAC address
- *   0x60  the data blocks
- *   0xec  format block (20 bytes, ends at the top of the slot space)
+ *   0x60  the data blocks, then the format block
  */
-static void nubus_8390_build_rom(uint8_t *rom, const uint8_t *mac,
-                                 uint32_t mem_offset)
+static int nubus_8390_build_rom(uint8_t *buf, int size, const uint8_t *mac,
+                                uint32_t mem_offset)
 {
-    uint8_t *p = rom + DECL_ROM_SIZE - 0x100;
-    RomBuilder b = { .p = p, .pos = 0x60 };
+    NubusDeclRom r;
     int board_type, board_name, eth_type, eth_name, base, len, macaddr;
-    int fblock = 0x100 - 20;
 
-    board_type = b.pos;
-    rom_put16(&b, 0x0001);      /* category board */
-    rom_put16(&b, 0x0000);
-    rom_put16(&b, 0x0000);
-    rom_put16(&b, 0x0000);
+    nubus_declrom_init(&r, buf, size);
+    r.pos = 0x60;
 
-    eth_type = b.pos;
-    rom_put16(&b, 0x0004);      /* category network */
-    rom_put16(&b, 0x0001);      /* type Ethernet */
-    rom_put16(&b, 0x0001);      /* DrSW Apple */
-    rom_put16(&b, 0x0001);      /* DrHW */
+    board_type = r.pos;
+    nubus_declrom_put16(&r, 0x0001);    /* category board */
+    nubus_declrom_put16(&r, 0x0000);
+    nubus_declrom_put16(&r, 0x0000);
+    nubus_declrom_put16(&r, 0x0000);
 
-    base = b.pos;
-    rom_put32(&b, mem_offset);
-    len = b.pos;
-    rom_put32(&b, CARD_MEM_SIZE);
+    eth_type = r.pos;
+    nubus_declrom_put16(&r, 0x0004);    /* category network */
+    nubus_declrom_put16(&r, 0x0001);    /* type Ethernet */
+    nubus_declrom_put16(&r, 0x0001);    /* DrSW Apple */
+    nubus_declrom_put16(&r, 0x0001);    /* DrHW */
 
-    macaddr = b.pos;
-    for (int i = 0; i < 6; i++) {
-        rom_put8(&b, mac[i]);
-    }
+    base = r.pos;
+    nubus_declrom_put32(&r, mem_offset);
+    len = r.pos;
+    nubus_declrom_put32(&r, CARD_MEM_SIZE);
 
-    board_name = b.pos;
-    for (const char *s = "QEMU NuBus Ethernet"; *s; s++) {
-        rom_put8(&b, *s);
-    }
-    rom_put8(&b, 0);
+    macaddr = r.pos;
+    nubus_declrom_put_bytes(&r, mac, 6);
 
-    eth_name = b.pos;
-    for (const char *s = "Network_Ethernet_8390"; *s; s++) {
-        rom_put8(&b, *s);
-    }
-    rom_put8(&b, 0);
-    assert(b.pos <= fblock);
+    board_name = r.pos;
+    nubus_declrom_puts(&r, "QEMU NuBus Ethernet");
+    eth_name = r.pos;
+    nubus_declrom_puts(&r, "Network_Ethernet_8390");
 
-    rom_entry_off(p, 0x00, 0x01, 0x10);
-    rom_entry_off(p, 0x04, 0x80, 0x30);
-    rom_entry(p, 0x08, RESID_END, 0);
+    nubus_declrom_entry_off(&r, 0x00, 0x01, 0x10);
+    nubus_declrom_entry_off(&r, 0x04, 0x80, 0x30);
+    nubus_declrom_entry(&r, 0x08, NUBUS_RESID_END, 0);
 
-    rom_entry_off(p, 0x10, RESID_TYPE, board_type);
-    rom_entry_off(p, 0x14, RESID_NAME, board_name);
-    rom_entry(p, 0x18, RESID_BOARDID, 0x0123);
-    rom_entry(p, 0x1c, RESID_END, 0);
+    nubus_declrom_entry_off(&r, 0x10, NUBUS_RESID_TYPE, board_type);
+    nubus_declrom_entry_off(&r, 0x14, NUBUS_RESID_NAME, board_name);
+    nubus_declrom_entry(&r, 0x18, NUBUS_RESID_BOARDID, 0x0123);
+    nubus_declrom_entry(&r, 0x1c, NUBUS_RESID_END, 0);
 
-    rom_entry_off(p, 0x30, RESID_TYPE, eth_type);
-    rom_entry_off(p, 0x34, RESID_NAME, eth_name);
-    rom_entry_off(p, 0x38, RESID_MINOR_BASEOS, base);
-    rom_entry_off(p, 0x3c, RESID_MINOR_LENGTH, len);
-    rom_entry_off(p, 0x40, RESID_MAC_ADDRESS, macaddr);
-    rom_entry(p, 0x44, RESID_END, 0);
+    nubus_declrom_entry_off(&r, 0x30, NUBUS_RESID_TYPE, eth_type);
+    nubus_declrom_entry_off(&r, 0x34, NUBUS_RESID_NAME, eth_name);
+    nubus_declrom_entry_off(&r, 0x38, NUBUS_RESID_MINOR_BASEOS, base);
+    nubus_declrom_entry_off(&r, 0x3c, NUBUS_RESID_MINOR_LENGTH, len);
+    nubus_declrom_entry_off(&r, 0x40, RESID_MAC_ADDRESS, macaddr);
+    nubus_declrom_entry(&r, 0x44, NUBUS_RESID_END, 0);
 
-    b.pos = fblock;
-    rom_put32(&b, (0 - fblock) & 0xffffff);     /* directory offset */
-    rom_put32(&b, 0x100);                       /* length */
-    rom_put32(&b, 0);                           /* CRC, unchecked */
-    rom_put8(&b, 1);                            /* revision */
-    rom_put8(&b, 1);                            /* format: Apple */
-    rom_put32(&b, ROM_TEST_PATTERN);
-    rom_put8(&b, 0);
-    rom_put8(&b, 0x0f);                         /* byte lanes: all four */
+    return nubus_declrom_finish(&r);
 }
 
 /* register n sits at offset 60 - 4 * n */
@@ -217,7 +156,9 @@ static void nubus_8390_realize(DeviceState *dev, Error **errp)
     Nubus8390State *s = NUBUS_8390(dev);
     NubusDevice *nd = NUBUS_DEVICE(dev);
     NE2000State *ne = &s->ne2000;
+    uint8_t rom[DECL_ROM_MAX];
     uint32_t mem_offset;
+    int rom_len;
 
     if (nd->slot < 9 || nd->slot > 0xe) {
         error_setg(errp, "nubus-8390 needs a slot from 9 to 14");
@@ -258,8 +199,10 @@ static void nubus_8390_realize(DeviceState *dev, Error **errp)
 
     memory_region_init_rom(&s->rom, OBJECT(dev), "nubus-8390-declrom",
                            DECL_ROM_SIZE, &error_abort);
-    nubus_8390_build_rom(memory_region_get_ram_ptr(&s->rom),
-                         ne->c.macaddr.a, mem_offset);
+    rom_len = nubus_8390_build_rom(rom, sizeof(rom), ne->c.macaddr.a,
+                                   mem_offset);
+    memcpy((uint8_t *)memory_region_get_ram_ptr(&s->rom) + DECL_ROM_SIZE -
+           rom_len, rom, rom_len);
     memory_region_add_subregion(&nd->slot_mem, NUBUS_SLOT_SIZE - DECL_ROM_SIZE,
                                 &s->rom);
 }
