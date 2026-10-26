@@ -7,6 +7,7 @@
 #include "config-poison.h"
 
 #pragma GCC poison TARGET_I386
+#pragma GCC poison TARGET_IA64
 #pragma GCC poison TARGET_X86_64
 #pragma GCC poison TARGET_AARCH64
 #pragma GCC poison TARGET_ALPHA
@@ -27,7 +28,6 @@
 #pragma GCC poison TARGET_MIPS
 #pragma GCC poison TARGET_NIOS2
 #pragma GCC poison TARGET_NDS32
-#pragma GCC poison TARGET_C6X
 #pragma GCC poison TARGET_ABI_MIPSN32
 #pragma GCC poison TARGET_ABI_MIPSO32
 #pragma GCC poison TARGET_MIPS64
