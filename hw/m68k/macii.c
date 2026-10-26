@@ -52,6 +52,7 @@
 #include "hw/nubus/mac-nubus-bridge.h"
 #include "hw/display/macfb.h"
 #include "hw/block/swim.h"
+#include "net/net.h"
 #include "qapi/error.h"
 #include "qemu/error-report.h"
 #include "system/reset.h"
@@ -422,6 +423,12 @@ static void macii_machine_init(MachineState *machine)
     qdev_prop_set_uint8(dev, "depth", graphic_depth ?: 8);
     qdev_realize(dev, BUS(nubus), &error_fatal);
     macfb_mode = (NUBUS_MACFB(dev)->macfb).mode;
+
+    /* Ethernet card in slot A */
+    dev = qdev_new("nubus-8390");
+    qdev_prop_set_int32(dev, "slot", 0xa);
+    qemu_configure_nic_device(dev, true, NULL);
+    qdev_realize_and_unref(dev, BUS(nubus), &error_fatal);
 
     /* Linux direct boot */
     cs = CPU(&m->cpu);

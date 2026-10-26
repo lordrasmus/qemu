@@ -166,3 +166,8 @@ config CAN_FLEXCAN
     bool
     depends on IMX
     select CAN_BUS
+
+config NUBUS_8390
+    bool
+    select NE2000_COMMON
+    depends on NUBUS
