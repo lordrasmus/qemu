@@ -342,7 +342,8 @@ hwaddr cris_cpu_get_phys_page_debug(CPUState *cs, vaddr addr)
     }
 
     if (!miss) {
-        phy = res.phy;
+        /* the TLB path gives the page only */
+        phy = res.phy | (addr & ~TARGET_PAGE_MASK);
     }
     D(fprintf(stderr, "%s %x -> %x\n", __func__, addr, phy));
     return phy;
