@@ -325,8 +325,13 @@ static IA64TLBEntry *tlb_lookup(CPUIA64State *env, uint64_t va, bool insn)
     return NULL;
 }
 
+/* Drop both translation caches; the translation registers stay. */
 void ia64_tlb_flush_all(CPUIA64State *env)
 {
+    for (int i = 0; i < IA64_NUM_TC; i++) {
+        env->itc[i].valid = false;
+        env->dtc[i].valid = false;
+    }
     tlb_flush(env_cpu(env));
 }
 
@@ -628,11 +633,7 @@ void HELPER(ptr)(CPUIA64State *env, uint32_t insn, uint64_t va, uint64_t r2)
 
 void HELPER(ptc_e)(CPUIA64State *env)
 {
-    for (int i = 0; i < IA64_NUM_TC; i++) {
-        env->itc[i].valid = false;
-        env->dtc[i].valid = false;
-    }
-    tlb_flush(env_cpu(env));
+    ia64_tlb_flush_all(env);
 }
 
 uint64_t HELPER(thash)(CPUIA64State *env, uint64_t va)
