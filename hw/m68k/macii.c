@@ -41,7 +41,7 @@
 #include "ui/console.h"
 #include "hw/char/escc.h"
 #include "hw/core/sysbus.h"
-#include "hw/misc/unimp.h"
+#include "hw/scsi/ncr5380.h"
 #include "standard-headers/asm-m68k/bootinfo.h"
 #include "standard-headers/asm-m68k/bootinfo-mac.h"
 #include "bootinfo.h"
@@ -68,7 +68,6 @@
 #define SCC_BASE              (IO_BASE + 0x04000)
 #define SCSI_DMA_BASE         (IO_BASE + 0x06000)
 #define SCSI_BASE             (IO_BASE + 0x10000)
-#define SCSI_SIZE             0x2000
 #define ASC_BASE              (IO_BASE + 0x14000)
 #define SWIM_BASE             (IO_BASE + 0x16000)
 
@@ -96,6 +95,7 @@ struct MacIIMachineState {
     MOS6522Q800VIA2State via2;
     ESCCState escc;
     OrIRQState escc_orgate;
+    NCR5380State ncr5380;
     Swim swim;
     MacNubusBridge mac_nubus_bridge;
     MacfbNubusState macfb;
@@ -349,9 +349,22 @@ static void macii_machine_init(MachineState *machine)
     memory_region_add_subregion(&m->macio, SCC_BASE - IO_BASE,
                                 sysbus_mmio_get_region(sysbus, 0));
 
-    /* SCSI: NCR 5380, not modelled yet */
-    create_unimplemented_device("ncr5380", SCSI_BASE, SCSI_SIZE);
-    create_unimplemented_device("ncr5380-pdma", SCSI_DMA_BASE, SCSI_SIZE);
+    /* SCSI: NCR 5380, IRQ and DRQ are negative edge triggered on VIA2 */
+    object_initialize_child(OBJECT(machine), "ncr5380", &m->ncr5380,
+                            TYPE_NCR5380);
+    sysbus = SYS_BUS_DEVICE(&m->ncr5380);
+    sysbus_realize(sysbus, &error_fatal);
+    sysbus_connect_irq(sysbus, 0,
+                       qemu_irq_invert(qdev_get_gpio_in(DEVICE(&m->via2),
+                                                        VIA2_IRQ_SCSI_BIT)));
+    sysbus_connect_irq(sysbus, 1,
+                       qemu_irq_invert(qdev_get_gpio_in(DEVICE(&m->via2),
+                                                     VIA2_IRQ_SCSI_DATA_BIT)));
+    memory_region_add_subregion(&m->macio, SCSI_BASE - IO_BASE,
+                                sysbus_mmio_get_region(sysbus, 0));
+    memory_region_add_subregion(&m->macio, SCSI_DMA_BASE - IO_BASE,
+                                sysbus_mmio_get_region(sysbus, 1));
+    scsi_bus_legacy_handle_cmdline(&m->ncr5380.bus);
 
     /* Apple Sound Chip */
     object_initialize_child(OBJECT(machine), "asc", &m->asc, TYPE_ASC);

@@ -47,7 +47,7 @@ config MACII
     select ESCC
     select OR_IRQ
     select ASC
-    select UNIMP
+    select NCR5380
 
 config M68K_VIRT
     bool
