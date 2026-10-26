@@ -1,0 +1,6 @@
+config IA64_VIRT
+    bool
+    default y
+    depends on IA64
+    select SERIAL_ISA
+    select ISA_BUS
