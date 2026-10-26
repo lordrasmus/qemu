@@ -506,6 +506,14 @@ static void macfb_vbl_timer(void *opaque)
     timer_mod(s->vbl_timer, next_vbl);
 }
 
+/* the Linux console colours, for when nothing will program the CLUT */
+static const uint8_t macfb_vga_palette[16 * 3] = {
+    0x00, 0x00, 0x00,  0xaa, 0x00, 0x00,  0x00, 0xaa, 0x00,  0xaa, 0x55, 0x00,
+    0x00, 0x00, 0xaa,  0xaa, 0x00, 0xaa,  0x00, 0xaa, 0xaa,  0xaa, 0xaa, 0xaa,
+    0x55, 0x55, 0x55,  0xff, 0x55, 0x55,  0x55, 0xff, 0x55,  0xff, 0xff, 0x55,
+    0x55, 0x55, 0xff,  0xff, 0x55, 0xff,  0x55, 0xff, 0xff,  0xff, 0xff, 0xff,
+};
+
 static void macfb_reset(MacfbState *s)
 {
     int i;
@@ -515,6 +523,9 @@ static void macfb_reset(MacfbState *s)
         s->color_palette[i * 3] = 255 - i;
         s->color_palette[i * 3 + 1] = 255 - i;
         s->color_palette[i * 3 + 2] = 255 - i;
+    }
+    if (s->vga_palette) {
+        memcpy(s->color_palette, macfb_vga_palette, sizeof(macfb_vga_palette));
     }
     memset(s->vram, 0, MACFB_VRAM_SIZE);
     macfb_invalidate_display(s);
@@ -787,6 +798,7 @@ static const Property macfb_nubus_properties[] = {
     DEFINE_PROP_UINT8("depth", MacfbNubusState, macfb.depth, 8),
     DEFINE_PROP_UINT8("display", MacfbNubusState, macfb.type,
                       MACFB_DISPLAY_VGA),
+    DEFINE_PROP_BOOL("vga-palette", MacfbNubusState, macfb.vga_palette, false),
 };
 
 static const VMStateDescription vmstate_macfb_nubus = {
