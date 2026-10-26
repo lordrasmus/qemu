@@ -442,12 +442,12 @@ hwaddr nds32_cpu_get_phys_page_debug(CPUState *cs, vaddr addr)
     uint32_t pte;
 
     if (!FIELD_EX32(env->sr[SR_PSW], PSW, DT)) {
-        return ntm_map(env, addr) & TARGET_PAGE_MASK;
+        return ntm_map(env, addr);
     }
     if (get_pte(env, addr, &pte) != XL_OK) {
         return -1;
     }
-    return pte & TARGET_PAGE_MASK;
+    return (pte & TARGET_PAGE_MASK) | (addr & ~TARGET_PAGE_MASK);
 }
 
 bool nds32_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
