@@ -50,7 +50,6 @@ hwaddr lm32_cpu_get_phys_page_debug(CPUState *cs, vaddr addr)
 {
     LM32CPU *cpu = LM32_CPU(cs);
 
-    addr &= TARGET_PAGE_MASK;
     if (cpu->env.flags & LM32_FLAG_IGNORE_MSB) {
         return addr & 0x7fffffff;
     } else {
