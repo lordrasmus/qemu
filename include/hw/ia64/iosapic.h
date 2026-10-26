@@ -13,7 +13,7 @@
 #define TYPE_IOSAPIC "ia64-iosapic"
 OBJECT_DECLARE_SIMPLE_TYPE(IOSAPICState, IOSAPIC)
 
-#define IOSAPIC_PINS    24
+#define IOSAPIC_PINS    32
 
 struct IOSAPICState {
     SysBusDevice parent_obj;

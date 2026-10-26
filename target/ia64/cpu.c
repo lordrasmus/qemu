@@ -212,6 +212,53 @@ static void ia64_cpu_disas_set_info(const CPUState *cpu,
     info->print_insn = ia64_print_insn;
 }
 
+/*
+ * gdb's ia64 numbering (gdb/ia64-tdep.h): r0-r127, f0-f127 (16 bytes in
+ * the 82-bit register format), p0-p63, b0-b7, vfp, vrap, pr, ip, psr
+ * (with ri), cfm, ar0-ar127.  The stacked registers are those of the
+ * current frame, unrotated.
+ */
+enum {
+    GDB_FR0 = 128, GDB_PR0 = 256, GDB_BR0 = 320, GDB_VFP = 328,
+    GDB_VRAP = 329, GDB_PR = 330, GDB_IP = 331, GDB_PSR = 332, GDB_CFM = 333,
+    GDB_AR0 = 334, GDB_NUM_REGS = 462,
+};
+
+static uint64_t ia64_gdb_pr(CPUIA64State *env)
+{
+    uint64_t pr = 0;
+
+    for (int i = 0; i < 64; i++) {
+        pr |= (uint64_t)(env->pr[i] & 1) << i;
+    }
+    return pr;
+}
+
+/*
+ * gdb reads the stacked registers from the backing store, where neither
+ * the dirty partition nor the current frame have been written yet.  Put
+ * them there when it asks for BSP; the RSE would store the same values.
+ */
+static void ia64_gdb_sync_rse(CPUState *cs)
+{
+    CPUIA64State *env = cpu_env(cs);
+    uint64_t addr = env->ar[AR_BSPSTORE];
+    int sof = FIELD_EX64(env->cfm, CFM, SOF);
+
+    for (int i = 0; i < env->rse_ndirty + sof; i++) {
+        uint64_t v = i < env->rse_ndirty ? env->rse[i]
+                                         : env->gr[32 + i - env->rse_ndirty];
+        uint8_t buf[8];
+
+        if (ia64_is_rnat_slot(addr)) {
+            addr += 8;
+        }
+        stq_le_p(buf, v);
+        cpu_memory_rw_debug(cs, addr, buf, 8, true);
+        addr += 8;
+    }
+}
+
 static int ia64_cpu_gdb_read_register(CPUState *cs, GByteArray *mem_buf,
                                       int n)
 {
@@ -219,8 +266,36 @@ static int ia64_cpu_gdb_read_register(CPUState *cs, GByteArray *mem_buf,
 
     if (n < 128) {
         return gdb_get_reg64(mem_buf, env->gr[n]);
-    } else if (n == 128) {
-        return gdb_get_reg64(mem_buf, env->ip | env->ri);
+    } else if (n < GDB_PR0) {
+        return gdb_get_reg128(mem_buf, env->fr[n - GDB_FR0].se,
+                              env->fr[n - GDB_FR0].mant);
+    } else if (n < GDB_BR0) {
+        return gdb_get_reg64(mem_buf, env->pr[n - GDB_PR0] & 1);
+    } else if (n < GDB_VFP) {
+        return gdb_get_reg64(mem_buf, env->br[n - GDB_BR0]);
+    }
+    switch (n) {
+    case GDB_VFP:
+    case GDB_VRAP:
+        return gdb_get_reg64(mem_buf, 0);
+    case GDB_PR:
+        return gdb_get_reg64(mem_buf, ia64_gdb_pr(env));
+    case GDB_IP:
+        return gdb_get_reg64(mem_buf, env->ip);
+    case GDB_PSR:
+        return gdb_get_reg64(mem_buf, env->psr |
+                             ((uint64_t)env->ri << PSR_RI_SHIFT));
+    case GDB_CFM:
+        return gdb_get_reg64(mem_buf, env->cfm);
+    }
+    if (n < GDB_NUM_REGS) {
+        int ar = n - GDB_AR0;
+
+        if (ar == AR_BSP) {
+            ia64_gdb_sync_rse(cs);
+        }
+        return gdb_get_reg64(mem_buf, ar == AR_BSP ? ia64_bsp(env)
+                                                   : env->ar[ar]);
     }
     return 0;
 }
@@ -232,13 +307,26 @@ static int ia64_cpu_gdb_write_register(CPUState *cs, uint8_t *mem_buf, int n)
 
     if (n < 128) {
         env->gr[n] = val;
-    } else if (n == 128) {
+    } else if (n < GDB_PR0) {
+        env->fr[n - GDB_FR0].mant = val;
+        env->fr[n - GDB_FR0].se = ldq_p(mem_buf + 8) & 0x3ffff;
+        return 16;
+    } else if (n < GDB_BR0) {
+        env->pr[n - GDB_PR0] = val & 1;
+    } else if (n < GDB_VFP) {
+        env->br[n - GDB_BR0] = val;
+    } else if (n == GDB_PR) {
+        for (int i = 1; i < 64; i++) {
+            env->pr[i] = (val >> i) & 1;
+        }
+    } else if (n == GDB_IP) {
         env->ip = val & ~0xfull;
-        env->ri = val & 3;
-    } else {
-        return 0;
+    } else if (n == GDB_PSR) {
+        env->ri = (val >> PSR_RI_SHIFT) & 3;
+    } else if (n >= GDB_AR0 && n < GDB_NUM_REGS && n - GDB_AR0 != AR_BSP) {
+        env->ar[n - GDB_AR0] = val;
     }
-    return 8;
+    return n < GDB_NUM_REGS ? 8 : 0;
 }
 
 #ifndef CONFIG_USER_ONLY
@@ -292,7 +380,7 @@ static void ia64_cpu_class_init(ObjectClass *oc, const void *data)
 #endif
     cc->gdb_read_register = ia64_cpu_gdb_read_register;
     cc->gdb_write_register = ia64_cpu_gdb_write_register;
-    cc->gdb_num_core_regs = 129;
+    cc->gdb_num_core_regs = GDB_NUM_REGS;
     cc->tcg_ops = &ia64_tcg_ops;
 }
 

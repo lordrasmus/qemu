@@ -645,6 +645,15 @@ void ia64_cpu_dump_state(CPUState *cs, FILE *f, int flags)
                  " IFA=%016" PRIx64 " IFS=%016" PRIx64 "\n",
                  env->cr[CR_IIP], env->cr[CR_IPSR], env->cr[CR_ISR],
                  env->cr[CR_IFA], env->cr[CR_IFS]);
+    qemu_fprintf(f, "ITC=%016" PRIx64 " ITM=%016" PRIx64 " ITV=%" PRIx64
+                 " TPR=%" PRIx64 " REQ=%x IRR=%016" PRIx64 ":%016" PRIx64
+                 ":%016" PRIx64 ":%016" PRIx64 " INSVC=%016" PRIx64 ":%016"
+                 PRIx64 ":%016" PRIx64 ":%016" PRIx64 "\n",
+                 ia64_read_itc(env), env->cr[CR_ITM], env->cr[CR_ITV],
+                 env->cr[CR_TPR], cs->interrupt_request,
+                 env->irr[3], env->irr[2], env->irr[1],
+                 env->irr[0], env->insvc[3], env->insvc[2], env->insvc[1],
+                 env->insvc[0]);
     qemu_fprintf(f, "BSP=%016" PRIx64 " BSPSTORE=%016" PRIx64
                  " ndirty=%d PFS=%016" PRIx64 " RSC=%" PRIx64 "\n",
                  ia64_bsp(env), env->ar[AR_BSPSTORE], env->rse_ndirty,

@@ -22,6 +22,7 @@
 #include "qemu/osdep.h"
 #include "qemu/units.h"
 #include "qemu/error-report.h"
+#include "qemu/main-loop.h"
 #include "qapi/error.h"
 #include "cpu.h"
 #include "hw/core/boards.h"
@@ -32,6 +33,12 @@
 #include "hw/char/serial-isa.h"
 #include "hw/ia64/iosapic.h"
 #include "hw/virtio/virtio-mmio.h"
+#include "hw/acpi/acpi.h"
+#include "hw/acpi/aml-build.h"
+#include "hw/pci/pci.h"
+#include "hw/pci/pci_device.h"
+#include "hw/pci/pci_host.h"
+#include "hw/pci-host/gpex.h"
 #include "system/system.h"
 #include "system/reset.h"
 #include "system/runstate.h"
@@ -40,24 +47,7 @@
 #include "system/memory.h"
 #include "accel/tcg/cpu-loop.h"
 #include "elf.h"
-
-/* Physical layout */
-/*
- * The firmware lives outside of RAM: arch/ia64/mm/contig.c registers all
- * of [0, top of RAM) and would hand out firmware pages inside it.
- */
-#define FW_BASE         0x000000fe00000000ull   /* firmware, 1 MB */
-#define FW_PAL          (FW_BASE + 0x00000)     /* EFI_PAL_CODE, 64 KB */
-#define FW_CODE         (FW_BASE + 0x10000)     /* runtime code */
-#define FW_FDESC        (FW_BASE + 0x18000)     /* function descriptors */
-#define FW_EFI          (FW_BASE + 0x20000)     /* runtime data */
-#define FW_SAL          (FW_BASE + 0x21000)
-#define FW_ACPI         (FW_BASE + 0x22000)
-#define FW_DATA_END     (FW_BASE + 0x30000)
-#define FW_BOOTPARAM    (FW_BASE + 0x30000)     /* loader data */
-#define FW_CMDLINE      (FW_BASE + 0x31000)
-#define FW_MEMMAP       (FW_BASE + 0x32000)
-#define FW_END          (FW_BASE + 0x100000)
+#include "virt.h"
 
 #define IOPORT_BASE     0x000000fffc000000ull   /* 64 MB sparse window */
 #define IOPORT_SIZE     (64 * MiB)
@@ -68,38 +58,19 @@
 #define VIRTIO_NUM      8
 #define VIRTIO_GSI      16                      /* first I/O SAPIC pin */
 
-#define PAGE_OFFSET     0xe000000000000000ull
+/* PCI: the generic host bridge, its INTA..INTD on four I/O SAPIC pins */
+#define PCI_MMIO_BASE   0xc0000000ull
+#define PCI_MMIO_SIZE   (FW_ACPI - PCI_MMIO_BASE)
+#define PCI_PORT_BASE     0x1000
+#define PCI_GSI         24
 
 #define PLATFORM_FREQ   100000000ull
 
-/* Firmware call numbers: break.i 0x1c0000 + n */
-enum {
-    FW_CALL_PAL = 0,
-    FW_CALL_SAL = 1,
-    FW_CALL_EFI = 2,    /* + runtime service index */
-};
-
-enum {
-    EFI_GET_TIME, EFI_SET_TIME, EFI_GET_WAKEUP_TIME, EFI_SET_WAKEUP_TIME,
-    EFI_SET_VIRTUAL_ADDRESS_MAP, EFI_CONVERT_POINTER, EFI_GET_VARIABLE,
-    EFI_GET_NEXT_VARIABLE, EFI_SET_VARIABLE, EFI_GET_NEXT_HIGH_MONO_COUNT,
-    EFI_RESET_SYSTEM, EFI_UPDATE_CAPSULE, EFI_QUERY_CAPSULE_CAPS,
-    EFI_QUERY_VARIABLE_INFO,
-    EFI_NUM_SERVICES
-};
-
-#define EFI_SUCCESS         0
-#define EFI_UNSUPPORTED     0x8000000000000003ull
-
-/* EFI memory types and attributes */
-enum {
-    EFI_LOADER_DATA = 2, EFI_RUNTIME_CODE = 5, EFI_RUNTIME_DATA = 6,
-    EFI_CONVENTIONAL = 7, EFI_ACPI_RECLAIM = 9, EFI_MMIO = 11,
-    EFI_MMIO_PORT = 12, EFI_PAL_CODE = 13,
-};
-#define EFI_MEM_UC          (1ull << 0)
-#define EFI_MEM_WB          (1ull << 3)
-#define EFI_MEM_RUNTIME     (1ull << 63)
+/* ACPI fixed hardware on the legacy I/O ports */
+#define ACPI_PM_BASE    0x600                   /* PM1a evt, cnt, timer */
+#define ACPI_GPE0_BASE  0x620
+#define ACPI_GPE0_LEN   4
+#define ACPI_SCI_GSI    9
 
 typedef struct IA64VirtState {
     IA64CPU *cpu;
@@ -111,9 +82,27 @@ typedef struct IA64VirtState {
     AddressSpace isa_as;
     uint64_t entry;
     uint8_t *fw;            /* image of [FW_BASE, FW_END) */
+    uint8_t *acpi_tables;   /* image of [FW_ACPI, + FW_ACPI_SIZE) */
+    MemoryRegion acpi_ram;
+    ACPIREGS acpi;
+    MemoryRegion acpi_pm, acpi_gpe;
+    MemoryRegion pci_mmio;
+    MemoryRegion pci_vga;
+    PCIBus *pci_bus;
 } IA64VirtState;
 
 static IA64VirtState virt;
+
+/* Debug output switched on by the environment, looked up once */
+static bool env_flag(const char *name, int *cache)
+{
+    if (*cache < 0) {
+        *cache = getenv(name) != NULL;
+    }
+    return *cache;
+}
+
+static int io_debug = -1, efi_debug = -1, dbgprint = -1;
 
 /*
  * Legacy I/O ports: Linux maps port p to
@@ -130,11 +119,21 @@ static uint64_t ioport_read(void *opaque, hwaddr off, unsigned size)
 
     address_space_read(&virt.isa_as, ioport_of(off), MEMTXATTRS_UNSPECIFIED,
                        &val, size);
+    if (env_flag("IA64_IO_DEBUG", &io_debug) && ioport_of(off) != 0x3fd &&
+        ioport_of(off) != 0x3f8) {
+        fprintf(stderr, "io: in%u 0x%" HWADDR_PRIx " (off 0x%" HWADDR_PRIx
+                ") -> 0x%" PRIx64 "\n", size, ioport_of(off), off,
+                le64_to_cpu(val));
+    }
     return le64_to_cpu(val);
 }
 
 static void ioport_write(void *opaque, hwaddr off, uint64_t val, unsigned size)
 {
+    if (env_flag("IA64_IO_DEBUG", &io_debug) && ioport_of(off) != 0x3f8) {
+        fprintf(stderr, "io: out%u 0x%" HWADDR_PRIx " (off 0x%" HWADDR_PRIx
+                ") <- 0x%" PRIx64 "\n", size, ioport_of(off), off, val);
+    }
     val = cpu_to_le64(val);
     address_space_write(&virt.isa_as, ioport_of(off), MEMTXATTRS_UNSPECIFIED,
                         &val, size);
@@ -170,32 +169,316 @@ static const MemoryRegionOps pib_ops = {
 };
 
 /*
+ * COM1 for the firmware console: set up like a firmware would (8N1, FIFOs
+ * on, so that a terminal's escape sequences arrive in one piece), and polled.
+ */
+void virt_com1_init(void)
+{
+    static const uint8_t regs[][2] = {
+        { 3, 0x03 }, { 2, 0x07 }, { 4, 0x0b }, { 1, 0x00 },
+    };
+
+    for (int i = 0; i < ARRAY_SIZE(regs); i++) {
+        address_space_write(&virt.isa_as, 0x3f8 + regs[i][0],
+                            MEMTXATTRS_UNSPECIFIED, &regs[i][1], 1);
+    }
+}
+
+int virt_com1_getc(void)
+{
+    uint8_t lsr = 0, c = 0;
+
+    address_space_read(&virt.isa_as, 0x3fd, MEMTXATTRS_UNSPECIFIED, &lsr, 1);
+    if (!(lsr & 1)) {
+        return -1;
+    }
+    address_space_read(&virt.isa_as, 0x3f8, MEMTXATTRS_UNSPECIFIED, &c, 1);
+    return c;
+}
+
+/*
+ * ACPI fixed hardware: PM1a event and control blocks, the PM timer and a
+ * GPE block, with the SCI on an I/O SAPIC pin.  SCI_EN is set from reset,
+ * there is no SMI command port.
+ */
+static void virt_acpi_update_sci(ACPIREGS *ar)
+{
+    acpi_update_sci(ar, qdev_get_gpio_in(virt.iosapic, ACPI_SCI_GSI));
+}
+
+static uint64_t acpi_gpe_read(void *opaque, hwaddr addr, unsigned size)
+{
+    return acpi_gpe_ioport_readb(&virt.acpi, addr);
+}
+
+static void acpi_gpe_write(void *opaque, hwaddr addr, uint64_t val,
+                           unsigned size)
+{
+    acpi_gpe_ioport_writeb(&virt.acpi, addr, val);
+    virt_acpi_update_sci(&virt.acpi);
+}
+
+static const MemoryRegionOps acpi_gpe_ops = {
+    .read = acpi_gpe_read,
+    .write = acpi_gpe_write,
+    .valid = { .min_access_size = 1, .max_access_size = 4 },
+    .impl = { .min_access_size = 1, .max_access_size = 1 },
+    .endianness = DEVICE_LITTLE_ENDIAN,
+};
+
+static void virt_acpi_reset(void *opaque)
+{
+    acpi_pm1_evt_reset(&virt.acpi);
+    acpi_pm1_cnt_reset(&virt.acpi);
+    acpi_pm_tmr_reset(&virt.acpi);
+    acpi_gpe_reset(&virt.acpi);
+    virt_acpi_update_sci(&virt.acpi);
+}
+
+static void virt_acpi_init(void)
+{
+    memory_region_init(&virt.acpi_pm, NULL, "acpi-pm", 64);
+    memory_region_add_subregion(&virt.isa_io, ACPI_PM_BASE, &virt.acpi_pm);
+    acpi_pm_tmr_init(&virt.acpi, virt_acpi_update_sci, &virt.acpi_pm);
+    acpi_pm1_evt_init(&virt.acpi, virt_acpi_update_sci, &virt.acpi_pm);
+    acpi_pm1_cnt_init(&virt.acpi, &virt.acpi_pm, true, true, 2, true);
+    acpi_gpe_init(&virt.acpi, ACPI_GPE0_LEN);
+    memory_region_init_io(&virt.acpi_gpe, NULL, &acpi_gpe_ops, NULL,
+                          "acpi-gpe0", ACPI_GPE0_LEN);
+    memory_region_add_subregion(&virt.isa_io, ACPI_GPE0_BASE, &virt.acpi_gpe);
+    qemu_register_reset(virt_acpi_reset, NULL);
+}
+
+/*
+ * PCI: the generic host bridge.  Its I/O space sits below the legacy ports
+ * in the sparse window, its memory window is mapped one to one, and the
+ * OS reaches configuration space through SAL_PCI_CONFIG_READ/WRITE.
+ */
+static void virt_pci_init(void)
+{
+    DeviceState *dev = qdev_new(TYPE_GPEX_HOST);
+    SysBusDevice *sbd = SYS_BUS_DEVICE(dev);
+
+    sysbus_realize_and_unref(sbd, &error_fatal);
+    memory_region_init_alias(&virt.pci_mmio, OBJECT(dev), "pci-mmio",
+                             sysbus_mmio_get_region(sbd, 1),
+                             PCI_MMIO_BASE, PCI_MMIO_SIZE);
+    memory_region_add_subregion(get_system_memory(), PCI_MMIO_BASE,
+                                &virt.pci_mmio);
+    /* the legacy VGA window lies over RAM, as on a PC */
+    memory_region_init_alias(&virt.pci_vga, OBJECT(dev), "pci-vga",
+                             sysbus_mmio_get_region(sbd, 1),
+                             VGA_WINDOW_BASE, VGA_WINDOW_SIZE);
+    memory_region_add_subregion_overlap(get_system_memory(), VGA_WINDOW_BASE,
+                                        &virt.pci_vga, 1);
+    memory_region_add_subregion_overlap(&virt.isa_io, 0,
+                                        sysbus_mmio_get_region(sbd, 2), -1);
+    for (int i = 0; i < PCI_NUM_PINS; i++) {
+        sysbus_connect_irq(sbd, i,
+                           qdev_get_gpio_in(virt.iosapic, PCI_GSI + i));
+        gpex_set_irq_num(GPEX_HOST(dev), i, PCI_GSI + i);
+    }
+    virt.pci_bus = PCI_HOST_BRIDGE(dev)->bus;
+}
+
+/* SAL's PCI address: compatible or, with type 1, extended */
+static PCIDevice *sal_pci_dev(uint64_t addr, uint64_t type, uint32_t *reg)
+{
+    int bus, devfn;
+
+    if (type == 1) {
+        *reg = addr & 0xfff;
+        devfn = (addr >> 12) & 0xff;
+        bus = (addr >> 20) & 0xff;
+        if (addr >> 28) {
+            return NULL;
+        }
+    } else {
+        *reg = addr & 0xff;
+        devfn = (addr >> 8) & 0xff;
+        bus = (addr >> 16) & 0xff;
+        if (addr >> 24) {
+            return NULL;
+        }
+    }
+    return virt.pci_bus ? pci_find_device(virt.pci_bus, bus, devfn) : NULL;
+}
+
+/*
+ * PC firmware runs the option ROM of the VGA card at boot, the IA-64 ones
+ * do so in an x86 emulator.  Windows' HAL has one of its own for int 10h:
+ * it copies the first 2 KB of physical memory (interrupt vectors, BIOS
+ * data area; its stack lives there too) and reaches C0000-FFFFF through
+ * physical memory.  Put the ROM there and leave its initialization to
+ * that emulator: int 10h points at a stub behind the ROM that calls the
+ * ROM's init entry, which takes the vector over, and then passes the call
+ * on.
+ */
+static void phys_write(hwaddr pa, const void *buf, hwaddr len)
+{
+    address_space_write(&address_space_memory, pa, MEMTXATTRS_UNSPECIFIED,
+                        buf, len);
+}
+
+static void virt_vga_post(PCIDevice *d)
+{
+    /*
+     * The int 10h handler.  The HAL's emulator runs it on a stack in its
+     * 2 KB copy of low memory, a few hundred bytes above the BIOS data
+     * area, too little for a ROM written in C: switch to one of our own.
+     * The first call runs the ROM's init entry and takes over the vector
+     * it installs; every call is passed on to that.
+     */
+    static const uint8_t stub[] = {
+        0x2e, 0x8c, 0x16, 0x66, 0x00,           /* mov cs:[old_ss], ss */
+        0x2e, 0x89, 0x26, 0x68, 0x00,           /* mov cs:[old_sp], sp */
+        0x0e, 0x17,                             /* push cs; pop ss */
+        0xbc, 0x00, 0x0f,                       /* mov sp, 0xf00 */
+        0x2e, 0x80, 0x3e, 0x6e, 0x00, 0x00,     /* cmp byte cs:[done], 0 */
+        0x75, 0x3c,                             /* jne pass */
+        0x50, 0x53, 0x51, 0x52,                 /* push ax, bx, cx, dx */
+        0x56, 0x57, 0x55, 0x1e, 0x06,           /* push si, di, bp, ds, es */
+        0xb8, 0xff, 0xff,                       /* mov ax, 0xffff: no bdf */
+        0x9a, 0x03, 0x00, 0x00, 0xc0,           /* call far c000:0003 */
+        0x31, 0xc0, 0x8e, 0xd8,                 /* xor ax, ax; mov ds, ax */
+        0xa1, 0x40, 0x00,                       /* mov ax, [0x40] */
+        0x2e, 0xa3, 0x6a, 0x00,                 /* mov cs:[vec], ax */
+        0xa1, 0x42, 0x00,                       /* mov ax, [0x42] */
+        0x2e, 0xa3, 0x6c, 0x00,                 /* mov cs:[vec + 2], ax */
+        0xc7, 0x06, 0x40, 0x00, 0x00, 0x00,     /* mov word [0x40], 0 */
+        0x8c, 0x0e, 0x42, 0x00,                 /* mov [0x42], cs */
+        0x2e, 0xc6, 0x06, 0x6e, 0x00, 0x01,     /* mov byte cs:[done], 1 */
+        0x07, 0x1f, 0x5d, 0x5f, 0x5e,           /* pop es, ds, bp, di, si */
+        0x5a, 0x59, 0x5b, 0x58,                 /* pop dx, cx, bx, ax */
+        0x9c,                                   /* pass: pushf */
+        0x2e, 0xff, 0x1e, 0x6a, 0x00,           /* call far cs:[vec] */
+        0x2e, 0x8e, 0x16, 0x66, 0x00,           /* mov ss, cs:[old_ss] */
+        0x2e, 0x8b, 0x26, 0x68, 0x00,           /* mov sp, cs:[old_sp] */
+        0xca, 0x02, 0x00,                       /* retf 2: keep the flags */
+        0, 0, 0, 0,                             /* old_ss, old_sp */
+        0, 0, 0, 0,                             /* vec */
+        0,                                      /* done */
+    };
+    static const uint8_t iret = 0xcf;
+    uint8_t ivt[1024];
+    const uint8_t *rom = memory_region_get_ram_ptr(&d->rom);
+    uint64_t size = rom[2] * 512;               /* the image, not the BAR */
+
+    if (lduw_le_p(rom) != 0xaa55 || size > VGA_STUB - VGA_ROM_BASE) {
+        warn_report("ia64 virt: no usable VGA ROM");
+        return;
+    }
+    phys_write(VGA_ROM_BASE, rom, size);
+    phys_write(VGA_STUB, stub, sizeof(stub));
+    phys_write(VGA_STUB + sizeof(stub), &iret, 1);
+    for (int i = 0; i < 256; i++) {
+        uint16_t off = i == 0x10 ? 0 : sizeof(stub);
+
+        stw_le_p(ivt + 4 * i, off);
+        stw_le_p(ivt + 4 * i + 2, VGA_STUB >> 4);
+    }
+    phys_write(0, ivt, sizeof(ivt));
+    memset(ivt, 0, 256);
+    phys_write(0x400, ivt, 256);                    /* BIOS data area */
+}
+
+/*
+ * Firmware's job, done before the boot loader runs: give every BAR on bus
+ * 0 its place in the I/O and memory windows, enable decoding, and note the
+ * GSI in the interrupt line register.
+ */
+void virt_pci_assign(void)
+{
+    uint64_t io = PCI_PORT_BASE, mem = PCI_MMIO_BASE;
+
+    for (int devfn = 0; virt.pci_bus && devfn < 256; devfn++) {
+        PCIDevice *d = pci_find_device(virt.pci_bus, 0, devfn);
+        uint32_t cs, cmd = PCI_COMMAND_MASTER;
+        uint8_t pin;
+
+        if (!d) {
+            continue;
+        }
+        cs = pci_config_size(d);
+        for (int i = 0; i < PCI_ROM_SLOT; i++) {
+            PCIIORegion *r = &d->io_regions[i];
+            uint32_t bar = PCI_BASE_ADDRESS_0 + 4 * i;
+            uint64_t size = r->size, *next;
+
+            if (!size) {
+                continue;
+            }
+            if (r->type & PCI_BASE_ADDRESS_SPACE_IO) {
+                next = &io;
+                cmd |= PCI_COMMAND_IO;
+            } else {
+                next = &mem;
+                cmd |= PCI_COMMAND_MEMORY;
+            }
+            *next = ROUND_UP(*next, size);
+            pci_host_config_write_common(d, bar, cs, *next, 4);
+            if (r->type & PCI_BASE_ADDRESS_MEM_TYPE_64) {
+                pci_host_config_write_common(d, bar + 4, cs, *next >> 32, 4);
+                i++;
+            }
+            *next += size;
+        }
+        pin = pci_get_byte(d->config + PCI_INTERRUPT_PIN);
+        if (pin) {
+            pci_host_config_write_common(d, PCI_INTERRUPT_LINE, cs,
+                PCI_GSI + (PCI_SLOT(devfn) + pin - 1) % 4, 1);
+        }
+        if (pci_get_word(d->config + PCI_CLASS_DEVICE) ==
+            PCI_CLASS_DISPLAY_VGA) {
+            cmd |= PCI_COMMAND_IO | PCI_COMMAND_MEMORY;
+            if (d->has_rom) {
+                virt_vga_post(d);
+            }
+        }
+        pci_host_config_write_common(d, PCI_COMMAND, cs, cmd, 2);
+    }
+    if (io > 0x10000 || mem > PCI_MMIO_BASE + PCI_MMIO_SIZE) {
+        warn_report("ia64 virt: the PCI windows are too small");
+    }
+}
+
+/*
  * Firmware image construction
  */
 
+/* The image that holds pa: the firmware or the ACPI tables */
+static uint8_t *fw_ptr(uint64_t pa)
+{
+    if (pa >= FW_ACPI && pa < FW_ACPI + FW_ACPI_SIZE) {
+        return virt.acpi_tables + pa - FW_ACPI;
+    }
+    assert(pa >= FW_BASE && pa < FW_END);
+    return virt.fw + pa - FW_BASE;
+}
+
 static void put8(uint64_t pa, uint8_t v)
 {
-    virt.fw[pa - FW_BASE] = v;
+    *fw_ptr(pa) = v;
 }
 
 static void put16(uint64_t pa, uint16_t v)
 {
-    stw_le_p(virt.fw + pa - FW_BASE, v);
+    stw_le_p(fw_ptr(pa), v);
 }
 
 static void put32(uint64_t pa, uint32_t v)
 {
-    stl_le_p(virt.fw + pa - FW_BASE, v);
+    stl_le_p(fw_ptr(pa), v);
 }
 
 static void put64(uint64_t pa, uint64_t v)
 {
-    stq_le_p(virt.fw + pa - FW_BASE, v);
+    stq_le_p(fw_ptr(pa), v);
 }
 
 static void putmem(uint64_t pa, const void *src, size_t len)
 {
-    memcpy(virt.fw + pa - FW_BASE, src, len);
+    memcpy(fw_ptr(pa), src, len);
 }
 
 /* { .mib nop.m 0; break.i 0x1c0000 + n; br.ret.sptk.many b0 } */
@@ -205,13 +488,13 @@ static void put_stub(uint64_t pa, unsigned n)
     put64(pa + 8, 0x00840008800400c0ull);
 }
 
-static void acpi_checksum(uint64_t pa, uint32_t len, uint32_t off)
+static void fw_acpi_checksum(uint64_t pa, uint32_t len, uint32_t off)
 {
     uint8_t sum = 0;
 
     put8(pa + off, 0);
     for (uint32_t i = 0; i < len; i++) {
-        sum += virt.fw[pa - FW_BASE + i];
+        sum += *fw_ptr(pa + i);
     }
     put8(pa + off, -sum);
 }
@@ -231,145 +514,182 @@ static void acpi_header(uint64_t pa, const char *sig, uint32_t len,
 
 static void acpi_finish(uint64_t pa)
 {
-    acpi_checksum(pa, ldl_le_p(virt.fw + pa - FW_BASE + 4), 9);
+    fw_acpi_checksum(pa, ldl_le_p(fw_ptr(pa + 4)), 9);
 }
 
-/* AML with one- or two-byte package lengths (each package < 4 KB) */
-typedef struct Aml {
-    uint8_t b[4096];
-    int n;
-} Aml;
-
-static void aml_byte(Aml *a, uint8_t v)
+static void dsdt_com1(Aml *scope)
 {
-    a->b[a->n++] = v;
+    Aml *dev = aml_device("COM1");
+    Aml *crs = aml_resource_template();
+
+    aml_append(dev, aml_name_decl("_HID", aml_eisaid("PNP0501")));
+    aml_append(dev, aml_name_decl("_UID", aml_int(0)));
+    aml_append(crs, aml_io(AML_DECODE16, 0x3f8, 0x3f8, 1, 8));
+    aml_append(crs, aml_irq_no_flags(4));
+    aml_append(dev, aml_name_decl("_CRS", crs));
+    aml_append(scope, dev);
 }
 
-static void aml_bytes(Aml *a, const void *p, int len)
+/* _CRS of virtio-mmio transport i: its registers and a level GSI */
+static void dsdt_virtio(Aml *sb, int i)
 {
-    memcpy(a->b + a->n, p, len);
-    a->n += len;
+    Aml *dev = aml_device("VR%02d", i);
+    Aml *crs = aml_resource_template();
+    uint32_t gsi = VIRTIO_GSI + i;
+
+    aml_append(dev, aml_name_decl("_HID", aml_string("LNRO0005")));
+    aml_append(dev, aml_name_decl("_UID", aml_int(i)));
+    aml_append(crs, aml_memory32_fixed(VIRTIO_BASE + i * VIRTIO_SIZE,
+                                       VIRTIO_SIZE, AML_READ_WRITE));
+    aml_append(crs, aml_interrupt(AML_CONSUMER, AML_LEVEL, AML_ACTIVE_HIGH,
+                                  AML_EXCLUSIVE, &gsi, 1));
+    aml_append(dev, aml_name_decl("_CRS", crs));
+    aml_append(sb, dev);
 }
 
-/* Wrap body as a package: op bytes, PkgLength, body. */
-static void aml_pkg(Aml *out, const uint8_t *op, int oplen, const Aml *body)
+/*
+ * The PCI root: bus 0, I/O ports from 0x1000 (the legacy ones belong to
+ * COM1), the memory window, and INTx routed like the generic host bridge
+ * swizzles them onto four I/O SAPIC pins.  The other devices sit below it,
+ * as behind an ISA bridge: Windows' ACPI interrupt arbiter needs the PCI
+ * routing interface for any device it gives an interrupt.
+ */
+static void dsdt_pci(Aml *sb)
 {
-    aml_bytes(out, op, oplen);
-    if (body->n + 1 < 64) {
-        aml_byte(out, body->n + 1);
-    } else {
-        int len = body->n + 2;
+    Aml *dev = aml_device("PCI0");
+    Aml *crs = aml_resource_template();
+    Aml *prt = aml_package(128);
 
-        assert(len < 4096);
-        aml_byte(out, 0x40 | (len & 0xf));
-        aml_byte(out, len >> 4);
+    aml_append(dev, aml_name_decl("_HID", aml_eisaid("PNP0A03")));
+    aml_append(dev, aml_name_decl("_UID", aml_int(0)));
+    aml_append(dev, aml_name_decl("_BBN", aml_int(0)));
+    aml_append(crs, aml_word_bus_number(AML_MIN_FIXED, AML_MAX_FIXED,
+                                        AML_POS_DECODE, 0, 0, 255, 0, 256));
+    aml_append(crs, aml_word_io(AML_MIN_FIXED, AML_MAX_FIXED, AML_POS_DECODE,
+                                AML_ENTIRE_RANGE, 0, PCI_PORT_BASE, 0xffff, 0,
+                                0x10000 - PCI_PORT_BASE));
+    /* the legacy VGA registers and window */
+    aml_append(crs, aml_word_io(AML_MIN_FIXED, AML_MAX_FIXED, AML_POS_DECODE,
+                                AML_ENTIRE_RANGE, 0, 0x3b0, 0x3df, 0, 0x30));
+    aml_append(crs, aml_dword_memory(AML_POS_DECODE, AML_MIN_FIXED,
+                                     AML_MAX_FIXED, AML_NON_CACHEABLE,
+                                     AML_READ_WRITE, 0, VGA_WINDOW_BASE,
+                                     VGA_WINDOW_BASE + VGA_WINDOW_SIZE - 1,
+                                     0, VGA_WINDOW_SIZE));
+    aml_append(crs, aml_dword_memory(AML_POS_DECODE, AML_MIN_FIXED,
+                                     AML_MAX_FIXED, AML_NON_CACHEABLE,
+                                     AML_READ_WRITE, 0, PCI_MMIO_BASE,
+                                     PCI_MMIO_BASE + PCI_MMIO_SIZE - 1, 0,
+                                     PCI_MMIO_SIZE));
+    aml_append(dev, aml_name_decl("_CRS", crs));
+
+    for (int slot = 0; slot < 32; slot++) {
+        for (int pin = 0; pin < 4; pin++) {
+            Aml *e = aml_package(4);
+
+            aml_append(e, aml_int((slot << 16) | 0xffff));
+            aml_append(e, aml_int(pin));
+            aml_append(e, aml_int(0));
+            aml_append(e, aml_int(PCI_GSI + (slot + pin) % 4));
+            aml_append(prt, e);
+        }
     }
-    aml_bytes(out, body->b, body->n);
-}
-
-static void aml_name_crs(Aml *dev, const uint8_t *crs, int len)
-{
-    static const uint8_t buffer_op[] = { 0x11 };
-    Aml buf = { .n = 0 };
-
-    aml_byte(&buf, 0x0a);                       /* BytePrefix: size */
-    aml_byte(&buf, len);
-    aml_bytes(&buf, crs, len);
-    aml_byte(dev, 0x08);                        /* Name(_CRS, Buffer) */
-    aml_bytes(dev, "_CRS", 4);
-    aml_pkg(dev, buffer_op, 1, &buf);
-}
-
-/* virtio-mmio transport i: LNRO0005, its registers and a level GSI */
-static void aml_virtio(Aml *sb, int i)
-{
-    static const uint8_t device_op[] = { 0x5b, 0x82 };
-    uint8_t crs[] = {
-        0x86, 0x09, 0x00, 0x01, 0, 0, 0, 0, 0, 0, 0, 0, /* Memory32Fixed RW */
-        0x89, 0x06, 0x00, 0x01, 0x01, 0, 0, 0, 0,       /* Interrupt, level */
-        0x79, 0x00,
-    };
-    Aml dev = { .n = 0 };
-    char name[5];
-
-    stl_le_p(crs + 4, VIRTIO_BASE + i * VIRTIO_SIZE);
-    stl_le_p(crs + 8, VIRTIO_SIZE);
-    stl_le_p(crs + 17, VIRTIO_GSI + i);
-
-    snprintf(name, sizeof(name), "VR%02d", i);
-    aml_bytes(&dev, name, 4);
-    aml_byte(&dev, 0x08);                       /* Name(_HID, "LNRO0005") */
-    aml_bytes(&dev, "_HID", 4);
-    aml_byte(&dev, 0x0d);
-    aml_bytes(&dev, "LNRO0005", 9);
-    aml_byte(&dev, 0x08);                       /* Name(_UID, i) */
-    aml_bytes(&dev, "_UID", 4);
-    aml_byte(&dev, 0x0a);
-    aml_byte(&dev, i);
-    aml_name_crs(&dev, crs, sizeof(crs));
-    aml_pkg(sb, device_op, 2, &dev);
+    aml_append(dev, aml_name_decl("_PRT", prt));
+    dsdt_com1(dev);
+    for (int i = 0; i < VIRTIO_NUM; i++) {
+        dsdt_virtio(dev, i);
+    }
+    aml_append(sb, dev);
 }
 
 static uint64_t build_dsdt(uint64_t pa)
 {
-    static const uint8_t crs_data[] = {
-        0x47, 0x01, 0xf8, 0x03, 0xf8, 0x03, 0x01, 0x08, /* IO 0x3f8, 8 */
-        0x22, 0x10, 0x00,                               /* IRQNoFlags {4} */
-        0x79, 0x00,                                     /* end tag */
-    };
-    static const uint8_t scope_op[] = { 0x10 };
-    static const uint8_t device_op[] = { 0x5b, 0x82 };
-    static const uint8_t buffer_op[] = { 0x11 };
-    Aml buf = { .n = 0 }, dev = { .n = 0 }, sb = { .n = 0 }, all = { .n = 0 };
+    Aml *all = init_aml_allocator();
+    Aml *sb = aml_scope("\\_SB");
+    Aml *pr = aml_scope("\\_PR");
+    Aml *s5 = aml_package(4);
+    uint32_t len;
 
-    /* Buffer (0x0d) { crs } */
-    aml_byte(&buf, 0x0a);
-    aml_byte(&buf, sizeof(crs_data));
-    aml_bytes(&buf, crs_data, sizeof(crs_data));
+    dsdt_pci(sb);
+    aml_append(all, sb);
 
-    aml_bytes(&dev, "COM1", 4);
-    aml_byte(&dev, 0x08);                       /* Name(_HID, EisaId) */
-    aml_bytes(&dev, "_HID", 4);
-    aml_byte(&dev, 0x0c);
-    aml_bytes(&dev, "\x41\xd0\x05\x01", 4);     /* PNP0501 */
-    aml_byte(&dev, 0x08);                       /* Name(_UID, 0) */
-    aml_bytes(&dev, "_UID", 4);
-    aml_byte(&dev, 0x00);
-    aml_byte(&dev, 0x08);                       /* Name(_CRS, Buffer) */
-    aml_bytes(&dev, "_CRS", 4);
-    aml_pkg(&dev, buffer_op, 1, &buf);
+    /* the MADT's LSAPIC */
+    aml_append(pr, aml_processor(0, 0, 0, "CPU0"));
+    aml_append(all, pr);
 
-    aml_bytes(&sb, "\\_SB_", 5);
-    aml_pkg(&sb, device_op, 2, &dev);
-    for (int i = 0; i < VIRTIO_NUM; i++) {
-        aml_virtio(&sb, i);
+    /* SLP_TYP 0 powers off */
+    for (int i = 0; i < 4; i++) {
+        aml_append(s5, aml_int(0));
     }
+    aml_append(all, aml_name_decl("\\_S5", s5));
 
-    aml_pkg(&all, scope_op, 1, &sb);
-
-    acpi_header(pa, "DSDT", 36 + all.n, 2);
-    putmem(pa + 36, all.b, all.n);
+    len = all->buf->len;
+    assert(pa + 36 + len <= FW_ACPI + FW_ACPI_SIZE);
+    acpi_header(pa, "DSDT", 36 + len, 2);
+    putmem(pa + 36, all->buf->data, len);
     acpi_finish(pa);
-    return 36 + all.n;
+    free_aml_allocator();
+    return 36 + len;
 }
 
-/* RSDP, XSDT, FADT, MADT, DSDT; returns the RSDP address. */
+/*
+ * A generic address structure for an I/O port block, given as the memory
+ * address the sparse port window puts it at: the Windows HAL maps register
+ * blocks in memory space only and ignores those in I/O space.  A block of
+ * up to four ports aligned to four is contiguous there.
+ */
+static void acpi_gas_port(uint64_t pa, uint8_t bits, uint16_t port)
+{
+    put8(pa, 0);
+    put8(pa + 1, bits);
+    put8(pa + 2, 0);
+    put8(pa + 3, 0);
+    put64(pa + 4, IOPORT_BASE + (((uint64_t)port >> 2) << 12) + port);
+}
+
+/* RSDP, XSDT, FACS, FADT, MADT, DSDT; returns the RSDP address. */
 static uint64_t build_acpi(void)
 {
     uint64_t rsdp = FW_ACPI;
     uint64_t xsdt = FW_ACPI + 0x40;
+    uint64_t rsdt = FW_ACPI + 0x80;
+    uint64_t facs = FW_ACPI + 0xc0;
     uint64_t fadt = FW_ACPI + 0x100;
-    uint64_t madt = FW_ACPI + 0x300;
+    uint64_t madt = FW_ACPI + 0x200;
+    uint64_t spcr = FW_ACPI + 0x300;
     uint64_t dsdt = FW_ACPI + 0x400;
     uint32_t len;
 
     build_dsdt(dsdt);
 
-    /* FADT, ACPI 5.0, hardware reduced */
-    acpi_header(fadt, "FACP", 268, 5);
-    put32(fadt + 112, 1u << 20);                /* HW_REDUCED_ACPI */
-    put8(fadt + 131, 0);                        /* minor version */
-    put64(fadt + 140, dsdt);                    /* X_DSDT */
+    /* FACS */
+    putmem(facs, "FACS", 4);
+    put32(facs + 4, 64);
+    put8(facs + 32, 1);                         /* version */
+
+    /* FADT, ACPI 2.0, with the fixed hardware the PM block provides */
+    acpi_header(fadt, "FACP", 244, 3);
+    put32(fadt + 36, facs);
+    put32(fadt + 40, dsdt);
+    put16(fadt + 46, ACPI_SCI_GSI);
+    put32(fadt + 56, ACPI_PM_BASE);             /* PM1a_EVT_BLK */
+    put32(fadt + 64, ACPI_PM_BASE + 4);         /* PM1a_CNT_BLK */
+    put32(fadt + 76, ACPI_PM_BASE + 8);         /* PM_TMR_BLK */
+    put32(fadt + 80, ACPI_GPE0_BASE);
+    put8(fadt + 88, 4);
+    put8(fadt + 89, 2);
+    put8(fadt + 91, 4);
+    put8(fadt + 92, ACPI_GPE0_LEN);
+    put16(fadt + 96, 101);                      /* no C2 */
+    put16(fadt + 98, 1001);                     /* no C3 */
+    /* WBINVD, C1, power and sleep buttons are control methods, no RTC */
+    put32(fadt + 112, (1 << 0) | (1 << 2) | (1 << 4) | (1 << 5) | (1 << 6));
+    put64(fadt + 132, facs);
+    put64(fadt + 140, dsdt);
+    acpi_gas_port(fadt + 148, 32, ACPI_PM_BASE);
+    acpi_gas_port(fadt + 172, 16, ACPI_PM_BASE + 4);
+    acpi_gas_port(fadt + 208, 32, ACPI_PM_BASE + 8);
+    acpi_gas_port(fadt + 220, ACPI_GPE0_LEN * 8, ACPI_GPE0_BASE);
     acpi_finish(fadt);
 
     /* MADT */
@@ -377,16 +697,17 @@ static uint64_t build_acpi(void)
     acpi_header(madt, "APIC", 0, 1);
     put32(madt + 36, PIB_BASE);
     put32(madt + 40, 0);
-    /* local SAPIC: processor 0, id 0, eid 0, enabled */
+    /*
+     * local SAPIC: processor 0, id 0, eid 0, enabled; in the 12 byte form
+     * of ACPI 2.0, the only one the Windows HAL accepts
+     */
     put8(madt + len, 7);
-    put8(madt + len + 1, 17);
+    put8(madt + len + 1, 12);
     put8(madt + len + 2, 0);
     put8(madt + len + 3, 0);
     put8(madt + len + 4, 0);
     put32(madt + len + 8, 1);
-    put32(madt + len + 12, 0);
-    put8(madt + len + 16, 0);
-    len += 17;
+    len += 12;
     /* I/O SAPIC: id 0, GSI base 0 */
     put8(madt + len, 6);
     put8(madt + len + 1, 16);
@@ -394,6 +715,14 @@ static uint64_t build_acpi(void)
     put32(madt + len + 4, 0);
     put64(madt + len + 8, IOSAPIC_BASE);
     len += 16;
+    /* the SCI: level, active high */
+    put8(madt + len, 2);
+    put8(madt + len + 1, 10);
+    put8(madt + len + 2, 0);
+    put8(madt + len + 3, ACPI_SCI_GSI);
+    put32(madt + len + 4, ACPI_SCI_GSI);
+    put16(madt + len + 8, 0x000d);
+    len += 10;
     /* local SAPIC address override */
     put8(madt + len, 5);
     put8(madt + len + 1, 12);
@@ -402,21 +731,47 @@ static uint64_t build_acpi(void)
     put32(madt + 4, len);
     acpi_finish(madt);
 
-    /* XSDT */
-    acpi_header(xsdt, "XSDT", 36 + 16, 1);
+    /*
+     * SPCR: COM1 is the console, which Windows' loader and setup redirect
+     * to (headless operation) when they find this table.
+     */
+    acpi_header(spcr, "SPCR", 80, 1);
+    put8(spcr + 36, 0);                         /* 16550 */
+    put8(spcr + 40, 1);                         /* system I/O */
+    put8(spcr + 41, 8);
+    put64(spcr + 44, 0x3f8);
+    put8(spcr + 52, 1 << 3);                    /* I/O SAPIC interrupt */
+    put32(spcr + 54, 4);
+    put8(spcr + 58, 7);                         /* 115200 */
+    put8(spcr + 59, 0);                         /* no parity */
+    put8(spcr + 60, 1);                         /* one stop bit */
+    put8(spcr + 61, 0);                         /* no flow control */
+    put8(spcr + 62, 0);                         /* VT100 */
+    put16(spcr + 64, 0xffff);                   /* not a PCI device */
+    put16(spcr + 66, 0xffff);
+    acpi_finish(spcr);
+
+    /* XSDT and RSDT */
+    acpi_header(xsdt, "XSDT", 36 + 24, 1);
     put64(xsdt + 36, fadt);
     put64(xsdt + 44, madt);
+    put64(xsdt + 52, spcr);
     acpi_finish(xsdt);
+    acpi_header(rsdt, "RSDT", 36 + 12, 1);
+    put32(rsdt + 36, fadt);
+    put32(rsdt + 40, madt);
+    put32(rsdt + 44, spcr);
+    acpi_finish(rsdt);
 
     /* RSDP 2.0 */
     putmem(rsdp, "RSD PTR ", 8);
     putmem(rsdp + 9, "QEMU  ", 6);
     put8(rsdp + 15, 2);
-    put32(rsdp + 16, 0);
+    put32(rsdp + 16, rsdt);
     put32(rsdp + 20, 36);
     put64(rsdp + 24, xsdt);
-    acpi_checksum(rsdp, 20, 8);
-    acpi_checksum(rsdp, 36, 32);
+    fw_acpi_checksum(rsdp, 20, 8);
+    fw_acpi_checksum(rsdp, 36, 32);
     return rsdp;
 }
 
@@ -429,40 +784,91 @@ static void put_guid(uint64_t pa, uint32_t a, uint16_t b, uint16_t c,
     putmem(pa + 8, d, 8);
 }
 
-/* SAL system table with the entry point descriptor */
+/*
+ * SAL system table: the entry point descriptor, then memory descriptors in
+ * the SAL 2.x form for the firmware's parts.  The Windows HAL wants them
+ * (memory type, usage): PAL code (0, 1), SAL code and data (0, 4; it
+ * maps this one and finds the SAL entry and gp in it), the rest of the
+ * firmware (0, 5) and the firmware address space (4, 0);
+ * without all four it treats SAL and PAL as missing.  Linux skips them.
+ */
+static void build_sal_memory(uint64_t e, uint8_t type, uint8_t usage,
+                             uint64_t start, uint64_t end)
+{
+    put8(e, 1);
+    put8(e + 1, 1);                             /* used by SAL */
+    put8(e + 2, 0);                             /* write back */
+    put8(e + 3, 7);                             /* RWX */
+    put8(e + 4, 0x09);                          /* WB, UC supported */
+    put8(e + 6, type);
+    put8(e + 7, usage);
+    put64(e + 8, start);
+    put32(e + 16, (end - start) >> 12);
+}
+
 static void build_sal(void)
 {
     uint64_t t = FW_SAL;
     uint64_t e = t + 96;
+    uint32_t len = 96 + 48 + 4 * 32;
     uint8_t sum = 0;
 
     putmem(t, "SST_", 4);
-    put32(t + 4, 96 + 48);
+    put32(t + 4, len);
     put8(t + 8, 0x20);                          /* SAL 3.20 */
     put8(t + 9, 0x03);
-    put16(t + 10, 1);                           /* entries */
-    put8(t + 16, 0x00);                         /* SAL A rev */
-    put8(t + 17, 0x01);
-    put8(t + 18, 0x00);                         /* SAL B rev */
-    put8(t + 19, 0x01);
-    putmem(t + 20, "QEMU", 4);
-    putmem(t + 52, "IA-64 virt", 10);
+    put16(t + 10, 5);                           /* entries */
+    put8(t + 20, 0x00);                         /* SAL A rev */
+    put8(t + 21, 0x01);
+    put8(t + 22, 0x00);                         /* SAL B rev */
+    put8(t + 23, 0x01);
+    putmem(t + 24, "QEMU", 4);
+    putmem(t + 56, "IA-64 virt", 10);
 
     put8(e, 0);                                 /* entry point */
     put64(e + 8, FW_PAL);
-    put64(e + 16, FW_CODE);                     /* SAL proc */
+    put64(e + 16, FW_STUB(FW_CALL_SAL));        /* SAL proc */
     put64(e + 24, FW_FDESC);                    /* gp: anything sane */
+    e += 48;
 
-    for (int i = 0; i < 96 + 48; i++) {
-        sum += virt.fw[t - FW_BASE + i];
+    build_sal_memory(e, 0, 1, FW_PAL, FW_CODE);
+    build_sal_memory(e + 32, 0, 4, FW_CODE, FW_DATA_END);
+    build_sal_memory(e + 64, 0, 5, FW_DATA_END, FW_END);
+    build_sal_memory(e + 96, 4, 0, FW_BASE, FW_END);
+
+    for (int i = 0; i < len; i++) {
+        sum += *fw_ptr(t + i);
     }
     put8(t + 12, -sum);
 }
 
-typedef struct MemDesc {
-    uint32_t type;
-    uint64_t start, end, attr;
-} MemDesc;
+/* The descriptors of everything but RAM, in ascending order */
+int virt_fw_memmap(MemDesc *md)
+{
+    int n = 0;
+
+    md[n++] = (MemDesc){ EFI_ACPI_RECLAIM, FW_ACPI, FW_ACPI + FW_ACPI_SIZE,
+                         EFI_MEM_WB };
+    md[n++] = (MemDesc){ EFI_MMIO, IOSAPIC_BASE, IOSAPIC_BASE + 0x100000,
+                         EFI_MEM_UC | EFI_MEM_RUNTIME };
+    md[n++] = (MemDesc){ EFI_MMIO, VIRTIO_BASE, VIRTIO_BASE + 0x1000,
+                         EFI_MEM_UC | EFI_MEM_RUNTIME };
+    md[n++] = (MemDesc){ EFI_MMIO, PIB_BASE, PIB_BASE + 0x200000,
+                         EFI_MEM_UC | EFI_MEM_RUNTIME };
+    md[n++] = (MemDesc){ EFI_PAL_CODE, FW_PAL, FW_PAL + 0x10000,
+                         EFI_MEM_WB | EFI_MEM_RUNTIME };
+    md[n++] = (MemDesc){ EFI_RUNTIME_CODE, FW_CODE, FW_EFI,
+                         EFI_MEM_WB | EFI_MEM_RUNTIME };
+    md[n++] = (MemDesc){ EFI_RUNTIME_DATA, FW_EFI, FW_DATA_END,
+                         EFI_MEM_WB | EFI_MEM_RUNTIME };
+    /* boot parameters: not memory the kernel may allocate from */
+    md[n++] = (MemDesc){ EFI_RUNTIME_DATA, FW_DATA_END, FW_END,
+                         EFI_MEM_WB | EFI_MEM_RUNTIME };
+    md[n++] = (MemDesc){ EFI_MMIO_PORT, IOPORT_BASE,
+                         IOPORT_BASE + IOPORT_SIZE,
+                         EFI_MEM_UC | EFI_MEM_RUNTIME };
+    return n;
+}
 
 static void build_efi(MachineState *ms, uint64_t rsdp, uint64_t initrd,
                       uint64_t initrd_size)
@@ -476,7 +882,7 @@ static void build_efi(MachineState *ms, uint64_t rsdp, uint64_t initrd,
     uint64_t rt = FW_EFI + 0x200;
     uint64_t cfg = FW_EFI + 0x300;
     uint64_t ram = ms->ram_size;
-    MemDesc md[12];
+    MemDesc md[16];
     int n = 0;
     const char *cmd = ms->kernel_cmdline ? ms->kernel_cmdline : "";
 
@@ -504,37 +910,26 @@ static void build_efi(MachineState *ms, uint64_t rsdp, uint64_t initrd,
     put32(rt + 8, (1 << 16) | 10);
     put32(rt + 12, 24 + 8 * EFI_NUM_SERVICES);
     for (int i = 0; i < EFI_NUM_SERVICES; i++) {
-        uint64_t fd = FW_FDESC + 16 * (i + 1);
-
-        put_stub(FW_CODE + 16 * (i + 1), FW_CALL_EFI + i);
-        put64(fd, FW_CODE + 16 * (i + 1));
-        put64(fd + 8, FW_FDESC);
-        put64(rt + 24 + 8 * i, fd);
+        put64(rt + 24 + 8 * i, FW_FD(FW_CALL_EFI + i));
+    }
+    /* stubs and descriptors of every firmware call; gp is anything sane */
+    for (int i = FW_CALL_EFI; i < 256; i++) {
+        put_stub(FW_STUB(i), i);
+        put64(FW_FD(i), FW_STUB(i));
+        put64(FW_FD(i) + 8, FW_FDESC);
+    }
+    /* the IVT: 20 vectors of 64 bundles, then 48 of 16 */
+    for (int i = 0; i < 68; i++) {
+        put_stub(FW_IVT + (i < 20 ? i * 0x400 : 0x5000 + (i - 20) * 0x100),
+                 FW_CALL_IVT);
     }
     /* SAL and PAL entry */
-    put_stub(FW_CODE, FW_CALL_SAL);
+    put_stub(FW_STUB(FW_CALL_SAL), FW_CALL_SAL);
     put_stub(FW_PAL, FW_CALL_PAL);
 
     /* memory map */
     md[n++] = (MemDesc){ EFI_CONVENTIONAL, 0, ram, EFI_MEM_WB };
-    md[n++] = (MemDesc){ EFI_PAL_CODE, FW_PAL, FW_PAL + 0x10000,
-                         EFI_MEM_WB | EFI_MEM_RUNTIME };
-    md[n++] = (MemDesc){ EFI_RUNTIME_CODE, FW_CODE, FW_EFI,
-                         EFI_MEM_WB | EFI_MEM_RUNTIME };
-    md[n++] = (MemDesc){ EFI_RUNTIME_DATA, FW_EFI, FW_DATA_END,
-                         EFI_MEM_WB | EFI_MEM_RUNTIME };
-    /* boot parameters: not memory the kernel may allocate from */
-    md[n++] = (MemDesc){ EFI_RUNTIME_DATA, FW_DATA_END, FW_END,
-                         EFI_MEM_WB | EFI_MEM_RUNTIME };
-    md[n++] = (MemDesc){ EFI_MMIO, IOSAPIC_BASE, IOSAPIC_BASE + 0x100000,
-                         EFI_MEM_UC | EFI_MEM_RUNTIME };
-    md[n++] = (MemDesc){ EFI_MMIO, VIRTIO_BASE, VIRTIO_BASE + 0x1000,
-                         EFI_MEM_UC | EFI_MEM_RUNTIME };
-    md[n++] = (MemDesc){ EFI_MMIO, PIB_BASE, PIB_BASE + 0x200000,
-                         EFI_MEM_UC | EFI_MEM_RUNTIME };
-    md[n++] = (MemDesc){ EFI_MMIO_PORT, IOPORT_BASE,
-                         IOPORT_BASE + IOPORT_SIZE,
-                         EFI_MEM_UC | EFI_MEM_RUNTIME };
+    n += virt_fw_memmap(md + n);
     for (int i = 0; i < n; i++) {
         uint64_t d = FW_MEMMAP + 40 * i;
 
@@ -567,15 +962,19 @@ static void build_efi(MachineState *ms, uint64_t rsdp, uint64_t initrd,
  */
 
 /* Guest pointer to physical: identity regions 6/7, else the TLB. */
-static hwaddr fw_pa(CPUIA64State *env, uint64_t va)
+hwaddr fw_pa(CPUIA64State *env, uint64_t va)
 {
+    hwaddr pa;
+
     if (!(env->psr & PSR_DT)) {
         return va & ((1ull << 50) - 1);
     }
     if ((va >> 61) >= 6) {
         return va & ((1ull << 50) - 1);
     }
-    return ia64_cpu_get_phys_page_debug(env_cpu(env), va);
+    pa = ia64_cpu_get_phys_page_debug(env_cpu(env), va);
+    /* no translation yet: the firmware maps everything one to one */
+    return pa == -1 ? va & ((1ull << 50) - 1) : pa;
 }
 
 static void fw_write(CPUIA64State *env, uint64_t va, const void *buf, int len)
@@ -583,7 +982,7 @@ static void fw_write(CPUIA64State *env, uint64_t va, const void *buf, int len)
     address_space_write(&address_space_memory, fw_pa(env, va), MEMTXATTRS_UNSPECIFIED, buf, len);
 }
 
-static void fw_ret(CPUIA64State *env, uint64_t r8, uint64_t r9, uint64_t r10,
+void fw_ret(CPUIA64State *env, uint64_t r8, uint64_t r9, uint64_t r10,
                    uint64_t r11)
 {
     env->gr[8] = r8;
@@ -701,6 +1100,11 @@ static void pal_call(CPUIA64State *env)
         st = -1;            /* unimplemented */
         break;
     }
+    if (env_flag("IA64_EFI_DEBUG", &efi_debug)) {
+        fprintf(stderr, "pal: %" PRId64 " (0x%" PRIx64 ", 0x%" PRIx64 ", 0x%"
+                PRIx64 ") -> %" PRId64 "\n", idx, env->gr[29], env->gr[30],
+                env->gr[31], st);
+    }
     fw_ret(env, st, v0, v1, v2);
     if (idx < 256) {
         /* static calling convention: return through b0 */
@@ -721,18 +1125,42 @@ static void sal_call(CPUIA64State *env)
         v1 = 0;
         break;
     case 0x01000002:        /* SAL_GET_STATE_INFO_SIZE */
-        v0 = 0;
+        /* Windows allocates a buffer this large and fails on zero */
+        v0 = 16 * KiB;
         break;
-    case 0x01000010:        /* SAL_PCI_CONFIG_READ */
-        v0 = ~0ull;
+    case 0x01000010: {      /* SAL_PCI_CONFIG_READ: address, size, type */
+        uint32_t reg;
+        PCIDevice *d = sal_pci_dev(in(env, 1), in(env, 3), &reg);
+        uint64_t size = in(env, 2);
+
+        v0 = size == 4 ? 0xffffffffu : (1u << (8 * size)) - 1;
+        if (size != 1 && size != 2 && size != 4) {
+            st = -2;
+        } else if (d && reg + size <= pci_config_size(d)) {
+            v0 = pci_host_config_read_common(d, reg, pci_config_size(d),
+                                             size);
+        }
         break;
+    }
+    case 0x01000011: {      /* SAL_PCI_CONFIG_WRITE: address, size, value, type */
+        uint32_t reg;
+        PCIDevice *d = sal_pci_dev(in(env, 1), in(env, 4), &reg);
+        uint64_t size = in(env, 2);
+
+        if (size != 1 && size != 2 && size != 4) {
+            st = -2;
+        } else if (d && reg + size <= pci_config_size(d)) {
+            pci_host_config_write_common(d, reg, pci_config_size(d),
+                                         in(env, 3), size);
+        }
+        break;
+    }
     case 0x01000000:        /* SET_VECTORS */
     case 0x01000003:        /* CLEAR_STATE_INFO */
     case 0x01000005:        /* MC_SET_PARAMS */
     case 0x01000006:
     case 0x01000008:        /* CACHE_FLUSH */
     case 0x01000009:
-    case 0x01000011:
         break;
     case 0x01000001:        /* GET_STATE_INFO: nothing logged */
         st = -5;
@@ -741,7 +1169,58 @@ static void sal_call(CPUIA64State *env)
         st = -1;
         break;
     }
+    if (env_flag("IA64_EFI_DEBUG", &efi_debug)) {
+        fprintf(stderr, "sal: 0x%" PRIx64 " (0x%" PRIx64 ", 0x%" PRIx64 ", 0x%"
+                PRIx64 ") -> %" PRId64 "\n", fn, in(env, 1), in(env, 2),
+                in(env, 3), st);
+    }
     fw_ret(env, st, v0, v1, v2);
+}
+
+/*
+ * The runtime function descriptors follow the mapping the OS chose for the
+ * descriptor that holds them: virtual = physical - start + virtual start.
+ */
+static void efi_set_virtual_address_map(CPUIA64State *env)
+{
+    uint64_t size = in(env, 0), dsize = in(env, 1), map = in(env, 3);
+    uint64_t virt_start = 0, phys_start = 0;
+    bool found = false;
+
+    for (uint64_t off = 0; dsize >= 40 && off + dsize <= size; off += dsize) {
+        hwaddr d = fw_pa(env, map + off);
+        uint64_t start = address_space_ldq_le(&address_space_memory, d + 8,
+                                              MEMTXATTRS_UNSPECIFIED, NULL);
+        uint64_t pages = address_space_ldq_le(&address_space_memory, d + 24,
+                                              MEMTXATTRS_UNSPECIFIED, NULL);
+
+        if (env_flag("IA64_EFI_DEBUG", &efi_debug)) {
+            fprintf(stderr, "efi: SetVirtualAddressMap: %" PRIx64 " pages at %"
+                    PRIx64 " -> %" PRIx64 "\n", pages, start,
+                    address_space_ldq_le(&address_space_memory, d + 16,
+                                         MEMTXATTRS_UNSPECIFIED, NULL));
+        }
+        if (start <= FW_FDESC && FW_FDESC < start + (pages << 12)) {
+            phys_start = start;
+            virt_start = address_space_ldq_le(&address_space_memory, d + 16,
+                                              MEMTXATTRS_UNSPECIFIED, NULL);
+            found = true;
+            break;
+        }
+    }
+    if (!found) {
+        return;
+    }
+    efi_virtual_address_change(phys_start, virt_start);
+    for (int i = FW_CALL_EFI; i < 256; i++) {
+        uint64_t v[2] = {
+            cpu_to_le64(FW_STUB(i) - phys_start + virt_start),
+            cpu_to_le64(FW_FDESC - phys_start + virt_start),
+        };
+
+        address_space_write(&address_space_memory, FW_FD(i),
+                            MEMTXATTRS_UNSPECIFIED, v, 16);
+    }
 }
 
 static void efi_call(CPUIA64State *env, int svc)
@@ -771,16 +1250,16 @@ static void efi_call(CPUIA64State *env, int svc)
         break;
     }
     case EFI_SET_VIRTUAL_ADDRESS_MAP:
-        /* the runtime function descriptors now hold virtual addresses */
-        for (int i = 0; i < EFI_NUM_SERVICES; i++) {
-            hwaddr fd = FW_FDESC + 16 * (i + 1);
-            uint64_t v[2];
-
-            address_space_read(&address_space_memory, fd, MEMTXATTRS_UNSPECIFIED, v, 16);
-            v[0] = cpu_to_le64(le64_to_cpu(v[0]) | PAGE_OFFSET);
-            v[1] = cpu_to_le64(le64_to_cpu(v[1]) | PAGE_OFFSET);
-            address_space_write(&address_space_memory, fd, MEMTXATTRS_UNSPECIFIED, v, 16);
-        }
+        efi_set_virtual_address_map(env);
+        break;
+    case EFI_GET_VARIABLE:
+        st = efi_get_variable(env);
+        break;
+    case EFI_GET_NEXT_VARIABLE:
+        st = efi_get_next_variable(env);
+        break;
+    case EFI_SET_VARIABLE:
+        st = efi_set_variable(env);
         break;
     case EFI_RESET_SYSTEM:
         if (in(env, 0) == 2) {                  /* EfiResetShutdown */
@@ -806,20 +1285,50 @@ static void virt_firmware_call(CPUIA64State *env, uint32_t n)
      * ia64_tlb_init() would write the ptce parameters through it into the old
      * area, and every later flush_tlb_all() would read zero loop counts and
      * purge nothing.  PAL_CACHE_SUMMARY runs in between, so drop the caches
-     * on every firmware call except the one the idle loop makes.
+     * on every PAL, SAL and runtime call except the one the idle loop makes;
+     * not on boot services or in the firmware's TLB miss handlers.
      */
-    if (n != FW_CALL_PAL || env->gr[28] != 29) {
+    if (n < FW_CALL_BOOT && (n != FW_CALL_PAL || env->gr[28] != 29)) {
         ia64_tlb_flush_all(env);
     }
     if (n == FW_CALL_PAL) {
         pal_call(env);
     } else if (n == FW_CALL_SAL) {
+        /* PCI configuration writes remap BARs */
+        BQL_LOCK_GUARD();
         sal_call(env);
     } else if (n >= FW_CALL_EFI && n < FW_CALL_EFI + EFI_NUM_SERVICES) {
         efi_call(env, n - FW_CALL_EFI);
+    } else if (n >= FW_CALL_BOOT) {
+        efi_boot_call(env, n);
     } else {
         fw_ret(env, -1, 0, 0, 0);
     }
+}
+
+/*
+ * Windows' DbgPrint is break 0x80017 with r32 pointing to a counted
+ * string; without a kernel debugger nobody sees it, so show it on stderr.
+ */
+static void virt_break_trace(CPUIA64State *env, uint32_t imm)
+{
+    uint8_t str[16];
+    char buf[512];
+    uint16_t len;
+
+    if (imm != 0x80017 || !env_flag("IA64_DBGPRINT", &dbgprint)) {
+        return;
+    }
+    if (cpu_memory_rw_debug(env_cpu(env), env->gr[32], str, 16, false)) {
+        return;
+    }
+    len = MIN(lduw_le_p(str), sizeof(buf) - 1);
+    if (cpu_memory_rw_debug(env_cpu(env), ldq_le_p(str + 8), buf, len,
+                            false)) {
+        return;
+    }
+    buf[len] = 0;
+    fprintf(stderr, "%s", buf);
 }
 
 static void virt_cpu_reset(void *opaque)
@@ -832,6 +1341,7 @@ static void virt_cpu_reset(void *opaque)
     env->ri = 0;
     env->gr[28] = FW_BOOTPARAM;
     env->firmware_call = virt_firmware_call;
+    env->break_trace = virt_break_trace;
 }
 
 static void virt_init(MachineState *ms)
@@ -867,6 +1377,13 @@ static void virt_init(MachineState *ms)
     }
     isa_bus_register_input_irqs(isa_bus, isa_irqs);
     serial_hds_isa_init(isa_bus, 0, 1);
+    virt_acpi_init();
+    if (ms->ram_size > PCI_MMIO_BASE) {
+        error_report("ia64 virt: at most %llu MB of RAM",
+                     PCI_MMIO_BASE / MiB);
+        exit(EXIT_FAILURE);
+    }
+    virt_pci_init();
 
     /*
      * virtio-mmio transports, created from the top down so that the first
@@ -878,8 +1395,9 @@ static void virt_init(MachineState *ms)
     }
 
     if (!ms->kernel_filename) {
-        error_report("ia64 virt: -kernel is required");
-        exit(EXIT_FAILURE);
+        /* no kernel: the EFI boot manager starts from a disk */
+        virt.entry = FW_STUB(FW_CALL_BOOT);
+        goto firmware;
     }
     size = load_elf(ms->kernel_filename, NULL, NULL, NULL, &virt.entry, NULL,
                     &hi, NULL, ELFDATA2LSB, EM_IA_64, 0, 0);
@@ -910,14 +1428,20 @@ static void virt_init(MachineState *ms)
                                           ms->ram_size - initrd, NULL);
     }
 
+firmware:
     memory_region_init_ram(&virt.fw_ram, NULL, "ia64.firmware",
                            FW_END - FW_BASE, &error_fatal);
     memory_region_add_subregion(sysmem, FW_BASE, &virt.fw_ram);
     virt.fw = g_malloc0(FW_END - FW_BASE);
+    memory_region_init_ram(&virt.acpi_ram, NULL, "ia64.acpi", FW_ACPI_SIZE,
+                           &error_fatal);
+    memory_region_add_subregion(sysmem, FW_ACPI, &virt.acpi_ram);
+    virt.acpi_tables = g_malloc0(FW_ACPI_SIZE);
     rsdp = build_acpi();
     build_sal();
     build_efi(ms, rsdp, initrd, initrd_size);
     rom_add_blob_fixed("ia64-firmware", virt.fw, FW_END - FW_BASE, FW_BASE);
+    rom_add_blob_fixed("ia64-acpi", virt.acpi_tables, FW_ACPI_SIZE, FW_ACPI);
 
     qemu_register_reset(virt_cpu_reset, virt.cpu);
 }
