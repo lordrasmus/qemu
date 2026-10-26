@@ -410,5 +410,5 @@ G_NORETURN void bfin_cpu_do_unaligned_access(CPUState *cs, vaddr addr,
 
 hwaddr bfin_cpu_get_phys_page_debug(CPUState *cs, vaddr addr)
 {
-    return addr & TARGET_PAGE_MASK;
+    return addr;
 }
