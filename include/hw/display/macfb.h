@@ -97,6 +97,8 @@ struct MacfbNubusState {
     NubusDevice busdev;
 
     MacfbState macfb;
+    MemoryRegion vram_24bit;
+    MemoryRegion rom;
 };
 
 #endif
