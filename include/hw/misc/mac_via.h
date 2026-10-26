@@ -70,6 +70,7 @@ struct MOS6522Q800VIA1State {
     int adb_data_in_size;
     int adb_data_in_index;
     int adb_data_out_index;
+    bool adb_cmd_unsent;
     uint8_t adb_data_in[128];
     uint8_t adb_data_out[16];
     uint8_t adb_autopoll_cmd;
