@@ -309,7 +309,14 @@ static void ncr_sync(NCR5380State *s)
         if (s->dma_recv) {
             s->drq_flag = s->dma_ack;
         } else if (s->dma_send) {
-            s->drq_flag = s->req && ncr_phase_match(s) && !s->dma_ack;
+            /*
+             * The chip asks for the next byte as soon as the last one is
+             * gone; it does not know the count. After the last DATA OUT
+             * byte the phase no longer matches but DRQ is still there,
+             * which is how the Mac II ROM sees the send has completed.
+             */
+            s->drq_flag = !s->dma_ack &&
+                          (!ncr_phase_match(s) || s->req);
         } else {
             s->drq_flag = false;
         }
@@ -540,7 +547,7 @@ static MemTxResult ncr_pdma_write(void *opaque, hwaddr addr, uint64_t val,
     unsigned i;
 
     for (i = 0; i < size; i++) {
-        if (!s->dma_send || !s->drq_flag) {
+        if (!s->dma_send || !s->drq_flag || !ncr_phase_match(s)) {
             return MEMTX_ERROR;
         }
         s->odr = val >> (8 * (size - 1 - i));
