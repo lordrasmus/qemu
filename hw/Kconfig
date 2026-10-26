@@ -84,6 +84,7 @@ source sparc/Kconfig
 source sparc64/Kconfig
 source tilegx/Kconfig
 source tricore/Kconfig
+source v850/Kconfig
 source xtensa/Kconfig
 
 # Symbols used by multiple targets

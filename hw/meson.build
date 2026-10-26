@@ -35,6 +35,7 @@ subdir('sparc')
 subdir('sparc64')
 subdir('tilegx')
 subdir('tricore')
+subdir('v850')
 subdir('xtensa')
 
 subdir('9pfs')
