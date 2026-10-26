@@ -48,6 +48,7 @@ config MACII
     select OR_IRQ
     select ASC
     select NCR5380
+    select NUBUS_8390
 
 config M68K_VIRT
     bool

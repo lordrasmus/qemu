@@ -198,6 +198,10 @@ ssize_t ne2000_receive(NetClientState *nc, const uint8_t *buf, size_t size_)
             mcast_idx = net_crc32(buf, ETH_ALEN) >> 26;
             if (!(s->mult[mcast_idx >> 3] & (1 << (mcast_idx & 7))))
                 return size;
+        } else if (s->match_par) {
+            if (memcmp(buf, s->phys, 6)) {
+                return size;
+            }
         } else if (s->mem[0] == buf[0] &&
                    s->mem[2] == buf[1] &&
                    s->mem[4] == buf[2] &&

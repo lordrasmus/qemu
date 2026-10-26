@@ -28,6 +28,7 @@ typedef struct NE2000State {
     uint8_t phys[6]; /* mac address */
     uint8_t curpag;
     uint8_t mult[8]; /* multicast mask array */
+    bool match_par; /* unicast filter on PAR, not on the NE2000 PROM copy */
     qemu_irq irq;
     NICState *nic;
     NICConf c;
