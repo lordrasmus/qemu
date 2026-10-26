@@ -598,6 +598,40 @@ static uint64_t in(CPUIA64State *env, int i)
     return env->gr[32 + i];
 }
 
+/*
+ * McKinley's caches.  A unified level has no instruction cache: PAL
+ * answers type 1 there with -2, and Linux sizes its cache_info array
+ * by unique_caches, so a success would write past it.
+ */
+static const struct {
+    uint8_t level, type, unified, wb, assoc, line;
+    uint32_t size;
+} pal_caches[] = {
+    { 0, 1, 0, 0,  4, 6,   16 * KiB },      /* L1I */
+    { 0, 2, 0, 0,  4, 6,   16 * KiB },      /* L1D, write-through */
+    { 1, 2, 1, 1,  8, 7,  256 * KiB },      /* L2 */
+    { 2, 2, 1, 1, 12, 7,    3 * MiB },      /* L3 */
+};
+
+static int64_t pal_cache_info(uint64_t level, uint64_t type,
+                              uint64_t *info1, uint64_t *info2)
+{
+    for (int i = 0; i < ARRAY_SIZE(pal_caches); i++) {
+        const typeof(pal_caches[0]) *c = &pal_caches[i];
+
+        if (c->level == level && c->type == type) {
+            *info1 = c->unified | (c->wb << 1) | (c->assoc << 8) |
+                     (c->line << 16) | ((uint64_t)c->line << 24) |
+                     (1ull << 32) | (1ull << 40);   /* latencies */
+            *info2 = c->size | (12ull << 32) |      /* alias boundary */
+                     ((uint64_t)ctz32(c->size / c->assoc) << 40) |
+                     ((uint64_t)IA64_IMPL_PA_MSB << 48);
+            return 0;
+        }
+    }
+    return -2;
+}
+
 static void pal_call(CPUIA64State *env)
 {
     uint64_t idx = env->gr[28];
@@ -608,6 +642,13 @@ static void pal_call(CPUIA64State *env)
     case 1:                 /* PAL_CACHE_FLUSH */
     case 21: case 22: case 23: case 27:     /* MC_* */
     case 18:                /* PROC_SET_FEATURES */
+        break;
+    case 2:                 /* PAL_CACHE_INFO: level in r29, type in r30 */
+        st = pal_cache_info(env->gr[29], env->gr[30], &v0, &v1);
+        break;
+    case 4:                 /* PAL_CACHE_SUMMARY */
+        v0 = ARRAY_SIZE(pal_caches) - 1;    /* levels: L1 is split */
+        v1 = ARRAY_SIZE(pal_caches);        /* unique caches */
         break;
     case 6:                 /* PAL_PTCE_INFO */
         v0 = 0;
