@@ -16,11 +16,13 @@
 #include "ui/console.h"
 #include "ui/pixel_ops.h"
 #include "hw/nubus/nubus.h"
+#include "hw/nubus/nubus-declrom.h"
 #include "hw/display/macfb.h"
 #include "qapi/error.h"
 #include "hw/core/qdev-properties.h"
 #include "migration/vmstate.h"
 #include "trace.h"
+#include "macfb-drvr.h"
 
 #define VIDEO_BASE 0x0
 #define DAFB_BASE  0x00800000
@@ -728,6 +730,165 @@ static void macfb_nubus_set_irq(void *opaque, int n, int level)
     nubus_set_irq(nd, level);
 }
 
+/*
+ * Declaration ROM of the NuBus card for the Mac OS Slot Manager: a board
+ * sResource and a video sResource (catDisplay, typVideo, drSwApple) with
+ * the indexed modes 0x80 to 0x83 (1, 2, 4 and 8 bits) and the driver
+ * from macfb-drvr.S. The base address is in the minor slot space, so the
+ * frame buffer is also reachable in 24-bit mode, where the Mac II maps
+ * $s00000 to $Fss00000.
+ */
+#define MACFB_DECL_ROM_SIZE     0x1000
+#define MACFB_ROM_MODES         4
+#define MACFB_ROM_FIRST_MODE    0x80
+
+#define RESID_MODE_PARAMS       0x01
+#define RESID_MODE_PAGE_CNT     0x03
+#define RESID_MODE_DEV_TYPE     0x04
+
+static bool macfb_nubus_build_rom(MacfbState *s, uint8_t *buf, int size,
+                                  int *rom_len, Error **errp)
+{
+    static const uint8_t depths[MACFB_ROM_MODES] = { 1, 2, 4, 8 };
+    const MacFbMode *modes[MACFB_ROM_MODES];
+    uint8_t drvr[sizeof(macfb_drvr)];
+    NubusDeclRom r;
+    int board_dir, video_dir, mode_dir[MACFB_ROM_MODES], drvr_dir;
+    int board_type, board_name, video_type, video_name, minor_base;
+    int minor_len, vpblock[MACFB_ROM_MODES], drvr_block, pos, i;
+
+    for (i = 0; i < MACFB_ROM_MODES; i++) {
+        modes[i] = macfb_find_mode(s->type, s->mode->width, s->mode->height,
+                                   depths[i]);
+        if (!modes[i]) {
+            error_setg(errp, "no %d bit mode for %dx%d, needed by the "
+                       "declaration ROM", depths[i], s->mode->width,
+                       s->mode->height);
+            return false;
+        }
+    }
+
+    /* the driver's mode table */
+    memcpy(drvr, macfb_drvr, sizeof(drvr));
+    pos = MACFB_DRVR_PARAMS;
+    stw_be_p(drvr + pos, s->mode->height);
+    pos += 4;
+    for (i = 0; i < MACFB_ROM_MODES; i++, pos += 12) {
+        stw_be_p(drvr + pos, modes[i]->mode_ctrl1);
+        stw_be_p(drvr + pos + 2, modes[i]->mode_ctrl2);
+        stl_be_p(drvr + pos + 4, modes[i]->offset);
+        stw_be_p(drvr + pos + 8, modes[i]->stride);
+        stw_be_p(drvr + pos + 10, modes[i]->depth);
+    }
+
+    nubus_declrom_init(&r, buf, size);
+
+    /* directories first, their entries are filled in below */
+    r.pos = 0x10;
+    board_dir = r.pos;
+    r.pos += 4 * 4;
+    video_dir = r.pos;
+    r.pos += (7 + MACFB_ROM_MODES + 1) * 4;
+    for (i = 0; i < MACFB_ROM_MODES; i++) {
+        mode_dir[i] = r.pos;
+        r.pos += 4 * 4;
+    }
+    drvr_dir = r.pos;
+    r.pos += 2 * 4;
+
+    board_type = r.pos;
+    nubus_declrom_put16(&r, 0x0001);    /* catBoard */
+    nubus_declrom_put16(&r, 0x0000);
+    nubus_declrom_put16(&r, 0x0000);
+    nubus_declrom_put16(&r, 0x0000);
+
+    video_type = r.pos;
+    nubus_declrom_put16(&r, 0x0003);    /* catDisplay */
+    nubus_declrom_put16(&r, 0x0001);    /* typVideo */
+    nubus_declrom_put16(&r, 0x0001);    /* drSwApple */
+    nubus_declrom_put16(&r, 0x5146);    /* DrHW, ours */
+
+    minor_base = r.pos;
+    nubus_declrom_put32(&r, 0);
+    minor_len = r.pos;
+    nubus_declrom_put32(&r, 1 * MiB);
+
+    board_name = r.pos;
+    nubus_declrom_puts(&r, "QEMU NuBus Video");
+    video_name = r.pos;
+    nubus_declrom_puts(&r, "Display_Video_QEMU_macfb");
+    nubus_declrom_align(&r, 4);
+
+    /* VPBlock */
+    for (i = 0; i < MACFB_ROM_MODES; i++) {
+        vpblock[i] = r.pos;
+        nubus_declrom_put32(&r, 4 + 42);            /* sBlock length */
+        nubus_declrom_put32(&r, modes[i]->offset);  /* vpBaseOffset */
+        nubus_declrom_put16(&r, modes[i]->stride);  /* vpRowBytes */
+        nubus_declrom_put16(&r, 0);                 /* vpBounds */
+        nubus_declrom_put16(&r, 0);
+        nubus_declrom_put16(&r, modes[i]->height);
+        nubus_declrom_put16(&r, modes[i]->width);
+        nubus_declrom_put16(&r, 0);                 /* vpVersion */
+        nubus_declrom_put16(&r, 0);                 /* vpPackType */
+        nubus_declrom_put32(&r, 0);                 /* vpPackSize */
+        nubus_declrom_put32(&r, 72 << 16);          /* vpHRes */
+        nubus_declrom_put32(&r, 72 << 16);          /* vpVRes */
+        nubus_declrom_put16(&r, 0);                 /* vpPixelType: chunky */
+        nubus_declrom_put16(&r, modes[i]->depth);   /* vpPixelSize */
+        nubus_declrom_put16(&r, 1);                 /* vpCmpCount */
+        nubus_declrom_put16(&r, modes[i]->depth);   /* vpCmpSize */
+        nubus_declrom_put32(&r, 0);                 /* vpPlaneBytes */
+    }
+
+    drvr_block = r.pos;
+    nubus_declrom_put32(&r, 4 + sizeof(drvr));
+    nubus_declrom_put_bytes(&r, drvr, sizeof(drvr));
+    nubus_declrom_align(&r, 4);
+
+    /* root */
+    nubus_declrom_entry_off(&r, 0x00, 0x01, board_dir);
+    nubus_declrom_entry_off(&r, 0x04, 0x80, video_dir);
+    nubus_declrom_entry(&r, 0x08, NUBUS_RESID_END, 0);
+
+    pos = board_dir;
+    nubus_declrom_entry_off(&r, pos, NUBUS_RESID_TYPE, board_type);
+    nubus_declrom_entry_off(&r, pos + 4, NUBUS_RESID_NAME, board_name);
+    nubus_declrom_entry(&r, pos + 8, NUBUS_RESID_BOARDID, 0x5146);
+    nubus_declrom_entry(&r, pos + 12, NUBUS_RESID_END, 0);
+
+    pos = video_dir;
+    nubus_declrom_entry_off(&r, pos, NUBUS_RESID_TYPE, video_type);
+    nubus_declrom_entry_off(&r, pos + 4, NUBUS_RESID_NAME, video_name);
+    nubus_declrom_entry_off(&r, pos + 8, NUBUS_RESID_DRVR_DIR, drvr_dir);
+    nubus_declrom_entry(&r, pos + 12, NUBUS_RESID_FLAGS, 0x0002);
+    nubus_declrom_entry(&r, pos + 16, NUBUS_RESID_HWDEVID, 1);
+    nubus_declrom_entry_off(&r, pos + 20, NUBUS_RESID_MINOR_BASEOS,
+                            minor_base);
+    nubus_declrom_entry_off(&r, pos + 24, NUBUS_RESID_MINOR_LENGTH,
+                            minor_len);
+    for (i = 0; i < MACFB_ROM_MODES; i++) {
+        nubus_declrom_entry_off(&r, pos + 28 + i * 4,
+                                MACFB_ROM_FIRST_MODE + i, mode_dir[i]);
+    }
+    nubus_declrom_entry(&r, pos + 28 + i * 4, NUBUS_RESID_END, 0);
+
+    for (i = 0; i < MACFB_ROM_MODES; i++) {
+        pos = mode_dir[i];
+        nubus_declrom_entry_off(&r, pos, RESID_MODE_PARAMS, vpblock[i]);
+        nubus_declrom_entry(&r, pos + 4, RESID_MODE_PAGE_CNT, 1);
+        nubus_declrom_entry(&r, pos + 8, RESID_MODE_DEV_TYPE, 0); /* CLUT */
+        nubus_declrom_entry(&r, pos + 12, NUBUS_RESID_END, 0);
+    }
+
+    nubus_declrom_entry_off(&r, drvr_dir, NUBUS_RESID_MACOS68020,
+                            drvr_block);
+    nubus_declrom_entry(&r, drvr_dir + 4, NUBUS_RESID_END, 0);
+
+    *rom_len = nubus_declrom_finish(&r);
+    return true;
+}
+
 static void macfb_nubus_realize(DeviceState *dev, Error **errp)
 {
     ERRP_GUARD();
@@ -747,6 +908,28 @@ static void macfb_nubus_realize(DeviceState *dev, Error **errp)
 
     memory_region_add_subregion(&nd->slot_mem, DAFB_BASE, &ms->mem_ctrl);
     memory_region_add_subregion(&nd->slot_mem, VIDEO_BASE, &ms->mem_vram);
+
+    if (!nd->romfile) {
+        uint8_t rom[MACFB_DECL_ROM_SIZE];
+        int rom_len;
+
+        if (!macfb_nubus_build_rom(ms, rom, sizeof(rom), &rom_len, errp)) {
+            return;
+        }
+        memory_region_init_rom(&s->rom, OBJECT(dev), "macfb-declrom",
+                               MACFB_DECL_ROM_SIZE, &error_abort);
+        memcpy((uint8_t *)memory_region_get_ram_ptr(&s->rom) +
+               MACFB_DECL_ROM_SIZE - rom_len, rom, rom_len);
+        memory_region_add_subregion(&nd->slot_mem,
+                                    NUBUS_SLOT_SIZE - MACFB_DECL_ROM_SIZE,
+                                    &s->rom);
+
+        /* what 24-bit mode sees of the slot */
+        memory_region_init_alias(&s->vram_24bit, OBJECT(dev),
+                                 "macfb-vram-24bit", &ms->mem_vram, 0, 1 * MiB);
+        memory_region_add_subregion(&nd->slot_mem, (hwaddr)nd->slot << 20,
+                                    &s->vram_24bit);
+    }
 
     ms->irq = qemu_allocate_irq(macfb_nubus_set_irq, s, 0);
 }
