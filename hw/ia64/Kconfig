@@ -5,3 +5,10 @@ config IA64_VIRT
     select SERIAL_ISA
     select ISA_BUS
     select VIRTIO_MMIO
+    select ACPI
+    select PCI
+    select PCI_EXPRESS_GENERIC_BRIDGE
+    imply PCI_DEVICES
+    imply LSI_SCSI_PCI
+    imply VGA_PCI
+    imply ISA_DEBUG

@@ -314,6 +314,8 @@ struct CPUArchState {
 
     /* Board hook for break immediates reserved for the firmware. */
     void (*firmware_call)(CPUIA64State *env, uint32_t imm);
+    /* Board hook that sees every other break before it faults. */
+    void (*break_trace)(CPUIA64State *env, uint32_t imm);
 };
 
 struct ArchCPU {
@@ -361,6 +363,11 @@ void ia64_switch_bank(CPUIA64State *env, bool bn);
 uint64_t ia64_bsp(CPUIA64State *env);
 void ia64_rse_frame_load(CPUIA64State *env, int n, uintptr_t ra);
 void ia64_tlb_flush_all(CPUIA64State *env);
+void ia64_tc_insert(CPUIA64State *env, bool insn, uint64_t va, uint64_t pte,
+                    uint64_t itir);
+void ia64_tr_insert(CPUIA64State *env, bool insn, int slot, uint64_t va,
+                    uint64_t pte, uint64_t itir);
+void ia64_rfi(CPUIA64State *env, uintptr_t ra);
 uint64_t ia64_thash(CPUIA64State *env, uint64_t va);
 uint64_t ia64_ttag(CPUIA64State *env, uint64_t va);
 void ia64_fpu_update_status(CPUIA64State *env);

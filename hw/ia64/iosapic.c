@@ -18,9 +18,26 @@
 #define RTE_LEVEL       (1u << 15)
 #define RTE_MASK        (1u << 16)
 
+static bool irq_debug(void)
+{
+    static int on = -1;
+
+    if (on < 0) {
+        on = getenv("IA64_IRQ_DEBUG") != NULL;
+    }
+    return on;
+}
+
 static void iosapic_deliver(IOSAPICState *s, int n)
 {
     uint32_t lo = s->rte[n] & 0xffffffff;
+
+    if (irq_debug()) {
+        fprintf(stderr, "iosapic: pin %d vec 0x%x %s%s%s\n", n, lo & 0xff,
+                lo & RTE_MASK ? "masked " : "",
+                (lo & RTE_LEVEL) && (s->remote_irr & (1u << n)) ? "irr " : "",
+                lo & RTE_LEVEL ? "level" : "edge");
+    }
 
     if (lo & RTE_MASK) {
         return;
@@ -43,6 +60,9 @@ static void iosapic_set_irq(void *opaque, int n, int level)
         s->level |= 1u << n;
     } else {
         s->level &= ~(1u << n);
+    }
+    if (irq_debug() && level != old) {
+        fprintf(stderr, "iosapic: pin %d line %d\n", n, level);
     }
     if (level && (!old || (s->rte[n] & RTE_LEVEL))) {
         iosapic_deliver(s, n);
@@ -83,6 +103,10 @@ static void iosapic_write(void *opaque, hwaddr addr, uint64_t val,
         if (sel >= 0x10 && sel < 0x10 + 2 * IOSAPIC_PINS) {
             int n = (sel - 0x10) / 2;
 
+            if (irq_debug()) {
+                fprintf(stderr, "iosapic: rte %d %s 0x%x\n", n,
+                        sel & 1 ? "hi" : "lo", (unsigned)val);
+            }
             if (sel & 1) {
                 s->rte[n] = deposit64(s->rte[n], 32, 32, val);
             } else {
@@ -95,6 +119,9 @@ static void iosapic_write(void *opaque, hwaddr addr, uint64_t val,
         }
         break;
     case 0x40:      /* EOI: vector */
+        if (irq_debug()) {
+            fprintf(stderr, "iosapic: eoi 0x%x\n", (unsigned)val & 0xff);
+        }
         for (int n = 0; n < IOSAPIC_PINS; n++) {
             if ((s->rte[n] & RTE_VECTOR) == (val & 0xff)) {
                 s->remote_irr &= ~(1u << n);

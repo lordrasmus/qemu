@@ -17,6 +17,7 @@
 #include "exec/page-protection.h"
 #include "accel/tcg/cpu-ldst.h"
 #include "accel/tcg/probe.h"
+#include "system/memory.h"
 
 /*
  * Interruptions
@@ -66,6 +67,12 @@ void HELPER(break)(CPUIA64State *env, uint32_t imm)
         env->firmware_call(env, imm - FW_BREAK_FIRST);
         return;
     }
+    if (env->break_trace) {
+        env->break_trace(env, imm);
+    }
+    qemu_log_mask(CPU_LOG_INT, "ia64: break 0x%x at %016" PRIx64
+                  " slot %d, b0=%016" PRIx64 " r32=%016" PRIx64 "\n",
+                  imm, env->ip, env->ri, env->br[0], env->gr[32]);
     env->pend_iim = imm;
     ia64_raise_fault(env, IVT_BREAK, 0, PEND_IIM, 0, 0);
 }
@@ -202,6 +209,16 @@ void ia64_update_irq(CPUIA64State *env)
 {
     CPUState *cs = env_cpu(env);
 
+    /*
+     * Every psr write gets here, so skip the BQL while nothing changes.
+     * Others change the IRR only under the BQL and update the line
+     * themselves, so look again once it is held.
+     */
+    if ((lsapic_pending(env) >= 0) ==
+        cpu_test_interrupt(cs, CPU_INTERRUPT_HARD)) {
+        return;
+    }
+
     BQL_LOCK_GUARD();
 
     if (lsapic_pending(env) >= 0) {
@@ -232,6 +249,7 @@ void ia64_cpu_deliver_vector(ArchCPU *cpu, int vector)
 
 static uint64_t lsapic_read_ivr(CPUIA64State *env)
 {
+    BQL_LOCK_GUARD();
     int v = lsapic_pending(env);
 
     if (v < 0) {
@@ -245,6 +263,7 @@ static uint64_t lsapic_read_ivr(CPUIA64State *env)
 
 static void lsapic_eoi(CPUIA64State *env)
 {
+    BQL_LOCK_GUARD();
     int s = lsapic_highest(env->insvc);
 
     if (s >= 0) {
@@ -410,6 +429,45 @@ static uint64_t access_isr(MMUAccessType type)
 }
 
 /*
+ * The VHPT walker: on a TLB miss, look the translation up in the short
+ * format VHPT and insert it into the TC.  A walker may give up at any
+ * time, and this one does when the VHPT page itself is not mapped or the
+ * entry is not present; the miss handler takes over then.  Besides
+ * saving those handler runs, guests depend on it: Windows returns to user
+ * mode with an rfi that loads the frame from the user backing store with
+ * interruption collection off, where a miss is a nested fault it does not
+ * expect.
+ */
+static IA64TLBEntry *vhpt_walk(CPUIA64State *env, uint64_t va, bool insn)
+{
+    uint64_t rr = env->rr[va >> 61];
+    uint64_t pta = env->cr[CR_PTA];
+    uint64_t iha, pte, psize;
+    IA64TLBEntry *e;
+    MemTxResult res;
+
+    if (!FIELD_EX64(pta, PTA, VE) || FIELD_EX64(pta, PTA, VF) ||
+        !FIELD_EX64(rr, RR, VE)) {
+        return NULL;
+    }
+    iha = ia64_thash(env, va);
+    e = tlb_lookup(env, iha, false);
+    if (!e || !(e->pte & PTE_P)) {
+        return NULL;
+    }
+    psize = 1ull << e->ps;
+    pte = address_space_ldq_le(env_cpu(env)->as,
+                               ((e->pte & R_PTE_PPN_MASK) & ~(psize - 1)) |
+                               (iha & (psize - 1)),
+                               MEMTXATTRS_UNSPECIFIED, &res);
+    if (res != MEMTX_OK || !(pte & PTE_P)) {
+        return NULL;
+    }
+    ia64_tc_insert(env, insn, va, pte, rr & (R_RR_PS_MASK | R_RR_RID_MASK));
+    return tlb_lookup(env, va, insn);
+}
+
+/*
  * Translate va for an access at privilege pl.  On failure fills the
  * interruption resources and returns the vector, else 0.
  */
@@ -437,6 +495,9 @@ static int ia64_translate(CPUIA64State *env, uint64_t va, MMUAccessType type,
     env->pend_flags = PEND_IFA | PEND_ITIR | PEND_IHA;
 
     e = tlb_lookup(env, va, insn);
+    if (!e && !for_probe) {
+        e = vhpt_walk(env, va, insn);
+    }
     if (!e) {
         bool vhpt = FIELD_EX64(env->cr[CR_PTA], PTA, VE) &&
                     FIELD_EX64(rr, RR, VE);
@@ -522,7 +583,10 @@ hwaddr ia64_cpu_get_phys_page_debug(CPUState *cs, vaddr addr)
     uint64_t save[6] = { env->pend_isr, env->pend_ifa, env->pend_itir,
                          env->pend_iha, env->pend_flags };
 
+    /* code may be mapped by the instruction TLB only */
     if (ia64_translate(env, addr, MMU_DATA_LOAD, 0, env->psr & PSR_DT,
+                       &pa, &prot, &psize, true) &&
+        ia64_translate(env, addr, MMU_INST_FETCH, 0, env->psr & PSR_IT,
                        &pa, &prot, &psize, true)) {
         pa = -1;
     }
@@ -581,7 +645,14 @@ static void tc_purge(CPUIA64State *env, uint64_t va, int ps, uint32_t rid)
 
 void HELPER(itc)(CPUIA64State *env, uint32_t insn, uint64_t pte)
 {
-    IA64TLBEntry e = make_entry(env, env->cr[CR_IFA], pte, env->cr[CR_ITIR]);
+    ia64_tc_insert(env, insn, env->cr[CR_IFA], pte, env->cr[CR_ITIR]);
+}
+
+/* itc for the board firmware, which answers TLB misses itself */
+void ia64_tc_insert(CPUIA64State *env, bool insn, uint64_t va, uint64_t pte,
+                    uint64_t itir)
+{
+    IA64TLBEntry e = make_entry(env, va, pte, itir);
     IA64TLBEntry *tc = insn ? env->itc : env->dtc;
     uint32_t *next = insn ? &env->itc_next : &env->dtc_next;
 
@@ -596,7 +667,14 @@ void HELPER(itc)(CPUIA64State *env, uint32_t insn, uint64_t pte)
 
 static void itr_insert(CPUIA64State *env, bool insn, int slot, uint64_t pte)
 {
-    IA64TLBEntry e = make_entry(env, env->cr[CR_IFA], pte, env->cr[CR_ITIR]);
+    ia64_tr_insert(env, insn, slot, env->cr[CR_IFA], pte, env->cr[CR_ITIR]);
+}
+
+/* itr for the board firmware */
+void ia64_tr_insert(CPUIA64State *env, bool insn, int slot, uint64_t va,
+                    uint64_t pte, uint64_t itir)
+{
+    IA64TLBEntry e = make_entry(env, va, pte, itir);
     IA64TLBEntry *tr = insn ? env->itr : env->dtr;
 
     slot &= IA64_NUM_TR - 1;
@@ -661,8 +739,11 @@ uint64_t HELPER(tpa)(CPUIA64State *env, uint64_t va)
     if (!e || !(e->pte & PTE_P)) {
         vec = ia64_translate(env, va, MMU_DATA_LOAD, 0, true, &pa, &prot,
                              &psize, false);
-        ia64_raise_fault(env, vec, ISR_NA | ISR_R, env->pend_flags, va,
-                         GETPC());
+        e = tlb_lookup(env, va, false);         /* the walker found it */
+        if (vec || !e) {
+            ia64_raise_fault(env, vec, ISR_NA | ISR_R, env->pend_flags, va,
+                             GETPC());
+        }
     }
     psize = 1ull << e->ps;
     return ((e->pte & R_PTE_PPN_MASK) & ~(psize - 1)) | (va & (psize - 1));
@@ -990,8 +1071,8 @@ void HELPER(loadrs)(CPUIA64State *env)
     uint64_t bsp = ia64_bsp(env);
     uint64_t target = bsp - bytes;
 
-    if (FIELD_EX64(env->cfm, CFM, SOF) != 0 ||
-        FIELD_EX64(env->ar[AR_RSC], RSC, MODE) != 0) {
+    /* only the mode matters: the current frame stays as it is */
+    if (FIELD_EX64(env->ar[AR_RSC], RSC, MODE) != 0) {
         ia64_raise(env, IVT_GENERAL, GE_ILLEGAL_OP, 0);
     }
     if (target >= env->ar[AR_BSPSTORE]) {
@@ -1031,15 +1112,19 @@ void HELPER(loadrs)(CPUIA64State *env)
 
 void HELPER(rfi)(CPUIA64State *env)
 {
+    ia64_rfi(env, GETPC());
+}
+
+void ia64_rfi(CPUIA64State *env, uintptr_t ra)
+{
     uint64_t ipsr = env->cr[CR_IPSR];
     uint64_t ifs = env->cr[CR_IFS];
-
 
     if (ifs & IFS_V) {
         uint64_t ifm = ifs & CFM_MASK;
         int sof = FIELD_EX64(ifm, CFM, SOF);
 
-        rse_pop(env, sof, GETPC());
+        rse_pop(env, sof, ra);
         env->cfm = ifm;
     }
     env->ip = env->cr[CR_IIP] & ~0xfull;
