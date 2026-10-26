@@ -156,7 +156,7 @@ static void glue_auxmode_set_irq(void *opaque, int irq, int level)
 {
     GLUEState *s = GLUE(opaque);
 
-    s->auxmode = level;
+    s->auxmode = s->classic_only || level;
 }
 
 static void glue_nmi(NMIState *n)
@@ -180,7 +180,7 @@ static void glue_reset_hold(Object *obj, ResetType type)
     GLUEState *s = GLUE(obj);
 
     s->ipr = 0;
-    s->auxmode = 0;
+    s->auxmode = s->classic_only;
 
     timer_del(s->nmi_release);
 }
@@ -205,6 +205,8 @@ static const VMStateDescription vmstate_glue = {
  */
 static const Property glue_properties[] = {
     DEFINE_PROP_LINK("cpu", GLUEState, cpu, TYPE_M68K_CPU, M68kCPU *),
+    /* Mac II family: no A/UX mode, the routing is always the classic one */
+    DEFINE_PROP_BOOL("classic-only", GLUEState, classic_only, false),
 };
 
 static void glue_finalize(Object *obj)
