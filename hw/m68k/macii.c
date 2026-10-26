@@ -595,6 +595,8 @@ static void macii_machine_init(MachineState *machine)
                                     qemu_allocate_irq(macii_set_overlay, m, 0));
         m->abs_mouse = qemu_input_handler_register(DEVICE(&m->macfb),
                                                    &macii_abs_mouse_handler);
+        /* ahead of the ADB mouse, so that the UI sends absolute positions */
+        qemu_input_handler_activate(m->abs_mouse);
         return;
     }
 
