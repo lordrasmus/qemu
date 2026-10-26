@@ -44,6 +44,11 @@ struct MOS6522Q800VIA1State {
     qemu_irq auxmode_irq;
     uint8_t last_b;
 
+    /* Mac II family: ROM overlay output, port A inputs instead of a Q800 id */
+    qemu_irq overlay_irq;
+    bool q800_cpuid;
+    uint8_t porta_in;
+
     /* RTC */
     uint8_t PRAM[256];
     BlockBackend *blk;
