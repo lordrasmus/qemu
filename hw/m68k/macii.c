@@ -40,7 +40,7 @@
 #include "elf.h"
 #include "hw/core/loader.h"
 #include "ui/console.h"
-#include "ui/input.h"
+#include "hw/input/macos-abs-pointer.h"
 #include "hw/char/escc.h"
 #include "hw/core/sysbus.h"
 #include "hw/scsi/ncr5380.h"
@@ -119,8 +119,6 @@ struct MacIIMachineState {
     MemoryRegion macio;
     MemoryRegion macio_alias;
     MemoryRegion scsi_pdma_alias;
-    QemuInputHandlerState *abs_mouse;
-    int mouse_x, mouse_y;
 };
 
 static void main_cpu_reset(void *opaque)
@@ -153,63 +151,6 @@ static void macii_rom_reset(void *opaque)
     cpu->env.aregs[7] = ldl_be_p(ptr);
     cpu->env.pc = ldl_be_p(ptr + 4);
 }
-
-/*
- * ADB only knows relative mice and Mac OS accelerates what they report, so
- * a host pointer and the Mac's drift apart. Like Basilisk II, set the
- * cursor position in the low memory globals instead: MTemp, RawMouse and
- * Mouse, then CrsrNew from CrsrCouple for the cursor VBL task to pick it up. The
- * buttons still come from the ADB mouse. Nothing is written before the
- * ROM has set up the screen (ScrnBase).
- */
-#define LM_SCRNBASE     0x824
-#define LM_MTEMP        0x828
-#define LM_RAWMOUSE     0x82c
-#define LM_MOUSE        0x830
-#define LM_CRSRNEW      0x8ce
-#define LM_CRSRCOUPLE   0x8cf
-
-static void macii_abs_mouse_event(DeviceState *dev, QemuConsole *src,
-                                  QemuInputEvent *evt)
-{
-    MacIIMachineState *m = MACII_MACHINE(qdev_get_machine());
-    MacfbState *fb = &m->macfb.macfb;
-    InputMoveEvent *move = &evt->abs;
-
-    if (move->axis == INPUT_AXIS_X) {
-        m->mouse_x = qemu_input_scale_axis(move->value, INPUT_EVENT_ABS_MIN,
-                                           INPUT_EVENT_ABS_MAX, 0,
-                                           fb->width - 1);
-    } else if (move->axis == INPUT_AXIS_Y) {
-        m->mouse_y = qemu_input_scale_axis(move->value, INPUT_EVENT_ABS_MIN,
-                                           INPUT_EVENT_ABS_MAX, 0,
-                                           fb->height - 1);
-    }
-}
-
-static void macii_abs_mouse_sync(DeviceState *dev)
-{
-    MacIIMachineState *m = MACII_MACHINE(qdev_get_machine());
-    AddressSpace *as = &address_space_memory;
-
-    if (!ldl_be_phys(as, LM_SCRNBASE)) {
-        return;
-    }
-    stw_be_phys(as, LM_MTEMP, m->mouse_y);
-    stw_be_phys(as, LM_MTEMP + 2, m->mouse_x);
-    stw_be_phys(as, LM_RAWMOUSE, m->mouse_y);
-    stw_be_phys(as, LM_RAWMOUSE + 2, m->mouse_x);
-    stw_be_phys(as, LM_MOUSE, m->mouse_y);
-    stw_be_phys(as, LM_MOUSE + 2, m->mouse_x);
-    stb_phys(as, LM_CRSRNEW, ldub_phys(as, LM_CRSRCOUPLE));
-}
-
-static const QemuInputHandler macii_abs_mouse_handler = {
-    .name  = "Mac II absolute pointer",
-    .mask  = INPUT_EVENT_MASK_ABS,
-    .event = macii_abs_mouse_event,
-    .sync  = macii_abs_mouse_sync,
-};
 
 static void macii_load_rom(MacIIMachineState *m, const char *bios_name)
 {
@@ -593,10 +534,9 @@ static void macii_machine_init(MachineState *machine)
         }
         qdev_connect_gpio_out_named(DEVICE(&m->via1), "overlay", 0,
                                     qemu_allocate_irq(macii_set_overlay, m, 0));
-        m->abs_mouse = qemu_input_handler_register(DEVICE(&m->macfb),
-                                                   &macii_abs_mouse_handler);
-        /* ahead of the ADB mouse, so that the UI sends absolute positions */
-        qemu_input_handler_activate(m->abs_mouse);
+        /* Mac OS runs here: keep its cursor under the host pointer */
+        dev = qdev_new(TYPE_MACOS_ABS_POINTER);
+        qdev_realize_and_unref(dev, NULL, &error_fatal);
         return;
     }
 
