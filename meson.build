@@ -3734,6 +3734,7 @@ if have_system or have_user
     'target/kvx',
     'target/mips/tcg',
     'target/c6x',
+    'target/frv',
     'target/nds32',
     'target/nios2',
     'target/ppc',
