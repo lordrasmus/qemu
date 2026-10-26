@@ -1042,7 +1042,9 @@ static uint64_t mos6522_q800_via1_read(void *opaque, hwaddr addr, unsigned size)
     case VIA_REG_A:
     case VIA_REG_ANH:
         /* Quadra 800 Id */
-        ret = (ret & ~VIA1A_CPUID_MASK) | VIA1A_CPUID_Q800;
+        if (s->q800_cpuid) {
+            ret = (ret & ~VIA1A_CPUID_MASK) | VIA1A_CPUID_Q800;
+        }
         break;
     case VIA_REG_T2CH:
         if (s->timer_hack_state == 6) {
@@ -1118,6 +1120,14 @@ static void mos6522_q800_via1_write(void *opaque, hwaddr addr, uint64_t val,
                 adb_via_send(v1s, state, ms->sr);
             }
         }
+        break;
+
+    case VIA_REG_A:
+    case VIA_REG_ANH:
+    case VIA_REG_DIRA:
+        /* the overlay line is pulled up while PA4 is an input */
+        qemu_set_irq(v1s->overlay_irq, !(ms->dira & VIA1A_vOverlay) ||
+                                       (ms->a & VIA1A_vOverlay));
         break;
     }
 }
@@ -1216,6 +1226,7 @@ static void mos6522_q800_via1_reset_hold(Object *obj, ResetType type)
     ms->timers[1].frequency = VIA_TIMER_FREQ;
 
     ms->b = VIA1B_vADB_StateMask | VIA1B_vADBInt | VIA1B_vRTCEnb;
+    ms->a = v1s->porta_in;
 
     /* ADB/RTC */
     adb_set_autopoll_enabled(adb_bus, true);
@@ -1283,6 +1294,9 @@ static void mos6522_q800_via1_init(Object *obj)
 
     /* A/UX mode */
     qdev_init_gpio_out(DEVICE(obj), &v1s->auxmode_irq, 1);
+
+    /* ROM overlay */
+    qdev_init_gpio_out_named(DEVICE(obj), &v1s->overlay_irq, "overlay", 1);
 }
 
 static const VMStateDescription vmstate_q800_via1 = {
@@ -1324,6 +1338,8 @@ static const VMStateDescription vmstate_q800_via1 = {
 
 static const Property mos6522_q800_via1_properties[] = {
     DEFINE_PROP_DRIVE("drive", MOS6522Q800VIA1State, blk),
+    DEFINE_PROP_BOOL("q800-cpuid", MOS6522Q800VIA1State, q800_cpuid, true),
+    DEFINE_PROP_UINT8("porta-in", MOS6522Q800VIA1State, porta_in, 0),
 };
 
 static void mos6522_q800_via1_class_init(ObjectClass *oc, const void *data)
