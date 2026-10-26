@@ -30,6 +30,7 @@
 #include "qemu/osdep.h"
 #include "qemu/units.h"
 #include "qemu/guest-random.h"
+#include "qemu/datadir.h"
 #include "exec/target_page.h"
 #include "system/system.h"
 #include "target/m68k/cpu.h"
@@ -58,6 +59,12 @@
 #include "system/reset.h"
 
 #define MACROM_ADDR     0x40800000
+#define MACROM_FILENAME "MacIIx.ROM"
+
+/* the ROM repeats from 0x40000000; mirror it over the first 16 MiB of that */
+#define MACROM_MIRROR_BASE    0x40000000
+#define MACROM_MIRROR_SIZE    0x01000000
+#define MACROM_MAX_SIZE       0x00100000
 
 /* I/O space, decoded in 128 KiB and repeated up to 0x50000000 + 32 MiB */
 #define IO_BASE               0x50000000
@@ -91,6 +98,10 @@ struct MacIIMachineState {
 
     M68kCPU cpu;
     MemoryRegion rom;
+    MemoryRegion rom_mirror;
+    MemoryRegion rom_alias[MACROM_MIRROR_SIZE / (256 * KiB)];
+    MemoryRegion rom_overlay;
+    uint32_t rom_size;
     GLUEState glue;
     MOS6522Q800VIA1State via1;
     MOS6522Q800VIA2State via2;
@@ -102,6 +113,7 @@ struct MacIIMachineState {
     MacfbNubusState macfb;
     ASCState asc;
     MemoryRegion ramio;
+    MemoryRegion *ram_mirror;
     MemoryRegion macio;
     MemoryRegion macio_alias;
 };
@@ -114,6 +126,70 @@ static void main_cpu_reset(void *opaque)
     cpu_reset(cs);
     cpu->env.aregs[7] = ldl_phys(cs->as, 0);
     cpu->env.pc = ldl_phys(cs->as, 4);
+}
+
+/* VIA1 PA4: while set, the ROM also answers at 0 and the reset vector is its */
+static void macii_set_overlay(void *opaque, int n, int level)
+{
+    MacIIMachineState *m = opaque;
+
+    memory_region_set_enabled(&m->rom_overlay, level);
+}
+
+/* the address decoders come out of reset with the overlay on */
+static void macii_rom_reset(void *opaque)
+{
+    MacIIMachineState *m = opaque;
+    M68kCPU *cpu = &m->cpu;
+    uint8_t *ptr = memory_region_get_ram_ptr(&m->rom);
+
+    macii_set_overlay(m, 0, 1);
+    cpu_reset(CPU(cpu));
+    cpu->env.aregs[7] = ldl_be_p(ptr);
+    cpu->env.pc = ldl_be_p(ptr + 4);
+}
+
+static void macii_load_rom(MacIIMachineState *m, const char *bios_name)
+{
+    char *filename;
+    int64_t size;
+    int i;
+
+    filename = qemu_find_file(QEMU_FILE_TYPE_BIOS, bios_name);
+    size = filename ? get_image_size(filename, NULL) : -1;
+    if (size <= 0 || size > MACROM_MAX_SIZE || !is_power_of_2(size) ||
+        size < 256 * KiB) {
+        error_report("macii needs a Linux kernel (-kernel) or a Mac II "
+                     "family ROM image (-bios), could not load '%s'",
+                     bios_name);
+        exit(1);
+    }
+
+    memory_region_init_rom(&m->rom, NULL, "m68k_mac.rom", size, &error_fatal);
+    if (load_image_size(filename, memory_region_get_ram_ptr(&m->rom),
+                        size) != size) {
+        error_report("could not load MacROM '%s'", bios_name);
+        exit(1);
+    }
+    g_free(filename);
+    m->rom_size = size;
+
+    memory_region_init(&m->rom_mirror, NULL, "m68k_mac.rom-mirror",
+                       MACROM_MIRROR_SIZE);
+    for (i = 0; i < MACROM_MIRROR_SIZE / size; i++) {
+        memory_region_init_alias(&m->rom_alias[i], NULL, "m68k_mac.rom-alias",
+                                 &m->rom, 0, size);
+        memory_region_add_subregion(&m->rom_mirror, i * size,
+                                    &m->rom_alias[i]);
+    }
+    memory_region_add_subregion(get_system_memory(), MACROM_MIRROR_BASE,
+                                &m->rom_mirror);
+
+    /* above the RAM while the overlay is on */
+    memory_region_init_alias(&m->rom_overlay, NULL, "m68k_mac.rom-overlay",
+                             &m->rom, 0, size);
+    memory_region_add_subregion_overlap(get_system_memory(), 0,
+                                        &m->rom_overlay, 1);
 }
 
 static void rerandomize_rng_seed(void *opaque)
@@ -249,11 +325,6 @@ static void macii_machine_init(MachineState *machine)
     bool is_030;
     int i;
 
-    if (!kernel_filename) {
-        error_report("macii needs a Linux kernel (-kernel), there is no ROM");
-        exit(1);
-    }
-
     if (ram_size > 1 * GiB) {
         error_report("Too much memory for this machine: %" PRId64 " MiB, "
                      "maximum 1024 MiB", ram_size / MiB);
@@ -263,7 +334,8 @@ static void macii_machine_init(MachineState *machine)
     /* init CPU */
     object_initialize_child(OBJECT(machine), "cpu", &m->cpu, machine->cpu_type);
     qdev_realize(DEVICE(&m->cpu), NULL, &error_fatal);
-    qemu_register_reset(main_cpu_reset, &m->cpu);
+    qemu_register_reset(kernel_filename ? main_cpu_reset : macii_rom_reset,
+                        kernel_filename ? (void *)&m->cpu : m);
     cc = M68K_CPU_GET_CLASS(&m->cpu);
     is_030 = !strcmp(object_class_get_name(OBJECT_CLASS(cc)),
                      M68K_CPU_TYPE_NAME("m68030"));
@@ -294,6 +366,7 @@ static void macii_machine_init(MachineState *machine)
     /* VIA 1: ADB, RTC/PRAM, 60 Hz and one second ticks */
     object_initialize_child(OBJECT(machine), "via1", &m->via1,
                             TYPE_MOS6522_Q800_VIA1);
+    qdev_prop_set_bit(DEVICE(&m->via1), "q800-cpuid", false);
     dinfo = drive_get(IF_MTD, 0, 0);
     if (dinfo) {
         qdev_prop_set_drive(DEVICE(&m->via1), "drive",
@@ -421,6 +494,8 @@ static void macii_machine_init(MachineState *machine)
     qdev_prop_set_uint32(dev, "width", graphic_width ?: 640);
     qdev_prop_set_uint32(dev, "height", graphic_height ?: 480);
     qdev_prop_set_uint8(dev, "depth", graphic_depth ?: 8);
+    /* Linux does not know this card and leaves the CLUT alone */
+    qdev_prop_set_bit(dev, "vga-palette", kernel_filename != NULL);
     qdev_realize(dev, BUS(nubus), &error_fatal);
     macfb_mode = (NUBUS_MACFB(dev)->macfb).mode;
 
@@ -430,8 +505,30 @@ static void macii_machine_init(MachineState *machine)
     qemu_configure_nic_device(dev, true, NULL);
     qdev_realize_and_unref(dev, BUS(nubus), &error_fatal);
 
-    /* Linux direct boot */
     cs = CPU(&m->cpu);
+    if (!kernel_filename) {
+        /* boot the ROM */
+        macii_load_rom(m, machine->firmware ?: MACROM_FILENAME);
+
+        /* the ROM sizes the RAM by looking for where it wraps around */
+        if (is_power_of_2(ram_size)) {
+            int n = RAM_SIZE / ram_size;
+
+            m->ram_mirror = g_new(MemoryRegion, n);
+            for (i = 1; i < n; i++) {
+                memory_region_init_alias(&m->ram_mirror[i], OBJECT(machine),
+                                         "ram-mirror", machine->ram, 0,
+                                         ram_size);
+                memory_region_add_subregion(&m->ramio, i * ram_size,
+                                            &m->ram_mirror[i]);
+            }
+        }
+        qdev_connect_gpio_out_named(DEVICE(&m->via1), "overlay", 0,
+                                    qemu_allocate_irq(macii_set_overlay, m, 0));
+        return;
+    }
+
+    /* Linux direct boot */
     {
         uint64_t high;
         void *param_blob, *param_ptr, *param_rng_seed;
