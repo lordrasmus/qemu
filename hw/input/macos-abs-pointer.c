@@ -13,7 +13,11 @@
  * Where no VBL task draws the cursor, as with Mac OS 9 on the NewWorld
  * machines, steer=on leaves the globals alone and moves the relative mouse
  * instead: it reads where Mac OS has the cursor and sends half the way
- * there every 15 ms until it arrives, whatever Mac OS accelerates.
+ * there, at most STEER_MAX_STEP and the rest once within STEER_EXACT,
+ * until it arrives, whatever Mac OS
+ * accelerates. A step only follows once Mac OS has moved the cursor for the
+ * previous one, or after STEER_WAIT_NS, so that steps do not pile up and
+ * overshoot while the guest has yet to poll the mouse.
  *
  * SPDX-License-Identifier: GPL-2.0-or-later
  */
@@ -44,13 +48,20 @@ struct MacOSAbsPointerState {
     DeviceState parent_obj;
 
     QemuInputHandlerState *hs;
+    Notifier mode_change;
     QEMUTimer *steer_timer;
     bool steer;
+    bool step_pending;
+    int step_x, step_y;         /* where the cursor was when it was sent */
+    int64_t step_ns;
     hwaddr lm_phys;
     int x, y;
 };
 
-#define STEER_PERIOD_NS     (15 * SCALE_MS)
+#define STEER_PERIOD_NS     (5 * SCALE_MS)
+#define STEER_WAIT_NS       (100 * SCALE_MS)
+#define STEER_MAX_STEP      32
+#define STEER_EXACT         8
 
 static void macos_abs_pointer_event(DeviceState *dev, QemuConsole *src,
                                     QemuInputEvent *evt)
@@ -121,26 +132,46 @@ static void lm_st(hwaddr addr, uint32_t val, int len)
                         buf, len);
 }
 
+/* close by Mac OS does not accelerate, further away go half the way */
+static int steer_step(int d)
+{
+    if (abs(d) <= STEER_EXACT) {
+        return d;
+    }
+    return MAX(-STEER_MAX_STEP, MIN(STEER_MAX_STEP, d / 2));
+}
+
 /* one step of the relative mouse towards the host position */
 static void macos_abs_pointer_steer(void *opaque)
 {
     MacOSAbsPointerState *s = opaque;
+    int64_t now = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
     hwaddr lm;
-    int dx, dy;
+    int mx, my;
 
     if (!lm_base(s, &lm) || !lm_ld(lm + LM_SCRNBASE, 4)) {
         return;
     }
-    dx = s->x - (int16_t)lm_ld(lm + LM_MOUSE + 2, 2);
-    dy = s->y - (int16_t)lm_ld(lm + LM_MOUSE, 2);
-    if (!dx && !dy) {
+    mx = (int16_t)lm_ld(lm + LM_MOUSE + 2, 2);
+    my = (int16_t)lm_ld(lm + LM_MOUSE, 2);
+    if (s->step_pending && mx == s->step_x && my == s->step_y &&
+        now - s->step_ns < STEER_WAIT_NS) {
+        /* the last step has not arrived yet */
+        timer_mod(s->steer_timer, now + STEER_PERIOD_NS);
         return;
     }
-    qemu_input_queue_rel(NULL, INPUT_AXIS_X, dx / 2 ?: dx);
-    qemu_input_queue_rel(NULL, INPUT_AXIS_Y, dy / 2 ?: dy);
+    s->step_pending = false;
+    if (mx == s->x && my == s->y) {
+        return;
+    }
+    qemu_input_queue_rel(NULL, INPUT_AXIS_X, steer_step(s->x - mx));
+    qemu_input_queue_rel(NULL, INPUT_AXIS_Y, steer_step(s->y - my));
     qemu_input_event_sync();
-    timer_mod(s->steer_timer,
-              qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) + STEER_PERIOD_NS);
+    s->step_pending = true;
+    s->step_x = mx;
+    s->step_y = my;
+    s->step_ns = now;
+    timer_mod(s->steer_timer, now + STEER_PERIOD_NS);
 }
 
 static void macos_abs_pointer_sync(DeviceState *dev)
@@ -172,6 +203,20 @@ static const QemuInputHandler macos_abs_pointer_handler = {
     .sync  = macos_abs_pointer_sync,
 };
 
+/*
+ * A mouse that the guest starts using, like USB HID, moves itself to the
+ * front, and the UI goes back to relative events. Take the front again.
+ */
+static void macos_abs_pointer_mode_change(Notifier *n, void *data)
+{
+    MacOSAbsPointerState *s = container_of(n, MacOSAbsPointerState,
+                                           mode_change);
+
+    if (!qemu_input_is_absolute(NULL)) {
+        qemu_input_handler_activate(s->hs);
+    }
+}
+
 static void macos_abs_pointer_realize(DeviceState *dev, Error **errp)
 {
     MacOSAbsPointerState *s = MACOS_ABS_POINTER(dev);
@@ -181,12 +226,15 @@ static void macos_abs_pointer_realize(DeviceState *dev, Error **errp)
     s->hs = qemu_input_handler_register(dev, &macos_abs_pointer_handler);
     /* ahead of the relative mice, so that the UI sends absolute positions */
     qemu_input_handler_activate(s->hs);
+    s->mode_change.notify = macos_abs_pointer_mode_change;
+    qemu_add_mouse_mode_change_notifier(&s->mode_change);
 }
 
 static void macos_abs_pointer_unrealize(DeviceState *dev)
 {
     MacOSAbsPointerState *s = MACOS_ABS_POINTER(dev);
 
+    qemu_remove_mouse_mode_change_notifier(&s->mode_change);
     qemu_input_handler_unregister(s->hs);
     timer_free(s->steer_timer);
 }
