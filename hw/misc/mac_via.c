@@ -748,6 +748,8 @@ static void adb_via_receive(MOS6522Q800VIA1State *v1s, int state, uint8_t *data)
     switch (state) {
     case ADB_STATE_NEW:
         ms->b |= VIA1B_vADBInt;
+        /* the command byte follows once the shift register is an output */
+        v1s->adb_cmd_unsent = true;
         return;
 
     case ADB_STATE_IDLE:
@@ -851,6 +853,7 @@ static void via1_adb_update(MOS6522Q800VIA1State *v1s)
     state = (s->b & VIA1B_vADB_StateMask) >> VIA1B_vADB_StateShift;
 
     if (state != oldstate) {
+        v1s->adb_cmd_unsent = false;
         if (s->acr & VIA1ACR_vShiftOut) {
             /* output mode */
             adb_via_send(v1s, state, s->sr);
@@ -1117,6 +1120,17 @@ static void mos6522_q800_via1_write(void *opaque, hwaddr addr, uint64_t val,
                     (ms->acr & VIA1ACR_vShiftOut) &&
                     oldsr == 0 /* ADB_BUSRESET */) {
                 trace_via1_adb_netbsd_enum_hack();
+                adb_via_send(v1s, state, ms->sr);
+            }
+
+            /*
+             * The Mac II family ROMs end a reply by switching to
+             * ADB_STATE_NEW with the shift register still an input, and
+             * only then turn it around and write the command byte.
+             */
+            if (v1s->adb_cmd_unsent && state == ADB_STATE_NEW &&
+                    (ms->acr & VIA1ACR_vShiftOut)) {
+                v1s->adb_cmd_unsent = false;
                 adb_via_send(v1s, state, ms->sr);
             }
         }
