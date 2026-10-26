@@ -263,21 +263,20 @@ hwaddr nios2_cpu_get_phys_page_debug(CPUState *cs, vaddr addr)
 {
     Nios2CPU *cpu = NIOS2_CPU(cs);
     CPUNios2State *env = &cpu->env;
-    target_ulong vaddr, paddr = 0;
+    target_ulong paddr = 0;
     Nios2MMULookup lu;
     unsigned int hit;
 
     if (cpu->mmu_present && (addr < 0xC0000000)) {
         hit = mmu_translate(env, &lu, addr, 0, 0);
         if (hit) {
-            vaddr = addr & TARGET_PAGE_MASK;
-            paddr = lu.paddr + vaddr - lu.vaddr;
+            paddr = lu.paddr + addr - lu.vaddr;
         } else {
             paddr = -1;
             qemu_log("cpu_get_phys_page debug MISS: %#" PRIx64 "\n", addr);
         }
     } else {
-        paddr = addr & TARGET_PAGE_MASK;
+        paddr = addr;
     }
 
     return paddr;
