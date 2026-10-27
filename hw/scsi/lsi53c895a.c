@@ -897,6 +897,7 @@ static void lsi_transfer_data(SCSIRequest *req, uint32_t len)
 static void lsi_do_command(LSIState *s)
 {
     SCSIDevice *dev;
+    lsi_request *p;
     uint8_t buf[16];
     uint32_t id;
     int n;
@@ -920,6 +921,7 @@ static void lsi_do_command(LSIState *s)
     s->current->tag = s->select_tag;
     s->current->req = scsi_req_new(dev, s->current->tag, s->current_lun, buf,
                                    s->dbc, s->current);
+    p = s->current;
 
     n = scsi_req_enqueue(s->current->req);
     if (n) {
@@ -930,7 +932,11 @@ static void lsi_do_command(LSIState *s)
         }
         scsi_req_continue(s->current->req);
     }
-    if (!s->command_complete) {
+    /*
+     * A command completing at once resumes SCRIPTS from within, and they
+     * may already have moved on to the next command.
+     */
+    if (!s->command_complete && s->current == p) {
         /*
          * Command did not complete immediately so disconnect, also
          * without data to wait for: completion reselects.
