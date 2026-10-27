@@ -47,6 +47,7 @@
 #include "system/memory.h"
 #include "accel/tcg/cpu-loop.h"
 #include "elf.h"
+#include "qemu-version.h"
 #include "virt.h"
 
 #define IOPORT_BASE     0x000000fffc000000ull   /* 64 MB sparse window */
@@ -86,6 +87,7 @@ typedef struct IA64VirtState {
     MemoryRegion acpi_ram;
     ACPIREGS acpi;
     MemoryRegion acpi_pm, acpi_gpe;
+    Notifier powerdown;
     MemoryRegion pci_mmio;
     MemoryRegion pci_vga;
     PCIBus *pci_bus;
@@ -235,6 +237,12 @@ static void virt_acpi_reset(void *opaque)
     virt_acpi_update_sci(&virt.acpi);
 }
 
+/* system_powerdown presses the fixed feature power button */
+static void virt_powerdown_req(Notifier *n, void *opaque)
+{
+    acpi_pm1_evt_power_down(&virt.acpi);
+}
+
 static void virt_acpi_init(void)
 {
     memory_region_init(&virt.acpi_pm, NULL, "acpi-pm", 64);
@@ -247,6 +255,8 @@ static void virt_acpi_init(void)
                           "acpi-gpe0", ACPI_GPE0_LEN);
     memory_region_add_subregion(&virt.isa_io, ACPI_GPE0_BASE, &virt.acpi_gpe);
     qemu_register_reset(virt_acpi_reset, NULL);
+    virt.powerdown.notify = virt_powerdown_req;
+    qemu_register_powerdown_notifier(&virt.powerdown);
 }
 
 /*
@@ -530,15 +540,33 @@ static void dsdt_com1(Aml *scope)
     aml_append(scope, dev);
 }
 
-/* _CRS of virtio-mmio transport i: its registers and a level GSI */
+/*
+ * _CRS of virtio-mmio transport i: its registers and a level GSI.  _STA
+ * hides it while no device sits behind it (device ID 0), which Windows,
+ * with no driver for any, would otherwise ask for at every logon.
+ */
 static void dsdt_virtio(Aml *sb, int i)
 {
     Aml *dev = aml_device("VR%02d", i);
     Aml *crs = aml_resource_template();
+    Aml *field, *method, *ifctx;
     uint32_t gsi = VIRTIO_GSI + i;
 
     aml_append(dev, aml_name_decl("_HID", aml_string("LNRO0005")));
     aml_append(dev, aml_name_decl("_UID", aml_int(i)));
+    aml_append(dev, aml_operation_region("VREG", AML_SYSTEM_MEMORY,
+                                         aml_int(VIRTIO_BASE + i * VIRTIO_SIZE),
+                                         12));
+    field = aml_field("VREG", AML_DWORD_ACC, AML_NOLOCK, AML_PRESERVE);
+    aml_append(field, aml_reserved_field(64));
+    aml_append(field, aml_named_field("DVID", 32));
+    aml_append(dev, field);
+    method = aml_method("_STA", 0, AML_NOTSERIALIZED);
+    ifctx = aml_if(aml_equal(aml_name("DVID"), aml_int(0)));
+    aml_append(ifctx, aml_return(aml_int(0)));
+    aml_append(method, ifctx);
+    aml_append(method, aml_return(aml_int(0x0f)));
+    aml_append(dev, method);
     aml_append(crs, aml_memory32_fixed(VIRTIO_BASE + i * VIRTIO_SIZE,
                                        VIRTIO_SIZE, AML_READ_WRITE));
     aml_append(crs, aml_interrupt(AML_CONSUMER, AML_LEVEL, AML_ACTIVE_HIGH,
@@ -624,7 +652,7 @@ static uint64_t build_dsdt(uint64_t pa)
     aml_append(all, aml_name_decl("\\_S5", s5));
 
     len = all->buf->len;
-    assert(pa + 36 + len <= FW_ACPI + FW_ACPI_SIZE);
+    assert(pa + 36 + len <= FW_SMBIOS);
     acpi_header(pa, "DSDT", 36 + len, 2);
     putmem(pa + 36, all->buf->data, len);
     acpi_finish(pa);
@@ -645,6 +673,20 @@ static void acpi_gas_port(uint64_t pa, uint8_t bits, uint16_t port)
     put8(pa + 2, 0);
     put8(pa + 3, 0);
     put64(pa + 4, IOPORT_BASE + (((uint64_t)port >> 2) << 12) + port);
+}
+
+/*
+ * A generic address structure in I/O space.  The HAL of Server 2003 SP2
+ * reads the PM timer with READ_PORT_ULONG of the low half of the address,
+ * whatever space the structure names.
+ */
+static void acpi_gas_io(uint64_t pa, uint8_t bits, uint16_t port)
+{
+    put8(pa, 1);
+    put8(pa + 1, bits);
+    put8(pa + 2, 0);
+    put8(pa + 3, 0);
+    put64(pa + 4, port);
 }
 
 /* RSDP, XSDT, FACS, FADT, MADT, DSDT; returns the RSDP address. */
@@ -682,13 +724,13 @@ static uint64_t build_acpi(void)
     put8(fadt + 92, ACPI_GPE0_LEN);
     put16(fadt + 96, 101);                      /* no C2 */
     put16(fadt + 98, 1001);                     /* no C3 */
-    /* WBINVD, C1, power and sleep buttons are control methods, no RTC */
-    put32(fadt + 112, (1 << 0) | (1 << 2) | (1 << 4) | (1 << 5) | (1 << 6));
+    /* WBINVD, C1, fixed power button, no sleep button, no RTC */
+    put32(fadt + 112, (1 << 0) | (1 << 2) | (1 << 5) | (1 << 6));
     put64(fadt + 132, facs);
     put64(fadt + 140, dsdt);
     acpi_gas_port(fadt + 148, 32, ACPI_PM_BASE);
     acpi_gas_port(fadt + 172, 16, ACPI_PM_BASE + 4);
-    acpi_gas_port(fadt + 208, 32, ACPI_PM_BASE + 8);
+    acpi_gas_io(fadt + 208, 32, ACPI_PM_BASE + 8);
     acpi_gas_port(fadt + 220, ACPI_GPE0_LEN * 8, ACPI_GPE0_BASE);
     acpi_finish(fadt);
 
@@ -842,12 +884,90 @@ static void build_sal(void)
     put8(t + 12, -sum);
 }
 
+/* One SMBIOS structure: the formatted part, then its strings */
+static uint64_t smbios_struct(uint64_t pa, const uint8_t *fmt, int len,
+                              const char *const *str, int nstr)
+{
+    putmem(pa, fmt, len);
+    pa += len;
+    for (int i = 0; i < nstr; i++) {
+        putmem(pa, str[i], strlen(str[i]) + 1);
+        pa += strlen(str[i]) + 1;
+    }
+    put8(pa++, 0);
+    if (!nstr) {
+        put8(pa++, 0);
+    }
+    return pa;
+}
+
+/*
+ * SMBIOS 2.3 with the BIOS (0) and system (1) information.  The BIOS
+ * version is the QEMU build, git describe included, so that Windows tells
+ * which binary booted it (systeminfo, msinfo32, SystemBiosVersion).
+ */
+static void build_smbios(void)
+{
+    static const char *const bios_str[] = { "QEMU", QEMU_PKGVERSION,
+                                            __DATE__ };
+    static const char *const sys_str[] = { "QEMU", "IA-64 virt",
+                                           QEMU_PKGVERSION, "0" };
+    uint8_t bios[0x14] = { 0, 0x14, 0, 0, 1, 2, 0, 0, 3, 0,
+                           0x08 /* characteristics not supported */ };
+    uint8_t sys[0x19] = { 1, 0x19, 1, 0, 1, 2, 3, 4,
+                          [24] = 6 /* power switch */ };
+    uint8_t end[4] = { 127, 4, 2, 0 };
+    char date[11];
+    const char *months = "JanFebMarAprMayJunJulAugSepOctNovDec";
+    uint64_t ep = FW_SMBIOS, t = FW_SMBIOS + 0x20, pa;
+    const char *bios_s[3];
+    uint8_t sum;
+
+    int month = 0;
+
+    /* __DATE__ is "Mmm dd yyyy", SMBIOS wants mm/dd/yyyy */
+    while (month < 12 && strncmp(months + 3 * month, __DATE__, 3)) {
+        month++;
+    }
+    snprintf(date, sizeof(date), "%02d/%02d/%.4s", month + 1,
+             atoi(__DATE__ + 4), __DATE__ + 7);
+    bios_s[0] = bios_str[0];
+    bios_s[1] = bios_str[1];
+    bios_s[2] = date;
+    pa = smbios_struct(t, bios, sizeof(bios), bios_s, 3);
+    pa = smbios_struct(pa, sys, sizeof(sys), sys_str, 4);
+    pa = smbios_struct(pa, end, sizeof(end), NULL, 0);
+    assert(pa <= FW_ACPI + FW_ACPI_SIZE);
+
+    putmem(ep, "_SM_", 4);
+    put8(ep + 5, 0x1f);
+    put8(ep + 6, 2);                            /* version 2.3 */
+    put8(ep + 7, 3);
+    put16(ep + 8, 0x100);                       /* largest structure */
+    putmem(ep + 16, "_DMI_", 5);
+    put16(ep + 22, pa - t);
+    put32(ep + 24, t);
+    put16(ep + 28, 3);
+    put8(ep + 30, 0x23);
+    sum = 0;
+    for (int i = 16; i < 0x1f; i++) {
+        sum += *fw_ptr(ep + i);
+    }
+    put8(ep + 21, -sum);
+    sum = 0;
+    for (int i = 0; i < 0x1f; i++) {
+        sum += *fw_ptr(ep + i);
+    }
+    put8(ep + 4, -sum);
+}
+
 /* The descriptors of everything but RAM, in ascending order */
 int virt_fw_memmap(MemDesc *md)
 {
     int n = 0;
 
-    md[n++] = (MemDesc){ EFI_ACPI_RECLAIM, FW_ACPI, FW_ACPI + FW_ACPI_SIZE,
+    md[n++] = (MemDesc){ EFI_ACPI_RECLAIM, FW_ACPI, FW_SMBIOS, EFI_MEM_WB };
+    md[n++] = (MemDesc){ EFI_ACPI_NVS, FW_SMBIOS, FW_ACPI + FW_ACPI_SIZE,
                          EFI_MEM_WB };
     md[n++] = (MemDesc){ EFI_MMIO, IOSAPIC_BASE, IOSAPIC_BASE + 0x100000,
                          EFI_MEM_UC | EFI_MEM_RUNTIME };
@@ -894,7 +1014,7 @@ static void build_efi(MachineState *ms, uint64_t rsdp, uint64_t initrd,
     put32(st + 32, 0x00010000);
     put64(st + 88, rt);
     put64(st + 96, 0);                          /* no boot services */
-    put64(st + 104, 2);                         /* nr_tables */
+    put64(st + 104, 3);                         /* nr_tables */
     put64(st + 112, cfg);
     for (int i = 0; "QEMU"[i]; i++) {
         put16(vendor + 2 * i, "QEMU"[i]);
@@ -904,6 +1024,8 @@ static void build_efi(MachineState *ms, uint64_t rsdp, uint64_t initrd,
     put64(cfg + 16, rsdp);
     put_guid(cfg + 24, 0xeb9d2d32, 0x2d88, 0x11d3, sal);
     put64(cfg + 40, FW_SAL);
+    put_guid(cfg + 48, 0xeb9d2d31, 0x2d88, 0x11d3, sal);   /* SMBIOS */
+    put64(cfg + 64, FW_SMBIOS);
 
     /* runtime services: header, then function descriptor pointers */
     put64(rt, 0x56524553544e5552ull);           /* "RUNTSERV" */
@@ -1390,6 +1512,23 @@ static void virt_break_trace(CPUIA64State *env, uint32_t imm)
     }
     buf[len] = 0;
     fprintf(stderr, "%s", buf);
+    /* TEMP: save the heap that reports a broken entry chain */
+    if (strstr(buf, "Heap missing last entry") && getenv("IA64_HEAPDUMP")) {
+        static uint8_t heap[0x40000];
+        FILE *f;
+
+        for (int i = 0; i < sizeof(heap); i += 0x1000) {
+            if (cpu_memory_rw_debug(env_cpu(env), 0x3c0000 + i, heap + i,
+                                    0x1000, false)) {
+                memset(heap + i, 0, 0x1000);
+                fprintf(stderr, "heapdump: %x unreadable\n", 0x3c0000 + i);
+            }
+        }
+        if ((f = fopen(getenv("IA64_HEAPDUMP"), "wb"))) {
+            fwrite(heap, 1, sizeof(heap), f);
+            fclose(f);
+        }
+    }
 }
 
 static void virt_cpu_reset(void *opaque)
@@ -1500,6 +1639,7 @@ firmware:
     virt.acpi_tables = g_malloc0(FW_ACPI_SIZE);
     rsdp = build_acpi();
     build_sal();
+    build_smbios();
     build_efi(ms, rsdp, initrd, initrd_size);
     rom_add_blob_fixed("ia64-firmware", virt.fw, FW_END - FW_BASE, FW_BASE);
     rom_add_blob_fixed("ia64-acpi", virt.acpi_tables, FW_ACPI_SIZE, FW_ACPI);

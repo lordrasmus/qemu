@@ -3737,6 +3737,17 @@ static void ivt_call(CPUIA64State *env)
     uint64_t vec = env->ip - FW_IVT;
     uint64_t ifa = env->cr[CR_IFA], isr = env->cr[CR_ISR];
 
+    if ((isr & ISR_SP) && vec != IVT_VHPT && vec != IVT_DTLB &&
+        vec != IVT_ALT_DTLB) {
+        /*
+         * A speculative load's fault, the unaligned reference of the SP2
+         * loader's ld.s say: defer it, as an OS does, by repeating the
+         * load with psr.ed; the loader's chk.s recovers
+         */
+        env->cr[CR_IPSR] |= PSR_ED;
+        ia64_rfi(env, 0);
+        return;
+    }
     switch (vec) {
     case IVT_VHPT:
     case IVT_ITLB:

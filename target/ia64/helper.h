@@ -3,6 +3,7 @@ DEF_HELPER_FLAGS_3(fault, TCG_CALL_NO_WG, noreturn, env, i32, i64)
 DEF_HELPER_2(break, void, env, i32)
 DEF_HELPER_FLAGS_3(misaligned, TCG_CALL_NO_WG, noreturn, env, i64, i64)
 DEF_HELPER_1(psr_once_done, void, env)
+DEF_HELPER_1(idle, void, env)
 
 /* integer */
 DEF_HELPER_FLAGS_3(czx, TCG_CALL_NO_RWG_SE, i64, i64, i32, i32)

@@ -41,6 +41,7 @@ typedef struct DisasContext {
     int slot;
     struct asm_bundle bundle;
     uint64_t bundle_ip;     /* ip of the decoded bundle, or -1 */
+    CPUIA64State *env;      /* for reading code beyond the bundle */
     bool bundle_ok;
     bool mlx;
     const struct asm_inst *insn;
@@ -615,6 +616,7 @@ static void ia64_tr_translate_insn(DisasContextBase *dcbase, CPUState *cs)
 
     dc->ip = pc & ~0xfull;
     dc->slot = pc & 3;
+    dc->env = env;
 
     if (dc->bundle_ip != dc->ip) {
         uint8_t bytes[16];
