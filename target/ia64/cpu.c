@@ -62,6 +62,8 @@ static TCGTBCPUState ia64_get_tb_cpu_state(CPUState *cs)
     flags = FIELD_DP32(flags, TBFLAGS, DFH, !!(psr & PSR_DFH));
     flags = FIELD_DP32(flags, TBFLAGS, IC, !!(psr & PSR_IC));
     flags = FIELD_DP32(flags, TBFLAGS, BN, !!(psr & PSR_BN));
+    flags = FIELD_DP32(flags, TBFLAGS, AC, !!(psr & PSR_AC));
+    flags = FIELD_DP32(flags, TBFLAGS, ONCE, !!(psr & PSR_ONCE));
     return (TCGTBCPUState){
         .pc = env->ip | env->ri,
         .cs_base = env->cfm,

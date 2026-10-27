@@ -1361,8 +1361,9 @@ static void virt_firmware_call(CPUIA64State *env, uint32_t n)
 }
 
 /*
- * Windows' DbgPrint is break 0x80017 with r32 pointing to a counted
- * string; without a kernel debugger nobody sees it, so show it on stderr.
+ * Windows' DbgPrint is break 0x80017 (0x80014 from user mode) with r32
+ * pointing to a counted string; without a kernel debugger nobody sees
+ * it, so show it on stderr.
  */
 static void virt_break_trace(CPUIA64State *env, uint32_t imm)
 {
@@ -1370,7 +1371,7 @@ static void virt_break_trace(CPUIA64State *env, uint32_t imm)
     char buf[512];
     uint16_t len;
 
-    if (imm != 0x80017 || !env_flag("IA64_DBGPRINT", &dbgprint)) {
+    if ((imm != 0x80017 && imm != 0x80014) || !env_flag("IA64_DBGPRINT", &dbgprint)) {
         return;
     }
     if (cpu_memory_rw_debug(env_cpu(env), env->gr[32], str, 16, false)) {

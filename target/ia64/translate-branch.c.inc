@@ -42,7 +42,7 @@ static void gen_call(DisasContext *dc, int b1, TCGv_i64 target)
     gen_helper_br_call(tcg_env);
     tcg_gen_mov_i64(cpu_ip, t);
     tcg_gen_movi_i32(cpu_ri, 0);
-    tcg_gen_lookup_and_goto_ptr();
+    gen_lookup_and_goto_ptr(dc);
 }
 
 static void trans_b_ipcall(DisasContext *dc, int b1, uint64_t target)
@@ -93,11 +93,11 @@ static void trans_b_loop(DisasContext *dc, int iop, uint64_t target)
     tcg_gen_brcondi_i32(TCG_COND_EQ, taken, 0, nt);
     tcg_gen_movi_i64(cpu_ip, target);
     tcg_gen_movi_i32(cpu_ri, 0);
-    tcg_gen_lookup_and_goto_ptr();
+    gen_lookup_and_goto_ptr(dc);
     gen_set_label(nt);
     tcg_gen_movi_i64(cpu_ip, nip);
     tcg_gen_movi_i32(cpu_ri, ri);
-    tcg_gen_lookup_and_goto_ptr();
+    gen_lookup_and_goto_ptr(dc);
     dc->base.is_jmp = DISAS_NORETURN;
 }
 
@@ -113,7 +113,7 @@ static void trans_b_indirect(DisasContext *dc, const struct asm_inst *in)
         nt = gen_branch_skip(dc, branch_cond(dc));
         tcg_gen_andi_i64(cpu_ip, cpu_br[b2], ~0xfull);
         tcg_gen_movi_i32(cpu_ri, 0);
-        tcg_gen_lookup_and_goto_ptr();
+        gen_lookup_and_goto_ptr(dc);
         gen_branch_fallthrough(dc, nt);
         break;
     case ASM_OP_BR_RET:
@@ -124,7 +124,7 @@ static void trans_b_indirect(DisasContext *dc, const struct asm_inst *in)
         tcg_gen_mov_i64(cpu_ip, t);
         tcg_gen_movi_i32(cpu_ri, 0);
         /* br.ret may lower the privilege level: back to the main loop. */
-        tcg_gen_exit_tb(NULL, 0);
+        gen_exit_tb(dc);
         gen_branch_fallthrough(dc, nt);
         break;
     case ASM_OP_BR_CALL:    /* B5 */
@@ -164,6 +164,7 @@ static void trans_b_misc(DisasContext *dc, const struct asm_inst *in)
         }
         gen_save_ip(dc);
         gen_helper_rfi(tcg_env);
+        dc->keep_once = true;
         dc->base.is_jmp = DISAS_EXIT;
         break;
     case ASM_OP_BSW_0:

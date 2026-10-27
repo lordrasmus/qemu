@@ -88,6 +88,8 @@ enum {
 #define PSR_ED      (1ull << 43)
 #define PSR_BN      (1ull << 44)
 #define PSR_IA      (1ull << 45)
+/* cleared when the next instruction completes, unless it is an rfi */
+#define PSR_ONCE    (PSR_IA | PSR_ID | PSR_DA | PSR_DD | PSR_ED)
 #define PSR_VM      (1ull << 46)
 
 /* Bits user mode may touch with sum/rum/mov psr.um. */
@@ -153,6 +155,14 @@ FIELD(PTE, PPN, 12, 38)
 FIELD(DCR, PP, 0, 1)
 FIELD(DCR, BE, 1, 1)
 FIELD(DCR, LC, 2, 1)
+/* which faults of speculative loads to defer */
+#define DCR_DM      (1ull << 8)     /* TLB miss */
+#define DCR_DP      (1ull << 9)     /* page not present */
+#define DCR_DK      (1ull << 10)    /* key miss */
+#define DCR_DX      (1ull << 11)    /* key permission */
+#define DCR_DR      (1ull << 12)    /* access rights */
+#define DCR_DA      (1ull << 13)    /* access bit */
+#define DCR_DD      (1ull << 14)    /* debug */
 
 /* FPSR status field layout (13 bits, sf0..sf3 at 6 + 13 * n) */
 #define FPSR_TRAPS_MASK 0x3full
@@ -281,6 +291,14 @@ struct CPUArchState {
     uint64_t rse[IA64_NUM_STACKED];
     uint32_t rse_nat[IA64_NUM_STACKED];
     int32_t rse_ndirty;
+    /*
+     * An rfi to a frame whose registers are partly in the backing store
+     * loads them after the switch, in the target context, like hardware;
+     * if one faults (with ISR.ir), the frame is current but its lowest
+     * rse_missing registers are still in memory just below ar.bspstore.
+     */
+    int32_t rse_missing;
+    bool rse_ir;            /* the mandatory loads of an rfi are under way */
 
     /* Translation registers and cache */
     IA64TLBEntry itr[IA64_NUM_TR];
@@ -335,6 +353,19 @@ struct ArchCPU {
 #define MMU_IDX_VIRT    4
 #define NB_MMU_MODES_USED 8
 
+/*
+ * Itanium 2 does a misaligned access itself, without psr.ac, if a load stays
+ * within an aligned 8 bytes, a store within 16; the others fault, for the
+ * OS to emulate.  x86 code under the IA-32 Execution Layer depends on it.
+ */
+static inline bool ia64_misaligned_ok(CPUIA64State *env, uint64_t addr,
+                                      int size, bool store)
+{
+    int block = store ? 16 : 8;
+
+    return !(env->psr & PSR_AC) && (addr & (block - 1)) + size <= block;
+}
+
 static inline int ia64_cpl(CPUIA64State *env)
 {
     return (env->psr >> PSR_CPL_SHIFT) & 3;
@@ -375,6 +406,8 @@ void ia64_tr_insert(CPUIA64State *env, bool insn, int slot, uint64_t va,
 void ia64_rfi(CPUIA64State *env, uintptr_t ra);
 hwaddr ia64_fw_translate(CPUIA64State *env, uint64_t va);
 hwaddr ia64_fw_access(CPUIA64State *env, uint64_t va, MMUAccessType type);
+bool ia64_spec_access(CPUIA64State *env, uint64_t addr, int size,
+                      bool misaligned, int mmu_idx, uintptr_t ra);
 uint64_t ia64_thash(CPUIA64State *env, uint64_t va);
 uint64_t ia64_ttag(CPUIA64State *env, uint64_t va);
 void ia64_fpu_update_status(CPUIA64State *env);
@@ -412,6 +445,8 @@ FIELD(TBFLAGS, TB, 9, 1)
 FIELD(TBFLAGS, LP, 10, 1)
 FIELD(TBFLAGS, SI, 11, 1)
 FIELD(TBFLAGS, BN, 12, 1)
+FIELD(TBFLAGS, AC, 13, 1)
+FIELD(TBFLAGS, ONCE, 14, 1)     /* a psr bit for one instruction is set */
 
 void ia64_translate_code(CPUState *cs, TranslationBlock *tb,
                          int *max_insns, vaddr pc, void *host_pc);

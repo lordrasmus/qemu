@@ -683,7 +683,7 @@ static void gen_chk(DisasContext *dc, TCGv_i32 nat, int64_t disp)
     tcg_gen_brcondi_i32(TCG_COND_EQ, nat, 0, ok);
     tcg_gen_movi_i64(cpu_ip, dc->ip + disp);
     tcg_gen_movi_i32(cpu_ri, 0);
-    tcg_gen_lookup_and_goto_ptr();
+    gen_lookup_and_goto_ptr(dc);
     gen_set_label(ok);
 }
 

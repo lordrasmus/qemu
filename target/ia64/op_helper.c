@@ -316,21 +316,19 @@ uint64_t HELPER(mm)(CPUIA64State *env, uint32_t op, uint64_t a, uint64_t b,
     g_assert_not_reached();
 }
 
-/*
- * ld.s / ld.sa: every fault is deferred, the target becomes NaT.
- * The architecture allows an implementation to defer any speculative load.
- */
+/* ld.s / ld.sa: a deferred fault makes the target NaT */
 void HELPER(ld_spec)(CPUIA64State *env, uint32_t r1, uint64_t addr,
                      uint32_t addr_nat, uint32_t size, uint32_t mmu_idx)
 {
     uintptr_t ra = GETPC();
-    void *host;
     uint64_t v = 0;
     MemOp mop;
 
-    if (addr_nat || (addr & (size - 1)) ||
-        (probe_access_flags(env, addr, size, MMU_DATA_LOAD, mmu_idx, true,
-                            &host, ra) & TLB_INVALID_MASK)) {
+    if (addr_nat ||
+        !ia64_spec_access(env, addr, size,
+                          (addr & (size - 1)) &&
+                          !ia64_misaligned_ok(env, addr, size, false),
+                          mmu_idx, ra)) {
         env->gr[r1] = 0;
         env->nat[r1] = 1;
         return;
