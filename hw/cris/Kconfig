@@ -2,6 +2,7 @@ config ETRAX100LX
     bool
     default y
     depends on CRIS
+    select VIRTIO_MMIO
 
 config AXIS
     bool
