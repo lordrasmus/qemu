@@ -5,3 +5,4 @@ config FRV_MB93091
     select SERIAL_MM
     select PTIMER
     select UNIMP
+    select VIRTIO_MMIO

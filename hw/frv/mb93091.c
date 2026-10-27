@@ -45,6 +45,14 @@
 #define MB_UART0_BASE   0xfeff9c00
 #define MB_UART1_BASE   0xfeff9c40
 #define MB_CLKSW_ADDR   0xe130000c
+/*
+ * Not on the real board: a virtio-mmio slot for a disk, on external
+ * interrupt XIRQ4, which Linux routes to IRL 5 and the FPGA cascade
+ * (XIRQ0-3) leaves free.  Linux finds it through
+ * virtio_mmio.device=0x200@0xfc000000:5 on the command line.
+ */
+#define MB_VIRTIO_BASE  0xfc000000
+#define MB_VIRTIO_NUM   1
 
 /*
  * CLKSW 64 makes CLKIN 33.3 MHz; with CLKC.CMODE 8 the core runs at
@@ -518,6 +526,11 @@ static void mb93091_init(MachineState *ms)
      */
     mb_uart(MB_UART1_BASE, s->src_irq[SRC_UART0 + 1], serial_hd(0));
     mb_uart(MB_UART0_BASE, s->src_irq[SRC_UART0], serial_hd(1));
+
+    for (int i = 0; i < MB_VIRTIO_NUM; i++) {
+        sysbus_create_simple("virtio-mmio", MB_VIRTIO_BASE + i * 0x200,
+                             s->src_irq[SRC_XIRQ0 + 4]);
+    }
 
     if (!ms->kernel_filename) {
         error_report("mb93091: -kernel is required");
