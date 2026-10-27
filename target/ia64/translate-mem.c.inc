@@ -129,6 +129,7 @@ static void trans_m_load(DisasContext *dc, const struct asm_inst *in)
                 tcg_gen_extr_i128_i64(v, cpu_ar_csd, t);
             }
         } else {
+            gen_misaligned_check(dc, addr, size, false);
             tcg_gen_qemu_ld_i64(v, addr, dc->mem_idx, data_mop(dc, size));
         }
         if (kind == LDK_ACQ) {
@@ -203,6 +204,7 @@ static void trans_m_store(DisasContext *dc, const struct asm_inst *in)
                              MO_128 | MO_ALIGN | dc->be |
                              MO_ATOM_IFALIGN_PAIR);
     } else {
+        gen_misaligned_check(dc, addr, size, true);
         tcg_gen_qemu_st_i64(load_gr(dc, r2), addr, dc->mem_idx,
                             data_mop(dc, size));
     }
@@ -251,7 +253,8 @@ static void trans_m_sem(DisasContext *dc, const struct asm_inst *in)
     }
     tcg_gen_mov_i64(addr, load_gr(dc, r3));
     gen_nat_check(dc, load_nat(dc, r3), ISR_R | ISR_W);
-    mop = data_mop(dc, size);
+    /* a semaphore is never misaligned */
+    mop = size_mop(size) | (size > 1 ? dc->be | MO_ALIGN : 0);
 
     switch (iop) {
     case ASM_OP_XCHG1: case ASM_OP_XCHG2: case ASM_OP_XCHG4: case ASM_OP_XCHG8:

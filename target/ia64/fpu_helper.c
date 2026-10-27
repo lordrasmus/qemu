@@ -584,11 +584,11 @@ void HELPER(xma)(CPUIA64State *env, uint32_t regs, uint32_t kind)
     if (kind == 1) {
         int64_t shi;
 
+        /* signed factors; the addend is zero-extended in every form */
         muls64(&lo, (uint64_t *)&shi, a.mant, b.mant);
         hi = shi;
-        /* add sign-extended c */
         lo += c.mant;
-        hi += (lo < c.mant) + ((int64_t)c.mant < 0 ? -1 : 0);
+        hi += lo < c.mant;
     } else {
         mulu64(&lo, &hi, a.mant, b.mant);
         lo += c.mant;
@@ -1174,34 +1174,163 @@ void HELPER(fpcvt)(CPUIA64State *env, uint32_t regs, uint32_t ctl)
     }
     for (int i = 0; i < 2; i++) {
         float32 x = a.mant >> (32 * i);
+        int flags = get_float_exception_flags(&st);
 
+        set_float_exception_flags(flags & ~float_flag_invalid, &st);
         res[i] = (ctl & 1) ? float32_to_uint32(x, &st)
                            : (uint32_t)float32_to_int32(x, &st);
+        /* an invalid conversion gives the integer indefinite, signed or not */
+        if (get_float_exception_flags(&st) & float_flag_invalid) {
+            res[i] = 0x80000000;
+        }
+        set_float_exception_flags(get_float_exception_flags(&st) | flags, &st);
     }
     sf_flags(env, sf, &st);
     fr_write(env, RF1(regs), pair(res[1], res[0]));
 }
 
-/* fprcpa / fprsqrta: the full IEEE result, predicate cleared */
+/*
+ * fprcpa / fprsqrta lanes: the same table approximations as frcpa and
+ * frsqrta in single precision.  Special operands give their final
+ * result with the lane's predicate cleared; so do operands for which
+ * the software iteration could overflow or underflow.
+ */
+static int32_t sgl_unpack(uint32_t x, uint32_t *mant)
+{
+    int32_t e = (x >> 23) & 0xff;
+
+    *mant = x & 0x7fffff;
+    if (e) {
+        *mant |= 1 << 23;
+        return e - 127;
+    }
+    /* denormal: normalize */
+    e = -126;
+    while (!(*mant & (1 << 23))) {
+        *mant <<= 1;
+        e--;
+    }
+    return e;
+}
+
+static bool sgl_nan(uint32_t x)
+{
+    return (x & 0x7fffffff) > 0x7f800000;
+}
+
+static bool sgl_snan(uint32_t x)
+{
+    return sgl_nan(x) && !(x & 0x400000);
+}
+
+static uint32_t sgl_nan_result(uint32_t a, uint32_t b, bool two,
+                               uint32_t *flags)
+{
+    if (sgl_snan(a) || (two && sgl_snan(b))) {
+        *flags |= FL_V;
+    }
+    return (sgl_nan(a) ? a : b) | 0x400000;
+}
+
+#define SGL_INF     0x7f800000u
+#define SGL_INDEF   0xffc00000u
+
+static uint32_t fprcpa_lane(uint32_t n, uint32_t d, bool *p, uint32_t *flags)
+{
+    uint32_t sign = (n ^ d) & 0x80000000u;
+    bool nzero = !(n & 0x7fffffff), dzero = !(d & 0x7fffffff);
+    bool ninf = (n & 0x7fffffff) == SGL_INF;
+    bool dinf = (d & 0x7fffffff) == SGL_INF;
+    bool ddenorm = !(d & SGL_INF) && !dzero;
+    uint32_t nm, dm;
+    int32_t ne, de;
+
+    *p = false;
+    if (sgl_nan(n) || sgl_nan(d)) {
+        return sgl_nan_result(n, d, true, flags);
+    }
+    if ((ninf && dinf) || (nzero && dzero)) {
+        *flags |= FL_V;
+        return SGL_INDEF;
+    }
+    if (dzero) {
+        *flags |= FL_Z;
+        return sign | SGL_INF;
+    }
+    if ((!(n & SGL_INF) && !nzero) || ddenorm) {
+        *flags |= FL_D;
+    }
+    if (ninf) {
+        return sign | SGL_INF;
+    }
+    if (nzero || dinf) {
+        return sign;
+    }
+    if (ddenorm) {
+        return (d & 0x80000000u) | SGL_INF;
+    }
+    de = sgl_unpack(d, &dm);
+    if (de >= 125) {
+        return d & 0x80000000u;
+    }
+    ne = sgl_unpack(n, &nm);
+    *p = ne - de < 127 && ne - de > -125 && ne > -103;
+    return (d & 0x80000000u) | ((uint32_t)(126 - de) << 23) |
+           (recip_table[(dm >> 15) & 0xff] << 13);
+}
+
+static uint32_t fprsqrta_lane(uint32_t x, bool *p, uint32_t *flags)
+{
+    uint32_t m;
+    int32_t e;
+
+    *p = false;
+    if (sgl_nan(x)) {
+        return sgl_nan_result(x, 0, false, flags);
+    }
+    if (!(x & 0x7fffffff)) {
+        return x | SGL_INF;
+    }
+    if (x & 0x80000000u) {
+        *flags |= FL_V;
+        return SGL_INDEF;
+    }
+    if (x == SGL_INF) {
+        return 0;
+    }
+    if (!(x & SGL_INF)) {
+        *flags |= FL_D;
+    }
+    e = sgl_unpack(x, &m);
+    *p = e > -103;
+    return ((uint32_t)(126 - (e >> 1)) << 23) |
+           (recip_sqrt_table[((e + 1) & 1) << 7 | ((m >> 16) & 0x7f)] << 13);
+}
+
 uint32_t HELPER(fprcpa)(CPUIA64State *env, uint32_t regs, uint32_t ctl)
 {
     int sf = (ctl >> 8) & 3;
     bool rsqrt = ctl & 1;
     IA64FReg a = fr_read(env, RF2(regs));
     IA64FReg b = fr_read(env, RF3(regs));
-    float_status st;
-    uint32_t res[2];
+    uint32_t res[2], flags = 0;
+    bool p[2];
 
-    sf_status(env, sf, &st);
-    for (int i = 0; i < 2; i++) {
-        float32 x = a.mant >> (32 * i);
-        float32 y = b.mant >> (32 * i);
-
-        res[i] = rsqrt ? float32_sqrt(y, &st) : float32_div(x, y, &st);
+    if ((!rsqrt && fp_unpack(a).cls == FPC_NATVAL) ||
+        fp_unpack(b).cls == FPC_NATVAL) {
+        fr_write(env, RF1(regs), natval);
+        return 0;
     }
-    sf_flags(env, sf, &st);
+    for (int i = 0; i < 2; i++) {
+        uint32_t x = a.mant >> (32 * i);
+        uint32_t y = b.mant >> (32 * i);
+
+        res[i] = rsqrt ? fprsqrta_lane(y, &p[i], &flags)
+                       : fprcpa_lane(x, y, &p[i], &flags);
+    }
+    fp_set_flags(env, sf, flags);
     fr_write(env, RF1(regs), pair(res[1], res[0]));
-    return 0;
+    return p[0] && p[1];
 }
 
 /*
@@ -1259,14 +1388,14 @@ void HELPER(fmisc)(CPUIA64State *env, uint32_t regs, uint32_t op)
     case FM_SXT_R:
         r.mant = ((uint64_t)((int32_t)al >> 31) << 32) | bl;
         break;
-    case FM_SWAP:
-        r.mant = ((uint64_t)al << 32) | bh;
+    case FM_SWAP:       /* f3's right single to the left, f2's left right */
+        r.mant = ((uint64_t)bl << 32) | ah;
         break;
     case FM_SWAP_NL:
-        r.mant = ((uint64_t)(al ^ 0x80000000) << 32) | bh;
+        r.mant = ((uint64_t)(bl ^ 0x80000000) << 32) | ah;
         break;
     case FM_SWAP_NR:
-        r.mant = ((uint64_t)al << 32) | (bh ^ 0x80000000);
+        r.mant = ((uint64_t)bl << 32) | (ah ^ 0x80000000);
         break;
     case FM_AND:
         r.mant = a.mant & b.mant;
@@ -1456,6 +1585,12 @@ static bool is_natval(IA64FReg r)
     return (r.se & 0x3ffff) == FP_EXP_NATVAL && r.mant == 0;
 }
 
+/* The alignment a single FP access needs: none if the hardware does it */
+static MemOp fp_align(CPUIA64State *env, uint64_t addr, int size, bool store)
+{
+    return ia64_misaligned_ok(env, addr, size, store) ? 0 : MO_ALIGN;
+}
+
 /*
  * ldf: kind | spec << 4.  Speculative loads defer every fault: the
  * register becomes NaTVal.
@@ -1472,26 +1607,26 @@ void HELPER(ldf)(CPUIA64State *env, uint32_t f1, uint64_t addr, uint32_t ctl,
     if (spec) {
         int size = (kind == FK_S) ? 4 : (kind == FK_E || kind == FK_FILL)
                                         ? 16 : 8;
-        void *host;
+        bool misaligned = kind == FK_E || kind == FK_FILL ? (addr & 15) :
+                          (addr & (size - 1)) &&
+                          !ia64_misaligned_ok(env, addr, size, false);
 
-        if (probe_access_flags(env, addr, size, MMU_DATA_LOAD, mmu_idx,
-                               true, &host, ra) & TLB_INVALID_MASK ||
-            (addr & ((kind == FK_E || kind == FK_FILL) ? 15 : size - 1))) {
+        if (!ia64_spec_access(env, addr, size, misaligned, mmu_idx, ra)) {
             fr_write(env, f1, natval);
             return;
         }
     }
     switch (kind) {
     case FK_S:
-        oi = make_memop_idx(MO_LEUL | MO_ALIGN, mmu_idx);
+        oi = make_memop_idx(MO_LEUL | fp_align(env, addr, 4, false), mmu_idx);
         r = single_to_reg(cpu_ldl_mmu(env, addr, oi, ra));
         break;
     case FK_D:
-        oi = make_memop_idx(MO_LEUQ | MO_ALIGN, mmu_idx);
+        oi = make_memop_idx(MO_LEUQ | fp_align(env, addr, 8, false), mmu_idx);
         r = double_to_reg(cpu_ldq_mmu(env, addr, oi, ra));
         break;
     case FK_8:
-        oi = make_memop_idx(MO_LEUQ | MO_ALIGN, mmu_idx);
+        oi = make_memop_idx(MO_LEUQ | fp_align(env, addr, 8, false), mmu_idx);
         r.mant = cpu_ldq_mmu(env, addr, oi, ra);
         r.se = FP_EXP_INTEGER;
         break;
@@ -1532,11 +1667,8 @@ void HELPER(ldfp)(CPUIA64State *env, uint32_t regs, uint64_t addr,
     IA64FReg r1, r2;
 
     if (spec) {
-        void *host;
-
-        if (probe_access_flags(env, addr, size * 2, MMU_DATA_LOAD, mmu_idx,
-                               true, &host, ra) & TLB_INVALID_MASK ||
-            (addr & (size * 2 - 1))) {
+        if (!ia64_spec_access(env, addr, size * 2, addr & (size * 2 - 1),
+                              mmu_idx, ra)) {
             fr_write(env, RF1(regs), natval);
             fr_write(env, RF2(regs), natval);
             return;
@@ -1580,15 +1712,18 @@ void HELPER(stf)(CPUIA64State *env, uint32_t f2, uint64_t addr, uint32_t kind,
     switch (kind) {
     case FK_S:
         cpu_stl_mmu(env, addr, reg_to_single(r),
-                    make_memop_idx(MO_LEUL | MO_ALIGN, mmu_idx), ra);
+                    make_memop_idx(MO_LEUL | fp_align(env, addr, 4, true),
+                                   mmu_idx), ra);
         break;
     case FK_D:
         cpu_stq_mmu(env, addr, reg_to_double(r),
-                    make_memop_idx(MO_LEUQ | MO_ALIGN, mmu_idx), ra);
+                    make_memop_idx(MO_LEUQ | fp_align(env, addr, 8, true),
+                                   mmu_idx), ra);
         break;
     case FK_8:
         cpu_stq_mmu(env, addr, r.mant,
-                    make_memop_idx(MO_LEUQ | MO_ALIGN, mmu_idx), ra);
+                    make_memop_idx(MO_LEUQ | fp_align(env, addr, 8, true),
+                                   mmu_idx), ra);
         break;
     case FK_E:
         cpu_stq_mmu(env, addr, r.mant,

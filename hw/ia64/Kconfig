@@ -12,3 +12,4 @@ config IA64_VIRT
     imply LSI_SCSI_PCI
     imply VGA_PCI
     imply ISA_DEBUG
+    imply IDE_CMD646

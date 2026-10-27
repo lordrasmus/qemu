@@ -31,6 +31,11 @@ G_NORETURN void ia64_raise_fault(CPUIA64State *env, int vec, uint64_t isr,
     if (ra) {
         cpu_restore_state(cs, ra);
     }
+    if (env->rse_ir) {
+        /* a mandatory load of an rfi: the frame is incomplete */
+        isr |= ISR_IR;
+        env->rse_ir = false;
+    }
     env->pend_isr = isr;
     env->pend_flags = flags;
     env->pend_ifa = ifa;
@@ -47,6 +52,25 @@ G_NORETURN void ia64_raise(CPUIA64State *env, int vec, uint64_t isr,
 void HELPER(fault)(CPUIA64State *env, uint32_t vec, uint64_t isr)
 {
     ia64_raise(env, vec, isr, 0);
+}
+
+/*
+ * The instruction that psr.ia/id/da/dd/ed applied to has completed.
+ * Translations that psr.da or psr.ia let through without their access
+ * or dirty bit fault must not outlive it in QEMU's TLB.
+ */
+void HELPER(psr_once_done)(CPUIA64State *env)
+{
+    if (env->psr & (PSR_DA | PSR_IA)) {
+        tlb_flush(env_cpu(env));
+    }
+    env->psr &= ~PSR_ONCE;
+}
+
+/* A misaligned access the hardware does not do itself, psr.ac clear */
+void HELPER(misaligned)(CPUIA64State *env, uint64_t addr, uint64_t isr)
+{
+    ia64_raise_fault(env, IVT_UNALIGNED, isr, PEND_IFA, addr, GETPC());
 }
 
 /* Immediates of break that call into the board firmware. */
@@ -121,6 +145,24 @@ void ia64_cpu_do_interrupt(CPUState *cs)
         qemu_log("ia64: interruption %04x ip=%016" PRIx64 " ri=%d isr=%016"
                  PRIx64 " ifa=%016" PRIx64 " psr=%016" PRIx64 "\n",
                  vec, env->ip, env->ri, isr, env->pend_ifa, psr);
+        /* TEMP: the bundle of each faulting unaligned access, once */
+        if (vec == IVT_UNALIGNED) {
+            static GHashTable *seen;
+            uint64_t b[2];
+
+            if (!seen) {
+                seen = g_hash_table_new(g_int64_hash, g_int64_equal);
+            }
+            if (!g_hash_table_contains(seen, &env->ip) &&
+                !cpu_memory_rw_debug(env_cpu(env), env->ip, b, 16, false)) {
+                uint64_t *k = g_new(uint64_t, 1);
+
+                *k = env->ip;
+                g_hash_table_add(seen, k);
+                qemu_log("ia64: bundle %016" PRIx64 ": %016" PRIx64 " %016"
+                         PRIx64 "\n", env->ip, b[0], b[1]);
+            }
+        }
     }
 
     /* A data TLB miss with collection off is a nested TLB fault. */
@@ -643,11 +685,12 @@ static int ia64_translate(CPUIA64State *env, uint64_t va, MMUAccessType type,
                                     : (env->psr & PSR_DA))) {
         return insn ? IVT_IACCESS_BIT : IVT_DACCESS_BIT;
     }
+    /* psr.da disables dirty bit faults as well; psr.dd is for debug */
     if (type == MMU_DATA_STORE && !(e->pte & PTE_D) &&
-        !(env->psr & PSR_DD)) {
+        !(env->psr & PSR_DA)) {
         return IVT_DIRTY;
     }
-    if (!(e->pte & PTE_D) && !(env->psr & PSR_DD)) {
+    if (!(e->pte & PTE_D) && !(env->psr & PSR_DA)) {
         rights &= ~PAGE_WRITE;
     }
     *psize = 1ull << e->ps;
@@ -683,6 +726,87 @@ bool ia64_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
     }
     ia64_raise_fault(env, vec, env->pend_isr, env->pend_flags, address,
                      retaddr);
+}
+
+/* Whether the page of the current instruction allows deferral (ITLB.ed) */
+static bool spec_page_ed(CPUIA64State *env, uintptr_t ra)
+{
+    IA64TLBEntry *code;
+
+    cpu_restore_state(env_cpu(env), ra);
+    code = (env->psr & PSR_IT) ? tlb_lookup(env, env->ip, true) : NULL;
+    return code && (code->pte & PTE_ED);
+}
+
+/*
+ * The access of a speculative load (ld.s, ld.sa, ldf.s): true if it can
+ * go ahead, false if its fault is deferred, which makes the target NaT.
+ * Faults are deferred with interruption collection off, when the OS asks
+ * for it by psr.ed on the repeated load, or when the page of the load
+ * allows it (ITLB.ed) and, but for unaligned references, dcr does for
+ * the kind of fault.  Others are raised with ISR.sp as for a
+ * non-speculative load: a TLB miss or a page not yet present must reach
+ * the OS, which can still defer it.
+ */
+bool ia64_spec_access(CPUIA64State *env, uint64_t addr, int size,
+                      bool misaligned, int mmu_idx, uintptr_t ra)
+{
+    uint64_t dcr_bit, psize;
+    hwaddr pa;
+    void *host;
+    int prot, vec;
+
+    if (env->psr & PSR_ED) {
+        /* it applies to this one instruction */
+        env->psr &= ~PSR_ED;
+        return false;
+    }
+    /* a misaligned access is not done, so may not cross a page either */
+    if (!(probe_access_flags(env, addr, misaligned ? 1 : size, MMU_DATA_LOAD,
+                             mmu_idx, true, &host, ra) & TLB_INVALID_MASK)) {
+        vec = 0;
+    } else if (!(env->psr & PSR_IC)) {
+        return false;
+    } else {
+        /* the hardware walker runs for speculative loads too */
+        vec = ia64_translate(env, addr, MMU_DATA_LOAD, mmu_idx & 3,
+                             mmu_idx & MMU_IDX_VIRT, &pa, &prot, &psize,
+                             false);
+    }
+    if (!vec) {
+        if (!misaligned) {
+            return true;
+        }
+        if (!(env->psr & PSR_IC) || spec_page_ed(env, ra)) {
+            return false;
+        }
+        ia64_raise_fault(env, IVT_UNALIGNED, ISR_R | ISR_SP, PEND_IFA, addr,
+                         ra);
+    }
+    switch (vec) {
+    case IVT_DTLB:
+    case IVT_ALT_DTLB:
+        dcr_bit = DCR_DM;
+        break;
+    case IVT_PAGE_NOT_PRESENT:
+        dcr_bit = DCR_DP;
+        break;
+    case IVT_DACCESS_RIGHTS:
+        dcr_bit = DCR_DR;
+        break;
+    case IVT_DACCESS_BIT:
+        dcr_bit = DCR_DA;
+        break;
+    default:
+        dcr_bit = 0;
+        break;
+    }
+    if ((env->cr[CR_DCR] & dcr_bit) && spec_page_ed(env, ra)) {
+        env->pend_flags = 0;
+        return false;
+    }
+    ia64_raise_fault(env, vec, env->pend_isr | ISR_SP, env->pend_flags, addr,
+                     ra);
 }
 
 G_NORETURN void ia64_cpu_do_unaligned_access(CPUState *cs, vaddr addr,
@@ -931,20 +1055,27 @@ uint64_t HELPER(probe)(CPUIA64State *env, uint32_t kind, uint64_t va,
     if (pl < cpl) {
         pl = cpl;
     }
+    /* the hardware walker serves probes as well */
     vec = ia64_translate(env, va, t, pl, env->psr & PSR_DT, &pa, &prot,
-                         &psize, true);
+                         &psize, false);
     if (kind == 4 && !vec) {
         vec = ia64_translate(env, va, MMU_DATA_STORE, pl, env->psr & PSR_DT,
-                             &pa, &prot, &psize, true);
+                             &pa, &prot, &psize, false);
     }
     if (kind < 2) {
-        if (vec == IVT_DTLB || vec == IVT_ALT_DTLB) {
-            /* a TLB miss faults for the regular form too */
+        /*
+         * The regular form needs the translation, so a TLB miss or a page
+         * not present faults, for the OS to provide it.  The result then
+         * only depends on the access rights: the access and dirty bits
+         * are for accesses, which a probe does not make.
+         */
+        if (vec == IVT_DTLB || vec == IVT_ALT_DTLB ||
+            vec == IVT_PAGE_NOT_PRESENT) {
             ia64_raise_fault(env, vec, ISR_NA | access_isr(t),
                              env->pend_flags, va, GETPC());
         }
         env->pend_flags = 0;
-        return vec == 0;
+        return vec == 0 || vec == IVT_DACCESS_BIT || vec == IVT_DIRTY;
     }
     if (vec) {
         ia64_raise_fault(env, vec, ISR_NA | access_isr(t), env->pend_flags,
@@ -984,6 +1115,49 @@ uint64_t ia64_bsp(CPUIA64State *env)
     return rse_skip_regs(env->ar[AR_BSPSTORE], env->rse_ndirty);
 }
 
+/*
+ * TEMP: NaT shadow of the backing store.  Every spill records the NaT bit
+ * and value of its address; a fill whose NaT bit or value differs is
+ * logged with -d mmu, as is a NaT the shadow has not seen.
+ */
+static GHashTable *nat_shadow;
+
+static void nat_record(uint64_t addr, uint64_t val, uint32_t nat)
+{
+    if (!qemu_loglevel_mask(CPU_LOG_MMU)) {
+        return;
+    }
+    if (!nat_shadow) {
+        nat_shadow = g_hash_table_new_full(g_int64_hash, g_int64_equal,
+                                           g_free, g_free);
+    }
+    uint64_t *k = g_new(uint64_t, 1), *v = g_new(uint64_t, 2);
+
+    *k = addr;
+    v[0] = val;
+    v[1] = nat;
+    g_hash_table_replace(nat_shadow, k, v);
+}
+
+static void nat_check(CPUIA64State *env, uint64_t addr, uint64_t val,
+                      uint32_t nat, const char *what)
+{
+    uint64_t *v;
+
+    if (!qemu_loglevel_mask(CPU_LOG_MMU) || !nat_shadow) {
+        return;
+    }
+    v = g_hash_table_lookup(nat_shadow, &addr);
+    if (v ? (v[1] != nat && v[0] == val) : nat) {
+        qemu_log("ia64: rse %s %016" PRIx64 " val %016" PRIx64 " nat %d, "
+                 "spilled %s nat %d; rnat %016" PRIx64 " bspstore %016"
+                 PRIx64 " ndirty %d ip %016" PRIx64 "\n", what, addr, val,
+                 nat, v ? "with" : "never", v ? (int)v[1] : -1,
+                 env->ar[AR_RNAT], env->ar[AR_BSPSTORE], env->rse_ndirty,
+                 env->ip);
+    }
+}
+
 static void rse_spill(CPUIA64State *env, int n, uintptr_t ra)
 {
     int idx = rse_mmu_idx(env);
@@ -999,6 +1173,7 @@ static void rse_spill(CPUIA64State *env, int n, uintptr_t ra)
             env->ar[AR_BSPSTORE] = addr;
         }
         cpu_stq_mmu(env, addr, env->rse[0], oi, ra);
+        nat_record(addr, env->rse[0], env->rse_nat[0]);
         env->ar[AR_RNAT] = deposit64(env->ar[AR_RNAT], (addr >> 3) & 0x3f, 1,
                                      env->rse_nat[0]);
         env->ar[AR_BSPSTORE] = addr + 8;
@@ -1007,36 +1182,71 @@ static void rse_spill(CPUIA64State *env, int n, uintptr_t ra)
         memmove(env->rse_nat, env->rse_nat + 1, (env->rse_ndirty - 1) *
                 sizeof(env->rse_nat[0]));
         env->rse_ndirty--;
+        /*
+         * The collection goes out as soon as its group is complete, so that
+         * BSPSTORE, like BSP, never rests on it: after a flushrs Windows
+         * takes BSP - BSPSTORE for the loadrs count of a later return.
+         */
+        addr += 8;
+        if (ia64_is_rnat_slot(addr)) {
+            cpu_stq_mmu(env, addr, env->ar[AR_RNAT], oi, ra);
+            env->ar[AR_RNAT] = 0;
+            env->ar[AR_BSPSTORE] = addr + 8;
+        }
     }
 }
 
-/* Load one register from below ar.bspstore into the bottom of the stack. */
-static void rse_fill_one(CPUIA64State *env, uintptr_t ra)
+/* Load the register below ar.bspstore, moving ar.bspstore down over it. */
+static void rse_load_below(CPUIA64State *env, uint64_t *val, uint32_t *nat,
+                           uintptr_t ra)
 {
     int idx = rse_mmu_idx(env);
     MemOpIdx oi = make_memop_idx(MO_LEUQ | MO_ALIGN, idx);
     uint64_t addr = env->ar[AR_BSPSTORE] - 8;
-    uint64_t val;
 
     if (ia64_is_rnat_slot(addr)) {
         env->ar[AR_RNAT] = cpu_ldq_mmu(env, addr, oi, ra);
         env->ar[AR_BSPSTORE] = addr;
         addr -= 8;
     }
-    val = cpu_ldq_mmu(env, addr, oi, ra);
+    *val = cpu_ldq_mmu(env, addr, oi, ra);
+    *nat = (env->ar[AR_RNAT] >> ((addr >> 3) & 0x3f)) & 1;
+    nat_check(env, addr, *val, *nat, "fill");
+    env->ar[AR_BSPSTORE] = addr;
+}
+
+/* Load one register from below ar.bspstore into the bottom of the stack. */
+static void rse_fill_one(CPUIA64State *env, uintptr_t ra)
+{
+    uint64_t val;
+    uint32_t nat;
+
     g_assert(env->rse_ndirty < IA64_NUM_STACKED);
+    rse_load_below(env, &val, &nat, ra);
     memmove(env->rse + 1, env->rse, env->rse_ndirty * sizeof(env->rse[0]));
     memmove(env->rse_nat + 1, env->rse_nat,
             env->rse_ndirty * sizeof(env->rse_nat[0]));
     env->rse[0] = val;
-    env->rse_nat[0] = (env->ar[AR_RNAT] >> ((addr >> 3) & 0x3f)) & 1;
-    if (env->rse_nat[0]) {              /* TEMP: who gets a NaT */
-        qemu_log_mask(CPU_LOG_MMU, "ia64: rse fill NaT at %016" PRIx64
-                      " val %016" PRIx64 " rnat %016" PRIx64 " ip %016"
-                      PRIx64 "\n", addr, val, env->ar[AR_RNAT], env->ip);
-    }
+    env->rse_nat[0] = nat;
     env->rse_ndirty++;
-    env->ar[AR_BSPSTORE] = addr;
+}
+
+/*
+ * Load the missing lowest registers of the current frame, top down, so
+ * that a fault leaves a consistent incomplete frame.
+ */
+static void rse_complete(CPUIA64State *env, uintptr_t ra)
+{
+    while (env->rse_missing) {
+        int r = 32 + env->rse_missing - 1;
+        uint64_t val;
+        uint32_t nat;
+
+        rse_load_below(env, &val, &nat, ra);
+        env->gr[r] = val;
+        env->nat[r] = nat;
+        env->rse_missing--;
+    }
 }
 
 /* Make room so that ndirty + frame fits the physical register file. */
@@ -1078,6 +1288,9 @@ void ia64_rse_frame_load(CPUIA64State *env, int n, uintptr_t ra)
 
 void HELPER(br_call)(CPUIA64State *env)
 {
+    if (env->rse_missing) {
+        rse_complete(env, GETPC());
+    }
     uint64_t cfm = env->cfm;
     int sof = FIELD_EX64(cfm, CFM, SOF);
     int sol = FIELD_EX64(cfm, CFM, SOL);
@@ -1095,6 +1308,10 @@ void HELPER(br_call)(CPUIA64State *env)
 void HELPER(br_ret)(CPUIA64State *env)
 {
     uintptr_t ra = GETPC();
+
+    if (env->rse_missing) {
+        rse_complete(env, ra);
+    }
     uint64_t pfs = env->ar[AR_PFS];
     uint64_t pfm = FIELD_EX64(pfs, PFS, PFM);
     int sof = FIELD_EX64(pfm, CFM, SOF);
@@ -1185,9 +1402,15 @@ uint32_t HELPER(br_loop)(CPUIA64State *env, uint32_t kind, uint32_t qp)
 void HELPER(alloc)(CPUIA64State *env, uint32_t sof, uint32_t sol,
                    uint32_t sor)
 {
-    uint64_t cfm = env->cfm;
-    bool rrb = FIELD_EX64(cfm, CFM, RRB_GR) || FIELD_EX64(cfm, CFM, RRB_FR) ||
-               FIELD_EX64(cfm, CFM, RRB_PR);
+    uint64_t cfm;
+    bool rrb;
+
+    if (env->rse_missing) {
+        rse_complete(env, GETPC());
+    }
+    cfm = env->cfm;
+    rrb = FIELD_EX64(cfm, CFM, RRB_GR) || FIELD_EX64(cfm, CFM, RRB_FR) ||
+          FIELD_EX64(cfm, CFM, RRB_PR);
 
     if (rrb && sor != FIELD_EX64(cfm, CFM, SOR)) {
         ia64_raise(env, IVT_GENERAL, GE_ILLEGAL_OP, 0);
@@ -1212,18 +1435,38 @@ void HELPER(cover)(CPUIA64State *env)
         }
         env->cr[CR_IFS] = env->cfm | IFS_V;
     }
-    rse_push(env, sof);
+    if (env->rse_missing) {
+        /* an incomplete frame: the rest is below ar.bspstore already */
+        int m = env->rse_missing;
+
+        g_assert(env->rse_ndirty + sof - m <= IA64_NUM_STACKED);
+        memcpy(env->rse + env->rse_ndirty, env->gr + 32 + m,
+               (sof - m) * sizeof(uint64_t));
+        memcpy(env->rse_nat + env->rse_ndirty, env->nat + 32 + m,
+               (sof - m) * sizeof(uint32_t));
+        env->rse_ndirty += sof - m;
+        env->rse_missing = 0;
+    } else {
+        rse_push(env, sof);
+    }
     env->cfm = 0;
 }
 
 void HELPER(flushrs)(CPUIA64State *env)
 {
+    if (env->rse_missing) {
+        rse_complete(env, GETPC());
+    }
     rse_spill(env, env->rse_ndirty, GETPC());
 }
 
 void HELPER(loadrs)(CPUIA64State *env)
 {
     uintptr_t ra = GETPC();
+
+    if (env->rse_missing) {
+        rse_complete(env, ra);
+    }
     /* RSC.loadrs is a byte count (low three bits ignored) */
     uint64_t bytes = FIELD_EX64(env->ar[AR_RSC], RSC, LOADRS) & ~7ull;
     uint64_t bsp = ia64_bsp(env);
@@ -1273,16 +1516,35 @@ void HELPER(rfi)(CPUIA64State *env)
     ia64_rfi(env, GETPC());
 }
 
+/*
+ * The registers of the restored frame that are not in the register file
+ * are loaded after the switch, in the target context: a fault there,
+ * e.g. on a user backing store page the OS has yet to provide, is the
+ * target's, with ISR.ir, and leaves an incomplete frame (rse_missing).
+ */
 void ia64_rfi(CPUIA64State *env, uintptr_t ra)
 {
     uint64_t ipsr = env->cr[CR_IPSR];
     uint64_t ifs = env->cr[CR_IFS];
 
+    /*
+     * Back to an incomplete frame without cover, as the fast TLB miss
+     * handlers do, its loads too happen in the target context.
+     */
+    if ((ifs & IFS_V) && env->rse_missing) {
+        rse_complete(env, ra);
+    }
     if (ifs & IFS_V) {
         uint64_t ifm = ifs & CFM_MASK;
         int sof = FIELD_EX64(ifm, CFM, SOF);
+        int k = MIN(env->rse_ndirty, sof);
 
-        rse_pop(env, sof, ra);
+        env->rse_ndirty -= k;
+        memcpy(env->gr + 32 + sof - k, env->rse + env->rse_ndirty,
+               k * sizeof(uint64_t));
+        memcpy(env->nat + 32 + sof - k, env->rse_nat + env->rse_ndirty,
+               k * sizeof(uint32_t));
+        env->rse_missing = sof - k;
         env->cfm = ifm;
     }
     env->ip = env->cr[CR_IIP] & ~0xfull;
@@ -1291,6 +1553,12 @@ void ia64_rfi(CPUIA64State *env, uintptr_t ra)
         env->ri = 0;
     }
     ia64_set_psr(env, ipsr);
+    if (env->rse_missing) {
+        /* no unwinding: the state is the target's now */
+        env->rse_ir = true;
+        rse_complete(env, 0);
+        env->rse_ir = false;
+    }
 }
 
 void HELPER(bsw)(CPUIA64State *env, uint32_t bn)

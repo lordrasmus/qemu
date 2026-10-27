@@ -342,9 +342,29 @@ static const TypeInfo cmd646_ide_info = {
     .class_init    = cmd646_ide_class_init,
 };
 
+/*
+ * The CMD649, the 646's successor with faster UDMA modes, as in HP's
+ * zx2000; Windows installed there knows its boot disk only behind it.
+ * Its timing registers are as meaningless here as the 646's.
+ */
+static void cmd649_ide_class_init(ObjectClass *klass, const void *data)
+{
+    PCIDeviceClass *k = PCI_DEVICE_CLASS(klass);
+
+    k->device_id = PCI_DEVICE_ID_CMD_649;
+    k->revision = 0x02;
+}
+
+static const TypeInfo cmd649_ide_info = {
+    .name          = "cmd649-ide",
+    .parent        = "cmd646-ide",
+    .class_init    = cmd649_ide_class_init,
+};
+
 static void cmd646_ide_register_types(void)
 {
     type_register_static(&cmd646_ide_info);
+    type_register_static(&cmd649_ide_info);
 }
 
 type_init(cmd646_ide_register_types)

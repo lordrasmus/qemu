@@ -52,6 +52,9 @@ typedef struct DisasContext {
     int mem_idx;
     uint32_t tbflags;
     MemOp be;
+    bool ac;            /* psr.ac: every misaligned access faults */
+    bool once;          /* psr.ia/id/da/dd/ed: a TB of one instruction */
+    bool keep_once;     /* an rfi, which sets those bits itself */
 
     TCGLabel *skip;         /* qp false */
 } DisasContext;
@@ -336,9 +339,33 @@ static uint64_t next_ip(DisasContext *dc, int *ri)
     return dc->ip;
 }
 
+/*
+ * Leaving the TB.  Behind the single instruction of a TB with psr bits
+ * for one instruction, those bits are cleared first; such TBs do not
+ * chain, as the next TB runs without them.
+ */
+static void gen_once_done(DisasContext *dc)
+{
+    if (dc->once && !dc->keep_once) {
+        gen_helper_psr_once_done(tcg_env);
+    }
+}
+
+static void gen_lookup_and_goto_ptr(DisasContext *dc)
+{
+    gen_once_done(dc);
+    tcg_gen_lookup_and_goto_ptr();
+}
+
+static void gen_exit_tb(DisasContext *dc)
+{
+    gen_once_done(dc);
+    tcg_gen_exit_tb(NULL, 0);
+}
+
 static void gen_goto(DisasContext *dc, int n, uint64_t ip, int ri)
 {
-    if (translator_use_goto_tb(&dc->base, ip | ri)) {
+    if (!dc->once && translator_use_goto_tb(&dc->base, ip | ri)) {
         tcg_gen_goto_tb(n);
         tcg_gen_movi_i64(cpu_ip, ip);
         tcg_gen_movi_i32(cpu_ri, ri);
@@ -346,7 +373,7 @@ static void gen_goto(DisasContext *dc, int n, uint64_t ip, int ri)
     } else {
         tcg_gen_movi_i64(cpu_ip, ip);
         tcg_gen_movi_i32(cpu_ri, ri);
-        tcg_gen_lookup_and_goto_ptr();
+        gen_lookup_and_goto_ptr(dc);
     }
 }
 
@@ -403,9 +430,33 @@ static MemOp data_mop(DisasContext *dc, int bytes)
     MemOp mop = size_mop(bytes);
 
     if (bytes > 1) {
-        mop |= dc->be | MO_ALIGN;
+        mop |= dc->be | (dc->ac ? MO_ALIGN : 0);
     }
     return mop;
+}
+
+/*
+ * Without psr.ac the misaligned accesses the hardware does not do itself:
+ * a load crossing an aligned 8 bytes, a store crossing 16, see
+ * ia64_misaligned_ok().
+ */
+static void gen_misaligned_check(DisasContext *dc, TCGv_i64 addr, int bytes,
+                                 bool store)
+{
+    int block = store ? 16 : 8;
+    TCGLabel *ok;
+    TCGv_i64 t;
+
+    if (dc->ac || bytes == 1) {
+        return;
+    }
+    ok = gen_new_label();
+    t = tcg_temp_new_i64();
+    tcg_gen_andi_i64(t, addr, block - 1);
+    tcg_gen_brcondi_i64(TCG_COND_LEU, t, block - bytes, ok);
+    gen_helper_misaligned(tcg_env, addr,
+                          tcg_constant_i64(store ? ISR_W : ISR_R));
+    gen_set_label(ok);
 }
 
 static void trans_m_fp(DisasContext *dc, const struct asm_inst *in);
@@ -488,16 +539,16 @@ static void translate_one(DisasContext *dc, const struct asm_inst *in)
     /* Close exits here, so that the qp-false path can continue. */
     switch (dc->base.is_jmp) {
     case DISAS_EXIT:
-        tcg_gen_exit_tb(NULL, 0);
+        gen_exit_tb(dc);
         dc->base.is_jmp = DISAS_NORETURN;
         break;
     case DISAS_EXIT_NEXT:
         gen_set_next(dc);
-        tcg_gen_exit_tb(NULL, 0);
+        gen_exit_tb(dc);
         dc->base.is_jmp = DISAS_NORETURN;
         break;
     case DISAS_JUMP:
-        tcg_gen_lookup_and_goto_ptr();
+        gen_lookup_and_goto_ptr(dc);
         dc->base.is_jmp = DISAS_NORETURN;
         break;
     default:
@@ -537,6 +588,12 @@ static void ia64_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
     dc->cpl = FIELD_EX32(flags, TBFLAGS, CPL);
     dc->mem_idx = dc->cpl | (FIELD_EX32(flags, TBFLAGS, DT) ? MMU_IDX_VIRT : 0);
     dc->be = FIELD_EX32(flags, TBFLAGS, BE) ? MO_BE : MO_LE;
+    dc->ac = FIELD_EX32(flags, TBFLAGS, AC);
+    dc->once = FIELD_EX32(flags, TBFLAGS, ONCE);
+    dc->keep_once = false;
+    if (dc->once) {
+        dc->base.max_insns = 1;
+    }
     dc->bundle_ip = -1;
 }
 
@@ -606,15 +663,15 @@ static void ia64_tr_tb_stop(DisasContextBase *dcbase, CPUState *cs)
         gen_goto(dc, 0, pc & ~0xfull, pc & 3);
         break;
     case DISAS_JUMP:
-        tcg_gen_lookup_and_goto_ptr();
+        gen_lookup_and_goto_ptr(dc);
         break;
     case DISAS_EXIT_NEXT:
         tcg_gen_movi_i64(cpu_ip, pc & ~0xfull);
         tcg_gen_movi_i32(cpu_ri, pc & 3);
-        tcg_gen_exit_tb(NULL, 0);
+        gen_exit_tb(dc);
         break;
     case DISAS_EXIT:
-        tcg_gen_exit_tb(NULL, 0);
+        gen_exit_tb(dc);
         break;
     case DISAS_NORETURN:
         break;
