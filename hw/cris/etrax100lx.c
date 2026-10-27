@@ -5,7 +5,8 @@
  * the I/O registers at 0xb0000000; the bus does not see address bit 31.
  * Modelled are the interrupt controller, timer 0 and 1, serial port 0 and
  * the MMU registers, which are forwarded to the CPU. Everything else in
- * the register space is plain storage.
+ * the register space is plain storage.  A virtio-mmio slot at 0x3c000000
+ * on the vector of external DMA channel 1 takes a root disk.
  *
  * -kernel takes a Linux vmlinux and starts it the way the Axis boot
  * loader does: r8 says the DRAM is set up, r10/r11 pass -append. -initrd
@@ -27,6 +28,7 @@
 #include "hw/core/boards.h"
 #include "hw/core/irq.h"
 #include "hw/core/loader.h"
+#include "hw/core/sysbus.h"
 #include "system/address-spaces.h"
 #include "system/reset.h"
 #include "system/system.h"
@@ -35,6 +37,8 @@
 #define ETRAX_DRAM_BASE     0x40000000
 #define ETRAX_IO_BASE       0x30000000      /* 0xb0000000 without bit 31 */
 #define ETRAX_IO_SIZE       0x1000
+/* A virtio-mmio slot for a root disk, not on the real chip */
+#define ETRAX_VIRTIO_BASE   0x3c000000
 
 #define RAM_INIT_MAGIC      0x56902387
 #define COMMAND_LINE_MAGIC  0x87109563
@@ -59,6 +63,7 @@
 #define VECT_TIMER0         2
 #define VECT_TIMER1         3
 #define VECT_SERIAL         8
+#define VECT_EXT_DMA1       13      /* the virtio-mmio slot */
 /* R_IRQ_MASK1: serial port 0 data available and transmitter ready */
 #define IRQ1_SER0_DATA      (1u << 8)
 #define IRQ1_SER0_READY     (1u << 9)
@@ -90,6 +95,8 @@ typedef struct EtraxState {
 
     uint8_t rx_fifo[16];
     unsigned rx_len;
+
+    bool virtio_irq;
 
     uint8_t regs[ETRAX_IO_SIZE];            /* everything not modelled */
 
@@ -133,6 +140,9 @@ static uint32_t etrax_vect_read(EtraxState *s, bool masked)
     if (etrax_irq_read(s, 1, true) & IRQ1_SERIAL) {
         v |= 1u << VECT_SERIAL;
     }
+    if (s->virtio_irq) {
+        v |= 1u << VECT_EXT_DMA1;
+    }
     return masked ? v & s->vect_mask : v;
 }
 
@@ -146,6 +156,14 @@ static void etrax_update_irq(EtraxState *s)
         s->vector = vector;
         qemu_set_irq(qdev_get_gpio_in(DEVICE(s->cpu), CRIS_CPU_IRQ), vector);
     }
+}
+
+static void etrax_virtio_irq(void *opaque, int n, int level)
+{
+    EtraxState *s = opaque;
+
+    s->virtio_irq = level;
+    etrax_update_irq(s);
 }
 
 /* timer n counts down from its 8-bit divider; 0 means 256 */
@@ -483,6 +501,14 @@ static void etrax_init(MachineState *ms)
     qemu_chr_fe_init(&s->chr, serial_hd(0), &error_fatal);
     qemu_chr_fe_set_handlers(&s->chr, etrax_serial_can_rx, etrax_serial_rx,
                              NULL, NULL, s, NULL, true);
+
+    /*
+     * The disk sits on the vector of external DMA channel 1, which nothing
+     * else uses here, so Linux sees IRQ 13:
+     * virtio_mmio.device=0x200@0x3c000000:13
+     */
+    sysbus_create_simple("virtio-mmio", ETRAX_VIRTIO_BASE,
+                         qemu_allocate_irq(etrax_virtio_irq, s, 0));
 
     if (ms->kernel_filename) {
         if (load_elf(ms->kernel_filename, NULL, etrax_translate, NULL,
