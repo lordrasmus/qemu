@@ -160,9 +160,19 @@ static void gen_nat_check(DisasContext *dc, TCGv_i32 nat, uint64_t isr)
  * General registers
  */
 
+/*
+ * Sources may lie outside the frame: only targets are checked, a read
+ * returns what the physical register holds (Windows reads the registers
+ * of an older frame after alloc ...,0,0,0).
+ */
+static int gr_idx_src(DisasContext *dc, int r)
+{
+    return r - 32 < dc->sof ? gr_idx(dc, r) : r;
+}
+
 static TCGv_i64 load_gr(DisasContext *dc, int r)
 {
-    int i = gr_idx(dc, r);
+    int i = gr_idx_src(dc, r);
 
     if (r == 0) {
         return tcg_constant_i64(0);
@@ -176,7 +186,7 @@ static TCGv_i64 load_gr(DisasContext *dc, int r)
 
 static TCGv_i32 load_nat(DisasContext *dc, int r)
 {
-    int i = gr_idx(dc, r);
+    int i = gr_idx_src(dc, r);
 
     if (r == 0 || i < 0) {
         return tcg_constant_i32(0);
@@ -184,16 +194,13 @@ static TCGv_i32 load_nat(DisasContext *dc, int r)
     return cpu_nat[i];
 }
 
-/* Out-of-frame register references raise Illegal Operation. */
+/* A source register: any is fine, see gr_idx_src() */
 static bool check_gr(DisasContext *dc, int r)
 {
-    if (gr_idx(dc, r) < 0) {
-        gen_illegal(dc);
-        return false;
-    }
     return true;
 }
 
+/* Out-of-frame targets raise Illegal Operation. */
 static bool check_gr_dst(DisasContext *dc, int r)
 {
     if (r == 0 || gr_idx(dc, r) < 0) {
@@ -654,6 +661,10 @@ void ia64_cpu_dump_state(CPUState *cs, FILE *f, int flags)
                  env->irr[3], env->irr[2], env->irr[1],
                  env->irr[0], env->insvc[3], env->insvc[2], env->insvc[1],
                  env->insvc[0]);
+    qemu_fprintf(f, "PTA=%016" PRIx64 " RR=", env->cr[CR_PTA]);
+    for (int i = 0; i < 8; i++) {
+        qemu_fprintf(f, "%" PRIx64 "%c", env->rr[i], i == 7 ? '\n' : ':');
+    }
     qemu_fprintf(f, "BSP=%016" PRIx64 " BSPSTORE=%016" PRIx64
                  " ndirty=%d PFS=%016" PRIx64 " RSC=%" PRIx64 "\n",
                  ia64_bsp(env), env->ar[AR_BSPSTORE], env->rse_ndirty,

@@ -961,25 +961,58 @@ static void build_efi(MachineState *ms, uint64_t rsdp, uint64_t initrd,
  * Firmware calls
  */
 
-/* Guest pointer to physical: identity regions 6/7, else the TLB. */
-hwaddr fw_pa(CPUIA64State *env, uint64_t va)
-{
+/*
+ * Guest pointer to physical: as is with data translation off, else through
+ * the caller's TLB, faulting into its handlers on a miss.  A call keeps the
+ * pages it has translated: the OS may evict a TLB entry between the probe
+ * of an output and the write, and a fault after the first write would
+ * repeat a call that has already had effects.
+ */
+static struct {
+    uint64_t page;
     hwaddr pa;
+    bool store;
+} fw_pages[16];
+static int fw_npages;
+
+hwaddr fw_pa(CPUIA64State *env, uint64_t va, MMUAccessType type)
+{
+    uint64_t page = va & TARGET_PAGE_MASK;
+    hwaddr pa;
+    int i;
 
     if (!(env->psr & PSR_DT)) {
         return va & ((1ull << 50) - 1);
     }
-    if ((va >> 61) >= 6) {
+    for (i = 0; i < fw_npages; i++) {
+        if (fw_pages[i].page == page &&
+            (fw_pages[i].store || type != MMU_DATA_STORE)) {
+            return fw_pages[i].pa | (va & ~TARGET_PAGE_MASK);
+        }
+    }
+    if (getenv("IA64_FW_NOFAULT")) {    /* TEMP: the old guesswork */
+        hwaddr pa = ia64_fw_translate(env, va);
+
+        if (pa != -1) {
+            return pa;
+        }
+        if (va >= 0xe000000080000000ull && va < 0xe000000180000000ull) {
+            return va - 0xe000000080000000ull;
+        }
         return va & ((1ull << 50) - 1);
     }
-    pa = ia64_cpu_get_phys_page_debug(env_cpu(env), va);
-    /* no translation yet: the firmware maps everything one to one */
-    return pa == -1 ? va & ((1ull << 50) - 1) : pa;
+    pa = ia64_fw_access(env, va, type);
+    i = fw_npages < ARRAY_SIZE(fw_pages) ? fw_npages++ : page % fw_npages;
+    fw_pages[i].page = page;
+    fw_pages[i].pa = pa & TARGET_PAGE_MASK;
+    fw_pages[i].store = type == MMU_DATA_STORE;
+    return pa;
 }
 
 static void fw_write(CPUIA64State *env, uint64_t va, const void *buf, int len)
 {
-    address_space_write(&address_space_memory, fw_pa(env, va), MEMTXATTRS_UNSPECIFIED, buf, len);
+    address_space_write(&address_space_memory, fw_pa(env, va, MMU_DATA_STORE),
+                        MEMTXATTRS_UNSPECIFIED, buf, len);
 }
 
 void fw_ret(CPUIA64State *env, uint64_t r8, uint64_t r9, uint64_t r10,
@@ -1188,7 +1221,7 @@ static void efi_set_virtual_address_map(CPUIA64State *env)
     bool found = false;
 
     for (uint64_t off = 0; dsize >= 40 && off + dsize <= size; off += dsize) {
-        hwaddr d = fw_pa(env, map + off);
+        hwaddr d = fw_pa(env, map + off, MMU_DATA_LOAD);
         uint64_t start = address_space_ldq_le(&address_space_memory, d + 8,
                                               MEMTXATTRS_UNSPECIFIED, NULL);
         uint64_t pages = address_space_ldq_le(&address_space_memory, d + 24,
@@ -1223,6 +1256,13 @@ static void efi_set_virtual_address_map(CPUIA64State *env)
     }
 }
 
+/* SetVirtualAddressMap after the notification functions */
+void virt_svam_complete(CPUIA64State *env)
+{
+    efi_set_virtual_address_map(env);
+    fw_ret(env, EFI_SUCCESS, 0, 0, 0);
+}
+
 static void efi_call(CPUIA64State *env, int svc)
 {
     uint64_t st = EFI_SUCCESS;
@@ -1250,7 +1290,13 @@ static void efi_call(CPUIA64State *env, int svc)
         break;
     }
     case EFI_SET_VIRTUAL_ADDRESS_MAP:
+        if (efi_svam_begin(env, in(env, 3), in(env, 0), in(env, 1))) {
+            return;     /* notification functions first */
+        }
         efi_set_virtual_address_map(env);
+        break;
+    case EFI_CONVERT_POINTER:
+        st = efi_convert_pointer(env);
         break;
     case EFI_GET_VARIABLE:
         st = efi_get_variable(env);
@@ -1272,6 +1318,9 @@ static void efi_call(CPUIA64State *env, int svc)
         st = EFI_UNSUPPORTED;
         break;
     }
+    if (getenv("IA64_EFI_DEBUG")) {     /* TEMP */
+        fprintf(stderr, "efi: runtime %d -> %" PRIx64 "\n", svc, st);
+    }
     fw_ret(env, st, 0, 0, 0);
 }
 
@@ -1286,11 +1335,16 @@ static void virt_firmware_call(CPUIA64State *env, uint32_t n)
      * area, and every later flush_tlb_all() would read zero loop counts and
      * purge nothing.  PAL_CACHE_SUMMARY runs in between, so drop the caches
      * on every PAL, SAL and runtime call except the one the idle loop makes;
-     * not on boot services or in the firmware's TLB miss handlers.
+     * not on boot services or in the firmware's TLB miss handlers.  Nor
+     * when a call repeats after a fault on its arguments: the translations
+     * the OS has just inserted for it must survive.
      */
-    if (n < FW_CALL_BOOT && (n != FW_CALL_PAL || env->gr[28] != 29)) {
+    if (n < FW_CALL_BOOT && (n != FW_CALL_PAL || env->gr[28] != 29) &&
+        !env->fw_repeat) {
         ia64_tlb_flush_all(env);
     }
+    env->fw_repeat = false;
+    fw_npages = 0;
     if (n == FW_CALL_PAL) {
         pal_call(env);
     } else if (n == FW_CALL_SAL) {
@@ -1323,9 +1377,15 @@ static void virt_break_trace(CPUIA64State *env, uint32_t imm)
         return;
     }
     len = MIN(lduw_le_p(str), sizeof(buf) - 1);
-    if (cpu_memory_rw_debug(env_cpu(env), ldq_le_p(str + 8), buf, len,
-                            false)) {
-        return;
+    if (len && !cpu_memory_rw_debug(env_cpu(env), ldq_le_p(str + 8), buf,
+                                    len, false)) {
+        /* XP: r32 points to a counted string */
+    } else {
+        /* Server 2003: r32 is the text, r33 its length */
+        len = MIN(env->gr[33], sizeof(buf) - 1);
+        if (cpu_memory_rw_debug(env_cpu(env), env->gr[32], buf, len, false)) {
+            return;
+        }
     }
     buf[len] = 0;
     fprintf(stderr, "%s", buf);

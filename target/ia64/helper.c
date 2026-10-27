@@ -57,6 +57,8 @@ void HELPER(break)(CPUIA64State *env, uint32_t imm)
 {
     if (imm >= FW_BREAK_FIRST && imm <= FW_BREAK_LAST &&
         env->firmware_call && ia64_cpl(env) == 0) {
+        env->fw_break_ip = env->ip;
+        env->fw_break_ri = env->ri;
         /* continue behind the break unless the firmware branches */
         if (env->ri < 2) {
             env->ri++;
@@ -468,6 +470,122 @@ static IA64TLBEntry *vhpt_walk(CPUIA64State *env, uint64_t va, bool insn)
 }
 
 /*
+ * The physical address of va for the firmware, which reads the buffers
+ * of its callers; -1 when there is no translation.  Unlike the hardware
+ * walker it also looks up the VHPT entry itself this way, which with a
+ * linear page table walks all levels, and inserts nothing.
+ */
+static hwaddr fw_translate(CPUIA64State *env, uint64_t va, int depth)
+{
+    IA64TLBEntry *e = tlb_lookup(env, va, false);
+    uint64_t rr = env->rr[va >> 61];
+    uint64_t pta = env->cr[CR_PTA];
+    uint64_t psize, pte;
+    hwaddr iha;
+    MemTxResult res;
+
+    if (!e) {
+        e = tlb_lookup(env, va, true);
+    }
+    if (e) {
+        if (!(e->pte & PTE_P)) {
+            return -1;
+        }
+        psize = 1ull << e->ps;
+        return ((e->pte & R_PTE_PPN_MASK) & ~(psize - 1)) | (va & (psize - 1));
+    }
+    if (depth > 4 || !FIELD_EX64(pta, PTA, VE) || FIELD_EX64(pta, PTA, VF) ||
+        !FIELD_EX64(rr, RR, VE)) {
+        return -1;
+    }
+    iha = fw_translate(env, ia64_thash(env, va), depth + 1);
+    if (iha == -1) {
+        return -1;
+    }
+    pte = address_space_ldq_le(env_cpu(env)->as, iha, MEMTXATTRS_UNSPECIFIED,
+                               &res);
+    if (res != MEMTX_OK || !(pte & PTE_P)) {
+        return -1;
+    }
+    psize = 1ull << FIELD_EX64(rr, RR, PS);
+    return ((pte & R_PTE_PPN_MASK) & ~(psize - 1)) | (va & (psize - 1));
+}
+
+hwaddr ia64_fw_translate(CPUIA64State *env, uint64_t va)
+{
+    return fw_translate(env, va, 0);
+}
+
+/*
+ * A firmware access to a pointer of its caller.  Firmware on hardware runs
+ * in the caller's translation context, and its TLB misses go to the
+ * caller's handlers; so raise the fault at the break of the call, which
+ * the handler's rfi then repeats.  Callers do their accesses before any
+ * side effect, so that the repeat is harmless.
+ */
+hwaddr ia64_fw_access(CPUIA64State *env, uint64_t va, MMUAccessType type)
+{
+    int mmu_idx = cpu_mmu_index(env_cpu(env), false);
+    CPUTLBEntryFull *full;
+    void *host;
+
+    if (probe_access_full(env, va, 1, type, mmu_idx, true, &host, &full, 0)
+        & TLB_INVALID_MASK) {
+        /*
+         * Only the access itself may run the VHPT walker; when that finds
+         * the entry there is no fault, and the call goes on behind its break
+         */
+        uint64_t ip = env->ip;
+        uint32_t ri = env->ri;
+
+        env->ip = env->fw_break_ip;
+        env->ri = env->fw_break_ri;
+        env->fw_repeat = true;
+        qemu_log_mask(CPU_LOG_MMU, "ia64: firmware access to %016" PRIx64
+                      " misses at %016" PRIx64 "\n", va, env->ip);
+        probe_access_full(env, va, 1, type, mmu_idx, false, &host, &full, 0);
+        env->ip = ip;
+        env->ri = ri;
+        env->fw_repeat = false;
+    }
+    return full->phys_addr | (va & ~TARGET_PAGE_MASK);
+}
+
+/*
+ * With interruption collection off a TLB miss is a nested fault the OS
+ * may not survive.  The case Windows runs into is the mandatory RSE load
+ * of an rfi returning to user mode, which on hardware happens in the
+ * target context and faults there, with ISR.ir.  Rather than modelling
+ * incomplete frames, find the entry through every page table level, as
+ * the firmware does, when the walker itself gives up.
+ */
+static IA64TLBEntry *vhpt_walk_deep(CPUIA64State *env, uint64_t va,
+                                    bool insn)
+{
+    uint64_t rr = env->rr[va >> 61];
+    uint64_t pta = env->cr[CR_PTA];
+    uint64_t pte;
+    hwaddr iha;
+    MemTxResult res;
+
+    if (!FIELD_EX64(pta, PTA, VE) || FIELD_EX64(pta, PTA, VF) ||
+        !FIELD_EX64(rr, RR, VE)) {
+        return NULL;
+    }
+    iha = fw_translate(env, ia64_thash(env, va), 1);
+    if (iha == -1) {
+        return NULL;
+    }
+    pte = address_space_ldq_le(env_cpu(env)->as, iha, MEMTXATTRS_UNSPECIFIED,
+                               &res);
+    if (res != MEMTX_OK || !(pte & PTE_P)) {
+        return NULL;
+    }
+    ia64_tc_insert(env, insn, va, pte, rr & (R_RR_PS_MASK | R_RR_RID_MASK));
+    return tlb_lookup(env, va, insn);
+}
+
+/*
  * Translate va for an access at privilege pl.  On failure fills the
  * interruption resources and returns the vector, else 0.
  */
@@ -497,6 +615,9 @@ static int ia64_translate(CPUIA64State *env, uint64_t va, MMUAccessType type,
     e = tlb_lookup(env, va, insn);
     if (!e && !for_probe) {
         e = vhpt_walk(env, va, insn);
+        if (!e && !(env->psr & PSR_IC)) {
+            e = vhpt_walk_deep(env, va, insn);
+        }
     }
     if (!e) {
         bool vhpt = FIELD_EX64(env->cr[CR_PTA], PTA, VE) &&
@@ -574,6 +695,29 @@ G_NORETURN void ia64_cpu_do_unaligned_access(CPUState *cs, vaddr addr,
                      addr, retaddr);
 }
 
+/*
+ * Windows maps physical memory at KSEG0 = 0xe000000080000000 + pa from its
+ * TLB miss handler, with no page tables behind it; a translation register
+ * of its loader shows the offset.  For the debugger only.
+ */
+static hwaddr kseg0_debug(CPUIA64State *env, uint64_t va)
+{
+    const uint64_t kseg0 = 0xe000000080000000ull;
+
+    if (va < kseg0 || va - kseg0 >= (1ull << (IA64_IMPL_PA_MSB + 1))) {
+        return -1;
+    }
+    for (int i = 0; i < IA64_NUM_TR; i++) {
+        IA64TLBEntry *e = &env->dtr[i];
+
+        if (e->valid && e->vpn >= kseg0 &&
+            e->vpn - (e->pte & R_PTE_PPN_MASK) == kseg0) {
+            return va - kseg0;
+        }
+    }
+    return -1;
+}
+
 hwaddr ia64_cpu_get_phys_page_debug(CPUState *cs, vaddr addr)
 {
     CPUIA64State *env = cpu_env(cs);
@@ -588,7 +732,11 @@ hwaddr ia64_cpu_get_phys_page_debug(CPUState *cs, vaddr addr)
                        &pa, &prot, &psize, true) &&
         ia64_translate(env, addr, MMU_INST_FETCH, 0, env->psr & PSR_IT,
                        &pa, &prot, &psize, true)) {
-        pa = -1;
+        /* not in the TLB: the page tables may still know it */
+        pa = (env->psr & PSR_DT) ? ia64_fw_translate(env, addr) : -1;
+    }
+    if (pa == -1 && (env->psr & PSR_DT)) {
+        pa = kseg0_debug(env, addr);
     }
     env->pend_isr = save[0];
     env->pend_ifa = save[1];
@@ -732,10 +880,15 @@ uint64_t HELPER(tpa)(CPUIA64State *env, uint64_t va)
     uint64_t psize;
     IA64TLBEntry *e;
 
-    if (!(env->psr & PSR_DT)) {
+    /*
+     * tpa translates whatever psr.dt says: Windows' HAL takes the physical
+     * return address of a PAL call after it has turned translation off.
+     * Without an entry there, an address in physical mode stays as is.
+     */
+    e = tlb_lookup(env, va, false);
+    if (!(env->psr & PSR_DT) && (!e || !(e->pte & PTE_P))) {
         return va & ((1ull << (IA64_IMPL_PA_MSB + 1)) - 1);
     }
-    e = tlb_lookup(env, va, false);
     if (!e || !(e->pte & PTE_P)) {
         vec = ia64_translate(env, va, MMU_DATA_LOAD, 0, true, &pa, &prot,
                              &psize, false);
@@ -877,6 +1030,11 @@ static void rse_fill_one(CPUIA64State *env, uintptr_t ra)
             env->rse_ndirty * sizeof(env->rse_nat[0]));
     env->rse[0] = val;
     env->rse_nat[0] = (env->ar[AR_RNAT] >> ((addr >> 3) & 0x3f)) & 1;
+    if (env->rse_nat[0]) {              /* TEMP: who gets a NaT */
+        qemu_log_mask(CPU_LOG_MMU, "ia64: rse fill NaT at %016" PRIx64
+                      " val %016" PRIx64 " rnat %016" PRIx64 " ip %016"
+                      PRIx64 "\n", addr, val, env->ar[AR_RNAT], env->ip);
+    }
     env->rse_ndirty++;
     env->ar[AR_BSPSTORE] = addr;
 }

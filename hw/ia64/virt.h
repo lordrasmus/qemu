@@ -115,7 +115,7 @@ int virt_fw_memmap(MemDesc *md);
 void virt_com1_init(void);
 int virt_com1_getc(void);
 void virt_pci_assign(void);
-hwaddr fw_pa(CPUIA64State *env, uint64_t va);
+hwaddr fw_pa(CPUIA64State *env, uint64_t va, MMUAccessType type);
 void fw_ret(CPUIA64State *env, uint64_t r8, uint64_t r9, uint64_t r10,
             uint64_t r11);
 
@@ -125,5 +125,9 @@ uint64_t efi_get_variable(CPUIA64State *env);
 uint64_t efi_get_next_variable(CPUIA64State *env);
 uint64_t efi_set_variable(CPUIA64State *env);
 void efi_virtual_address_change(uint64_t phys_start, uint64_t virt_start);
+bool efi_svam_begin(CPUIA64State *env, uint64_t map, uint64_t size,
+                    uint64_t dsize);
+uint64_t efi_convert_pointer(CPUIA64State *env);
+void virt_svam_complete(CPUIA64State *env);
 
 #endif
