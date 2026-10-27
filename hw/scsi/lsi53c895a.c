@@ -198,6 +198,8 @@ typedef struct lsi_request {
     uint32_t pending;
     int out;
     bool orphan;
+    bool done;          /* completed while disconnected */
+    uint8_t status;
     QTAILQ_ENTRY(lsi_request) next;
 } lsi_request;
 
@@ -214,6 +216,7 @@ enum {
     LSI_MSG_ACTION_DISCONNECT = 1,
     LSI_MSG_ACTION_DOUT = 2,
     LSI_MSG_ACTION_DIN = 3,
+    LSI_MSG_ACTION_STATUS = 4,
 };
 
 struct LSIState {
@@ -340,7 +343,7 @@ static lsi_request *get_pending_req(LSIState *s)
     lsi_request *p;
 
     QTAILQ_FOREACH(p, &s->queue, next) {
-        if (p->pending) {
+        if (p->pending || p->done) {
             return p;
         }
     }
@@ -446,6 +449,7 @@ static uint8_t lsi_reg_readb(LSIState *s, int offset);
 static void lsi_reg_writeb(LSIState *s, int offset, uint8_t val);
 static void lsi_execute_script(LSIState *s);
 static void lsi_reselect(LSIState *s, lsi_request *p);
+static void lsi_request_orphan(LSIState *s, lsi_request *p);
 
 static inline void lsi_mem_read(LSIState *s, dma_addr_t addr,
                                void *buf, dma_addr_t len)
@@ -735,6 +739,13 @@ static void lsi_reselect(LSIState *s, lsi_request *p)
         lsi_add_msg_byte(s, 0x20);
         lsi_add_msg_byte(s, p->tag & 0xff);
     }
+    if (p->done) {
+        /* nothing left to transfer: straight to the status phase */
+        s->msg_action = LSI_MSG_ACTION_STATUS;
+        s->status = p->status;
+        s->command_complete = 2;
+        lsi_request_orphan(s, p);
+    }
 
     if (lsi_irq_on_rsl(s)) {
         lsi_script_scsi_interrupt(s, LSI_SIST0_RSL, 0);
@@ -810,7 +821,26 @@ static int lsi_queue_req(LSIState *s, SCSIRequest *req, uint32_t len)
 static void lsi_command_complete(SCSIRequest *req, size_t resid)
 {
     LSIState *s = LSI53C895A(req->bus->qbus.parent);
+    lsi_request *p = req->hba_private;
     int out, stop = 0;
+
+    if (p != s->current) {
+        /*
+         * Completed while disconnected, without a data phase (a flush,
+         * say): reselect for the status phase, as a target would.
+         */
+        trace_lsi_command_complete(req->status);
+        p->done = true;
+        p->status = req->status;
+        if (s->waiting == LSI_WAIT_RESELECT) {
+            lsi_reselect(s, p);
+            lsi_resume_script(s);
+        } else if (lsi_irq_on_rsl(s) && !(s->scntl1 & LSI_SCNTL1_CON) &&
+                   !(s->istat0 & (LSI_ISTAT0_SIP | LSI_ISTAT0_DIP))) {
+            lsi_reselect(s, p);
+        }
+        return;
+    }
 
     out = (s->sstat1 & PHASE_MASK) == PHASE_DO;
     trace_lsi_command_complete(req->status);
@@ -901,18 +931,15 @@ static void lsi_do_command(LSIState *s)
         scsi_req_continue(s->current->req);
     }
     if (!s->command_complete) {
-        if (n) {
-            /* Command did not complete immediately so disconnect.  */
-            lsi_add_msg_byte(s, 2); /* SAVE DATA POINTER */
-            lsi_add_msg_byte(s, 4); /* DISCONNECT */
-            /* wait data */
-            lsi_set_phase(s, PHASE_MI);
-            s->msg_action = LSI_MSG_ACTION_DISCONNECT;
-            lsi_queue_command(s);
-        } else {
-            /* wait command complete */
-            lsi_set_phase(s, PHASE_DI);
-        }
+        /*
+         * Command did not complete immediately so disconnect, also
+         * without data to wait for: completion reselects.
+         */
+        lsi_add_msg_byte(s, 2); /* SAVE DATA POINTER */
+        lsi_add_msg_byte(s, 4); /* DISCONNECT */
+        lsi_set_phase(s, PHASE_MI);
+        s->msg_action = LSI_MSG_ACTION_DISCONNECT;
+        lsi_queue_command(s);
     }
 }
 
@@ -967,6 +994,9 @@ static void lsi_do_msgin(LSIState *s)
             break;
         case LSI_MSG_ACTION_DIN:
             lsi_set_phase(s, PHASE_DI);
+            break;
+        case LSI_MSG_ACTION_STATUS:
+            lsi_set_phase(s, PHASE_ST);
             break;
         default:
             abort();
