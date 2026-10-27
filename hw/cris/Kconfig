@@ -2,3 +2,14 @@ config ETRAX100LX
     bool
     default y
     depends on CRIS
+
+config AXIS
+    bool
+    default y
+    depends on CRIS
+    select ETRAXFS
+    select PFLASH_CFI02
+
+config ETRAXFS
+   bool
+   select PTIMER
