@@ -790,6 +790,8 @@ static int arith_cc(DisasContext *dc)
     return 0;
 }
 
+static unsigned int crisv10_decoder(CPUCRISState *env, DisasContext *dc);
+
 static void gen_tst_cc (DisasContext *dc, TCGv cc, int cond)
 {
     int arith_opt, move_opt;
@@ -960,8 +962,11 @@ static void gen_tst_cc (DisasContext *dc, TCGv cc, int cond)
         }
         break;
     case CC_P:
+        /* bwf: the conditional store of v10 records failure in its own
+           P bit (gen_store_v10_conditional), v32 in P_FLAG.  */
         cris_evaluate_flags(dc);
-        tcg_gen_andi_tl(cc, cpu_PR[PR_CCS], P_FLAG);
+        tcg_gen_andi_tl(cc, cpu_PR[PR_CCS],
+                        dc->decoder == crisv10_decoder ? P_FLAG_V10 : P_FLAG);
         break;
     case CC_A:
         tcg_gen_movi_tl(cc, 1);
