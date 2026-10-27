@@ -32,6 +32,7 @@
 #include "virt.h"
 
 #define PAGE            4096ull
+#define EVT_SIGNAL_VIRTUAL_ADDRESS_CHANGE 0x60000202u
 #define EFI_FILE_MODE_WRITE     2
 
 static bool efi_debug;
@@ -121,6 +122,7 @@ enum {
     P_FILE_FLUSH,
     P_IMAGE_UNLOAD,
     P_FPSWA,
+    P_NOTIFY_RETURN,    /* return of an event notification function */
     P_END
 };
 
@@ -173,6 +175,10 @@ typedef struct Image {
     bool used, started, boot;
     uint64_t handle, base, pages, entry;
     uint32_t subsystem;
+    uint32_t size;
+    uint8_t *reloc;             /* a runtime driver's, for its new address */
+    uint32_t reloc_size;
+    uint8_t *loaded;            /* and the image as it was loaded */
     uint64_t exit_size_ptr, exit_data_ptr;
     CallSnap snap;
 } Image;
@@ -229,6 +235,7 @@ typedef struct Event {
     bool used, signaled, periodic, is_key;
     uint64_t addr;
     uint32_t type;
+    uint64_t notify, context;   /* notification function, its argument */
     int64_t trigger, period;    /* QEMU_CLOCK_VIRTUAL ns, 0 = no timer */
 } Event;
 
@@ -272,6 +279,12 @@ typedef struct EfiState {
     int ncfg;
     bool dead;              /* nothing to boot; waiting for the shutdown */
     int boot_next;          /* the BootOrder position to try next */
+    int boot_once;          /* BootNext + 1, or 0 */
+    /* SetVirtualAddressMap: the map, and the notification in progress */
+    struct { uint64_t phys, virt, size; } vmap[64];
+    int nvmap;
+    int notify_next;
+    CallSnap notify_snap;
 } EfiState;
 
 static EfiState efi;
@@ -282,69 +295,99 @@ static bool autokey_done;
 /*
  * Guest memory: during boot services pointers are physical.
  */
-static hwaddr pa(uint64_t va)
+static hwaddr pa(uint64_t va, MMUAccessType type)
 {
-    return fw_pa(efi.env, va);
+    return fw_pa(efi.env, va, type);
 }
+
+#define rpa(va) pa(va, MMU_DATA_LOAD)
+#define wpa(va) pa(va, MMU_DATA_STORE)
 
 static uint8_t gld8(uint64_t va)
 {
-    return address_space_ldub(&address_space_memory, pa(va),
+    return address_space_ldub(&address_space_memory, rpa(va),
                               MEMTXATTRS_UNSPECIFIED, NULL);
 }
 
 static uint16_t gld16(uint64_t va)
 {
-    return address_space_lduw_le(&address_space_memory, pa(va),
+    return address_space_lduw_le(&address_space_memory, rpa(va),
                                  MEMTXATTRS_UNSPECIFIED, NULL);
 }
 
 static uint32_t gld32(uint64_t va)
 {
-    return address_space_ldl_le(&address_space_memory, pa(va),
+    return address_space_ldl_le(&address_space_memory, rpa(va),
                                 MEMTXATTRS_UNSPECIFIED, NULL);
 }
 
 static uint64_t gld64(uint64_t va)
 {
-    return address_space_ldq_le(&address_space_memory, pa(va),
+    return address_space_ldq_le(&address_space_memory, rpa(va),
                                 MEMTXATTRS_UNSPECIFIED, NULL);
 }
 
 static void gst8(uint64_t va, uint8_t v)
 {
-    address_space_stb(&address_space_memory, pa(va), v,
+    address_space_stb(&address_space_memory, wpa(va), v,
                       MEMTXATTRS_UNSPECIFIED, NULL);
 }
 
 static void gst16(uint64_t va, uint16_t v)
 {
-    address_space_stw_le(&address_space_memory, pa(va), v,
+    address_space_stw_le(&address_space_memory, wpa(va), v,
                          MEMTXATTRS_UNSPECIFIED, NULL);
 }
 
 static void gst32(uint64_t va, uint32_t v)
 {
-    address_space_stl_le(&address_space_memory, pa(va), v,
+    address_space_stl_le(&address_space_memory, wpa(va), v,
                          MEMTXATTRS_UNSPECIFIED, NULL);
 }
 
 static void gst64(uint64_t va, uint64_t v)
 {
-    address_space_stq_le(&address_space_memory, pa(va), v,
+    address_space_stq_le(&address_space_memory, wpa(va), v,
                          MEMTXATTRS_UNSPECIFIED, NULL);
 }
 
+/* Buffers of a virtually addressed caller: translate page by page */
 static void gread(uint64_t va, void *buf, uint64_t len)
 {
-    address_space_read(&address_space_memory, pa(va),
-                       MEMTXATTRS_UNSPECIFIED, buf, len);
+    while (len) {
+        uint64_t n = MIN(len, PAGE - (va & (PAGE - 1)));
+
+        address_space_read(&address_space_memory, rpa(va),
+                           MEMTXATTRS_UNSPECIFIED, buf, n);
+        va += n;
+        buf = (uint8_t *)buf + n;
+        len -= n;
+    }
+}
+
+/* Fault in an output buffer before the first write of a call */
+static void gprobe(uint64_t va, uint64_t len)
+{
+    while (len) {
+        uint64_t n = MIN(len, PAGE - (va & (PAGE - 1)));
+
+        wpa(va);
+        va += n;
+        len -= n;
+    }
 }
 
 static void gwrite(uint64_t va, const void *buf, uint64_t len)
 {
-    address_space_write(&address_space_memory, pa(va),
-                        MEMTXATTRS_UNSPECIFIED, buf, len);
+    while (len) {
+        uint64_t n = MIN(len, PAGE - (va & (PAGE - 1)));
+
+        address_space_write(&address_space_memory, wpa(va),
+                            MEMTXATTRS_UNSPECIFIED, buf, n);
+        va += n;
+        buf = (const uint8_t *)buf + n;
+        len -= n;
+    }
 }
 
 static void gzero(uint64_t va, uint64_t len)
@@ -833,6 +876,57 @@ static void movl_put(uint8_t *b, uint64_t v)
     bundle_put(b, 87 + 36, 1, v >> 63);
 }
 
+/*
+ * Apply the base relocations RELOC of an image IMG loaded DELTA away.  With
+ * ORIG, the image as loaded, a place its driver has changed since, by
+ * ConvertPointer, stays as it is.
+ */
+static void pe_relocate(uint8_t *img, uint32_t size, const uint8_t *reloc,
+                        uint32_t reloc_size, uint64_t delta,
+                        const uint8_t *orig)
+{
+    for (uint32_t p = 0; p + 8 <= reloc_size;) {
+        uint32_t page = ldl_le_p(reloc + p);
+        uint32_t bsize = ldl_le_p(reloc + p + 4);
+
+        if (bsize < 8 || bsize > reloc_size - p) {
+            break;
+        }
+        for (uint32_t i = 8; i + 2 <= bsize; i += 2) {
+            uint16_t e = lduw_le_p(reloc + p + i);
+            uint32_t at = page + (e & 0xfff);
+
+            switch (e >> 12) {
+            case 0:
+                break;
+            case 3:     /* HIGHLOW */
+                if (at + 4 <= size &&
+                    (!orig || !memcmp(img + at, orig + at, 4))) {
+                    stl_le_p(img + at, ldl_le_p(img + at) + delta);
+                }
+                break;
+            case 9:     /* IA64_IMM64: the movl bundle */
+                at &= ~15;
+                if (at + 16 <= size &&
+                    (!orig || !memcmp(img + at, orig + at, 16))) {
+                    movl_put(img + at, movl_get(img + at) + delta);
+                }
+                break;
+            case 10:    /* DIR64 */
+                if (at + 8 <= size &&
+                    (!orig || !memcmp(img + at, orig + at, 8))) {
+                    stq_le_p(img + at, ldq_le_p(img + at) + delta);
+                }
+                break;
+            default:
+                warn_report("ia64 efi: relocation type %d", e >> 12);
+                break;
+            }
+        }
+        p += bsize;
+    }
+}
+
 /* Load a PE32+ image for IA-64; returns an EFI status */
 static uint64_t pe_load(const uint8_t *f, uint64_t len, Image *im)
 {
@@ -918,43 +1012,13 @@ static uint64_t pe_load(const uint8_t *f, uint64_t len, Image *im)
     }
     delta = base - imagebase;
 
-    for (uint32_t p = reloc_rva; reloc_size && p + 8 <= reloc_rva + reloc_size
-         && p + 8 <= size;) {
-        uint32_t page = ldl_le_p(img + p);
-        uint32_t bsize = ldl_le_p(img + p + 4);
-
-        if (bsize < 8 || p + bsize > size) {
-            break;
+    if (reloc_size && reloc_rva < size && reloc_size <= size - reloc_rva) {
+        pe_relocate(img, size, img + reloc_rva, reloc_size, delta, NULL);
+        if (subsystem == 12) {
+            im->reloc = g_memdup2(img + reloc_rva, reloc_size);
+            im->reloc_size = reloc_size;
+            im->loaded = g_memdup2(img, size);
         }
-        for (uint32_t i = 8; i + 2 <= bsize; i += 2) {
-            uint16_t e = lduw_le_p(img + p + i);
-            uint32_t at = page + (e & 0xfff);
-
-            switch (e >> 12) {
-            case 0:
-                break;
-            case 3:     /* HIGHLOW */
-                if (at + 4 <= size) {
-                    stl_le_p(img + at, ldl_le_p(img + at) + delta);
-                }
-                break;
-            case 9:     /* IA64_IMM64: the movl bundle */
-                at &= ~15;
-                if (at + 16 <= size) {
-                    movl_put(img + at, movl_get(img + at) + delta);
-                }
-                break;
-            case 10:    /* DIR64 */
-                if (at + 8 <= size) {
-                    stq_le_p(img + at, ldq_le_p(img + at) + delta);
-                }
-                break;
-            default:
-                warn_report("ia64 efi: relocation type %d", e >> 12);
-                break;
-            }
-        }
-        p += bsize;
     }
 
     gwrite(base, img, size);
@@ -966,6 +1030,7 @@ static uint64_t pe_load(const uint8_t *f, uint64_t len, Image *im)
     im->base = base;
     im->entry = base + entry;
     im->subsystem = subsystem;
+    im->size = size;
     DPRINTF("image at 0x%" PRIx64 " size 0x%x entry 0x%" PRIx64
             " subsystem %d\n", base, size, im->entry, subsystem);
     return EFI_SUCCESS;
@@ -999,6 +1064,8 @@ static uint64_t image_create(const uint8_t *f, uint64_t len, uint64_t parent,
     h = handle_new();
     if (!h) {
         mm_free(im->base, im->pages);
+        g_clear_pointer(&im->reloc, g_free);
+        g_clear_pointer(&im->loaded, g_free);
         return EFI_OUT_OF_RESOURCES;
     }
     im->used = true;
@@ -1074,6 +1141,8 @@ static void image_unload(Image *im)
     Handle *h = handle_find(im->handle);
 
     mm_free(im->base, im->pages);
+    g_clear_pointer(&im->reloc, g_free);
+    g_clear_pointer(&im->loaded, g_free);
     if (h) {
         h->n = 0;
     }
@@ -2195,6 +2264,7 @@ static Event *event_new(uint32_t type)
             e->type = type;
             e->signaled = e->periodic = e->is_key = false;
             e->trigger = 0;
+            e->notify = e->context = 0;
             return e;
         }
     }
@@ -2341,6 +2411,10 @@ static void var_set_ascii(const char *name, const void *data, uint32_t size)
     var_set(n, &guid_global_var, 7, data, size);
 }
 
+/*
+ * A call that faults on a pointer is repeated, so the variable services
+ * fault in every output before they write the first one.
+ */
 uint64_t efi_get_variable(CPUIA64State *env)
 {
     uint16_t name[128];
@@ -2359,6 +2433,42 @@ uint64_t efi_get_variable(CPUIA64State *env)
         return EFI_NOT_FOUND;
     }
     size = gld64(arg(3));
+    if (efi_debug) {                    /* TEMP: TLB against page tables */
+        hwaddr tp = pa(arg(3), MMU_DATA_LOAD);
+        hwaddr wp = ia64_fw_translate(env, arg(3));
+
+        fprintf(stderr, "efi: size at %" PRIx64 ": tlb pa %" PRIx64 " = %"
+                PRIx64 ", walk pa %" PRIx64 " = %" PRIx64 "\n", arg(3), tp,
+                address_space_ldq_le(&address_space_memory, tp,
+                                     MEMTXATTRS_UNSPECIFIED, NULL), wp,
+                wp == -1 ? 0 : address_space_ldq_le(&address_space_memory, wp,
+                                                    MEMTXATTRS_UNSPECIFIED, NULL));
+    }
+    DPRINTF("GetVariable %s: size %" PRIu64 " of %u, attr %" PRIx64 " data %"
+            PRIx64 " from %" PRIx64 "\n", s, size, v->size, arg(2), arg(4),
+            env->br[0]);
+    if (size >= v->size && !arg(4)) {
+        if (efi_debug) {                /* TEMP: who asks */
+            fprintf(stderr, "efi: NULL data, callers:");
+            for (int k = env->rse_ndirty - 1; k >= 0 &&
+                 k >= env->rse_ndirty - 64; k--) {
+                uint64_t x = env->rse[k];
+
+                if (x >= 0xe000000083000000ull && x < 0xe000000083800000ull) {
+                    fprintf(stderr, " [%d]%" PRIx64, env->rse_ndirty - k, x);
+                }
+            }
+            fprintf(stderr, "\n");
+        }
+        return EFI_INVALID_PARAMETER;
+    }
+    gprobe(arg(3), 8);
+    if (arg(2)) {
+        gprobe(arg(2), 4);
+    }
+    if (size >= v->size) {
+        gprobe(arg(4), v->size);
+    }
     gst64(arg(3), v->size);
     if (arg(2)) {
         gst32(arg(2), v->attr);
@@ -2393,6 +2503,11 @@ uint64_t efi_get_next_variable(CPUIA64State *env)
         if (vars[i].used) {
             uint64_t need = 2 * (str16len(vars[i].name) + 1);
 
+            gprobe(arg(0), 8);
+            if (size >= need) {
+                gprobe(arg(1), need);
+                gprobe(arg(2), 16);
+            }
             gst64(arg(0), need);
             if (size < need) {
                 return EFI_BUFFER_TOO_SMALL;
@@ -2412,7 +2527,7 @@ uint64_t efi_set_variable(CPUIA64State *env)
     uint16_t name[128];
     Guid g;
     uint64_t size;
-    uint8_t *data;
+    g_autofree uint8_t *data = NULL;
     bool ok;
     char s[128];
 
@@ -2428,7 +2543,6 @@ uint64_t efi_set_variable(CPUIA64State *env)
     data = g_malloc(size + 1);
     gread(arg(4), data, size);
     ok = var_set(name, &g, arg(2), data, size);
-    g_free(data);
     if (ok) {
         nvram_save();
     }
@@ -2707,9 +2821,12 @@ static void bs_call(CPUIA64State *env, unsigned n)
         if (!e) {
             st = EFI_OUT_OF_RESOURCES;
         } else {
-            if (arg(2)) {
-                warn_report("ia64 efi: event notification functions are "
-                            "not called");
+            e->notify = arg(2);
+            e->context = arg(3);
+            if (e->notify && e->type != EVT_SIGNAL_VIRTUAL_ADDRESS_CHANGE) {
+                warn_report_once("ia64 efi: event notification functions "
+                                 "are only called on the virtual address "
+                                 "change");
             }
             gst64(arg(4), e->addr);
         }
@@ -3118,12 +3235,146 @@ static void proto_call(CPUIA64State *env, unsigned n)
     fw_ret(env, st, 0, 0, 0);
 }
 
-/* The firmware's runtime part moved: so does the FPSWA entry */
+/*
+ * SetVirtualAddressMap.  As in Intel's EFI, the notification functions of
+ * EVT_SIGNAL_VIRTUAL_ADDRESS_CHANGE events run first, in physical mode,
+ * and convert their drivers' pointers with ConvertPointer; then runtime
+ * drivers are relocated to their new addresses.  The notification
+ * functions are the caller's to run: each returns to P_NOTIFY_RETURN, and
+ * the call completes after the last one.
+ */
+static Event *notify_find(int from)
+{
+    for (int i = from; i < EVENT_MAX; i++) {
+        Event *e = &efi.events[i];
+
+        if (e->used && e->notify &&
+            e->type == EVT_SIGNAL_VIRTUAL_ADDRESS_CHANGE) {
+            efi.notify_next = i + 1;
+            return e;
+        }
+    }
+    return NULL;
+}
+
+static void notify_enter(CPUIA64State *env, Event *e)
+{
+    uint64_t code = gld64(e->notify), gp = gld64(e->notify + 8);
+
+    DPRINTF("virtual address change: notify 0x%" PRIx64 "\n", code);
+    if ((env->cfm & 0x7f) < 2) {
+        env->cfm = 2;
+    }
+    env->gr[32] = e->addr;
+    env->gr[33] = e->context;
+    env->nat[32] = env->nat[33] = 0;
+    env->ar[AR_PFS] = (env->cfm & ((1ull << 38) - 1)) |
+                      ((env->ar[AR_EC] & 0x3f) << 52);
+    env->gr[1] = gp;
+    env->nat[1] = 0;
+    env->br[0] = FW_STUB(P_NOTIFY_RETURN);
+    env->ip = code & ~15ull;
+    env->ri = 0;
+}
+
+/* Begin SetVirtualAddressMap; false when it can complete right away */
+bool efi_svam_begin(CPUIA64State *env, uint64_t map, uint64_t size,
+                    uint64_t dsize)
+{
+    Event *e;
+
+    efi.env = env;
+    efi.nvmap = 0;
+    for (uint64_t off = 0; dsize >= 40 && off + dsize <= size &&
+         efi.nvmap < ARRAY_SIZE(efi.vmap); off += dsize) {
+        uint32_t attr_hi = gld32(map + off + 36);
+
+        if (attr_hi & 0x80000000) {             /* EFI_MEMORY_RUNTIME */
+            efi.vmap[efi.nvmap].phys = gld64(map + off + 8);
+            efi.vmap[efi.nvmap].virt = gld64(map + off + 16);
+            efi.vmap[efi.nvmap].size = gld64(map + off + 24) * PAGE;
+            efi.nvmap++;
+        }
+    }
+    e = notify_find(0);
+    if (!e) {
+        return false;
+    }
+    snap_save(env, &efi.notify_snap);
+    notify_enter(env, e);
+    return true;
+}
+
+static void notify_return(CPUIA64State *env)
+{
+    Event *e = notify_find(efi.notify_next);
+
+    snap_restore(env, &efi.notify_snap);
+    if (e) {
+        notify_enter(env, e);
+    } else {
+        virt_svam_complete(env);
+    }
+}
+
+static int64_t vmap_delta(uint64_t pa)
+{
+    for (int i = 0; i < efi.nvmap; i++) {
+        if (pa >= efi.vmap[i].phys && pa - efi.vmap[i].phys < efi.vmap[i].size) {
+            return efi.vmap[i].virt - efi.vmap[i].phys;
+        }
+    }
+    return 0;
+}
+
+/* ConvertPointer(DebugDisposition, Address) */
+uint64_t efi_convert_pointer(CPUIA64State *env)
+{
+    uint64_t p, d;
+
+    efi.env = env;
+    p = gld64(arg(1));
+    if (!p) {
+        return (arg(0) & 1) ? EFI_SUCCESS : EFI_INVALID_PARAMETER;
+    }
+    for (int i = 0; i < efi.nvmap; i++) {
+        if (p >= efi.vmap[i].phys && p - efi.vmap[i].phys < efi.vmap[i].size) {
+            d = efi.vmap[i].virt - efi.vmap[i].phys;
+            gst64(arg(1), p + d);
+            return EFI_SUCCESS;
+        }
+    }
+    return EFI_NOT_FOUND;
+}
+
+/*
+ * The firmware's runtime part moved: so does the FPSWA entry, and runtime
+ * drivers follow their memory.
+ */
 void efi_virtual_address_change(uint64_t phys_start, uint64_t virt_start)
 {
     address_space_stq_le(&address_space_memory, FW_FPSWA + 8,
                          FW_FD(P_FPSWA) - phys_start + virt_start,
                          MEMTXATTRS_UNSPECIFIED, NULL);
+    for (int i = 0; i < IMAGE_MAX; i++) {
+        Image *im = &efi.images[i];
+        int64_t delta = im->used ? vmap_delta(im->base) : 0;
+        uint8_t *img;
+
+        if (!delta || !im->reloc) {
+            continue;
+        }
+        DPRINTF("runtime image at 0x%" PRIx64 " moves by 0x%" PRIx64 "\n",
+                im->base, delta);
+        img = g_malloc(im->size);
+        address_space_read(&address_space_memory, im->base,
+                           MEMTXATTRS_UNSPECIFIED, img, im->size);
+        pe_relocate(img, im->size, im->reloc, im->reloc_size, delta,
+                    im->loaded);
+        address_space_write(&address_space_memory, im->base,
+                            MEMTXATTRS_UNSPECIFIED, img, im->size);
+        g_free(img);
+    }
 }
 
 /*
@@ -3345,9 +3596,17 @@ static Disk *boot_resolve(const uint8_t *dp, int len, uint16_t *path, int max)
             for (int i = 0; i < efi.ndisks; i++) {
                 Disk *d = &efi.disks[i];
 
+                /*
+                 * Partition number, signature and its type: Windows XP's
+                 * setup writes start and size in bytes, not blocks.
+                 */
                 for (int k = 0; d->partition && k + 42 <= d->dp.n; k++) {
-                    if (d->dp.b[k] == 4 && d->dp.b[k + 1] == 1 &&
-                        !memcmp(d->dp.b + k + 4, dp + at + 4, 38)) {
+                    const uint8_t *h = d->dp.b + k;
+
+                    if (h[0] == 4 && h[1] == 1 &&
+                        !memcmp(h + 4, dp + at + 4, 4) &&
+                        !memcmp(h + 24, dp + at + 24, 16) &&
+                        h[41] == dp[at + 41]) {
                         found = d;
                     }
                 }
@@ -3397,15 +3656,30 @@ static Disk *boot_resolve(const uint8_t *dp, int len, uint16_t *path, int max)
 static void efi_boot(CPUIA64State *env)
 {
     uint16_t name[16], order[64], defpath[64];
-    Var *ov;
+    Var *ov, *nv;
     int norder = 0;
 
     ascii_str16("\\EFI\\BOOT\\BOOTIA64.EFI", defpath);
     ascii_str16("BootOrder", name);
     ov = getenv("IA64_NO_BOOTORDER") ? NULL : var_find(name, &guid_global_var);
+    /* BootNext goes first, for this boot only */
+    if (efi.boot_next == 0) {
+        ascii_str16("BootNext", name);
+        nv = var_find(name, &guid_global_var);
+        if (nv && nv->size >= 2) {
+            efi.boot_once = lduw_le_p(nv->data) + 1;
+            var_set(name, &guid_global_var, 0, NULL, 0);
+            nvram_save();
+        }
+    }
+    if (efi.boot_once) {
+        order[norder++] = efi.boot_once - 1;
+    }
     if (ov) {
-        norder = MIN(ov->size / 2, ARRAY_SIZE(order));
-        memcpy(order, ov->data, 2 * norder);
+        int n = MIN(ov->size / 2, ARRAY_SIZE(order) - norder);
+
+        memcpy(order + norder, ov->data, 2 * n);
+        norder += n;
     }
     while (efi.boot_next < norder) {
         uint16_t num = lduw_le_p(order + efi.boot_next++);
@@ -3516,6 +3790,8 @@ void efi_boot_call(CPUIA64State *env, unsigned n)
         }
     } else if (n >= FW_CALL_BS && n < FW_CALL_BS + BS_NUM) {
         bs_call(env, n - FW_CALL_BS);
+    } else if (n == P_NOTIFY_RETURN) {
+        notify_return(env);
     } else if (n >= FW_CALL_PROTO && n < P_END) {
         proto_call(env, n);
     } else {

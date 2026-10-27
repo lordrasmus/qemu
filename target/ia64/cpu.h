@@ -314,6 +314,11 @@ struct CPUArchState {
 
     /* Board hook for break immediates reserved for the firmware. */
     void (*firmware_call)(CPUIA64State *env, uint32_t imm);
+    /* the break of the running firmware call, where its faults are taken */
+    uint64_t fw_break_ip;
+    uint32_t fw_break_ri;
+    /* the call faulted and its break runs again */
+    bool fw_repeat;
     /* Board hook that sees every other break before it faults. */
     void (*break_trace)(CPUIA64State *env, uint32_t imm);
 };
@@ -368,6 +373,8 @@ void ia64_tc_insert(CPUIA64State *env, bool insn, uint64_t va, uint64_t pte,
 void ia64_tr_insert(CPUIA64State *env, bool insn, int slot, uint64_t va,
                     uint64_t pte, uint64_t itir);
 void ia64_rfi(CPUIA64State *env, uintptr_t ra);
+hwaddr ia64_fw_translate(CPUIA64State *env, uint64_t va);
+hwaddr ia64_fw_access(CPUIA64State *env, uint64_t va, MMUAccessType type);
 uint64_t ia64_thash(CPUIA64State *env, uint64_t va);
 uint64_t ia64_ttag(CPUIA64State *env, uint64_t va);
 void ia64_fpu_update_status(CPUIA64State *env);
