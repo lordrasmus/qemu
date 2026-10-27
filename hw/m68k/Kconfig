@@ -11,6 +11,7 @@ config MCF5208
     depends on M68K
     select COLDFIRE
     select PTIMER
+    select VIRTIO_MMIO
 
 config NEXTCUBE
     bool

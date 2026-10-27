@@ -32,6 +32,7 @@
 #include "hw/core/boards.h"
 #include "hw/core/loader.h"
 #include "hw/core/sysbus.h"
+#include "hw/virtio/virtio-mmio.h"
 #include "system/address-spaces.h"
 #include "elf.h"
 
@@ -385,6 +386,23 @@ static void mcf5208evb_init(MachineState *machine)
 
     mcf_fec_init(address_space_mem, 0xfc030000, intc);
 
+    /*
+     * Not on the real board: a virtio-mmio transport, so a disk can hold the
+     * root file system; the machine has no block device at all.  It sits in
+     * peripheral space past the SDRAM controller, on interrupt source 30, the
+     * I2C controller's, which is not modelled.  Legacy transport: ColdFire
+     * Linux reads the registers with a plain big-endian readl, which the
+     * legacy transport matches by using the guest's byte order.
+     */
+    {
+        DeviceState *virtio = qdev_new(TYPE_VIRTIO_MMIO);
+
+        sysbus_realize_and_unref(SYS_BUS_DEVICE(virtio), &error_fatal);
+        sysbus_mmio_map(SYS_BUS_DEVICE(virtio), 0, 0xfc0f0000);
+        sysbus_connect_irq(SYS_BUS_DEVICE(virtio), 0,
+                           qdev_get_gpio_in(intc, 30));
+    }
+
     /*  0xfc000000 SCM.  */
     /*  0xfc004000 XBS.  */
     /*  0xfc008000 FlexBus CS.  */
@@ -406,6 +424,7 @@ static void mcf5208evb_init(MachineState *machine)
     /*  0xfc0a0000 CCM + reset.  */
     /*  0xfc0a4000 GPIO.  */
     /* 0xfc0a8000 SDRAM controller.  */
+    /* 0xfc0f0000 virtio-mmio (not on the real board).  */
 
     /* Load firmware */
     if (machine->firmware) {
