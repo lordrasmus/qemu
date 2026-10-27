@@ -155,6 +155,44 @@ static void trans_m_alloc(DisasContext *dc, const struct asm_inst *in)
     dc->base.is_jmp = DISAS_EXIT_NEXT;
 }
 
+/*
+ * Whether the current ssm psr.i is all its function does: only nops
+ * follow it in the bundle, and the next bundle holds nops and br.ret.
+ * Windows' HalProcessorIdle is such a function, called by an idle loop
+ * that on hardware simply spins.
+ */
+static bool is_idle_function(DisasContext *dc)
+{
+    struct asm_bundle next;
+    uint8_t bytes[16];
+    uint64_t ip = dc->ip + 16;
+
+    if ((ip & ~TARGET_PAGE_MASK) == 0) {
+        return false;
+    }
+    for (int i = dc->slot + 1; i < 3; i++) {
+        if (dc->bundle.b_inst[i].i_op != ASM_OP_NOP) {
+            return false;
+        }
+    }
+    stq_le_p(bytes, translator_ldq(dc->env, &dc->base, ip));
+    stq_le_p(bytes + 8, translator_ldq(dc->env, &dc->base, ip + 8));
+    if (!asm_decode((uint64_t)(uintptr_t)bytes, &next) ||
+        next.b_templ[1] == 'L') {
+        return false;
+    }
+    for (int i = 0; i < 3; i++) {
+        const struct asm_inst *in = &next.b_inst[i];
+
+        if (in->i_op == ASM_OP_NOP) {
+            continue;
+        }
+        return i == 2 && in->i_iop == ASM_OP_BR_RET &&
+               field(in->i_bits, 0, 6) == 0;
+    }
+    return false;
+}
+
 static void trans_m_psr(DisasContext *dc, const struct asm_inst *in)
 {
     uint64_t b = in->i_bits;
@@ -178,6 +216,11 @@ static void trans_m_psr(DisasContext *dc, const struct asm_inst *in)
         gen_save_ip(dc);
         gen_helper_ssm_rsm(tcg_env, tcg_constant_i64(imm24),
                            tcg_constant_i32(in->i_iop == ASM_OP_SSM));
+        if (in->i_iop == ASM_OP_SSM && imm24 == PSR_I &&
+            is_idle_function(dc)) {
+            gen_set_next(dc);
+            gen_helper_idle(tcg_env);
+        }
         dc->base.is_jmp = DISAS_EXIT_NEXT;
         return;
     case ASM_OP_MOV_PSR_L:

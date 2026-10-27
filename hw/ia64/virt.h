@@ -26,6 +26,8 @@
  */
 #define FW_ACPI         0xfeb00000ull
 #define FW_ACPI_SIZE    0x10000
+/* SMBIOS 2.x wants a 32-bit table address too: the last page, kept */
+#define FW_SMBIOS       (FW_ACPI + 0xf000)
 #define FW_DATA_END     (FW_BASE + 0x30000)
 #define FW_BOOTPARAM    (FW_BASE + 0x30000)     /* loader data */
 #define FW_CMDLINE      (FW_BASE + 0x31000)

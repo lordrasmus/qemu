@@ -67,6 +67,34 @@ void HELPER(psr_once_done)(CPUIA64State *env)
     env->psr &= ~PSR_ONCE;
 }
 
+/*
+ * The idle hint of a function that only enables interrupts and returns
+ * (Windows' HalProcessorIdle): wait for an interrupt instead of spinning
+ * through the caller's idle loop.  ip/ri are those of the next
+ * instruction already.  The same function serves as a plain "enable
+ * interrupts" elsewhere, in loops that poll the ITC with most interrupts
+ * masked; so wait only at a low priority (the idle loop runs at
+ * DISPATCH_LEVEL, tpr.mic 2) with the timer armed, unmasked and due in
+ * the future, which then surely ends the wait.
+ */
+void HELPER(idle)(CPUIA64State *env)
+{
+    CPUState *cs = env_cpu(env);
+    uint64_t tpr = env->cr[CR_TPR], itv = env->cr[CR_ITV];
+    int mic = (tpr >> 4) & 15;
+
+    if ((tpr & (1 << 16)) || mic > 2 || (itv & (1 << 16)) ||
+        (itv & 0xff) <= mic * 16 + 15 ||
+        (int64_t)(env->cr[CR_ITM] - ia64_read_itc(env)) <= 0) {
+        return;
+    }
+    if (!cpu_test_interrupt(cs, CPU_INTERRUPT_HARD)) {
+        cs->halted = 1;
+        cs->exception_index = EXCP_HLT;
+        cpu_loop_exit(cs);
+    }
+}
+
 /* A misaligned access the hardware does not do itself, psr.ac clear */
 void HELPER(misaligned)(CPUIA64State *env, uint64_t addr, uint64_t isr)
 {
@@ -140,6 +168,43 @@ void ia64_cpu_do_interrupt(CPUState *cs)
 
     if (vec < 0 || vec >= 0x8000) {
         return;
+    }
+    /*
+     * TEMP: IA64_FAULT_DUMP=ifa[,reg]: the CPU state at a fault on ifa, and
+     * the 256 bytes general register reg points to
+     */
+    {
+        static const char *spec;
+        static uint64_t dump_ifa;
+        static int dump_reg = -1;
+
+        if (!spec) {
+            char *end;
+
+            spec = getenv("IA64_FAULT_DUMP") ?: "";
+            dump_ifa = strtoull(spec, &end, 0);
+            if (*end == ',') {
+                dump_reg = atoi(end + 1);
+            }
+        }
+        if (*spec && env->pend_ifa == dump_ifa && vec != IVT_EXTINT) {
+            fprintf(stderr, "ia64: fault %04x on %016" PRIx64 "\n", vec,
+                    dump_ifa);
+            cpu_dump_state(cs, stderr, 0);
+            if (dump_reg > 0 && dump_reg < 128) {
+                uint64_t m[32];
+
+                if (!cpu_memory_rw_debug(cs, env->gr[dump_reg], m, sizeof(m),
+                                         false)) {
+                    for (int i = 0; i < 32; i += 4) {
+                        fprintf(stderr, "%016" PRIx64 ": %016" PRIx64 " %016"
+                                PRIx64 " %016" PRIx64 " %016" PRIx64 "\n",
+                                env->gr[dump_reg] + i * 8, m[i], m[i + 1],
+                                m[i + 2], m[i + 3]);
+                    }
+                }
+            }
+        }
     }
     if (qemu_loglevel_mask(CPU_LOG_INT)) {
         qemu_log("ia64: interruption %04x ip=%016" PRIx64 " ri=%d isr=%016"
@@ -473,6 +538,22 @@ static uint64_t access_isr(MMUAccessType type)
 }
 
 /*
+ * Whether the walker may insert a VHPT entry: present, and no reserved
+ * field or memory attribute set.  It gives up on the others, leaving them
+ * to the miss handler: Windows from SP2 marks a page directory entry that
+ * maps a large page by ma = 1, with the real attribute in the ignored bits,
+ * and inserts the large page itself when its walk of the page table page
+ * fails.
+ */
+static bool pte_walkable(uint64_t pte)
+{
+    int ma = FIELD_EX64(pte, PTE, MA);
+
+    return (pte & PTE_P) && !(pte & (2ull | (3ull << 50))) &&
+           !(ma >= 1 && ma <= 3);
+}
+
+/*
  * The VHPT walker: on a TLB miss, look the translation up in the short
  * format VHPT and insert it into the TC.  A walker may give up at any
  * time, and this one does when the VHPT page itself is not mapped or the
@@ -504,7 +585,7 @@ static IA64TLBEntry *vhpt_walk(CPUIA64State *env, uint64_t va, bool insn)
                                ((e->pte & R_PTE_PPN_MASK) & ~(psize - 1)) |
                                (iha & (psize - 1)),
                                MEMTXATTRS_UNSPECIFIED, &res);
-    if (res != MEMTX_OK || !(pte & PTE_P)) {
+    if (res != MEMTX_OK || !pte_walkable(pte)) {
         return NULL;
     }
     ia64_tc_insert(env, insn, va, pte, rr & (R_RR_PS_MASK | R_RR_RID_MASK));
@@ -546,7 +627,7 @@ static hwaddr fw_translate(CPUIA64State *env, uint64_t va, int depth)
     }
     pte = address_space_ldq_le(env_cpu(env)->as, iha, MEMTXATTRS_UNSPECIFIED,
                                &res);
-    if (res != MEMTX_OK || !(pte & PTE_P)) {
+    if (res != MEMTX_OK || !pte_walkable(pte)) {
         return -1;
     }
     psize = 1ull << FIELD_EX64(rr, RR, PS);
@@ -620,7 +701,7 @@ static IA64TLBEntry *vhpt_walk_deep(CPUIA64State *env, uint64_t va,
     }
     pte = address_space_ldq_le(env_cpu(env)->as, iha, MEMTXATTRS_UNSPECIFIED,
                                &res);
-    if (res != MEMTX_OK || !(pte & PTE_P)) {
+    if (res != MEMTX_OK || !pte_walkable(pte)) {
         return NULL;
     }
     ia64_tc_insert(env, insn, va, pte, rr & (R_RR_PS_MASK | R_RR_RID_MASK));
@@ -805,6 +886,10 @@ bool ia64_spec_access(CPUIA64State *env, uint64_t addr, int size,
         env->pend_flags = 0;
         return false;
     }
+    /* TEMP */
+    qemu_log_mask(CPU_LOG_INT, "ia64: spec fault %04x addr %016" PRIx64
+                  " dcr %016" PRIx64 " page_ed %d psr %016" PRIx64 "\n", vec,
+                  addr, env->cr[CR_DCR], spec_page_ed(env, ra), env->psr);
     ia64_raise_fault(env, vec, env->pend_isr | ISR_SP, env->pend_flags, addr,
                      ra);
 }
