@@ -5,8 +5,10 @@ struct cris_load_info
 {
     const char *image_filename;
     const char *cmdline;
+    const char *initrd_filename;
     int image_size;
     ram_addr_t ram_size;
+    hwaddr cmdline_addr;
 
     hwaddr entry;
 };

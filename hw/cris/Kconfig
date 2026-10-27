@@ -9,6 +9,7 @@ config AXIS
     depends on CRIS
     select ETRAXFS
     select PFLASH_CFI02
+    select VIRTIO_MMIO
 
 config ETRAXFS
    bool

@@ -265,9 +265,17 @@ void axisdev88_init(MachineState *machine)
         etraxfs_ser_create(0x30026000 + i * 0x2000, irq[0x14 + i], serial_hd(i));
     }
 
+    /*
+     * A virtio-mmio slot for a root disk, on the interrupt line of the ATA
+     * controller the board does not model (Linux IRQ 0x41):
+     * virtio_mmio.device=0x200@0x3c000000:65
+     */
+    sysbus_create_simple("virtio-mmio", 0x3c000000, irq[0x11]);
+
     if (kernel_filename) {
         li.image_filename = kernel_filename;
         li.cmdline = kernel_cmdline;
+        li.initrd_filename = machine->initrd_filename;
         li.ram_size = machine->ram_size;
         cris_load_image(cpu, &li);
     } else if (!qtest_enabled()) {
