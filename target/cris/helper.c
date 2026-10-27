@@ -79,6 +79,15 @@ bool cris_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
         cs->exception_index = EXCP_BUSFAULT;
         if (retaddr && cpu_restore_state(cs, retaddr)) {
             helper_top_evaluate_flags(env);
+        } else {
+            /*
+             * An insn fetch at the start of a TB.  If it is the delay slot
+             * of a branch that ended the previous TB, restart at the branch.
+             */
+            env->v10_insn_pc = env->pc;
+            env->v10_insn_len = 2;
+            env->v10_bf_dslot = env->dslot != 0;
+            env->pc -= env->dslot;
         }
         cpu_loop_exit(cs);
     }
