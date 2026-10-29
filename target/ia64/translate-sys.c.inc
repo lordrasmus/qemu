@@ -347,7 +347,11 @@ static void trans_m_tlb(DisasContext *dc, const struct asm_inst *in)
         if (!check_gr(dc, r2) || !check_gr(dc, r3)) {
             return;
         }
-        gen_helper_ptc(tcg_env, load_gr(dc, r3), load_gr(dc, r2));
+        if (in->i_iop == ASM_OP_PTC_L) {
+            gen_helper_ptc(tcg_env, load_gr(dc, r3), load_gr(dc, r2));
+        } else {
+            gen_helper_ptc_g(tcg_env, load_gr(dc, r3), load_gr(dc, r2));
+        }
         break;
     case ASM_OP_PTR_I:
     case ASM_OP_PTR_D:

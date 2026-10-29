@@ -42,6 +42,7 @@
 #include "system/system.h"
 #include "system/reset.h"
 #include "system/runstate.h"
+#include "qemu/log.h"
 #include "system/rtc.h"
 #include "system/address-spaces.h"
 #include "system/memory.h"
@@ -73,8 +74,14 @@
 #define ACPI_GPE0_LEN   4
 #define ACPI_SCI_GSI    9
 
+#define VIRT_MAX_CPUS   8
+#define AP_WAKEUP_VEC   0xf0                    /* as HP's SAL has it */
+
 typedef struct IA64VirtState {
-    IA64CPU *cpu;
+    IA64CPU *cpu;                               /* the bootstrap processor */
+    int ncpus;
+    bool ap_waiting[VIRT_MAX_CPUS];             /* in SAL's boot rendezvous */
+    uint64_t rendez_ip, rendez_gp;              /* the OS's, SAL_SET_VECTORS */
     DeviceState *iosapic;
     MemoryRegion ioport_window;
     MemoryRegion isa_io;
@@ -149,7 +156,26 @@ static const MemoryRegionOps ioport_ops = {
     .impl = { .min_access_size = 1, .max_access_size = 4 },
 };
 
-/* Processor interrupt block: an 8-byte write at +0x0 0000 sends an IPI. */
+/*
+ * An application processor leaves SAL's boot rendezvous for the OS's
+ * entry, in physical mode with interruptions off as after reset, with the
+ * OS's gp.
+ */
+static void ap_start(CPUState *cs, run_on_cpu_data data)
+{
+    CPUIA64State *env = cpu_env(cs);
+
+    env->ip = virt.rendez_ip & ~0xfull;
+    env->ri = 0;
+    env->gr[1] = virt.rendez_gp;
+    cs->halted = 0;
+}
+
+/*
+ * Processor interrupt block: an 8-byte write in the lower MB sends an
+ * interrupt to the processor whose id and eid are in address bits 19:12
+ * and 11:4; the data holds the vector and in bits 10:8 the delivery mode.
+ */
 static uint64_t pib_read(void *opaque, hwaddr off, unsigned size)
 {
     return 0;
@@ -157,9 +183,31 @@ static uint64_t pib_read(void *opaque, hwaddr off, unsigned size)
 
 static void pib_write(void *opaque, hwaddr off, uint64_t val, unsigned size)
 {
-    if (off < 0x100000 && !(val & 0x700)) {
-        /* fixed delivery to ourselves (uniprocessor) */
-        ia64_cpu_deliver_vector(virt.cpu, val & 0xff);
+    IA64CPU *cpu;
+    int idx;
+
+    if (off >= 0x100000) {
+        return;                                 /* XTP, INTA */
+    }
+    cpu = ia64_cpu_by_lid(extract64(off, 12, 8), extract64(off, 4, 8));
+    if (!cpu) {
+        return;
+    }
+    idx = CPU(cpu)->cpu_index;
+    if (virt.ap_waiting[idx]) {
+        /* SAL only answers its wakeup interrupt there */
+        if (!(val & 0x700) && (val & 0xff) == AP_WAKEUP_VEC &&
+            virt.rendez_ip) {
+            virt.ap_waiting[idx] = false;
+            async_run_on_cpu(CPU(cpu), ap_start, RUN_ON_CPU_NULL);
+        }
+        return;
+    }
+    if (!(val & 0x700)) {
+        ia64_cpu_deliver_vector(cpu, val & 0xff);
+    } else {
+        qemu_log_mask(LOG_UNIMP, "ia64: IPI delivery mode %d to cpu %d\n",
+                      (int)extract64(val, 8, 3), idx);
     }
 }
 
@@ -641,8 +689,10 @@ static uint64_t build_dsdt(uint64_t pa)
     dsdt_pci(sb);
     aml_append(all, sb);
 
-    /* the MADT's LSAPIC */
-    aml_append(pr, aml_processor(0, 0, 0, "CPU0"));
+    /* the MADT's LSAPICs; processr.sys gives the idle handlers for them */
+    for (int i = 0; i < virt.ncpus; i++) {
+        aml_append(pr, aml_processor(i, 0, 0, "CPU%d", i));
+    }
     aml_append(all, pr);
 
     /* SLP_TYP 0 powers off */
@@ -743,13 +793,15 @@ static uint64_t build_acpi(void)
      * local SAPIC: processor 0, id 0, eid 0, enabled; in the 12 byte form
      * of ACPI 2.0, the only one the Windows HAL accepts
      */
-    put8(madt + len, 7);
-    put8(madt + len + 1, 12);
-    put8(madt + len + 2, 0);
-    put8(madt + len + 3, 0);
-    put8(madt + len + 4, 0);
-    put32(madt + len + 8, 1);
-    len += 12;
+    for (int i = 0; i < virt.ncpus; i++) {
+        put8(madt + len, 7);
+        put8(madt + len + 1, 12);
+        put8(madt + len + 2, i);                /* ACPI processor id */
+        put8(madt + len + 3, i);                /* id */
+        put8(madt + len + 4, 0);                /* eid */
+        put32(madt + len + 8, 1);
+        len += 12;
+    }
     /* I/O SAPIC: id 0, GSI base 0 */
     put8(madt + len, 6);
     put8(madt + len + 1, 16);
@@ -852,14 +904,14 @@ static void build_sal(void)
 {
     uint64_t t = FW_SAL;
     uint64_t e = t + 96;
-    uint32_t len = 96 + 48 + 4 * 32;
+    uint32_t len = 96 + 48 + 4 * 32 + 16;
     uint8_t sum = 0;
 
     putmem(t, "SST_", 4);
     put32(t + 4, len);
     put8(t + 8, 0x20);                          /* SAL 3.20 */
     put8(t + 9, 0x03);
-    put16(t + 10, 5);                           /* entries */
+    put16(t + 10, 6);                           /* entries */
     put8(t + 20, 0x00);                         /* SAL A rev */
     put8(t + 21, 0x01);
     put8(t + 22, 0x00);                         /* SAL B rev */
@@ -877,6 +929,12 @@ static void build_sal(void)
     build_sal_memory(e + 32, 0, 4, FW_CODE, FW_DATA_END);
     build_sal_memory(e + 64, 0, 5, FW_DATA_END, FW_END);
     build_sal_memory(e + 96, 4, 0, FW_BASE, FW_END);
+    e += 128;
+
+    /* AP wakeup: by an external interrupt */
+    put8(e, 5);
+    put8(e + 1, 0);
+    put64(e + 8, AP_WAKEUP_VEC);
 
     for (int i = 0; i < len; i++) {
         sum += *fw_ptr(t + i);
@@ -1310,7 +1368,12 @@ static void sal_call(CPUIA64State *env)
         }
         break;
     }
-    case 0x01000000:        /* SET_VECTORS */
+    case 0x01000000:        /* SET_VECTORS: type, address, gp */
+        if (in(env, 1) == 2) {                  /* OS boot rendezvous */
+            virt.rendez_ip = in(env, 2);
+            virt.rendez_gp = in(env, 3);
+        }
+        break;
     case 0x01000003:        /* CLEAR_STATE_INFO */
     case 0x01000005:        /* MC_SET_PARAMS */
     case 0x01000006:
@@ -1536,12 +1599,22 @@ static void virt_cpu_reset(void *opaque)
     IA64CPU *cpu = opaque;
     CPUIA64State *env = &cpu->env;
 
+    int idx = CPU(cpu)->cpu_index;
+
     cpu_reset(CPU(cpu));
+    env->cr[CR_LID] = (uint64_t)idx << 24;
+    env->firmware_call = virt_firmware_call;
+    env->break_trace = virt_break_trace;
+    if (idx) {
+        /* application processors wait in SAL for the OS to wake them */
+        virt.ap_waiting[idx] = true;
+        CPU(cpu)->halted = 1;
+        return;
+    }
+    virt.rendez_ip = 0;
     env->ip = virt.entry & ~0xfull;
     env->ri = 0;
     env->gr[28] = FW_BOOTPARAM;
-    env->firmware_call = virt_firmware_call;
-    env->break_trace = virt_break_trace;
 }
 
 static void virt_init(MachineState *ms)
@@ -1552,7 +1625,15 @@ static void virt_init(MachineState *ms)
     uint64_t hi, initrd = 0, initrd_size = 0, rsdp;
     ssize_t size;
 
-    virt.cpu = IA64_CPU(cpu_create(ms->cpu_type));
+    virt.ncpus = ms->smp.cpus;
+    for (int i = 0; i < virt.ncpus; i++) {
+        IA64CPU *cpu = IA64_CPU(cpu_create(ms->cpu_type));
+
+        if (!i) {
+            virt.cpu = cpu;
+        }
+        qemu_register_reset(virt_cpu_reset, cpu);
+    }
     memory_region_add_subregion(sysmem, 0, ms->ram);
 
     /* I/O SAPIC */
@@ -1644,7 +1725,6 @@ firmware:
     rom_add_blob_fixed("ia64-firmware", virt.fw, FW_END - FW_BASE, FW_BASE);
     rom_add_blob_fixed("ia64-acpi", virt.acpi_tables, FW_ACPI_SIZE, FW_ACPI);
 
-    qemu_register_reset(virt_cpu_reset, virt.cpu);
 }
 
 static void virt_machine_init(MachineClass *mc)
@@ -1655,6 +1735,7 @@ static void virt_machine_init(MachineClass *mc)
     mc->default_ram_size = 512 * MiB;
     mc->default_ram_id = "ia64.ram";
     mc->is_default = true;
+    mc->max_cpus = VIRT_MAX_CPUS;
 }
 
 DEFINE_MACHINE("virt", virt_machine_init)
