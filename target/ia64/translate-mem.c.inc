@@ -274,6 +274,12 @@ static void trans_m_sem(DisasContext *dc, const struct asm_inst *in)
     case ASM_OP_CMP8XCHG16_REL:
         gen_nat_check(dc, load_nat(dc, r2), ISR_R | ISR_W);
         gen_save_ip(dc);
+        if (tb_cflags(dc->base.tb) & CF_PARALLEL) {
+            /* two stores: repeat it with the other vCPUs stopped */
+            gen_helper_exit_atomic(tcg_env);
+            dc->base.is_jmp = DISAS_NORETURN;
+            break;
+        }
         gen_helper_cmp8xchg16(d, tcg_env, addr, load_gr(dc, r2),
                               tcg_constant_i32(dc->mem_idx));
         break;

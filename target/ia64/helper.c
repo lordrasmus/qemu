@@ -1052,19 +1052,36 @@ void HELPER(ptc)(CPUIA64State *env, uint64_t va, uint64_t r2)
 
 /*
  * ptc.g, ptc.ga: the purge reaches the translation caches of every
- * processor, with the region ID of the one that issues it.  QEMU's TLB
- * flushes queue themselves on the other vCPUs.
+ * processor, with the region ID of the one that issues it.  It runs as
+ * safe work, with the other vCPUs stopped, before the issuing one goes on
+ * behind the instruction (the translator ends the TB there); the QEMU TLB
+ * flushes of the others queue themselves ahead of their next TB.
  */
-void HELPER(ptc_g)(CPUIA64State *env, uint64_t va, uint64_t r2)
+typedef struct PtcG {
+    uint64_t va;
+    uint32_t rid;
+    int ps;
+} PtcG;
+
+static void ptc_g_work(CPUState *src, run_on_cpu_data data)
 {
-    int ps = extract64(r2, 2, 6);
-    uint32_t rid = rr_rid(env, va);
+    PtcG *p = data.host_ptr;
     CPUState *cs;
 
-    va &= ~((1ull << ps) - 1);
     CPU_FOREACH(cs) {
-        tc_purge(cpu_env(cs), va, ps, rid);
+        tc_purge(cpu_env(cs), p->va, p->ps, p->rid);
     }
+    g_free(p);
+}
+
+void HELPER(ptc_g)(CPUIA64State *env, uint64_t va, uint64_t r2)
+{
+    PtcG *p = g_new(PtcG, 1);
+
+    p->ps = extract64(r2, 2, 6);
+    p->rid = rr_rid(env, va);
+    p->va = va & ~((1ull << p->ps) - 1);
+    async_safe_run_on_cpu(env_cpu(env), ptc_g_work, RUN_ON_CPU_HOST_PTR(p));
 }
 
 /* The processor whose cr.lid has this id and eid, or NULL */

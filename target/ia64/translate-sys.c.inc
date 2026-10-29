@@ -351,6 +351,7 @@ static void trans_m_tlb(DisasContext *dc, const struct asm_inst *in)
             gen_helper_ptc(tcg_env, load_gr(dc, r3), load_gr(dc, r2));
         } else {
             gen_helper_ptc_g(tcg_env, load_gr(dc, r3), load_gr(dc, r2));
+            dc->base.is_jmp = DISAS_EXIT_NEXT;
         }
         break;
     case ASM_OP_PTR_I:

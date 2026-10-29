@@ -1524,6 +1524,13 @@ static void virt_firmware_call(CPUIA64State *env, uint32_t n)
      * when a call repeats after a fault on its arguments: the translations
      * the OS has just inserted for it must survive.
      */
+    /*
+     * One processor at a time: the calls share the firmware's state and
+     * reach devices.  A fault on an argument leaves through cpu_loop_exit,
+     * which drops the lock.
+     */
+    BQL_LOCK_GUARD();
+
     if (n < FW_CALL_BOOT && (n != FW_CALL_PAL || env->gr[28] != 29) &&
         !env->fw_repeat) {
         ia64_tlb_flush_all(env);
@@ -1533,8 +1540,6 @@ static void virt_firmware_call(CPUIA64State *env, uint32_t n)
     if (n == FW_CALL_PAL) {
         pal_call(env);
     } else if (n == FW_CALL_SAL) {
-        /* PCI configuration writes remap BARs */
-        BQL_LOCK_GUARD();
         sal_call(env);
     } else if (n >= FW_CALL_EFI && n < FW_CALL_EFI + EFI_NUM_SERVICES) {
         efi_call(env, n - FW_CALL_EFI);
