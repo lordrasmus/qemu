@@ -31,6 +31,7 @@ static bool irq_debug(void)
 static void iosapic_deliver(IOSAPICState *s, int n)
 {
     uint32_t lo = s->rte[n] & 0xffffffff;
+    ArchCPU *dest;
 
     if (irq_debug()) {
         fprintf(stderr, "iosapic: pin %d vec 0x%x %s%s%s\n", n, lo & 0xff,
@@ -48,7 +49,10 @@ static void iosapic_deliver(IOSAPICState *s, int n)
         }
         s->remote_irr |= 1u << n;
     }
-    ia64_cpu_deliver_vector(s->cpu, lo & RTE_VECTOR);
+    /* to the processor the entry names, or the first one */
+    dest = ia64_cpu_by_lid(extract64(s->rte[n], 56, 8),
+                           extract64(s->rte[n], 48, 8));
+    ia64_cpu_deliver_vector(dest ?: s->cpu, lo & RTE_VECTOR);
 }
 
 static void iosapic_set_irq(void *opaque, int n, int level)

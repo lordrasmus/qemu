@@ -39,6 +39,7 @@ DEF_HELPER_1(mov_from_pr, i64, env)
 /* translation */
 DEF_HELPER_3(itc, void, env, i32, i64)
 DEF_HELPER_3(ptc, void, env, i64, i64)
+DEF_HELPER_3(ptc_g, void, env, i64, i64)
 DEF_HELPER_4(ptr, void, env, i32, i64, i64)
 DEF_HELPER_1(ptc_e, void, env)
 DEF_HELPER_2(thash, i64, env, i64)

@@ -1050,6 +1050,38 @@ void HELPER(ptc)(CPUIA64State *env, uint64_t va, uint64_t r2)
     tc_purge(env, va & ~((1ull << ps) - 1), ps, rr_rid(env, va));
 }
 
+/*
+ * ptc.g, ptc.ga: the purge reaches the translation caches of every
+ * processor, with the region ID of the one that issues it.  QEMU's TLB
+ * flushes queue themselves on the other vCPUs.
+ */
+void HELPER(ptc_g)(CPUIA64State *env, uint64_t va, uint64_t r2)
+{
+    int ps = extract64(r2, 2, 6);
+    uint32_t rid = rr_rid(env, va);
+    CPUState *cs;
+
+    va &= ~((1ull << ps) - 1);
+    CPU_FOREACH(cs) {
+        tc_purge(cpu_env(cs), va, ps, rid);
+    }
+}
+
+/* The processor whose cr.lid has this id and eid, or NULL */
+ArchCPU *ia64_cpu_by_lid(int id, int eid)
+{
+    CPUState *cs;
+
+    CPU_FOREACH(cs) {
+        uint64_t lid = cpu_env(cs)->cr[CR_LID];
+
+        if (extract64(lid, 24, 8) == id && extract64(lid, 16, 8) == eid) {
+            return IA64_CPU(cs);
+        }
+    }
+    return NULL;
+}
+
 void HELPER(ptr)(CPUIA64State *env, uint32_t insn, uint64_t va, uint64_t r2)
 {
     int ps = extract64(r2, 2, 6);

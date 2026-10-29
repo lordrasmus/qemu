@@ -416,6 +416,7 @@ uint64_t ia64_get_gr(CPUIA64State *env, int r, bool *nat);
 
 /* Board side of the local SAPIC: a vector written to the interrupt block. */
 void ia64_cpu_deliver_vector(ArchCPU *cpu, int vector);
+ArchCPU *ia64_cpu_by_lid(int id, int eid);
 
 #define CPU_RESOLVING_TYPE TYPE_IA64_CPU
 
