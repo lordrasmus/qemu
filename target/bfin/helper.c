@@ -375,6 +375,8 @@ void helper_sti(CPUBfinState *env, uint32_t val)
 
 void helper_raise(CPUBfinState *env, uint32_t ivg)
 {
+    /* the core timer sets ILAT from the main loop under the BQL */
+    BQL_LOCK_GUARD();
     env->ilat |= 1u << ivg;
     bfin_update_irq(env);
 }
