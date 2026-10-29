@@ -341,8 +341,9 @@ static const struct SysemuCPUOps ia64_sysemu_ops = {
 #endif
 
 static const TCGCPUOps ia64_tcg_ops = {
-    .guest_default_memory_order = TCG_MO_ALL,
-    .mttcg_supported = false,
+    /* ordinary accesses are unordered; .acq, .rel and mf order them */
+    .guest_default_memory_order = 0,
+    .mttcg_supported = true,
 
     .initialize = ia64_tcg_init,
     .translate_code = ia64_translate_code,
