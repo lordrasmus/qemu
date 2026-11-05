@@ -1171,8 +1171,7 @@ hwaddr fw_pa(CPUIA64State *env, uint64_t va, MMUAccessType type)
         }
     }
     if (getenv("IA64_FW_NOFAULT")) {    /* TEMP: the old guesswork */
-        hwaddr pa = ia64_fw_translate(env, va);
-
+        pa = ia64_fw_translate(env, va);
         if (pa != -1) {
             return pa;
         }
