@@ -287,6 +287,7 @@ static bool nios2_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
 static void nios2_cpu_disas_set_info(const CPUState *cpu, disassemble_info *info)
 {
     /* NOTE: NiosII R2 is not supported yet. */
+    info->endian = BFD_ENDIAN_LITTLE;
     info->mach = bfd_arch_nios2;
     info->print_insn = print_insn_nios2;
 }
