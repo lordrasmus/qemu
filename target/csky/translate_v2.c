@@ -328,13 +328,14 @@ static inline bool use_goto_tb(DisasContext *s, uint32_t dest)
 static inline void gen_goto_tb(DisasContext *ctx, int n, uint32_t dest)
 {
     TranslationBlock *tb;
-    TCGv t0;
 
     tb = ctx->base.tb;
 
 #if !defined(CONFIG_USER_ONLY)
     if (unlikely((ctx->trace_mode == INST_TRACE_MODE)
         || (ctx->trace_mode == BRAN_TRACE_MODE))) {
+        TCGv t0;
+
         gen_save_pc(dest);
         t0 = csky_temp_const_tl(EXCP_CSKY_TRACE);
         gen_helper_exception(tcg_env, t0);
@@ -6918,7 +6919,12 @@ static void csky_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
 #else
     dc->mem_idx = dc->super;
 #endif
+#ifdef CONFIG_USER_ONLY
+    /* Linux runs user space with PSR.MM set: unaligned accesses work */
+    dc->align = 0;
+#else
     dc->align = (env->features & UNALIGNED_ACCESS) ? 0 : MO_ALIGN;
+#endif
 
     dc->next_page_start =
         (dc->base.pc_first & TARGET_PAGE_MASK) + TARGET_PAGE_SIZE;
