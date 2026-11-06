@@ -46,10 +46,12 @@ static void nios2_restore_state_to_opc(CPUState *cs,
     cpu_env(cs)->pc = data[0];
 }
 
+#ifndef CONFIG_USER_ONLY
 static bool nios2_cpu_has_work(CPUState *cs)
 {
     return cpu_test_interrupt(cs, CPU_INTERRUPT_HARD);
 }
+#endif
 
 static TCGTBCPUState nios2_get_tb_cpu_state(CPUState *cs)
 {
@@ -374,9 +376,9 @@ static const TCGCPUOps nios2_tcg_ops = {
     .get_tb_cpu_state = nios2_get_tb_cpu_state,
     .restore_state_to_opc = nios2_restore_state_to_opc,
     .mmu_index = nios2_cpu_mmu_index,
-    .pointer_wrap = cpu_pointer_wrap_uint32,
 
 #ifndef CONFIG_USER_ONLY
+    .pointer_wrap = cpu_pointer_wrap_uint32,
     .tlb_fill = nios2_cpu_tlb_fill,
     .cpu_exec_interrupt = nios2_cpu_exec_interrupt,
     .cpu_exec_reset = cpu_reset,
