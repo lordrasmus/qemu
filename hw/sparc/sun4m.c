@@ -216,14 +216,28 @@ static uint64_t translate_kernel_address(void *opaque, uint64_t addr)
     return addr - 0xf0000000ULL;
 }
 
+/*
+ * A kernel that ends below CMDLINE_ADDR gets the command line and the
+ * initrd at their fixed places.  A larger one, as one with an initramfs
+ * built in, would overlap them: the command line, which only OpenBIOS
+ * reads, then follows the kernel, and the initrd goes to the top of
+ * lowmem.  Not right behind the kernel: until paging_init, sparc32 runs on
+ * the boot loader's mapping of the first 16 MB (head_32.S), and its early
+ * allocations go behind the initrd, which would push them out of it.  The
+ * kernel learns the initrd's place from its HdrS header.
+ */
+#define SUN4M_LOWMEM_END     0x0c000000
 static unsigned long sun4m_load_kernel(const char *kernel_filename,
                                        const char *initrd_filename,
                                        ram_addr_t RAM_size,
-                                       uint32_t *initrd_size)
+                                       uint32_t *initrd_size,
+                                       hwaddr *cmdline_addr,
+                                       hwaddr *initrd_addr)
 {
     int linux_boot;
     unsigned int i;
     long kernel_size;
+    uint64_t kernel_high = 0;
     uint8_t *ptr;
 
     linux_boot = (kernel_filename != NULL);
@@ -232,7 +246,7 @@ static unsigned long sun4m_load_kernel(const char *kernel_filename,
     if (linux_boot) {
         kernel_size = load_elf(kernel_filename, NULL,
                                translate_kernel_address, NULL,
-                               NULL, NULL, NULL, NULL,
+                               NULL, NULL, &kernel_high, NULL,
                                ELFDATA2MSB, EM_SPARC, 0, 0);
         if (kernel_size < 0)
             kernel_size = load_aout(kernel_filename, KERNEL_LOAD_ADDR,
@@ -247,13 +261,36 @@ static unsigned long sun4m_load_kernel(const char *kernel_filename,
             error_report("could not load kernel '%s'", kernel_filename);
             exit(1);
         }
+        if (kernel_high == 0) {
+            kernel_high = KERNEL_LOAD_ADDR + kernel_size;
+        }
+        if (kernel_high > CMDLINE_ADDR) {
+            *cmdline_addr = ROUND_UP(kernel_high, TARGET_PAGE_SIZE);
+            if (*cmdline_addr + TARGET_PAGE_SIZE > RAM_size) {
+                error_report("kernel '%s' does not fit in RAM",
+                             kernel_filename);
+                exit(1);
+            }
+            if (initrd_filename) {
+                int64_t size = get_image_size(initrd_filename, NULL);
+                hwaddr top = MIN(RAM_size, SUN4M_LOWMEM_END);
+
+                if (size < 0 ||
+                    *cmdline_addr + TARGET_PAGE_SIZE + size > top) {
+                    error_report("could not load initial ram disk '%s'",
+                                 initrd_filename);
+                    exit(1);
+                }
+                *initrd_addr = QEMU_ALIGN_DOWN(top - size, TARGET_PAGE_SIZE);
+            }
+        }
 
         /* load initrd */
         *initrd_size = 0;
         if (initrd_filename) {
             *initrd_size = load_image_targphys(initrd_filename,
-                                               INITRD_LOAD_ADDR,
-                                               RAM_size - INITRD_LOAD_ADDR,
+                                               *initrd_addr,
+                                               RAM_size - *initrd_addr,
                                                NULL);
             if ((int)*initrd_size < 0) {
                 error_report("could not load initial ram disk '%s'",
@@ -265,7 +302,7 @@ static unsigned long sun4m_load_kernel(const char *kernel_filename,
             for (i = 0; i < 64 * TARGET_PAGE_SIZE; i += TARGET_PAGE_SIZE) {
                 ptr = rom_ptr(KERNEL_LOAD_ADDR + i, 24);
                 if (ptr && ldl_be_p(ptr) == 0x48647253) { /* HdrS */
-                    stl_be_p(ptr + 16, INITRD_LOAD_ADDR);
+                    stl_be_p(ptr + 16, *initrd_addr);
                     stl_be_p(ptr + 20, *initrd_size);
                     break;
                 }
@@ -812,6 +849,7 @@ static void sun4m_hw_init(MachineState *machine)
     qemu_irq fdc_tc;
     unsigned long kernel_size;
     uint32_t initrd_size;
+    hwaddr cmdline_addr, initrd_addr;
     DriveInfo *fd[MAX_FD];
     FWCfgState *fw_cfg;
     DeviceState *dev, *ms_kb_orgate, *serial_orgate;
@@ -1038,9 +1076,12 @@ static void sun4m_hw_init(MachineState *machine)
     }
 
     initrd_size = 0;
+    cmdline_addr = CMDLINE_ADDR;
+    initrd_addr = INITRD_LOAD_ADDR;
     kernel_size = sun4m_load_kernel(machine->kernel_filename,
                                     machine->initrd_filename,
-                                    machine->ram_size, &initrd_size);
+                                    machine->ram_size, &initrd_size,
+                                    &cmdline_addr, &initrd_addr);
 
     nvram_init(nvram, hostid.a, machine->kernel_cmdline,
                machine->boot_config.order, machine->ram_size, kernel_size,
@@ -1072,8 +1113,8 @@ static void sun4m_hw_init(MachineState *machine)
     fw_cfg_add_i32(fw_cfg, FW_CFG_KERNEL_ADDR, KERNEL_LOAD_ADDR);
     fw_cfg_add_i32(fw_cfg, FW_CFG_KERNEL_SIZE, kernel_size);
     if (machine->kernel_cmdline) {
-        fw_cfg_add_i32(fw_cfg, FW_CFG_KERNEL_CMDLINE, CMDLINE_ADDR);
-        pstrcpy_targphys("cmdline", CMDLINE_ADDR, TARGET_PAGE_SIZE,
+        fw_cfg_add_i32(fw_cfg, FW_CFG_KERNEL_CMDLINE, cmdline_addr);
+        pstrcpy_targphys("cmdline", cmdline_addr, TARGET_PAGE_SIZE,
                          machine->kernel_cmdline);
         fw_cfg_add_string(fw_cfg, FW_CFG_CMDLINE_DATA, machine->kernel_cmdline);
         fw_cfg_add_i32(fw_cfg, FW_CFG_CMDLINE_SIZE,
@@ -1082,7 +1123,7 @@ static void sun4m_hw_init(MachineState *machine)
         fw_cfg_add_i32(fw_cfg, FW_CFG_KERNEL_CMDLINE, 0);
         fw_cfg_add_i32(fw_cfg, FW_CFG_CMDLINE_SIZE, 0);
     }
-    fw_cfg_add_i32(fw_cfg, FW_CFG_INITRD_ADDR, INITRD_LOAD_ADDR);
+    fw_cfg_add_i32(fw_cfg, FW_CFG_INITRD_ADDR, initrd_addr);
     fw_cfg_add_i32(fw_cfg, FW_CFG_INITRD_SIZE, initrd_size);
     fw_cfg_add_i16(fw_cfg, FW_CFG_BOOT_DEVICE, machine->boot_config.order[0]);
     qemu_register_boot_set(fw_cfg_boot_set, fw_cfg);
