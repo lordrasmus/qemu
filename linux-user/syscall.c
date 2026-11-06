@@ -13410,7 +13410,7 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
 
 #ifdef TARGET_NR_fadvise64_64
     case TARGET_NR_fadvise64_64:
-#if defined(TARGET_PPC) || defined(TARGET_XTENSA)
+#if defined(TARGET_PPC) || defined(TARGET_XTENSA) || defined(TARGET_CSKY)
         /* 6 args: fd, advice, offset (high, low), len (high, low) */
         ret = arg2;
         arg2 = arg3;
@@ -13725,7 +13725,7 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
 #endif /* CONFIG_ATTR */
 #ifdef TARGET_NR_set_thread_area
     case TARGET_NR_set_thread_area:
-#if defined(TARGET_MIPS)
+#if defined(TARGET_MIPS) || defined(TARGET_CSKY)
       cpu_set_tls(cpu_env, arg1);
       return 0;
 #elif defined(TARGET_CRIS)
