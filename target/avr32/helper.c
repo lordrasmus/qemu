@@ -22,6 +22,7 @@
 #include "qemu/osdep.h"
 #include "qemu/log.h"
 #include "qemu/timer.h"
+#include "qemu/main-loop.h"
 #include "cpu.h"
 #include "exec/cpu-interrupt.h"
 #include "exec/target_page.h"
@@ -382,7 +383,11 @@ void helper_mtsr(CPUAVR32State *env, uint32_t n, uint32_t val)
     case SYSREG_COMPARE:
         env->sysr[n] = val;
         env->compare_pending = false;
+        /* The interrupt controller signals the CPU, which needs the BQL;
+           a TCG helper runs without it.  */
+        bql_lock();
         qemu_irq_lower(env->compare_irq);
+        bql_unlock();
         avr32_compare_schedule(env, false);
         break;
     case SYSREG_TLBEHI:
