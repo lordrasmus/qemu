@@ -60,19 +60,9 @@ void helper_tb_trace(CPUCSKYState *env, uint32_t tb_pc)
     qemu_log_mask(CPU_LOG_EXEC, "0x%.8x\n", tb_pc);
 }
 
-#ifdef CONFIG_USER_ONLY
-extern long long total_jcount;
-void helper_jcount(CPUCSKYState *env, uint32_t tb_pc, uint32_t icount)
-{
-    if ((tb_pc >= env->jcount_start) && (tb_pc < env->jcount_end)) {
-        total_jcount += icount;
-    }
-}
-#else
 void helper_jcount(CPUCSKYState *env, uint32_t tb_pc, uint32_t icount)
 {
 }
-#endif
 
 uint32_t helper_xsr(CPUCSKYState *env, uint32_t a, uint32_t b)
 {

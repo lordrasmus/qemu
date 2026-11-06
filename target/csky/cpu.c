@@ -63,10 +63,12 @@ static void csky_cpu_exec_enter(CPUState *cs)
     }
 }
 
+#ifndef CONFIG_USER_ONLY
 static bool csky_cpu_has_work(CPUState *cs)
 {
     return cpu_test_interrupt(cs, CPU_INTERRUPT_HARD);
 }
+#endif
 
 static vaddr csky_cpu_get_pc(CPUState *cs)
 {
@@ -1233,10 +1235,6 @@ static void csky_cpu_initfn(Object *obj)
 {
 }
 
-static const VMStateDescription vmstate_csky_cpu = {
-    .name = "cpu",
-    .unmigratable = 1,
-};
 
 static const char *csky_gdb_arch_name(CPUState *cs)
 {
@@ -1245,11 +1243,18 @@ static const char *csky_gdb_arch_name(CPUState *cs)
 
 #include "hw/core/sysemu-cpu-ops.h"
 
+#ifndef CONFIG_USER_ONLY
+static const VMStateDescription vmstate_csky_cpu = {
+    .name = "cpu",
+    .unmigratable = 1,
+};
+
 static const struct SysemuCPUOps csky_sysemu_ops = {
     .has_work = csky_cpu_has_work,
     .get_phys_addr_debug = csky_cpu_get_phys_page_debug,
     .legacy_vmsd = &vmstate_csky_cpu,
 };
+#endif
 
 static const TCGCPUOps csky_tcg_ops = {
     .guest_default_memory_order = 0,
@@ -1261,13 +1266,15 @@ static const TCGCPUOps csky_tcg_ops = {
     .synchronize_from_tb = csky_cpu_synchronize_from_tb,
     .restore_state_to_opc = csky_restore_state_to_opc,
     .mmu_index = csky_cpu_mmu_index,
+    .cpu_exec_enter = csky_cpu_exec_enter,
+#ifndef CONFIG_USER_ONLY
     .tlb_fill = csky_cpu_tlb_fill,
     .pointer_wrap = cpu_pointer_wrap_uint32,
-    .cpu_exec_enter = csky_cpu_exec_enter,
     .cpu_exec_interrupt = csky_cpu_exec_interrupt,
     .cpu_exec_reset = cpu_reset,
     .do_interrupt = csky_cpu_do_interrupt,
     .do_unaligned_access = csky_cpu_do_unaligned_access,
+#endif
 };
 
 static void csky_cpu_class_init(ObjectClass *c, const void *data)
@@ -1289,7 +1296,9 @@ static void csky_cpu_class_init(ObjectClass *c, const void *data)
     cc->get_pc = csky_cpu_get_pc;
     cc->gdb_read_register = csky_cpu_gdb_read_register;
     cc->gdb_write_register = csky_cpu_gdb_write_register;
+#ifndef CONFIG_USER_ONLY
     cc->sysemu_ops = &csky_sysemu_ops;
+#endif
     cc->tcg_ops = &csky_tcg_ops;
     cc->disas_set_info = csky_cpu_disas_set_info;
 #if defined(TARGET_CSKYV1)
@@ -1302,11 +1311,7 @@ static void csky_cpu_class_init(ObjectClass *c, const void *data)
 
 #else
 
-#if defined(CONFIG_USER_ONLY)
-    cc->gdb_core_xml_file = "csky-abiv2-linux-user-core.xml";
-#else
     cc->gdb_core_xml_file = "csky-abiv2-softmmu-core.xml";
-#endif
 
 #endif
     cc->gdb_arch_name = csky_gdb_arch_name;
