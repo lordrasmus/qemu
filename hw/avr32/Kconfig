@@ -3,3 +3,4 @@ config AP7000
     default y
     depends on AVR32
     select UNIMP
+    select VIRTIO_MMIO

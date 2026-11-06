@@ -3,7 +3,9 @@
  *
  * SDRAM, the internal SRAM, the interrupt controller, the power manager
  * and USART1 (the console). All other peripherals are unimplemented and
- * read as zero.
+ * read as zero.  A virtio-mmio slot at 0xfc000000 on interrupt group 32,
+ * which the chip leaves unused, takes a root disk:
+ * virtio_mmio.device=0x200@0xfc000000:32.
  *
  * -kernel takes a Linux vmlinux; it is started the way U-Boot does:
  * r12 = ATAG_MAGIC, r11 = the tag list (core, memory, command line and,
@@ -36,6 +38,10 @@
 #define AP7000_INTC_BASE    0xfff00400
 #define AP7000_USART1_BASE  0xffe01000
 #define AP7000_USART1_GROUP 7
+/* A virtio-mmio slot for a root disk, not on the real chip: in P4, which
+   the CPU passes through unmapped, on a group no AP7000 peripheral uses. */
+#define NGW100_VIRTIO_BASE  0xfc000000
+#define NGW100_VIRTIO_GROUP 32
 
 #define ATAG_MAGIC          0xa2a25441
 #define ATAG_NONE           0x00000000
@@ -190,6 +196,15 @@ static void ngw100_init(MachineState *ms)
     sysbus_mmio_map(SYS_BUS_DEVICE(dev), 0, AP7000_USART1_BASE);
     sysbus_connect_irq(SYS_BUS_DEVICE(dev), 0,
                        qdev_get_gpio_in(intc, AP7000_USART1_GROUP * 32));
+
+    /* Version 2: its registers are little endian, as Linux's readl()
+       expects; the legacy device's are guest endian.  */
+    dev = qdev_new("virtio-mmio");
+    qdev_prop_set_bit(dev, "force-legacy", false);
+    sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
+    sysbus_mmio_map(SYS_BUS_DEVICE(dev), 0, NGW100_VIRTIO_BASE);
+    sysbus_connect_irq(SYS_BUS_DEVICE(dev), 0,
+                       qdev_get_gpio_in(intc, NGW100_VIRTIO_GROUP * 32));
 
     if (ms->kernel_filename) {
         ngw100_load(ms, boot);
