@@ -24,7 +24,8 @@
     || defined(TARGET_SH4) \
     || defined(TARGET_OR1K) \
     || defined(TARGET_MICROBLAZE) \
-    || defined(TARGET_NIOS2)
+    || defined(TARGET_NIOS2) \
+    || defined(TARGET_CSKY)
 #define ABI_LLONG_ALIGNMENT 4
 #endif
 
