@@ -57,6 +57,7 @@ subdir('riscv')
 subdir('s390x')
 subdir('sh4')
 subdir('sparc')
+subdir('tilegx')
 subdir('x86_64')
 subdir('xtensa')
 
