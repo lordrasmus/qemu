@@ -20,7 +20,12 @@
 #ifndef ARC_CPU_PARAM_H
 #define ARC_CPU_PARAM_H 1
 
+#ifdef CONFIG_USER_ONLY
+/* The Linux port uses 8K pages (ARC_PAGE_SIZE_8K), mmap2 counts in them. */
+#define TARGET_PAGE_BITS            13
+#else
 #define TARGET_PAGE_BITS            12
+#endif
 
 #ifdef TARGET_ARC64
 #define TARGET_VIRT_ADDR_SPACE_BITS 64
