@@ -947,8 +947,10 @@ static void gen_branch16(DisasContext *ctx, uint32_t op, int offset)
             if (csky_gdbserver_started) {
                 generate_exception(ctx, EXCP_DEBUG);
             } else {
-		gen_helper_bkpt_exit();
-                //generate_exception(ctx, EXCP_CSKY_BKPT);
+                /* A breakpoint exception for the guest, which Linux turns
+                   into SIGTRAP.  The C-SKY fork ended the whole emulator
+                   here, a convention of its bare-metal tests.  */
+                generate_exception(ctx, EXCP_CSKY_BKPT);
             }
 #if !defined(CONFIG_USER_ONLY)
             ctx->cannot_be_traced = 1;

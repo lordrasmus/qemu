@@ -29,11 +29,6 @@
 #include "hw/timer/csky_mptimer.h"
 #endif
 
-void helper_bkpt_exit(void)
-{
-	exit(0);
-}
-
 G_NORETURN void helper_exception(CPUCSKYState *env, uint32_t excp)
 {
     CPUState *cs = CPU(csky_env_get_cpu(env));

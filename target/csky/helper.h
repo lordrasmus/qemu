@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, see <http://www.gnu.org/licenses/>.
  */
-DEF_HELPER_0(bkpt_exit, void)
 DEF_HELPER_2(exception, noreturn, env, i32)
 DEF_HELPER_1(brev, i32, i32)
 DEF_HELPER_1(ff1, i32, i32)
