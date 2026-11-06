@@ -92,10 +92,12 @@ static vaddr arc_cpu_get_pc(CPUState *cs)
     return cpu_env(cs)->pc;
 }
 
+#ifndef CONFIG_USER_ONLY
 static bool arc_cpu_has_work(CPUState *cs)
 {
     return cpu_test_interrupt(cs, CPU_INTERRUPT_HARD);
 }
+#endif
 
 static TCGTBCPUState arc_get_tb_cpu_state(CPUState *cs)
 {
@@ -473,12 +475,12 @@ static const TCGCPUOps arc_tcg_ops = {
     .synchronize_from_tb = arc_cpu_synchronize_from_tb,
     .restore_state_to_opc = arc_restore_state_to_opc,
     .mmu_index = arc_cpu_mmu_index,
-    .pointer_wrap = cpu_pointer_wrap_uint32,
 
 #ifdef CONFIG_USER_ONLY
     .record_sigsegv = arc_cpu_record_sigsegv,
     .record_sigbus = arc_cpu_record_sigbus,
 #else
+    .pointer_wrap = cpu_pointer_wrap_uint32,
     .tlb_fill = arc_cpu_tlb_fill,
     .cpu_exec_interrupt = arc_cpu_exec_interrupt,
     .cpu_exec_reset = cpu_reset,
