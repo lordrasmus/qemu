@@ -646,4 +646,24 @@ uint32_t helper_v10_rbf(CPUCRISState *env, uint32_t addr)
     }
     return rec[0] - (rec[1] >> 16);
 }
+#else
+/* Privileged instructions; in user mode they never reach a helper */
+void helper_unlock_irq(CPUCRISState *env)
+{
+}
+
+void helper_v10_return_mode(CPUCRISState *env)
+{
+    g_assert_not_reached();
+}
+
+void helper_v10_sbfs(CPUCRISState *env, uint32_t addr)
+{
+    g_assert_not_reached();
+}
+
+uint32_t helper_v10_rbf(CPUCRISState *env, uint32_t addr)
+{
+    g_assert_not_reached();
+}
 #endif

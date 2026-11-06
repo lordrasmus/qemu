@@ -13435,6 +13435,12 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
 #if defined(TARGET_MIPS)
       cpu_set_tls(cpu_env, arg1);
       return 0;
+#elif defined(TARGET_CRIS)
+      if (cpu_env->pregs[PR_VR] >= 32 && (arg1 & 0xff)) {
+          return -TARGET_EINVAL;
+      }
+      cpu_set_tls(cpu_env, arg1);
+      return 0;
 #elif defined(TARGET_I386) && defined(TARGET_ABI32)
       return do_set_thread_area(cpu_env, arg1);
 #elif defined(TARGET_M68K)
@@ -13451,6 +13457,8 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
     case TARGET_NR_get_thread_area:
 #if defined(TARGET_I386) && defined(TARGET_ABI32)
         return do_get_thread_area(cpu_env, arg1);
+#elif defined(TARGET_CRIS)
+        return cpu_get_tls(cpu_env);
 #elif defined(TARGET_M68K)
         {
             TaskState *ts = get_task_state(cpu);

@@ -62,10 +62,12 @@ static void cris_restore_state_to_opc(CPUState *cs,
     }
 }
 
+#ifndef CONFIG_USER_ONLY
 static bool cris_cpu_has_work(CPUState *cs)
 {
     return cpu_test_interrupt(cs, CPU_INTERRUPT_HARD | CPU_INTERRUPT_NMI);
 }
+#endif
 
 static TCGTBCPUState cris_get_tb_cpu_state(CPUState *cs)
 {
@@ -219,9 +221,9 @@ static const TCGCPUOps crisv10_tcg_ops = {
     .get_tb_cpu_state = cris_get_tb_cpu_state,
     .restore_state_to_opc = cris_restore_state_to_opc,
     .mmu_index = cris_cpu_mmu_index,
-    .pointer_wrap = cpu_pointer_wrap_uint32,
 
 #ifndef CONFIG_USER_ONLY
+    .pointer_wrap = cpu_pointer_wrap_uint32,
     .tlb_fill = cris_cpu_tlb_fill,
     .cpu_exec_interrupt = cris_cpu_exec_interrupt,
     .cpu_exec_reset = cpu_reset,
@@ -239,9 +241,9 @@ static const TCGCPUOps crisv32_tcg_ops = {
     .get_tb_cpu_state = cris_get_tb_cpu_state,
     .restore_state_to_opc = cris_restore_state_to_opc,
     .mmu_index = cris_cpu_mmu_index,
-    .pointer_wrap = cpu_pointer_wrap_uint32,
 
 #ifndef CONFIG_USER_ONLY
+    .pointer_wrap = cpu_pointer_wrap_uint32,
     .tlb_fill = cris_cpu_tlb_fill,
     .cpu_exec_interrupt = cris_cpu_exec_interrupt,
     .cpu_exec_reset = cpu_reset,
