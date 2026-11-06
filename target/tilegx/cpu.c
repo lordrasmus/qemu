@@ -59,10 +59,12 @@ static int tilegx_cpu_mmu_index(CPUState *cs, bool ifetch)
     return cpu_env(cs)->cpl ? MMU_KERNEL_IDX : MMU_USER_IDX;
 }
 
+#ifndef CONFIG_USER_ONLY
 static bool tilegx_cpu_has_work(CPUState *cs)
 {
     return cpu_test_interrupt(cs, CPU_INTERRUPT_HARD);
 }
+#endif
 
 static void tilegx_cpu_reset_hold(Object *obj, ResetType type)
 {
@@ -95,6 +97,9 @@ static void tilegx_cpu_reset_hold(Object *obj, ResetType type)
     }
     env->log2_page_small = 16;
     env->log2_page_large = 24;
+#ifdef CONFIG_USER_ONLY
+    env->cpl = 0;
+#endif
 }
 
 static ObjectClass *tilegx_cpu_class_by_name(const char *cpu_model)
@@ -183,9 +188,9 @@ static const TCGCPUOps tilegx_tcg_ops = {
     .get_tb_cpu_state = tilegx_get_tb_cpu_state,
     .restore_state_to_opc = tilegx_restore_state_to_opc,
     .mmu_index = tilegx_cpu_mmu_index,
-    .pointer_wrap = cpu_pointer_wrap_notreached,
 
 #ifndef CONFIG_USER_ONLY
+    .pointer_wrap = cpu_pointer_wrap_notreached,
     .tlb_fill = tilegx_cpu_tlb_fill,
     .cpu_exec_interrupt = tilegx_cpu_exec_interrupt,
     .cpu_exec_reset = cpu_reset,

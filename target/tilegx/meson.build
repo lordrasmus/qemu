@@ -13,5 +13,11 @@ tilegx_system_ss.add(files(
   'sys_helper.c',
 ))
 
+tilegx_user_ss = ss.source_set()
+tilegx_user_ss.add(files(
+  'user_helper.c',
+))
+
 target_arch += {'tilegx': tilegx_ss}
+target_user_arch += {'tilegx': tilegx_user_ss}
 target_system_arch += {'tilegx': tilegx_system_ss}
