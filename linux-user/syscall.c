@@ -695,8 +695,10 @@ safe_syscall3(ssize_t, write, int, fd, const void *, buff, size_t, count)
 safe_syscall4(int, openat, int, dirfd, const char *, pathname, \
               int, flags, mode_t, mode)
 
+#ifdef TARGET_NR_openat2
 safe_syscall4(int, openat2, int, dirfd, const char *, pathname, \
               const struct open_how_ver0 *, how, size_t, size)
+#endif
 
 #if defined(TARGET_NR_wait4) || defined(TARGET_NR_waitpid)
 safe_syscall4(pid_t, wait4, pid_t, pid, int *, status, int, options, \
@@ -741,11 +743,15 @@ safe_syscall5(ssize_t, preadv, int, fd, const struct iovec *, iov, int, iovcnt,
               unsigned long, pos_l, unsigned long, pos_h)
 safe_syscall5(ssize_t, pwritev, int, fd, const struct iovec *, iov, int, iovcnt,
               unsigned long, pos_l, unsigned long, pos_h)
+#ifdef TARGET_NR_preadv2
 safe_syscall6(ssize_t, preadv2, int, fd, const struct iovec *, iov, int, iovcnt,
               unsigned long, pos_l, unsigned long, pos_h, __kernel_rwf_t, flags)
+#endif
+#ifdef TARGET_NR_pwritev2
 safe_syscall6(ssize_t, pwritev2, int, fd, const struct iovec *, iov,
               int, iovcnt, unsigned long, pos_l, unsigned long, pos_h,
               __kernel_rwf_t, flags)
+#endif
 safe_syscall3(int, connect, int, fd, const struct sockaddr *, addr,
               socklen_t, addrlen)
 safe_syscall6(ssize_t, sendto, int, fd, const void *, buf, size_t, len,
@@ -8942,6 +8948,7 @@ int do_guest_openat(CPUArchState *cpu_env, int dirfd, const char *pathname,
 }
 
 
+#ifdef TARGET_NR_openat2
 static int do_openat2(CPUArchState *cpu_env, abi_long dirfd,
                       abi_ptr guest_pathname, abi_ptr guest_open_how,
                       abi_ulong guest_size)
@@ -8996,6 +9003,7 @@ static int do_openat2(CPUArchState *cpu_env, abi_long dirfd,
     unlock_user(pathname, guest_pathname, 0);
     return ret;
 }
+#endif
 
 ssize_t do_guest_readlink(const char *pathname, char *buf, size_t bufsiz)
 {
@@ -9887,9 +9895,11 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
         fd_trans_unregister(ret);
         unlock_user(p, arg2, 0);
         return ret;
+#ifdef TARGET_NR_openat2
     case TARGET_NR_openat2:
         ret = do_openat2(cpu_env, arg1, arg2, arg3, arg4);
         return ret;
+#endif
 #if defined(TARGET_NR_name_to_handle_at) && defined(CONFIG_OPEN_BY_HANDLE)
     case TARGET_NR_name_to_handle_at:
         ret = do_name_to_handle_at(arg1, arg2, arg3, arg4, arg5);
@@ -14004,13 +14014,18 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
     case TARGET_NR_epoll_wait:
 #endif
     case TARGET_NR_epoll_pwait:
+#ifdef TARGET_NR_epoll_pwait2
     case TARGET_NR_epoll_pwait2:
+#endif
     {
         struct target_epoll_event *target_ep;
         struct epoll_event *ep;
         int epfd = arg1;
         int maxevents = arg3;
-        struct timespec ts, *timeout_ts = NULL;
+        struct timespec *timeout_ts = NULL;
+
+#ifdef TARGET_NR_epoll_pwait2
+        struct timespec ts;
 
         if (num == TARGET_NR_epoll_pwait2 && arg4 != 0) {
             if (target_to_host_timespec(&ts, arg4)) {
@@ -14018,6 +14033,7 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
             }
             timeout_ts = &ts;
         }
+#endif
 
         if (maxevents <= 0 || maxevents > TARGET_EP_MAX_EVENTS) {
             return -TARGET_EINVAL;
@@ -14037,7 +14053,9 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
 
         switch (num) {
         case TARGET_NR_epoll_pwait:
+#ifdef TARGET_NR_epoll_pwait2
         case TARGET_NR_epoll_pwait2:
+#endif
         {
             sigset_t *set = NULL;
 
