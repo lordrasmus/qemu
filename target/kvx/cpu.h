@@ -469,6 +469,9 @@ static inline bool kvx_step_mode_enabled(CPUKVXState *env)
 
 /* TB state fields */
 /* MMU index field and sub-fields */
+/* linux-user runs with the MMU off (PS.MME == 0) */
+#define MMU_USER_IDX 0
+
 FIELD(TB_STATE, MMU_IDX, 0, 4)
 FIELD(TB_STATE, MMU_IDX_MMUP, 0, 1)
 FIELD(TB_STATE, MMU_IDX_VS, 1, 2)

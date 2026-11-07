@@ -720,12 +720,26 @@ void kvx_handle_ipe_event(CPUKVXState *env, bool forward, unsigned int idx)
     }
 }
 
+static int64_t kvx_now_ns(void)
+{
+#ifdef CONFIG_USER_ONLY
+    return get_clock();
+#else
+    return qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
+#endif
+}
+
 static void tb_invalidate_bundle(CPUKVXState *env, target_ulong vaddr)
 {
     int mmu_idx;
     TLBLookupInfo info;
     TLBLookupStatus ret;
 
+#ifdef CONFIG_USER_ONLY
+    /* Translation blocks are indexed by guest virtual address */
+    tb_invalidate_phys_range(env_cpu(env), vaddr, vaddr);
+    return;
+#endif
     mmu_idx = kvx_cpu_mmu_index(env, true);
 
     ret = get_physical_addr(env, vaddr, MMU_INST_FETCH, mmu_idx, &info);
@@ -920,12 +934,14 @@ void kvx_reg_write_ilr(KVXCPU *cpu, Register reg, uint64_t val)
     if (old ^ val) {
         trace_kvx_irq_update(cpu->cfg.pid, old, val);
         /* Value changed, recompute pending irqs */
+#ifndef CONFIG_USER_ONLY
         CPUState *cs = CPU(cpu);
         if (val) {
             cpu_interrupt(cs, CPU_INTERRUPT_HARD);
         } else {
             cpu_reset_interrupt(cs, CPU_INTERRUPT_HARD);
         }
+#endif
     }
 }
 
@@ -1007,7 +1023,7 @@ uint64_t kvx_reg_read_pmcnt(KVXCPU *cpu, Register reg)
     }
 
     cnt = kvx_register_read_u64(&cpu->env, reg);
-    now = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
+    now = kvx_now_ns();
 
     /*
      * basic implementation aproximating some counters using the virtual
@@ -1033,7 +1049,7 @@ void kvx_reg_write_pmcnt(KVXCPU *cpu, Register reg, uint64_t val)
     int n = pmreg_index(reg);
 
     kvx_register_write_u64(&cpu->env, reg, val);
-    cpu->pm_base[n] = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
+    cpu->pm_base[n] = kvx_now_ns();
 }
 
 void kvx_reg_write_pmctl(KVXCPU *cpu, Register reg, uint64_t val)
