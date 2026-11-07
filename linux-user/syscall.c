@@ -1684,6 +1684,19 @@ static abi_long do_pipe(CPUArchState *cpu_env, abi_ulong pipedes,
     return get_errno(ret);
 }
 
+/*
+ * A guest sockaddr_un can be larger than the host's (META pads structs to
+ * 4 bytes, 112 against 110); the host kernel rejects such a length.
+ */
+static inline socklen_t host_sockaddr_len(const struct sockaddr *addr,
+                                          socklen_t len)
+{
+    if (addr->sa_family == AF_UNIX && len > sizeof(struct sockaddr_un)) {
+        return sizeof(struct sockaddr_un);
+    }
+    return len;
+}
+
 static inline abi_long target_to_host_sockaddr(int fd, struct sockaddr *addr,
                                                abi_ulong target_addr,
                                                socklen_t len)
@@ -3330,7 +3343,7 @@ static abi_long do_bind(int sockfd, abi_ulong target_addr,
     if (ret)
         return ret;
 
-    return get_errno(bind(sockfd, addr, addrlen));
+    return get_errno(bind(sockfd, addr, host_sockaddr_len(addr, addrlen)));
 }
 
 /* do_connect() Must return target values and target errnos. */
@@ -3350,7 +3363,8 @@ static abi_long do_connect(int sockfd, abi_ulong target_addr,
     if (ret)
         return ret;
 
-    return get_errno(safe_connect(sockfd, addr, addrlen));
+    return get_errno(safe_connect(sockfd, addr,
+                                  host_sockaddr_len(addr, addrlen)));
 }
 
 /* do_sendrecvmsg_locked() Must return target values and target errnos. */
@@ -3378,6 +3392,8 @@ static abi_long do_sendrecvmsg_locked(int fd, struct target_msghdr *msgp,
             msg.msg_name = (void *)-1;
         } else if (ret) {
             goto out2;
+        } else {
+            msg.msg_namelen = host_sockaddr_len(msg.msg_name, msg.msg_namelen);
         }
     } else {
         msg.msg_name = NULL;
@@ -3696,7 +3712,8 @@ static abi_long do_sendto(int fd, abi_ulong msg, size_t len, int flags,
         if (ret) {
             goto fail;
         }
-        ret = get_errno(safe_sendto(fd, host_msg, len, flags, addr, addrlen));
+        ret = get_errno(safe_sendto(fd, host_msg, len, flags, addr,
+                                    host_sockaddr_len(addr, addrlen)));
     } else {
         ret = get_errno(safe_sendto(fd, host_msg, len, flags, NULL, 0));
     }
