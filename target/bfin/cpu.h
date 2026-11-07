@@ -149,6 +149,7 @@ static inline bool bfin_supervisor(CPUBfinState *env)
 uint32_t bfin_get_astat(CPUBfinState *env);
 void bfin_set_astat(CPUBfinState *env, uint32_t val);
 
+int64_t bfin_clock_ns(void);
 void bfin_update_irq(CPUBfinState *env);
 void bfin_cpu_do_interrupt(CPUState *cs);
 bool bfin_cpu_exec_interrupt(CPUState *cs, int interrupt_request);

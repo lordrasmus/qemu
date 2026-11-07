@@ -170,6 +170,7 @@ bool bfin_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
 
 void bfin_update_irq(CPUBfinState *env)
 {
+#ifndef CONFIG_USER_ONLY
     CPUState *cs = env_cpu(env);
     /* called from helpers too, which run without the BQL */
     BQL_LOCK_GUARD();
@@ -179,6 +180,7 @@ void bfin_update_irq(CPUBfinState *env)
     } else {
         cpu_reset_interrupt(cs, CPU_INTERRUPT_HARD);
     }
+#endif
 }
 
 /* return from event @ivg: clear it, leave supervisor mode if it was last */
@@ -218,10 +220,20 @@ void helper_set_astat(CPUBfinState *env, uint32_t val)
     bfin_set_astat(env, val);
 }
 
+/* the time base of CYCLES; linux-user has no virtual clock */
+int64_t bfin_clock_ns(void)
+{
+#ifdef CONFIG_USER_ONLY
+    return get_clock();
+#else
+    return qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
+#endif
+}
+
 /* CYCLES counts core clocks; CYCLES2 is its upper half */
 static uint64_t bfin_cycles(CPUBfinState *env)
 {
-    int64_t ns = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) - env->cycles_base;
+    int64_t ns = bfin_clock_ns() - env->cycles_base;
 
     return muldiv64(ns, env->clock_freq, NANOSECONDS_PER_SECOND);
 }
@@ -248,7 +260,7 @@ void helper_set_cycles(CPUBfinState *env, uint32_t high, uint32_t val)
     uint64_t c = bfin_cycles(env);
 
     c = high ? deposit64(c, 32, 32, val) : deposit64(c, 0, 32, val);
-    env->cycles_base = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) -
+    env->cycles_base = bfin_clock_ns() -
                        muldiv64(c, NANOSECONDS_PER_SECOND, env->clock_freq);
 }
 
@@ -367,6 +379,7 @@ void helper_raise(CPUBfinState *env, uint32_t ivg)
     bfin_update_irq(env);
 }
 
+#ifndef CONFIG_USER_ONLY
 /*
  * No MMU: addresses are physical.  CPLB protection is not modelled; the
  * MMR space is supervisor only.
@@ -381,6 +394,7 @@ bool bfin_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
                  mmu_idx, TARGET_PAGE_SIZE);
     return true;
 }
+#endif
 
 /*
  * A load or store that is not aligned to its size raises the data
