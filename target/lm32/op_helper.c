@@ -3,18 +3,16 @@
 #include "exec/helper-proto.h"
 #include "qemu/host-utils.h"
 #include "qemu/main-loop.h"
-#include "system/runstate.h"
 
+#ifndef CONFIG_USER_ONLY
+#include "system/runstate.h"
 #include "hw/lm32/lm32_pic.h"
 #include "hw/char/lm32_juart.h"
+#endif
 
 #include "accel/tcg/cpu-ldst.h"
 #include "accel/tcg/cpu-loop.h"
 
-#ifndef CONFIG_USER_ONLY
-#endif
-
-#if !defined(CONFIG_USER_ONLY)
 void raise_exception(CPULM32State *env, int index)
 {
     CPUState *cs = env_cpu(env);
@@ -37,9 +35,67 @@ void HELPER(hlt)(CPULM32State *env)
     cpu_loop_exit(cs);
 }
 
+#ifdef CONFIG_USER_ONLY
+/* linux-user turns this into SIGILL, like the kernel does for a bus error */
 void HELPER(ill)(CPULM32State *env)
 {
-#ifndef CONFIG_USER_ONLY
+    raise_exception(env, EXCP_INSN_BUS_ERROR);
+}
+
+/* No debug unit, PIC or JTAG UART behind a user process. */
+void HELPER(wcsr_bp)(CPULM32State *env, uint32_t bp, uint32_t idx)
+{
+    env->bp[idx] = bp;
+}
+
+void HELPER(wcsr_wp)(CPULM32State *env, uint32_t wp, uint32_t idx)
+{
+    env->wp[idx] = wp;
+}
+
+void HELPER(wcsr_dc)(CPULM32State *env, uint32_t dc)
+{
+    env->dc = dc;
+}
+
+void HELPER(wcsr_im)(CPULM32State *env, uint32_t im)
+{
+}
+
+void HELPER(wcsr_ip)(CPULM32State *env, uint32_t im)
+{
+}
+
+void HELPER(wcsr_jtx)(CPULM32State *env, uint32_t jtx)
+{
+}
+
+void HELPER(wcsr_jrx)(CPULM32State *env, uint32_t jrx)
+{
+}
+
+uint32_t HELPER(rcsr_im)(CPULM32State *env)
+{
+    return 0;
+}
+
+uint32_t HELPER(rcsr_ip)(CPULM32State *env)
+{
+    return 0;
+}
+
+uint32_t HELPER(rcsr_jtx)(CPULM32State *env)
+{
+    return 0;
+}
+
+uint32_t HELPER(rcsr_jrx)(CPULM32State *env)
+{
+    return 0;
+}
+#else
+void HELPER(ill)(CPULM32State *env)
+{
     CPUState *cs = env_cpu(env);
     fprintf(stderr, "VM paused due to illegal instruction. "
             "Connect a debugger or switch to the monitor console "
@@ -47,7 +103,6 @@ void HELPER(ill)(CPULM32State *env)
     vm_stop(RUN_STATE_PAUSED);
     cs->halted = 1;
     raise_exception(env, EXCP_HALTED);
-#endif
 }
 
 void HELPER(wcsr_bp)(CPULM32State *env, uint32_t bp, uint32_t idx)

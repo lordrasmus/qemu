@@ -20,7 +20,9 @@
 #include "qemu/osdep.h"
 #include "cpu.h"
 #include "gdbstub/helpers.h"
+#ifndef CONFIG_USER_ONLY
 #include "hw/lm32/lm32_pic.h"
+#endif
 
 int lm32_cpu_gdb_read_register(CPUState *cs, GByteArray *mem_buf, int n)
 {
@@ -42,10 +44,16 @@ int lm32_cpu_gdb_read_register(CPUState *cs, GByteArray *mem_buf, int n)
             return gdb_get_reg32(mem_buf, env->deba);
         case 36:
             return gdb_get_reg32(mem_buf, env->ie);
+#ifndef CONFIG_USER_ONLY
         case 37:
             return gdb_get_reg32(mem_buf, lm32_pic_get_im(env->pic_state));
         case 38:
             return gdb_get_reg32(mem_buf, lm32_pic_get_ip(env->pic_state));
+#else
+        case 37:
+        case 38:
+            return gdb_get_reg32(mem_buf, 0);
+#endif
         }
     }
     return 0;
@@ -80,12 +88,14 @@ int lm32_cpu_gdb_write_register(CPUState *cs, uint8_t *mem_buf, int n)
         case 36:
             env->ie = tmp;
             break;
+#ifndef CONFIG_USER_ONLY
         case 37:
             lm32_pic_set_im(env->pic_state, tmp);
             break;
         case 38:
             lm32_pic_set_ip(env->pic_state, tmp);
             break;
+#endif
         }
     }
     return 4;
