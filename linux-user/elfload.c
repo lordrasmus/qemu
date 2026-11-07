@@ -524,6 +524,12 @@ static int elf_is_fdpic(struct elfhdr *exec)
 {
     return (exec->e_flags & 0x8000) != 0;
 }
+#elif defined(TARGET_C6X)
+/* C6X Linux has no MMU and loads every binary with binfmt_elf_fdpic. */
+static int elf_is_fdpic(struct elfhdr *exec)
+{
+    return 1;
+}
 #else
 /* Default implementation, always false.  */
 static int elf_is_fdpic(struct elfhdr *exec)
