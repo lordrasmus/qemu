@@ -4263,7 +4263,12 @@ static inline abi_long do_semtimedop(int semid,
 }
 #endif
 
+#if TARGET_ABI_BITS == 32
+/* The kernel's 32-bit layout is a pair of words, only word aligned. */
+typedef abi_ullong target_time64_t __attribute__((aligned(ABI_LONG_ALIGNMENT)));
+#else
 #define target_time64_t         abi_ullong
+#endif
 #define target_swap_time64(x)   tswap64(x)
 
 struct target_msqid_ds
