@@ -371,6 +371,20 @@ static inline MemOp compute_memop(int64_t size, MDSTypeBinding ret_type)
     return mem_op;
 }
 
+/*
+ * Atomic accesses: check_atomic_access has already checked alignment and
+ * the mapping, so MO_ALIGN_TLB_ONLY is not needed here.
+ */
+static inline MemOp atomic_memop(int64_t size, MDSType type)
+{
+    MemOp mem_op = MO_TE | MO_ALIGN | size_memop(size);
+
+    if (type == MDS_SIGNED && size < 8) {
+        mem_op |= MO_SIGN;
+    }
+    return mem_op;
+}
+
 static void gen_mem_load_regular(DisasContext *ctx, MDSTypeBinding ret_type,
                                  TCGv_i64 ret, TCGv_i64 address, int64_t size)
 {
@@ -486,7 +500,6 @@ void gen_apply_MEM_cas(DisasContext *ctx,
                        TCGv_i64 address, int64_t size, TCGv_i64 update,
                        TCGv_i64 expect, uint64_t boolcas, uint64_t dri)
 {
-    /* TODO: Implement this as an atomic operation */
     TCGv_i64 size_tcg, syndrome, tmp;
 
     gen_fill_syndrome_mem_access(ctx, address, size, 0, dri,
@@ -497,12 +510,9 @@ void gen_apply_MEM_cas(DisasContext *ctx,
     gen_helper_check_atomic_access(tcg_env, address, size_tcg, syndrome);
 
     tmp = tcg_temp_new_i64();
-    ret_type.type = MDS_UNSIGNED;
-    gen_mem_load(ctx, ret_type, tmp, address, size, false);
-
+    tcg_gen_atomic_cmpxchg_i64(tmp, address, expect, update, ctx->mem_index,
+                               atomic_memop(size, MDS_UNSIGNED));
     tcg_gen_setcond_i64(TCG_COND_EQ, ret, tmp, expect);
-    tcg_gen_movcond_i64(TCG_COND_EQ, tmp, tmp, expect, update, tmp);
-    gen_mem_store(ctx, address, size, tmp);
 
 }
 
@@ -529,8 +539,7 @@ void gen_apply_MEM_faa(DisasContext *ctx,
                        TCGv_i64 address, int64_t size,
                        TCGv_i64 addend, uint64_t reg)
 {
-    /* TODO: Implement this as an atomic operation */
-    TCGv_i64 size_tcg, syndrome, tmp;
+    TCGv_i64 size_tcg, syndrome;
 
     gen_fill_syndrome_mem_access(ctx, address, size, 0, reg,
                                  ES_RWX_DATA_SIDE_ATOMIC);
@@ -539,11 +548,8 @@ void gen_apply_MEM_faa(DisasContext *ctx,
     syndrome = kvx_temp_const_i64(get_syndrome(ctx));
     gen_helper_check_atomic_access(tcg_env, address, size_tcg, syndrome);
 
-    gen_mem_load(ctx, ret_type, ret, address, size, false);
-
-    tmp = tcg_temp_new_i64();
-    tcg_gen_add_i64(tmp, ret, addend);
-    gen_mem_store(ctx, address, size, tmp);
+    tcg_gen_atomic_fetch_add_i64(ret, address, addend, ctx->mem_index,
+                                 atomic_memop(size, ret_type.type));
 
 }
 
@@ -551,8 +557,7 @@ void gen_apply_MEM_swap(DisasContext *ctx,
                         MDSTypeBinding ret_type, TCGv_i64 ret,
                         TCGv_i64 address, int64_t size, int64_t update, uint64_t reg)
 {
-    /* TODO: Implement this as an atomic operation */
-    TCGv_i64 size_tcg, syndrome, tmp;
+    TCGv_i64 size_tcg, syndrome;
 
     gen_fill_syndrome_mem_access(ctx, address, size, 0, reg,
                                  ES_RWX_DATA_SIDE_ATOMIC);
@@ -561,10 +566,8 @@ void gen_apply_MEM_swap(DisasContext *ctx,
     syndrome = kvx_temp_const_i64(get_syndrome(ctx));
     gen_helper_check_atomic_access(tcg_env, address, size_tcg, syndrome);
 
-    gen_mem_load(ctx, ret_type, ret, address, size, false);
-
-    tmp = kvx_temp_const_i64(update);
-    gen_mem_store(ctx, address, size, tmp);
+    tcg_gen_atomic_xchg_i64(ret, address, kvx_temp_const_i64(update),
+                            ctx->mem_index, atomic_memop(size, ret_type.type));
 
 }
 
