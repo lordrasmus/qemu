@@ -965,6 +965,14 @@ static void load_elf_image(const char *image_name, const ImageSource *src,
     }
     bswap_phdr(phdr, ehdr->e_phnum);
 
+#ifdef ELF_VADDR
+    /* The target maps program addresses into QEMU's address space. */
+    ehdr->e_entry = ELF_VADDR(ehdr->e_entry);
+    for (i = 0; i < ehdr->e_phnum; i++) {
+        phdr[i].p_vaddr = ELF_VADDR(phdr[i].p_vaddr);
+    }
+#endif
+
     info->nsegs = 0;
     info->pt_dynamic_addr = 0;
 
