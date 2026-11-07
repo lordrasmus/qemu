@@ -62,6 +62,13 @@ int32_t HELPER(norm16)(int32_t arg)
     return clz32(arg & 0xffff) - 17;
 }
 
+#ifdef CONFIG_USER_ONLY
+/* CACHERL - no MMU tables to read in user mode */
+uint64_t HELPER(cacherl)(CPUArchState *env, uint32_t addr)
+{
+    return 0;
+}
+#else
 
 /* Switch into interrupt mode */
 static void take_interrupt(CPUArchState *env)
@@ -909,4 +916,4 @@ uint64_t HELPER(cacherl)(CPUArchState *env, uint32_t addr)
 
     return ((uint64_t)size_mask << 36) | ((uint64_t)1 << 32) | pte2;
 }
-
+#endif /* !CONFIG_USER_ONLY */

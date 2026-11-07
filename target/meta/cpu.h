@@ -910,9 +910,22 @@ static inline int meta_mmu_index(CPUArchState *env)
     }
 }
 
+#else
+
+#define MMU_USER_IDX 0
+
+static inline int meta_mmu_index(CPUArchState *env)
+{
+    return MMU_USER_IDX;
+}
+
 #endif
 
 void cpu_state_reset(CPUMETAState *env);
+#ifdef CONFIG_USER_ONLY
+bool meta_user_core_exists(const char *cpu_model);
+void meta_user_cpu_init(CPUMETAState *env);
+#endif
 /* cpu_interrupt()/cpu_reset_interrupt() taking the BQL when not held */
 void meta_interrupt(CPUMETAState *env, int mask);
 void meta_reset_interrupt(CPUMETAState *env, int mask);
