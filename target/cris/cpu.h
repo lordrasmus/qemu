@@ -128,6 +128,10 @@ typedef struct CPUArchState {
 	int btaken;
 	uint32_t btarget;
 
+	/* linux-user: address and value of the last load, for "ax" stores */
+	uint32_t excl_addr;
+	uint32_t excl_val;
+
 	/* Condition flag tracking.  */
 	uint32_t cc_op;
 	uint32_t cc_mask;

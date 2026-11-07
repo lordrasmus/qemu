@@ -101,6 +101,10 @@ static inline int dec10_size(unsigned int size)
 static inline void cris_illegal_insn(DisasContext *dc)
 {
     qemu_log_mask(LOG_GUEST_ERROR, "illegal insn at pc=%x\n", dc->pc);
+#ifdef CONFIG_USER_ONLY
+    /* tell linux-user's cpu_loop this was no break insn */
+    t_gen_mov_env_TN(trap_vector, tcg_constant_tl(-1));
+#endif
     t_gen_raise_exception(EXCP_BREAK);
     dc->base.is_jmp = DISAS_NORETURN;
 }
@@ -118,6 +122,12 @@ static void gen_store_v10_conditional(DisasContext *dc, TCGv addr, TCGv val,
     tcg_gen_mov_tl(taddr, addr);
     tcg_gen_mov_tl(tval, val);
 
+#ifdef CONFIG_USER_ONLY
+    gen_store_exclusive(dc, t1, taddr, tval, size);
+    tcg_gen_shli_tl(t1, t1, ctz32(P_FLAG_V10));
+    tcg_gen_or_tl(cpu_PR[PR_CCS], cpu_PR[PR_CCS], t1);
+    return;
+#endif
     /* Store only if F flag isn't set */
     tcg_gen_andi_tl(t1, cpu_PR[PR_CCS], F_FLAG_V10);
     tcg_gen_brcondi_tl(TCG_COND_NE, t1, 0, l1);
@@ -1343,6 +1353,14 @@ void cris_initialize_crisv10_tcg(void)
     env_btaken = tcg_global_mem_new(tcg_env,
                                     offsetof(CPUCRISState, btaken),
                                     "btaken");
+#ifdef CONFIG_USER_ONLY
+    env_excl_addr = tcg_global_mem_new(tcg_env,
+                                       offsetof(CPUCRISState, excl_addr),
+                                       "excl_addr");
+    env_excl_val = tcg_global_mem_new(tcg_env,
+                                      offsetof(CPUCRISState, excl_val),
+                                      "excl_val");
+#endif
     for (i = 0; i < 16; i++) {
         cpu_R[i] = tcg_global_mem_new(tcg_env,
                                       offsetof(CPUCRISState, regs[i]),
