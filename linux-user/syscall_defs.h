@@ -62,7 +62,8 @@
 #if (defined(TARGET_I386) && defined(TARGET_ABI32))                     \
     || (defined(TARGET_ARM) && defined(TARGET_ABI32))                   \
     || (defined(TARGET_SPARC) && defined(TARGET_ABI32))                 \
-    || defined(TARGET_M68K) || defined(TARGET_SH4) || defined(TARGET_CRIS)
+    || defined(TARGET_M68K) || defined(TARGET_SH4) || defined(TARGET_CRIS) \
+    || defined(TARGET_FRV)
 /* 16 bit uid wrappers emulation */
 #define USE_UID16
 #define target_id uint16_t
@@ -74,6 +75,7 @@
     || defined(TARGET_M68K) || defined(TARGET_CRIS)                     \
     || defined(TARGET_AVR32)                                            \
     || defined(TARGET_BFIN) \
+    || defined(TARGET_FRV) \
     || defined(TARGET_S390X) || defined(TARGET_OR1K)                    \
     || defined(TARGET_RISCV)                                            \
     || defined(TARGET_XTENSA) || defined(TARGET_LOONGARCH64)            \
@@ -1244,7 +1246,64 @@ struct target_winsize {
 
 #include "target_mman.h"
 
-#if (defined(TARGET_I386) && defined(TARGET_ABI32))     \
+#if defined(TARGET_FRV)
+/* arch/frv/include/uapi/asm/stat.h: 64-bit slots, nsec before sec */
+struct target_stat {
+    uint8_t    __pad1[6];
+    abi_ushort st_dev;
+    abi_ulong  __pad2;
+    abi_ulong  st_ino;
+    abi_ushort __pad3;
+    abi_ushort st_mode;
+    abi_ushort __pad4;
+    abi_ushort st_nlink;
+    abi_ushort __pad5;
+    abi_ushort st_uid;
+    abi_ushort __pad6;
+    abi_ushort st_gid;
+    uint8_t    __pad7[6];
+    abi_ushort st_rdev;
+    abi_ulong  __pad8;
+    abi_ulong  st_size;
+    abi_ulong  __pad9;
+    abi_ulong  st_blksize;
+    abi_ulong  __pad10;
+    abi_ulong  st_blocks;
+    abi_ulong  __unused1;
+    abi_ulong  target_st_atime;
+    abi_ulong  __unused2;
+    abi_ulong  target_st_mtime;
+    abi_ulong  __unused3;
+    abi_ulong  target_st_ctime;
+    abi_ulong  __unused4[2];
+} QEMU_PACKED;
+
+#define TARGET_HAS_STRUCT_STAT64
+struct target_stat64 {
+    uint8_t    __pad1[6];
+    abi_ushort st_dev;
+    abi_ullong st_ino;
+    abi_uint   st_mode;
+    abi_uint   st_nlink;
+    abi_ulong  st_uid;
+    abi_ulong  st_gid;
+    uint8_t    __pad2[6];
+    abi_ushort st_rdev;
+    abi_llong  st_size;
+    abi_ulong  __pad3;
+    abi_ulong  st_blksize;
+    abi_ulong  __pad4;
+    abi_ulong  st_blocks;
+    abi_ulong  target_st_atime_nsec;
+    abi_ulong  target_st_atime;
+    abi_ulong  target_st_mtime_nsec;
+    abi_ulong  target_st_mtime;
+    abi_ulong  target_st_ctime_nsec;
+    abi_ulong  target_st_ctime;
+    abi_ulong  __unused4[2];
+} QEMU_PACKED;
+
+#elif (defined(TARGET_I386) && defined(TARGET_ABI32))     \
     || (defined(TARGET_ARM) && defined(TARGET_ABI32))   \
     || defined(TARGET_CRIS) || defined(TARGET_BFIN)
 #define TARGET_STAT_HAVE_NSEC
