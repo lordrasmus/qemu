@@ -68,10 +68,12 @@ static void h8300_restore_state_to_opc(CPUState *cs,
     cpu->env.pc = data[0];
 }
 
+#ifndef CONFIG_USER_ONLY
 static bool h8300_cpu_has_work(CPUState *cs)
 {
     return cpu_test_interrupt(cs, CPU_INTERRUPT_HARD);
 }
+#endif
 
 static int h8300_cpu_mmu_index(CPUState *cs, bool ifunc)
 {
@@ -83,7 +85,9 @@ static void h8300_cpu_reset_hold(Object *obj, ResetType type)
     CPUState *cs = CPU(obj);
     H8300CPUClass *rcc = H8300_CPU_GET_CLASS(obj);
     CPUH8300State *env = cpu_env(cs);
+#ifndef CONFIG_USER_ONLY
     uint32_t *resetvec;
+#endif
 
     if (rcc->parent_phases.hold) {
         rcc->parent_phases.hold(obj, type);
@@ -91,11 +95,13 @@ static void h8300_cpu_reset_hold(Object *obj, ResetType type)
 
     memset(env, 0, offsetof(CPUH8300State, end_reset_fields));
 
+#ifndef CONFIG_USER_ONLY
     resetvec = rom_ptr(0x000000, 4);
     if (resetvec) {
         /* In the case of kernel, it is ignored because it is not set. */
         env->pc = ldl_be_p(resetvec);
     }
+#endif
     h8300_cpu_unpack_ccr(env, 0x80);
 }
 
@@ -133,6 +139,7 @@ static void h8300_cpu_realize(DeviceState *dev, Error **errp)
     rcc->parent_realize(dev, errp);
 }
 
+#ifndef CONFIG_USER_ONLY
 static void h8300_cpu_set_irq(void *opaque, int no, int request)
 {
     H8300CPU *cpu = opaque;
@@ -147,6 +154,7 @@ static void h8300_cpu_set_irq(void *opaque, int no, int request)
         cpu_reset_interrupt(cs, CPU_INTERRUPT_HARD);
     }
 }
+#endif
 
 static void h8300_cpu_disas_set_info(const CPUState *cpu,
                                      disassemble_info *info)
@@ -156,6 +164,7 @@ static void h8300_cpu_disas_set_info(const CPUState *cpu,
     info->print_insn = print_insn_h8300;
 }
 
+#ifndef CONFIG_USER_ONLY
 static bool h8300_cpu_tlb_fill(CPUState *cs, vaddr addr, int size,
                                MMUAccessType access_type, int mmu_idx,
                                bool probe, uintptr_t retaddr)
@@ -182,6 +191,7 @@ static const struct SysemuCPUOps h8300_sysemu_ops = {
     .has_work = h8300_cpu_has_work,
     .get_phys_addr_debug = h8300_cpu_get_phys_page_debug,
 };
+#endif
 
 static const TCGCPUOps h8300_tcg_ops = {
     /* MTTCG not yet supported: require strict ordering */
@@ -194,12 +204,14 @@ static const TCGCPUOps h8300_tcg_ops = {
     .synchronize_from_tb = h8300_cpu_synchronize_from_tb,
     .restore_state_to_opc = h8300_restore_state_to_opc,
     .mmu_index = h8300_cpu_mmu_index,
+
+#ifndef CONFIG_USER_ONLY
     .tlb_fill = h8300_cpu_tlb_fill,
     .pointer_wrap = cpu_pointer_wrap_uint32,
-
     .cpu_exec_interrupt = h8300_cpu_exec_interrupt,
     .cpu_exec_reset = cpu_reset,
     .do_interrupt = h8300_cpu_do_interrupt,
+#endif
 };
 
 static void h8300cpu_class_init(ObjectClass *klass, const void *data)
@@ -219,7 +231,9 @@ static void h8300cpu_class_init(ObjectClass *klass, const void *data)
     cc->set_pc = h8300_cpu_set_pc;
     cc->get_pc = h8300_cpu_get_pc;
 
+#ifndef CONFIG_USER_ONLY
     cc->sysemu_ops = &h8300_sysemu_ops;
+#endif
     cc->gdb_read_register = h8300_cpu_gdb_read_register;
     cc->gdb_write_register = h8300_cpu_gdb_write_register;
     cc->disas_set_info = h8300_cpu_disas_set_info;
@@ -232,7 +246,9 @@ static const TypeInfo h8300cpu_info = {
     .parent = TYPE_CPU,
     .instance_size = sizeof(H8300CPU),
     .instance_align = __alignof(H8300CPU),
+#ifndef CONFIG_USER_ONLY
     .instance_init = h8300_cpu_init,
+#endif
     .abstract = true,
     .class_size = sizeof(H8300CPUClass),
     .class_init = h8300cpu_class_init,
@@ -257,6 +273,7 @@ static void h8300cpu_register_types(void)
 
 type_init(h8300cpu_register_types)
 
+#ifndef CONFIG_USER_ONLY
 void h8300_load_image(H8300CPU *cpu, const char *filename,
                    uint32_t start, uint32_t size)
 {
@@ -269,3 +286,4 @@ void h8300_load_image(H8300CPU *cpu, const char *filename,
     }
     cpu->env.pc = start;
 }
+#endif

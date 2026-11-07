@@ -182,6 +182,12 @@ static inline void G_NORETURN raise_exception(CPUH8300State *env, int index,
     cpu_loop_exit_restore(cs, retaddr);
 }
 
+#ifdef CONFIG_USER_ONLY
+/* Nothing interrupts a user process: SLEEP waits for no one. */
+void helper_sleep(CPUH8300State *env)
+{
+}
+#else
 void G_NORETURN helper_sleep(CPUH8300State *env)
 {
     CPUState *cs = env_cpu(env);
@@ -190,6 +196,7 @@ void G_NORETURN helper_sleep(CPUH8300State *env)
     env->in_sleep = 1;
     raise_exception(env, EXCP_HLT, 0);
 }
+#endif
 
 void G_NORETURN helper_debug(CPUH8300State *env)
 {

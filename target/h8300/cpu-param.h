@@ -21,6 +21,14 @@
 
 #define TARGET_PAGE_BITS 12
 
+#ifdef CONFIG_USER_ONLY
+/*
+ * Advanced mode has a 24-bit address space: jumps and returns drop the
+ * top byte of the PC, so user mode keeps the guest below 16 MB.
+ */
+#define TARGET_VIRT_ADDR_SPACE_BITS 24
+#else
 #define TARGET_VIRT_ADDR_SPACE_BITS 32
+#endif
 
 #endif
