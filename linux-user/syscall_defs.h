@@ -89,7 +89,8 @@
     || defined(TARGET_C6X) \
     || defined(TARGET_H8300) \
     || defined(TARGET_IA64) \
-    || defined(TARGET_LM32)
+    || defined(TARGET_LM32) \
+    || defined(TARGET_V850)
 
 #define TARGET_IOC_SIZEBITS     14
 #define TARGET_IOC_DIRBITS      2
@@ -2163,6 +2164,54 @@ struct target_stat64 {
     abi_uint __unused5;
 };
 #endif
+
+#elif defined(TARGET_V850)
+
+/* include/asm-v850/stat.h */
+struct target_stat {
+    abi_uint st_dev;
+    abi_ulong st_ino;
+    abi_uint st_mode;
+    abi_uint st_nlink;
+    abi_uint st_uid;
+    abi_uint st_gid;
+    abi_uint st_rdev;
+    abi_long st_size;
+    abi_ulong st_blksize;
+    abi_ulong st_blocks;
+    abi_ulong target_st_atime;
+    abi_ulong __unused1;
+    abi_ulong target_st_mtime;
+    abi_ulong __unused2;
+    abi_ulong target_st_ctime;
+    abi_ulong __unused3;
+    abi_ulong __unused4;
+    abi_ulong __unused5;
+};
+
+#define TARGET_HAS_STRUCT_STAT64
+struct target_stat64 {
+    abi_ullong st_dev;
+    abi_ulong __unused1;
+    abi_ullong st_ino;
+    abi_uint st_mode;
+    abi_uint st_nlink;
+    abi_uint st_uid;
+    abi_uint st_gid;
+    abi_ullong st_rdev;
+    abi_ulong __unused3;
+    abi_llong st_size;
+    abi_ulong st_blksize;
+    abi_ulong st_blocks;
+    abi_ulong __unused4;
+    abi_ulong target_st_atime;
+    abi_ulong target_st_atime_nsec;
+    abi_ulong target_st_mtime;
+    abi_ulong target_st_mtime_nsec;
+    abi_ulong target_st_ctime;
+    abi_ulong target_st_ctime_nsec;
+    abi_ulong __unused8;
+};
 
 #elif defined(TARGET_HPPA)
 
