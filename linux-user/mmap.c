@@ -974,6 +974,16 @@ abi_long target_mmap(abi_ulong start, abi_ulong len, int target_prot,
         return -1;
     }
 
+#ifdef TARGET_NOMMU_PRIVATE_WRITABLE
+    /*
+     * Without an MMU the guest kernel cannot write-protect anything, and
+     * e.g. the C6X dynamic linker patches loaded text.
+     */
+    if ((flags & MAP_TYPE) == MAP_PRIVATE && target_prot != PROT_NONE) {
+        target_prot |= PROT_READ | PROT_WRITE;
+    }
+#endif
+
     page_flags = validate_prot_to_pageflags(target_prot);
     if (!page_flags) {
         errno = EINVAL;
