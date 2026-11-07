@@ -448,6 +448,10 @@ static void gen_misaligned_check(DisasContext *dc, TCGv_i64 addr, int bytes,
     TCGLabel *ok;
     TCGv_i64 t;
 
+#ifdef CONFIG_USER_ONLY
+    /* Linux emulates them */
+    return;
+#endif
     if (dc->ac || bytes == 1) {
         return;
     }
@@ -458,6 +462,49 @@ static void gen_misaligned_check(DisasContext *dc, TCGv_i64 addr, int bytes,
     gen_helper_misaligned(tcg_env, addr,
                           tcg_constant_i64(store ? ISR_W : ISR_R));
     gen_set_label(ok);
+}
+
+/* The address QEMU accesses for a data reference to addr. */
+static TCGv_i64 gen_maddr(TCGv_i64 addr)
+{
+#ifdef CONFIG_USER_ONLY
+    TCGv_i64 t = tcg_temp_new_i64();
+    TCGv_i64 r = tcg_temp_new_i64();
+
+    tcg_gen_shri_i64(r, addr, 61);
+    tcg_gen_shli_i64(r, r, IA64_USER_RGN_SHIFT);
+    tcg_gen_andi_i64(t, addr, (1ull << 61) - 1);
+    tcg_gen_or_i64(t, t, r);
+    return t;
+#else
+    return addr;
+#endif
+}
+
+/* An ip as the program sees it (mov =ip, return links). */
+static uint64_t visible_ip(uint64_t ip)
+{
+#ifdef CONFIG_USER_ONLY
+    return ia64_user_unfold(ip);
+#else
+    return ip;
+#endif
+}
+
+/* ip = bundle address in branch register value v */
+static void gen_ip_from(TCGv_i64 ip, TCGv_i64 v)
+{
+    tcg_gen_andi_i64(ip, v, ~0xfull);
+#ifdef CONFIG_USER_ONLY
+    {
+        TCGv_i64 r = tcg_temp_new_i64();
+
+        tcg_gen_shri_i64(r, ip, 61);
+        tcg_gen_shli_i64(r, r, IA64_USER_RGN_SHIFT);
+        tcg_gen_andi_i64(ip, ip, (1ull << 61) - 1);
+        tcg_gen_or_i64(ip, ip, r);
+    }
+#endif
 }
 
 static void trans_m_fp(DisasContext *dc, const struct asm_inst *in);

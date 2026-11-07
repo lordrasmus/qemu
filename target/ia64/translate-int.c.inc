@@ -611,7 +611,7 @@ static void trans_i_movfrom(DisasContext *dc, const struct asm_inst *in)
     }
     switch (in->i_iop) {
     case ASM_OP_MOV_IP:
-        tcg_gen_movi_i64(d, dc->ip);
+        tcg_gen_movi_i64(d, visible_ip(dc->ip));
         break;
     case ASM_OP_MOV_PR:
         gen_helper_mov_from_pr(d, tcg_env);

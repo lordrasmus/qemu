@@ -352,6 +352,7 @@ struct ArchCPU {
  */
 #define MMU_IDX_VIRT    4
 #define NB_MMU_MODES_USED 8
+#define MMU_USER_IDX    (3 | MMU_IDX_VIRT)
 
 /*
  * Itanium 2 does a misaligned access itself, without psr.ac, if a load stays
@@ -361,10 +362,41 @@ struct ArchCPU {
 static inline bool ia64_misaligned_ok(CPUIA64State *env, uint64_t addr,
                                       int size, bool store)
 {
+#ifdef CONFIG_USER_ONLY
+    /* Linux emulates the others (arch/ia64/kernel/unaligned.c) */
+    return !(env->psr & PSR_AC);
+#else
     int block = store ? 16 : 8;
 
     return !(env->psr & PSR_AC) && (addr & (block - 1)) + size <= block;
+#endif
 }
+
+#ifdef CONFIG_USER_ONLY
+/*
+ * linux-user: the user regions 1..4 (va bits 61..63) do not fit the host
+ * address space; region r is folded to r << 44, which keeps the 16 TB a
+ * region can map with 16 KB pages.  Region 0 stays as it is, and so do the
+ * addresses QEMU hands out (mmap, stack), which lie below 1 << 44.
+ * env->ip is kept folded; the branch and memory paths convert.
+ */
+#define IA64_USER_RGN_SHIFT 44
+
+static inline uint64_t ia64_user_fold(uint64_t va)
+{
+    return (va & ((1ull << 61) - 1)) | ((va >> 61) << IA64_USER_RGN_SHIFT);
+}
+
+static inline uint64_t ia64_user_unfold(uint64_t a)
+{
+    uint64_t rgn = a >> IA64_USER_RGN_SHIFT;
+
+    if (rgn >= 1 && rgn <= 4) {
+        return (rgn << 61) | (a & ((1ull << IA64_USER_RGN_SHIFT) - 1));
+    }
+    return a;
+}
+#endif
 
 static inline int ia64_cpl(CPUIA64State *env)
 {
@@ -398,6 +430,7 @@ void ia64_set_psr(CPUIA64State *env, uint64_t psr);
 void ia64_switch_bank(CPUIA64State *env, bool bn);
 uint64_t ia64_bsp(CPUIA64State *env);
 void ia64_rse_frame_load(CPUIA64State *env, int n, uintptr_t ra);
+void ia64_rse_flush(CPUIA64State *env);
 void ia64_tlb_flush_all(CPUIA64State *env);
 void ia64_tc_insert(CPUIA64State *env, bool insn, uint64_t va, uint64_t pte,
                     uint64_t itir);

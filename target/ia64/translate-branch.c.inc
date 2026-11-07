@@ -30,14 +30,18 @@ static void gen_branch_fallthrough(DisasContext *dc, TCGLabel *nt)
 }
 
 /* br.call / brl.call: b1 = return bundle, push the frame. */
-static void gen_call(DisasContext *dc, int b1, TCGv_i64 target)
+static void gen_call(DisasContext *dc, int b1, TCGv_i64 target, bool direct)
 {
     TCGv_i64 t = tcg_temp_new_i64();
     int ri;
 
-    tcg_gen_mov_i64(t, target);
-    tcg_gen_andi_i64(t, t, ~0xfull);
-    tcg_gen_movi_i64(cpu_br[b1], next_ip(dc, &ri) + (ri ? 16 : 0));
+    if (direct) {
+        tcg_gen_andi_i64(t, target, ~0xfull);
+    } else {
+        gen_ip_from(t, target);
+    }
+    tcg_gen_movi_i64(cpu_br[b1],
+                     visible_ip(next_ip(dc, &ri) + (ri ? 16 : 0)));
     gen_save_ip(dc);
     gen_helper_br_call(tcg_env);
     tcg_gen_mov_i64(cpu_ip, t);
@@ -49,7 +53,7 @@ static void trans_b_ipcall(DisasContext *dc, int b1, uint64_t target)
 {
     TCGLabel *nt = gen_branch_skip(dc, branch_cond(dc));
 
-    gen_call(dc, b1, tcg_constant_i64(target));
+    gen_call(dc, b1, tcg_constant_i64(target), true);
     gen_branch_fallthrough(dc, nt);
 }
 
@@ -111,14 +115,14 @@ static void trans_b_indirect(DisasContext *dc, const struct asm_inst *in)
     switch (in->i_iop) {
     case ASM_OP_BR_COND:
         nt = gen_branch_skip(dc, branch_cond(dc));
-        tcg_gen_andi_i64(cpu_ip, cpu_br[b2], ~0xfull);
+        gen_ip_from(cpu_ip, cpu_br[b2]);
         tcg_gen_movi_i32(cpu_ri, 0);
         gen_lookup_and_goto_ptr(dc);
         gen_branch_fallthrough(dc, nt);
         break;
     case ASM_OP_BR_RET:
         nt = gen_branch_skip(dc, branch_cond(dc));
-        tcg_gen_andi_i64(t, cpu_br[b2], ~0xfull);
+        gen_ip_from(t, cpu_br[b2]);
         gen_save_ip(dc);
         gen_helper_br_ret(tcg_env);
         tcg_gen_mov_i64(cpu_ip, t);
@@ -129,7 +133,7 @@ static void trans_b_indirect(DisasContext *dc, const struct asm_inst *in)
         break;
     case ASM_OP_BR_CALL:    /* B5 */
         nt = gen_branch_skip(dc, branch_cond(dc));
-        gen_call(dc, field(b, 6, 3), cpu_br[b2]);
+        gen_call(dc, field(b, 6, 3), cpu_br[b2], false);
         gen_branch_fallthrough(dc, nt);
         break;
     default:                /* br.ia: no IA-32 */
