@@ -74,10 +74,12 @@ static int avr32_cpu_mmu_index(CPUState *cs, bool ifetch)
                                                      : MMU_USER_IDX;
 }
 
+#ifndef CONFIG_USER_ONLY
 static bool avr32_cpu_has_work(CPUState *cs)
 {
     return cpu_test_interrupt(cs, CPU_INTERRUPT_HARD);
 }
+#endif
 
 static void avr32_cpu_disas_set_info(const CPUState *cpu,
                                      disassemble_info *info)
@@ -114,11 +116,13 @@ static void avr32_cpu_reset_hold(Object *obj, ResetType type)
     env->sysr[SYSREG_MMUCR] = MMUCR_S;
     env->sysr[SYSREG_TLBARLO] = 0xffffffff;
 
+#ifndef CONFIG_USER_ONLY
     env->count_base = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
     env->compare_pending = false;
     if (env->compare_timer) {
         timer_del(env->compare_timer);
     }
+#endif
     env->irq_pending = 0;
     env->nmi_pending = false;
 
@@ -128,7 +132,6 @@ static void avr32_cpu_reset_hold(Object *obj, ResetType type)
 static void avr32_cpu_realizefn(DeviceState *dev, Error **errp)
 {
     CPUState *cs = CPU(dev);
-    AVR32CPU *cpu = AVR32_CPU(cs);
     AVR32CPUClass *acc = AVR32_CPU_GET_CLASS(dev);
     Error *local_err = NULL;
 
@@ -138,9 +141,13 @@ static void avr32_cpu_realizefn(DeviceState *dev, Error **errp)
         return;
     }
 
+#ifndef CONFIG_USER_ONLY
+    AVR32CPU *cpu = AVR32_CPU(cs);
+
     cpu->env.compare_timer = timer_new_ns(QEMU_CLOCK_VIRTUAL,
                                           avr32_compare_timer_cb, cpu);
     qdev_init_gpio_out_named(dev, &cpu->env.compare_irq, "compare", 1);
+#endif
 
     qemu_init_vcpu(cs);
     cpu_reset(cs);
@@ -177,10 +184,12 @@ static ObjectClass *avr32_cpu_class_by_name(const char *cpu_model)
     return object_class_by_name(typename);
 }
 
+#ifndef CONFIG_USER_ONLY
 static const struct SysemuCPUOps avr32_sysemu_ops = {
     .has_work = avr32_cpu_has_work,
     .get_phys_addr_debug = avr32_cpu_get_phys_page_debug,
 };
+#endif
 
 static const TCGCPUOps avr32_tcg_ops = {
     /* MTTCG not yet supported: require strict ordering */
@@ -192,13 +201,15 @@ static const TCGCPUOps avr32_tcg_ops = {
     .get_tb_cpu_state = avr32_get_tb_cpu_state,
     .restore_state_to_opc = avr32_restore_state_to_opc,
     .mmu_index = avr32_cpu_mmu_index,
-    .pointer_wrap = cpu_pointer_wrap_uint32,
 
+#ifndef CONFIG_USER_ONLY
+    .pointer_wrap = cpu_pointer_wrap_uint32,
     .tlb_fill = avr32_cpu_tlb_fill,
     .cpu_exec_interrupt = avr32_cpu_exec_interrupt,
     .cpu_exec_reset = cpu_reset,
     .do_interrupt = avr32_cpu_do_interrupt,
     .do_unaligned_access = avr32_cpu_do_unaligned_access,
+#endif
 };
 
 static void avr32_cpu_class_init(ObjectClass *oc, const void *data)
@@ -219,7 +230,9 @@ static void avr32_cpu_class_init(ObjectClass *oc, const void *data)
     cc->set_pc = avr32_cpu_set_pc;
     cc->get_pc = avr32_cpu_get_pc;
     cc->disas_set_info = avr32_cpu_disas_set_info;
+#ifndef CONFIG_USER_ONLY
     cc->sysemu_ops = &avr32_sysemu_ops;
+#endif
     cc->gdb_read_register = avr32_cpu_gdb_read_register;
     cc->gdb_write_register = avr32_cpu_gdb_write_register;
     cc->gdb_num_core_regs = 17;

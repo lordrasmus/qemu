@@ -90,6 +90,7 @@ void avr32_set_sr(CPUAVR32State *env, uint32_t sr)
     avr32_switch_bank(env, old_mode, avr32_mode(env));
 }
 
+#ifndef CONFIG_USER_ONLY
 /* Enter an event context: save SR and the return address, switch modes */
 static void avr32_enter(CPUAVR32State *env, int mode, uint32_t ret_pc,
                         uint32_t set_bits, uint32_t handler)
@@ -207,6 +208,8 @@ void avr32_cpu_set_nmi(AVR32CPU *cpu, bool raise)
     avr32_update_irq(cpu);
 }
 
+#endif /* !CONFIG_USER_ONLY */
+
 G_NORETURN static void avr32_raise(CPUAVR32State *env, int excp,
                                    uintptr_t retaddr)
 {
@@ -220,6 +223,38 @@ void helper_raise_exception(CPUAVR32State *env, uint32_t excp)
 {
     avr32_raise(env, excp, 0);
 }
+
+#ifdef CONFIG_USER_ONLY
+/* linux-user handles the system call in cpu_loop */
+void helper_scall(CPUAVR32State *env, uint32_t next_pc)
+{
+    CPUState *cs = env_cpu(env);
+
+    env->r[AVR32_PC_REG] = next_pc;
+    cs->exception_index = EXCP_AVR32_SCALL;
+    cpu_loop_exit(cs);
+}
+
+void helper_rets(CPUAVR32State *env)
+{
+    avr32_raise(env, EXCP_AVR32_PRIVILEGE, 0);
+}
+
+void helper_rete(CPUAVR32State *env)
+{
+    avr32_raise(env, EXCP_AVR32_PRIVILEGE, 0);
+}
+
+void helper_retd(CPUAVR32State *env)
+{
+    avr32_raise(env, EXCP_AVR32_PRIVILEGE, 0);
+}
+
+void helper_sleep(CPUAVR32State *env, uint32_t op8, uint32_t next_pc)
+{
+    avr32_raise(env, EXCP_AVR32_PRIVILEGE, 0);
+}
+#else /* !CONFIG_USER_ONLY */
 
 void helper_scall(CPUAVR32State *env, uint32_t next_pc)
 {
@@ -640,6 +675,43 @@ void helper_tlbs(CPUAVR32State *env)
     }
     env->sysr[SYSREG_MMUCR] = mmucr;
 }
+
+#endif /* !CONFIG_USER_ONLY */
+
+#ifdef CONFIG_USER_ONLY
+
+/* System registers only matter for the Java extension in application mode */
+uint32_t helper_mfsr(CPUAVR32State *env, uint32_t n)
+{
+    return env->sysr[n & 0xff];
+}
+
+void helper_mtsr(CPUAVR32State *env, uint32_t n, uint32_t val)
+{
+    env->sysr[n & 0xff] = val;
+}
+
+/* Privileged: translate.c raises the privilege exception first */
+uint32_t helper_mfdr(CPUAVR32State *env, uint32_t n)
+{
+    g_assert_not_reached();
+}
+
+void helper_tlbw(CPUAVR32State *env)
+{
+    g_assert_not_reached();
+}
+
+void helper_tlbr(CPUAVR32State *env)
+{
+    g_assert_not_reached();
+}
+
+void helper_tlbs(CPUAVR32State *env)
+{
+    g_assert_not_reached();
+}
+#endif /* CONFIG_USER_ONLY */
 
 /* MACSATHH.W: saturating fractional multiply-accumulate of halfwords */
 void helper_macsathhw(CPUAVR32State *env, uint32_t rd, uint32_t op1,
