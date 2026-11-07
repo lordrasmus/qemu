@@ -277,19 +277,48 @@ static inline uint16_t cur_cid(CPUNDS32State *env)
     return FIELD_EX32(env->sr[SR_TLB_MISC], TLB_MISC, CID);
 }
 
+static bool tlb_match(NDS32TLBEntry *e, uint32_t vpn, uint16_t cid)
+{
+    unsigned sh = e->shift - TARGET_PAGE_BITS;
+
+    return e->valid && (e->vpn >> sh) == (vpn >> sh) &&
+           ((e->data & PTE_G) || e->cid == cid);
+}
+
 static NDS32TLBEntry *tlb_lookup(CPUNDS32State *env, uint32_t vpn)
 {
     NDS32TLBEntry *set = env->tlb[tlb_set_of(vpn)];
     uint16_t cid = cur_cid(env);
 
     for (int w = 0; w < TLB_WAYS; w++) {
-        NDS32TLBEntry *e = &set[w];
-        if (e->valid && e->vpn == vpn &&
-            ((e->data & PTE_G) || e->cid == cid)) {
-            return e;
+        if (tlb_match(&set[w], vpn, cid)) {
+            return &set[w];
+        }
+    }
+    for (int i = 0; i < TLB_BIG; i++) {
+        if (tlb_match(&env->tlb_big[i], vpn, cid)) {
+            return &env->tlb_big[i];
         }
     }
     return NULL;
+}
+
+/* TLB_MISC.ACC_PSZ: 4K, 8K, 16K, 64K, 256K, 1M, 4M, 16M, 64M, 256M */
+static unsigned acc_psz_shift(CPUNDS32State *env)
+{
+    static const uint8_t shift[16] = {
+        12, 13, 14, 16, 18, 20, 22, 24, 26, 28, 12, 12, 12, 12, 12, 12
+    };
+
+    return shift[FIELD_EX32(env->sr[SR_TLB_MISC], TLB_MISC, ACC_PSZ)];
+}
+
+/* Physical address of the 4 KB page holding va, for a matching entry. */
+static uint32_t tlb_entry_pa(NDS32TLBEntry *e, uint32_t va)
+{
+    uint32_t off = (1u << e->shift) - 1;
+
+    return ((e->data & ~off) | (va & off)) & TARGET_PAGE_MASK;
 }
 
 static void tlb_write(CPUNDS32State *env, NDS32TLBEntry *e, uint32_t data,
@@ -303,17 +332,66 @@ static void tlb_write(CPUNDS32State *env, NDS32TLBEntry *e, uint32_t data,
     e->vpn = env->sr[SR_TLB_VPN] >> TARGET_PAGE_BITS;
     e->data = data;
     e->cid = cur_cid(env);
+    e->shift = TARGET_PAGE_BITS;
     e->valid = true;
     e->locked = lock;
     tlb_flush_page(cs, e->vpn << TARGET_PAGE_BITS);
 }
 
+static void tlb_big_write(CPUNDS32State *env, uint32_t data, bool lock,
+                          unsigned shift)
+{
+    uint32_t vpn = env->sr[SR_TLB_VPN] >> TARGET_PAGE_BITS;
+    NDS32TLBEntry *e = NULL;
+
+    for (int i = 0; i < TLB_BIG && !e; i++) {
+        NDS32TLBEntry *c = &env->tlb_big[i];
+        if (c->valid && c->shift == shift &&
+            (c->vpn >> (shift - TARGET_PAGE_BITS)) ==
+            (vpn >> (shift - TARGET_PAGE_BITS))) {
+            e = c;
+        }
+    }
+    for (int i = 0; i < TLB_BIG && !e; i++) {
+        if (!env->tlb_big[i].valid) {
+            e = &env->tlb_big[i];
+        }
+    }
+    for (int i = 0; i < TLB_BIG && !e; i++) {
+        NDS32TLBEntry *c = &env->tlb_big[(env->tlb_big_rr + i) % TLB_BIG];
+        if (!c->locked) {
+            e = c;
+        }
+    }
+    env->tlb_big_rr++;
+    if (!e) {
+        return;
+    }
+    e->vpn = vpn;
+    e->data = data;
+    e->cid = cur_cid(env);
+    e->shift = shift;
+    e->valid = true;
+    e->locked = lock;
+    /* qemu's TLB holds 4 KB pieces of it; drop them all. */
+    tlb_flush(env_cpu(env));
+}
+
 static void tlb_random_write(CPUNDS32State *env, uint32_t data, bool lock)
 {
     uint32_t vpn = env->sr[SR_TLB_VPN] >> TARGET_PAGE_BITS;
+    unsigned shift = acc_psz_shift(env);
     NDS32TLBEntry *set = env->tlb[tlb_set_of(vpn)];
-    NDS32TLBEntry *e = tlb_lookup(env, vpn);
+    NDS32TLBEntry *e;
 
+    if (shift > TARGET_PAGE_BITS) {
+        tlb_big_write(env, data, lock, shift);
+        return;
+    }
+    e = tlb_lookup(env, vpn);
+    if (e && (e < set || e >= set + TLB_WAYS)) {
+        e = NULL;
+    }
     if (!e) {
         for (int w = 0; w < TLB_WAYS; w++) {
             if (!set[w].valid) {
@@ -346,6 +424,11 @@ void nds32_tlb_flush_all(CPUNDS32State *env)
             if (!env->tlb[s][w].locked) {
                 env->tlb[s][w].valid = false;
             }
+        }
+    }
+    for (int i = 0; i < TLB_BIG; i++) {
+        if (!env->tlb_big[i].locked) {
+            env->tlb_big[i].valid = false;
         }
     }
     tlb_flush(env_cpu(env));
@@ -382,6 +465,13 @@ void helper_tlbop(CPUNDS32State *env, uint32_t ra, uint32_t op)
                 e->locked = false;
             }
         }
+        for (int i = 0; i < TLB_BIG; i++) {
+            e = &env->tlb_big[i];
+            if (e->valid && (e->vpn >> (e->shift - TARGET_PAGE_BITS)) ==
+                (vpn >> (e->shift - TARGET_PAGE_BITS))) {
+                e->locked = false;
+            }
+        }
         break;
     case 6: /* Invalidate */
         for (int w = 0; w < TLB_WAYS; w++) {
@@ -389,6 +479,15 @@ void helper_tlbop(CPUNDS32State *env, uint32_t ra, uint32_t op)
             if (e->valid && e->vpn == vpn) {
                 e->valid = false;
                 e->locked = false;
+            }
+        }
+        for (int i = 0; i < TLB_BIG; i++) {
+            e = &env->tlb_big[i];
+            if (e->valid && (e->vpn >> (e->shift - TARGET_PAGE_BITS)) ==
+                (vpn >> (e->shift - TARGET_PAGE_BITS))) {
+                e->valid = false;
+                e->locked = false;
+                tlb_flush(cs);
             }
         }
         tlb_flush_page(cs, vpn << TARGET_PAGE_BITS);
@@ -411,6 +510,10 @@ uint32_t helper_tlbop_probe(CPUNDS32State *env, uint32_t ra)
     if (!e) {
         return 0;
     }
+    if (e < set || e >= set + TLB_WAYS) {
+        /* Hit in a large-page entry: no set/way to report. */
+        return 1u << 31;
+    }
     return (1u << 31) | ((e - set) << 9) | tlb_set_of(vpn);
 }
 
@@ -430,7 +533,8 @@ enum {
     XL_LEAF_NP,         /* PTE not present, ETYPE 1 */
 };
 
-static int get_pte(CPUNDS32State *env, uint32_t va, uint32_t *pte)
+static int get_pte(CPUNDS32State *env, uint32_t va, uint32_t *pte,
+                   uint32_t *pa)
 {
     CPUState *cs = env_cpu(env);
     NDS32TLBEntry *e = tlb_lookup(env, va >> TARGET_PAGE_BITS);
@@ -438,6 +542,7 @@ static int get_pte(CPUNDS32State *env, uint32_t va, uint32_t *pte)
 
     if (e) {
         *pte = e->data;
+        *pa = tlb_entry_pa(e, va);
         return (e->data & PTE_V) ? XL_OK : XL_LEAF_NP;
     }
 
@@ -448,6 +553,7 @@ static int get_pte(CPUNDS32State *env, uint32_t va, uint32_t *pte)
     }
     l2a = (l1 & 0xfffff000) | (((va >> 12) & 0x3ff) << 2);
     *pte = address_space_ldl_le(cs->as, l2a, MEMTXATTRS_UNSPECIFIED, NULL);
+    *pa = *pte & TARGET_PAGE_MASK;
     return (*pte & PTE_V) ? XL_OK : XL_LEAF_NP;
 }
 
@@ -471,15 +577,15 @@ static int pte_prot(uint32_t pte, bool user)
 hwaddr nds32_cpu_get_phys_page_debug(CPUState *cs, vaddr addr)
 {
     CPUNDS32State *env = cpu_env(cs);
-    uint32_t pte;
+    uint32_t pte, pa;
 
     if (!FIELD_EX32(env->sr[SR_PSW], PSW, DT)) {
         return ntm_map(env, addr);
     }
-    if (get_pte(env, addr, &pte) != XL_OK) {
+    if (get_pte(env, addr, &pte, &pa) != XL_OK) {
         return -1;
     }
-    return (pte & TARGET_PAGE_MASK) | (addr & ~TARGET_PAGE_MASK);
+    return pa | (addr & ~TARGET_PAGE_MASK);
 }
 
 bool nds32_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
@@ -489,7 +595,7 @@ bool nds32_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
     CPUNDS32State *env = cpu_env(cs);
     uint32_t va = address;
     uint32_t itype = access_type == MMU_INST_FETCH ? R_ITYPE_INST_MASK : 0;
-    uint32_t pte;
+    uint32_t pte, pa;
     int prot, r;
 
     if (!(mmu_idx & MMU_IDX_XLATE)) {
@@ -499,7 +605,7 @@ bool nds32_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
         return true;
     }
 
-    r = get_pte(env, va, &pte);
+    r = get_pte(env, va, &pte, &pa);
     if (r != XL_OK) {
         if (probe) {
             return false;
@@ -536,8 +642,8 @@ bool nds32_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
     if (!(pte & PTE_D)) {
         prot &= ~PAGE_WRITE;
     }
-    tlb_set_page(cs, va & TARGET_PAGE_MASK, pte & TARGET_PAGE_MASK,
-                 prot, mmu_idx, TARGET_PAGE_SIZE);
+    tlb_set_page(cs, va & TARGET_PAGE_MASK, pa, prot, mmu_idx,
+                 TARGET_PAGE_SIZE);
     return true;
 
 fault:

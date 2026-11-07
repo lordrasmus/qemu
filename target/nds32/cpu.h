@@ -169,9 +169,16 @@ typedef struct NDS32TLBEntry {
     uint32_t vpn;       /* VA >> 12 */
     uint32_t data;      /* PTE format */
     uint16_t cid;
+    uint8_t shift;      /* page size, from TLB_MISC.ACC_PSZ at write time */
     bool valid;
     bool locked;
 } NDS32TLBEntry;
+
+/*
+ * Entries written with a page size above 4 KB (Linux 3.4 head.S maps the
+ * kernel with 1 MB pages) live in a small fully associative array.
+ */
+#define TLB_BIG     32
 
 struct CPUArchState {
     uint32_t gpr[32];
@@ -194,6 +201,8 @@ struct CPUArchState {
 
     NDS32TLBEntry tlb[TLB_SETS][TLB_WAYS];
     uint32_t tlb_rr;
+    NDS32TLBEntry tlb_big[TLB_BIG];
+    uint32_t tlb_big_rr;
 };
 
 struct ArchCPU {

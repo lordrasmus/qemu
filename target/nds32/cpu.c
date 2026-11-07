@@ -82,6 +82,8 @@ static void nds32_cpu_reset_hold(Object *obj, ResetType type)
     memset(env->sr, 0, sizeof(env->sr));
     memset(env->tlb, 0, sizeof(env->tlb));
     env->tlb_rr = 0;
+    memset(env->tlb_big, 0, sizeof(env->tlb_big));
+    env->tlb_big_rr = 0;
     env->lock_addr = -1;
     env->pc = 0;
 
