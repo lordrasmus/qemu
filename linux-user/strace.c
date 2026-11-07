@@ -2238,6 +2238,7 @@ print_execve(CPUArchState *cpu_env, const struct syscallname *name,
     print_syscall_epilogue(name);
 }
 
+#ifdef TARGET_NR_execveat
 static void
 print_execveat(CPUArchState *cpu_env, const struct syscallname *name,
                abi_long arg1, abi_long arg2, abi_long arg3,
@@ -2250,6 +2251,7 @@ print_execveat(CPUArchState *cpu_env, const struct syscallname *name,
     print_flags(execveat_flags, arg5, 1);
     print_syscall_epilogue(name);
 }
+#endif
 
 #if defined(TARGET_NR_faccessat) || defined(TARGET_NR_faccessat2)
 static void
