@@ -1,4 +1,8 @@
+#ifdef CONFIG_USER_ONLY
+DEF_HELPER_1(sleep, void, env)
+#else
 DEF_HELPER_1(sleep, noreturn, env)
+#endif
 DEF_HELPER_1(debug, noreturn, env)
 DEF_HELPER_2(trapa, noreturn, env, i32)
 DEF_HELPER_FLAGS_3(set_ccr, TCG_CALL_NO_WG, void, env, i32, i32)

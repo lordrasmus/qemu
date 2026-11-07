@@ -21,10 +21,12 @@
 #include "cpu.h"
 #include "exec/log.h"
 #include "accel/tcg/cpu-ldst.h"
+#ifndef CONFIG_USER_ONLY
 #include "system/system.h"
 #include "hw/core/irq.h"
 
 static int intmode;
+#endif
 
 void h8300_cpu_unpack_ccr(CPUH8300State *env, uint32_t ccr)
 {
@@ -44,6 +46,7 @@ void h8300_cpu_unpack_exr(CPUH8300State *env, uint32_t exr)
     env->exr_t = FIELD_EX8(exr, EXR, T);
 }
 
+#ifndef CONFIG_USER_ONLY
 /*
  * Take an exception (TRAPA, ...) or the interrupt the INTC asked for.  Which
  * one is the caller's to say: an interrupt can be pending while TRAPA is
@@ -143,4 +146,4 @@ void h8300_cpu_setim(int im)
         cpu->env.im = im;
     }
 }
-
+#endif /* !CONFIG_USER_ONLY */

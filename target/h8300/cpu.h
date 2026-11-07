@@ -26,10 +26,6 @@
 #include "exec/cpu-common.h"
 #include "exec/cpu-interrupt.h"
 
-#ifdef CONFIG_USER_ONLY
-#error "H8/300 does not support user mode emulation"
-#endif
-
 /* CCR define */
 REG8(CCR, 0)
 FIELD(CCR, C, 0, 1)
@@ -119,6 +115,8 @@ struct H8300CPUClass {
 };
 
 #define CPU_RESOLVING_TYPE TYPE_H8300_CPU
+
+#define MMU_USER_IDX 0
 
 void h8300_cpu_do_interrupt(CPUState *cpu);
 bool h8300_cpu_exec_interrupt(CPUState *cpu, int int_req);
