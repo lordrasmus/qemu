@@ -1,0 +1,11 @@
+#ifndef FRV_TARGET_SYSCALL_H
+#define FRV_TARGET_SYSCALL_H
+
+#define UNAME_MACHINE "frv"
+#define UNAME_MINIMUM_RELEASE "2.6.32"
+
+#define TARGET_MCL_CURRENT 1
+#define TARGET_MCL_FUTURE  2
+#define TARGET_MCL_ONFAULT 4
+
+#endif
