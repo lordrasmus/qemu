@@ -1,0 +1,11 @@
+#ifndef KVX_TARGET_SYSCALL_H
+#define KVX_TARGET_SYSCALL_H
+
+#define UNAME_MACHINE "kvx"
+#define UNAME_MINIMUM_RELEASE "5.8.0"
+
+#define TARGET_MCL_CURRENT 1
+#define TARGET_MCL_FUTURE  2
+#define TARGET_MCL_ONFAULT 4
+
+#endif
