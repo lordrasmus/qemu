@@ -1696,6 +1696,9 @@ static abi_long do_pipe(CPUArchState *cpu_env, abi_ulong pipedes,
 #elif defined(TARGET_SPARC)
         cpu_env->regwptr[1] = host_pipe[1];
         return host_pipe[0];
+#elif defined(TARGET_IA64)
+        cpu_env->gr[9] = host_pipe[1];
+        return host_pipe[0];
 #endif
     }
 
@@ -12054,6 +12057,14 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
         ret = get_errno(do_fork(cpu_env, arg1, arg2, arg3, arg5, arg4));
 #endif
         return ret;
+#ifdef TARGET_NR_clone2
+    case TARGET_NR_clone2:
+        /*
+         * ia64: flags, stack base, stack size, parent tid, child tid, tls;
+         * cpu_clone_regs_child() takes the size from the registers.
+         */
+        return get_errno(do_fork(cpu_env, arg1, arg2, arg4, arg6, arg5));
+#endif
 #if defined(__NR_exit_group) && defined(TARGET_NR_exit_group)
         /* new thread calls */
     case TARGET_NR_exit_group:
