@@ -39,6 +39,16 @@ void cpu_loop(CPUCRISState *env)
             /* just indicate that signals should be handled asap */
             break;
         case EXCP_BREAK:
+            /* break 13 is the system call; v32 numbers vectors from 16 */
+            if (env->trap_vector == -1) {
+                force_sig_fault(TARGET_SIGILL, TARGET_ILL_ILLOPC,
+                                env->pc - 2);
+                break;
+            }
+            if (env->trap_vector != (env->pregs[PR_VR] >= 32 ? 29 : 13)) {
+                force_sig_fault(TARGET_SIGTRAP, TARGET_TRAP_BRKPT, env->pc);
+                break;
+            }
             ret = do_syscall(env,
                              env->regs[9], 
                              env->regs[10], 
