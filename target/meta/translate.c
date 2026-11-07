@@ -406,6 +406,7 @@ static void meta_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
 
 static void meta_tr_tb_start(DisasContextBase *dcbase, CPUState *cs)
 {
+#ifndef CONFIG_USER_ONLY
     DisasContext *dc = container_of(dcbase, DisasContext, base);
 
     /* catch replay triggered by thread enable */
@@ -419,6 +420,7 @@ static void meta_tr_tb_start(DisasContextBase *dcbase, CPUState *cs)
         LOG_DIS(" Catch Replay\n");
         dc->base.is_jmp = DISAS_NORETURN;
     }
+#endif
 }
 
 static void meta_tr_insn_start(DisasContextBase *dcbase, CPUState *cs)
@@ -2652,6 +2654,7 @@ static void meta_txdefr_write(CPUMETAState *env, uint32_t val)
 
     env->cregs[META_TXDEFR] = txdefr;
 
+#ifndef CONFIG_USER_ONLY
     /* update deferred trigger bits */
 
     /* first find active deferred triggers */
@@ -2670,6 +2673,7 @@ static void meta_txdefr_write(CPUMETAState *env, uint32_t val)
     } else {
         env->tregs[META_TXSTATI] &= ~META_TRIGGER_DEFR_MASK;
     }
+#endif
 }
 
 static void meta_gen_defr_trigger(DisasContext *dc, int defr)
@@ -8540,6 +8544,7 @@ static void meta_gen_unittounit(DisasContext *dc, const MetaInstruction *inst)
 
 static void meta_gen_rti(DisasContext *dc, const MetaInstruction *inst)
 {
+#ifndef CONFIG_USER_ONLY
     if (dc->tbflags & META_TBFLAG_ISTAT) {
         TCGv temp;
         TCGLabel *l1;
@@ -8580,12 +8585,12 @@ static void meta_gen_rti(DisasContext *dc, const MetaInstruction *inst)
         /* Computed jump, (and flags updated) */
         dc->is_jmp = DISAS_JUMP;
         meta_gen_check_triggers(dc, 1);
-
-    } else {
-        /* RTI when not in interrupt mode generates unknown instruction halt */
-        meta_gen_halt(dc, META_HREASON_UNKNOWN);
-        dc->jmp = JMP_INDIRECT;
+        return;
     }
+#endif
+    /* RTI when not in interrupt mode generates unknown instruction halt */
+    meta_gen_halt(dc, META_HREASON_UNKNOWN);
+    dc->jmp = JMP_INDIRECT;
 }
 
 static void meta_gen_rth(DisasContext *dc, const MetaInstruction *inst)
@@ -10006,6 +10011,49 @@ void meta_minim_init_table(void)
 
 
 
+#ifdef CONFIG_USER_ONLY
+/* linux-user runs the Comet's core; any known core name selects it */
+bool meta_user_core_exists(const char *cpu_model)
+{
+    int i;
+
+    for (i = 0; i < ARRAY_SIZE(meta_cores); ++i) {
+        if (!strcmp(meta_cores[i].name, cpu_model)) {
+            return true;
+        }
+    }
+    return false;
+}
+
+void meta_user_cpu_init(CPUMETAState *env)
+{
+    static MetaCore *core;
+    static struct MetaCoreConfig *cpu_info;
+    int i;
+
+    if (!core) {
+        for (i = 0; i < ARRAY_SIZE(meta_cores); ++i) {
+            if (!strcmp(meta_cores[i].name, "harrier")) {
+                cpu_info = &meta_cores[i];
+            }
+        }
+        core = g_new0(MetaCore, 1);
+        core->global.core_rev = cpu_info->core_rev;
+        core->global.core_id = (0x14 << 24)
+                             | ((uint32_t)cpu_info->core_id << 16)
+                             | cpu_info->core_config;
+        core->global.core_config2 = cpu_info->core_config2;
+        core->global.dspram_addr_bits = cpu_info->dspram_size;
+        core->num_threads = 1;
+        core->timer_period = 1000;
+        meta_minim_init_table();
+    }
+    env->global = &core->global;
+    env->thread_num = 0;
+    env->tcaps = cpu_info->tcaps[0];
+}
+#else
+
 MetaCore *cpu_meta_core_init(const char *cpu_model, unsigned int extirqs)
 {
     MetaCore *core;
@@ -10069,3 +10117,4 @@ core_found:
 
     return core;
 }
+#endif /* CONFIG_USER_ONLY */

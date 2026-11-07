@@ -38,6 +38,7 @@
 #define DEBUG_MODULO     0
 #define DEBUG_UNALIGNED  0
 
+#ifndef CONFIG_USER_ONLY
 /*
  * An unaligned access faults when TXPRIVEXT.UNALIGNFAULT is set (META2 only);
  * the translator then asks for aligned accesses, see META_TBFLAG_ALIGNFAULT.
@@ -611,16 +612,20 @@ void HELPER(txstati_ack_defr)(CPUArchState *env, uint32_t mask)
     _ack_defr_txstati(env, mask);
 }
 
+#endif /* !CONFIG_USER_ONLY */
+
 /* generate a deferred trigger */
 void HELPER(defr_trigger)(CPUArchState *env, uint32_t defr)
 {
     uint32_t mask = 1 << defr;
     env->cregs[META_TXDEFR] |= mask << META_TXDEFR_TRIGSTAT_SHIFT;
+#ifndef CONFIG_USER_ONLY
     if (env->cregs[META_TXDEFR] & mask) {
         do_itrigger(env, META_TRIGGER_DEFR_MASK);
     } else {
         do_bgtrigger(env, META_TRIGGER_DEFR_MASK);
     }
+#endif
 }
 
 void helper_raise_exception(CPUArchState *env, uint32_t index)
@@ -629,6 +634,7 @@ void helper_raise_exception(CPUArchState *env, uint32_t index)
     cpu_loop_exit(env_cpu(env));
 }
 
+#ifndef CONFIG_USER_ONLY
 /* The trace unit (TT) and memory tracing output are not emulated. */
 void HELPER(ttevent0)(uint32_t actcyc, uint32_t header)
 {
@@ -683,6 +689,7 @@ void HELPER(cachew)(CPUArchState *env, uint32_t addr, uint32_t val,
                       addr, val);
     }
 }
+#endif /* !CONFIG_USER_ONLY */
 
 float32 HELPER(fx_add32)(CPUArchState *env, float32 a, float32 b)
 {

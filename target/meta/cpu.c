@@ -39,6 +39,7 @@ const char *meta_hreason_names[4] = {
     [META_HREASON_FAULT]   = "memory fault",
 };
 
+#ifndef CONFIG_USER_ONLY
 void meta_interrupt(CPUMETAState *env, int mask)
 {
     if (bql_locked()) {
@@ -60,6 +61,7 @@ void meta_reset_interrupt(CPUMETAState *env, int mask)
         bql_unlock();
     }
 }
+#endif
 
 static void meta_cpu_set_pc(CPUState *cs, vaddr value)
 {
@@ -75,10 +77,12 @@ static vaddr meta_cpu_get_pc(CPUState *cs)
     return meta_pc_to_virt(env, env->pc[META_PC]);
 }
 
+#ifndef CONFIG_USER_ONLY
 static bool meta_cpu_has_work(CPUState *cs)
 {
     return cpu_test_interrupt(cs, CPU_INTERRUPT_HARD | CPU_INTERRUPT_WAKE);
 }
+#endif
 
 /* The flags are 64 bits; the upper half travels in cs_base. */
 static TCGTBCPUState meta_get_tb_cpu_state(CPUState *cs)
@@ -126,10 +130,24 @@ static void meta_cpu_realizefn(DeviceState *dev, Error **errp)
     mcc->parent_realize(dev, errp);
 }
 
+#ifdef CONFIG_USER_ONLY
+/* No SoC builds a core in user mode: every CPU joins one shared core. */
+static void meta_cpu_initfn(Object *obj)
+{
+    meta_user_cpu_init(&META_CPU(obj)->env);
+}
+
+static ObjectClass *meta_cpu_class_by_name(const char *cpu_model)
+{
+    return meta_user_core_exists(cpu_model) ?
+           object_class_by_name(TYPE_META_CPU) : NULL;
+}
+#else
 static const struct SysemuCPUOps meta_sysemu_ops = {
     .has_work = meta_cpu_has_work,
     .get_phys_addr_debug = meta_cpu_get_phys_page_debug,
 };
+#endif
 
 static const TCGCPUOps meta_tcg_ops = {
     .guest_default_memory_order = TCG_MO_ALL,
@@ -140,12 +158,14 @@ static const TCGCPUOps meta_tcg_ops = {
     .get_tb_cpu_state = meta_get_tb_cpu_state,
     .restore_state_to_opc = meta_restore_state_to_opc,
     .mmu_index = meta_cpu_mmu_index,
+#ifndef CONFIG_USER_ONLY
     .pointer_wrap = cpu_pointer_wrap_uint32,
     .tlb_fill = meta_cpu_tlb_fill,
     .cpu_exec_interrupt = meta_cpu_exec_interrupt,
     .cpu_exec_reset = cpu_reset,
     .do_interrupt = meta_cpu_do_interrupt,
     .do_unaligned_access = meta_cpu_do_unaligned_access,
+#endif
 };
 
 static void meta_cpu_class_init(ObjectClass *oc, const void *data)
@@ -165,7 +185,11 @@ static void meta_cpu_class_init(ObjectClass *oc, const void *data)
     cc->dump_state = meta_cpu_dump_state;
     cc->set_pc = meta_cpu_set_pc;
     cc->get_pc = meta_cpu_get_pc;
+#ifdef CONFIG_USER_ONLY
+    cc->class_by_name = meta_cpu_class_by_name;
+#else
     cc->sysemu_ops = &meta_sysemu_ops;
+#endif
     cc->tcg_ops = &meta_tcg_ops;
 }
 
@@ -174,6 +198,9 @@ static const TypeInfo meta_cpu_type_info = {
     .parent = TYPE_CPU,
     .instance_size = sizeof(METACPU),
     .instance_align = __alignof(METACPU),
+#ifdef CONFIG_USER_ONLY
+    .instance_init = meta_cpu_initfn,
+#endif
     .class_size = sizeof(METACPUClass),
     .class_init = meta_cpu_class_init,
 };
