@@ -79,7 +79,8 @@
     || defined(TARGET_TILEGX) \
     || defined(TARGET_CSKY) \
     || defined(TARGET_ARC) \
-    || defined(TARGET_KVX)
+    || defined(TARGET_KVX) \
+    || defined(TARGET_NDS32)
 
 #define TARGET_IOC_SIZEBITS     14
 #define TARGET_IOC_DIRBITS      2
@@ -1988,7 +1989,8 @@ struct target_stat64  {
     || defined(TARGET_TILEGX) \
     || defined(TARGET_CSKY) \
     || defined(TARGET_ARC) \
-    || defined(TARGET_KVX)
+    || defined(TARGET_KVX) \
+    || defined(TARGET_NDS32)
 
 /* These are the asm-generic versions of the stat and stat64 structures */
 
