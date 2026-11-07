@@ -31,10 +31,12 @@ static void v850_restore_state_to_opc(CPUState *cs,
     cpu_env(cs)->pc = data[0];
 }
 
+#ifndef CONFIG_USER_ONLY
 static bool v850_cpu_has_work(CPUState *cs)
 {
     return cpu_test_interrupt(cs, CPU_INTERRUPT_HARD);
 }
+#endif
 
 static TCGTBCPUState v850_get_tb_cpu_state(CPUState *cs)
 {
@@ -171,9 +173,9 @@ static const TCGCPUOps v850_tcg_ops = {
     .get_tb_cpu_state = v850_get_tb_cpu_state,
     .restore_state_to_opc = v850_restore_state_to_opc,
     .mmu_index = v850_cpu_mmu_index,
-    .pointer_wrap = cpu_pointer_wrap_uint32,
 
 #ifndef CONFIG_USER_ONLY
+    .pointer_wrap = cpu_pointer_wrap_uint32,
     .tlb_fill = v850_cpu_tlb_fill,
     .cpu_exec_interrupt = v850_cpu_exec_interrupt,
     .cpu_exec_halt = v850_cpu_has_work,
