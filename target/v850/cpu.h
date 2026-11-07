@@ -128,6 +128,9 @@ void v850_update_irq(CPUV850State *env);
 
 #define CPU_RESOLVING_TYPE TYPE_V850_CPU
 
+/* No MMU, a single translation regime. */
+#define MMU_USER_IDX 0
+
 #ifndef CONFIG_USER_ONLY
 hwaddr v850_cpu_get_phys_page_debug(CPUState *cpu, vaddr addr);
 bool v850_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
