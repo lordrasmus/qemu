@@ -41,6 +41,11 @@
 #include "user-mmap.h"
 #include "flat.h"
 #include "target_flat.h"
+#include "signal-common.h"
+
+#ifndef TARGET_ARCH_HAS_SIGTRAMP_PAGE
+#define TARGET_ARCH_HAS_SIGTRAMP_PAGE 0
+#endif
 
 //#define DEBUG
 
@@ -103,6 +108,18 @@ static int target_pread(int fd, abi_ulong ptr, abi_ulong len,
     }
     unlock_user(buf, ptr, len);
     return ret;
+}
+
+/****************************************************************************/
+
+/*
+ * The relocation table and the words it points at are big-endian in the
+ * file, whatever the target's byte order; get_user_ual() read them in
+ * target order.
+ */
+static abi_ulong flat_be32(abi_ulong val)
+{
+    return be32_to_cpu(tswap32(val));
 }
 
 /****************************************************************************/
@@ -412,7 +429,7 @@ static int load_flat_file(struct linux_binprm * bprm,
                relocated first).  */
             if (get_user_ual(relval, reloc + i * sizeof(abi_ulong)))
                 return -EFAULT;
-            relval = ntohl(relval);
+            relval = flat_be32(relval);
             if (flat_set_persistent(relval, &persistent))
                 continue;
             addr = flat_get_relocate_addr(relval);
@@ -430,7 +447,7 @@ static int load_flat_file(struct linux_binprm * bprm,
                  * already in target order
                  */
                 if ((flags & FLAT_FLAG_GOTPIC) == 0)
-                    addr = ntohl(addr);
+                    addr = flat_be32(addr);
                 addr = calc_reloc(addr, libinfo, id, 0);
                 if (addr == RELOC_FAILED)
                     return -ENOEXEC;
@@ -494,6 +511,20 @@ int load_flt_binary(struct linux_binprm *bprm, struct image_info *info)
 
     if (is_error(res)) {
             return res;
+    }
+
+    /* As load_elf_binary(): the signal return code goes on its own page. */
+    if (TARGET_ARCH_HAS_SIGTRAMP_PAGE) {
+        abi_long tramp_page = target_mmap(0, TARGET_PAGE_SIZE,
+                                          PROT_READ | PROT_WRITE,
+                                          MAP_PRIVATE | MAP_ANON, -1, 0);
+        if (tramp_page == -1) {
+            return -errno;
+        }
+        setup_sigtramp(tramp_page);
+        target_mprotect(tramp_page, TARGET_PAGE_SIZE, PROT_READ | PROT_EXEC);
+        vdso_sigreturn_region_start = tramp_page;
+        vdso_sigreturn_region_end = tramp_page + TARGET_PAGE_SIZE;
     }
 
     /* Update data segment pointers for all libraries */
