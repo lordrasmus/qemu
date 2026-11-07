@@ -51,10 +51,12 @@ static int bfin_cpu_mmu_index(CPUState *cs, bool ifetch)
     return bfin_supervisor(cpu_env(cs)) ? MMU_SUPER_IDX : MMU_USER_IDX;
 }
 
+#ifndef CONFIG_USER_ONLY
 static bool bfin_cpu_has_work(CPUState *cs)
 {
     return cpu_test_interrupt(cs, CPU_INTERRUPT_HARD);
 }
+#endif
 
 static void bfin_cpu_disas_set_info(const CPUState *cpu,
                                     disassemble_info *info)
@@ -82,7 +84,7 @@ static void bfin_cpu_reset_hold(Object *obj, ResetType type)
     env->ksp = 0;
     /* coming out of reset the core services the reset event */
     env->ipend = 1u << 1;
-    env->cycles_base = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
+    env->cycles_base = bfin_clock_ns();
     env->cycles2_shadow = 0;
     env->pc = env->evt[1];
 }
@@ -156,10 +158,12 @@ static ObjectClass *bfin_cpu_class_by_name(const char *cpu_model)
     return object_class_by_name(typename);
 }
 
+#ifndef CONFIG_USER_ONLY
 static const struct SysemuCPUOps bfin_sysemu_ops = {
     .has_work = bfin_cpu_has_work,
     .get_phys_addr_debug = bfin_cpu_get_phys_page_debug,
 };
+#endif
 
 static const TCGCPUOps bfin_tcg_ops = {
     .guest_default_memory_order = TCG_MO_ALL,
@@ -170,14 +174,16 @@ static const TCGCPUOps bfin_tcg_ops = {
     .get_tb_cpu_state = bfin_get_tb_cpu_state,
     .restore_state_to_opc = bfin_restore_state_to_opc,
     .mmu_index = bfin_cpu_mmu_index,
-    .pointer_wrap = cpu_pointer_wrap_uint32,
 
+#ifndef CONFIG_USER_ONLY
+    .pointer_wrap = cpu_pointer_wrap_uint32,
     .tlb_fill = bfin_cpu_tlb_fill,
     .do_unaligned_access = bfin_cpu_do_unaligned_access,
     .cpu_exec_interrupt = bfin_cpu_exec_interrupt,
     .cpu_exec_halt = bfin_cpu_has_work,
     .cpu_exec_reset = cpu_reset,
     .do_interrupt = bfin_cpu_do_interrupt,
+#endif
 };
 
 static void bfin_cpu_class_init(ObjectClass *oc, const void *data)
@@ -198,7 +204,9 @@ static void bfin_cpu_class_init(ObjectClass *oc, const void *data)
     cc->set_pc = bfin_cpu_set_pc;
     cc->get_pc = bfin_cpu_get_pc;
     cc->disas_set_info = bfin_cpu_disas_set_info;
+#ifndef CONFIG_USER_ONLY
     cc->sysemu_ops = &bfin_sysemu_ops;
+#endif
     cc->tcg_ops = &bfin_tcg_ops;
 }
 

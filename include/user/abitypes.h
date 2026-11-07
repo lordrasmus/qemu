@@ -27,7 +27,8 @@
     || defined(TARGET_NIOS2) \
     || defined(TARGET_CSKY) \
     || defined(TARGET_ARC) \
-    || defined(TARGET_AVR32)
+    || defined(TARGET_AVR32) \
+    || defined(TARGET_BFIN)
 #define ABI_LLONG_ALIGNMENT 4
 #endif
 

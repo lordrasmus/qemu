@@ -73,6 +73,7 @@
 #if defined(TARGET_I386) || defined(TARGET_ARM) || defined(TARGET_SH4)  \
     || defined(TARGET_M68K) || defined(TARGET_CRIS)                     \
     || defined(TARGET_AVR32)                                            \
+    || defined(TARGET_BFIN) \
     || defined(TARGET_S390X) || defined(TARGET_OR1K)                    \
     || defined(TARGET_RISCV)                                            \
     || defined(TARGET_XTENSA) || defined(TARGET_LOONGARCH64)            \
@@ -1245,7 +1246,7 @@ struct target_winsize {
 
 #if (defined(TARGET_I386) && defined(TARGET_ABI32))     \
     || (defined(TARGET_ARM) && defined(TARGET_ABI32))   \
-    || defined(TARGET_CRIS)
+    || defined(TARGET_CRIS) || defined(TARGET_BFIN)
 #define TARGET_STAT_HAVE_NSEC
 struct target_stat {
     abi_ushort st_dev;
