@@ -5,3 +5,10 @@ config NDS32_AE3XX
     select SERIAL_MM
     select PTIMER
     select DEVICE_TREE
+
+config NDS32_AG101P
+    bool
+    default y
+    depends on NDS32
+    select SERIAL_MM
+    select UNIMP
