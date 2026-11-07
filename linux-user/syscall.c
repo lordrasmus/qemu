@@ -4198,7 +4198,11 @@ struct target_sembuf {
     unsigned short sem_num;
     short sem_op;
     short sem_flg;
+#ifdef TARGET_META
+} __attribute__((aligned(4)));  /* META pads every struct to 4 bytes */
+#else
 };
+#endif
 
 static inline abi_long target_to_host_sembuf(struct sembuf *host_sembuf,
                                              abi_ulong target_addr,
@@ -13760,6 +13764,21 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
 #else
         return -TARGET_ENOSYS;
 #endif
+#endif
+#ifdef TARGET_NR_metag_set_tls
+    case TARGET_NR_metag_set_tls:
+        cpu_set_tls(cpu_env, arg1);
+        return 0;
+    case TARGET_NR_metag_get_tls:
+        return cpu_get_tls(cpu_env);
+    case TARGET_NR_metag_set_fpu_flags:
+        /* TXDEFR FPU trigger enables and status, arch/metag/kernel/sys_metag.c */
+        cpu_env->cregs[META_TXDEFR] &= ~0x001f001f;
+        cpu_env->cregs[META_TXDEFR] |= arg1 & 0x001f001f;
+        return 0;
+    case TARGET_NR_metag_setglobalbit:
+        /* only core memory, which user mode emulation does not have */
+        return -TARGET_EFAULT;
 #endif
 #ifdef TARGET_NR_getdomainname
     case TARGET_NR_getdomainname:
