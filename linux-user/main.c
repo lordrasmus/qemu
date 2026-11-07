@@ -106,6 +106,14 @@ static const char *last_log_filename;
  * uses the high bit(s) for pointer tagging and the like.  For them, we
  * must preserve the expected address space.
  */
+/*
+ * A 64-bit target whose user addresses are narrower than the host's can
+ * ask for the reservation by default, like the 32-bit targets get it.
+ */
+#ifndef TARGET_RESERVE_VA_BY_DEFAULT
+# define TARGET_RESERVE_VA_BY_DEFAULT 0
+#endif
+
 #ifndef MAX_RESERVED_VA
 # if HOST_LONG_BITS > TARGET_VIRT_ADDR_SPACE_BITS
 #  if TARGET_VIRT_ADDR_SPACE_BITS == 32 && \
@@ -840,7 +848,9 @@ int main(int argc, char **argv, char **envp)
             fprintf(stderr, "Reserved virtual address too big\n");
             exit(EXIT_FAILURE);
         }
-    } else if (HOST_LONG_BITS == 64 && TARGET_VIRT_ADDR_SPACE_BITS <= 32) {
+    } else if (HOST_LONG_BITS == 64 &&
+               (TARGET_VIRT_ADDR_SPACE_BITS <= 32 ||
+                TARGET_RESERVE_VA_BY_DEFAULT)) {
         /* MAX_RESERVED_VA + 1 is a large power of 2, so is aligned. */
         reserved_va = max_reserved_va;
     }
