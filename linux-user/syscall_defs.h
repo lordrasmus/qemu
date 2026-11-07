@@ -78,7 +78,8 @@
     || defined(TARGET_NIOS2) \
     || defined(TARGET_TILEGX) \
     || defined(TARGET_CSKY) \
-    || defined(TARGET_ARC)
+    || defined(TARGET_ARC) \
+    || defined(TARGET_KVX)
 
 #define TARGET_IOC_SIZEBITS     14
 #define TARGET_IOC_DIRBITS      2
@@ -1986,7 +1987,8 @@ struct target_stat64  {
     || defined(TARGET_NIOS2) \
     || defined(TARGET_TILEGX) \
     || defined(TARGET_CSKY) \
-    || defined(TARGET_ARC)
+    || defined(TARGET_ARC) \
+    || defined(TARGET_KVX)
 
 /* These are the asm-generic versions of the stat and stat64 structures */
 
@@ -2015,7 +2017,8 @@ struct target_stat {
 };
 
 #if !defined(TARGET_RISCV64) && !defined(TARGET_LOONGARCH64) && \
-    !defined(TARGET_TILEGX)
+    !defined(TARGET_TILEGX) \
+    || defined(TARGET_KVX)
 #define TARGET_HAS_STRUCT_STAT64
 struct target_stat64 {
     abi_ullong st_dev;
@@ -2160,7 +2163,8 @@ struct target_statfs64 {
 #elif (defined(TARGET_PPC64) || defined(TARGET_X86_64) ||       \
        defined(TARGET_SPARC64) || defined(TARGET_AARCH64) ||    \
        defined(TARGET_RISCV) || defined(TARGET_LOONGARCH64) ||  \
-       defined(TARGET_TILEGX)) && !defined(TARGET_ABI32)
+       defined(TARGET_TILEGX)) && !defined(TARGET_ABI32) \
+    || defined(TARGET_KVX)
 struct target_statfs {
     abi_long f_type;
     abi_long f_bsize;
