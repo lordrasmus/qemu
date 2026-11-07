@@ -98,6 +98,8 @@ static void setup_sigcontext(abi_ulong *w, CPUCRISState *env, abi_ulong mask)
      */
     env->pc -= env->dslot;
     env->dslot = 0;
+    /* A conditional store after the signal fails, as on the hardware */
+    env->excl_addr = -1;
 
     for (int i = 0; i < sc_nregs(env) + 2; i++) {
         __put_user(0, &w[i]);
@@ -178,6 +180,8 @@ void setup_frame(int sig, struct target_sigaction *ka,
     env->regs[R_SP] = frame_addr;
     env->regs[10] = sig;
     env->pc = ka->_sa_handler;
+    /* The handler starts without a pending "ax" prefix */
+    env->pregs[PR_CCS] &= ~(X_FLAG | (is_v32(env) ? P_FLAG : P_FLAG_V10));
     if (ka->sa_flags & TARGET_SA_RESTORER) {
         env->pregs[PR_SRP] = ka->sa_restorer;
     } else {
@@ -229,6 +233,8 @@ void setup_rt_frame(int sig, struct target_sigaction *ka,
     env->regs[11] = frame_addr + info_off;
     env->regs[12] = frame_addr + uc_off;
     env->pc = ka->_sa_handler;
+    /* The handler starts without a pending "ax" prefix */
+    env->pregs[PR_CCS] &= ~(X_FLAG | (is_v32(env) ? P_FLAG : P_FLAG_V10));
     if (ka->sa_flags & TARGET_SA_RESTORER) {
         env->pregs[PR_SRP] = ka->sa_restorer;
     } else {
