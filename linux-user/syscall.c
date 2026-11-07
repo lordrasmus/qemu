@@ -6980,6 +6980,163 @@ static abi_long do_map_shadow_stack(CPUArchState *env, abi_ulong addr,
 
 
 static pthread_mutex_t clone_lock = PTHREAD_MUTEX_INITIALIZER;
+
+/*
+ * LinuxThreads creates its threads with CLONE_VM but without CLONE_THREAD,
+ * so each of them is a process of its own sharing the address space.  They
+ * run as host threads here; emulate what makes them processes: their own
+ * pid, kill() aimed at one of them, _exit() (exit_group) ending only the
+ * caller, the exit signal and wait4() with __WCLONE in the creator.
+ */
+#define LT_CLONE_FLAGS (CLONE_VM | CLONE_FS | CLONE_FILES | CLONE_SIGHAND)
+
+typedef struct {
+    pid_t pid;
+    pid_t parent;       /* pid of the creator, as the guest sees it */
+    int exit_signal;    /* host signal, 0 for none */
+    bool exited;
+    int status;         /* host wait status */
+} LtClone;
+
+static pthread_mutex_t lt_lock = PTHREAD_MUTEX_INITIALIZER;
+static pthread_cond_t lt_cond = PTHREAD_COND_INITIALIZER;
+static GPtrArray *lt_clones;
+static __thread pid_t lt_self, lt_parent;
+
+static pid_t lt_getpid(void)
+{
+    return lt_self ? lt_self : getpid();
+}
+
+/* Call with lt_lock held */
+static LtClone *lt_find(pid_t pid)
+{
+    for (guint i = 0; lt_clones && i < lt_clones->len; i++) {
+        LtClone *c = g_ptr_array_index(lt_clones, i);
+        if (c->pid == pid) {
+            return c;
+        }
+    }
+    return NULL;
+}
+
+/* Is @pid the main thread or a live LinuxThreads clone? */
+static bool lt_is_pid(pid_t pid)
+{
+    bool ret;
+
+    if (!qatomic_read(&lt_clones)) {
+        return false;
+    }
+    pthread_mutex_lock(&lt_lock);
+    if (pid == getpid()) {
+        ret = true;
+    } else {
+        LtClone *c = lt_find(pid);
+        ret = c && !c->exited;
+    }
+    pthread_mutex_unlock(&lt_lock);
+    return ret;
+}
+
+static void lt_register(pid_t pid, int exit_signal)
+{
+    LtClone *c = g_new0(LtClone, 1);
+
+    c->pid = pid;
+    c->parent = lt_getpid();
+    c->exit_signal = exit_signal;
+    pthread_mutex_lock(&lt_lock);
+    if (!lt_clones) {
+        qatomic_set(&lt_clones, g_ptr_array_new_with_free_func(g_free));
+    }
+    g_ptr_array_add(lt_clones, c);
+    pthread_mutex_unlock(&lt_lock);
+}
+
+/* The calling LinuxThreads clone exits with @code */
+static void lt_exit(int code)
+{
+    LtClone *c;
+    int sig = 0;
+    pid_t parent = 0;
+
+    pthread_mutex_lock(&lt_lock);
+    c = lt_find(lt_self);
+    if (c) {
+        c->exited = true;
+        c->status = (code & 0xff) << 8;
+        sig = c->exit_signal;
+        parent = c->parent;
+    }
+    pthread_cond_broadcast(&lt_cond);
+    pthread_mutex_unlock(&lt_lock);
+    if (sig) {
+        tgkill(getpid(), parent, sig);
+    }
+}
+
+/*
+ * wait4() for LinuxThreads clones.  Returns false if the host should do
+ * the wait, otherwise the result is in *ret and *status.
+ */
+static bool lt_wait(CPUState *cpu, pid_t pid, int options, int *status,
+                    abi_long *ret)
+{
+    TaskState *ts = get_task_state(cpu);
+    pid_t me = lt_getpid();
+
+    if (!(options & (__WCLONE | __WALL)) || !qatomic_read(&lt_clones)) {
+        return false;
+    }
+    pthread_mutex_lock(&lt_lock);
+    for (;;) {
+        bool have = false;
+        struct timespec ts_wait;
+
+        for (guint i = 0; i < lt_clones->len; i++) {
+            LtClone *c = g_ptr_array_index(lt_clones, i);
+
+            if (c->parent != me || (pid > 0 && c->pid != pid)) {
+                continue;
+            }
+            have = true;
+            if (c->exited) {
+                *status = c->status;
+                *ret = c->pid;
+                g_ptr_array_remove_index(lt_clones, i);
+                pthread_mutex_unlock(&lt_lock);
+                return true;
+            }
+        }
+        if (!have) {
+            pthread_mutex_unlock(&lt_lock);
+            if (options & __WALL) {
+                return false;
+            }
+            *ret = -TARGET_ECHILD;
+            return true;
+        }
+        if (options & WNOHANG) {
+            *ret = 0;
+            break;
+        }
+        if (qatomic_read(&ts->signal_pending)) {
+            *ret = -QEMU_ERESTARTSYS;
+            break;
+        }
+        clock_gettime(CLOCK_REALTIME, &ts_wait);
+        ts_wait.tv_nsec += 20 * 1000 * 1000;
+        if (ts_wait.tv_nsec >= 1000 * 1000 * 1000) {
+            ts_wait.tv_nsec -= 1000 * 1000 * 1000;
+            ts_wait.tv_sec++;
+        }
+        pthread_cond_timedwait(&lt_cond, &lt_lock, &ts_wait);
+    }
+    pthread_mutex_unlock(&lt_lock);
+    return true;
+}
+
 typedef struct {
     CPUArchState *env;
     pthread_mutex_t mutex;
@@ -6989,6 +7146,7 @@ typedef struct {
     abi_ulong child_tidptr;
     abi_ulong parent_tidptr;
     sigset_t sigmask;
+    pid_t lt_parent;
 } new_thread_info;
 
 static void *clone_func(void *arg)
@@ -7006,6 +7164,10 @@ static void *clone_func(void *arg)
     ts = get_task_state(cpu);
     info->tid = sys_gettid();
     task_settid(ts);
+    if (info->lt_parent) {
+        lt_self = info->tid;
+        lt_parent = info->lt_parent;
+    }
     if (info->child_tidptr)
         put_user_u32(info->tid, info->child_tidptr);
     if (info->parent_tidptr)
@@ -7062,9 +7224,15 @@ static int do_fork(CPUArchState *env, unsigned int flags, abi_ulong newsp,
         TaskState *parent_ts = get_task_state(cpu);
         new_thread_info info;
         pthread_attr_t attr;
+        bool lt = !(flags & CLONE_THREAD);
 
-        if (((flags & CLONE_THREAD_FLAGS) != CLONE_THREAD_FLAGS) ||
-            (flags & CLONE_INVALID_THREAD_FLAGS)) {
+        if (lt) {
+            if ((flags & LT_CLONE_FLAGS) != LT_CLONE_FLAGS ||
+                (flags & CLONE_INVALID_THREAD_FLAGS)) {
+                return -TARGET_EINVAL;
+            }
+        } else if (((flags & CLONE_THREAD_FLAGS) != CLONE_THREAD_FLAGS) ||
+                   (flags & CLONE_INVALID_THREAD_FLAGS)) {
             return -TARGET_EINVAL;
         }
 
@@ -7131,6 +7299,9 @@ static int do_fork(CPUArchState *env, unsigned int flags, abi_ulong newsp,
         if (flags & CLONE_PARENT_SETTID) {
             info.parent_tidptr = parent_tidptr;
         }
+        if (lt) {
+            info.lt_parent = lt_getpid();
+        }
 
         ret = pthread_attr_init(&attr);
         ret = pthread_attr_setstacksize(&attr, NEW_STACK_SIZE);
@@ -7149,6 +7320,10 @@ static int do_fork(CPUArchState *env, unsigned int flags, abi_ulong newsp,
             /* Wait for the child to initialize.  */
             pthread_cond_wait(&info.cond, &info.mutex);
             ret = info.tid;
+            if (lt) {
+                lt_register(ret, flags & CSIGNAL ?
+                            target_to_host_signal(flags & CSIGNAL) : 0);
+            }
         } else {
             errno = ret;
             ret = -1;
@@ -7197,6 +7372,8 @@ static int do_fork(CPUArchState *env, unsigned int flags, abi_ulong newsp,
             /* Child Process.  */
             cpu_clone_regs_child(env, newsp, flags);
             fork_end(ret);
+            lt_self = lt_parent = 0;
+            lt_clones = NULL;
             /* There is a race condition here.  The parent process could
                theoretically read the TID in the child process before the child
                tid is set.  This would require using either ptrace
@@ -9855,6 +10032,10 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
             return -QEMU_ERESTARTSYS;
         }
 
+        if (lt_self) {
+            lt_exit(arg1);
+        }
+
         pthread_mutex_lock(&clone_lock);
 
         if (CPU_NEXT(first_cpu)) {
@@ -10017,7 +10198,9 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
     case TARGET_NR_waitpid:
         {
             int status;
-            ret = get_errno(safe_wait4(arg1, &status, arg3, 0));
+            if (!lt_wait(cpu, arg1, arg3, &status, &ret)) {
+                ret = get_errno(safe_wait4(arg1, &status, arg3, 0));
+            }
             if (!is_error(ret) && arg2 && ret
                 && put_user_s32(host_to_target_waitstatus(status), arg2))
                 return -TARGET_EFAULT;
@@ -10166,7 +10349,7 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
 #endif
 #ifdef TARGET_NR_getpid
     case TARGET_NR_getpid:
-        return get_errno(getpid());
+        return get_errno(lt_getpid());
 #endif
     case TARGET_NR_mount:
         {
@@ -10414,6 +10597,10 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
         return get_errno(syncfs(arg1));
 #endif
     case TARGET_NR_kill:
+        if ((pid_t)arg1 > 0 && lt_is_pid(arg1)) {
+            return get_errno(safe_tgkill(getpid(), arg1,
+                                         target_to_host_signal(arg2)));
+        }
         return get_errno(safe_kill(arg1, target_to_host_signal(arg2)));
 #ifdef TARGET_NR_rename
     case TARGET_NR_rename:
@@ -10579,6 +10766,9 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
 #endif
 #ifdef TARGET_NR_getppid /* not on alpha */
     case TARGET_NR_getppid:
+        if (lt_self) {
+            return lt_parent;
+        }
         return get_errno(getppid());
 #endif
 #ifdef TARGET_NR_getpgrp
@@ -11691,7 +11881,13 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
                 rusage_ptr = &rusage;
             else
                 rusage_ptr = NULL;
-            ret = get_errno(safe_wait4(arg1, &status, arg3, rusage_ptr));
+            if (lt_wait(cpu, arg1, arg3, &status, &ret)) {
+                if (rusage_ptr) {
+                    memset(rusage_ptr, 0, sizeof(*rusage_ptr));
+                }
+            } else {
+                ret = get_errno(safe_wait4(arg1, &status, arg3, rusage_ptr));
+            }
             if (!is_error(ret)) {
                 if (status_ptr && ret) {
                     status = host_to_target_waitstatus(status);
@@ -11821,6 +12017,11 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
 #ifdef __NR_exit_group
         /* new thread calls */
     case TARGET_NR_exit_group:
+        if (lt_self) {
+            /* ends only this LinuxThreads clone */
+            return do_syscall1(cpu_env, TARGET_NR_exit, arg1, 0, 0, 0, 0, 0,
+                               0, 0);
+        }
         preexit_cleanup(cpu_env, arg1);
         return get_errno(exit_group(arg1));
 #endif
