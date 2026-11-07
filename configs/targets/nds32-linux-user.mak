@@ -1,0 +1,4 @@
+TARGET_ARCH=nds32
+TARGET_SYSTBL_ABI=common,32,nds32,time32,stat64,rlimit
+TARGET_SYSTBL=syscall.tbl
+TARGET_LONG_BITS=32

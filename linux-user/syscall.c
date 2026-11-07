@@ -13410,7 +13410,8 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
 
 #ifdef TARGET_NR_fadvise64_64
     case TARGET_NR_fadvise64_64:
-#if defined(TARGET_PPC) || defined(TARGET_XTENSA) || defined(TARGET_CSKY)
+#if defined(TARGET_PPC) || defined(TARGET_XTENSA) || defined(TARGET_CSKY) \
+    || defined(TARGET_NDS32)
         /* 6 args: fd, advice, offset (high, low), len (high, low) */
         ret = arg2;
         arg2 = arg3;
