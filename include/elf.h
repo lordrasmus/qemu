@@ -210,6 +210,8 @@ typedef struct mips_elf_abiflags_v0 {
 
 #define EM_ALTERA_NIOS2     113 /* Altera Nios II soft-core processor */
 
+#define EM_TI_C6000         140 /* TI C6000 DSPs */
+
 #define EM_MICROBLAZE       189
 #define EM_MICROBLAZE_OLD   0xBAAB
 
