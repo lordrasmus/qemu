@@ -14722,7 +14722,7 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
 
             ret = get_errno(timerfd_gettime(arg1, &its_curr));
 
-            if (arg2 && host_to_target_itimerspec(arg2, &its_curr)) {
+            if (!is_error(ret) && host_to_target_itimerspec(arg2, &its_curr)) {
                 return -TARGET_EFAULT;
             }
         }
@@ -14736,7 +14736,7 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
 
             ret = get_errno(timerfd_gettime(arg1, &its_curr));
 
-            if (arg2 && host_to_target_itimerspec64(arg2, &its_curr)) {
+            if (!is_error(ret) && host_to_target_itimerspec64(arg2, &its_curr)) {
                 return -TARGET_EFAULT;
             }
         }
