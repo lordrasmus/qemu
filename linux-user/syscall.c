@@ -391,12 +391,16 @@ struct sched_attr {
     uint32_t sched_util_max;
 };
 #endif
+#ifdef TARGET_NR_sched_getattr
 #define __NR_sys_sched_getattr __NR_sched_getattr
 _syscall4(int, sys_sched_getattr, pid_t, pid, struct sched_attr *, attr,
           unsigned int, size, unsigned int, flags);
+#endif
+#ifdef TARGET_NR_sched_setattr
 #define __NR_sys_sched_setattr __NR_sched_setattr
 _syscall3(int, sys_sched_setattr, pid_t, pid, struct sched_attr *, attr,
           unsigned int, flags);
+#endif
 #define __NR_sys_sched_getscheduler __NR_sched_getscheduler
 _syscall1(int, sys_sched_getscheduler, pid_t, pid);
 #define __NR_sys_sched_setscheduler __NR_sched_setscheduler
@@ -10057,8 +10061,10 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
         unlock_user(p, arg2, 0);
         return ret;
 #endif
+#ifdef TARGET_NR_execveat
     case TARGET_NR_execveat:
         return do_execv(cpu_env, arg1, arg2, arg3, arg4, arg5, true);
+#endif
     case TARGET_NR_execve:
         return do_execv(cpu_env, AT_FDCWD, arg1, arg2, arg3, 0, false);
     case TARGET_NR_chdir:
@@ -12141,6 +12147,7 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
         }
     case TARGET_NR_sched_getscheduler:
         return get_errno(sys_sched_getscheduler(arg1));
+#ifdef TARGET_NR_sched_getattr
     case TARGET_NR_sched_getattr:
         {
             struct target_sched_attr *target_scha;
@@ -12173,6 +12180,8 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
             }
             return ret;
         }
+#endif
+#ifdef TARGET_NR_sched_setattr
     case TARGET_NR_sched_setattr:
         {
             struct target_sched_attr *target_scha;
@@ -12227,6 +12236,7 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
             unlock_user(target_scha, arg2, 0);
             return get_errno(sys_sched_setattr(arg1, &scha, arg3));
         }
+#endif
     case TARGET_NR_sched_yield:
         return get_errno(sched_yield());
     case TARGET_NR_sched_get_priority_max:
