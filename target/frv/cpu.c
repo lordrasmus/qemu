@@ -36,10 +36,12 @@ static void frv_restore_state_to_opc(CPUState *cs,
     env->excp_next = data[1];
 }
 
+#ifndef CONFIG_USER_ONLY
 static bool frv_cpu_has_work(CPUState *cs)
 {
     return cpu_test_interrupt(cs, CPU_INTERRUPT_HARD);
 }
+#endif
 
 static TCGTBCPUState frv_get_tb_cpu_state(CPUState *cs)
 {
@@ -174,9 +176,9 @@ static const TCGCPUOps frv_tcg_ops = {
     .get_tb_cpu_state = frv_get_tb_cpu_state,
     .restore_state_to_opc = frv_restore_state_to_opc,
     .mmu_index = frv_cpu_mmu_index,
-    .pointer_wrap = cpu_pointer_wrap_uint32,
 
 #ifndef CONFIG_USER_ONLY
+    .pointer_wrap = cpu_pointer_wrap_uint32,
     .tlb_fill = frv_cpu_tlb_fill,
     .do_unaligned_access = frv_cpu_do_unaligned_access,
     .cpu_exec_interrupt = frv_cpu_exec_interrupt,

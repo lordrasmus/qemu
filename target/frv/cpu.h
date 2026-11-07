@@ -146,6 +146,9 @@ struct ArchCPU {
     CPUFRVState env;
 };
 
+/* MMU index: 1 in user mode, see frv_cpu_mmu_index() */
+#define MMU_USER_IDX 1
+
 static inline bool frv_user_mode(CPUFRVState *env)
 {
     return !FIELD_EX32(env->spr[SPR_PSR], PSR, S);
