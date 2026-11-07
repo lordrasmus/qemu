@@ -5952,6 +5952,11 @@ arc_gen_EX (DisasCtxt *ctx, TCGv b, TCGv c)
 }
 
 
+/*
+ * The helpers keep the reservation behind a mutex, which only holds while
+ * one vCPU runs at a time.  linux-user runs threads in parallel and EX or
+ * plain stores bypass the mutex, so there SCOND is a host cmpxchg.
+ */
 //#define ARM_LIKE_LLOCK_SCOND
 
 extern TCGv cpu_exclusive_addr;
@@ -5966,7 +5971,7 @@ int
 arc_gen_LLOCK(DisasCtxt *ctx, TCGv dest, TCGv src)
 {
     int ret = DISAS_NEXT;
-#ifndef ARM_LIKE_LLOCK_SCOND
+#if !defined(ARM_LIKE_LLOCK_SCOND) && !defined(CONFIG_USER_ONLY)
     gen_helper_llock(dest, tcg_env, src);
 #else
     tcg_gen_qemu_ld_tl(cpu_exclusive_val, src, ctx->mem_idx, MO_UL);
@@ -6020,7 +6025,7 @@ int
 arc_gen_SCOND(DisasCtxt *ctx, TCGv addr, TCGv value)
 {
     int ret = DISAS_NEXT;
-#ifndef ARM_LIKE_LLOCK_SCOND
+#if !defined(ARM_LIKE_LLOCK_SCOND) && !defined(CONFIG_USER_ONLY)
     TCGv temp_4 = tcg_temp_new();
     gen_helper_scond(temp_4, tcg_env, addr, value);
     setZFlag(temp_4);
@@ -6042,7 +6047,7 @@ arc_gen_SCOND(DisasCtxt *ctx, TCGv addr, TCGv value)
     tcg_gen_br(done_label);
 
     gen_set_label(fail_label);
-    tcg_gen_movi_tl(cpu_Zf, 1);
+    tcg_gen_movi_tl(cpu_Zf, 0);
     gen_set_label(done_label);
     tcg_gen_movi_tl(cpu_exclusive_addr, -1);
 #endif
