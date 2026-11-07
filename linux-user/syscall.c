@@ -14258,7 +14258,11 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
 #endif /* CONFIG_EVENTFD  */
 #if defined(CONFIG_FALLOCATE) && defined(TARGET_NR_fallocate)
     case TARGET_NR_fallocate:
-#if TARGET_ABI_BITS == 32 && !defined(TARGET_ABI_MIPSN32)
+#if defined(TARGET_C6X)
+        /* sys_fallocate_c6x takes the high words first */
+        ret = get_errno(fallocate(arg1, arg2, target_offset64(arg4, arg3),
+                                  target_offset64(arg6, arg5)));
+#elif TARGET_ABI_BITS == 32 && !defined(TARGET_ABI_MIPSN32)
         ret = get_errno(fallocate(arg1, arg2, target_offset64(arg3, arg4),
                                   target_offset64(arg5, arg6)));
 #else
