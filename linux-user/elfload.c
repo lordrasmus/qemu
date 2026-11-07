@@ -518,6 +518,12 @@ static int elf_is_fdpic(struct elfhdr *exec)
 {
     return exec->e_ident[EI_OSABI] == ELFOSABI_XTENSA_FDPIC;
 }
+#elif defined(TARGET_FRV)
+/* FR-V marks FDPIC in e_flags (EF_FRV_FDPIC), not in EI_OSABI */
+static int elf_is_fdpic(struct elfhdr *exec)
+{
+    return (exec->e_flags & 0x8000) != 0;
+}
 #else
 /* Default implementation, always false.  */
 static int elf_is_fdpic(struct elfhdr *exec)
