@@ -198,6 +198,11 @@ struct CPUArchState {
 
     /* Set together with exception_index */
     uint32_t excp_ierr;
+
+#ifdef CONFIG_USER_ONLY
+    /* this thread holds the DINT lock, see helper.c */
+    uint32_t dint_locked;
+#endif
 };
 
 struct ArchCPU {
@@ -218,8 +223,16 @@ void c6x_update_irq(CPUC6xState *env);
 void c6x_dq_drain(CPUC6xState *env);
 uint32_t c6x_csr_read(CPUC6xState *env);
 uint64_t c6x_tsc(CPUC6xState *env);
+#ifdef CONFIG_USER_ONLY
+void c6x_user_init(void);
+void c6x_user_lock(CPUC6xState *env, bool running);
+void c6x_user_unlock(CPUC6xState *env);
+#endif
 
 #define CPU_RESOLVING_TYPE TYPE_C6X_CPU
+
+/* mmu index 1 is user mode, see c6x_cpu_mmu_index */
+#define MMU_USER_IDX 1
 
 #ifndef CONFIG_USER_ONLY
 hwaddr c6x_cpu_get_phys_page_debug(CPUState *cpu, vaddr addr);

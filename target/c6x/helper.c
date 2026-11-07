@@ -12,8 +12,10 @@
 #include "accel/tcg/cpu-loop.h"
 #include "accel/tcg/cpu-ldst.h"
 #include "exec/target_page.h"
+#ifndef CONFIG_USER_ONLY
 #include "system/cpus.h"
 #include "qemu/main-loop.h"
+#endif
 
 /* The delay queue */
 
@@ -93,6 +95,65 @@ void c6x_dq_drain(CPUC6xState *env)
 
 /* Interrupts */
 
+#ifdef CONFIG_USER_ONLY
+/*
+ * Linux user code makes DINT ... RINT critical sections, which are only
+ * atomic on one CPU.  Guest threads run in parallel here, so the first
+ * DINT takes a lock and the RINT that sets GIE again drops it.
+ */
+static QemuMutex c6x_dint_lock;
+
+static void c6x_dint_lock_reinit(void)
+{
+    qemu_mutex_init(&c6x_dint_lock);
+}
+
+void c6x_user_init(void)
+{
+    qemu_mutex_init(&c6x_dint_lock);
+    pthread_atfork(NULL, NULL, c6x_dint_lock_reinit);
+}
+
+void c6x_user_unlock(CPUC6xState *env)
+{
+    if (env->dint_locked) {
+        env->dint_locked = 0;
+        qemu_mutex_unlock(&c6x_dint_lock);
+    }
+}
+
+/*
+ * A CPU that waits must not count as running: the holder may itself wait
+ * for an exclusive section, which waits for all running CPUs.
+ */
+void c6x_user_lock(CPUC6xState *env, bool running)
+{
+    CPUState *cs = env_cpu(env);
+
+    if (env->dint_locked) {
+        return;
+    }
+    if (qemu_mutex_trylock(&c6x_dint_lock)) {
+        if (running) {
+            cpu_exec_end(cs);
+        }
+        qemu_mutex_lock(&c6x_dint_lock);
+        if (running) {
+            cpu_exec_start(cs);
+        }
+    }
+    env->dint_locked = 1;
+}
+
+void c6x_update_irq(CPUC6xState *env)
+{
+    if (FIELD_EX32(env->tsr, TSR, GIE)) {
+        c6x_user_unlock(env);
+    } else {
+        c6x_user_lock(env, true);
+    }
+}
+#else
 static int pending_irq(CPUC6xState *env)
 {
     uint32_t p = env->ifr & env->ier & INT_MASKABLE;
@@ -194,6 +255,8 @@ void c6x_cpu_do_interrupt(CPUState *cs)
     c6x_update_irq(env);
 }
 
+#endif /* !CONFIG_USER_ONLY */
+
 G_NORETURN void HELPER(raise)(CPUC6xState *env, uint32_t excp, uint32_t ierr)
 {
     CPUState *cs = env_cpu(env);
@@ -215,9 +278,18 @@ G_NORETURN void HELPER(idle)(CPUC6xState *env)
 
 /* Control registers */
 
+static int64_t c6x_now_ns(void)
+{
+#ifdef CONFIG_USER_ONLY
+    return get_clock();
+#else
+    return qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
+#endif
+}
+
 uint64_t c6x_tsc(CPUC6xState *env)
 {
-    int64_t ns = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
+    int64_t ns = c6x_now_ns();
 
     if (!env->tsc_running) {
         return 0;
@@ -304,7 +376,7 @@ void HELPER(mvc_to)(CPUC6xState *env, uint32_t cr, uint32_t val)
     case CR_TSCL:
         if (!env->tsc_running) {
             env->tsc_running = true;
-            env->tsc_base = muldiv64(qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL),
+            env->tsc_base = muldiv64(c6x_now_ns(),
                                      env->cpu_freq, NANOSECONDS_PER_SECOND);
         }
         break;
@@ -571,6 +643,7 @@ void HELPER(sploop_boundary)(CPUC6xState *env, uint32_t kind, uint32_t ii,
                       (uint32_t)MAKE_64BIT_MASK(0, stages);
 }
 
+#ifndef CONFIG_USER_ONLY
 /* No MMU: virtual is physical */
 
 hwaddr c6x_cpu_get_phys_page_debug(CPUState *cs, vaddr addr)
@@ -587,3 +660,4 @@ bool c6x_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
                  mmu_idx, TARGET_PAGE_SIZE);
     return true;
 }
+#endif

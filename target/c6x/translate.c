@@ -289,9 +289,16 @@ static void gen_illegal(DisasContext *dc)
     gen_exception(dc, EXCP_INTERNAL, IERR_OPX);
 }
 
+/*
+ * Chain only within the page, as in system mode.  User mode would also
+ * chain across pages, and that breaks tst-sem5: a direct link skips the
+ * TB flags check, and with conditional writes in flight the delay queue
+ * need not match what the target was translated for.
+ */
 static void gen_goto(DisasContext *dc, uint32_t dest)
 {
-    if (dc->goto_tb_n < 2 && translator_use_goto_tb(&dc->base, dest)) {
+    if (dc->goto_tb_n < 2 && translator_use_goto_tb(&dc->base, dest) &&
+        translator_is_same_page(&dc->base, dest)) {
         tcg_gen_goto_tb(dc->goto_tb_n);
         tcg_gen_movi_i32(cpu_pc, dest);
         tcg_gen_exit_tb(dc->base.tb, dc->goto_tb_n);
@@ -770,4 +777,7 @@ void c6x_tcg_init(void)
                                           regnames[i]);
     }
     cpu_pc = tcg_global_mem_new_i32(tcg_env, offsetof(CPUC6xState, pc), "pc");
+#ifdef CONFIG_USER_ONLY
+    c6x_user_init();
+#endif
 }
