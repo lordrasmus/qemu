@@ -339,10 +339,12 @@ _syscall5(int, _llseek,  unsigned int,  fd, unsigned long, hi, unsigned long, lo
           loff_t *, res, unsigned int, wh);
 #endif
 _syscall3(int, sys_rt_sigqueueinfo, pid_t, pid, int, sig, siginfo_t *, uinfo)
+#ifdef TARGET_NR_rt_tgsigqueueinfo
 _syscall4(int, sys_rt_tgsigqueueinfo, pid_t, pid, pid_t, tid, int, sig,
           siginfo_t *, uinfo)
+#endif
 _syscall3(int,sys_syslog,int,type,char*,bufp,int,len)
-#ifdef __NR_exit_group
+#if defined(__NR_exit_group) && defined(TARGET_NR_exit_group)
 _syscall1(int,exit_group,int,error_code)
 #endif
 #if defined(__NR_close_range) && defined(TARGET_NR_close_range)
@@ -370,12 +372,16 @@ _syscall4(int, pidfd_send_signal, int, pidfd, int, sig, siginfo_t *, info,
 #if defined(__NR_pidfd_getfd) && defined(TARGET_NR_pidfd_getfd)
 _syscall3(int, pidfd_getfd, int, pidfd, int, targetfd, unsigned int, flags);
 #endif
+#ifdef TARGET_NR_sched_getaffinity
 #define __NR_sys_sched_getaffinity __NR_sched_getaffinity
 _syscall3(int, sys_sched_getaffinity, pid_t, pid, unsigned int, len,
           unsigned long *, user_mask_ptr);
+#endif
+#ifdef TARGET_NR_sched_setaffinity
 #define __NR_sys_sched_setaffinity __NR_sched_setaffinity
 _syscall3(int, sys_sched_setaffinity, pid_t, pid, unsigned int, len,
           unsigned long *, user_mask_ptr);
+#endif
 /* sched_attr is not defined in glibc < 2.41 */
 #ifndef SCHED_ATTR_SIZE_VER0
 struct sched_attr {
@@ -710,8 +716,10 @@ safe_syscall4(int, openat2, int, dirfd, const char *, pathname, \
 safe_syscall4(pid_t, wait4, pid_t, pid, int *, status, int, options, \
               struct rusage *, rusage)
 #endif
+#ifdef TARGET_NR_waitid
 safe_syscall5(int, waitid, idtype_t, idtype, id_t, id, siginfo_t *, infop, \
               int, options, struct rusage *, rusage)
+#endif
 safe_syscall3(int, execve, const char *, filename, char **, argv, char **, envp)
 safe_syscall5(int, execveat, int, dirfd, const char *, filename,
               char **, argv, char **, envp, int, flags)
@@ -720,18 +728,24 @@ safe_syscall5(int, execveat, int, dirfd, const char *, filename,
 safe_syscall6(int, pselect6, int, nfds, fd_set *, readfds, fd_set *, writefds, \
               fd_set *, exceptfds, struct timespec *, timeout, void *, sig)
 #endif
-#if defined(TARGET_NR_ppoll) || defined(TARGET_NR_ppoll_time64)
+#if defined(TARGET_NR_poll) || defined(TARGET_NR_ppoll) || \
+    defined(TARGET_NR_ppoll_time64)
 safe_syscall5(int, ppoll, struct pollfd *, ufds, unsigned int, nfds,
               struct timespec *, tsp, const sigset_t *, sigmask,
               size_t, sigsetsize)
 #endif
+#ifdef TARGET_NR_epoll_pwait
 safe_syscall6(int, epoll_pwait, int, epfd, struct epoll_event *, events,
               int, maxevents, int, timeout,
               const sigset_t *, sigmask, size_t, sigsetsize)
+#endif
+#ifdef TARGET_NR_epoll_pwait2
 safe_syscall6(int, epoll_pwait2, int, epfd, struct epoll_event *, events,
               int, maxevents, struct timespec *, timeout_ts,
               const sigset_t *, sigmask, size_t, sigsetsize)
-#if defined(__NR_futex)
+#endif
+#if defined(__NR_futex) && \
+    (defined(TARGET_NR_futex) || defined(TARGET_NR_futex_time64))
 safe_syscall6(int,futex,int *,uaddr,int,op,int,val, \
               const struct timespec *,timeout,int *,uaddr2,int,val3)
 #endif
@@ -745,10 +759,14 @@ safe_syscall2(int, tkill, int, tid, int, sig)
 safe_syscall3(int, tgkill, int, tgid, int, pid, int, sig)
 safe_syscall3(ssize_t, readv, int, fd, const struct iovec *, iov, int, iovcnt)
 safe_syscall3(ssize_t, writev, int, fd, const struct iovec *, iov, int, iovcnt)
+#ifdef TARGET_NR_preadv
 safe_syscall5(ssize_t, preadv, int, fd, const struct iovec *, iov, int, iovcnt,
               unsigned long, pos_l, unsigned long, pos_h)
+#endif
+#ifdef TARGET_NR_pwritev
 safe_syscall5(ssize_t, pwritev, int, fd, const struct iovec *, iov, int, iovcnt,
               unsigned long, pos_l, unsigned long, pos_h)
+#endif
 #ifdef TARGET_NR_preadv2
 safe_syscall6(ssize_t, preadv2, int, fd, const struct iovec *, iov, int, iovcnt,
               unsigned long, pos_l, unsigned long, pos_h, __kernel_rwf_t, flags)
@@ -1580,6 +1598,7 @@ static abi_long do_ppoll(abi_long arg1, abi_long arg2, abi_long arg3,
             pfd[i].events = tswap16(target_pfd[i].events);
         }
     }
+#if defined(TARGET_NR_ppoll) || defined(TARGET_NR_ppoll_time64)
     if (ppoll) {
         struct timespec _timeout_ts, *timeout_ts = &_timeout_ts;
         sigset_t *set = NULL;
@@ -1625,7 +1644,9 @@ static abi_long do_ppoll(abi_long arg1, abi_long arg2, abi_long arg3,
                 host_to_target_timespec(arg3, timeout_ts);
             }
         }
-    } else {
+    } else
+#endif
+    {
           struct timespec ts, *pts;
 
           if (arg3 >= 0) {
@@ -3095,6 +3116,7 @@ write_ret:
     return ret;
 }
 
+#if defined(TARGET_NR_preadv) || defined(TARGET_NR_pwritev)
 /* Convert target low/high pair representing file offset into the host
  * low/high pair. This function doesn't handle offsets bigger than 64 bits
  * as the kernel doesn't handle them either.
@@ -3111,6 +3133,7 @@ static void target_to_host_low_high(abi_ulong tlow,
     *hlow = off;
     *hhigh = (off >> HOST_LONG_BITS / 2) >> HOST_LONG_BITS / 2;
 }
+#endif
 
 static struct iovec *lock_iovec(int type, abi_ulong target_addr,
                                 abi_ulong count, int copy)
@@ -4226,11 +4249,14 @@ static inline abi_long do_semtimedop(int semid,
 
     if (timeout) {
         pts = &ts;
+#ifdef TARGET_NR_semtimedop_time64
         if (time64) {
             if (target_to_host_timespec64(pts, timeout)) {
                 return -TARGET_EFAULT;
             }
-        } else {
+        } else
+#endif
+        {
             if (target_to_host_timespec(pts, timeout)) {
                 return -TARGET_EFAULT;
             }
@@ -8420,6 +8446,7 @@ static int do_sys_futex(int *uaddr, int op, int val,
     g_assert_not_reached();
 }
 
+#if defined(TARGET_NR_futex) || defined(TARGET_NR_futex_time64)
 static int do_safe_futex(int *uaddr, int op, int val,
                          const struct timespec *timeout, int *uaddr2,
                          int val3)
@@ -8444,6 +8471,7 @@ static int do_safe_futex(int *uaddr, int op, int val,
 #endif /* HOST_LONG_BITS == 64 */
     return -TARGET_ENOSYS;
 }
+#endif
 
 /* ??? Using host futex calls even when target atomic operations
    are not really atomic probably breaks things.  However implementing
@@ -9375,6 +9403,7 @@ execve_end:
 #define TIMER_MAGIC 0x0caf0000
 #define TIMER_MAGIC_MASK 0xffff0000
 
+#ifdef TARGET_NR_timer_create
 /* Convert QEMU provided timer ID back to internal 16bit index format */
 static target_timer_t get_timer_id(abi_long arg)
 {
@@ -9392,7 +9421,9 @@ static target_timer_t get_timer_id(abi_long arg)
 
     return timerid;
 }
+#endif
 
+#if defined(TARGET_NR_sched_getaffinity) || defined(TARGET_NR_sched_setaffinity)
 static int target_to_host_cpu_mask(unsigned long *host_mask,
                                    size_t host_size,
                                    abi_ulong target_addr,
@@ -9459,6 +9490,7 @@ static int host_to_target_cpu_mask(const unsigned long *host_mask,
     unlock_user(target_mask, target_addr, target_size);
     return 0;
 }
+#endif
 
 #ifdef TARGET_NR_getdents
 static int do_getdents(abi_long dirfd, abi_long arg2, abi_long count)
@@ -10111,6 +10143,7 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
         unlock_user(p, arg1, 0);
         return ret;
 #endif
+#ifdef TARGET_NR_openat
     case TARGET_NR_openat:
         if (!(p = lock_user_string(arg2)))
             return -TARGET_EFAULT;
@@ -10120,6 +10153,7 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
         fd_trans_unregister(ret);
         unlock_user(p, arg2, 0);
         return ret;
+#endif
 #ifdef TARGET_NR_openat2
     case TARGET_NR_openat2:
         ret = do_openat2(cpu_env, arg1, arg2, arg3, arg4);
@@ -11180,6 +11214,7 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
             ret = get_errno(sys_rt_sigqueueinfo(arg1, target_to_host_signal(arg2), &uinfo));
         }
         return ret;
+#ifdef TARGET_NR_rt_tgsigqueueinfo
     case TARGET_NR_rt_tgsigqueueinfo:
         {
             siginfo_t uinfo;
@@ -11193,6 +11228,7 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
             ret = get_errno(sys_rt_tgsigqueueinfo(arg1, arg2, target_to_host_signal(arg3), &uinfo));
         }
         return ret;
+#endif
 #ifdef TARGET_NR_sigreturn
     case TARGET_NR_sigreturn:
         if (block_signals()) {
@@ -12015,7 +12051,7 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
         ret = get_errno(do_fork(cpu_env, arg1, arg2, arg3, arg5, arg4));
 #endif
         return ret;
-#ifdef __NR_exit_group
+#if defined(__NR_exit_group) && defined(TARGET_NR_exit_group)
         /* new thread calls */
     case TARGET_NR_exit_group:
         if (lt_self) {
@@ -12256,6 +12292,7 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
     case TARGET_NR_fdatasync:
         return get_errno(fdatasync(arg1));
 #endif
+#ifdef TARGET_NR_sched_getaffinity
     case TARGET_NR_sched_getaffinity:
         {
             unsigned int mask_size;
@@ -12296,6 +12333,8 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
             }
         }
         return ret;
+#endif
+#ifdef TARGET_NR_sched_setaffinity
     case TARGET_NR_sched_setaffinity:
         {
             unsigned int mask_size;
@@ -12318,6 +12357,7 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
 
             return get_errno(sys_sched_setaffinity(arg1, mask_size, mask));
         }
+#endif
 #ifdef TARGET_NR_getcpu
     case TARGET_NR_getcpu:
         {
@@ -13849,10 +13889,12 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
     case TARGET_NR_tkill:
         return get_errno(safe_tkill((int)arg1, target_to_host_signal(arg2)));
 
+#ifdef TARGET_NR_tgkill
     case TARGET_NR_tgkill:
         return get_errno(safe_tgkill((int)arg1, (int)arg2,
                          target_to_host_signal(arg3)));
 
+#endif
 #ifdef TARGET_NR_set_robust_list
     case TARGET_NR_set_robust_list:
     case TARGET_NR_get_robust_list:
@@ -13945,6 +13987,7 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
         }
         return ret;
 #endif
+#ifdef TARGET_NR_inotify_init1
     case TARGET_NR_inotify_init1:
         ret = get_errno(inotify_init1(target_to_host_bitmask(arg1,
                                           fcntl_flags_tbl)));
@@ -13952,14 +13995,19 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
             fd_trans_register(ret, &target_inotify_trans);
         }
         return ret;
+#endif
+#ifdef TARGET_NR_inotify_add_watch
     case TARGET_NR_inotify_add_watch:
         p = lock_user_string(arg2);
         ret = get_errno(inotify_add_watch(arg1, path(p), arg3));
         unlock_user(p, arg2, 0);
         return ret;
+#endif
+#ifdef TARGET_NR_inotify_rm_watch
     case TARGET_NR_inotify_rm_watch:
         return get_errno(inotify_rm_watch(arg1, arg2));
 
+#endif
 #if defined(TARGET_NR_mq_open) && defined(__NR_mq_open)
     case TARGET_NR_mq_open:
         {
@@ -14112,9 +14160,12 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
         return ret;
 #endif
 
+#ifdef TARGET_NR_tee
     case TARGET_NR_tee:
         ret = get_errno(tee(arg1, arg2, arg3, arg4));
         return ret;
+#endif
+#ifdef TARGET_NR_splice
     case TARGET_NR_splice:
         {
             loff_t loff_in, loff_out;
@@ -14144,6 +14195,8 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
             }
         }
         return ret;
+#endif
+#ifdef TARGET_NR_vmsplice
     case TARGET_NR_vmsplice:
         {
             struct iovec *vec = lock_iovec(VERIFY_READ, arg2, arg3, 1);
@@ -14156,6 +14209,7 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
         }
         return ret;
 
+#endif
 #ifdef CONFIG_EVENTFD
 #if defined(TARGET_NR_eventfd)
     case TARGET_NR_eventfd:
@@ -14240,8 +14294,11 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
     case TARGET_NR_epoll_create:
         return get_errno(epoll_create(arg1));
 #endif
+#ifdef TARGET_NR_epoll_create1
     case TARGET_NR_epoll_create1:
         return get_errno(epoll_create1(target_to_host_bitmask(arg1, fcntl_flags_tbl)));
+#endif
+#ifdef TARGET_NR_epoll_ctl
     case TARGET_NR_epoll_ctl:
     {
         struct epoll_event ep;
@@ -14271,6 +14328,8 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
         return get_errno(epoll_ctl(arg1, arg2, arg3, epp));
     }
 
+#endif
+#ifdef TARGET_NR_epoll_pwait
 #if defined(TARGET_NR_epoll_wait)
     case TARGET_NR_epoll_wait:
 #endif
@@ -14283,10 +14342,9 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
         struct epoll_event *ep;
         int epfd = arg1;
         int maxevents = arg3;
-        struct timespec *timeout_ts = NULL;
 
 #ifdef TARGET_NR_epoll_pwait2
-        struct timespec ts;
+        struct timespec ts, *timeout_ts = NULL;
 
         if (num == TARGET_NR_epoll_pwait2 && arg4 != 0) {
             if (target_to_host_timespec(&ts, arg4)) {
@@ -14330,10 +14388,13 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
             if (num == TARGET_NR_epoll_pwait) {
                 ret = get_errno(safe_epoll_pwait(epfd, ep, maxevents, arg4,
                                                  set, SIGSET_T_SIZE));
-            } else {
+            }
+#ifdef TARGET_NR_epoll_pwait2
+            else {
                 ret = get_errno(safe_epoll_pwait2(epfd, ep, maxevents, timeout_ts,
                                                   set, SIGSET_T_SIZE));
             }
+#endif
 
             if (set) {
                 finish_sigsuspend_mask(ret);
@@ -14363,6 +14424,7 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
         g_free(ep);
         return ret;
     }
+#endif
 
 #ifdef TARGET_NR_prlimit64
     case TARGET_NR_prlimit64:
