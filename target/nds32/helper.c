@@ -10,10 +10,12 @@
 #include "cpu.h"
 #include "exec/helper-proto.h"
 #include "exec/log.h"
+#include "hw/core/cpu.h"
+#ifndef CONFIG_USER_ONLY
 #include "system/address-spaces.h"
 #include "system/memory.h"
-#include "hw/core/cpu.h"
 #include "qemu/main-loop.h"
+#endif
 
 /* Exceptions */
 
@@ -42,6 +44,7 @@ void helper_raise(CPUNDS32State *env, uint32_t vec, uint32_t itype,
     cpu_loop_exit(cs);
 }
 
+#ifndef CONFIG_USER_ONLY
 void nds32_cpu_do_interrupt(CPUState *cs)
 {
     CPUNDS32State *env = cpu_env(cs);
@@ -145,6 +148,34 @@ void helper_standby(CPUNDS32State *env)
     cpu_loop_exit(cs);
 }
 
+#else /* CONFIG_USER_ONLY */
+
+/* Privileged; translate.c raises before these are reached. */
+void helper_iret(CPUNDS32State *env)
+{
+    g_assert_not_reached();
+}
+
+void helper_standby(CPUNDS32State *env)
+{
+    g_assert_not_reached();
+}
+
+void helper_tlbop(CPUNDS32State *env, uint32_t ra, uint32_t op)
+{
+    g_assert_not_reached();
+}
+
+uint32_t helper_tlbop_probe(CPUNDS32State *env, uint32_t ra)
+{
+    g_assert_not_reached();
+}
+
+void nds32_update_irq(CPUNDS32State *env)
+{
+}
+#endif /* CONFIG_USER_ONLY */
+
 /* Division: the result is quotient | remainder << 32. */
 
 static void div_by_zero(CPUNDS32State *env, uintptr_t ra)
@@ -233,6 +264,7 @@ void helper_mtsr(CPUNDS32State *env, uint32_t idx, uint32_t val)
     }
 }
 
+#ifndef CONFIG_USER_ONLY
 /* TLB */
 
 static inline unsigned tlb_set_of(uint32_t vpn)
@@ -527,3 +559,4 @@ void nds32_cpu_do_unaligned_access(CPUState *cs, vaddr addr,
     }
     nds32_raise(env, VEC_GENERAL, itype, addr, true, retaddr);
 }
+#endif /* !CONFIG_USER_ONLY */

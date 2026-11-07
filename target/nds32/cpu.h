@@ -204,6 +204,7 @@ struct ArchCPU {
 #define MMU_IDX_USER    1
 #define MMU_IDX_XLATE   2
 #define NB_MMU_MODES_USED 4
+#define MMU_USER_IDX    (MMU_IDX_USER | MMU_IDX_XLATE)
 
 static inline bool nds32_user_mode(CPUNDS32State *env)
 {
