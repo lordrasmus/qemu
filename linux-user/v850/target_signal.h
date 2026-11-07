@@ -1,0 +1,11 @@
+#ifndef V850_TARGET_SIGNAL_H
+#define V850_TARGET_SIGNAL_H
+
+#include "../generic/signal.h"
+
+#define TARGET_SA_RESTORER      0x04000000
+
+#define TARGET_ARCH_HAS_SA_RESTORER 1
+#define TARGET_ARCH_HAS_SETUP_FRAME
+
+#endif /* V850_TARGET_SIGNAL_H */

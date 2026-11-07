@@ -29,7 +29,8 @@
     || defined(TARGET_ARC) \
     || defined(TARGET_AVR32) \
     || defined(TARGET_BFIN) \
-    || defined(TARGET_H8300)
+    || defined(TARGET_H8300) \
+    || defined(TARGET_V850)
 #define ABI_LLONG_ALIGNMENT 4
 #endif
 
