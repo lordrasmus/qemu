@@ -1,0 +1,9 @@
+#ifndef H8300_TARGET_SIGNAL_H
+#define H8300_TARGET_SIGNAL_H
+
+#include "../generic/signal.h"
+
+#define TARGET_SA_RESTORER 0x04000000
+#define TARGET_ARCH_HAS_SIGTRAMP_PAGE 1
+
+#endif /* H8300_TARGET_SIGNAL_H */

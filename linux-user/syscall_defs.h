@@ -86,7 +86,8 @@
     || defined(TARGET_KVX) \
     || defined(TARGET_NDS32) \
     || defined(TARGET_META) \
-    || defined(TARGET_C6X)
+    || defined(TARGET_C6X) \
+    || defined(TARGET_H8300)
 
 #define TARGET_IOC_SIZEBITS     14
 #define TARGET_IOC_DIRBITS      2
@@ -2103,7 +2104,8 @@ struct target_stat64  {
     || defined(TARGET_KVX) \
     || defined(TARGET_NDS32) \
     || defined(TARGET_META) \
-    || defined(TARGET_C6X)
+    || defined(TARGET_C6X) \
+    || defined(TARGET_H8300)
 
 /* These are the asm-generic versions of the stat and stat64 structures */
 
