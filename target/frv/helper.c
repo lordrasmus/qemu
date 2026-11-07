@@ -7,11 +7,14 @@
 #include "qemu/osdep.h"
 #include "qemu/log.h"
 #include "cpu.h"
+#ifndef CONFIG_USER_ONLY
 #include "exec/cputlb.h"
+#endif
 #include "exec/target_page.h"
 #include "accel/tcg/cpu-loop.h"
 #include "accel/tcg/cpu-ldst.h"
 
+#ifndef CONFIG_USER_ONLY
 void frv_update_irq(CPUFRVState *env)
 {
     CPUState *cs = env_cpu(env);
@@ -172,6 +175,8 @@ void frv_cpu_do_interrupt(CPUState *cs)
     cs->exception_index = -1;
 }
 
+#endif /* !CONFIG_USER_ONLY */
+
 uint32_t frv_spr_read(CPUFRVState *env, int spr)
 {
     uint32_t v = 0;
@@ -225,6 +230,7 @@ void frv_spr_write(CPUFRVState *env, int spr, uint32_t val)
     }
 }
 
+#ifndef CONFIG_USER_ONLY
 hwaddr frv_cpu_get_phys_page_debug(CPUState *cs, vaddr addr)
 {
     return addr;
@@ -251,3 +257,4 @@ G_NORETURN void frv_cpu_do_unaligned_access(CPUState *cs, vaddr addr,
     env->excp_addr = addr;
     frv_raise(env, TT_DATA_ACCESS_ERROR, retaddr);
 }
+#endif /* !CONFIG_USER_ONLY */
