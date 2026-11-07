@@ -58,6 +58,8 @@ static const char avr32_cpu_sr_flag_names[32][8] = {
 };
 
 static TCGv cpu_r[NUM_REG_PAGE_SIZE];
+static TCGv cpu_lock_addr;
+static TCGv cpu_lock_value;
 
 
 enum {
@@ -98,6 +100,12 @@ void avr32_tcg_init(void){
                                                offsetof(CPUAVR32State, sflags[i]),
                                                avr32_cpu_sr_flag_names[i]);
     }
+    cpu_lock_addr = tcg_global_mem_new_i32(tcg_env,
+                                           offsetof(CPUAVR32State, lock_addr),
+                                           "lock_addr");
+    cpu_lock_value = tcg_global_mem_new_i32(tcg_env,
+                                            offsetof(CPUAVR32State, lock_value),
+                                            "lock_value");
 }
 
 // Decode helper required only if insn wide is variable
@@ -1632,6 +1640,19 @@ static bool trans_LDUH_cond(DisasContext *ctx, arg_LDUH_cond *a){
     return true;
 }
 
+/*
+ * LD.W with a plain displacement or index.  In parallel linux-user mode
+ * remember address and value, STCOND then becomes a compare-and-swap
+ * against them: SSRF 5 / LD.W / STCOND is the AVR32 atomic sequence.
+ */
+static void gen_ldw(DisasContext *ctx, int rd, TCGv addr)
+{
+    tcg_gen_qemu_ld_i32(cpu_r[rd], addr, ctx->mem_idx, MO_BEUL);
+    if (tb_cflags(ctx->base.tb) & CF_PARALLEL) {
+        tcg_gen_mov_i32(cpu_lock_addr, addr);
+        tcg_gen_mov_i32(cpu_lock_value, cpu_r[rd]);
+    }
+}
 
 static bool trans_LDW_f1(DisasContext *ctx, arg_LDW_f1 *a){
     tcg_gen_qemu_ld_i32(cpu_r[a->rd], cpu_r[a->rp], ctx->mem_idx, MO_BEUL);
@@ -1661,7 +1682,7 @@ static bool trans_LDW_f3(DisasContext *ctx, arg_LDW_f3 *a){
 
     TCGv ptr = tcg_temp_new_i32();
     tcg_gen_addi_i32(ptr, cpu_r[a->rp], dispI);
-    tcg_gen_qemu_ld_i32(cpu_r[a->rd], ptr, ctx->mem_idx, MO_BEUL);
+    gen_ldw(ctx, a->rd, ptr);
 
     if(a->rd == PC_REG){
         ctx->base.is_jmp = DISAS_JUMP;
@@ -1681,7 +1702,7 @@ static bool trans_LDW_f4(DisasContext *ctx, arg_LDW_f4 *a){
     TCGv ptr = tcg_temp_new_i32();
     tcg_gen_addi_i32(ptr, cpu_r[a->rp], disp);
 
-    tcg_gen_qemu_ld_i32(cpu_r[a->rd], ptr, ctx->mem_idx, MO_BEUL);
+    gen_ldw(ctx, a->rd, ptr);
 
     if(a->rd == PC_REG){
         ctx->base.is_jmp = DISAS_JUMP;
@@ -1696,7 +1717,7 @@ static bool trans_LDW_f5(DisasContext *ctx, arg_LDW_f5 *a){
     tcg_gen_shli_i32(ptr, cpu_r[a->ry], a->sa);
     tcg_gen_add_i32(ptr, ptr, cpu_r[a->rx]);
 
-    tcg_gen_qemu_ld_i32(cpu_r[a->rd], ptr, ctx->mem_idx, MO_BEUL);
+    gen_ldw(ctx, a->rd, ptr);
 
     if(a->rd == PC_REG){
         ctx->base.is_jmp = DISAS_JUMP;
@@ -4127,6 +4148,19 @@ static bool trans_STCOND(DisasContext *ctx, arg_STCOND *a)
     tcg_gen_mov_i32(cpu_sflags[SR_Z], cpu_sflags[SR_L]);
     tcg_gen_brcondi_i32(TCG_COND_EQ, cpu_sflags[SR_L], 0, skip);
     tcg_gen_addi_i32(addr, cpu_r[a->rp], (int16_t)a->disp16);
+    if (tb_cflags(ctx->base.tb) & CF_PARALLEL) {
+        /* Other threads run concurrently: see gen_ldw */
+        TCGLabel *plain = gen_new_label();
+        TCGv old = tcg_temp_new_i32();
+
+        tcg_gen_brcond_i32(TCG_COND_NE, addr, cpu_lock_addr, plain);
+        tcg_gen_atomic_cmpxchg_i32(old, addr, cpu_lock_value, cpu_r[a->rs],
+                                   ctx->mem_idx, MO_BEUL);
+        tcg_gen_setcond_i32(TCG_COND_EQ, cpu_sflags[SR_Z], old,
+                            cpu_lock_value);
+        tcg_gen_br(skip);
+        gen_set_label(plain);
+    }
     tcg_gen_qemu_st_i32(cpu_r[a->rs], addr, ctx->mem_idx, MO_BEUL);
     gen_set_label(skip);
     ctx->base.pc_next += 4;
@@ -4137,8 +4171,8 @@ static bool trans_XCHG(DisasContext *ctx, arg_XCHG *a)
 {
     TCGv t = tcg_temp_new_i32();
 
-    tcg_gen_qemu_ld_i32(t, cpu_r[a->rx], ctx->mem_idx, MO_BEUL);
-    tcg_gen_qemu_st_i32(cpu_r[a->ry], cpu_r[a->rx], ctx->mem_idx, MO_BEUL);
+    tcg_gen_atomic_xchg_i32(t, cpu_r[a->rx], cpu_r[a->ry], ctx->mem_idx,
+                            MO_BEUL);
     tcg_gen_mov_i32(cpu_r[a->rd], t);
     gen_rd_jump(ctx, a->rd);
     ctx->base.pc_next += 4;
