@@ -120,7 +120,7 @@ static void trans_m_load(DisasContext *dc, const struct asm_inst *in)
         if (size == 16) {
             TCGv_i128 t = tcg_temp_new_i128();
 
-            tcg_gen_qemu_ld_i128(t, addr, dc->mem_idx,
+            tcg_gen_qemu_ld_i128(t, gen_maddr(addr), dc->mem_idx,
                                  MO_128 | MO_ALIGN | dc->be |
                                  MO_ATOM_IFALIGN_PAIR);
             if (dc->be == MO_BE) {
@@ -130,7 +130,8 @@ static void trans_m_load(DisasContext *dc, const struct asm_inst *in)
             }
         } else {
             gen_misaligned_check(dc, addr, size, false);
-            tcg_gen_qemu_ld_i64(v, addr, dc->mem_idx, data_mop(dc, size));
+            tcg_gen_qemu_ld_i64(v, gen_maddr(addr), dc->mem_idx,
+                                data_mop(dc, size));
         }
         if (kind == LDK_ACQ) {
             tcg_gen_mb(TCG_MO_ALL | TCG_BAR_LDAQ);
@@ -200,12 +201,12 @@ static void trans_m_store(DisasContext *dc, const struct asm_inst *in)
         } else {
             tcg_gen_concat_i64_i128(t, load_gr(dc, r2), cpu_ar_csd);
         }
-        tcg_gen_qemu_st_i128(t, addr, dc->mem_idx,
+        tcg_gen_qemu_st_i128(t, gen_maddr(addr), dc->mem_idx,
                              MO_128 | MO_ALIGN | dc->be |
                              MO_ATOM_IFALIGN_PAIR);
     } else {
         gen_misaligned_check(dc, addr, size, true);
-        tcg_gen_qemu_st_i64(load_gr(dc, r2), addr, dc->mem_idx,
+        tcg_gen_qemu_st_i64(load_gr(dc, r2), gen_maddr(addr), dc->mem_idx,
                             data_mop(dc, size));
     }
     if (spill) {
@@ -259,14 +260,15 @@ static void trans_m_sem(DisasContext *dc, const struct asm_inst *in)
     switch (iop) {
     case ASM_OP_XCHG1: case ASM_OP_XCHG2: case ASM_OP_XCHG4: case ASM_OP_XCHG8:
         gen_nat_check(dc, load_nat(dc, r2), ISR_R | ISR_W);
-        tcg_gen_atomic_xchg_i64(d, addr, load_gr(dc, r2), dc->mem_idx, mop);
+        tcg_gen_atomic_xchg_i64(d, gen_maddr(addr), load_gr(dc, r2),
+                                dc->mem_idx, mop);
         break;
     case ASM_OP_CMPXCHG1_ACQ ... ASM_OP_CMPXCHG8_REL: {
         TCGv_i64 cmp = tcg_temp_new_i64();
 
         gen_nat_check(dc, load_nat(dc, r2), ISR_R | ISR_W);
         tcg_gen_extract_i64(cmp, cpu_ar_ccv, 0, size * 8);
-        tcg_gen_atomic_cmpxchg_i64(d, addr, cmp, load_gr(dc, r2),
+        tcg_gen_atomic_cmpxchg_i64(d, gen_maddr(addr), cmp, load_gr(dc, r2),
                                    dc->mem_idx, mop);
         break;
     }
@@ -284,7 +286,7 @@ static void trans_m_sem(DisasContext *dc, const struct asm_inst *in)
                               tcg_constant_i32(dc->mem_idx));
         break;
     case ASM_OP_FETCHADD4_ACQ ... ASM_OP_FETCHADD8_REL:
-        tcg_gen_atomic_fetch_add_i64(d, addr,
+        tcg_gen_atomic_fetch_add_i64(d, gen_maddr(addr),
                                      tcg_constant_i64(in->i_oper[3].o_value),
                                      dc->mem_idx, mop);
         break;

@@ -10,14 +10,23 @@
 #include "accel/tcg/cpu-loop.h"
 #include "exec/tlb-flags.h"
 #include "qemu/timer.h"
+#ifndef CONFIG_USER_ONLY
 #include "qemu/main-loop.h"
+#endif
 #include "cpu.h"
 #include "exec/helper-proto.h"
 #include "exec/cputlb.h"
 #include "exec/page-protection.h"
 #include "accel/tcg/cpu-ldst.h"
 #include "accel/tcg/probe.h"
+#ifndef CONFIG_USER_ONLY
 #include "system/memory.h"
+#endif
+#ifdef CONFIG_USER_ONLY
+#include "user/page-protection.h"
+#include "user/cpu_loop.h"
+#include "user/guest-host.h"
+#endif
 
 /*
  * Interruptions
@@ -157,6 +166,7 @@ void ia64_set_psr(CPUIA64State *env, uint64_t psr)
     ia64_update_irq(env);
 }
 
+#ifndef CONFIG_USER_ONLY
 void ia64_cpu_do_interrupt(CPUState *cs)
 {
     CPUIA64State *env = cpu_env(cs);
@@ -381,6 +391,41 @@ static void lsapic_eoi(CPUIA64State *env)
     ia64_update_irq(env);
 }
 
+#else /* CONFIG_USER_ONLY */
+
+void ia64_update_irq(CPUIA64State *env)
+{
+}
+
+static void lsapic_eoi(CPUIA64State *env)
+{
+}
+
+static uint64_t lsapic_read_ivr(CPUIA64State *env)
+{
+    return 15;      /* spurious */
+}
+
+/* ar.itc counts at itc_freq from the host's monotonic clock */
+uint64_t ia64_read_itc(CPUIA64State *env)
+{
+    return muldiv64(get_clock(), env->itc_freq, NANOSECONDS_PER_SECOND) +
+           env->itc_offset;
+}
+
+void ia64_write_itc(CPUIA64State *env, uint64_t val)
+{
+    env->itc_offset = val - muldiv64(get_clock(), env->itc_freq,
+                                     NANOSECONDS_PER_SECOND);
+}
+
+void ia64_rearm_itm(CPUIA64State *env)
+{
+}
+
+#endif /* CONFIG_USER_ONLY */
+
+#ifndef CONFIG_USER_ONLY
 /*
  * Interval timer
  */
@@ -1218,6 +1263,91 @@ uint64_t HELPER(probe)(CPUIA64State *env, uint32_t kind, uint64_t va,
     return 0;
 }
 
+#else /* CONFIG_USER_ONLY */
+
+/*
+ * The process has no access to the translation machinery: Linux runs it
+ * at pl 3, where these instructions fault, and serves faults itself.
+ */
+#define USER_PRIV_HELPER(name, ...) \
+    void HELPER(name)(CPUIA64State *env, ##__VA_ARGS__) \
+    { \
+        ia64_raise(env, IVT_GENERAL, GE_PRIV_OP, GETPC()); \
+    }
+
+USER_PRIV_HELPER(itc, uint32_t insn, uint64_t pte)
+USER_PRIV_HELPER(ptc, uint64_t va, uint64_t r2)
+USER_PRIV_HELPER(ptc_g, uint64_t va, uint64_t r2)
+USER_PRIV_HELPER(ptr, uint32_t insn, uint64_t va, uint64_t r2)
+USER_PRIV_HELPER(ptc_e)
+
+uint64_t HELPER(tpa)(CPUIA64State *env, uint64_t va)
+{
+    ia64_raise(env, IVT_GENERAL, GE_PRIV_OP, GETPC());
+}
+
+uint64_t HELPER(tak)(CPUIA64State *env, uint64_t va)
+{
+    ia64_raise(env, IVT_GENERAL, GE_PRIV_OP, GETPC());
+}
+
+/* the VHPT is not enabled for a process */
+uint64_t HELPER(thash)(CPUIA64State *env, uint64_t va)
+{
+    return 0;
+}
+
+uint64_t HELPER(ttag)(CPUIA64State *env, uint64_t va)
+{
+    return 1ull << 63;
+}
+
+static bool user_access_ok(uint64_t va, int size, int flags)
+{
+    va = ia64_user_fold(va);
+    return guest_range_valid_untagged(va, size) &&
+           page_check_range(va, size, flags);
+}
+
+/* probe: kind 0 r, 1 w, 2 r.fault, 3 w.fault, 4 rw.fault */
+uint64_t HELPER(probe)(CPUIA64State *env, uint32_t kind, uint64_t va,
+                       uint64_t pl)
+{
+    int flags = (kind == 1 || kind == 3) ? PAGE_WRITE :
+                kind == 4 ? PAGE_READ | PAGE_WRITE : PAGE_READ;
+    bool ok = user_access_ok(va, 1, flags);
+
+    if (kind < 2) {
+        return ok;
+    }
+    if (!ok) {
+        CPUState *cs = env_cpu(env);
+
+        cpu_loop_exit_sigsegv(cs, ia64_user_fold(va),
+                              flags & PAGE_WRITE ? MMU_DATA_STORE
+                                                 : MMU_DATA_LOAD,
+                              !(page_get_flags(ia64_user_fold(va)) &
+                                PAGE_VALID), GETPC());
+    }
+    return 0;
+}
+
+/*
+ * Linux defers every fault of a speculative load (dcr.dm/dp/dk/dx/dr/da/dd)
+ * and does not emulate a misaligned one.
+ */
+bool ia64_spec_access(CPUIA64State *env, uint64_t addr, int size,
+                      bool misaligned, int mmu_idx, uintptr_t ra)
+{
+    if (env->psr & PSR_ED) {
+        env->psr &= ~PSR_ED;
+        return false;
+    }
+    return !misaligned && user_access_ok(addr, size, PAGE_READ);
+}
+
+#endif /* CONFIG_USER_ONLY */
+
 /*
  * Register stack engine.
  *
@@ -1418,6 +1548,18 @@ static void rse_pop(CPUIA64State *env, int n, uintptr_t ra)
 void ia64_rse_frame_load(CPUIA64State *env, int n, uintptr_t ra)
 {
     rse_pop(env, n, ra);
+}
+
+/* cover, then flushrs: the whole register stack goes to the backing store */
+void ia64_rse_flush(CPUIA64State *env)
+{
+    if (env->rse_missing) {
+        rse_complete(env, 0);
+    }
+    rse_spill(env, env->rse_ndirty, 0);
+    rse_push(env, FIELD_EX64(env->cfm, CFM, SOF));
+    rse_spill(env, env->rse_ndirty, 0);
+    env->cfm = 0;
 }
 
 void HELPER(br_call)(CPUIA64State *env)
@@ -1703,6 +1845,7 @@ void HELPER(bsw)(CPUIA64State *env, uint32_t bn)
 /* epc: promote on an execute-only page */
 void HELPER(epc)(CPUIA64State *env)
 {
+#ifndef CONFIG_USER_ONLY
     IA64TLBEntry *e;
     int pl;
 
@@ -1720,6 +1863,7 @@ void HELPER(epc)(CPUIA64State *env)
     if (pl < ia64_cpl(env)) {
         env->psr = deposit64(env->psr, PSR_CPL_SHIFT, 2, pl);
     }
+#endif
 }
 
 /*
@@ -1853,10 +1997,12 @@ void HELPER(mov_to_ind)(CPUIA64State *env, uint32_t which, uint64_t idx,
     case 3:
         env->dbr[idx & 15] = val;
         break;
+#ifndef CONFIG_USER_ONLY
     case 8:
     case 9:
         itr_insert(env, which == 8, idx, val);
         break;
+#endif
     default:
         break;
     }

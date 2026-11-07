@@ -44,10 +44,12 @@ static void ia64_restore_state_to_opc(CPUState *cs,
     env->ri = data[0] & 3;
 }
 
+#ifndef CONFIG_USER_ONLY
 static bool ia64_cpu_has_work(CPUState *cs)
 {
     return cpu_test_interrupt(cs, CPU_INTERRUPT_HARD);
 }
+#endif
 
 static TCGTBCPUState ia64_get_tb_cpu_state(CPUState *cs)
 {
@@ -114,9 +116,11 @@ static void ia64_cpu_reset_hold(Object *obj, ResetType type)
     env->cr[CR_LRR0] = 1 << 16;
     env->cr[CR_LRR1] = 1 << 16;
     env->cr[CR_TPR] = 1 << 16;
+#ifndef CONFIG_USER_ONLY
     if (env->itm_timer) {
         timer_del(env->itm_timer);
     }
+#endif
     cs->exception_index = -1;
 }
 
@@ -331,6 +335,14 @@ static int ia64_cpu_gdb_write_register(CPUState *cs, uint8_t *mem_buf, int n)
     return n < GDB_NUM_REGS ? 8 : 0;
 }
 
+#ifdef CONFIG_USER_ONLY
+/* the regions of a guest address, folded into QEMU's address space */
+static vaddr ia64_untagged_addr(CPUState *cs, vaddr addr)
+{
+    return ia64_user_fold(addr);
+}
+#endif
+
 #ifndef CONFIG_USER_ONLY
 #include "hw/core/sysemu-cpu-ops.h"
 
@@ -350,9 +362,11 @@ static const TCGCPUOps ia64_tcg_ops = {
     .get_tb_cpu_state = ia64_get_tb_cpu_state,
     .restore_state_to_opc = ia64_restore_state_to_opc,
     .mmu_index = ia64_cpu_mmu_index,
-    .pointer_wrap = cpu_pointer_wrap_notreached,
 
-#ifndef CONFIG_USER_ONLY
+#ifdef CONFIG_USER_ONLY
+    .untagged_addr = ia64_untagged_addr,
+#else
+    .pointer_wrap = cpu_pointer_wrap_notreached,
     .tlb_fill = ia64_cpu_tlb_fill,
     .cpu_exec_interrupt = ia64_cpu_exec_interrupt,
     .cpu_exec_reset = cpu_reset,
