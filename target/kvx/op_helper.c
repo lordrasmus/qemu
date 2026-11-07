@@ -59,11 +59,13 @@ void HELPER(raise_syscall)(CPUKVXState *env, uint64_t scall_num)
 void HELPER(raise_syscall_semi)(CPUKVXState *env, uint64_t scall_num,
                                 uint64_t pc)
 {
+#ifndef CONFIG_USER_ONLY
     if (scall_num >= FIRST_SEMIHOSTED_SYSCALL) {
         kvx_do_semihosting(env, scall_num);
         kvx_register_write_u64(env, REG_kv3_PC, pc + 4);
         return;
     }
+#endif
 
     kvx_register_write_u64(env, REG_kv3_PC, pc);
     HELPER(raise_syscall)(env, scall_num);
@@ -845,8 +847,10 @@ void HELPER(check_atomic_access)(CPUKVXState *env, uint64_t addr,
                                  uint64_t size, uint64_t syndrome)
 {
     int mmu_idx = kvx_cpu_mmu_index(env, false);
+#ifndef CONFIG_USER_ONLY
     CPUTLBEntryFull *full;
     void *host;
+#endif
 
     if (addr & (size - 1)) {
         /*
@@ -864,6 +868,10 @@ void HELPER(check_atomic_access)(CPUKVXState *env, uint64_t addr,
      * NOMAPPING, PROTECTION and WRITETOCLEAN traps. If we return, we know for
      * sure the TLB entry is valid.
      */
+#ifdef CONFIG_USER_ONLY
+    probe_write(env, addr, size, mmu_idx, GETPC());
+    return;
+#else
     probe_access_full(env, addr, size, MMU_DATA_STORE, mmu_idx, false,
                       &host, &full, GETPC());
 
@@ -873,6 +881,7 @@ void HELPER(check_atomic_access)(CPUKVXState *env, uint64_t addr,
         fill_tlb_excp_syndrome(env, addr, MMU_DATA_LOAD, TRAP_ATOMICTOCLEAN);
         kvx_raise_exception(env, KVX_EXCP_HW_TRAP, 0);
     }
+#endif
 }
 
 /*

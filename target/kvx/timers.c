@@ -21,6 +21,33 @@
 #include "cpu.h"
 #include "internal.h"
 
+#ifdef CONFIG_USER_ONLY
+/* No timer interrupts in user mode */
+void kvx_timer_init(KVXTimer *timer, KVXCPU *cpu, qemu_irq irq,
+                    uint64_t *reg_value, uint64_t *reg_reload,
+                    uint64_t tcr_enable_bit,
+                    uint64_t tcr_status_bit,
+                    uint64_t tcr_interrupt_bit,
+                    uint64_t tcr_idle_bit,
+                    uint64_t tcr_watchdog_bit)
+{
+    timer->cpu = cpu;
+    timer->reg_value = reg_value;
+}
+
+void kvx_timer_update(KVXTimer *timer)
+{
+}
+
+void kvx_timer_write_value(KVXTimer *timer, uint64_t value)
+{
+    *timer->reg_value = value;
+}
+
+void kvx_timer_reset(KVXTimer *timer)
+{
+}
+#else
 static void kvx_timer_callback(void *opaque)
 {
     struct KVXTimer *timer = opaque;
@@ -157,3 +184,4 @@ void kvx_timer_reset(KVXTimer *timer)
     timer->ev_enabled = false;
     timer_del(timer->qemu_timer);
 }
+#endif /* CONFIG_USER_ONLY */

@@ -328,6 +328,7 @@ void fill_tlb_excp_syndrome(CPUKVXState *env, target_ulong fault_addr,
     }
 }
 
+#ifndef CONFIG_USER_ONLY
 bool kvx_cpu_tlb_fill(CPUState *cs, target_ulong vaddr, int size,
                      MMUAccessType access_type, int mmu_idx,
                      bool probe, uintptr_t retaddr)
@@ -420,6 +421,7 @@ void kvx_cpu_do_unaligned_access(CPUState *cs, vaddr addr,
     }
     raise_misaligned_excp(cs, addr, access_type, retaddr);
 }
+#endif /* !CONFIG_USER_ONLY */
 
 static inline void invalidate_entry(CPUState *cpu, const KVXTLBEntry *entry)
 {

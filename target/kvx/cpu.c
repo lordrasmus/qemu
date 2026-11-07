@@ -30,16 +30,17 @@
 #include "trace.h"
 #include "internal.h"
 
+#ifndef CONFIG_USER_ONLY
 static const VMStateDescription vmstate_kvx_cpu = {
     .name = "cpu",
     .unmigratable = 1,
 };
+#endif
 
 static void kvx_cpu_irq_request(void *opaque, int irq, int level)
 {
     KVXCPU *cpu = opaque;
     CPUKVXState *env = &cpu->env;
-    CPUState *cs = CPU(cpu);
     bool locked = false;
     uint64_t old;
 
@@ -68,7 +69,9 @@ static void kvx_cpu_irq_request(void *opaque, int irq, int level)
     kvx_register_write_field(env, WS, WU1, true);
 
     trace_kvx_irq_request(cpu->cfg.pid, irq, old, env->pending_ilr);
-    cpu_interrupt(cs, CPU_INTERRUPT_HARD);
+#ifndef CONFIG_USER_ONLY
+    cpu_interrupt(CPU(cpu), CPU_INTERRUPT_HARD);
+#endif
 
     if (locked) {
         bql_unlock();
@@ -244,6 +247,7 @@ static void kv3_v2_cpu_init(Object *obj)
     cpu->model = CPU_MODEL_v2;
 }
 
+#ifndef CONFIG_USER_ONLY
 /*
  * @return true if the core is in one of the three sleep states (await, sleep,
  * stop), and the corresponding bit in WS is set.
@@ -276,6 +280,7 @@ static bool kvx_cpu_has_work(CPUState *cs)
         || ((env->sleep_state == KVX_WAITIT)
             && (kvx_irq_get_pending(env) != -1));
 }
+#endif
 
 static void kvx_cpu_dump_state(CPUState *cs, FILE *f, int flags)
 {
@@ -331,12 +336,14 @@ static vaddr kvx_cpu_get_pc(CPUState *cs)
     return kvx_register_read_u64(cpu_env(cs), REG_kv3_PC);
 }
 
+#ifndef CONFIG_USER_ONLY
 /* Unaligned accesses may cross a page; addresses are plain 64-bit.  */
 static vaddr kvx_pointer_wrap(CPUState *cs, int mmu_idx,
                               vaddr result, vaddr base)
 {
     return result;
 }
+#endif
 
 static int kvx_cpu_mmu_index_cs(CPUState *cs, bool ifetch)
 {
@@ -410,13 +417,13 @@ static const TCGCPUOps kvx_tcg_ops = {
     .synchronize_from_tb = kvx_cpu_synchronize_from_tb,
     .restore_state_to_opc = kvx_restore_state_to_opc,
     .mmu_index = kvx_cpu_mmu_index_cs,
+    .debug_excp_handler = kvx_debug_excp_handler,
+
+#ifndef CONFIG_USER_ONLY
     .pointer_wrap = kvx_pointer_wrap,
     .cpu_exec_reset = cpu_reset,
     .cpu_exec_interrupt = kvx_cpu_exec_interrupt,
     .tlb_fill = kvx_cpu_tlb_fill,
-    .debug_excp_handler = kvx_debug_excp_handler,
-
-#ifndef CONFIG_USER_ONLY
     .do_interrupt = kvx_cpu_do_interrupt,
     .do_unaligned_access = kvx_cpu_do_unaligned_access,
     .adjust_watchpoint_address = kvx_adjust_watchpoint_address,
