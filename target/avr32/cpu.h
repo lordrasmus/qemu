@@ -170,6 +170,10 @@ typedef struct CPUArchState {
 
     AVR32TLBEntry tlb[AVR32_TLB_SIZE];
 
+    /* linux-user: the last word load, for STCOND in parallel mode */
+    uint32_t lock_addr;
+    uint32_t lock_value;
+
     /* cycle counter: COUNT = (now - count_base) * freq */
     int64_t count_base;
     uint32_t count_freq;
