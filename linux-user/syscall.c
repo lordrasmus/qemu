@@ -4269,7 +4269,18 @@ typedef abi_ullong target_time64_t __attribute__((aligned(ABI_LONG_ALIGNMENT)));
 #else
 #define target_time64_t         abi_ullong
 #endif
+#if TARGET_ABI_BITS == 32 && TARGET_BIG_ENDIAN && \
+    !defined(TARGET_HPPA) && !defined(TARGET_PPC) && \
+    !defined(TARGET_SPARC) && !defined(TARGET_MIPS) && !defined(TARGET_XTENSA)
+/*
+ * asm-generic/msgbuf.h puts the low word first in either byte order;
+ * only the targets above have the high word first, as a big-endian
+ * 64-bit value would.
+ */
+#define target_swap_time64(x)   rol64(tswap64(x), 32)
+#else
 #define target_swap_time64(x)   tswap64(x)
+#endif
 
 struct target_msqid_ds
 {
