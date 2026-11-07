@@ -1696,6 +1696,11 @@ static inline abi_long target_to_host_sockaddr(int fd, struct sockaddr *addr,
         return fd_trans_target_to_host_addr(fd)(addr, target_addr, len);
     }
 
+    /* Nothing to read; lock_user() would not check a NULL address */
+    if (len == 0) {
+        return 0;
+    }
+
     target_saddr = lock_user(VERIFY_READ, target_addr, len, 1);
     if (!target_saddr)
         return -TARGET_EFAULT;
