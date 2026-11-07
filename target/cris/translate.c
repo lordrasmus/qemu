@@ -84,6 +84,10 @@ static TCGv cc_size;
 static TCGv cc_mask;
 
 static TCGv env_btaken;
+#ifdef CONFIG_USER_ONLY
+static TCGv env_excl_addr;
+static TCGv env_excl_val;
+#endif
 static TCGv env_btarget;
 static TCGv env_pc;
 
@@ -1037,9 +1041,39 @@ static void gen_load(DisasContext *dc, TCGv dst, TCGv addr,
     }
     cris_sync_cc_state(dc);
 
+#ifdef CONFIG_USER_ONLY
+    tcg_gen_mov_tl(env_excl_addr, addr);
+#endif
     tcg_gen_qemu_ld_tl(dst, addr, dc->mem_index,
                        MO_TE + ctz32(size) + (sign ? MO_SIGN : 0));
+#ifdef CONFIG_USER_ONLY
+    tcg_gen_mov_tl(env_excl_val, dst);
+#endif
 }
+
+#ifdef CONFIG_USER_ONLY
+/*
+ * Threads of a linux-user process run in parallel, so the conditional
+ * store of an atomic sequence ("ax" + store) only succeeds if memory
+ * still holds what the last load read.  Returns 1 in fail on failure.
+ */
+static void gen_store_exclusive(DisasContext *dc, TCGv fail, TCGv addr,
+                                TCGv val, unsigned int size)
+{
+    MemOp mop = MO_TE | ctz32(size);
+    TCGLabel *done = gen_new_label();
+    TCGv old = tcg_temp_new();
+    TCGv cmpv = tcg_temp_new();
+
+    tcg_gen_movi_tl(fail, 1);
+    tcg_gen_brcond_tl(TCG_COND_NE, addr, env_excl_addr, done);
+    tcg_gen_ext_tl(cmpv, env_excl_val, mop & MO_SIZE);
+    tcg_gen_atomic_cmpxchg_tl(old, addr, cmpv, val, dc->mem_index, mop);
+    tcg_gen_setcond_tl(TCG_COND_NE, fail, old, cmpv);
+    gen_set_label(done);
+    tcg_gen_movi_tl(env_excl_addr, -1);
+}
+#endif
 
 static void gen_store (DisasContext *dc, TCGv addr, TCGv val,
                unsigned int size)
@@ -1059,6 +1093,20 @@ static void gen_store (DisasContext *dc, TCGv addr, TCGv val,
         tcg_gen_ori_tl(cpu_PR[PR_CCS], cpu_PR[PR_CCS], C_FLAG);
         return;
     }
+
+#ifdef CONFIG_USER_ONLY
+    if (dc->flags_x) {
+        TCGv fail = tcg_temp_new();
+
+        dc->postinc = 0;
+        cris_evaluate_flags(dc);
+        gen_store_exclusive(dc, fail, addr, val, size);
+        tcg_gen_andi_tl(cpu_PR[PR_CCS], cpu_PR[PR_CCS], ~C_FLAG);
+        tcg_gen_shli_tl(fail, fail, ctz32(C_FLAG));
+        tcg_gen_or_tl(cpu_PR[PR_CCS], cpu_PR[PR_CCS], fail);
+        return;
+    }
+#endif
 
     cris_sync_cc_state(dc);
     tcg_gen_qemu_st_tl(val, addr, dc->mem_index, MO_TE + ctz32(size));
@@ -3289,6 +3337,14 @@ void cris_initialize_tcg(void)
     env_btaken = tcg_global_mem_new(tcg_env,
                                     offsetof(CPUCRISState, btaken),
                                     "btaken");
+#ifdef CONFIG_USER_ONLY
+    env_excl_addr = tcg_global_mem_new(tcg_env,
+                                       offsetof(CPUCRISState, excl_addr),
+                                       "excl_addr");
+    env_excl_val = tcg_global_mem_new(tcg_env,
+                                      offsetof(CPUCRISState, excl_val),
+                                      "excl_val");
+#endif
     for (i = 0; i < 16; i++) {
         cpu_R[i] = tcg_global_mem_new(tcg_env,
                                       offsetof(CPUCRISState, regs[i]),
