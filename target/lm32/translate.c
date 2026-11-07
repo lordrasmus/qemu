@@ -26,7 +26,9 @@
 #include "tcg/tcg-op.h"
 #include "qemu/qemu-print.h"
 
+#ifndef CONFIG_USER_ONLY
 #include "hw/lm32/lm32_pic.h"
+#endif
 
 #include "exec/helper-gen.h"
 
@@ -1090,13 +1092,17 @@ void lm32_cpu_dump_state(CPUState *cs, FILE *f, int flags)
     qemu_fprintf(f, "IN: PC=%x %s\n",
                  env->pc, lookup_symbol(env->pc));
 
-    qemu_fprintf(f, "ie=%8.8x (IE=%x EIE=%x BIE=%x) im=%8.8x ip=%8.8x\n",
+    qemu_fprintf(f, "ie=%8.8x (IE=%x EIE=%x BIE=%x)",
                  env->ie,
                  (env->ie & IE_IE) ? 1 : 0,
                  (env->ie & IE_EIE) ? 1 : 0,
-                 (env->ie & IE_BIE) ? 1 : 0,
+                 (env->ie & IE_BIE) ? 1 : 0);
+#ifndef CONFIG_USER_ONLY
+    qemu_fprintf(f, " im=%8.8x ip=%8.8x",
                  lm32_pic_get_im(env->pic_state),
                  lm32_pic_get_ip(env->pic_state));
+#endif
+    qemu_fprintf(f, "\n");
     qemu_fprintf(f, "eba=%8.8x deba=%8.8x\n",
                  env->eba,
                  env->deba);

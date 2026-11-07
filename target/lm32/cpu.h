@@ -200,6 +200,9 @@ struct ArchCPU {
 extern const VMStateDescription vmstate_lm32_cpu;
 #endif
 
+/* No MMU, a single translation regime. */
+#define MMU_USER_IDX 0
+
 void lm32_cpu_do_interrupt(CPUState *cpu);
 bool lm32_cpu_exec_interrupt(CPUState *cs, int int_req);
 void lm32_cpu_dump_state(CPUState *cpu, FILE *f, int flags);

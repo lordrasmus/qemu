@@ -93,10 +93,12 @@ static void lm32_cpu_init_cfg_reg(LM32CPU *cpu)
     env->cfg = cfg;
 }
 
+#ifndef CONFIG_USER_ONLY
 static bool lm32_cpu_has_work(CPUState *cs)
 {
     return cpu_test_interrupt(cs, CPU_INTERRUPT_HARD);
 }
+#endif
 
 static void lm32_cpu_reset_hold(Object *obj, ResetType type)
 {
@@ -208,12 +210,14 @@ static ObjectClass *lm32_cpu_class_by_name(const char *cpu_model)
     return oc;
 }
 
+#ifndef CONFIG_USER_ONLY
 #include "hw/core/sysemu-cpu-ops.h"
 
 static const struct SysemuCPUOps lm32_sysemu_ops = {
     .has_work = lm32_cpu_has_work,
     .get_phys_addr_debug = lm32_cpu_get_phys_page_debug,
 };
+#endif
 
 static const TCGCPUOps lm32_tcg_ops = {
     .guest_default_memory_order = TCG_MO_ALL,
@@ -224,6 +228,8 @@ static const TCGCPUOps lm32_tcg_ops = {
     .get_tb_cpu_state = lm32_get_tb_cpu_state,
     .restore_state_to_opc = lm32_restore_state_to_opc,
     .mmu_index = lm32_cpu_mmu_index,
+
+#ifndef CONFIG_USER_ONLY
     .pointer_wrap = cpu_pointer_wrap_uint32,
     .tlb_fill = lm32_cpu_tlb_fill,
     .cpu_exec_interrupt = lm32_cpu_exec_interrupt,
@@ -231,6 +237,7 @@ static const TCGCPUOps lm32_tcg_ops = {
     .cpu_exec_reset = cpu_reset,
     .do_interrupt = lm32_cpu_do_interrupt,
     .debug_excp_handler = lm32_debug_excp_handler,
+#endif
 };
 
 static void lm32_cpu_class_init(ObjectClass *oc, const void *data)
@@ -245,14 +252,18 @@ static void lm32_cpu_class_init(ObjectClass *oc, const void *data)
     resettable_class_set_parent_phases(rc, NULL, lm32_cpu_reset_hold, NULL,
                                        &lcc->parent_phases);
 
+#ifndef CONFIG_USER_ONLY
     dc->vmsd = &vmstate_lm32_cpu;
+#endif
     cc->class_by_name = lm32_cpu_class_by_name;
     cc->dump_state = lm32_cpu_dump_state;
     cc->set_pc = lm32_cpu_set_pc;
     cc->get_pc = lm32_cpu_get_pc;
     cc->gdb_read_register = lm32_cpu_gdb_read_register;
     cc->gdb_write_register = lm32_cpu_gdb_write_register;
+#ifndef CONFIG_USER_ONLY
     cc->sysemu_ops = &lm32_sysemu_ops;
+#endif
     cc->gdb_num_core_regs = 32 + 7;
     cc->gdb_stop_before_watchpoint = true;
     cc->disas_set_info = lm32_cpu_disas_set_info;
