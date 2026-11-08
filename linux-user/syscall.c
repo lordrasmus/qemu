@@ -7109,6 +7109,7 @@ static void lt_exit(int code)
     }
 }
 
+#if defined(TARGET_NR_waitpid) || defined(TARGET_NR_wait4)
 /*
  * wait4() for LinuxThreads clones.  Returns false if the host should do
  * the wait, otherwise the result is in *ret and *status.
@@ -7169,6 +7170,7 @@ static bool lt_wait(CPUState *cpu, pid_t pid, int options, int *status,
     pthread_mutex_unlock(&lt_lock);
     return true;
 }
+#endif
 
 typedef struct {
     CPUArchState *env;
