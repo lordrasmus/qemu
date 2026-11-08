@@ -3024,6 +3024,15 @@ static void cris_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
 
     dc->cpu = env_archcpu(env);
     dc->ppc = pc_start;
+    /*
+     * A TB that starts in the delay slot of a branch that ended the
+     * previous TB.  On CRISv10 a fault in the slot restarts at the branch
+     * (cris_restore_state_to_opc), so point the first insn back at it;
+     * env->dslot, and with it tb_flags & 7, holds the branch's length.
+     */
+    if ((tb_flags & 7) && env->pregs[PR_VR] < 32) {
+        dc->ppc = pc_start - (tb_flags & 7);
+    }
     dc->pc = pc_start;
     dc->mem_index = cpu_mmu_index(cs, false);
     dc->flags_uptodate = 1;
