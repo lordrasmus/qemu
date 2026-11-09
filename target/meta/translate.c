@@ -8067,6 +8067,13 @@ static void meta_gen_getset(DisasContext *dc, const MetaInstruction *inst)
 
     /* get address */
     a_base = meta_get_source(dc, get->base, &a_base_tmp);
+    if (!a_base) {
+        /*
+         * No such base register: meta_get_source has generated the halt.
+         * Stop here, the rest would hand TCG a NULL operand.
+         */
+        goto out;
+    }
 
     /* reliant upon this being a direct A register for update */
     assert(!a_base_tmp);
@@ -8074,6 +8081,9 @@ static void meta_gen_getset(DisasContext *dc, const MetaInstruction *inst)
     /* get offset */
     if (get->off.type == SRC_REG) {
         off = meta_get_source(dc, get->off, &off_tmp);
+        if (!off) {
+            goto out;
+        }
 
         if (inst->op == OP_GET) {
             bool off_clobber = (dat[0] == off);
@@ -8320,6 +8330,7 @@ static void meta_gen_getset(DisasContext *dc, const MetaInstruction *inst)
 
     /* cleanup */
 
+out:
     /* place the label for failed conditions */
     if (inst->cc) {
         meta_end_cc(dc, &lbl_cc);
