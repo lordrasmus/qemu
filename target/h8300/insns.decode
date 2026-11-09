@@ -68,6 +68,8 @@
 @b2_idb		.... .... .... rd:4 &rdi
 @b2_idwl	.... .... .... rd:4 &rdi imm=%incdecimm sz=%incdecsz
 @b2_r		.... .... .... r:4 &r sz=%b2_r_sz
+# LDC/STC Rn: 0 = CCR, 1 = EXR; 2 and 3 are not instructions
+@b2_cr		.... .... ... sz:1 r:4 &r
 @b2_s_r		.... .... . s:1 .. r:4 &sr sz=%b2_r_sz
 @b2_rs_erd	.... .... rs:4 0 rd:3 &rr
 @b2_r_abs	.... r:4 abs:8 &rabs
@@ -404,7 +406,7 @@ LDC_i		0000 0001 0100 0001 0000 0111 .... .... @b4_c_imm
 # LDMAC ERn,MACx
 {
   LDMAC		0000 0011 001 h:1 0 r:3
-  LDC_r		0000 0011 00.. .... @b2_r
+  LDC_r		0000 0011 000. .... @b2_cr
 }
 # LDC @ERs,CCR
 LDC_m		0000 0001 0100 000 . 0110 1001 0... 0000 @b4_er
@@ -572,7 +574,7 @@ SLEEP		0000 0001 1000 0000
 # STMAC MACL,ERn
 {
   STMAC		0000 0010 001 h:1 0 rn:3
-  STC_r		0000 0010 00.. .... @b2_r
+  STC_r		0000 0010 000. .... @b2_cr
 }
 # STC CCR,@ERd
 STC_m		0000 0001 0100 000 . 0110 1001 1 ... 0000 @b4_er
