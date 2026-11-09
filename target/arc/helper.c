@@ -283,7 +283,7 @@ void arc_cpu_do_interrupt(CPUState *cs)
 #if defined(TARGET_ARC32)
       case MMU_VERSION_6:
         /* Interrupt vector table is translated by MMU in v6. */
-        env->pc = cpu_ldl_data(env, env->intvec + offset);
+        env->pc = cpu_ldl_le_data(env, env->intvec + offset);
         break;
       case MMU_VERSION_3: {
         MemTxResult txres;
@@ -295,7 +295,7 @@ void arc_cpu_do_interrupt(CPUState *cs)
 #elif defined(TARGET_ARC64)
       case MMU_VERSION_6:
         /* Interrupt vector table is translated by MMU in v6. */
-        env->pc = cpu_ldq_data(env, env->intvec + offset);
+        env->pc = cpu_ldq_le_data(env, env->intvec + offset);
         break;
 #else
 #error "This should never happen !!!!"

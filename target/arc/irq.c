@@ -31,11 +31,11 @@
 
 #define CACHE_ENTRY_SIZE (TARGET_LONG_BITS / 8)
 #if defined(TARGET_ARC32)
-#define TARGET_LONG_LOAD(ENV, ADDR) cpu_ldl_data(ENV, ADDR)
-#define TARGET_LONG_STORE(ENV, ADDR, VALUE) cpu_stl_data(ENV, ADDR, VALUE)
+#define TARGET_LONG_LOAD(ENV, ADDR) cpu_ldl_le_data(ENV, ADDR)
+#define TARGET_LONG_STORE(ENV, ADDR, VALUE) cpu_stl_le_data(ENV, ADDR, VALUE)
 #elif defined(TARGET_ARC64)
-#define TARGET_LONG_LOAD(ENV, ADDR) cpu_ldq_data(ENV, ADDR)
-#define TARGET_LONG_STORE(ENV, ADDR, VALUE) cpu_stq_data(ENV, ADDR, VALUE)
+#define TARGET_LONG_LOAD(ENV, ADDR) cpu_ldq_le_data(ENV, ADDR)
+#define TARGET_LONG_STORE(ENV, ADDR, VALUE) cpu_stq_le_data(ENV, ADDR, VALUE)
 #else
 #error "This should never happen !!!!"
 #endif

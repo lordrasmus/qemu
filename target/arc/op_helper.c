@@ -91,7 +91,7 @@ target_ulong HELPER(llock)(CPUARCState *env, target_ulong addr)
     env->arconnect.locked_mutex = &entry->mutex;
     env->arconnect.lpa_lf = entry;
 
-    target_ulong ret = cpu_ldl_data_ra(env, addr, GETPC());
+    target_ulong ret = cpu_ldl_le_data_ra(env, addr, GETPC());
     entry->lpa_lf = (haddr & (~LPA_LFS_ALIGNEMENT_MASK));
     entry->lpa_lf += 1;     /* least significant bit is LF flag */
     entry->read_value = ret;
@@ -117,10 +117,10 @@ target_ulong HELPER(scond)(CPUARCState *env, target_ulong addr, target_ulong val
     struct lpa_lf_entry *entry = env->arconnect.lpa_lf;
     haddr = (haddr & (~LPA_LFS_ALIGNEMENT_MASK));
     target_ulong ret = 1;
-    target_ulong rvalue = cpu_ldl_data_ra(env, addr, GETPC());
+    target_ulong rvalue = cpu_ldl_le_data_ra(env, addr, GETPC());
     if(entry->lpa_lf == (haddr + 1) && (entry->read_value == rvalue)) {
         ret  = 0;
-        cpu_stl_data_ra(env, addr, value, GETPC());
+        cpu_stl_le_data_ra(env, addr, value, GETPC());
         qemu_log_mask(LOG_UNIMP, "SCOND success with value 0x" TARGET_FMT_lx "\n", value);
     }
     else
@@ -148,7 +148,7 @@ target_ulong HELPER(llockl)(CPUARCState *env, target_ulong addr)
     env->arconnect.locked_mutex = &entry->mutex;
     env->arconnect.lpa_lf = entry;
 
-    target_ulong ret = cpu_ldq_data_ra(env, addr, GETPC());
+    target_ulong ret = cpu_ldq_le_data_ra(env, addr, GETPC());
     entry->lpa_lf = (haddr & (~LPA_LFS_ALIGNEMENT_MASK));
     entry->lpa_lf += 1;     /* least significant bit is LF flag */
     entry->read_value = ret;
@@ -168,10 +168,10 @@ target_ulong HELPER(scondl)(CPUARCState *env, target_ulong addr, target_ulong va
     qemu_mutex_lock(env->arconnect.locked_mutex);
     target_ulong ret = 1;
     haddr = (haddr & (~LPA_LFS_ALIGNEMENT_MASK));
-    target_ulong rvalue = cpu_ldq_data_ra(env, addr, GETPC());
+    target_ulong rvalue = cpu_ldq_le_data_ra(env, addr, GETPC());
     if(entry->lpa_lf == (haddr + 1) && (entry->read_value == rvalue)) {
         ret = 0;
-        cpu_stq_data_ra(env, addr, value, GETPC());
+        cpu_stq_le_data_ra(env, addr, value, GETPC());
         qemu_log_mask(LOG_UNIMP, "SCONDL success\n");
     }
     entry->lpa_lf &= -2;
@@ -192,7 +192,7 @@ uint64_t HELPER(llockd)(CPUARCState *env, target_ulong addr)
     env->arconnect.locked_mutex = &entry->mutex;
     env->arconnect.lpa_lf = entry;
 
-    uint64_t ret = cpu_ldq_data_ra(env, addr, GETPC());
+    uint64_t ret = cpu_ldq_le_data_ra(env, addr, GETPC());
 
     entry->lpa_lf = (haddr & (~LPA_LFS_ALIGNEMENT_MASK));
     entry->lpa_lf += 1;     /* least significant bit is LF flag */
@@ -213,11 +213,11 @@ target_ulong HELPER(scondd)(CPUARCState *env, target_ulong addr, uint64_t value)
     target_ulong ret = 1;
     addr = (addr & (~LPA_LFS_ALIGNEMENT_MASK));
 
-    uint64_t rvalue = cpu_ldq_data_ra(env, addr, GETPC());
+    uint64_t rvalue = cpu_ldq_le_data_ra(env, addr, GETPC());
 
     if(entry->lpa_lf == (haddr + 1) && entry->read_value == rvalue) {
         ret = 0;
-        cpu_stq_data_ra(env, addr, value, GETPC());
+        cpu_stq_le_data_ra(env, addr, value, GETPC());
     }
     entry->lpa_lf &= -2;
     qemu_mutex_unlock(&entry->mutex);

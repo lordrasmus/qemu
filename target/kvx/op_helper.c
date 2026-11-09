@@ -287,15 +287,15 @@ static uint64_t do_load(CPUKVXState *env, uint64_t address, MemOp op)
         break;
 
     case 2:
-        ret = cpu_lduw_data(env, address);
+        ret = cpu_lduw_le_data(env, address);
         break;
 
     case 4:
-        ret = cpu_ldl_data(env, address);
+        ret = cpu_ldl_le_data(env, address);
         break;
 
     case 8:
-        return cpu_ldq_data(env, address);
+        return cpu_ldq_le_data(env, address);
 
     default:
         g_assert_not_reached();

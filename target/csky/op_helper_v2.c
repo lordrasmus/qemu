@@ -1113,8 +1113,8 @@ void HELPER(wsc)(CPUCSKYState *env)
     HELPER(tee_save_cr)(env);
     if (env->psr_t) {
         /* Secured world switch to Non-secured world. */
-        cpu_stl_data(env, env->stackpoint.t_ssp - 4, env->pc + 4);
-        cpu_stl_data(env, env->stackpoint.t_ssp - 8, env->cp0.psr);
+        cpu_stl_le_data(env, env->stackpoint.t_ssp - 4, env->pc + 4);
+        cpu_stl_le_data(env, env->stackpoint.t_ssp - 8, env->cp0.psr);
         env->stackpoint.t_ssp -= 8;
 
         env->tee.t_psr = env->cp0.psr;
@@ -1127,8 +1127,8 @@ void HELPER(wsc)(CPUCSKYState *env)
         env->pc = csky_ldl_code(env, env->tee.nt_ebr + 0 * 4);
     } else {
         /* Non-secured world switch to secured world. */
-        cpu_stl_data(env, env->stackpoint.nt_ssp - 4, env->pc + 4);
-        cpu_stl_data(env, env->stackpoint.nt_ssp - 8, env->cp0.psr);
+        cpu_stl_le_data(env, env->stackpoint.nt_ssp - 4, env->pc + 4);
+        cpu_stl_le_data(env, env->stackpoint.nt_ssp - 8, env->cp0.psr);
         env->stackpoint.nt_ssp -= 8;
 
         env->tee.nt_psr = env->cp0.psr;
@@ -1163,8 +1163,8 @@ static inline uint32_t do_helper_tee_rte(CPUCSKYState *env)
         /* return from Trust world to Non-Trust world, wsc */
         tmp = env->tee.t_psr;
         env->tee.t_psr = env->cp0.psr;
-        env->cp0.psr = cpu_ldl_data(env, env->stackpoint.nt_ssp);
-        env->pc = cpu_ldl_data(env, env->stackpoint.nt_ssp + 4);
+        env->cp0.psr = cpu_ldl_le_data(env, env->stackpoint.nt_ssp);
+        env->pc = cpu_ldl_le_data(env, env->stackpoint.nt_ssp + 4);
         env->stackpoint.nt_ssp += 8;
     } else if (env->psr_t == 0
                && PSR_SP(env->cp0.psr) == 1
@@ -1172,8 +1172,8 @@ static inline uint32_t do_helper_tee_rte(CPUCSKYState *env)
         /* return from Non-Trust world to Trust world, wsc */
         tmp = env->tee.nt_psr;
         env->tee.nt_psr = env->cp0.psr;
-        env->cp0.psr = cpu_ldl_data(env, env->stackpoint.t_ssp);
-        env->pc = cpu_ldl_data(env, env->stackpoint.t_ssp + 4);
+        env->cp0.psr = cpu_ldl_le_data(env, env->stackpoint.t_ssp);
+        env->pc = cpu_ldl_le_data(env, env->stackpoint.t_ssp + 4);
         env->stackpoint.t_ssp += 8;
     } else if (env->psr_t == 1
                && PSR_SP(env->cp0.psr) == 0
@@ -1182,8 +1182,8 @@ static inline uint32_t do_helper_tee_rte(CPUCSKYState *env)
         is_from_wsc = FALSE;
         tmp = env->cp0.psr;
         env->tee.t_psr = env->tee.t_epsr;
-        env->cp0.psr = cpu_ldl_data(env, env->stackpoint.nt_ssp);
-        env->pc = cpu_ldl_data(env, env->stackpoint.nt_ssp + 4);
+        env->cp0.psr = cpu_ldl_le_data(env, env->stackpoint.nt_ssp);
+        env->pc = cpu_ldl_le_data(env, env->stackpoint.nt_ssp + 4);
         env->stackpoint.nt_ssp += 8;
     } else if (env->psr_t == 0
                && PSR_SP(env->cp0.psr) == 1
@@ -1193,8 +1193,8 @@ static inline uint32_t do_helper_tee_rte(CPUCSKYState *env)
         tmp = env->cp0.psr;
         env->tee.nt_psr = env->tee.nt_epsr;
         HELPER(tee_restore_gpr)(env);
-        env->cp0.psr = cpu_ldl_data(env, env->stackpoint.t_ssp);
-        env->pc = cpu_ldl_data(env, env->stackpoint.t_ssp + 4);
+        env->cp0.psr = cpu_ldl_le_data(env, env->stackpoint.t_ssp);
+        env->pc = cpu_ldl_le_data(env, env->stackpoint.t_ssp + 4);
         env->stackpoint.t_ssp += 8;
     } else {
         /* return from interrupt without change the world, interrupt */

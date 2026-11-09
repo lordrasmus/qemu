@@ -342,32 +342,32 @@ static inline void HELPER(tee_save_gpr)(CPUCSKYState *env)
     if (env->features & CPU_E801) {
         for (i = 0; i <= 8; i++) {
             env->stackpoint.t_ssp -= 4;
-            cpu_stl_data(env, env->stackpoint.t_ssp, env->regs[i]);
+            cpu_stl_le_data(env, env->stackpoint.t_ssp, env->regs[i]);
             env->regs[i] = 0;
         }
-        cpu_stl_data(env, env->stackpoint.t_ssp - 4, env->regs[13]);
+        cpu_stl_le_data(env, env->stackpoint.t_ssp - 4, env->regs[13]);
         env->regs[13] = 0;
-        cpu_stl_data(env, env->stackpoint.t_ssp - 8, env->regs[15]);
+        cpu_stl_le_data(env, env->stackpoint.t_ssp - 8, env->regs[15]);
         env->regs[15] = 0;
         env->stackpoint.t_ssp -= 8;
     } else if (env->features & CPU_E802) {
         for (i = 0; i <= 13; i++) {
             env->stackpoint.t_ssp -= 4;
-            cpu_stl_data(env, env->stackpoint.t_ssp, env->regs[i]);
+            cpu_stl_le_data(env, env->stackpoint.t_ssp, env->regs[i]);
             env->regs[i] = 0;
         }
-        cpu_stl_data(env, env->stackpoint.t_ssp - 4, env->regs[15]);
+        cpu_stl_le_data(env, env->stackpoint.t_ssp - 4, env->regs[15]);
         env->regs[15] = 0;
         env->stackpoint.t_ssp -= 4;
     } else if (env->features & CPU_E803) {
         for (i = 0; i <= 13; i++) {
             env->stackpoint.t_ssp -= 4;
-            cpu_stl_data(env, env->stackpoint.t_ssp, env->regs[i]);
+            cpu_stl_le_data(env, env->stackpoint.t_ssp, env->regs[i]);
             env->regs[i] = 0;
         }
-        cpu_stl_data(env, env->stackpoint.t_ssp - 4, env->regs[15]);
+        cpu_stl_le_data(env, env->stackpoint.t_ssp - 4, env->regs[15]);
         env->regs[15] = 0;
-        cpu_stl_data(env, env->stackpoint.t_ssp - 8, env->regs[28]);
+        cpu_stl_le_data(env, env->stackpoint.t_ssp - 8, env->regs[28]);
         env->regs[28] = 0;
         env->stackpoint.t_ssp -= 8;
     }
@@ -380,26 +380,26 @@ static inline void HELPER(tee_restore_gpr)(CPUCSKYState *env)
 {
     int32_t i;
     if (env->features & CPU_E801) {
-        env->regs[15] = cpu_ldl_data(env, env->stackpoint.t_ssp);
-        env->regs[13] = cpu_ldl_data(env, env->stackpoint.t_ssp + 4);
+        env->regs[15] = cpu_ldl_le_data(env, env->stackpoint.t_ssp);
+        env->regs[13] = cpu_ldl_le_data(env, env->stackpoint.t_ssp + 4);
         env->stackpoint.t_ssp += 8;
         for (i = 8; i >= 0; i--) {
-            env->regs[i] = cpu_ldl_data(env, env->stackpoint.t_ssp);
+            env->regs[i] = cpu_ldl_le_data(env, env->stackpoint.t_ssp);
             env->stackpoint.t_ssp += 4;
         }
     } else if (env->features & CPU_E802) {
-        env->regs[15] = cpu_ldl_data(env, env->stackpoint.t_ssp);
+        env->regs[15] = cpu_ldl_le_data(env, env->stackpoint.t_ssp);
         env->stackpoint.t_ssp += 4;
         for (i = 13; i >= 0; i--) {
-            env->regs[i] = cpu_ldl_data(env, env->stackpoint.t_ssp);
+            env->regs[i] = cpu_ldl_le_data(env, env->stackpoint.t_ssp);
             env->stackpoint.t_ssp += 4;
         }
     } else if (env->features & CPU_E803) {
-        env->regs[28] = cpu_ldl_data(env, env->stackpoint.t_ssp);
-        env->regs[15] = cpu_ldl_data(env, env->stackpoint.t_ssp + 4);
+        env->regs[28] = cpu_ldl_le_data(env, env->stackpoint.t_ssp);
+        env->regs[15] = cpu_ldl_le_data(env, env->stackpoint.t_ssp + 4);
         env->stackpoint.t_ssp += 8;
         for (i = 13; i >= 0; i--) {
-            env->regs[i] = cpu_ldl_data(env, env->stackpoint.t_ssp);
+            env->regs[i] = cpu_ldl_le_data(env, env->stackpoint.t_ssp);
             env->stackpoint.t_ssp += 4;
         }
     }

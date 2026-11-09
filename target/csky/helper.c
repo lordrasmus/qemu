@@ -135,8 +135,8 @@ static inline void do_helper_tee_interrupt(CPUState *cs, CPUCSKYState *env)
         !(env->intc_signals.issr
           & (1 << (cs->exception_index - 32)))) {
         /* Trust world switch to Non-Trust world */
-        cpu_stl_data(env, env->stackpoint.t_ssp - 4, env->pc);
-        cpu_stl_data(env, env->stackpoint.t_ssp - 8, env->cp0.psr);
+        cpu_stl_le_data(env, env->stackpoint.t_ssp - 4, env->pc);
+        cpu_stl_le_data(env, env->stackpoint.t_ssp - 8, env->cp0.psr);
         env->stackpoint.t_ssp -= 8;
         /* save GPRs to trust-supervised stack. */
         HELPER(tee_save_gpr)(env);
@@ -149,8 +149,8 @@ static inline void do_helper_tee_interrupt(CPUState *cs, CPUCSKYState *env)
                (env->intc_signals.issr
                 & (1 << (cs->exception_index - 32)))) {
         /* Non-Trust world switch to Trust world */
-        cpu_stl_data(env, env->stackpoint.nt_ssp - 4, env->pc);
-        cpu_stl_data(env, env->stackpoint.nt_ssp - 8, env->cp0.psr);
+        cpu_stl_le_data(env, env->stackpoint.nt_ssp - 4, env->pc);
+        cpu_stl_le_data(env, env->stackpoint.nt_ssp - 8, env->cp0.psr);
         env->stackpoint.nt_ssp -= 8;
         env->tee.t_epsr = env->tee.t_psr;
         env->tee.t_psr &= ~PSR_SP_MASK;

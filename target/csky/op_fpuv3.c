@@ -2823,7 +2823,7 @@ void FPUV3_HELPER(fldh)(CPUCSKYState *env, uint32_t insn)
     env->vfp.reg[vrz].f64[1] = 0;
 
     a = env->regs[vrx];
-    c = cpu_lduw_data(env, a + offset);
+    c = cpu_lduw_le_data(env, a + offset);
     env->vfp.reg[vrz].udsps[0] = c;
 
     if (gen_mem_trace()) {
@@ -2846,7 +2846,7 @@ void FPUV3_HELPER(fsth)(CPUCSKYState *env, uint32_t insn)
 
     a = env->regs[vrx];
     c = env->vfp.reg[vrz].udsps[0];
-    cpu_stw_data(env, a + offset, c);
+    cpu_stw_le_data(env, a + offset, c);
     if (gen_mem_trace()) {
         uint32_t packlen;
         packlen = 2 * sizeof(uint8_t) + sizeof(uint32_t);
@@ -2868,7 +2868,7 @@ void FPUV3_HELPER(fldrh)(CPUCSKYState *env, uint32_t insn)
 
     a = env->regs[vrx];
     b = env->regs[vry];
-    c = cpu_lduw_data(env, a + (b << shift));
+    c = cpu_lduw_le_data(env, a + (b << shift));
 
     env->vfp.reg[vrz].f64[0] = 0;
     env->vfp.reg[vrz].f64[1] = 0;
@@ -2894,7 +2894,7 @@ void FPUV3_HELPER(fstrh)(CPUCSKYState *env, uint32_t insn)
     a = env->regs[vrx];
     b = env->regs[vry];
     c = env->vfp.reg[vrz].udsps[0];
-    cpu_stw_data(env, a + (b << shift), c);
+    cpu_stw_le_data(env, a + (b << shift), c);
     if (gen_mem_trace()) {
         uint32_t packlen;
         packlen = 2 * sizeof(uint8_t) + sizeof(uint32_t);
@@ -2921,7 +2921,7 @@ void FPUV3_HELPER(fldmh)(CPUCSKYState *env, uint32_t insn)
         env->vfp.reg[vrz + i].f64[0] = 0;
         env->vfp.reg[vrz + i].f64[1] = 0;
 
-        c = cpu_lduw_data(env, a + i * 2);
+        c = cpu_lduw_le_data(env, a + i * 2);
         env->vfp.reg[vrz + i].udsps[0] = c;
     }
     if (gen_mem_trace()) {
@@ -2960,7 +2960,7 @@ void FPUV3_HELPER(fstmh)(CPUCSKYState *env, uint32_t insn)
         }
 
         c = env->vfp.reg[vrz + i].udsps[0];
-        cpu_stw_data(env, a + i * 2, c);
+        cpu_stw_le_data(env, a + i * 2, c);
     }
     if (gen_mem_trace()) {
         uint32_t bytes, packnum, packlen, value;
@@ -2993,7 +2993,7 @@ void FPUV3_HELPER(flrwh)(CPUCSKYState *env, uint32_t insn)
     env->vfp.reg[vrz].f64[0] = 0;
     env->vfp.reg[vrz].f64[1] = 0;
 
-    c = cpu_lduw_data(env, (env->pc + offset) & 0xfffffffc);
+    c = cpu_lduw_le_data(env, (env->pc + offset) & 0xfffffffc);
     env->vfp.reg[vrz].udsps[0] = c;
     if (gen_mem_trace()) {
         uint32_t packlen;
@@ -3022,7 +3022,7 @@ void FPUV3_HELPER(fldmuh)(CPUCSKYState *env, uint32_t insn)
         env->vfp.reg[vrz + i].f64[0] = 0;
         env->vfp.reg[vrz + i].f64[1] = 0;
 
-        c = cpu_lduw_data(env, a);
+        c = cpu_lduw_le_data(env, a);
         env->vfp.reg[vrz + i].udsps[0] = c;
         a = a + 2;
     }
@@ -3062,7 +3062,7 @@ void FPUV3_HELPER(fstmuh)(CPUCSKYState *env, uint32_t insn)
             break;
         }
         c = env->vfp.reg[vrz + i].udsps[0];
-        cpu_stw_data(env, a, c);
+        cpu_stw_le_data(env, a, c);
 
         a = a + 2;
     }
@@ -3100,7 +3100,7 @@ void FPUV3_HELPER(flds)(CPUCSKYState *env, uint32_t insn)
     env->vfp.reg[vrz].f64[1] = 0;
 
     a = env->regs[vrx];
-    c = cpu_ldl_data(env, a + offset);
+    c = cpu_ldl_le_data(env, a + offset);
     env->vfp.reg[vrz].udspi[0] = c;
     if (gen_mem_trace()) {
         uint32_t packlen;
@@ -3123,7 +3123,7 @@ void FPUV3_HELPER(fsts)(CPUCSKYState *env, uint32_t insn)
 
     a = env->regs[vrx];
     c = env->vfp.reg[vrz].udspi[0];
-    cpu_stl_data(env, a + offset, c);
+    cpu_stl_le_data(env, a + offset, c);
     if (gen_mem_trace()) {
         uint32_t packlen;
         packlen = 2 * sizeof(uint8_t) + sizeof(uint32_t);
@@ -3149,7 +3149,7 @@ void FPUV3_HELPER(fldrs)(CPUCSKYState *env, uint32_t insn)
 
     a = env->regs[vrx];
     b = env->regs[vry];
-    c = cpu_ldl_data(env, a + (b << shift));
+    c = cpu_ldl_le_data(env, a + (b << shift));
     env->vfp.reg[vrz].udspi[0] = c;
     if (gen_mem_trace()) {
         uint32_t packlen;
@@ -3172,7 +3172,7 @@ void FPUV3_HELPER(fstrs)(CPUCSKYState *env, uint32_t insn)
     a = env->regs[vrx];
     b = env->regs[vry];
     c = env->vfp.reg[vrz].udspi[0];
-    cpu_stl_data(env, a + (b << shift), c);
+    cpu_stl_le_data(env, a + (b << shift), c);
     if (gen_mem_trace()) {
         uint32_t packlen;
         packlen = 2 * sizeof(uint8_t) + sizeof(uint32_t);
@@ -3199,7 +3199,7 @@ void FPUV3_HELPER(fldms)(CPUCSKYState *env, uint32_t insn)
         env->vfp.reg[vrz + i].f64[0] = 0;
         env->vfp.reg[vrz + i].f64[1] = 0;
 
-        c = cpu_ldl_data(env, a + i * 4);
+        c = cpu_ldl_le_data(env, a + i * 4);
         env->vfp.reg[vrz + i].udspi[0] = c;
     }
     if (gen_mem_trace()) {
@@ -3231,7 +3231,7 @@ void FPUV3_HELPER(fstms)(CPUCSKYState *env, uint32_t insn)
             break;
         }
         c = env->vfp.reg[vrz + i].udspi[0];
-        cpu_stl_data(env, a + i * 4, c);
+        cpu_stl_le_data(env, a + i * 4, c);
     }
     if (gen_mem_trace()) {
         uint32_t bytes, packlen;
@@ -3258,7 +3258,7 @@ void FPUV3_HELPER(flrws)(CPUCSKYState *env, uint32_t insn)
     env->vfp.reg[vrz].f64[0] = 0;
     env->vfp.reg[vrz].f64[1] = 0;
 
-    c = cpu_ldl_data(env, (env->pc + offset) & 0xfffffffc);
+    c = cpu_ldl_le_data(env, (env->pc + offset) & 0xfffffffc);
     env->vfp.reg[vrz].udspi[0] = c;
     if (gen_mem_trace()) {
         uint32_t packlen;
@@ -3287,7 +3287,7 @@ void FPUV3_HELPER(fldmus)(CPUCSKYState *env, uint32_t insn)
         env->vfp.reg[vrz + i].f64[0] = 0;
         env->vfp.reg[vrz + i].f64[1] = 0;
 
-        c = cpu_ldl_data(env, a);
+        c = cpu_ldl_le_data(env, a);
         env->vfp.reg[vrz + i].udspi[0] = c;
         a = a + 4;
     }
@@ -3322,7 +3322,7 @@ void FPUV3_HELPER(fstmus)(CPUCSKYState *env, uint32_t insn)
         }
 
         c = env->vfp.reg[vrz + i].udspi[0];
-        cpu_stl_data(env, a, c);
+        cpu_stl_le_data(env, a, c);
 
         a = a + 4;
     }
@@ -3353,9 +3353,9 @@ void FPUV3_HELPER(fldd)(CPUCSKYState *env, uint32_t insn)
     env->vfp.reg[vrz].f64[1] = 0;
 
     a = env->regs[vrx];
-    c = cpu_ldl_data(env, a + offset);
+    c = cpu_ldl_le_data(env, a + offset);
     env->vfp.reg[vrz].udspi[0] = c;
-    c = cpu_ldl_data(env, a + offset + 4);
+    c = cpu_ldl_le_data(env, a + offset + 4);
     env->vfp.reg[vrz].udspi[1] = c;
 
 #if TARGET_BIG_ENDIAN
@@ -3384,14 +3384,14 @@ void FPUV3_HELPER(fstd)(CPUCSKYState *env, uint32_t insn)
     a = env->regs[vrx];
 #if !TARGET_BIG_ENDIAN
     c = env->vfp.reg[vrz].udspi[0];
-    cpu_stl_data(env, a + offset, c);
+    cpu_stl_le_data(env, a + offset, c);
     c = env->vfp.reg[vrz].udspi[1];
-    cpu_stl_data(env, a + offset + 4, c);
+    cpu_stl_le_data(env, a + offset + 4, c);
 #else
     c = env->vfp.reg[vrz].udspi[1];
-    cpu_stl_data(env, a + offset, c);
+    cpu_stl_le_data(env, a + offset, c);
     c = env->vfp.reg[vrz].udspi[0];
-    cpu_stl_data(env, a + offset + 4, c);
+    cpu_stl_le_data(env, a + offset + 4, c);
 #endif
     if (gen_mem_trace()) {
         uint32_t packlen;
@@ -3419,9 +3419,9 @@ void FPUV3_HELPER(fldrd)(CPUCSKYState *env, uint32_t insn)
 
     a = env->regs[vrx];
     b = env->regs[vry];
-    c = cpu_ldl_data(env, a + (b << shift));
+    c = cpu_ldl_le_data(env, a + (b << shift));
     env->vfp.reg[vrz].udspi[0] = c;
-    c = cpu_ldl_data(env, a + (b << shift) + 4);
+    c = cpu_ldl_le_data(env, a + (b << shift) + 4);
     env->vfp.reg[vrz].udspi[1] = c;
 #if TARGET_BIG_ENDIAN
     swap_endian(&env->vfp.reg[vrz].udspi[0], &env->vfp.reg[vrz].udspi[1], 4);
@@ -3449,14 +3449,14 @@ void FPUV3_HELPER(fstrd)(CPUCSKYState *env, uint32_t insn)
     b = env->regs[vry];
 #if !TARGET_BIG_ENDIAN
     c = env->vfp.reg[vrz].udspi[0];
-    cpu_stl_data(env, a + (b << shift), c);
+    cpu_stl_le_data(env, a + (b << shift), c);
     c = env->vfp.reg[vrz].udspi[1];
-    cpu_stl_data(env, a + (b << shift) + 4, c);
+    cpu_stl_le_data(env, a + (b << shift) + 4, c);
 #else
     c = env->vfp.reg[vrz].udspi[1];
-    cpu_stl_data(env, a + (b << shift), c);
+    cpu_stl_le_data(env, a + (b << shift), c);
     c = env->vfp.reg[vrz].udspi[0];
-    cpu_stl_data(env, a + (b << shift) + 4, c);
+    cpu_stl_le_data(env, a + (b << shift) + 4, c);
 #endif
     if (gen_mem_trace()) {
         uint32_t packlen;
@@ -3485,9 +3485,9 @@ void FPUV3_HELPER(fldmd)(CPUCSKYState *env, uint32_t insn)
         env->vfp.reg[vrz + i].f64[0] = 0;
         env->vfp.reg[vrz + i].f64[1] = 0;
 
-        c = cpu_ldl_data(env, a + i * 8);
+        c = cpu_ldl_le_data(env, a + i * 8);
         env->vfp.reg[vrz + i].udspi[0] = c;
-        c = cpu_ldl_data(env, a + i * 8 + 4);
+        c = cpu_ldl_le_data(env, a + i * 8 + 4);
         env->vfp.reg[vrz + i].udspi[1] = c;
 
 #if TARGET_BIG_ENDIAN
@@ -3527,14 +3527,14 @@ void FPUV3_HELPER(fstmd)(CPUCSKYState *env, uint32_t insn)
         }
 #if !TARGET_BIG_ENDIAN
         c = env->vfp.reg[vrz + i].udspi[0];
-        cpu_stl_data(env, a + i * 8, c);
+        cpu_stl_le_data(env, a + i * 8, c);
         c = env->vfp.reg[vrz + i].udspi[1];
-        cpu_stl_data(env, a + i * 8 + 4, c);
+        cpu_stl_le_data(env, a + i * 8 + 4, c);
 #else
         c = env->vfp.reg[vrz + i].udspi[1];
-        cpu_stl_data(env, a + i * 8, c);
+        cpu_stl_le_data(env, a + i * 8, c);
         c = env->vfp.reg[vrz + i].udspi[0];
-        cpu_stl_data(env, a + i * 8 + 4, c);
+        cpu_stl_le_data(env, a + i * 8 + 4, c);
 #endif
     }
     if (gen_mem_trace()) {
@@ -3564,9 +3564,9 @@ void FPUV3_HELPER(flrwd)(CPUCSKYState *env, uint32_t insn)
     env->vfp.reg[vrz].f64[0] = 0;
     env->vfp.reg[vrz].f64[1] = 0;
 
-    c = cpu_ldl_data(env, (env->pc + offset) & 0xfffffffc);
+    c = cpu_ldl_le_data(env, (env->pc + offset) & 0xfffffffc);
     env->vfp.reg[vrz].udspi[0] = c;
-    c = cpu_ldl_data(env, (env->pc + offset + 4) & 0xfffffffc);
+    c = cpu_ldl_le_data(env, (env->pc + offset + 4) & 0xfffffffc);
     env->vfp.reg[vrz].udspi[1] = c;
     if (gen_mem_trace()) {
         uint32_t packlen;
@@ -3596,9 +3596,9 @@ void FPUV3_HELPER(fldmud)(CPUCSKYState *env, uint32_t insn)
         env->vfp.reg[vrz + i].f64[0] = 0;
         env->vfp.reg[vrz + i].f64[1] = 0;
 
-        c = cpu_ldl_data(env, a);
+        c = cpu_ldl_le_data(env, a);
         env->vfp.reg[vrz + i].udspi[0] = c;
-        c = cpu_ldl_data(env, a + 4);
+        c = cpu_ldl_le_data(env, a + 4);
         env->vfp.reg[vrz + i].udspi[1] = c;
 #if TARGET_BIG_ENDIAN
     swap_endian(&env->vfp.reg[vrz + i].udspi[0],
@@ -3639,14 +3639,14 @@ void FPUV3_HELPER(fstmud)(CPUCSKYState *env, uint32_t insn)
 
 #if !TARGET_BIG_ENDIAN
         c = env->vfp.reg[vrz + i].udspi[0];
-        cpu_stl_data(env, a, c);
+        cpu_stl_le_data(env, a, c);
         c = env->vfp.reg[vrz + i].udspi[1];
-        cpu_stl_data(env, a + 4, c);
+        cpu_stl_le_data(env, a + 4, c);
 #else
         c = env->vfp.reg[vrz + i].udspi[1];
-        cpu_stl_data(env, a, c);
+        cpu_stl_le_data(env, a, c);
         c = env->vfp.reg[vrz + i].udspi[0];
-        cpu_stl_data(env, a + 4, c);
+        cpu_stl_le_data(env, a + 4, c);
 #endif
         a = a + 8;
     }

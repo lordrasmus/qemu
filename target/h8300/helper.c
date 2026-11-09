@@ -66,7 +66,7 @@ static void h8300_cpu_enter(CPUState *cs, bool do_irq)
     save_ccr_pc = deposit32(0, 24, 8, h8300_cpu_pack_ccr(env));
     save_ccr_pc = deposit32(save_ccr_pc, 0, 24, env->pc);
     env->regs[7] -= 4;
-    cpu_stl_data(env, env->regs[7], save_ccr_pc);
+    cpu_stl_be_data(env, env->regs[7], save_ccr_pc);
     env->ccr_i = 1;
     switch (intmode) {
     case 1:
@@ -75,20 +75,20 @@ static void h8300_cpu_enter(CPUState *cs, bool do_irq)
     case 2:
         exr = deposit32(0, 8, 8, h8300_cpu_pack_exr(env));
         env->regs[7] -= 2;
-        cpu_stw_data(env, env->regs[7], exr);
+        cpu_stw_be_data(env, env->regs[7], exr);
         env->exr_i = env->req_pri;
         env->exr_t = 0;
         break;
     }
 
     if (do_irq) {
-        env->pc = cpu_ldl_data(env, env->ack_irq * 4);
+        env->pc = cpu_ldl_be_data(env, env->ack_irq * 4);
         cpu_reset_interrupt(cs, CPU_INTERRUPT_HARD);
         qemu_set_irq(env->ack, 1);
         qemu_log_mask(CPU_LOG_INT,
                       "interrupt 0x%02x raised\n", env->ack_irq);
     } else {
-        env->pc = cpu_ldl_data(env, cs->exception_index * 4);
+        env->pc = cpu_ldl_be_data(env, cs->exception_index * 4);
     }
 }
 
