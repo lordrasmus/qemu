@@ -19879,7 +19879,7 @@ __attribute__((weak)) bool trans_v1_ADDCD_I_registerW_registerZ_registerY_simple
     gen_load_operand(ctx, tcg_tmp1, REGCLASS_kv3_singleReg, fmt->kv3_registerZ);
     tcg_gen_add_i64(tcg_tmp1, tcg_tmp1, tcg_tmp0);
     tcg_tmp2 = tcg_temp_new_i64();
-    tcg_gen_andi_i64(tcg_tmp2, ((int64_t)0x0), ((int64_t)0x1));
+    tcg_gen_movi_i64(tcg_tmp2, 0x0 & 0x1);
     tcg_tmp3 = tcg_temp_new_i64();
     tcg_gen_mov_i64(tcg_tmp3, tcg_tmp2);
     tcg_gen_andi_i64(tcg_tmp3, tcg_tmp3, ((int64_t)0x1));
@@ -19910,7 +19910,7 @@ __attribute__((weak)) bool trans_v1_ADDCD_I_registerW_registerZ_upper27_lower5_d
     tmp4 = tmp2 & ((int64_t)0xffffffffffffffff);
     tcg_gen_addi_i64(tcg_tmp3, tcg_tmp3, tmp4);
     tcg_tmp5 = tcg_temp_new_i64();
-    tcg_gen_andi_i64(tcg_tmp5, ((int64_t)0x0), ((int64_t)0x1));
+    tcg_gen_movi_i64(tcg_tmp5, 0x0 & 0x1);
     tcg_tmp6 = tcg_temp_new_i64();
     tcg_gen_mov_i64(tcg_tmp6, tcg_tmp5);
     tcg_gen_andi_i64(tcg_tmp6, tcg_tmp6, ((int64_t)0x1));
@@ -19938,7 +19938,7 @@ __attribute__((weak)) bool trans_v1_SBFCD_I_registerW_registerZ_registerY_simple
     tcg_gen_add_i64(tcg_tmp1, tcg_tmp1, tcg_tmp0);
     tcg_gen_addi_i64(tcg_tmp1, tcg_tmp1, ((int64_t)0x1));
     tcg_tmp2 = tcg_temp_new_i64();
-    tcg_gen_andi_i64(tcg_tmp2, ((int64_t)0x0), ((int64_t)0x1));
+    tcg_gen_movi_i64(tcg_tmp2, 0x0 & 0x1);
     tcg_tmp3 = tcg_temp_new_i64();
     tcg_gen_mov_i64(tcg_tmp3, tcg_tmp2);
     tcg_gen_andi_i64(tcg_tmp3, tcg_tmp3, ((int64_t)0x1));
@@ -19971,7 +19971,7 @@ __attribute__((weak)) bool trans_v1_SBFCD_I_registerW_registerZ_upper27_lower5_d
     tcg_gen_addi_i64(tcg_tmp3, tcg_tmp3, tmp4);
     tcg_gen_addi_i64(tcg_tmp3, tcg_tmp3, ((int64_t)0x1));
     tcg_tmp5 = tcg_temp_new_i64();
-    tcg_gen_andi_i64(tcg_tmp5, ((int64_t)0x0), ((int64_t)0x1));
+    tcg_gen_movi_i64(tcg_tmp5, 0x0 & 0x1);
     tcg_tmp6 = tcg_temp_new_i64();
     tcg_gen_mov_i64(tcg_tmp6, tcg_tmp5);
     tcg_gen_andi_i64(tcg_tmp6, tcg_tmp6, ((int64_t)0x1));
@@ -74216,7 +74216,7 @@ __attribute__((weak)) bool trans_v2_ADDCD_I_registerW_registerZ_registerY_simple
     gen_load_operand(ctx, tcg_tmp1, REGCLASS_kv3_singleReg, fmt->kv3_registerZ);
     tcg_gen_add_i64(tcg_tmp1, tcg_tmp1, tcg_tmp0);
     tcg_tmp2 = tcg_temp_new_i64();
-    tcg_gen_andi_i64(tcg_tmp2, ((int64_t)0x0), ((int64_t)0x1));
+    tcg_gen_movi_i64(tcg_tmp2, 0x0 & 0x1);
     tcg_tmp3 = tcg_temp_new_i64();
     tcg_gen_mov_i64(tcg_tmp3, tcg_tmp2);
     tcg_gen_andi_i64(tcg_tmp3, tcg_tmp3, ((int64_t)0x1));
@@ -74247,7 +74247,7 @@ __attribute__((weak)) bool trans_v2_ADDCD_I_registerW_registerZ_upper27_lower5_d
     tmp4 = tmp2 & ((int64_t)0xffffffffffffffff);
     tcg_gen_addi_i64(tcg_tmp3, tcg_tmp3, tmp4);
     tcg_tmp5 = tcg_temp_new_i64();
-    tcg_gen_andi_i64(tcg_tmp5, ((int64_t)0x0), ((int64_t)0x1));
+    tcg_gen_movi_i64(tcg_tmp5, 0x0 & 0x1);
     tcg_tmp6 = tcg_temp_new_i64();
     tcg_gen_mov_i64(tcg_tmp6, tcg_tmp5);
     tcg_gen_andi_i64(tcg_tmp6, tcg_tmp6, ((int64_t)0x1));
@@ -74275,7 +74275,7 @@ __attribute__((weak)) bool trans_v2_SBFCD_I_registerW_registerZ_registerY_simple
     tcg_gen_add_i64(tcg_tmp1, tcg_tmp1, tcg_tmp0);
     tcg_gen_addi_i64(tcg_tmp1, tcg_tmp1, ((int64_t)0x1));
     tcg_tmp2 = tcg_temp_new_i64();
-    tcg_gen_andi_i64(tcg_tmp2, ((int64_t)0x0), ((int64_t)0x1));
+    tcg_gen_movi_i64(tcg_tmp2, 0x0 & 0x1);
     tcg_tmp3 = tcg_temp_new_i64();
     tcg_gen_mov_i64(tcg_tmp3, tcg_tmp2);
     tcg_gen_andi_i64(tcg_tmp3, tcg_tmp3, ((int64_t)0x1));
@@ -74308,7 +74308,7 @@ __attribute__((weak)) bool trans_v2_SBFCD_I_registerW_registerZ_upper27_lower5_d
     tcg_gen_addi_i64(tcg_tmp3, tcg_tmp3, tmp4);
     tcg_gen_addi_i64(tcg_tmp3, tcg_tmp3, ((int64_t)0x1));
     tcg_tmp5 = tcg_temp_new_i64();
-    tcg_gen_andi_i64(tcg_tmp5, ((int64_t)0x0), ((int64_t)0x1));
+    tcg_gen_movi_i64(tcg_tmp5, 0x0 & 0x1);
     tcg_tmp6 = tcg_temp_new_i64();
     tcg_gen_mov_i64(tcg_tmp6, tcg_tmp5);
     tcg_gen_andi_i64(tcg_tmp6, tcg_tmp6, ((int64_t)0x1));
