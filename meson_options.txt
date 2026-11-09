@@ -57,6 +57,8 @@ option('module_upgrades', type : 'boolean', value : false,
        description: 'try to load modules from alternate paths for upgrades')
 option('install_blobs', type : 'boolean', value : true,
        description: 'install provided firmware blobs')
+option('embed_firmware', type : 'boolean', value : true,
+       description: 'build the firmware a system emulator needs into it')
 option('sparse', type : 'feature', value : 'auto',
        description: 'sparse checker')
 option('guest_agent', type : 'feature', value : 'auto',

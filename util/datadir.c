@@ -25,10 +25,61 @@
 #include "qemu/osdep.h"
 #include "qemu/datadir.h"
 #include "qemu/cutils.h"
+#include "qemu/memfd.h"
 #include "trace.h"
 
 static const char *data_dir[16];
 static int data_dir_idx;
+static const QemuEmbeddedFile *embedded_files;
+
+void qemu_register_embedded_files(const QemuEmbeddedFile *files)
+{
+    embedded_files = files;
+}
+
+/*
+ * Hand out a file built into the binary.  The loaders want a path, so the
+ * contents go to a memfd once and /proc/self/fd/N names it from then on.
+ */
+static char *qemu_find_embedded_file(const char *subdir, const char *name)
+{
+#ifdef CONFIG_LINUX
+    static GHashTable *paths;
+    g_autofree char *key = g_strconcat(subdir, name, NULL);
+    const QemuEmbeddedFile *f;
+    char *path;
+    int fd;
+
+    for (f = embedded_files; f && f->name; f++) {
+        if (strcmp(f->name, key) == 0) {
+            break;
+        }
+    }
+    if (!f || !f->name) {
+        return NULL;
+    }
+    if (!paths) {
+        paths = g_hash_table_new(g_str_hash, g_str_equal);
+    }
+    path = g_hash_table_lookup(paths, f->name);
+    if (!path) {
+        fd = memfd_create(f->name, MFD_CLOEXEC);
+        if (fd < 0) {
+            return NULL;
+        }
+        if (qemu_write_full(fd, f->data, f->size) != f->size) {
+            close(fd);
+            return NULL;
+        }
+        path = g_strdup_printf("/proc/self/fd/%d", fd);
+        g_hash_table_insert(paths, (gpointer)f->name, path);
+    }
+    trace_load_file(name, path);
+    return g_strdup(path);
+#else
+    return NULL;
+#endif
+}
 
 char *qemu_find_file(QemuFileType type, const char *name)
 {
@@ -64,7 +115,7 @@ char *qemu_find_file(QemuFileType type, const char *name)
         }
         g_free(buf);
     }
-    return NULL;
+    return qemu_find_embedded_file(subdir, name);
 }
 
 void qemu_add_data_dir(char *path)

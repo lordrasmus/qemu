@@ -4344,6 +4344,35 @@ multi_target_supported_targets = [
 ]
 
 emulators = {}
+# The firmware each system emulator loads in its usual configurations,
+# built into the binary with --enable-embed-firmware.
+x86_firmware = ['pc-bios/bios-256k.bin', 'pc-bios/vgabios-stdvga.bin',
+                'pc-bios/linuxboot_dma.bin', 'pc-bios/kvmvapic.bin',
+                'pc-bios/efi-e1000.rom']
+mips_firmware = ['pc-bios/efi-pcnet.rom', 'pc-bios/vgabios-cirrus.bin']
+embedded_firmware = {
+  'aarch64': ['pc-bios/efi-virtio.rom'],
+  'alpha': ['pc-bios/palcode-clipper', 'pc-bios/vgabios-cirrus.bin',
+            'pc-bios/efi-e1000.rom'],
+  'hppa': ['pc-bios/hppa-firmware.img'],
+  'i386': x86_firmware,
+  'loongarch64': ['pc-bios/efi-virtio.rom'],
+  'microblaze': ['pc-bios/dtb/petalogix-s3adsp1800.dtb'],
+  'mips': mips_firmware,
+  'mipsel': mips_firmware,
+  'mips64': mips_firmware,
+  'mips64el': mips_firmware,
+  'ppc': ['pc-bios/openbios-ppc', 'pc-bios/qemu_vga.ndrv',
+          'pc-bios/vgabios-stdvga.bin'],
+  'riscv32': ['pc-bios/opensbi-riscv32-generic-fw_dynamic.bin'],
+  'riscv64': ['pc-bios/opensbi-riscv64-generic-fw_dynamic.bin'],
+  'sh4': ['pc-bios/efi-rtl8139.rom'],
+  'sh4eb': ['pc-bios/efi-rtl8139.rom'],
+  'sparc': ['pc-bios/openbios-sparc32', 'pc-bios/QEMU,tcx.bin'],
+  'sparc64': ['pc-bios/openbios-sparc64', 'pc-bios/vgabios-stdvga.bin'],
+  'x86_64': x86_firmware,
+}
+
 foreach target : target_dirs
   config_target = config_target_mak[target]
   target_name = config_target['TARGET_NAME']
@@ -4417,6 +4446,15 @@ foreach target : target_dirs
   endif
 
   arch_srcs += files('target-info-def.c')
+
+  if target_type == 'system' and get_option('embed_firmware') and \
+     embedded_firmware.has_key(target_name)
+    arch_srcs += custom_target(target + '-embedded-firmware.c',
+                               input: files(embedded_firmware[target_name]),
+                               output: target + '-embedded-firmware.c',
+                               command: [python, files('scripts/embed-files.py'),
+                                         '@OUTPUT@', '@INPUT@'])
+  endif
 
   if target_base_arch in target_arch
     t = target_arch[target_base_arch].apply(config_target, strict: false)
@@ -4797,6 +4835,7 @@ summary_info += {'system-mode emulation': have_system}
 summary_info += {'user-mode emulation': have_user}
 summary_info += {'block layer':       have_block}
 summary_info += {'Install blobs':     get_option('install_blobs')}
+summary_info += {'Embed firmware':    get_option('embed_firmware')}
 summary_info += {'module support':    enable_modules}
 if enable_modules
   summary_info += {'alternative module path': get_option('module_upgrades')}
