@@ -200,8 +200,12 @@ static void mppa_cluster_instance_init(Object *obj)
                                     "of the device tree"
                                     "(default is on)");
 
-    /* Default to 1GHz */
-    s->frequency = 1000000000;
+    /*
+     * Default to 1MHz: the DSU clock counts in microseconds and the core
+     * timers tick every KVX_CPU_DEFAULT_CLOCK_PERIOD_NS (1000 ns), and the
+     * device tree gives the kernel this frequency for both.
+     */
+    s->frequency = 1000000;
     object_property_add_uint64_ptr(obj, "frequency", &s->frequency,
                                    OBJ_PROP_FLAG_READWRITE);
     object_property_set_description(obj, "frequency",
