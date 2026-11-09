@@ -839,10 +839,10 @@ static void update_txcatch(CPUArchState *env, uint32_t catch0, uint32_t catch1)
         int32_t offset = (int32_t)(catch1 & CATCH0_IMM_MASK)
                                 >> CATCH0_IMM_SHIFT;
         if (!ua || !pp) {
-            addr = helper_au_add(env, ub - META_UNIT_A0, addr, offset);
+            addr = HELPER(au_add)(env, ub - META_UNIT_A0, addr, offset);
         }
         if (ua) {
-            *base = helper_au_add(env, ub - META_UNIT_A0, *base, offset);
+            *base = HELPER(au_add)(env, ub - META_UNIT_A0, *base, offset);
         }
     } else if (catch1 & CATCH0_OREG_MASK) {
         /* register offset */
@@ -857,10 +857,10 @@ static void update_txcatch(CPUArchState *env, uint32_t catch0, uint32_t catch1)
             return;
         }
         if (!ua || !pp) {
-            addr = helper_au_add(env, ub - META_UNIT_A0, addr, *offs);
+            addr = HELPER(au_add)(env, ub - META_UNIT_A0, addr, *offs);
         }
         if (ua) {
-            *base = helper_au_add(env, ub - META_UNIT_A0, *base, *offs);
+            *base = HELPER(au_add)(env, ub - META_UNIT_A0, *base, *offs);
         }
     } else {
         /* no offset */
@@ -3395,9 +3395,9 @@ static uint64_t meta_rd_read_i64(CPUMETAState *env)
             MetaSigNum signum = META_SIGNUM(META_FREASON_GENERAL,
                                             META_HREASON_UNKNOWN);
 #if defined(CONFIG_USER_ONLY)
-            helper_raise_exception(env, EXCP_FAULT_BASE + signum);
+            HELPER(raise_exception)(env, EXCP_FAULT_BASE + signum);
 #else
-            helper_halt_signum(env, signum);
+            HELPER(halt_signum)(env, signum);
 #endif
         }
         return 0;

@@ -115,22 +115,22 @@ gdb_v2_aux_read(CPUState *cs, GByteArray *mem_buf, int regnum)
         regval = env->pc;
         break;
     case V2_AUX_LPS:
-        regval = helper_lr(env, REG_ADDR(AUX_ID_lp_start, cpu->family));
+        regval = HELPER(lr)(env, REG_ADDR(AUX_ID_lp_start, cpu->family));
         break;
     case V2_AUX_LPE:
-        regval = helper_lr(env, REG_ADDR(AUX_ID_lp_end, cpu->family));
+        regval = HELPER(lr)(env, REG_ADDR(AUX_ID_lp_end, cpu->family));
         break;
     case V2_AUX_STATUS:
         regval = pack_status32(&env->stat);
         break;
     case V2_AUX_TIMER_BUILD:
-        regval = helper_lr(env, REG_ADDR(AUX_ID_timer_build, cpu->family));
+        regval = HELPER(lr)(env, REG_ADDR(AUX_ID_timer_build, cpu->family));
         break;
     case V2_AUX_IRQ_BUILD:
-        regval = helper_lr(env, REG_ADDR(AUX_ID_irq_build, cpu->family));
+        regval = HELPER(lr)(env, REG_ADDR(AUX_ID_irq_build, cpu->family));
         break;
     case V2_AUX_MPY_BUILD:
-        regval = helper_lr(env, REG_ADDR(AUX_ID_mpy_build, cpu->family));
+        regval = HELPER(lr)(env, REG_ADDR(AUX_ID_mpy_build, cpu->family));
         break;
     case V2_AUX_VECBASE_BUILD:
         regval = cpu->vecbase_build;
@@ -139,54 +139,54 @@ gdb_v2_aux_read(CPUState *cs, GByteArray *mem_buf, int regnum)
         regval = cpu->isa_config;
         break;
     case V2_AUX_TIMER_CNT0:
-        regval = helper_lr(env, REG_ADDR(AUX_ID_count0, cpu->family));
+        regval = HELPER(lr)(env, REG_ADDR(AUX_ID_count0, cpu->family));
         break;
     case V2_AUX_TIMER_CTRL0:
-        regval = helper_lr(env, REG_ADDR(AUX_ID_control0, cpu->family));
+        regval = HELPER(lr)(env, REG_ADDR(AUX_ID_control0, cpu->family));
         break;
     case V2_AUX_TIMER_LIM0:
-        regval = helper_lr(env, REG_ADDR(AUX_ID_limit0, cpu->family));
+        regval = HELPER(lr)(env, REG_ADDR(AUX_ID_limit0, cpu->family));
         break;
     case V2_AUX_TIMER_CNT1:
-        regval = helper_lr(env, REG_ADDR(AUX_ID_count1, cpu->family));
+        regval = HELPER(lr)(env, REG_ADDR(AUX_ID_count1, cpu->family));
         break;
     case V2_AUX_TIMER_CTRL1:
-        regval = helper_lr(env, REG_ADDR(AUX_ID_control1, cpu->family));
+        regval = HELPER(lr)(env, REG_ADDR(AUX_ID_control1, cpu->family));
         break;
     case V2_AUX_TIMER_LIM1:
-        regval = helper_lr(env, REG_ADDR(AUX_ID_limit1, cpu->family));
+        regval = HELPER(lr)(env, REG_ADDR(AUX_ID_limit1, cpu->family));
         break;
     /* MMUv4 */
     case V2_AUX_PID:
-        regval = helper_lr(env, REG_ADDR(AUX_ID_pid, cpu->family));
+        regval = HELPER(lr)(env, REG_ADDR(AUX_ID_pid, cpu->family));
         break;
     case V2_AUX_TLBPD0:
-        regval = helper_lr(env, REG_ADDR(AUX_ID_tlbpd0, cpu->family));
+        regval = HELPER(lr)(env, REG_ADDR(AUX_ID_tlbpd0, cpu->family));
         break;
     case V2_AUX_TLBPD1:
-        regval = helper_lr(env, REG_ADDR(AUX_ID_tlbpd1, cpu->family));
+        regval = HELPER(lr)(env, REG_ADDR(AUX_ID_tlbpd1, cpu->family));
         break;
     case V2_AUX_TLB_INDEX:
-        regval = helper_lr(env, REG_ADDR(AUX_ID_tlbindex, cpu->family));
+        regval = HELPER(lr)(env, REG_ADDR(AUX_ID_tlbindex, cpu->family));
         break;
     case V2_AUX_TLB_CMD:
-        regval = helper_lr(env, REG_ADDR(AUX_ID_tlbcommand, cpu->family));
+        regval = HELPER(lr)(env, REG_ADDR(AUX_ID_tlbcommand, cpu->family));
         break;
     /* MPU */
     case V2_AUX_MPU_BUILD:
-        regval = helper_lr(env, REG_ADDR(AUX_ID_mpu_build, cpu->family));
+        regval = HELPER(lr)(env, REG_ADDR(AUX_ID_mpu_build, cpu->family));
         break;
     case V2_AUX_MPU_EN:
-        regval = helper_lr(env, REG_ADDR(AUX_ID_mpuen, cpu->family));
+        regval = HELPER(lr)(env, REG_ADDR(AUX_ID_mpuen, cpu->family));
         break;
     case V2_AUX_MPU_ECR:
-        regval = helper_lr(env, REG_ADDR(AUX_ID_mpuic, cpu->family));
+        regval = HELPER(lr)(env, REG_ADDR(AUX_ID_mpuic, cpu->family));
         break;
     case V2_AUX_MPU_BASE0 ... V2_AUX_MPU_BASE15: {
         const uint8_t index = regnum - V2_AUX_MPU_BASE0;
         if (arc_mpu_is_rgn_reg_available(env, index)) {
             regval =
-                helper_lr(env, REG_ADDR(AUX_ID_mpurdb0 + index, cpu->family));
+                HELPER(lr)(env, REG_ADDR(AUX_ID_mpurdb0 + index, cpu->family));
         } else {
             regval = 0;
         }
@@ -196,7 +196,7 @@ gdb_v2_aux_read(CPUState *cs, GByteArray *mem_buf, int regnum)
         const uint8_t index = regnum - V2_AUX_MPU_PERM0;
         if (arc_mpu_is_rgn_reg_available(env, index)) {
             regval =
-                helper_lr(env, REG_ADDR(AUX_ID_mpurdp0 + index, cpu->family));
+                HELPER(lr)(env, REG_ADDR(AUX_ID_mpurdp0 + index, cpu->family));
         } else {
             regval = 0;
         }
@@ -204,59 +204,59 @@ gdb_v2_aux_read(CPUState *cs, GByteArray *mem_buf, int regnum)
     }
     /* exceptions */
     case V2_AUX_ERSTATUS:
-        regval = helper_lr(env, REG_ADDR(AUX_ID_erstatus, cpu->family));
+        regval = HELPER(lr)(env, REG_ADDR(AUX_ID_erstatus, cpu->family));
         break;
     case V2_AUX_ERBTA:
-        regval = helper_lr(env, REG_ADDR(AUX_ID_erbta, cpu->family));
+        regval = HELPER(lr)(env, REG_ADDR(AUX_ID_erbta, cpu->family));
         break;
     case V2_AUX_ECR:
-        regval = helper_lr(env, REG_ADDR(AUX_ID_ecr, cpu->family));
+        regval = HELPER(lr)(env, REG_ADDR(AUX_ID_ecr, cpu->family));
         break;
     case V2_AUX_ERET:
-        regval = helper_lr(env, REG_ADDR(AUX_ID_eret, cpu->family));
+        regval = HELPER(lr)(env, REG_ADDR(AUX_ID_eret, cpu->family));
         break;
     case V2_AUX_EFA:
-        regval = helper_lr(env, REG_ADDR(AUX_ID_efa, cpu->family));
+        regval = HELPER(lr)(env, REG_ADDR(AUX_ID_efa, cpu->family));
         break;
     /* interrupt */
     case V2_AUX_ICAUSE:
-        regval = helper_lr(env, REG_ADDR(AUX_ID_icause, cpu->family));
+        regval = HELPER(lr)(env, REG_ADDR(AUX_ID_icause, cpu->family));
         break;
     case V2_AUX_IRQ_CTRL:
-        regval = helper_lr(env, REG_ADDR(AUX_ID_aux_irq_ctrl, cpu->family));
+        regval = HELPER(lr)(env, REG_ADDR(AUX_ID_aux_irq_ctrl, cpu->family));
         break;
     case V2_AUX_IRQ_ACT:
-        regval = helper_lr(env, REG_ADDR(AUX_ID_aux_irq_act, cpu->family));
+        regval = HELPER(lr)(env, REG_ADDR(AUX_ID_aux_irq_act, cpu->family));
         break;
     case V2_AUX_IRQ_PRIO_PEND:
         regval = env->irq_priority_pending;
         break;
     case V2_AUX_IRQ_HINT:
-        regval = helper_lr(env, REG_ADDR(AUX_ID_aux_irq_hint, cpu->family));
+        regval = HELPER(lr)(env, REG_ADDR(AUX_ID_aux_irq_hint, cpu->family));
         break;
     case V2_AUX_IRQ_SELECT:
-        regval = helper_lr(env, REG_ADDR(AUX_ID_irq_select, cpu->family));
+        regval = HELPER(lr)(env, REG_ADDR(AUX_ID_irq_select, cpu->family));
         break;
     case V2_AUX_IRQ_ENABLE:
         regval = env->irq_bank[env->irq_select & 0xff].enable;
         break;
     case V2_AUX_IRQ_TRIGGER:
-        regval = helper_lr(env, REG_ADDR(AUX_ID_irq_trigger, cpu->family));
+        regval = HELPER(lr)(env, REG_ADDR(AUX_ID_irq_trigger, cpu->family));
         break;
     case V2_AUX_IRQ_STATUS:
-        regval = helper_lr(env, REG_ADDR(AUX_ID_irq_status, cpu->family));
+        regval = HELPER(lr)(env, REG_ADDR(AUX_ID_irq_status, cpu->family));
         break;
     case V2_AUX_IRQ_PULSE:
         regval = 0; /* write only for clearing the pulse triggered interrupt */
         break;
     case V2_AUX_IRQ_PENDING:
-        regval = helper_lr(env, REG_ADDR(AUX_ID_irq_pending, cpu->family));
+        regval = HELPER(lr)(env, REG_ADDR(AUX_ID_irq_pending, cpu->family));
         break;
     case V2_AUX_IRQ_PRIO:
-        regval = helper_lr(env, REG_ADDR(AUX_ID_irq_priority, cpu->family));
+        regval = HELPER(lr)(env, REG_ADDR(AUX_ID_irq_priority, cpu->family));
         break;
     case V2_AUX_BTA:
-        regval = helper_lr(env, REG_ADDR(AUX_ID_bta, cpu->family));
+        regval = HELPER(lr)(env, REG_ADDR(AUX_ID_bta, cpu->family));
         break;
     default:
         assert(!"Unsupported auxiliary register is being read.");
@@ -277,10 +277,10 @@ gdb_v2_aux_write(CPUState *cs, uint8_t *mem_buf, int regnum)
         env->pc = regval;
         break;
     case V2_AUX_LPS:
-        helper_sr(env, regval, REG_ADDR(AUX_ID_lp_start, cpu->family));
+        HELPER(sr)(env, regval, REG_ADDR(AUX_ID_lp_start, cpu->family));
         break;
     case V2_AUX_LPE:
-        helper_sr(env, regval, REG_ADDR(AUX_ID_lp_end, cpu->family));
+        HELPER(sr)(env, regval, REG_ADDR(AUX_ID_lp_end, cpu->family));
         break;
     case V2_AUX_STATUS:
         unpack_status32(&env->stat, regval);
@@ -299,47 +299,47 @@ gdb_v2_aux_write(CPUState *cs, uint8_t *mem_buf, int regnum)
         /* builds/configs/exceptions/irqs cannot be changed */
         break;
     case V2_AUX_TIMER_CNT0:
-        helper_sr(env, regval, REG_ADDR(AUX_ID_count0, cpu->family));
+        HELPER(sr)(env, regval, REG_ADDR(AUX_ID_count0, cpu->family));
         break;
     case V2_AUX_TIMER_CTRL0:
-        helper_sr(env, regval, REG_ADDR(AUX_ID_control0, cpu->family));
+        HELPER(sr)(env, regval, REG_ADDR(AUX_ID_control0, cpu->family));
         break;
     case V2_AUX_TIMER_LIM0:
-        helper_sr(env, regval, REG_ADDR(AUX_ID_limit0, cpu->family));
+        HELPER(sr)(env, regval, REG_ADDR(AUX_ID_limit0, cpu->family));
         break;
     case V2_AUX_TIMER_CNT1:
-        helper_sr(env, regval, REG_ADDR(AUX_ID_count1, cpu->family));
+        HELPER(sr)(env, regval, REG_ADDR(AUX_ID_count1, cpu->family));
         break;
     case V2_AUX_TIMER_CTRL1:
-        helper_sr(env, regval, REG_ADDR(AUX_ID_control1, cpu->family));
+        HELPER(sr)(env, regval, REG_ADDR(AUX_ID_control1, cpu->family));
         break;
     case V2_AUX_TIMER_LIM1:
-        helper_sr(env, regval, REG_ADDR(AUX_ID_limit1, cpu->family));
+        HELPER(sr)(env, regval, REG_ADDR(AUX_ID_limit1, cpu->family));
         break;
     /* MMUv4 */
     case V2_AUX_PID:
-        helper_sr(env, regval, REG_ADDR(AUX_ID_pid, cpu->family));
+        HELPER(sr)(env, regval, REG_ADDR(AUX_ID_pid, cpu->family));
         break;
     case V2_AUX_TLBPD0:
-        helper_sr(env, regval, REG_ADDR(AUX_ID_tlbpd0, cpu->family));
+        HELPER(sr)(env, regval, REG_ADDR(AUX_ID_tlbpd0, cpu->family));
         break;
     case V2_AUX_TLBPD1:
-        helper_sr(env, regval, REG_ADDR(AUX_ID_tlbpd1, cpu->family));
+        HELPER(sr)(env, regval, REG_ADDR(AUX_ID_tlbpd1, cpu->family));
         break;
     case V2_AUX_TLB_INDEX:
-        helper_sr(env, regval, REG_ADDR(AUX_ID_tlbindex, cpu->family));
+        HELPER(sr)(env, regval, REG_ADDR(AUX_ID_tlbindex, cpu->family));
         break;
     case V2_AUX_TLB_CMD:
-        helper_sr(env, regval, REG_ADDR(AUX_ID_tlbcommand, cpu->family));
+        HELPER(sr)(env, regval, REG_ADDR(AUX_ID_tlbcommand, cpu->family));
         break;
     /* MPU */
     case V2_AUX_MPU_EN:
-        helper_sr(env, regval, REG_ADDR(AUX_ID_mpuen, cpu->family));
+        HELPER(sr)(env, regval, REG_ADDR(AUX_ID_mpuen, cpu->family));
         break;
     case V2_AUX_MPU_BASE0 ... V2_AUX_MPU_BASE15: {
         const uint8_t index = regnum - V2_AUX_MPU_BASE0;
         if (arc_mpu_is_rgn_reg_available(env, index)) {
-            helper_sr(env, regval, REG_ADDR(AUX_ID_mpurdb0 + index, cpu->family));
+            HELPER(sr)(env, regval, REG_ADDR(AUX_ID_mpurdb0 + index, cpu->family));
         } else {
             return 0;
         }
@@ -348,7 +348,7 @@ gdb_v2_aux_write(CPUState *cs, uint8_t *mem_buf, int regnum)
     case V2_AUX_MPU_PERM0 ... V2_AUX_MPU_PERM15: {
         const uint8_t index = regnum - V2_AUX_MPU_PERM0;
         if (arc_mpu_is_rgn_reg_available(env, index)) {
-            helper_sr(env, regval, REG_ADDR(AUX_ID_mpurdp0 + index, cpu->family));
+            HELPER(sr)(env, regval, REG_ADDR(AUX_ID_mpurdp0 + index, cpu->family));
         } else {
             return 0;
         }
@@ -356,47 +356,47 @@ gdb_v2_aux_write(CPUState *cs, uint8_t *mem_buf, int regnum)
     }
     /* exceptions */
     case V2_AUX_ERSTATUS:
-        helper_sr(env, regval, REG_ADDR(AUX_ID_erstatus, cpu->family));
+        HELPER(sr)(env, regval, REG_ADDR(AUX_ID_erstatus, cpu->family));
         break;
     case V2_AUX_ERBTA:
-        helper_sr(env, regval, REG_ADDR(AUX_ID_erbta, cpu->family));
+        HELPER(sr)(env, regval, REG_ADDR(AUX_ID_erbta, cpu->family));
         break;
     case V2_AUX_ECR:
-        helper_sr(env, regval, REG_ADDR(AUX_ID_ecr, cpu->family));
+        HELPER(sr)(env, regval, REG_ADDR(AUX_ID_ecr, cpu->family));
         break;
     case V2_AUX_ERET:
-        helper_sr(env, regval, REG_ADDR(AUX_ID_eret, cpu->family));
+        HELPER(sr)(env, regval, REG_ADDR(AUX_ID_eret, cpu->family));
         break;
     case V2_AUX_EFA:
-        helper_sr(env, regval, REG_ADDR(AUX_ID_efa, cpu->family));
+        HELPER(sr)(env, regval, REG_ADDR(AUX_ID_efa, cpu->family));
         break;
     /* interrupt */
     case V2_AUX_IRQ_CTRL:
-        helper_sr(env, regval, REG_ADDR(AUX_ID_aux_irq_ctrl, cpu->family));
+        HELPER(sr)(env, regval, REG_ADDR(AUX_ID_aux_irq_ctrl, cpu->family));
         break;
     case V2_AUX_IRQ_ACT:
-        helper_sr(env, regval, REG_ADDR(AUX_ID_aux_irq_act, cpu->family));
+        HELPER(sr)(env, regval, REG_ADDR(AUX_ID_aux_irq_act, cpu->family));
         break;
     case V2_AUX_IRQ_HINT:
-        helper_sr(env, regval, REG_ADDR(AUX_ID_aux_irq_hint, cpu->family));
+        HELPER(sr)(env, regval, REG_ADDR(AUX_ID_aux_irq_hint, cpu->family));
         break;
     case V2_AUX_IRQ_SELECT:
-        helper_sr(env, regval, REG_ADDR(AUX_ID_irq_select, cpu->family));
+        HELPER(sr)(env, regval, REG_ADDR(AUX_ID_irq_select, cpu->family));
         break;
     case V2_AUX_IRQ_ENABLE:
-        helper_sr(env, regval, REG_ADDR(AUX_ID_irq_enable, cpu->family));
+        HELPER(sr)(env, regval, REG_ADDR(AUX_ID_irq_enable, cpu->family));
         break;
     case V2_AUX_IRQ_TRIGGER:
-        helper_sr(env, regval, REG_ADDR(AUX_ID_irq_trigger, cpu->family));
+        HELPER(sr)(env, regval, REG_ADDR(AUX_ID_irq_trigger, cpu->family));
         break;
     case V2_AUX_IRQ_PULSE:
-        helper_sr(env, regval, REG_ADDR(AUX_ID_irq_pulse_cancel, cpu->family));
+        HELPER(sr)(env, regval, REG_ADDR(AUX_ID_irq_pulse_cancel, cpu->family));
         break;
     case V2_AUX_IRQ_PRIO:
-        helper_sr(env, regval, REG_ADDR(AUX_ID_irq_priority, cpu->family));
+        HELPER(sr)(env, regval, REG_ADDR(AUX_ID_irq_priority, cpu->family));
         break;
     case V2_AUX_BTA:
-        helper_sr(env, regval, REG_ADDR(AUX_ID_bta, cpu->family));
+        HELPER(sr)(env, regval, REG_ADDR(AUX_ID_bta, cpu->family));
         break;
     default:
         assert(!"Unsupported auxiliary register is being written.");
@@ -468,10 +468,10 @@ gdb_v3_aux_read(CPUState *cs, GByteArray *mem_buf, int regnum)
         regval = pack_status32(&env->stat);
         break;
     case V3_AUX_TIMER_BUILD:
-        regval = helper_lr(env, REG_ADDR(AUX_ID_timer_build, cpu->family));
+        regval = HELPER(lr)(env, REG_ADDR(AUX_ID_timer_build, cpu->family));
         break;
     case V3_AUX_IRQ_BUILD:
-        regval = helper_lr(env, REG_ADDR(AUX_ID_irq_build, cpu->family));
+        regval = HELPER(lr)(env, REG_ADDR(AUX_ID_irq_build, cpu->family));
         break;
     case V3_AUX_VECBASE_BUILD:
         regval = cpu->vecbase_build;
@@ -480,85 +480,85 @@ gdb_v3_aux_read(CPUState *cs, GByteArray *mem_buf, int regnum)
         regval = cpu->isa_config;
         break;
     case V3_AUX_TIMER_CNT0:
-        regval = helper_lr(env, REG_ADDR(AUX_ID_count0, cpu->family));
+        regval = HELPER(lr)(env, REG_ADDR(AUX_ID_count0, cpu->family));
         break;
     case V3_AUX_TIMER_CTRL0:
-        regval = helper_lr(env, REG_ADDR(AUX_ID_control0, cpu->family));
+        regval = HELPER(lr)(env, REG_ADDR(AUX_ID_control0, cpu->family));
         break;
     case V3_AUX_TIMER_LIM0:
-        regval = helper_lr(env, REG_ADDR(AUX_ID_limit0, cpu->family));
+        regval = HELPER(lr)(env, REG_ADDR(AUX_ID_limit0, cpu->family));
         break;
     case V3_AUX_TIMER_CNT1:
-        regval = helper_lr(env, REG_ADDR(AUX_ID_count1, cpu->family));
+        regval = HELPER(lr)(env, REG_ADDR(AUX_ID_count1, cpu->family));
         break;
     case V3_AUX_TIMER_CTRL1:
-        regval = helper_lr(env, REG_ADDR(AUX_ID_control1, cpu->family));
+        regval = HELPER(lr)(env, REG_ADDR(AUX_ID_control1, cpu->family));
         break;
     case V3_AUX_TIMER_LIM1:
-        regval = helper_lr(env, REG_ADDR(AUX_ID_limit1, cpu->family));
+        regval = HELPER(lr)(env, REG_ADDR(AUX_ID_limit1, cpu->family));
         break;
     /* exceptions */
     case V3_AUX_ERSTATUS:
-        regval = helper_lr(env, REG_ADDR(AUX_ID_erstatus, cpu->family));
+        regval = HELPER(lr)(env, REG_ADDR(AUX_ID_erstatus, cpu->family));
         break;
     case V3_AUX_ERBTA:
-        regval = helper_lr(env, REG_ADDR(AUX_ID_erbta, cpu->family));
+        regval = HELPER(lr)(env, REG_ADDR(AUX_ID_erbta, cpu->family));
         break;
     case V3_AUX_ECR:
-        regval = helper_lr(env, REG_ADDR(AUX_ID_ecr, cpu->family));
+        regval = HELPER(lr)(env, REG_ADDR(AUX_ID_ecr, cpu->family));
         break;
     case V3_AUX_ERET:
-        regval = helper_lr(env, REG_ADDR(AUX_ID_eret, cpu->family));
+        regval = HELPER(lr)(env, REG_ADDR(AUX_ID_eret, cpu->family));
         break;
     case V3_AUX_EFA:
-        regval = helper_lr(env, REG_ADDR(AUX_ID_efa, cpu->family));
+        regval = HELPER(lr)(env, REG_ADDR(AUX_ID_efa, cpu->family));
         break;
     /* interrupt */
     case V3_AUX_ICAUSE:
-        regval = helper_lr(env, REG_ADDR(AUX_ID_icause, cpu->family));
+        regval = HELPER(lr)(env, REG_ADDR(AUX_ID_icause, cpu->family));
         break;
     case V3_AUX_IRQ_CTRL:
-        regval = helper_lr(env, REG_ADDR(AUX_ID_aux_irq_ctrl, cpu->family));
+        regval = HELPER(lr)(env, REG_ADDR(AUX_ID_aux_irq_ctrl, cpu->family));
         break;
     case V3_AUX_IRQ_ACT:
-        regval = helper_lr(env, REG_ADDR(AUX_ID_aux_irq_act, cpu->family));
+        regval = HELPER(lr)(env, REG_ADDR(AUX_ID_aux_irq_act, cpu->family));
         break;
     case V3_AUX_IRQ_PRIO_PEND:
         regval = env->irq_priority_pending;
         break;
     case V3_AUX_IRQ_HINT:
-        regval = helper_lr(env, REG_ADDR(AUX_ID_aux_irq_hint, cpu->family));
+        regval = HELPER(lr)(env, REG_ADDR(AUX_ID_aux_irq_hint, cpu->family));
         break;
     case V3_AUX_IRQ_SELECT:
-        regval = helper_lr(env, REG_ADDR(AUX_ID_irq_select, cpu->family));
+        regval = HELPER(lr)(env, REG_ADDR(AUX_ID_irq_select, cpu->family));
         break;
     case V3_AUX_IRQ_ENABLE:
         regval = env->irq_bank[env->irq_select & 0xff].enable;
         break;
     case V3_AUX_IRQ_TRIGGER:
-        regval = helper_lr(env, REG_ADDR(AUX_ID_irq_trigger, cpu->family));
+        regval = HELPER(lr)(env, REG_ADDR(AUX_ID_irq_trigger, cpu->family));
         break;
     case V3_AUX_IRQ_STATUS:
-        regval = helper_lr(env, REG_ADDR(AUX_ID_irq_status, cpu->family));
+        regval = HELPER(lr)(env, REG_ADDR(AUX_ID_irq_status, cpu->family));
         break;
     case V3_AUX_IRQ_PULSE:
         regval = 0; /* write only for clearing the pulse triggered interrupt */
         break;
     case V3_AUX_IRQ_PRIO:
-        regval = helper_lr(env, REG_ADDR(AUX_ID_irq_priority, cpu->family));
+        regval = HELPER(lr)(env, REG_ADDR(AUX_ID_irq_priority, cpu->family));
         break;
     case V3_AUX_BTA:
-        regval = helper_lr(env, REG_ADDR(AUX_ID_bta, cpu->family));
+        regval = HELPER(lr)(env, REG_ADDR(AUX_ID_bta, cpu->family));
         break;
     /* MMUv6 */
     case V3_AUX_MMU_CTRL:
-        regval = helper_lr(env, REG_ADDR(AUX_ID_mmu_ctrl, cpu->family));
+        regval = HELPER(lr)(env, REG_ADDR(AUX_ID_mmu_ctrl, cpu->family));
         break;
     case V3_AUX_RTP0:
-        regval = helper_lr(env, REG_ADDR(AUX_ID_mmu_rtp0, cpu->family));
+        regval = HELPER(lr)(env, REG_ADDR(AUX_ID_mmu_rtp0, cpu->family));
         break;
     case V3_AUX_RTP1:
-        regval = helper_lr(env, REG_ADDR(AUX_ID_mmu_rtp1, cpu->family));
+        regval = HELPER(lr)(env, REG_ADDR(AUX_ID_mmu_rtp1, cpu->family));
         break;
     default:
         assert(!"Unsupported auxiliary register is being read.");
@@ -591,66 +591,66 @@ gdb_v3_aux_write(CPUState *cs, uint8_t *mem_buf, int regnum)
         /* builds/configs/exceptions/irqs cannot be changed */
         break;
     case V3_AUX_TIMER_CNT0:
-        helper_sr(env, regval, REG_ADDR(AUX_ID_count0, cpu->family));
+        HELPER(sr)(env, regval, REG_ADDR(AUX_ID_count0, cpu->family));
         break;
     case V3_AUX_TIMER_CTRL0:
-        helper_sr(env, regval, REG_ADDR(AUX_ID_control0, cpu->family));
+        HELPER(sr)(env, regval, REG_ADDR(AUX_ID_control0, cpu->family));
         break;
     case V3_AUX_TIMER_LIM0:
-        helper_sr(env, regval, REG_ADDR(AUX_ID_limit0, cpu->family));
+        HELPER(sr)(env, regval, REG_ADDR(AUX_ID_limit0, cpu->family));
         break;
     case V3_AUX_TIMER_CNT1:
-        helper_sr(env, regval, REG_ADDR(AUX_ID_count1, cpu->family));
+        HELPER(sr)(env, regval, REG_ADDR(AUX_ID_count1, cpu->family));
         break;
     case V3_AUX_TIMER_CTRL1:
-        helper_sr(env, regval, REG_ADDR(AUX_ID_control1, cpu->family));
+        HELPER(sr)(env, regval, REG_ADDR(AUX_ID_control1, cpu->family));
         break;
     case V3_AUX_TIMER_LIM1:
-        helper_sr(env, regval, REG_ADDR(AUX_ID_limit1, cpu->family));
+        HELPER(sr)(env, regval, REG_ADDR(AUX_ID_limit1, cpu->family));
         break;
     /* exceptions */
     case V3_AUX_ERSTATUS:
-        helper_sr(env, regval, REG_ADDR(AUX_ID_erstatus, cpu->family));
+        HELPER(sr)(env, regval, REG_ADDR(AUX_ID_erstatus, cpu->family));
         break;
     case V3_AUX_ERBTA:
-        helper_sr(env, regval, REG_ADDR(AUX_ID_erbta, cpu->family));
+        HELPER(sr)(env, regval, REG_ADDR(AUX_ID_erbta, cpu->family));
         break;
     case V3_AUX_ECR:
-        helper_sr(env, regval, REG_ADDR(AUX_ID_ecr, cpu->family));
+        HELPER(sr)(env, regval, REG_ADDR(AUX_ID_ecr, cpu->family));
         break;
     case V3_AUX_ERET:
-        helper_sr(env, regval, REG_ADDR(AUX_ID_eret, cpu->family));
+        HELPER(sr)(env, regval, REG_ADDR(AUX_ID_eret, cpu->family));
         break;
     case V3_AUX_EFA:
-        helper_sr(env, regval, REG_ADDR(AUX_ID_efa, cpu->family));
+        HELPER(sr)(env, regval, REG_ADDR(AUX_ID_efa, cpu->family));
         break;
     /* interrupt */
     case V3_AUX_IRQ_CTRL:
-        helper_sr(env, regval, REG_ADDR(AUX_ID_aux_irq_ctrl, cpu->family));
+        HELPER(sr)(env, regval, REG_ADDR(AUX_ID_aux_irq_ctrl, cpu->family));
         break;
     case V3_AUX_IRQ_ACT:
-        helper_sr(env, regval, REG_ADDR(AUX_ID_aux_irq_act, cpu->family));
+        HELPER(sr)(env, regval, REG_ADDR(AUX_ID_aux_irq_act, cpu->family));
         break;
     case V3_AUX_IRQ_HINT:
-        helper_sr(env, regval, REG_ADDR(AUX_ID_aux_irq_hint, cpu->family));
+        HELPER(sr)(env, regval, REG_ADDR(AUX_ID_aux_irq_hint, cpu->family));
         break;
     case V3_AUX_IRQ_SELECT:
-        helper_sr(env, regval, REG_ADDR(AUX_ID_irq_select, cpu->family));
+        HELPER(sr)(env, regval, REG_ADDR(AUX_ID_irq_select, cpu->family));
         break;
     case V3_AUX_IRQ_ENABLE:
-        helper_sr(env, regval, REG_ADDR(AUX_ID_irq_enable, cpu->family));
+        HELPER(sr)(env, regval, REG_ADDR(AUX_ID_irq_enable, cpu->family));
         break;
     case V3_AUX_IRQ_TRIGGER:
-        helper_sr(env, regval, REG_ADDR(AUX_ID_irq_trigger, cpu->family));
+        HELPER(sr)(env, regval, REG_ADDR(AUX_ID_irq_trigger, cpu->family));
         break;
     case V3_AUX_IRQ_PULSE:
-        helper_sr(env, regval, REG_ADDR(AUX_ID_irq_pulse_cancel, cpu->family));
+        HELPER(sr)(env, regval, REG_ADDR(AUX_ID_irq_pulse_cancel, cpu->family));
         break;
     case V3_AUX_IRQ_PRIO:
-        helper_sr(env, regval, REG_ADDR(AUX_ID_irq_priority, cpu->family));
+        HELPER(sr)(env, regval, REG_ADDR(AUX_ID_irq_priority, cpu->family));
         break;
     case V3_AUX_BTA:
-        helper_sr(env, regval, REG_ADDR(AUX_ID_bta, cpu->family));
+        HELPER(sr)(env, regval, REG_ADDR(AUX_ID_bta, cpu->family));
         break;
     default:
         assert(!"Unsupported minimal auxiliary register is being written.");

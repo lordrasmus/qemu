@@ -109,13 +109,13 @@ static uint64_t df_mag(uint64_t x)
     return x & 0x7fffffffffffffffULL;
 }
 
-uint64_t helper_fdouble_unpack_max(uint64_t a, uint64_t b)
+uint64_t HELPER(fdouble_unpack_max)(uint64_t a, uint64_t b)
 {
     return df_mant(df_mag(a) >= df_mag(b) ? a : b);
 }
 
 /* The smaller mantissa, aligned to the larger, with a sticky bit 0. */
-uint64_t helper_fdouble_unpack_min(uint64_t a, uint64_t b)
+uint64_t HELPER(fdouble_unpack_min)(uint64_t a, uint64_t b)
 {
     uint64_t max = df_mag(a) >= df_mag(b) ? a : b;
     uint64_t min = df_mag(a) >= df_mag(b) ? b : a;
@@ -165,22 +165,22 @@ static uint64_t df_addsub_flags(uint64_t a, uint64_t b, bool sub)
     return flags;
 }
 
-uint64_t helper_fdouble_add_flags(uint64_t a, uint64_t b)
+uint64_t HELPER(fdouble_add_flags)(uint64_t a, uint64_t b)
 {
     return df_addsub_flags(a, b, false);
 }
 
-uint64_t helper_fdouble_sub_flags(uint64_t a, uint64_t b)
+uint64_t HELPER(fdouble_sub_flags)(uint64_t a, uint64_t b)
 {
     return df_addsub_flags(a, b, true);
 }
 
-uint64_t helper_fdouble_addsub(uint64_t max, uint64_t min, uint64_t flags)
+uint64_t HELPER(fdouble_addsub)(uint64_t max, uint64_t min, uint64_t flags)
 {
     return flags & DF_EFF_SUB ? max - min : max + min;
 }
 
-uint64_t helper_fdouble_mul_flags(uint64_t a, uint64_t b)
+uint64_t HELPER(fdouble_mul_flags)(uint64_t a, uint64_t b)
 {
     bool sign = (a ^ b) >> 63;
     bool a_zero = df_mag(a) == 0, b_zero = df_mag(b) == 0;
@@ -197,13 +197,13 @@ uint64_t helper_fdouble_mul_flags(uint64_t a, uint64_t b)
            ((uint64_t)((df_exp(a) + df_exp(b) - 1018) & 0x1fff) << 7);
 }
 
-uint64_t helper_fdouble_pack1(uint64_t mant, uint64_t flags)
+uint64_t HELPER(fdouble_pack1)(uint64_t mant, uint64_t flags)
 {
     return flags;
 }
 
 /* Normalize and round M * 2^(V - 1146), M = hi:lo, to the nearest even. */
-uint64_t helper_fdouble_pack2(uint64_t flags, uint64_t hi, uint64_t lo)
+uint64_t HELPER(fdouble_pack2)(uint64_t flags, uint64_t hi, uint64_t lo)
 {
     uint64_t sign = flags & DF_SIGN ? 1ULL << 63 : 0;
     int v = sextract64(flags, 7, 13);
@@ -280,22 +280,22 @@ static uint64_t sf_addsub1(uint64_t a, uint64_t b, bool sub)
     return sf_done(r, flags);
 }
 
-uint64_t helper_fsingle_add1(uint64_t a, uint64_t b)
+uint64_t HELPER(fsingle_add1)(uint64_t a, uint64_t b)
 {
     return sf_addsub1(a, b, false);
 }
 
-uint64_t helper_fsingle_sub1(uint64_t a, uint64_t b)
+uint64_t HELPER(fsingle_sub1)(uint64_t a, uint64_t b)
 {
     return sf_addsub1(a, b, true);
 }
 
-uint64_t helper_fsingle_addsub2(uint64_t d, uint64_t a, uint64_t b)
+uint64_t HELPER(fsingle_addsub2)(uint64_t d, uint64_t a, uint64_t b)
 {
     return d;
 }
 
-uint64_t helper_fsingle_mul1(uint64_t a, uint64_t b)
+uint64_t HELPER(fsingle_mul1)(uint64_t a, uint64_t b)
 {
     float_status st;
 
@@ -303,17 +303,17 @@ uint64_t helper_fsingle_mul1(uint64_t a, uint64_t b)
     return sf_done(float32_mul(make_float32(a), make_float32(b), &st), 0);
 }
 
-uint64_t helper_fsingle_mul2(uint64_t a, uint64_t b)
+uint64_t HELPER(fsingle_mul2)(uint64_t a, uint64_t b)
 {
     return a;
 }
 
-uint64_t helper_fsingle_pack1(uint64_t a)
+uint64_t HELPER(fsingle_pack1)(uint64_t a)
 {
     return a;
 }
 
-uint64_t helper_fsingle_pack2(uint64_t a, uint64_t flags)
+uint64_t HELPER(fsingle_pack2)(uint64_t a, uint64_t flags)
 {
     float_status st;
     uint32_t mag = a >> 32;

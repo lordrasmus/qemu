@@ -3667,32 +3667,32 @@ void FPUV3_HELPER(fstmud)(CPUCSKYState *env, uint32_t insn)
 
 void FPUV3_HELPER(fldm)(CPUCSKYState *env, uint32_t insn)
 {
-    helper_fpu3_fldd(env, insn);
+    HELPER(fpu3_fldd)(env, insn);
 }
 
 void FPUV3_HELPER(fstm)(CPUCSKYState *env, uint32_t insn)
 {
-    helper_fpu3_fstd(env, insn);
+    HELPER(fpu3_fstd)(env, insn);
 }
 
 void FPUV3_HELPER(fldrm)(CPUCSKYState *env, uint32_t insn)
 {
-    helper_fpu3_fldrd(env, insn);
+    HELPER(fpu3_fldrd)(env, insn);
 }
 
 void FPUV3_HELPER(fstrm)(CPUCSKYState *env, uint32_t insn)
 {
-    helper_fpu3_fstrd(env, insn);
+    HELPER(fpu3_fstrd)(env, insn);
 }
 
 void FPUV3_HELPER(fldmm)(CPUCSKYState *env, uint32_t insn)
 {
-    helper_fpu3_fldmd(env, insn);
+    HELPER(fpu3_fldmd)(env, insn);
 }
 
 void FPUV3_HELPER(fstmm)(CPUCSKYState *env, uint32_t insn)
 {
-    helper_fpu3_fstmd(env, insn);
+    HELPER(fpu3_fstmd)(env, insn);
 }
 
 void FPUV3_HELPER(fftox)(CPUCSKYState *env, uint32_t insn)
@@ -3822,7 +3822,7 @@ void FPUV3_HELPER(fftox)(CPUCSKYState *env, uint32_t insn)
         env->vfp.reg[vrz].dspi[0] = res_s32;
         break;
     default:
-        helper_exception(env, EXCP_CSKY_UDEF);
+        HELPER(exception)(env, EXCP_CSKY_UDEF);
     }
 }
 
@@ -3952,7 +3952,7 @@ void FPUV3_HELPER(fxtof)(CPUCSKYState *env, uint32_t insn)
         env->vfp.reg[vrz].f64[0] = res_f64;
         break;
     default:
-        helper_exception(env, EXCP_CSKY_UDEF);
+        HELPER(exception)(env, EXCP_CSKY_UDEF);
     }
 }
 
@@ -4066,7 +4066,7 @@ void FPUV3_HELPER(fftoi)(CPUCSKYState *env, uint32_t insn)
         env->vfp.reg[vrz].dspi[0] = res_s32;
         break;
     default:
-        helper_exception(env, EXCP_CSKY_UDEF);
+        HELPER(exception)(env, EXCP_CSKY_UDEF);
     }
 }
 
@@ -4181,7 +4181,7 @@ void FPUV3_HELPER(fitof)(CPUCSKYState *env, uint32_t insn)
         env->vfp.reg[vrz].f64[0] = res_f64;
         break;
     default:
-        helper_exception(env, EXCP_CSKY_UDEF);
+        HELPER(exception)(env, EXCP_CSKY_UDEF);
     }
 }
 
@@ -4367,6 +4367,6 @@ void FPUV3_HELPER(fmovi)(CPUCSKYState *env, uint32_t insn)
         env->vfp.reg[vrz].f64[0] = val.d;
         break;
     default:
-        helper_exception(env, EXCP_CSKY_UDEF);
+        HELPER(exception)(env, EXCP_CSKY_UDEF);
     }
 }

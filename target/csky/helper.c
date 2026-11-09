@@ -60,7 +60,7 @@ G_NORETURN void csky_cpu_do_unaligned_access(CPUState *cs, vaddr vaddr,
 
     /* Only called with MO_ALIGN, i.e. without UNALIGNED_ACCESS.  */
     cpu_restore_state(cs, retaddr);
-    helper_exception(env, EXCP_CSKY_ALIGN);
+    HELPER(exception)(env, EXCP_CSKY_ALIGN);
 }
 
 #if defined(CONFIG_USER_ONLY)
@@ -130,7 +130,7 @@ static void csky_do_exit(CPUCSKYState *env)
 /* For tee interrupts */
 static inline void do_helper_tee_interrupt(CPUState *cs, CPUCSKYState *env)
 {
-    helper_tee_save_cr(env);
+    HELPER(tee_save_cr)(env);
     if (env->psr_t &&
         !(env->intc_signals.issr
           & (1 << (cs->exception_index - 32)))) {
@@ -139,7 +139,7 @@ static inline void do_helper_tee_interrupt(CPUState *cs, CPUCSKYState *env)
         cpu_stl_data(env, env->stackpoint.t_ssp - 8, env->cp0.psr);
         env->stackpoint.t_ssp -= 8;
         /* save GPRs to trust-supervised stack. */
-        helper_tee_save_gpr(env);
+        HELPER(tee_save_gpr)(env);
         env->tee.t_psr |= PSR_HS_MASK;
         env->tee.nt_epsr = env->tee.nt_psr;
         env->tee.nt_psr |= PSR_SP_MASK;
@@ -161,8 +161,8 @@ static inline void do_helper_tee_interrupt(CPUState *cs, CPUCSKYState *env)
         env->cp0.epc = env->pc;
         env->cp0.epsr = env->cp0.psr;
     }
-    helper_record_psr_bits(env);
-    helper_tee_choose_cr(env);
+    HELPER(record_psr_bits)(env);
+    HELPER(tee_choose_cr)(env);
 }
 
 /* Interface for interrupts and exceptions */
@@ -200,8 +200,8 @@ void csky_cpu_do_interrupt(CPUState *cs)
     }
 
     /* FIXME  backup the sce_cond_bit to psr[cpidfiels] in cskyv2*/
-    helper_save_sp(env);
-    helper_update_psr(env);
+    HELPER(save_sp)(env);
+    HELPER(update_psr)(env);
     af_bk = (env->cp0.psr & 0x2) >> 1;
     if (unlikely(env->intc_signals.fint_b
             && (cs->exception_index == EXCP_CSKY_FIQ
@@ -238,7 +238,7 @@ void csky_cpu_do_interrupt(CPUState *cs)
     env->cp0.psr &= ~PSR_EE_MASK;
     env->cp0.psr &= ~PSR_IE_MASK;
     env->cp0.psr &= ~PSR_TM_MASK;
-    helper_record_psr_bits(env);
+    HELPER(record_psr_bits)(env);
 
     if (tfilter.enable) {
         if (cs->exception_index == EXCP_CSKY_FIQ || cs->exception_index >= 32) {
@@ -255,7 +255,7 @@ void csky_cpu_do_interrupt(CPUState *cs)
                           "11.epc:%x:env->regs[2] = 0x%x:%x:%x:%x\n",
                           env->cp0.epc, env->regs[2], env->banked_regs[2],
                           env->cp0.psr, env->cp0.epsr);
-            helper_switch_regs(env);
+            HELPER(switch_regs)(env);
             env->cp0.psr &= ~0x1;
             env->cp0.psr |= (env->pc & 0x1) << 1;
         } else {
@@ -264,7 +264,7 @@ void csky_cpu_do_interrupt(CPUState *cs)
         }
     }
 
-    helper_choose_sp(env);
+    HELPER(choose_sp)(env);
     env->pc &= ~0x1;
     env->sce_condexec_bits_bk = env->sce_condexec_bits;
     env->sce_condexec_bits = 1;
@@ -309,7 +309,7 @@ void csky_cpu_do_interrupt(CPUState *cs)
     env->cp0.epsr |= cs->exception_index << 16;
 
     /* FIXME  backup the sce_cond_bit to psr[cpidfiels] in cskyv2*/
-    helper_update_psr(env);
+    HELPER(update_psr)(env);
     if (unlikely(env->intc_signals.fint_b
             && (cs->exception_index == EXCP_CSKY_FIQ
                 || cs->exception_index > EXCP_CSKY_CPU_END))) {
@@ -344,7 +344,7 @@ void csky_cpu_do_interrupt(CPUState *cs)
                           "11.epc:%x:env->regs[2] = 0x%x:%x:%x:%x\n",
                           env->cp0.epc, env->regs[2], env->banked_regs[2],
                           env->cp0.psr, env->cp0.epsr);
-            helper_switch_regs(env);
+            HELPER(switch_regs)(env);
             env->cp0.psr |= (env->pc & 0x1) << 1;
         } else {
             qemu_log_mask(LOG_GUEST_ERROR,

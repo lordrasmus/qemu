@@ -28,7 +28,7 @@
 #define V2(X)      (((X) & 0xffff) * 0x0001000100010001ull)
 
 
-uint64_t helper_v1multu(uint64_t a, uint64_t b)
+uint64_t HELPER(v1multu)(uint64_t a, uint64_t b)
 {
     uint64_t r = 0;
     int i;
@@ -41,7 +41,7 @@ uint64_t helper_v1multu(uint64_t a, uint64_t b)
     return r;
 }
 
-uint64_t helper_v2mults(uint64_t a, uint64_t b)
+uint64_t HELPER(v2mults)(uint64_t a, uint64_t b)
 {
     uint64_t r = 0;
     int i;
@@ -56,7 +56,7 @@ uint64_t helper_v2mults(uint64_t a, uint64_t b)
     return r;
 }
 
-uint64_t helper_v1shl(uint64_t a, uint64_t b)
+uint64_t HELPER(v1shl)(uint64_t a, uint64_t b)
 {
     uint64_t m;
 
@@ -65,7 +65,7 @@ uint64_t helper_v1shl(uint64_t a, uint64_t b)
     return (a & m) << b;
 }
 
-uint64_t helper_v2shl(uint64_t a, uint64_t b)
+uint64_t HELPER(v2shl)(uint64_t a, uint64_t b)
 {
     uint64_t m;
 
@@ -74,7 +74,7 @@ uint64_t helper_v2shl(uint64_t a, uint64_t b)
     return (a & m) << b;
 }
 
-uint64_t helper_v1shru(uint64_t a, uint64_t b)
+uint64_t HELPER(v1shru)(uint64_t a, uint64_t b)
 {
     uint64_t m;
 
@@ -83,7 +83,7 @@ uint64_t helper_v1shru(uint64_t a, uint64_t b)
     return (a & m) >> b;
 }
 
-uint64_t helper_v2shru(uint64_t a, uint64_t b)
+uint64_t HELPER(v2shru)(uint64_t a, uint64_t b)
 {
     uint64_t m;
 
@@ -92,7 +92,7 @@ uint64_t helper_v2shru(uint64_t a, uint64_t b)
     return (a & m) >> b;
 }
 
-uint64_t helper_v1shrs(uint64_t a, uint64_t b)
+uint64_t HELPER(v1shrs)(uint64_t a, uint64_t b)
 {
     uint64_t r = 0;
     int i;
@@ -104,7 +104,7 @@ uint64_t helper_v1shrs(uint64_t a, uint64_t b)
     return r;
 }
 
-uint64_t helper_v2shrs(uint64_t a, uint64_t b)
+uint64_t HELPER(v2shrs)(uint64_t a, uint64_t b)
 {
     uint64_t r = 0;
     int i;
@@ -116,7 +116,7 @@ uint64_t helper_v2shrs(uint64_t a, uint64_t b)
     return r;
 }
 
-uint64_t helper_v1int_h(uint64_t a, uint64_t b)
+uint64_t HELPER(v1int_h)(uint64_t a, uint64_t b)
 {
     uint64_t r = 0;
     int i;
@@ -128,7 +128,7 @@ uint64_t helper_v1int_h(uint64_t a, uint64_t b)
     return r;
 }
 
-uint64_t helper_v1int_l(uint64_t a, uint64_t b)
+uint64_t HELPER(v1int_l)(uint64_t a, uint64_t b)
 {
     uint64_t r = 0;
     int i;
@@ -140,7 +140,7 @@ uint64_t helper_v1int_l(uint64_t a, uint64_t b)
     return r;
 }
 
-uint64_t helper_v2int_h(uint64_t a, uint64_t b)
+uint64_t HELPER(v2int_h)(uint64_t a, uint64_t b)
 {
     uint64_t r = 0;
     int i;
@@ -152,7 +152,7 @@ uint64_t helper_v2int_h(uint64_t a, uint64_t b)
     return r;
 }
 
-uint64_t helper_v2int_l(uint64_t a, uint64_t b)
+uint64_t HELPER(v2int_l)(uint64_t a, uint64_t b)
 {
     uint64_t r = 0;
     int i;

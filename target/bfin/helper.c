@@ -86,7 +86,7 @@ static void bfin_take_event(CPUBfinState *env, int ivg, uint32_t ret)
     env->pc = env->evt[ivg];
 }
 
-G_NORETURN void helper_excpt(CPUBfinState *env, uint32_t excause)
+G_NORETURN void HELPER(excpt)(CPUBfinState *env, uint32_t excause)
 {
     CPUState *cs = env_cpu(env);
 
@@ -184,7 +184,7 @@ void bfin_update_irq(CPUBfinState *env)
 }
 
 /* return from event @ivg: clear it, leave supervisor mode if it was last */
-void helper_rtx(CPUBfinState *env, uint32_t ivg)
+void HELPER(rtx)(CPUBfinState *env, uint32_t ivg)
 {
     bool was_super = bfin_supervisor(env);
 
@@ -210,12 +210,12 @@ void helper_rtx(CPUBfinState *env, uint32_t ivg)
     bfin_update_irq(env);
 }
 
-uint32_t helper_get_astat(CPUBfinState *env)
+uint32_t HELPER(get_astat)(CPUBfinState *env)
 {
     return bfin_get_astat(env);
 }
 
-void helper_set_astat(CPUBfinState *env, uint32_t val)
+void HELPER(set_astat)(CPUBfinState *env, uint32_t val)
 {
     bfin_set_astat(env, val);
 }
@@ -243,7 +243,7 @@ static uint64_t bfin_cycles(CPUBfinState *env)
  * return, so the two halves read in that order belong together (PRM
  * "CYCLES and CYCLES2 Registers")
  */
-uint32_t helper_get_cycles(CPUBfinState *env, uint32_t high)
+uint32_t HELPER(get_cycles)(CPUBfinState *env, uint32_t high)
 {
     uint64_t c;
 
@@ -255,7 +255,7 @@ uint32_t helper_get_cycles(CPUBfinState *env, uint32_t high)
     return c;
 }
 
-void helper_set_cycles(CPUBfinState *env, uint32_t high, uint32_t val)
+void HELPER(set_cycles)(CPUBfinState *env, uint32_t high, uint32_t val)
 {
     uint64_t c = bfin_cycles(env);
 
@@ -269,7 +269,7 @@ void helper_set_cycles(CPUBfinState *env, uint32_t high, uint32_t val)
  * divisor is the low half of the second register, the dividend is
  * shifted left one bit per step and collects the quotient bits.
  */
-uint32_t helper_div(CPUBfinState *env, uint32_t dividend, uint32_t divisor,
+uint32_t HELPER(div)(CPUBfinState *env, uint32_t dividend, uint32_t divisor,
                     uint32_t divs)
 {
     uint32_t aq;
@@ -296,7 +296,7 @@ static int64_t bfin_acc(CPUBfinState *env, int n)
 }
 
 /* CC = A0 == A1, A0 < A1, A0 <= A1; AZ, AN, AC0 from A0 - A1 */
-void helper_cc_acc(CPUBfinState *env, uint32_t op)
+void HELPER(cc_acc)(CPUBfinState *env, uint32_t op)
 {
     int64_t a0 = bfin_acc(env, 0), a1 = bfin_acc(env, 1);
     uint64_t ua0 = a0 & MAKE_64BIT_MASK(0, 40);
@@ -309,7 +309,7 @@ void helper_cc_acc(CPUBfinState *env, uint32_t op)
 }
 
 /* Ireg + M with circular buffer wraparound, chapter 5 */
-uint32_t helper_dag_add(uint32_t i, uint32_t m, uint32_t b, uint32_t l)
+uint32_t HELPER(dag_add)(uint32_t i, uint32_t m, uint32_t b, uint32_t l)
 {
     /*
      * the PRM's comparisons are on the mathematical sum: 0 - 10 lies
@@ -331,13 +331,13 @@ uint32_t helper_dag_add(uint32_t i, uint32_t m, uint32_t b, uint32_t l)
 }
 
 /* bit reversed carry adder: the carry runs from bit 31 towards bit 0 */
-uint32_t helper_dag_brev(uint32_t i, uint32_t m)
+uint32_t HELPER(dag_brev)(uint32_t i, uint32_t m)
 {
     return revbit32(revbit32(i) + revbit32(m));
 }
 
 /* pushing RETI enables the interrupt system, popping it disables it */
-void helper_reti_saved(CPUBfinState *env, uint32_t saved)
+void HELPER(reti_saved)(CPUBfinState *env, uint32_t saved)
 {
     if (saved) {
         env->ipend &= ~(1u << 4);
@@ -347,7 +347,7 @@ void helper_reti_saved(CPUBfinState *env, uint32_t saved)
     bfin_update_irq(env);
 }
 
-G_NORETURN void helper_idle(CPUBfinState *env)
+G_NORETURN void HELPER(idle)(CPUBfinState *env)
 {
     CPUState *cs = env_cpu(env);
 
@@ -359,7 +359,7 @@ G_NORETURN void helper_idle(CPUBfinState *env)
 /* IMASK bits 0..4 (EMU, RST, NMI, EVX, global disable) cannot be masked */
 #define IMASK_FIXED 0x1fu
 
-uint32_t helper_cli(CPUBfinState *env)
+uint32_t HELPER(cli)(CPUBfinState *env)
 {
     uint32_t old = env->imask;
 
@@ -367,13 +367,13 @@ uint32_t helper_cli(CPUBfinState *env)
     return old;
 }
 
-void helper_sti(CPUBfinState *env, uint32_t val)
+void HELPER(sti)(CPUBfinState *env, uint32_t val)
 {
     env->imask = (val & 0xffff) | IMASK_FIXED;
     bfin_update_irq(env);
 }
 
-void helper_raise(CPUBfinState *env, uint32_t ivg)
+void HELPER(raise)(CPUBfinState *env, uint32_t ivg)
 {
     /* the core timer sets ILAT from the main loop under the BQL */
     BQL_LOCK_GUARD();

@@ -330,7 +330,7 @@ hwaddr arc_cpu_get_phys_page_debug(CPUState *cs, vaddr addr)
 }
 #endif /* CONFIG_USER_ONLY */
 
-void helper_debug(CPUARCState *env)
+void HELPER(debug)(CPUARCState *env)
 {
    CPUState *cs = env_cpu(env);
 

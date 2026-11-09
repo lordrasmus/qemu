@@ -55,7 +55,7 @@ static void set_half(CPUBfinState *env, int r, int hi, uint16_t v)
     set_dreg(env, r, deposit32(cur_dreg(env, r), hi ? 16 : 0, 16, v));
 }
 
-void helper_dsp_commit(CPUBfinState *env)
+void HELPER(dsp_commit)(CPUBfinState *env)
 {
     for (int r = 0; r < 8; r++) {
         if (env->dsp_wb_mask & (1u << r)) {
@@ -66,7 +66,7 @@ void helper_dsp_commit(CPUBfinState *env)
     env->dsp_defer = 0;
 }
 
-void helper_dsp_defer(CPUBfinState *env)
+void HELPER(dsp_defer)(CPUBfinState *env)
 {
     env->dsp_defer = 1;
     env->dsp_wb_mask = 0;
@@ -341,7 +341,7 @@ static int signbits40(int64_t v)
  * The 6-bit magnitude is signed; arithmetic right shifts are encoded
  * as negative values.
  */
-void helper_dsp32shiftimm(CPUBfinState *env, uint32_t insn)
+void HELPER(dsp32shiftimm)(CPUBfinState *env, uint32_t insn)
 {
     int sopcde = extract32(insn, 16, 5);
     int sop = extract32(insn, 14, 2);
@@ -388,7 +388,7 @@ void helper_dsp32shiftimm(CPUBfinState *env, uint32_t insn)
  * src0.L; the value is src1.  Also PACK, SIGNBITS, ONES, EXTRACT,
  * DEPOSIT and ALIGN.
  */
-void helper_dsp32shift(CPUBfinState *env, uint32_t insn)
+void HELPER(dsp32shift)(CPUBfinState *env, uint32_t insn)
 {
     int sopcde = extract32(insn, 16, 5);
     int sop = extract32(insn, 14, 2);
@@ -745,7 +745,7 @@ static int64_t round16(CPUBfinState *env, int64_t v)
     return v + 0x8000;
 }
 
-void helper_dsp32alu(CPUBfinState *env, uint32_t insn)
+void HELPER(dsp32alu)(CPUBfinState *env, uint32_t insn)
 {
     int hl = extract32(insn, 21, 1);
     int aopcde = extract32(insn, 16, 5);
@@ -1397,12 +1397,12 @@ static void mac(CPUBfinState *env, uint32_t insn, bool mult)
     }
 }
 
-void helper_dsp32mac(CPUBfinState *env, uint32_t insn)
+void HELPER(dsp32mac)(CPUBfinState *env, uint32_t insn)
 {
     mac(env, insn, false);
 }
 
-void helper_dsp32mult(CPUBfinState *env, uint32_t insn)
+void HELPER(dsp32mult)(CPUBfinState *env, uint32_t insn)
 {
     mac(env, insn, true);
 }

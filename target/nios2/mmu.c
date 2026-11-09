@@ -80,7 +80,7 @@ static void mmu_flush_pid(CPUNios2State *env, uint32_t pid)
     }
 }
 
-void helper_mmu_write_tlbacc(CPUNios2State *env, uint32_t v)
+void HELPER(mmu_write_tlbacc)(CPUNios2State *env, uint32_t v)
 {
     CPUState *cs = env_cpu(env);
     Nios2CPU *cpu = env_archcpu(env);
@@ -125,7 +125,7 @@ void helper_mmu_write_tlbacc(CPUNios2State *env, uint32_t v)
     env->mmu.tlbacc_wr = v;
 }
 
-void helper_mmu_write_tlbmisc(CPUNios2State *env, uint32_t v)
+void HELPER(mmu_write_tlbmisc)(CPUNios2State *env, uint32_t v)
 {
     Nios2CPU *cpu = env_archcpu(env);
     uint32_t new_pid = FIELD_EX32(v, CR_TLBMISC, PID);
@@ -168,7 +168,7 @@ void helper_mmu_write_tlbmisc(CPUNios2State *env, uint32_t v)
     env->mmu.tlbmisc_wr = v;
 }
 
-void helper_mmu_write_pteaddr(CPUNios2State *env, uint32_t v)
+void HELPER(mmu_write_pteaddr)(CPUNios2State *env, uint32_t v)
 {
     trace_nios2_mmu_write_pteaddr(FIELD_EX32(v, CR_PTEADDR, PTBASE),
                                   FIELD_EX32(v, CR_PTEADDR, VPN));

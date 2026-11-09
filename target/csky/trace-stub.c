@@ -18,20 +18,20 @@ int raddr_num;
  */
 #include "exec/helper-proto.h"
 
-void helper_csky_trace_icount(CPUCSKYState *env, uint32_t a, uint32_t b)
+void HELPER(csky_trace_icount)(CPUCSKYState *env, uint32_t a, uint32_t b)
 {
 }
 
-void helper_trace_tb_start(CPUCSKYState *env, uint32_t a)
+void HELPER(trace_tb_start)(CPUCSKYState *env, uint32_t a)
 {
 }
 
-void helper_trace_tb_exit(uint32_t a, uint32_t b)
+void HELPER(trace_tb_exit)(uint32_t a, uint32_t b)
 {
 }
 
 #define TRACE_LDST_STUB(name)                                          \
-void helper_trace_##name(CPUCSKYState *env, uint32_t pc, uint32_t val, \
+void HELPER(trace_##name)(CPUCSKYState *env, uint32_t pc, uint32_t val, \
                          uint32_t addr)                                \
 {                                                                      \
 }
@@ -45,16 +45,16 @@ TRACE_LDST_STUB(st8)
 TRACE_LDST_STUB(st16)
 TRACE_LDST_STUB(st32)
 
-void helper_trace_m_addr(CPUCSKYState *env, uint32_t a, uint32_t b,
+void HELPER(trace_m_addr)(CPUCSKYState *env, uint32_t a, uint32_t b,
                          uint32_t c, uint32_t d)
 {
 }
 
-void helper_trace_m_value(CPUCSKYState *env, uint32_t a, uint32_t b,
+void HELPER(trace_m_value)(CPUCSKYState *env, uint32_t a, uint32_t b,
                           uint32_t c)
 {
 }
 
-void helper_trace_update_tcr(CPUCSKYState *env)
+void HELPER(trace_update_tcr)(CPUCSKYState *env)
 {
 }

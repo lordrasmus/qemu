@@ -77,7 +77,7 @@ static void set_status32(CPUARCState *env, target_ulong value)
 #endif
 }
 
-target_ulong helper_llock(CPUARCState *env, target_ulong addr)
+target_ulong HELPER(llock)(CPUARCState *env, target_ulong addr)
 {
     assert((addr & 0x3) == 0);
     hwaddr haddr;
@@ -99,12 +99,12 @@ target_ulong helper_llock(CPUARCState *env, target_ulong addr)
     return ret;
 }
 
-target_ulong helper_getlf(CPUARCState *env)
+target_ulong HELPER(getlf)(CPUARCState *env)
 {
     return (env->arconnect.lpa_lf != NULL && env->arconnect.lpa_lf->lpa_lf & 0x01);
 }
 
-target_ulong helper_scond(CPUARCState *env, target_ulong addr, target_ulong value)
+target_ulong HELPER(scond)(CPUARCState *env, target_ulong addr, target_ulong value)
 {
     assert((addr & 0x3) == 0);
     hwaddr haddr;
@@ -134,7 +134,7 @@ target_ulong helper_scond(CPUARCState *env, target_ulong addr, target_ulong valu
 }
 
 #if defined(TARGET_ARC64)
-target_ulong helper_llockl(CPUARCState *env, target_ulong addr)
+target_ulong HELPER(llockl)(CPUARCState *env, target_ulong addr)
 {
     assert((addr & 0x3) == 0);
     target_ulong haddr;
@@ -155,7 +155,7 @@ target_ulong helper_llockl(CPUARCState *env, target_ulong addr)
     qemu_mutex_unlock(&entry->mutex);
     return ret;
 }
-target_ulong helper_scondl(CPUARCState *env, target_ulong addr, target_ulong value)
+target_ulong HELPER(scondl)(CPUARCState *env, target_ulong addr, target_ulong value)
 {
     assert((addr & 0x3) == 0);
     target_ulong haddr;
@@ -181,7 +181,7 @@ target_ulong helper_scondl(CPUARCState *env, target_ulong addr, target_ulong val
 
 #elif defined(TARGET_ARC32)
 
-uint64_t helper_llockd(CPUARCState *env, target_ulong addr)
+uint64_t HELPER(llockd)(CPUARCState *env, target_ulong addr)
 {
     assert((addr & 0x7) == 0);
     hwaddr haddr;
@@ -202,7 +202,7 @@ uint64_t helper_llockd(CPUARCState *env, target_ulong addr)
 
     return ret;
 }
-target_ulong helper_scondd(CPUARCState *env, target_ulong addr, uint64_t value)
+target_ulong HELPER(scondd)(CPUARCState *env, target_ulong addr, uint64_t value)
 {
     assert((addr & 0x7) == 0);
     hwaddr haddr;
@@ -236,7 +236,7 @@ static void report_aux_reg_error(target_ulong aux)
                   "\n", aux);
 }
 
-void helper_sr(CPUARCState *env, target_ulong val, target_ulong aux)
+void HELPER(sr)(CPUARCState *env, target_ulong val, target_ulong aux)
 {
     /* saving return address in case an exception must be raised later */
     ARCCPU *cpu = env_archcpu(env);
@@ -260,7 +260,7 @@ void helper_sr(CPUARCState *env, target_ulong val, target_ulong aux)
 }
 
 
-target_ulong helper_lr(CPUARCState *env, target_ulong aux)
+target_ulong HELPER(lr)(CPUARCState *env, target_ulong aux)
 {
     ARCCPU *cpu = env_archcpu(env);
     target_ulong result = 0;
@@ -286,7 +286,7 @@ target_ulong helper_lr(CPUARCState *env, target_ulong aux)
     return result;
 }
 
-void G_NORETURN helper_halt(CPUARCState *env, target_ulong npc)
+void G_NORETURN HELPER(halt)(CPUARCState *env, target_ulong npc)
 {
     CPUState *cs = env_cpu(env);
     if (GET_STATUS_BIT(env->stat, Uf)) {
@@ -303,7 +303,7 @@ void G_NORETURN helper_halt(CPUARCState *env, target_ulong npc)
     cpu_loop_exit(cs);
 }
 
-void helper_rtie(CPUARCState *env)
+void HELPER(rtie)(CPUARCState *env)
 {
     CPUState *cs = env_cpu(env);
     if (GET_STATUS_BIT(env->stat, Uf)) {
@@ -357,11 +357,11 @@ void helper_rtie(CPUARCState *env)
     }
 
 #ifdef TARGET_ARC32
-    helper_zol_verify(env, env->pc);
+    HELPER(zol_verify)(env, env->pc);
 #endif
 }
 
-void helper_flush(CPUARCState *env)
+void HELPER(flush)(CPUARCState *env)
 {
     queue_tb_flush(env_cpu(env));
 }
@@ -371,7 +371,7 @@ void helper_flush(CPUARCState *env)
  * We expect that ENV->PC has already been updated.
  */
 
-void G_NORETURN helper_raise_exception(CPUARCState *env,
+void G_NORETURN HELPER(raise_exception)(CPUARCState *env,
                                           target_ulong index,
                                           target_ulong causecode,
                                           target_ulong param)
@@ -383,7 +383,7 @@ void G_NORETURN helper_raise_exception(CPUARCState *env,
     cpu_loop_exit_restore(cs, GETPC());
 }
 
-void helper_zol_verify(CPUARCState *env, target_ulong npc)
+void HELPER(zol_verify)(CPUARCState *env, target_ulong npc)
 {
     CPUState *cs = env_cpu(env);
     if (npc == env->lpe) {
@@ -404,12 +404,12 @@ void helper_zol_verify(CPUARCState *env, target_ulong npc)
     }
 }
 
-target_ulong helper_get_status32(CPUARCState *env)
+target_ulong HELPER(get_status32)(CPUARCState *env)
 {
     return get_status32(env);
 }
 
-void helper_set_status32(CPUARCState *env, target_ulong value)
+void HELPER(set_status32)(CPUARCState *env, target_ulong value)
 {
     set_status32(env, value);
 }
@@ -426,7 +426,7 @@ carry_add_flag(target_ulong dest, target_ulong b, target_ulong c, uint8_t size)
     return (t1 >> (size - 1)) & 1;
 }
 
-target_ulong helper_carry_add_flag(target_ulong dest, target_ulong b,
+target_ulong HELPER(carry_add_flag)(target_ulong dest, target_ulong b,
                                    target_ulong c) {
     return carry_add_flag(dest, b, c, TARGET_LONG_BITS);
 }
@@ -457,7 +457,7 @@ overflow_add_flag(target_ulong dest, target_ulong b, target_ulong c,
         return 0;
     }
 }
-target_ulong helper_overflow_add_flag(target_ulong dest, target_ulong b,
+target_ulong HELPER(overflow_add_flag)(target_ulong dest, target_ulong b,
                                       target_ulong c) {
     return overflow_add_flag(dest, b, c, TARGET_LONG_BITS);
 }
@@ -487,14 +487,14 @@ static int32_t asrs_calc(int32_t b, int32_t c, bool *sat)
     return r;
 }
 
-target_ulong helper_asrs(target_ulong b, target_ulong c)
+target_ulong HELPER(asrs)(target_ulong b, target_ulong c)
 {
     bool sat;
 
     return (uint32_t) asrs_calc(b, c, &sat);
 }
 
-target_ulong helper_asrs_sat(target_ulong b, target_ulong c)
+target_ulong HELPER(asrs_sat)(target_ulong b, target_ulong c)
 {
     bool sat;
 
@@ -516,12 +516,12 @@ overflow_sub_flag(target_ulong dest, target_ulong b, target_ulong c,
         return 0;
     }
 }
-target_ulong helper_overflow_sub_flag(target_ulong dest, target_ulong b,
+target_ulong HELPER(overflow_sub_flag)(target_ulong dest, target_ulong b,
                                       target_ulong c) {
     return overflow_sub_flag(dest, b, c, TARGET_LONG_BITS);
 }
 
-target_ulong helper_repl_mask(target_ulong dest, target_ulong src,
+target_ulong HELPER(repl_mask)(target_ulong dest, target_ulong src,
                               target_ulong mask)
 {
     target_ulong ret = dest & (~mask);
@@ -530,7 +530,7 @@ target_ulong helper_repl_mask(target_ulong dest, target_ulong src,
     return ret;
 }
 
-target_ulong helper_mpymu(CPUARCState *env, target_ulong b, target_ulong c)
+target_ulong HELPER(mpymu)(CPUARCState *env, target_ulong b, target_ulong c)
 {
     uint64_t _b = (uint64_t) (b & 0xffffffff);
     uint64_t _c = (uint64_t) (c & 0xffffffff);
@@ -538,7 +538,7 @@ target_ulong helper_mpymu(CPUARCState *env, target_ulong b, target_ulong c)
     return (uint32_t) ((_b * _c) >> 32);
 }
 
-target_ulong helper_mpym(CPUARCState *env, target_ulong b, target_ulong c)
+target_ulong HELPER(mpym)(CPUARCState *env, target_ulong b, target_ulong c)
 {
     int64_t _b = (int64_t) ((int32_t) b);
     int64_t _c = (int64_t) ((int32_t) c);
@@ -635,22 +635,22 @@ arc_branch_regs_set(const struct arc_aux_reg_detail *aux_reg_detail,
 }
 
 #ifdef TARGET_ARC64
-uint64_t helper_carry_add_flag32(uint64_t dest, uint64_t b, uint64_t c) {
+uint64_t HELPER(carry_add_flag32)(uint64_t dest, uint64_t b, uint64_t c) {
     return carry_add_flag(dest, b, c, 32);
 }
 
-target_ulong helper_overflow_add_flag32(target_ulong dest, target_ulong b, target_ulong c) {
+target_ulong HELPER(overflow_add_flag32)(target_ulong dest, target_ulong b, target_ulong c) {
     return overflow_add_flag(dest, b, c, 32);
 }
 
-target_ulong helper_overflow_sub_flag32(target_ulong dest, target_ulong b, target_ulong c) {
+target_ulong HELPER(overflow_sub_flag32)(target_ulong dest, target_ulong b, target_ulong c) {
     dest = dest & 0xffffffff;
     b = b & 0xffffffff;
     c = c & 0xffffffff;
     return overflow_sub_flag(dest, b, c, 32);
 }
 
-uint64_t helper_carry_sub_flag32(uint64_t dest, uint64_t b, uint64_t c)
+uint64_t HELPER(carry_sub_flag32)(uint64_t dest, uint64_t b, uint64_t c)
 {
     uint32_t t1, t2, t3;
 
@@ -662,7 +662,7 @@ uint64_t helper_carry_sub_flag32(uint64_t dest, uint64_t b, uint64_t c)
     return (t2 >> 31) & 1;
 }
 
-uint64_t helper_rotate_left32(uint64_t orig, uint64_t n)
+uint64_t HELPER(rotate_left32)(uint64_t orig, uint64_t n)
 {
     uint64_t t;
     uint64_t dest = (orig << n) & ((0xffffffff << n) & 0xffffffff);
@@ -673,7 +673,7 @@ uint64_t helper_rotate_left32(uint64_t orig, uint64_t n)
     return dest;
 }
 
-uint64_t helper_rotate_right32(uint64_t orig, uint64_t n)
+uint64_t HELPER(rotate_right32)(uint64_t orig, uint64_t n)
 {
     uint64_t t;
     uint64_t dest = (orig >> n) & (0xffffffff >> n);
@@ -684,7 +684,7 @@ uint64_t helper_rotate_right32(uint64_t orig, uint64_t n)
     return dest;
 }
 
-uint64_t helper_asr_32(uint64_t b, uint64_t c)
+uint64_t HELPER(asr_32)(uint64_t b, uint64_t c)
 {
   uint64_t t;
   c = c & 31;
@@ -699,7 +699,7 @@ uint64_t helper_asr_32(uint64_t b, uint64_t c)
   return t;
 }
 
-target_ulong helper_ffs32(CPUARCState *env, uint64_t src)
+target_ulong HELPER(ffs32)(CPUARCState *env, uint64_t src)
 {
     int i;
     if (src == 0) {
@@ -713,7 +713,7 @@ target_ulong helper_ffs32(CPUARCState *env, uint64_t src)
     return i;
 }
 
-target_ulong helper_norml(CPUARCState *env, uint64_t src1)
+target_ulong HELPER(norml)(CPUARCState *env, uint64_t src1)
 {
     int i;
     int64_t tmp = (int64_t) src1;

@@ -214,7 +214,7 @@ G_NORETURN void tilegx_raise_exception(CPUTLGState *env, int excp,
     cpu_loop_exit_restore(cs, retaddr);
 }
 
-void helper_exception(CPUTLGState *env, uint32_t excp)
+void HELPER(exception)(CPUTLGState *env, uint32_t excp)
 {
     CPUState *cs = env_cpu(env);
 
@@ -226,7 +226,7 @@ void helper_exception(CPUTLGState *env, uint32_t excp)
  * iret is allowed where the PL's own EX_CONTEXT SPRs are: Linux lets PL0
  * use it, and uClibc's longjmp does.  It never raises the PL.
  */
-void helper_iret(CPUTLGState *env)
+void HELPER(iret)(CPUTLGState *env)
 {
     int pl = env->cpl;
     uint64_t ex1 = env->ex_context[pl][1];
@@ -240,7 +240,7 @@ void helper_iret(CPUTLGState *env)
     tilegx_update_irq(env);
 }
 
-void helper_nap(CPUTLGState *env)
+void HELPER(nap)(CPUTLGState *env)
 {
     CPUState *cs = env_cpu(env);
 
@@ -329,7 +329,7 @@ static bool spr_access(CPUTLGState *env, unsigned spr, uintptr_t ra)
     return false;
 }
 
-uint64_t helper_mfspr(CPUTLGState *env, uint32_t spr)
+uint64_t HELPER(mfspr)(CPUTLGState *env, uint32_t spr)
 {
     unsigned hi = spr >> 8, lo = spr & 0xff;
     int pl;
@@ -383,7 +383,7 @@ uint64_t helper_mfspr(CPUTLGState *env, uint32_t spr)
     return 0;
 }
 
-void helper_mtspr(CPUTLGState *env, uint32_t spr, uint64_t val)
+void HELPER(mtspr)(CPUTLGState *env, uint32_t spr, uint64_t val)
 {
     unsigned hi = spr >> 8, lo = spr & 0xff;
     int pl;

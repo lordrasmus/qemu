@@ -40,7 +40,7 @@
 #define D_LOG(...) do { } while (0)
 #endif
 
-void helper_raise_exception(CPUCRISState *env, uint32_t index)
+void HELPER(raise_exception)(CPUCRISState *env, uint32_t index)
 {
     CPUState *cs = env_cpu(env);
 
@@ -48,7 +48,7 @@ void helper_raise_exception(CPUCRISState *env, uint32_t index)
     cpu_loop_exit(cs);
 }
 
-void helper_tlb_flush_pid(CPUCRISState *env, uint32_t pid)
+void HELPER(tlb_flush_pid)(CPUCRISState *env, uint32_t pid)
 {
 #if !defined(CONFIG_USER_ONLY)
     pid &= 0xff;
@@ -58,7 +58,7 @@ void helper_tlb_flush_pid(CPUCRISState *env, uint32_t pid)
 #endif
 }
 
-void helper_spc_write(CPUCRISState *env, uint32_t new_spc)
+void HELPER(spc_write)(CPUCRISState *env, uint32_t new_spc)
 {
 #if !defined(CONFIG_USER_ONLY)
     CPUState *cs = env_cpu(env);
@@ -72,7 +72,7 @@ void helper_spc_write(CPUCRISState *env, uint32_t new_spc)
 #define EXTRACT_FIELD(src, start, end)                  \
     (((src) >> start) & ((1 << (end - start + 1)) - 1))
 
-void helper_movl_sreg_reg(CPUCRISState *env, uint32_t sreg, uint32_t reg)
+void HELPER(movl_sreg_reg)(CPUCRISState *env, uint32_t sreg, uint32_t reg)
 {
     uint32_t srs;
     srs = env->pregs[PR_SRS];
@@ -118,7 +118,7 @@ void helper_movl_sreg_reg(CPUCRISState *env, uint32_t sreg, uint32_t reg)
 #endif
 }
 
-void helper_movl_reg_sreg(CPUCRISState *env, uint32_t reg, uint32_t sreg)
+void HELPER(movl_reg_sreg)(CPUCRISState *env, uint32_t reg, uint32_t sreg)
 {
     uint32_t srs;
     env->pregs[PR_SRS] &= 3;
@@ -161,7 +161,7 @@ static void cris_ccs_rshift(CPUCRISState *env)
     env->pregs[PR_CCS] = ccs;
 }
 
-void helper_rfe(CPUCRISState *env)
+void HELPER(rfe)(CPUCRISState *env)
 {
     int rflag = env->pregs[PR_CCS] & R_FLAG;
 
@@ -178,7 +178,7 @@ void helper_rfe(CPUCRISState *env)
     }
 }
 
-void helper_rfn(CPUCRISState *env)
+void HELPER(rfn)(CPUCRISState *env)
 {
     int rflag = env->pregs[PR_CCS] & R_FLAG;
 
@@ -198,7 +198,7 @@ void helper_rfn(CPUCRISState *env)
     env->pregs[PR_CCS] |= M_FLAG_V32;
 }
 
-uint32_t helper_btst(CPUCRISState *env, uint32_t t0, uint32_t t1, uint32_t ccs)
+uint32_t HELPER(btst)(CPUCRISState *env, uint32_t t0, uint32_t t1, uint32_t ccs)
 {
     /* FIXME: clean this up.  */
 
@@ -249,7 +249,7 @@ static inline uint32_t evaluate_flags_writeback(CPUCRISState *env,
     return ccs;
 }
 
-uint32_t helper_evaluate_flags_muls(CPUCRISState *env,
+uint32_t HELPER(evaluate_flags_muls)(CPUCRISState *env,
                                     uint32_t ccs, uint32_t res, uint32_t mof)
 {
     uint32_t flags = 0;
@@ -272,7 +272,7 @@ uint32_t helper_evaluate_flags_muls(CPUCRISState *env,
     return evaluate_flags_writeback(env, flags, ccs);
 }
 
-uint32_t helper_evaluate_flags_mulu(CPUCRISState *env,
+uint32_t HELPER(evaluate_flags_mulu)(CPUCRISState *env,
                                     uint32_t ccs, uint32_t res, uint32_t mof)
 {
     uint32_t flags = 0;
@@ -293,7 +293,7 @@ uint32_t helper_evaluate_flags_mulu(CPUCRISState *env,
     return evaluate_flags_writeback(env, flags, ccs);
 }
 
-uint32_t helper_evaluate_flags_mcp(CPUCRISState *env, uint32_t ccs,
+uint32_t HELPER(evaluate_flags_mcp)(CPUCRISState *env, uint32_t ccs,
 				   uint32_t src, uint32_t dst, uint32_t res)
 {
     uint32_t flags = 0;
@@ -323,7 +323,7 @@ uint32_t helper_evaluate_flags_mcp(CPUCRISState *env, uint32_t ccs,
     return evaluate_flags_writeback(env, flags, ccs);
 }
 
-uint32_t helper_evaluate_flags_alu_4(CPUCRISState *env, uint32_t ccs,
+uint32_t HELPER(evaluate_flags_alu_4)(CPUCRISState *env, uint32_t ccs,
 				     uint32_t src, uint32_t dst, uint32_t res)
 {
     uint32_t flags = 0;
@@ -353,7 +353,7 @@ uint32_t helper_evaluate_flags_alu_4(CPUCRISState *env, uint32_t ccs,
     return evaluate_flags_writeback(env, flags, ccs);
 }
 
-uint32_t helper_evaluate_flags_sub_4(CPUCRISState *env, uint32_t ccs,
+uint32_t HELPER(evaluate_flags_sub_4)(CPUCRISState *env, uint32_t ccs,
 				     uint32_t src, uint32_t dst, uint32_t res)
 {
     uint32_t flags = 0;
@@ -384,7 +384,7 @@ uint32_t helper_evaluate_flags_sub_4(CPUCRISState *env, uint32_t ccs,
     return evaluate_flags_writeback(env, flags, ccs);
 }
 
-uint32_t helper_evaluate_flags_move_4(CPUCRISState *env,
+uint32_t HELPER(evaluate_flags_move_4)(CPUCRISState *env,
                                       uint32_t ccs, uint32_t res)
 {
     uint32_t flags = 0;
@@ -398,7 +398,7 @@ uint32_t helper_evaluate_flags_move_4(CPUCRISState *env,
     return evaluate_flags_writeback(env, flags, ccs);
 }
 
-uint32_t helper_evaluate_flags_move_2(CPUCRISState *env,
+uint32_t HELPER(evaluate_flags_move_2)(CPUCRISState *env,
                                       uint32_t ccs, uint32_t res)
 {
     uint32_t flags = 0;
@@ -416,7 +416,7 @@ uint32_t helper_evaluate_flags_move_2(CPUCRISState *env,
  * TODO: This is expensive. We could split things up and only evaluate part of
  * CCR on a need to know basis. For now, we simply re-evaluate everything.
  */
-void helper_evaluate_flags(CPUCRISState *env)
+void HELPER(evaluate_flags)(CPUCRISState *env)
 {
     uint32_t src, dst, res;
     uint32_t flags = 0;
@@ -507,23 +507,23 @@ void helper_evaluate_flags(CPUCRISState *env)
                                                   env->pregs[PR_CCS]);
 }
 
-void helper_top_evaluate_flags(CPUCRISState *env)
+void HELPER(top_evaluate_flags)(CPUCRISState *env)
 {
     switch (env->cc_op) {
     case CC_OP_MCP:
         env->pregs[PR_CCS]
-            = helper_evaluate_flags_mcp(env, env->pregs[PR_CCS],
+            = HELPER(evaluate_flags_mcp)(env, env->pregs[PR_CCS],
                                         env->cc_src, env->cc_dest,
                                         env->cc_result);
         break;
     case CC_OP_MULS:
         env->pregs[PR_CCS]
-            = helper_evaluate_flags_muls(env, env->pregs[PR_CCS],
+            = HELPER(evaluate_flags_muls)(env, env->pregs[PR_CCS],
                                          env->cc_result, env->pregs[PR_MOF]);
         break;
     case CC_OP_MULU:
         env->pregs[PR_CCS]
-            = helper_evaluate_flags_mulu(env, env->pregs[PR_CCS],
+            = HELPER(evaluate_flags_mulu)(env, env->pregs[PR_CCS],
                                          env->cc_result, env->pregs[PR_MOF]);
         break;
     case CC_OP_MOVE:
@@ -536,18 +536,18 @@ void helper_top_evaluate_flags(CPUCRISState *env)
         switch (env->cc_size) {
         case 4:
             env->pregs[PR_CCS] =
-                helper_evaluate_flags_move_4(env,
+                HELPER(evaluate_flags_move_4)(env,
                                              env->pregs[PR_CCS],
                                              env->cc_result);
             break;
         case 2:
             env->pregs[PR_CCS] =
-                helper_evaluate_flags_move_2(env,
+                HELPER(evaluate_flags_move_2)(env,
                                              env->pregs[PR_CCS],
                                              env->cc_result);
             break;
         default:
-            helper_evaluate_flags(env);
+            HELPER(evaluate_flags)(env);
             break;
         }
         break;
@@ -558,25 +558,25 @@ void helper_top_evaluate_flags(CPUCRISState *env)
     case CC_OP_CMP:
         if (env->cc_size == 4) {
             env->pregs[PR_CCS] =
-                helper_evaluate_flags_sub_4(env,
+                HELPER(evaluate_flags_sub_4)(env,
                                             env->pregs[PR_CCS],
                                             env->cc_src, env->cc_dest,
                                             env->cc_result);
         } else {
-            helper_evaluate_flags(env);
+            HELPER(evaluate_flags)(env);
         }
         break;
     default:
         switch (env->cc_size) {
         case 4:
             env->pregs[PR_CCS] =
-                helper_evaluate_flags_alu_4(env,
+                HELPER(evaluate_flags_alu_4)(env,
                                             env->pregs[PR_CCS],
                                             env->cc_src, env->cc_dest,
                                             env->cc_result);
             break;
         default:
-            helper_evaluate_flags(env);
+            HELPER(evaluate_flags)(env);
             break;
         }
         break;
@@ -585,7 +585,7 @@ void helper_top_evaluate_flags(CPUCRISState *env)
 
 #ifndef CONFIG_USER_ONLY
 /* End an interrupt lockout; leave the TB chain if an IRQ is waiting */
-void helper_unlock_irq(CPUCRISState *env)
+void HELPER(unlock_irq)(CPUCRISState *env)
 {
     CPUState *cs = env_cpu(env);
 
@@ -596,13 +596,13 @@ void helper_unlock_irq(CPUCRISState *env)
 }
 
 /* ETRAX 100LX: JMPU, RETI and RETB return to user mode if U is set */
-void helper_v10_return_mode(CPUCRISState *env)
+void HELPER(v10_return_mode)(CPUCRISState *env)
 {
     crisv10_return_mode(env);
 }
 
 /* SBFS: store the CPU status record of the last bus fault */
-void helper_v10_sbfs(CPUCRISState *env, uint32_t addr)
+void HELPER(v10_sbfs)(CPUCRISState *env, uint32_t addr)
 {
     int idx = cpu_mmu_index(env_cpu(env), false);
 
@@ -617,7 +617,7 @@ void helper_v10_sbfs(CPUCRISState *env, uint32_t addr)
  * instruction, so this restores the flags and the address prefix and
  * returns the PC field; the mode follows the U flag before the insn.
  */
-uint32_t helper_v10_rbf(CPUCRISState *env, uint32_t addr)
+uint32_t HELPER(v10_rbf)(CPUCRISState *env, uint32_t addr)
 {
     int idx = cpu_mmu_index(env_cpu(env), false);
     uint32_t rec[4];
@@ -648,21 +648,21 @@ uint32_t helper_v10_rbf(CPUCRISState *env, uint32_t addr)
 }
 #else
 /* Privileged instructions; in user mode they never reach a helper */
-void helper_unlock_irq(CPUCRISState *env)
+void HELPER(unlock_irq)(CPUCRISState *env)
 {
 }
 
-void helper_v10_return_mode(CPUCRISState *env)
-{
-    g_assert_not_reached();
-}
-
-void helper_v10_sbfs(CPUCRISState *env, uint32_t addr)
+void HELPER(v10_return_mode)(CPUCRISState *env)
 {
     g_assert_not_reached();
 }
 
-uint32_t helper_v10_rbf(CPUCRISState *env, uint32_t addr)
+void HELPER(v10_sbfs)(CPUCRISState *env, uint32_t addr)
+{
+    g_assert_not_reached();
+}
+
+uint32_t HELPER(v10_rbf)(CPUCRISState *env, uint32_t addr)
 {
     g_assert_not_reached();
 }

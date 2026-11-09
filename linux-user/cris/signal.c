@@ -22,6 +22,7 @@
 #include "signal-common.h"
 #include "linux-user/trace.h"
 #include "target_ptrace.h"
+#include "exec/helper-proto.h"
 
 /*
  * struct sigcontext is struct pt_regs followed by oldmask and usp, and
@@ -56,8 +57,6 @@ struct target_signal_frame {
     uint16_t retcode[4];
 };
 
-void helper_top_evaluate_flags(CPUCRISState *env);
-
 static bool is_v32(CPUCRISState *env)
 {
     return env->pregs[PR_VR] >= 32;
@@ -90,7 +89,7 @@ static abi_ulong sc_size(CPUCRISState *env)
 
 static void setup_sigcontext(abi_ulong *w, CPUCRISState *env, abi_ulong mask)
 {
-    helper_top_evaluate_flags(env);
+    HELPER(top_evaluate_flags)(env);
     env->cc_op = CC_OP_FLAGS;
     /*
      * Interrupted in a delay slot: restart at the branch, as the CPU

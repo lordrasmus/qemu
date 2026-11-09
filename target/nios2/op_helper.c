@@ -23,7 +23,7 @@
 #include "cpu.h"
 #include "exec/helper-proto.h"
 
-void helper_raise_exception(CPUNios2State *env, uint32_t index)
+void HELPER(raise_exception)(CPUNios2State *env, uint32_t index)
 {
     CPUState *cs = env_cpu(env);
     cs->exception_index = index;
@@ -55,7 +55,7 @@ static void maybe_raise_div(CPUNios2State *env, uintptr_t ra)
     }
 }
 
-int32_t helper_divs(CPUNios2State *env, int32_t num, int32_t den)
+int32_t HELPER(divs)(CPUNios2State *env, int32_t num, int32_t den)
 {
     if (unlikely(den == 0) || unlikely(den == -1 && num == INT32_MIN)) {
         maybe_raise_div(env, GETPC());
@@ -64,7 +64,7 @@ int32_t helper_divs(CPUNios2State *env, int32_t num, int32_t den)
     return num / den;
 }
 
-uint32_t helper_divu(CPUNios2State *env, uint32_t num, uint32_t den)
+uint32_t HELPER(divu)(CPUNios2State *env, uint32_t num, uint32_t den)
 {
     if (unlikely(den == 0)) {
         maybe_raise_div(env, GETPC());
@@ -74,7 +74,7 @@ uint32_t helper_divu(CPUNios2State *env, uint32_t num, uint32_t den)
 }
 
 #ifndef CONFIG_USER_ONLY
-void helper_eret(CPUNios2State *env, uint32_t new_status, uint32_t new_pc)
+void HELPER(eret)(CPUNios2State *env, uint32_t new_status, uint32_t new_pc)
 {
     Nios2CPU *cpu = env_archcpu(env);
     CPUState *cs = env_cpu(env);
@@ -105,13 +105,13 @@ void helper_eret(CPUNios2State *env, uint32_t new_status, uint32_t new_pc)
  * RDPRS and WRPRS are implemented out of line so that if PRS == CRS,
  * all of the tcg global temporaries are synced back to ENV.
  */
-uint32_t helper_rdprs(CPUNios2State *env, uint32_t regno)
+uint32_t HELPER(rdprs)(CPUNios2State *env, uint32_t regno)
 {
     unsigned prs = FIELD_EX32(env->ctrl[CR_STATUS], CR_STATUS, PRS);
     return env->shadow_regs[prs][regno];
 }
 
-void helper_wrprs(CPUNios2State *env, uint32_t regno, uint32_t val)
+void HELPER(wrprs)(CPUNios2State *env, uint32_t regno, uint32_t val)
 {
     unsigned prs = FIELD_EX32(env->ctrl[CR_STATUS], CR_STATUS, PRS);
     env->shadow_regs[prs][regno] = val;

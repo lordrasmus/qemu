@@ -243,7 +243,7 @@ static int cskyv1cpu_gdb_write_register(CPUCSKYState *env,
         return 4;
     case 89:
         if ((env->cp0.psr & 0x2) != (tmp & 0x2)) {
-            helper_switch_regs(env);
+            HELPER(switch_regs)(env);
         }
         env->cp0.psr = tmp;
         env->psr_c = tmp & 0x1;
@@ -364,7 +364,7 @@ static int cskyv2cpu_gdb_write_register(CPUCSKYState *env,
         return 4;
     case 89:
         if ((env->cp0.psr & 0x2) != (tmp & 0x2)) {
-            helper_switch_regs(env);
+            HELPER(switch_regs)(env);
         }
         if (env->features & ABIV2_JAVA) {
             env->cp0.psr = tmp;

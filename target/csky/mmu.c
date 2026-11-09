@@ -50,7 +50,7 @@ static int get_page_bits(CPUCSKYState *env)
     }
 }
 
-void helper_ttlbinv_all(CPUCSKYState *env)
+void HELPER(ttlbinv_all)(CPUCSKYState *env)
 {
     CPUState *cs = CPU(csky_env_get_cpu(env));
     if (env->full_mmu) {
@@ -62,7 +62,7 @@ void helper_ttlbinv_all(CPUCSKYState *env)
     tlb_flush(cs);
 }
 
-void helper_tlbinv_idx(CPUCSKYState *env)
+void HELPER(tlbinv_idx)(CPUCSKYState *env)
 {
     CPUState *cs = CPU(csky_env_get_cpu(env));
     csky_tlb_t *ptlb;
@@ -81,7 +81,7 @@ void helper_tlbinv_idx(CPUCSKYState *env)
     }
 }
 
-void helper_tlbinv_all(CPUCSKYState *env)
+void HELPER(tlbinv_all)(CPUCSKYState *env)
 {
     CPUState *cs = CPU(csky_env_get_cpu(env));
     if (env->full_mmu) {
@@ -91,12 +91,12 @@ void helper_tlbinv_all(CPUCSKYState *env)
     tlb_flush(cs);
 }
 
-void helper_tlbinv_all_s(CPUCSKYState *env)
+void HELPER(tlbinv_all_s)(CPUCSKYState *env)
 {
     CPUState *cs = CPU(csky_env_get_cpu(env));
     CPU_FOREACH(cs) {
         env = csky_cpu_get_env(cs);
-        helper_tlbinv_all(env);
+        HELPER(tlbinv_all)(env);
     }
 }
 
@@ -114,7 +114,7 @@ static inline uint32_t csky_get_vpn(CPUCSKYState *env, uint32_t rx)
     return rx & CSKY_VPN_MASK & ~(env->mmu.mpr | 0x1fff);
 }
 
-void helper_tlbinv_asid(CPUCSKYState *env, uint32_t rx)
+void HELPER(tlbinv_asid)(CPUCSKYState *env, uint32_t rx)
 {
     CPUState *cs = CPU(csky_env_get_cpu(env));
 
@@ -141,16 +141,16 @@ void helper_tlbinv_asid(CPUCSKYState *env, uint32_t rx)
     }
 }
 
-void helper_tlbinv_asid_s(CPUCSKYState *env, uint32_t rx)
+void HELPER(tlbinv_asid_s)(CPUCSKYState *env, uint32_t rx)
 {
     CPUState *cs = CPU(csky_env_get_cpu(env));
     CPU_FOREACH(cs) {
         env = csky_cpu_get_env(cs);
-        helper_tlbinv_asid(env, rx);
+        HELPER(tlbinv_asid)(env, rx);
     }
 }
 
-void helper_tlbinv_vaa(CPUCSKYState *env, uint32_t rx)
+void HELPER(tlbinv_vaa)(CPUCSKYState *env, uint32_t rx)
 {
     CPUState *cs = CPU(csky_env_get_cpu(env));
 
@@ -177,16 +177,16 @@ void helper_tlbinv_vaa(CPUCSKYState *env, uint32_t rx)
     }
 }
 
-void helper_tlbinv_vaa_s(CPUCSKYState *env, uint32_t rx)
+void HELPER(tlbinv_vaa_s)(CPUCSKYState *env, uint32_t rx)
 {
     CPUState *cs = CPU(csky_env_get_cpu(env));
     CPU_FOREACH(cs) {
         env = csky_cpu_get_env(cs);
-        helper_tlbinv_vaa(env, rx);
+        HELPER(tlbinv_vaa)(env, rx);
     }
 }
 
-void helper_tlbinv_va(CPUCSKYState *env, uint32_t rx)
+void HELPER(tlbinv_va)(CPUCSKYState *env, uint32_t rx)
 {
     CPUState *cs = CPU(csky_env_get_cpu(env));
 
@@ -214,16 +214,16 @@ void helper_tlbinv_va(CPUCSKYState *env, uint32_t rx)
     }
 }
 
-void helper_tlbinv_va_s(CPUCSKYState *env, uint32_t rx)
+void HELPER(tlbinv_va_s)(CPUCSKYState *env, uint32_t rx)
 {
     CPUState *cs = CPU(csky_env_get_cpu(env));
     CPU_FOREACH(cs) {
         env = csky_cpu_get_env(cs);
-        helper_tlbinv_va(env, rx);
+        HELPER(tlbinv_va)(env, rx);
     }
 }
 
-void helper_tlbinv(CPUCSKYState *env)
+void HELPER(tlbinv)(CPUCSKYState *env)
 {
     CPUState *cs = CPU(csky_env_get_cpu(env));
 
@@ -441,7 +441,7 @@ bool csky_cpu_tlb_fill(CPUState *cs, vaddr addr, int size,
         if (retaddr) {
             cpu_restore_state(cs, retaddr);
         }
-        helper_exception(env, cs->exception_index);
+        HELPER(exception)(env, cs->exception_index);
     }
     return true;
 }

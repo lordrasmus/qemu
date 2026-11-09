@@ -29,7 +29,7 @@
 #include "hw/timer/csky_mptimer.h"
 #endif
 
-G_NORETURN void helper_exception(CPUCSKYState *env, uint32_t excp)
+G_NORETURN void HELPER(exception)(CPUCSKYState *env, uint32_t excp)
 {
     CPUState *cs = CPU(csky_env_get_cpu(env));
     uint32_t magic;
@@ -52,7 +52,7 @@ G_NORETURN void helper_exception(CPUCSKYState *env, uint32_t excp)
     cpu_loop_exit(cs);
 }
 
-void helper_tb_trace(CPUCSKYState *env, uint32_t tb_pc)
+void HELPER(tb_trace)(CPUCSKYState *env, uint32_t tb_pc)
 {
     int trace_index = env->trace_index % TB_TRACE_NUM;
     env->trace_info[trace_index].tb_pc = tb_pc;
@@ -60,11 +60,11 @@ void helper_tb_trace(CPUCSKYState *env, uint32_t tb_pc)
     qemu_log_mask(CPU_LOG_EXEC, "0x%.8x\n", tb_pc);
 }
 
-void helper_jcount(CPUCSKYState *env, uint32_t tb_pc, uint32_t icount)
+void HELPER(jcount)(CPUCSKYState *env, uint32_t tb_pc, uint32_t icount)
 {
 }
 
-uint32_t helper_xsr(CPUCSKYState *env, uint32_t a, uint32_t b)
+uint32_t HELPER(xsr)(CPUCSKYState *env, uint32_t a, uint32_t b)
 {
      uint64_t t0, t1;
      uint32_t n0, n1;
@@ -78,7 +78,7 @@ uint32_t helper_xsr(CPUCSKYState *env, uint32_t a, uint32_t b)
      return (n0 << 1) | n1;
 }
 
-uint32_t helper_brev(uint32_t a)
+uint32_t HELPER(brev)(uint32_t a)
 {
     uint32_t r = 0;
     char  i;
@@ -89,7 +89,7 @@ uint32_t helper_brev(uint32_t a)
     return r;
 }
 
-uint32_t helper_ff1(uint32_t a)
+uint32_t HELPER(ff1)(uint32_t a)
 {
     if (a == 0) {
         return 32;
@@ -98,7 +98,7 @@ uint32_t helper_ff1(uint32_t a)
     }
 }
 
-uint32_t helper_ff0(uint32_t a)
+uint32_t HELPER(ff0)(uint32_t a)
 {
     a =  ~a;
     if (a == 0) {
@@ -199,7 +199,7 @@ void HELPER(vfp_check_exception)(CPUCSKYState *env)
     env->vfp.fp_status.float_exception_flags = 0;
     /* if exception is enable, throw an exception. */
     if ((env->vfp.fcr & env->vfp.fesr) & 0x3f) {
-        helper_exception(env, EXCP_CSKY_FLOAT);
+        HELPER(exception)(env, EXCP_CSKY_FLOAT);
     }
 }
 
@@ -805,7 +805,7 @@ float32 VFP_HELPER(tos, d)(float64 x, CPUCSKYState *env)
 }
 
 #ifndef CONFIG_USER_ONLY
-void helper_mtcr_mptimer(CPUCSKYState *env, uint32_t pos, uint32_t rz)
+void HELPER(mtcr_mptimer)(CPUCSKYState *env, uint32_t pos, uint32_t rz)
 {
     CPUState *cpu;
     csky_mptimer_state *mptimer;
@@ -816,7 +816,7 @@ void helper_mtcr_mptimer(CPUCSKYState *env, uint32_t pos, uint32_t rz)
     return;
 }
 
-uint32_t helper_mfcr_mptimer(CPUCSKYState *env, uint32_t pos)
+uint32_t HELPER(mfcr_mptimer)(CPUCSKYState *env, uint32_t pos)
 {
     uint32_t value = 0;
     CPUState *cpu;
@@ -828,21 +828,21 @@ uint32_t helper_mfcr_mptimer(CPUCSKYState *env, uint32_t pos)
     return value;
 }
 
-uint32_t helper_mfcr_cr0(CPUCSKYState *env)
+uint32_t HELPER(mfcr_cr0)(CPUCSKYState *env)
 {
-    helper_update_psr(env);
+    HELPER(update_psr)(env);
     return env->cp0.psr;
 }
 
-void helper_mtcr_cr0(CPUCSKYState *env, uint32_t rx)
+void HELPER(mtcr_cr0)(CPUCSKYState *env, uint32_t rx)
 {
     if (!(env->features & ABIV2_JAVA)) {
         rx &= ~0x400;
     }
 
-    helper_save_sp(env);
+    HELPER(save_sp)(env);
     if (env->features & ABIV2_TEE) {
-        helper_tee_save_cr(env);
+        HELPER(tee_save_cr)(env);
         /* save psr */
         if (env->psr_t) {
             env->tee.t_psr = env->cp0.psr;
@@ -851,25 +851,25 @@ void helper_mtcr_cr0(CPUCSKYState *env, uint32_t rx)
         }
 
         env->cp0.psr = rx;
-        helper_record_psr_bits(env);
-        helper_tee_choose_cr(env);
+        HELPER(record_psr_bits)(env);
+        HELPER(tee_choose_cr)(env);
     } else {
         env->cp0.psr = rx;
-        helper_record_psr_bits(env);
+        HELPER(record_psr_bits)(env);
     }
 
     if ((env->cp0.psr & 0x2) != (rx & 0x2)) {
         if (env->features & (CPU_610 | CPU_C807 | CPU_C810)) {
-            helper_switch_regs(env);
+            HELPER(switch_regs)(env);
         } else {
             qemu_log_mask(LOG_GUEST_ERROR,
                           "Only CK610 CK807 CK810 have alternative registers");
         }
     }
-    helper_choose_sp(env);
+    HELPER(choose_sp)(env);
 }
 
-void helper_mtcr_cr14(CPUCSKYState *env, uint32_t rx)
+void HELPER(mtcr_cr14)(CPUCSKYState *env, uint32_t rx)
 {
     if (env->psr_t && (env->features & ABIV2_TEE)) {
         env->stackpoint.t_usp = rx;
@@ -878,7 +878,7 @@ void helper_mtcr_cr14(CPUCSKYState *env, uint32_t rx)
     }
 }
 
-uint32_t helper_mfcr_cr14(CPUCSKYState *env)
+uint32_t HELPER(mfcr_cr14)(CPUCSKYState *env)
 {
     if (env->psr_t && (env->features & ABIV2_TEE)) {
         return env->stackpoint.t_usp;
@@ -887,7 +887,7 @@ uint32_t helper_mfcr_cr14(CPUCSKYState *env)
     }
 }
 
-void helper_mtcr_cr15(CPUCSKYState *env, uint32_t rx)
+void HELPER(mtcr_cr15)(CPUCSKYState *env, uint32_t rx)
 {
     if (env->psr_t && (env->features & ABIV2_TEE)) {
         env->stackpoint.t_int_sp = rx;
@@ -896,7 +896,7 @@ void helper_mtcr_cr15(CPUCSKYState *env, uint32_t rx)
     }
 }
 
-uint32_t helper_mfcr_cr15(CPUCSKYState *env)
+uint32_t HELPER(mfcr_cr15)(CPUCSKYState *env)
 {
     if (env->psr_t && (env->features & ABIV2_TEE)) {
         return env->stackpoint.t_int_sp;
@@ -905,7 +905,7 @@ uint32_t helper_mfcr_cr15(CPUCSKYState *env)
     }
 }
 
-void helper_mtcr_cr17(CPUCSKYState *env, uint32_t rx)
+void HELPER(mtcr_cr17)(CPUCSKYState *env, uint32_t rx)
 {
     CPUState *cs = CPU(csky_env_get_cpu(env));
     env->cp0.cfr = rx;
@@ -917,7 +917,7 @@ void helper_mtcr_cr17(CPUCSKYState *env, uint32_t rx)
     }
 }
 
-void helper_mtcr_cr18(CPUCSKYState *env, uint32_t rx)
+void HELPER(mtcr_cr18)(CPUCSKYState *env, uint32_t rx)
 {
     CPUState *cs = CPU(csky_env_get_cpu(env));
 
@@ -946,7 +946,7 @@ void helper_mtcr_cr18(CPUCSKYState *env, uint32_t rx)
     env->cp0.ccr = rx;
 }
 
-void helper_mtcr_cr28(CPUCSKYState *env, uint32_t rx)
+void HELPER(mtcr_cr28)(CPUCSKYState *env, uint32_t rx)
 {
     CSKYCPU *cpu = csky_env_get_cpu(env);
     CSKYCPUClass *mcc = CSKY_CPU_GET_CLASS(cpu);
@@ -954,7 +954,7 @@ void helper_mtcr_cr28(CPUCSKYState *env, uint32_t rx)
     mcc->rvbr = rx;
 }
 
-uint32_t helper_mfcr_cr28(CPUCSKYState *env)
+uint32_t HELPER(mfcr_cr28)(CPUCSKYState *env)
 {
     CSKYCPU *cpu = csky_env_get_cpu(env);
     CSKYCPUClass *mcc = CSKY_CPU_GET_CLASS(cpu);
@@ -962,7 +962,7 @@ uint32_t helper_mfcr_cr28(CPUCSKYState *env)
     return mcc->rvbr;
 }
 
-void helper_mtcr_cr29(CPUCSKYState *env, uint32_t rx)
+void HELPER(mtcr_cr29)(CPUCSKYState *env, uint32_t rx)
 {
     uint32_t index;
     uint32_t i = 0;
@@ -1000,7 +1000,7 @@ void helper_mtcr_cr29(CPUCSKYState *env, uint32_t rx)
      cpu_exit(current_cpu);/* let the release core run asap*/
 }
 
-uint32_t helper_mfcr_cr29(CPUCSKYState *env)
+uint32_t HELPER(mfcr_cr29)(CPUCSKYState *env)
 {
     CSKYCPU *cpu ;
     CSKYCPUClass *mcc;
@@ -1010,12 +1010,12 @@ uint32_t helper_mfcr_cr29(CPUCSKYState *env)
     return mcc->rmr;
 }
 
-uint32_t helper_mfcr_cr30(CPUCSKYState *env)
+uint32_t HELPER(mfcr_cr30)(CPUCSKYState *env)
 {
     return current_cpu->cpu_index;
 }
 
-void helper_mtcr_cr31(CPUCSKYState *env, uint32_t rx)
+void HELPER(mtcr_cr31)(CPUCSKYState *env, uint32_t rx)
 {
 #define SOFT_RESET_MAGIC    0xABCD
     uint32_t srst_val = rx >> 16;
@@ -1035,17 +1035,17 @@ void helper_mtcr_cr31(CPUCSKYState *env, uint32_t rx)
 
 }
 
-uint32_t helper_mfcr_cr31(CPUCSKYState *env)
+uint32_t HELPER(mfcr_cr31)(CPUCSKYState *env)
 {
     return env->cp0.chr;
 }
 
-void helper_psrclr(CPUCSKYState *env, uint32_t imm)
+void HELPER(psrclr)(CPUCSKYState *env, uint32_t imm)
 {
     /* AF bit */
     if ((imm & 0x1)  && (env->cp0.psr & 0x2)) {
         env->cp0.psr &= ~0x2;
-        helper_switch_regs(env);
+        HELPER(switch_regs)(env);
     }
     /* FE bit */
     if (imm & 0x2) {
@@ -1062,12 +1062,12 @@ void helper_psrclr(CPUCSKYState *env, uint32_t imm)
 }
 
 
-void helper_psrset(CPUCSKYState *env, uint32_t imm)
+void HELPER(psrset)(CPUCSKYState *env, uint32_t imm)
 {
     /* AF bit */
     if ((imm & 0x1) && !(env->cp0.psr & 0x2)) {
         env->cp0.psr |= 0x2;
-        helper_switch_regs(env);
+        HELPER(switch_regs)(env);
     }
     /* FE bit */
     if (imm & 0x2) {
@@ -1083,34 +1083,34 @@ void helper_psrset(CPUCSKYState *env, uint32_t imm)
     }
 }
 
-void helper_stop(CPUCSKYState *env)
+void HELPER(stop)(CPUCSKYState *env)
 {
     CPUState *cs;
     cs = CPU(csky_env_get_cpu(env));
     cs->halted = 1;
-    helper_exception(env, EXCP_HLT);
+    HELPER(exception)(env, EXCP_HLT);
 }
 
-void helper_wait(CPUCSKYState *env)
+void HELPER(wait)(CPUCSKYState *env)
 {
     CPUState *cs;
     cs = CPU(csky_env_get_cpu(env));
     cs->halted = 1;
-    helper_exception(env, EXCP_HLT);
+    HELPER(exception)(env, EXCP_HLT);
 }
 
-void helper_doze(CPUCSKYState *env)
+void HELPER(doze)(CPUCSKYState *env)
 {
     CPUState *cs;
     cs = CPU(csky_env_get_cpu(env));
     cs->halted = 1;
-    helper_exception(env, EXCP_HLT);
+    HELPER(exception)(env, EXCP_HLT);
 }
 
-void helper_wsc(CPUCSKYState *env)
+void HELPER(wsc)(CPUCSKYState *env)
 {
-    helper_save_sp(env);
-    helper_tee_save_cr(env);
+    HELPER(save_sp)(env);
+    HELPER(tee_save_cr)(env);
     if (env->psr_t) {
         /* Secured world switch to Non-secured world. */
         cpu_stl_data(env, env->stackpoint.t_ssp - 4, env->pc + 4);
@@ -1142,11 +1142,11 @@ void helper_wsc(CPUCSKYState *env)
     }
 
     if ((env->tee.nt_psr & 0x2) != (env->tee.t_psr & 0x2)) {
-        helper_switch_regs(env);
+        HELPER(switch_regs)(env);
     }
-    helper_record_psr_bits(env);
-    helper_tee_choose_cr(env);
-    helper_choose_sp(env);
+    HELPER(record_psr_bits)(env);
+    HELPER(tee_choose_cr)(env);
+    HELPER(choose_sp)(env);
     env->sce_condexec_bits = env->sce_condexec_bits_bk;
 }
 
@@ -1154,8 +1154,8 @@ static inline uint32_t do_helper_tee_rte(CPUCSKYState *env)
 {
     uint32_t tmp = 0;
     uint32_t is_from_wsc = TRUE;
-    helper_save_sp(env);
-    helper_tee_save_cr(env);
+    HELPER(save_sp)(env);
+    HELPER(tee_save_cr)(env);
 
     if (env->psr_t == 1
         && PSR_SP(env->cp0.psr) == 0
@@ -1192,7 +1192,7 @@ static inline uint32_t do_helper_tee_rte(CPUCSKYState *env)
         is_from_wsc = FALSE;
         tmp = env->cp0.psr;
         env->tee.nt_psr = env->tee.nt_epsr;
-        helper_tee_restore_gpr(env);
+        HELPER(tee_restore_gpr)(env);
         env->cp0.psr = cpu_ldl_data(env, env->stackpoint.t_ssp);
         env->pc = cpu_ldl_data(env, env->stackpoint.t_ssp + 4);
         env->stackpoint.t_ssp += 8;
@@ -1205,16 +1205,16 @@ static inline uint32_t do_helper_tee_rte(CPUCSKYState *env)
     }
 
     if ((tmp & 0x2) != (env->cp0.psr & 0x2)) {
-        helper_switch_regs(env);
+        HELPER(switch_regs)(env);
     }
-    helper_record_psr_bits(env);
-    helper_tee_choose_cr(env);
-    helper_choose_sp(env);
+    HELPER(record_psr_bits)(env);
+    HELPER(tee_choose_cr)(env);
+    HELPER(choose_sp)(env);
     return is_from_wsc;
 }
 
 /* helper for rte and nir */
-void helper_rte(CPUCSKYState *env)
+void HELPER(rte)(CPUCSKYState *env)
 {
     uint32_t irq;
     uint32_t is_from_wsc;
@@ -1229,13 +1229,13 @@ void helper_rte(CPUCSKYState *env)
         /* cpu without feature tee, or return from one world to
          * the same kind of world */
         if ((env->cp0.psr & 0x2) != (env->cp0.epsr & 0x2)) {
-            helper_switch_regs(env);
+            HELPER(switch_regs)(env);
         }
-        helper_save_sp(env);
+        HELPER(save_sp)(env);
         env->cp0.psr = env->cp0.epsr;
         env->pc = env->cp0.epc;
-        helper_record_psr_bits(env);
-        helper_choose_sp(env);
+        HELPER(record_psr_bits)(env);
+        HELPER(choose_sp)(env);
     }
 
     /* if irq >= 32, it is a vic interrupt. */
@@ -1252,7 +1252,7 @@ void helper_rte(CPUCSKYState *env)
     }
     if (unlikely(PSR_TP(env->cp0.epsr))) {
         env->cp0.psr |= EXCP_CSKY_TRACE << 16;
-        helper_update_psr(env);
+        HELPER(update_psr)(env);
         env->cp0.psr &= ~PSR_TP_MASK;   /* clear TP in EPSR */
         env->cp0.epsr = env->cp0.psr;
 
@@ -1263,29 +1263,29 @@ void helper_rte(CPUCSKYState *env)
 
         env->pc = csky_ldl_code(env, env->cp0.vbr + EXCP_CSKY_TRACE * 4);
         if (unlikely((env->pc & 0x1) != ((env->cp0.psr & 0x2) >> 1))) {
-            helper_switch_regs(env);
+            HELPER(switch_regs)(env);
             env->cp0.psr &= ~0x1;
             env->cp0.psr |= (env->pc & 0x1) << 1;
         }
-        helper_choose_sp(env);
+        HELPER(choose_sp)(env);
         env->pc &= ~0x1;
     } else {
         env->sce_condexec_bits = env->sce_condexec_bits_bk;
     }
 }
 
-void helper_rfi(CPUCSKYState *env)
+void HELPER(rfi)(CPUCSKYState *env)
 {
     if ((env->cp0.psr & 0x2) != (env->cp0.fpsr & 0x2)) {
-        helper_switch_regs(env);
+        HELPER(switch_regs)(env);
     }
-    helper_save_sp(env);
+    HELPER(save_sp)(env);
     env->cp0.psr = env->cp0.fpsr & ~(0xff << 16);
-    helper_record_psr_bits(env);
-    helper_choose_sp(env);
+    HELPER(record_psr_bits)(env);
+    HELPER(choose_sp)(env);
     if (unlikely(PSR_TP(env->cp0.fpsr))) {
         env->cp0.psr |= EXCP_CSKY_TRACE << 16;
-        helper_update_psr(env);
+        HELPER(update_psr)(env);
         env->cp0.psr &= ~PSR_TP_MASK;   /* clear TP in EPSR */
         env->cp0.epsr = env->cp0.psr;
 
@@ -1296,11 +1296,11 @@ void helper_rfi(CPUCSKYState *env)
 
         env->pc = csky_ldl_code(env, env->cp0.vbr + EXCP_CSKY_TRACE * 4);
         if (unlikely((env->pc & 0x1) != ((env->cp0.psr & 0x2) >> 1))) {
-            helper_switch_regs(env);
+            HELPER(switch_regs)(env);
             env->cp0.psr &= ~0x1;
             env->cp0.psr |= (env->pc & 0x1) << 1;
         }
-        helper_choose_sp(env);
+        HELPER(choose_sp)(env);
         env->pc &= ~0x1;
     } else {
         env->pc = env->cp0.fpc;
@@ -1308,7 +1308,7 @@ void helper_rfi(CPUCSKYState *env)
     }
 }
 
-void helper_meh_write(CPUCSKYState *env, uint32_t rx)
+void HELPER(meh_write)(CPUCSKYState *env, uint32_t rx)
 {
     uint32_t mask;
     CPUState *cs = CPU(csky_env_get_cpu(env));
@@ -1326,7 +1326,7 @@ void helper_meh_write(CPUCSKYState *env, uint32_t rx)
     env->mmu.meh = rx;
 }
 
-void helper_mcir_write(CPUCSKYState *env, uint32_t rx)
+void HELPER(mcir_write)(CPUCSKYState *env, uint32_t rx)
 {
     /* Note: when more than one of the most significant
        bits are asserted at the same time, these operations
@@ -1339,13 +1339,13 @@ void helper_mcir_write(CPUCSKYState *env, uint32_t rx)
            Tlb reading operation
     */
     if ((rx & CSKY_MCIR_TTLBINV_ALL_MASK) && (env->features & ABIV2_TEE)) {
-        helper_ttlbinv_all(env);
+        HELPER(ttlbinv_all)(env);
     } else if (rx & CSKY_MCIR_TLBINV_IDX_MASK) {
-        helper_tlbinv_idx(env);
+        HELPER(tlbinv_idx)(env);
     } else if (rx & CSKY_MCIR_TLBINV_ALL_MASK) {
-        helper_tlbinv_all(env);
+        HELPER(tlbinv_all)(env);
     } else if (rx & CSKY_MCIR_TLBINV_MASK) {
-        helper_tlbinv(env);
+        HELPER(tlbinv)(env);
     } else if (rx & CSKY_MCIR_TLBP_MASK) {
         env->tlb_context->helper_tlbp(env);
     } else if (rx & CSKY_MCIR_TLBWI_MASK) {
@@ -1357,7 +1357,7 @@ void helper_mcir_write(CPUCSKYState *env, uint32_t rx)
     }
 }
 
-uint32_t helper_tee_mfcr_cr19(CPUCSKYState *env)
+uint32_t HELPER(tee_mfcr_cr19)(CPUCSKYState *env)
 {
     uint32_t i, s7_s0;
     uint32_t res = 0;
@@ -1379,7 +1379,7 @@ uint32_t helper_tee_mfcr_cr19(CPUCSKYState *env)
     return res;
 }
 
-void helper_tee_mtcr_cr19(CPUCSKYState *env, uint32_t rx)
+void HELPER(tee_mtcr_cr19)(CPUCSKYState *env, uint32_t rx)
 {
     uint32_t i, s7_s0, mask;
     if (env->psr_t) {
@@ -1399,7 +1399,7 @@ void helper_tee_mtcr_cr19(CPUCSKYState *env, uint32_t rx)
     }
 }
 
-uint32_t helper_mfcr_cr20(CPUCSKYState *env)
+uint32_t HELPER(mfcr_cr20)(CPUCSKYState *env)
 {
     uint32_t rid;
     rid = env->cp0.prsr & 0x7;
@@ -1413,7 +1413,7 @@ uint32_t helper_mfcr_cr20(CPUCSKYState *env)
     }
 }
 
-void helper_mtcr_cr20(CPUCSKYState *env, uint32_t rx)
+void HELPER(mtcr_cr20)(CPUCSKYState *env, uint32_t rx)
 {
     uint32_t rid;
     rid = env->cp0.prsr & 0x7;
@@ -1425,7 +1425,7 @@ void helper_mtcr_cr20(CPUCSKYState *env, uint32_t rx)
     }
 }
 
-uint32_t helper_mfcr_cpidr(CPUCSKYState *env)
+uint32_t HELPER(mfcr_cpidr)(CPUCSKYState *env)
 {
     uint32_t counter;
 
@@ -1434,40 +1434,40 @@ uint32_t helper_mfcr_cpidr(CPUCSKYState *env)
     return env->cp0.cpidr[counter];
 }
 
-void helper_mp_tlb_inv(CPUCSKYState *env, uint32_t rx, uint32_t pcode)
+void HELPER(mp_tlb_inv)(CPUCSKYState *env, uint32_t rx, uint32_t pcode)
 {
     switch (pcode) {
     case 0x0:
         /* tlbi.all */
-        helper_tlbinv_all(env);
+        HELPER(tlbinv_all)(env);
         break;
     case 0x1:
         /* tlbi.asid rx */
-        helper_tlbinv_asid(env, rx);
+        HELPER(tlbinv_asid)(env, rx);
         break;
     case 0x2:
         /* tlbi.vaa */
-        helper_tlbinv_vaa(env, rx);
+        HELPER(tlbinv_vaa)(env, rx);
         break;
     case 0x3:
         /* tlbi.va rx */
-        helper_tlbinv_va(env, rx);
+        HELPER(tlbinv_va)(env, rx);
         break;
     case 0x10:
         /* tlbi.alls */
-        helper_tlbinv_all_s(env);
+        HELPER(tlbinv_all_s)(env);
         break;
     case 0x11:
         /* tlbi.asids rx */
-        helper_tlbinv_asid_s(env, rx);
+        HELPER(tlbinv_asid_s)(env, rx);
         break;
     case 0x12:
         /* tlbi.vaas */
-        helper_tlbinv_vaa_s(env, rx);
+        HELPER(tlbinv_vaa_s)(env, rx);
         break;
     case 0x13:
         /* tlbi.vas rx */
-        helper_tlbinv_va_s(env, rx);
+        HELPER(tlbinv_va_s)(env, rx);
         break;
     default:
         break;

@@ -219,14 +219,14 @@ G_NORETURN static void avr32_raise(CPUAVR32State *env, int excp,
     cpu_loop_exit_restore(cs, retaddr);
 }
 
-void helper_raise_exception(CPUAVR32State *env, uint32_t excp)
+void HELPER(raise_exception)(CPUAVR32State *env, uint32_t excp)
 {
     avr32_raise(env, excp, 0);
 }
 
 #ifdef CONFIG_USER_ONLY
 /* linux-user handles the system call in cpu_loop */
-void helper_scall(CPUAVR32State *env, uint32_t next_pc)
+void HELPER(scall)(CPUAVR32State *env, uint32_t next_pc)
 {
     CPUState *cs = env_cpu(env);
 
@@ -235,28 +235,28 @@ void helper_scall(CPUAVR32State *env, uint32_t next_pc)
     cpu_loop_exit(cs);
 }
 
-void helper_rets(CPUAVR32State *env)
+void HELPER(rets)(CPUAVR32State *env)
 {
     avr32_raise(env, EXCP_AVR32_PRIVILEGE, 0);
 }
 
-void helper_rete(CPUAVR32State *env)
+void HELPER(rete)(CPUAVR32State *env)
 {
     avr32_raise(env, EXCP_AVR32_PRIVILEGE, 0);
 }
 
-void helper_retd(CPUAVR32State *env)
+void HELPER(retd)(CPUAVR32State *env)
 {
     avr32_raise(env, EXCP_AVR32_PRIVILEGE, 0);
 }
 
-void helper_sleep(CPUAVR32State *env, uint32_t op8, uint32_t next_pc)
+void HELPER(sleep)(CPUAVR32State *env, uint32_t op8, uint32_t next_pc)
 {
     avr32_raise(env, EXCP_AVR32_PRIVILEGE, 0);
 }
 #else /* !CONFIG_USER_ONLY */
 
-void helper_scall(CPUAVR32State *env, uint32_t next_pc)
+void HELPER(scall)(CPUAVR32State *env, uint32_t next_pc)
 {
     int mode = avr32_mode(env);
     uint32_t handler = env->sysr[SYSREG_EVBA] + EXCP_AVR32_SCALL;
@@ -269,7 +269,7 @@ void helper_scall(CPUAVR32State *env, uint32_t next_pc)
     }
 }
 
-void helper_rets(CPUAVR32State *env)
+void HELPER(rets)(CPUAVR32State *env)
 {
     int mode = avr32_mode(env);
 
@@ -286,7 +286,7 @@ void helper_rets(CPUAVR32State *env)
     }
 }
 
-void helper_rete(CPUAVR32State *env)
+void HELPER(rete)(CPUAVR32State *env)
 {
     int mode = avr32_mode(env);
     uint32_t pc;
@@ -300,7 +300,7 @@ void helper_rete(CPUAVR32State *env)
     env->r[AVR32_PC_REG] = pc;
 }
 
-void helper_retd(CPUAVR32State *env)
+void HELPER(retd)(CPUAVR32State *env)
 {
     uint32_t pc = env->sysr[SYSREG_RAR_DBG];
 
@@ -308,7 +308,7 @@ void helper_retd(CPUAVR32State *env)
     env->r[AVR32_PC_REG] = pc;
 }
 
-void helper_sleep(CPUAVR32State *env, uint32_t op8, uint32_t next_pc)
+void HELPER(sleep)(CPUAVR32State *env, uint32_t op8, uint32_t next_pc)
 {
     CPUState *cs = env_cpu(env);
 
@@ -385,7 +385,7 @@ void avr32_compare_timer_cb(void *opaque)
  * System registers
  */
 
-uint32_t helper_mfsr(CPUAVR32State *env, uint32_t n)
+uint32_t HELPER(mfsr)(CPUAVR32State *env, uint32_t n)
 {
     switch (n) {
     case SYSREG_SR:
@@ -397,7 +397,7 @@ uint32_t helper_mfsr(CPUAVR32State *env, uint32_t n)
     }
 }
 
-void helper_mtsr(CPUAVR32State *env, uint32_t n, uint32_t val)
+void HELPER(mtsr)(CPUAVR32State *env, uint32_t n, uint32_t val)
 {
     CPUState *cs = env_cpu(env);
 
@@ -449,7 +449,7 @@ void helper_mtsr(CPUAVR32State *env, uint32_t n, uint32_t val)
 }
 
 /* OCD registers: only the device ID is of interest */
-uint32_t helper_mfdr(CPUAVR32State *env, uint32_t n)
+uint32_t HELPER(mfdr)(CPUAVR32State *env, uint32_t n)
 {
     return n == 0 ? AP7000_DID : 0;
 }
@@ -644,7 +644,7 @@ static void avr32_tlb_flush_entry(CPUState *cs, AVR32TLBEntry *e)
     }
 }
 
-void helper_tlbw(CPUAVR32State *env)
+void HELPER(tlbw)(CPUAVR32State *env)
 {
     int i = avr32_tlb_index(env);
     AVR32TLBEntry *e = &env->tlb[i];
@@ -655,7 +655,7 @@ void helper_tlbw(CPUAVR32State *env)
     env->sysr[SYSREG_TLBARLO] |= 1u << (31 - i);        /* not accessed */
 }
 
-void helper_tlbr(CPUAVR32State *env)
+void HELPER(tlbr)(CPUAVR32State *env)
 {
     AVR32TLBEntry *e = &env->tlb[avr32_tlb_index(env)];
 
@@ -663,7 +663,7 @@ void helper_tlbr(CPUAVR32State *env)
     env->sysr[SYSREG_TLBELO] = e->lo;
 }
 
-void helper_tlbs(CPUAVR32State *env)
+void HELPER(tlbs)(CPUAVR32State *env)
 {
     uint32_t ehi = env->sysr[SYSREG_TLBEHI];
     uint32_t mmucr = env->sysr[SYSREG_MMUCR] | MMUCR_N;
@@ -681,40 +681,40 @@ void helper_tlbs(CPUAVR32State *env)
 #ifdef CONFIG_USER_ONLY
 
 /* System registers only matter for the Java extension in application mode */
-uint32_t helper_mfsr(CPUAVR32State *env, uint32_t n)
+uint32_t HELPER(mfsr)(CPUAVR32State *env, uint32_t n)
 {
     return env->sysr[n & 0xff];
 }
 
-void helper_mtsr(CPUAVR32State *env, uint32_t n, uint32_t val)
+void HELPER(mtsr)(CPUAVR32State *env, uint32_t n, uint32_t val)
 {
     env->sysr[n & 0xff] = val;
 }
 
 /* Privileged: translate.c raises the privilege exception first */
-uint32_t helper_mfdr(CPUAVR32State *env, uint32_t n)
+uint32_t HELPER(mfdr)(CPUAVR32State *env, uint32_t n)
 {
     g_assert_not_reached();
 }
 
-void helper_tlbw(CPUAVR32State *env)
+void HELPER(tlbw)(CPUAVR32State *env)
 {
     g_assert_not_reached();
 }
 
-void helper_tlbr(CPUAVR32State *env)
+void HELPER(tlbr)(CPUAVR32State *env)
 {
     g_assert_not_reached();
 }
 
-void helper_tlbs(CPUAVR32State *env)
+void HELPER(tlbs)(CPUAVR32State *env)
 {
     g_assert_not_reached();
 }
 #endif /* CONFIG_USER_ONLY */
 
 /* MACSATHH.W: saturating fractional multiply-accumulate of halfwords */
-void helper_macsathhw(CPUAVR32State *env, uint32_t rd, uint32_t op1,
+void HELPER(macsathhw)(CPUAVR32State *env, uint32_t rd, uint32_t op1,
                       uint32_t op2)
 {
     int32_t a = (int16_t)op1, b = (int16_t)op2;

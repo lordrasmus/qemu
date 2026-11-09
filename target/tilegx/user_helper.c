@@ -25,7 +25,7 @@ static G_NORETURN void raise_gpv(CPUTLGState *env, uintptr_t ra)
     cpu_loop_exit_restore(cs, ra);
 }
 
-void helper_exception(CPUTLGState *env, uint32_t excp)
+void HELPER(exception)(CPUTLGState *env, uint32_t excp)
 {
     CPUState *cs = env_cpu(env);
 
@@ -34,13 +34,13 @@ void helper_exception(CPUTLGState *env, uint32_t excp)
 }
 
 /* Linux lets PL0 use iret through EX_CONTEXT_0_*; uClibc's longjmp does. */
-void helper_iret(CPUTLGState *env)
+void HELPER(iret)(CPUTLGState *env)
 {
     env->pc = env->ex_context[0][0] & ~7ULL;
     env->ics = (env->ex_context[0][1] >> 2) & 1;
 }
 
-void helper_nap(CPUTLGState *env)
+void HELPER(nap)(CPUTLGState *env)
 {
     CPUState *cs = env_cpu(env);
 
@@ -49,7 +49,7 @@ void helper_nap(CPUTLGState *env)
     cpu_loop_exit(cs);
 }
 
-uint64_t helper_mfspr(CPUTLGState *env, uint32_t spr)
+uint64_t HELPER(mfspr)(CPUTLGState *env, uint32_t spr)
 {
     switch (spr) {
     case SPR_EX_CONTEXT_0_0:
@@ -66,7 +66,7 @@ uint64_t helper_mfspr(CPUTLGState *env, uint32_t spr)
     raise_gpv(env, GETPC());
 }
 
-void helper_mtspr(CPUTLGState *env, uint32_t spr, uint64_t val)
+void HELPER(mtspr)(CPUTLGState *env, uint32_t spr, uint64_t val)
 {
     switch (spr) {
     case SPR_EX_CONTEXT_0_0:

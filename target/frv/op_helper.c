@@ -19,13 +19,13 @@ G_NORETURN void frv_raise(CPUFRVState *env, int tt, uintptr_t ra)
     cpu_loop_exit_restore(cs, ra);
 }
 
-void helper_raise(CPUFRVState *env, uint32_t tt)
+void HELPER(raise)(CPUFRVState *env, uint32_t tt)
 {
     frv_raise(env, tt, GETPC());
 }
 
 /* tira and friends: trap 0x80 + the low seven bits of the sum */
-void helper_trap(CPUFRVState *env, uint32_t val)
+void HELPER(trap)(CPUFRVState *env, uint32_t val)
 {
     frv_raise(env, TT_TRAP + (val & 0x7f), GETPC());
 }
@@ -37,7 +37,7 @@ static G_NORETURN void division_exception(CPUFRVState *env, uint32_t dtt,
     frv_raise(env, TT_DIVISION, ra);
 }
 
-uint32_t helper_sdiv(CPUFRVState *env, uint32_t a, uint32_t b)
+uint32_t HELPER(sdiv)(CPUFRVState *env, uint32_t a, uint32_t b)
 {
     if (a == 0x80000000 && b == 0xffffffff) {
         /* with ISR.EDE the overflow is only recorded */
@@ -53,7 +53,7 @@ uint32_t helper_sdiv(CPUFRVState *env, uint32_t a, uint32_t b)
     return (int32_t)a / (int32_t)b;
 }
 
-uint32_t helper_udiv(CPUFRVState *env, uint32_t a, uint32_t b)
+uint32_t HELPER(udiv)(CPUFRVState *env, uint32_t a, uint32_t b)
 {
     if (b == 0) {
         division_exception(env, ISR_DTT_DIVBYZERO, GETPC());
@@ -61,12 +61,12 @@ uint32_t helper_udiv(CPUFRVState *env, uint32_t a, uint32_t b)
     return a / b;
 }
 
-uint32_t helper_movsg(CPUFRVState *env, uint32_t spr)
+uint32_t HELPER(movsg)(CPUFRVState *env, uint32_t spr)
 {
     return frv_spr_read(env, spr);
 }
 
-void helper_movgs(CPUFRVState *env, uint32_t spr, uint32_t val)
+void HELPER(movgs)(CPUFRVState *env, uint32_t spr, uint32_t val)
 {
     /* a pending interrupt is rechecked when the TB ends after this */
     frv_spr_write(env, spr, val);
@@ -76,7 +76,7 @@ void helper_movgs(CPUFRVState *env, uint32_t spr, uint32_t val)
  * rett: back from a trap (debug 0) or from the break handler (debug 1).
  * Returns the new PC; anything else than these two cases is illegal.
  */
-uint32_t helper_rett(CPUFRVState *env, uint32_t debug)
+uint32_t HELPER(rett)(CPUFRVState *env, uint32_t debug)
 {
     uint32_t psr = env->spr[SPR_PSR];
 
@@ -126,7 +126,7 @@ static const uint8_t cr_logic[9][4][4] = {
 #undef F
 #undef T
 
-uint32_t helper_crlogic(uint32_t op, uint32_t a, uint32_t b)
+uint32_t HELPER(crlogic)(uint32_t op, uint32_t a, uint32_t b)
 {
     return op < 9 ? cr_logic[op][a & 3][b & 3] : 0;
 }
@@ -139,19 +139,19 @@ static uint32_t sat_or(uint32_t res, uint32_t a, bool ovf)
     return (int32_t)a > 0 ? 0x7fffffff : (int32_t)a < 0 ? 0x80000000 : 0;
 }
 
-uint32_t helper_addss(uint32_t a, uint32_t b)
+uint32_t HELPER(addss)(uint32_t a, uint32_t b)
 {
     uint32_t r = a + b;
     return sat_or(r, a, ((a ^ r) & (b ^ r)) >> 31);
 }
 
-uint32_t helper_subss(uint32_t a, uint32_t b)
+uint32_t HELPER(subss)(uint32_t a, uint32_t b)
 {
     uint32_t r = a - b;
     return sat_or(r, a, ((a ^ b) & (a ^ r)) >> 31);
 }
 
-uint32_t helper_slass(uint32_t a, uint32_t b)
+uint32_t HELPER(slass)(uint32_t a, uint32_t b)
 {
     int32_t x = a, n = b;
     bool neg = x < 0;
@@ -186,7 +186,7 @@ static void iacc_set(CPUFRVState *env, int64_t v)
 }
 
 /* smu (op 0), smass (op 1), smsss (op 2): IACC0 = / += / -= product */
-void helper_iacc_mul(CPUFRVState *env, uint32_t op, uint32_t a, uint32_t b)
+void HELPER(iacc_mul)(CPUFRVState *env, uint32_t op, uint32_t a, uint32_t b)
 {
     int64_t p = (int64_t)(int32_t)a * (int32_t)b;
     int64_t acc = iacc_get(env), r;
@@ -210,7 +210,7 @@ void helper_iacc_mul(CPUFRVState *env, uint32_t op, uint32_t a, uint32_t b)
 }
 
 /* scutss: bits of IACC0 at the cut point GRj, rounded and saturated */
-uint32_t helper_scutss(CPUFRVState *env, uint32_t j)
+uint32_t HELPER(scutss)(CPUFRVState *env, uint32_t j)
 {
     int64_t acc = iacc_get(env), lower, upper;
     int cut = (int32_t)(j << 25) >> 25;

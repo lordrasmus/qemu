@@ -67,10 +67,10 @@ enum arc_fcvt64_32 {
 };
 
 /* Soft fpu helper of type floatSIZE_operation */
-#define FLOAT_INST3_HELPERS(NAME, HELPER, SIZE)                         \
-uint32_t helper_##NAME(CPUARCState *env, uint32_t frs1, uint32_t frs2)  \
+#define FLOAT_INST3_HELPERS(NAME, OP, SIZE)                         \
+uint32_t HELPER(NAME)(CPUARCState *env, uint32_t frs1, uint32_t frs2)  \
 {                                                                       \
-    uint32_t ret = float##SIZE##_##HELPER(frs1, frs2, &env->fp_status); \
+    uint32_t ret = float##SIZE##_##OP(frs1, frs2, &env->fp_status); \
     check_fpu_raise_exception(env);                                     \
     return ret;                                                         \
 }
@@ -83,14 +83,14 @@ FLOAT_INST3_HELPERS(fsmin32, minnum, 32)
 FLOAT_INST3_HELPERS(fsmax32, maxnum, 32)
 
 /* Helper for the 32 bit Single precision floating point square root */
-uint32_t helper_fssqrt32(CPUARCState *env, uint32_t src) {
+uint32_t HELPER(fssqrt32)(CPUARCState *env, uint32_t src) {
     uint32_t ret = float32_sqrt(src, &env->fp_status);
     check_fpu_raise_exception(env);
     return ret;
 }
 
 /* Helper for the 32 bit - 32 bit conversions */
-uint32_t helper_fcvt32(CPUARCState *env, uint32_t src, uint32_t operation) {
+uint32_t HELPER(fcvt32)(CPUARCState *env, uint32_t src, uint32_t operation) {
     uint32_t ret = 0;
 
     switch (operation) {
@@ -140,7 +140,7 @@ uint32_t helper_fcvt32(CPUARCState *env, uint32_t src, uint32_t operation) {
 }
 
 /* Helper for the 32 bit - 64 bit conversions */
-uint64_t helper_fcvt32_64(CPUARCState *env, uint32_t src, uint32_t operation) {
+uint64_t HELPER(fcvt32_64)(CPUARCState *env, uint32_t src, uint32_t operation) {
     uint64_t ret = 0;
 
     switch (operation) {
@@ -185,7 +185,7 @@ uint64_t helper_fcvt32_64(CPUARCState *env, uint32_t src, uint32_t operation) {
 }
 
 /* Helper for the 64 bit - 64 bit conversions */
-uint64_t helper_fcvt64(CPUARCState *env, uint64_t src, uint32_t operation) {
+uint64_t HELPER(fcvt64)(CPUARCState *env, uint64_t src, uint32_t operation) {
     uint64_t ret = 0;
 
     switch (operation) {
@@ -225,7 +225,7 @@ uint64_t helper_fcvt64(CPUARCState *env, uint64_t src, uint32_t operation) {
 }
 
 /* Helper for the 64 bit - 32 bit conversions */
-uint32_t helper_fcvt64_32(CPUARCState *env, uint64_t src, uint32_t operation) {
+uint32_t HELPER(fcvt64_32)(CPUARCState *env, uint64_t src, uint32_t operation) {
     uint32_t ret = 0;
 
     switch (operation) {

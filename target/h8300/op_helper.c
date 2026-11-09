@@ -25,7 +25,7 @@
 #include "accel/tcg/cpu-loop.h"
 #include "fpu/softfloat.h"
 
-void helper_set_ccr(CPUH8300State *env, uint32_t reg, uint32_t ccr)
+void HELPER(set_ccr)(CPUH8300State *env, uint32_t reg, uint32_t ccr)
 {
     switch(reg) {
     case 0:
@@ -39,7 +39,7 @@ void helper_set_ccr(CPUH8300State *env, uint32_t reg, uint32_t ccr)
     }
 }
 
-uint32_t helper_get_ccr(CPUH8300State *env, uint32_t reg)
+uint32_t HELPER(get_ccr)(CPUH8300State *env, uint32_t reg)
 {
     switch(reg) {
     case 0:
@@ -52,7 +52,7 @@ uint32_t helper_get_ccr(CPUH8300State *env, uint32_t reg)
 }
 
 /* div */
-uint32_t helper_div(CPUH8300State *env, uint32_t num, uint32_t den)
+uint32_t HELPER(div)(CPUH8300State *env, uint32_t num, uint32_t den)
 {
     uint32_t q = num, r = 0, ret;
     if (!((num == INT_MIN && den == -1) || den == 0)) {
@@ -64,7 +64,7 @@ uint32_t helper_div(CPUH8300State *env, uint32_t num, uint32_t den)
     return ret;
 }
 
-uint32_t helper_divu(CPUH8300State *env, uint32_t num, uint32_t den)
+uint32_t HELPER(divu)(CPUH8300State *env, uint32_t num, uint32_t den)
 {
     uint32_t q = num, r = 0, ret;
     if (den != 0) {
@@ -76,7 +76,7 @@ uint32_t helper_divu(CPUH8300State *env, uint32_t num, uint32_t den)
     return ret;
 }
 
-uint32_t helper_daa(CPUH8300State *env, uint32_t num)
+uint32_t HELPER(daa)(CPUH8300State *env, uint32_t num)
 {
     int h, l, added;
     h = num >> 4;
@@ -115,7 +115,7 @@ uint32_t helper_daa(CPUH8300State *env, uint32_t num)
     }
 }
 
-uint32_t helper_das(CPUH8300State *env, uint32_t num)
+uint32_t HELPER(das)(CPUH8300State *env, uint32_t num)
 {
     int h, l, added;
     h = num >> 4;
@@ -142,7 +142,7 @@ uint32_t helper_das(CPUH8300State *env, uint32_t num)
     }
 }
 
-void helper_eepmovb(CPUH8300State *env)
+void HELPER(eepmovb)(CPUH8300State *env)
 {
     int cnt;
     uint8_t tmp;
@@ -157,7 +157,7 @@ void helper_eepmovb(CPUH8300State *env)
     env->regs[4] = deposit32(env->regs[4], cnt, 0, 8);
 }
 
-void helper_eepmovw(CPUH8300State *env)
+void HELPER(eepmovw)(CPUH8300State *env)
 {
     int cnt;
     uint8_t tmp;
@@ -184,11 +184,11 @@ static inline void G_NORETURN raise_exception(CPUH8300State *env, int index,
 
 #ifdef CONFIG_USER_ONLY
 /* Nothing interrupts a user process: SLEEP waits for no one. */
-void helper_sleep(CPUH8300State *env)
+void HELPER(sleep)(CPUH8300State *env)
 {
 }
 #else
-void G_NORETURN helper_sleep(CPUH8300State *env)
+void G_NORETURN HELPER(sleep)(CPUH8300State *env)
 {
     CPUState *cs = env_cpu(env);
 
@@ -198,7 +198,7 @@ void G_NORETURN helper_sleep(CPUH8300State *env)
 }
 #endif
 
-void G_NORETURN helper_debug(CPUH8300State *env)
+void G_NORETURN HELPER(debug)(CPUH8300State *env)
 {
     CPUState *cs = env_cpu(env);
 
@@ -206,7 +206,7 @@ void G_NORETURN helper_debug(CPUH8300State *env)
     cpu_loop_exit(cs);
 }
 
-void G_NORETURN helper_trapa(CPUH8300State *env, uint32_t vec)
+void G_NORETURN HELPER(trapa)(CPUH8300State *env, uint32_t vec)
 {
     raise_exception(env, vec + 8, 0);
 }

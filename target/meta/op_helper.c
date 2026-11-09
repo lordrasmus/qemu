@@ -195,43 +195,43 @@ void HELPER(replay_catch)(CPUArchState *env)
         if (!unit) {
             switch (raxx) {
             case META_RABZ:
-                helper_read_append_rabz(env, catch2);
+                HELPER(read_append_rabz)(env, catch2);
                 break;
 
             case META_RAWZ:
-                helper_read_append_rawz(env, catch2);
+                HELPER(read_append_rawz)(env, catch2);
                 break;
 
             case META_RADZ:
-                helper_read_append_radz(env, catch2);
+                HELPER(read_append_radz)(env, catch2);
                 break;
 
             case META_RABX:
-                helper_read_append_rabx(env, catch2);
+                HELPER(read_append_rabx)(env, catch2);
                 break;
 
             case META_RAWX:
-                helper_read_append_rawx(env, catch2);
+                HELPER(read_append_rawx)(env, catch2);
                 break;
 
             case META_RADX:
-                helper_read_append_radx(env, catch2);
+                HELPER(read_append_radx)(env, catch2);
                 break;
 
             case META_RAM16X:
-                helper_read_append_ram16x(env, catch2);
+                HELPER(read_append_ram16x)(env, catch2);
                 break;
 
             case META_RAM8X32:
-                helper_read_append_ram8x32(env, catch2);
+                HELPER(read_append_ram8x32)(env, catch2);
                 break;
 
             case META_RAM8X:
-                helper_read_append_ram8x(env, catch2);
+                HELPER(read_append_ram8x)(env, catch2);
                 break;
 
             default:
-                helper_read_append_ra(env, ((uint64_t)catch3 << 32) | catch2);
+                HELPER(read_append_ra)(env, ((uint64_t)catch3 << 32) | catch2);
             }
         }
 
@@ -628,7 +628,7 @@ void HELPER(defr_trigger)(CPUArchState *env, uint32_t defr)
 #endif
 }
 
-void helper_raise_exception(CPUArchState *env, uint32_t index)
+void HELPER(raise_exception)(CPUArchState *env, uint32_t index)
 {
     env_cpu(env)->exception_index = index;
     cpu_loop_exit(env_cpu(env));

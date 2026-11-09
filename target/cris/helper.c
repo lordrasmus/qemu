@@ -78,7 +78,7 @@ bool cris_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
         env->v10_bf_data = access_type != MMU_INST_FETCH;
         cs->exception_index = EXCP_BUSFAULT;
         if (retaddr && cpu_restore_state(cs, retaddr)) {
-            helper_top_evaluate_flags(env);
+            HELPER(top_evaluate_flags)(env);
         } else {
             /*
              * An insn fetch at the start of a TB.  If it is the delay slot
@@ -122,7 +122,7 @@ bool cris_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
     if (retaddr) {
         if (cpu_restore_state(cs, retaddr)) {
             /* Evaluate flags after retranslation. */
-            helper_top_evaluate_flags(env);
+            HELPER(top_evaluate_flags)(env);
         }
     }
     cpu_loop_exit(cs);

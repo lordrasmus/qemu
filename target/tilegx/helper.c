@@ -23,7 +23,7 @@
 #include "exec/helper-proto.h"
 #include <zlib.h> /* For crc32 */
 
-uint64_t helper_revbits(uint64_t arg)
+uint64_t HELPER(revbits)(uint64_t arg)
 {
     return revbit64(arg);
 }
@@ -43,7 +43,7 @@ uint64_t helper_revbits(uint64_t arg)
  *     }
  *     rf[Dest] = output;
  */
-uint64_t helper_shufflebytes(uint64_t dest, uint64_t srca, uint64_t srcb)
+uint64_t HELPER(shufflebytes)(uint64_t dest, uint64_t srca, uint64_t srcb)
 {
     uint64_t vdst = 0;
     int count;
@@ -57,7 +57,7 @@ uint64_t helper_shufflebytes(uint64_t dest, uint64_t srca, uint64_t srcb)
     return vdst;
 }
 
-uint64_t helper_crc32_8(uint64_t accum, uint64_t input)
+uint64_t HELPER(crc32_8)(uint64_t accum, uint64_t input)
 {
     uint8_t buf = input;
 
@@ -65,7 +65,7 @@ uint64_t helper_crc32_8(uint64_t accum, uint64_t input)
     return crc32(accum ^ 0xffffffff, &buf, 1) ^ 0xffffffff;
 }
 
-uint64_t helper_crc32_32(uint64_t accum, uint64_t input)
+uint64_t HELPER(crc32_32)(uint64_t accum, uint64_t input)
 {
     uint8_t buf[4];
 
@@ -75,7 +75,7 @@ uint64_t helper_crc32_32(uint64_t accum, uint64_t input)
     return crc32(accum ^ 0xffffffff, buf, 4) ^ 0xffffffff;
 }
 
-uint64_t helper_cmula(uint64_t srcd, uint64_t srca, uint64_t srcb)
+uint64_t HELPER(cmula)(uint64_t srcd, uint64_t srca, uint64_t srcb)
 {
     uint32_t reala = (int16_t)srca;
     uint32_t imaga = (int16_t)(srca >> 16);
@@ -89,7 +89,7 @@ uint64_t helper_cmula(uint64_t srcd, uint64_t srca, uint64_t srcb)
     return deposit64(realr, 32, 32, imagr);
 }
 
-uint64_t helper_cmulaf(uint64_t srcd, uint64_t srca, uint64_t srcb)
+uint64_t HELPER(cmulaf)(uint64_t srcd, uint64_t srca, uint64_t srcb)
 {
     uint32_t reala = (int16_t)srca;
     uint32_t imaga = (int16_t)(srca >> 16);
@@ -103,7 +103,7 @@ uint64_t helper_cmulaf(uint64_t srcd, uint64_t srca, uint64_t srcb)
     return deposit32((realr >> 15) + reald, 16, 16, (imagr >> 15) + imagd);
 }
 
-uint64_t helper_cmul2(uint64_t srca, uint64_t srcb, int shift, int round)
+uint64_t HELPER(cmul2)(uint64_t srca, uint64_t srcb, int shift, int round)
 {
     uint32_t reala = (int16_t)srca;
     uint32_t imaga = (int16_t)(srca >> 16);

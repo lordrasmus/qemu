@@ -20,6 +20,7 @@
 #include "qemu/log.h"
 #include "exec/translator.h"
 #include "accel/tcg/cpu-ldst.h"
+#include "exec/helper-head.h.inc"
 
 /* Code fetches outside the translator (exception vectors, semihosting).  */
 static inline uint16_t csky_lduw_code(CPUCSKYState *env, target_ulong addr)
@@ -122,17 +123,17 @@ void csky_tlbwi(CPUCSKYState *env);
 void csky_tlbwr(CPUCSKYState *env);
 void csky_tlbp(CPUCSKYState *env);
 void csky_tlbr(CPUCSKYState *env);
-void helper_ttlbinv_all(CPUCSKYState *env);
-void helper_tlbinv_idx(CPUCSKYState *env);
-void helper_tlbinv_all(CPUCSKYState *env);
-void helper_tlbinv_all_s(CPUCSKYState *env);
-void helper_tlbinv_asid(CPUCSKYState *env, uint32_t rx);
-void helper_tlbinv_asid_s(CPUCSKYState *env, uint32_t rx);
-void helper_tlbinv_vaa(CPUCSKYState *env, uint32_t rx);
-void helper_tlbinv_vaa_s(CPUCSKYState *env, uint32_t rx);
-void helper_tlbinv_va(CPUCSKYState *env, uint32_t rx);
-void helper_tlbinv_va_s(CPUCSKYState *env, uint32_t rx);
-void helper_tlbinv(CPUCSKYState *env);
+void HELPER(ttlbinv_all)(CPUCSKYState *env);
+void HELPER(tlbinv_idx)(CPUCSKYState *env);
+void HELPER(tlbinv_all)(CPUCSKYState *env);
+void HELPER(tlbinv_all_s)(CPUCSKYState *env);
+void HELPER(tlbinv_asid)(CPUCSKYState *env, uint32_t rx);
+void HELPER(tlbinv_asid_s)(CPUCSKYState *env, uint32_t rx);
+void HELPER(tlbinv_vaa)(CPUCSKYState *env, uint32_t rx);
+void HELPER(tlbinv_vaa_s)(CPUCSKYState *env, uint32_t rx);
+void HELPER(tlbinv_va)(CPUCSKYState *env, uint32_t rx);
+void HELPER(tlbinv_va_s)(CPUCSKYState *env, uint32_t rx);
+void HELPER(tlbinv)(CPUCSKYState *env);
 int nommu_get_physical_address(CPUCSKYState *env, hwaddr *physical,
                                int *prot, target_ulong address, int rw);
 int mgu_get_physical_address(CPUCSKYState *env, hwaddr *physical,
@@ -191,7 +192,7 @@ int mgu_get_physical_address(CPUCSKYState *env, hwaddr *physical,
 /* FPUv3 Macro end. */
 
 
-static inline void helper_update_psr(CPUCSKYState *env)
+static inline void HELPER(update_psr)(CPUCSKYState *env)
 {
     env->cp0.psr &= ~0xc000c401;
     env->cp0.psr |= env->psr_s << 31;
@@ -201,7 +202,7 @@ static inline void helper_update_psr(CPUCSKYState *env)
     env->cp0.psr |= env->psr_tm << 14;
 }
 
-static inline void helper_record_psr_bits(CPUCSKYState *env)
+static inline void HELPER(record_psr_bits)(CPUCSKYState *env)
 {
     env->psr_s = PSR_S(env->cp0.psr);
     env->psr_t = PSR_T(env->cp0.psr);
@@ -210,7 +211,7 @@ static inline void helper_record_psr_bits(CPUCSKYState *env)
     env->psr_tm = PSR_TM(env->cp0.psr);
 }
 
-static inline void helper_switch_regs(CPUCSKYState *env)
+static inline void HELPER(switch_regs)(CPUCSKYState *env)
 {
     uint32_t temps[16];
     if (env->features & (CPU_610 | CPU_C807 | CPU_C810)) {
@@ -221,7 +222,7 @@ static inline void helper_switch_regs(CPUCSKYState *env)
 }
 
 #ifdef TARGET_CSKYV2
-static inline void helper_save_sp(CPUCSKYState *env)
+static inline void HELPER(save_sp)(CPUCSKYState *env)
 {
     if (env->psr_t && (env->features & ABIV2_TEE)) {
         if ((env->cp0.psr & 0x2)
@@ -258,7 +259,7 @@ static inline void helper_save_sp(CPUCSKYState *env)
     }
 }
 
-static inline void helper_choose_sp(CPUCSKYState *env)
+static inline void HELPER(choose_sp)(CPUCSKYState *env)
 {
     if (env->psr_t && (env->features & ABIV2_TEE)) {
         if ((env->cp0.psr & 0x2)
@@ -295,7 +296,7 @@ static inline void helper_choose_sp(CPUCSKYState *env)
     }
 }
 
-static inline void helper_tee_save_cr(CPUCSKYState *env)
+static inline void HELPER(tee_save_cr)(CPUCSKYState *env)
 {
     if (env->psr_t) {
         env->tee.t_vbr = env->cp0.vbr;
@@ -310,7 +311,7 @@ static inline void helper_tee_save_cr(CPUCSKYState *env)
     }
 }
 
-static inline void helper_tee_choose_cr(CPUCSKYState *env)
+static inline void HELPER(tee_choose_cr)(CPUCSKYState *env)
 {
     if (env->psr_t) {
         env->cp0.vbr = env->tee.t_vbr;
@@ -335,7 +336,7 @@ static inline void helper_tee_choose_cr(CPUCSKYState *env)
 
 /* For ck_tee_lite, when change from Trust to Non-Trust world by NT-interrupt,
  * need to push the GPRs to trust-supervised stack, and clear them. */
-static inline void helper_tee_save_gpr(CPUCSKYState *env)
+static inline void HELPER(tee_save_gpr)(CPUCSKYState *env)
 {
     int32_t i;
     if (env->features & CPU_E801) {
@@ -375,7 +376,7 @@ static inline void helper_tee_save_gpr(CPUCSKYState *env)
 /* For ck_tee_lite, when return from NT-interrupt which change the world from
  * Trust to Non-Trust world before, need to pop the GPRs from
  * trust-supervised stack. */
-static inline void helper_tee_restore_gpr(CPUCSKYState *env)
+static inline void HELPER(tee_restore_gpr)(CPUCSKYState *env)
 {
     int32_t i;
     if (env->features & CPU_E801) {

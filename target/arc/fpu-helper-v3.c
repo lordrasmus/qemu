@@ -28,10 +28,10 @@
 
 
 /* Soft fpu helper of type floatSIZE_operation */
-#define FLOAT_INST3_HELPERS(NAME, HELPER, SIZE)                         \
-uint64_t helper_##NAME(CPUARCState *env, uint64_t frs1, uint64_t frs2)  \
+#define FLOAT_INST3_HELPERS(NAME, OP, SIZE)                         \
+uint64_t HELPER(NAME)(CPUARCState *env, uint64_t frs1, uint64_t frs2)  \
 {                                                                       \
-    uint64_t ret = float##SIZE##_##HELPER(frs1, frs2, &env->fp_status); \
+    uint64_t ret = float##SIZE##_##OP(frs1, frs2, &env->fp_status); \
     check_fpu_raise_exception(env);                                     \
     return ret;                                                         \
 }
@@ -59,7 +59,7 @@ FLOAT_INST3_HELPERS(fhmax, maxnum, 16)
 
 /* Soft fpu helper of type floatSIZE_muladd */
 #define FLOAT_MULADD_HELPERS(NAME, SIZE, FLAGS)                              \
-uint64_t helper_##NAME(CPUARCState *env, uint64_t b, uint64_t c, uint64_t d) \
+uint64_t HELPER(NAME)(CPUARCState *env, uint64_t b, uint64_t c, uint64_t d) \
 {                                                                            \
     uint##SIZE##_t ret;                                                      \
     ret = float##SIZE##_muladd(b, c, d, FLAGS, &env->fp_status);             \
@@ -86,10 +86,10 @@ FLOAT_MULADD_HELPERS(fhnmsub, 16, float_muladd_negate_result | \
                                   float_muladd_negate_product)
 
 /* Soft fpu helper for quiet compares */
-#define FLOAT_COMPARE(NAME, HELPER)                                    \
-void helper_##NAME(CPUARCState *env, uint64_t frs1, uint64_t frs2)     \
+#define FLOAT_COMPARE(NAME, OP)                                    \
+void HELPER(NAME)(CPUARCState *env, uint64_t frs1, uint64_t frs2)     \
 {                                                                      \
-    switch (HELPER(frs1, frs2, &env->fp_status)) {                     \
+    switch (OP(frs1, frs2, &env->fp_status)) {                     \
     case float_relation_unordered:                                     \
         env->stat.Zf = 0;                                              \
         env->stat.Nf = 0;                                              \
@@ -134,7 +134,7 @@ FLOAT_COMPARE(fhcmpf, float16_compare)
  * sqrt)
  */
 #define CONVERSION_HELPERS(NAME, FLT_HELPER) \
-uint64_t helper_##NAME(CPUARCState *env, uint64_t src) \
+uint64_t HELPER(NAME)(CPUARCState *env, uint64_t src) \
 {                                                      \
     uint64_t ret = FLT_HELPER(src, &env->fp_status);   \
     check_fpu_raise_exception(env);                    \
@@ -181,7 +181,7 @@ CONVERSION_HELPERS(fhsqrt, float16_sqrt)
 
 /* Soft fpu helper for round_to_int with rounding to zero mode */
 #define CONVERSION_HELPERS_RZ(NAME, FLT_HELPER)                       \
-uint64_t helper_##NAME(CPUARCState *env, uint64_t src)                \
+uint64_t HELPER(NAME)(CPUARCState *env, uint64_t src)                \
 {                                                                     \
     FloatRoundMode saved_rounding_mode;                               \
     bool saved_flush_zero;                                            \
@@ -205,7 +205,7 @@ CONVERSION_HELPERS_RZ(fdrnd_rz, float64_round_to_int)
 CONVERSION_HELPERS_RZ(fsrnd_rz, float32_round_to_int)
 
 /* Soft fpu helper for float32_to_float16 (single to half precision) */
-uint64_t helper_fs2h(CPUARCState *env, uint64_t src)
+uint64_t HELPER(fs2h)(CPUARCState *env, uint64_t src)
 {
     uint64_t ret = float32_to_float16(src, true, &env->fp_status);
     check_fpu_raise_exception(env);
@@ -216,7 +216,7 @@ uint64_t helper_fs2h(CPUARCState *env, uint64_t src)
  * Soft fpu helper for float32_to_float16 (single to half precision)
  * rounding to zero mode
  */
-uint64_t helper_fs2h_rz(CPUARCState *env, uint64_t src)
+uint64_t HELPER(fs2h_rz)(CPUARCState *env, uint64_t src)
 {
     FloatRoundMode saved_rounding_mode;
     bool saved_flush_zero;
@@ -237,7 +237,7 @@ uint64_t helper_fs2h_rz(CPUARCState *env, uint64_t src)
 }
 
 /* Soft fpu helper for float16_to_float32 (single to half precision) */
-uint64_t helper_fh2s(CPUARCState *env, uint64_t src)
+uint64_t HELPER(fh2s)(CPUARCState *env, uint64_t src)
 {
     uint64_t ret = float16_to_float32(src, true, &env->fp_status);
     check_fpu_raise_exception(env);
@@ -250,7 +250,7 @@ uint64_t helper_fh2s(CPUARCState *env, uint64_t src)
  * Returns dest
  */
 uint64_t
-helper_vfins(CPUARCState *env, uint64_t dest, uint64_t index, uint64_t orig,
+HELPER(vfins)(CPUARCState *env, uint64_t dest, uint64_t index, uint64_t orig,
              uint64_t size)
 {
     g_assert(index < VLEN(size));
@@ -272,7 +272,7 @@ helper_vfins(CPUARCState *env, uint64_t dest, uint64_t index, uint64_t orig,
  * Returns ((size*)orig)[index]
  */
 uint64_t
-helper_vfext(CPUARCState *env, uint64_t orig, uint64_t index, uint64_t size)
+HELPER(vfext)(CPUARCState *env, uint64_t orig, uint64_t index, uint64_t size)
 {
     g_assert(index < VLEN(size));
     uint64_t mask = ((1ull << size) - 1ull) << (index * size);
@@ -289,7 +289,7 @@ helper_vfext(CPUARCState *env, uint64_t orig, uint64_t index, uint64_t size)
  * Inserts value at every index of the vector
  */
 uint64_t
-helper_vfrep(CPUARCState *env, uint64_t value, uint64_t size)
+HELPER(vfrep)(CPUARCState *env, uint64_t value, uint64_t size)
 {
     uint64_t mask = ((1ull << size) - 1ull);
     if (size == 64) {
@@ -552,7 +552,7 @@ static int shuffle_type_entry_for_vfp_width(void)
  * bh and ch are only different from 0 for 128 bit operations
  * Returns the shuffled result
  */
-uint64_t helper_vector_shuffle(CPUARCState *env, target_ulong type,
+uint64_t HELPER(vector_shuffle)(CPUARCState *env, target_ulong type,
                                target_ulong high_part, uint64_t bh, uint64_t bl,
                                uint64_t ch, uint64_t cl)
 {

@@ -87,7 +87,7 @@ void c6x_dq_drain(CPUC6xState *env)
     uint32_t pc = env->pc;
 
     while (env->dq_live) {
-        helper_dq_tick(env);
+        HELPER(dq_tick)(env);
     }
     /* a branch still in flight is annulled */
     env->pc = pc;

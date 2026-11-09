@@ -92,7 +92,7 @@ static int meta_damisc_op_exit(MetaDAMiscState *dm, CPUArchState *env,
 
     qemu_log_mask(CPU_LOG_INT, "T%d Exit, ret %d\n", env->thread_num,
                   ret_code);
-    helper_thread_stop(env);
+    HELPER(thread_stop)(env);
 
     /* count the number of threads exited */
     dm->exit_count++;

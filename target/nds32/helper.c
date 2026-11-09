@@ -32,7 +32,7 @@ void nds32_raise(CPUNDS32State *env, int vec, uint32_t itype,
 }
 
 /* The PC of the faulting instruction is stored before the call. */
-void helper_raise(CPUNDS32State *env, uint32_t vec, uint32_t itype,
+void HELPER(raise)(CPUNDS32State *env, uint32_t vec, uint32_t itype,
                   uint32_t eva)
 {
     CPUState *cs = env_cpu(env);
@@ -103,7 +103,7 @@ void nds32_cpu_do_interrupt(CPUState *cs)
     cs->exception_index = -1;
 }
 
-void helper_iret(CPUNDS32State *env)
+void HELPER(iret)(CPUNDS32State *env)
 {
     uint32_t psw = env->sr[SR_PSW];
     uint32_t npsw = env->sr[SR_IPSW];
@@ -139,7 +139,7 @@ void nds32_update_irq(CPUNDS32State *env)
     }
 }
 
-void helper_standby(CPUNDS32State *env)
+void HELPER(standby)(CPUNDS32State *env)
 {
     CPUState *cs = env_cpu(env);
 
@@ -151,22 +151,22 @@ void helper_standby(CPUNDS32State *env)
 #else /* CONFIG_USER_ONLY */
 
 /* Privileged; translate.c raises before these are reached. */
-void helper_iret(CPUNDS32State *env)
+void HELPER(iret)(CPUNDS32State *env)
 {
     g_assert_not_reached();
 }
 
-void helper_standby(CPUNDS32State *env)
+void HELPER(standby)(CPUNDS32State *env)
 {
     g_assert_not_reached();
 }
 
-void helper_tlbop(CPUNDS32State *env, uint32_t ra, uint32_t op)
+void HELPER(tlbop)(CPUNDS32State *env, uint32_t ra, uint32_t op)
 {
     g_assert_not_reached();
 }
 
-uint32_t helper_tlbop_probe(CPUNDS32State *env, uint32_t ra)
+uint32_t HELPER(tlbop_probe)(CPUNDS32State *env, uint32_t ra)
 {
     g_assert_not_reached();
 }
@@ -185,7 +185,7 @@ static void div_by_zero(CPUNDS32State *env, uintptr_t ra)
     }
 }
 
-uint64_t helper_divsr(CPUNDS32State *env, int32_t a, int32_t b)
+uint64_t HELPER(divsr)(CPUNDS32State *env, int32_t a, int32_t b)
 {
     if (b == 0) {
         div_by_zero(env, GETPC());
@@ -197,7 +197,7 @@ uint64_t helper_divsr(CPUNDS32State *env, int32_t a, int32_t b)
     return (uint32_t)(a / b) | ((uint64_t)(uint32_t)(a % b) << 32);
 }
 
-uint64_t helper_divr(CPUNDS32State *env, uint32_t a, uint32_t b)
+uint64_t HELPER(divr)(CPUNDS32State *env, uint32_t a, uint32_t b)
 {
     if (b == 0) {
         div_by_zero(env, GETPC());
@@ -208,7 +208,7 @@ uint64_t helper_divr(CPUNDS32State *env, uint32_t a, uint32_t b)
 
 /* System registers */
 
-uint32_t helper_mfsr(CPUNDS32State *env, uint32_t idx)
+uint32_t HELPER(mfsr)(CPUNDS32State *env, uint32_t idx)
 {
     switch (idx) {
     case SR_INT_PEND2:
@@ -218,7 +218,7 @@ uint32_t helper_mfsr(CPUNDS32State *env, uint32_t idx)
     }
 }
 
-void helper_mtsr(CPUNDS32State *env, uint32_t idx, uint32_t val)
+void HELPER(mtsr)(CPUNDS32State *env, uint32_t idx, uint32_t val)
 {
     CPUState *cs = env_cpu(env);
 
@@ -434,7 +434,7 @@ void nds32_tlb_flush_all(CPUNDS32State *env)
     tlb_flush(env_cpu(env));
 }
 
-void helper_tlbop(CPUNDS32State *env, uint32_t ra, uint32_t op)
+void HELPER(tlbop)(CPUNDS32State *env, uint32_t ra, uint32_t op)
 {
     CPUState *cs = env_cpu(env);
     uint32_t vpn = ra >> TARGET_PAGE_BITS;
@@ -501,7 +501,7 @@ void helper_tlbop(CPUNDS32State *env, uint32_t ra, uint32_t op)
     }
 }
 
-uint32_t helper_tlbop_probe(CPUNDS32State *env, uint32_t ra)
+uint32_t HELPER(tlbop_probe)(CPUNDS32State *env, uint32_t ra)
 {
     uint32_t vpn = ra >> TARGET_PAGE_BITS;
     NDS32TLBEntry *set = env->tlb[tlb_set_of(vpn)];

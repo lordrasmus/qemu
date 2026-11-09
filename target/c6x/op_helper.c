@@ -729,7 +729,7 @@ uint32_t HELPER(sshvl)(CPUC6xState *env, uint32_t v, uint32_t n)
     if (s < 0) {
         return (int32_t)v >> MIN(-s, 31);
     }
-    return helper_sshl(env, v, MIN(s, 31));
+    return HELPER(sshl)(env, v, MIN(s, 31));
 }
 
 uint32_t HELPER(sshvr)(CPUC6xState *env, uint32_t v, uint32_t n)
@@ -739,7 +739,7 @@ uint32_t HELPER(sshvr)(CPUC6xState *env, uint32_t v, uint32_t n)
     if (s >= 0) {
         return (int32_t)v >> MIN(s, 31);
     }
-    return helper_sshl(env, v, MIN(-s, 31));
+    return HELPER(sshl)(env, v, MIN(-s, 31));
 }
 
 uint64_t HELPER(smpy2)(CPUC6xState *env, uint32_t a, uint32_t b)
