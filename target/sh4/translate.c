@@ -1848,6 +1848,18 @@ static void decode_opc(DisasContext * ctx)
         tcg_gen_movi_i32(cpu_flags, ctx->envflags);
         if (old_flags & TB_FLAG_DELAY_SLOT_COND) {
             gen_delayed_conditional_jump(ctx);
+        } else if (old_flags & TB_FLAG_DELAY_SLOT_RTE) {
+            /*
+             * rte may have unmasked an interrupt, but the check at the end
+             * of its TB found the CPU in this delay slot and left it
+             * pending.  Go back to the main loop instead of chaining into
+             * the code rte returns to: a loop there that chains to itself
+             * would never look at the interrupt again.
+             */
+            tcg_gen_mov_i32(cpu_pc, cpu_delayed_pc);
+            tcg_gen_discard_i32(cpu_delayed_pc);
+            tcg_gen_exit_tb(NULL, 0);
+            ctx->base.is_jmp = DISAS_NORETURN;
         } else {
             gen_jump(ctx);
         }
