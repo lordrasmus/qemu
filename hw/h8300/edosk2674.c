@@ -196,7 +196,7 @@ static void edosk2674_class_init(ObjectClass *oc, const void *data)
     mc->default_cpu_type = TYPE_H8S2674_CPU;
     mc->default_ram_size = 8 * MiB;
 
-    object_class_property_add(oc, "ram-base", "uint32",
+    object_class_property_add(oc, "ram-base", "uint32", NULL,
                               edosk2674_get_ram_base, edosk2674_set_ram_base,
                               NULL, NULL);
     object_class_property_set_description(oc, "ram-base",

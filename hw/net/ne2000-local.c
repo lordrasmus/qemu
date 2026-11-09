@@ -126,7 +126,7 @@ out:
 
 static void local_ne2000_instance_init(Object *obj)
 {
-    object_property_add(obj, "bootindex", "int32",
+    object_property_add(obj, "bootindex", "int32", NULL,
                         local_ne2000_get_bootindex,
                         local_ne2000_set_bootindex, NULL, NULL);
     object_property_set_int(obj, "bootindex", -1, NULL);

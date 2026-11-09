@@ -48,7 +48,7 @@
 #include "system/memory.h"
 #include "accel/tcg/cpu-loop.h"
 #include "elf.h"
-#include "qemu-version.h"
+#include "qemu/version.h"
 #include "virt.h"
 
 #define IOPORT_BASE     0x000000fffc000000ull   /* 64 MB sparse window */
