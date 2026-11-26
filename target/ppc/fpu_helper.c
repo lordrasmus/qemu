@@ -969,8 +969,9 @@ static inline int32_t efsctsi(CPUPPCState *env, uint32_t val)
     CPU_FloatU u;
 
     u.l = val;
-    /* NaN are not treated the same way IEEE 754 does */
-    if (unlikely(float32_is_quiet_nan(u.f, &env->spe_status))) {
+    /* Any NaN converts to 0 and is an invalid operation */
+    if (unlikely(float32_is_any_nan(u.f))) {
+        float_raise(float_flag_invalid, &env->spe_status);
         return 0;
     }
 
@@ -982,8 +983,9 @@ static inline uint32_t efsctui(CPUPPCState *env, uint32_t val)
     CPU_FloatU u;
 
     u.l = val;
-    /* NaN are not treated the same way IEEE 754 does */
-    if (unlikely(float32_is_quiet_nan(u.f, &env->spe_status))) {
+    /* Any NaN converts to 0 and is an invalid operation */
+    if (unlikely(float32_is_any_nan(u.f))) {
+        float_raise(float_flag_invalid, &env->spe_status);
         return 0;
     }
 
@@ -995,8 +997,9 @@ static inline uint32_t efsctsiz(CPUPPCState *env, uint32_t val)
     CPU_FloatU u;
 
     u.l = val;
-    /* NaN are not treated the same way IEEE 754 does */
-    if (unlikely(float32_is_quiet_nan(u.f, &env->spe_status))) {
+    /* Any NaN converts to 0 and is an invalid operation */
+    if (unlikely(float32_is_any_nan(u.f))) {
+        float_raise(float_flag_invalid, &env->spe_status);
         return 0;
     }
 
@@ -1008,8 +1011,9 @@ static inline uint32_t efsctuiz(CPUPPCState *env, uint32_t val)
     CPU_FloatU u;
 
     u.l = val;
-    /* NaN are not treated the same way IEEE 754 does */
-    if (unlikely(float32_is_quiet_nan(u.f, &env->spe_status))) {
+    /* Any NaN converts to 0 and is an invalid operation */
+    if (unlikely(float32_is_any_nan(u.f))) {
+        float_raise(float_flag_invalid, &env->spe_status);
         return 0;
     }
 
@@ -1046,8 +1050,9 @@ static inline uint32_t efsctsf(CPUPPCState *env, uint32_t val)
     float32 tmp;
 
     u.l = val;
-    /* NaN are not treated the same way IEEE 754 does */
-    if (unlikely(float32_is_quiet_nan(u.f, &env->spe_status))) {
+    /* Any NaN converts to 0 and is an invalid operation */
+    if (unlikely(float32_is_any_nan(u.f))) {
+        float_raise(float_flag_invalid, &env->spe_status);
         return 0;
     }
     tmp = uint64_to_float32(1ULL << 32, &env->spe_status);
@@ -1062,8 +1067,9 @@ static inline uint32_t efsctuf(CPUPPCState *env, uint32_t val)
     float32 tmp;
 
     u.l = val;
-    /* NaN are not treated the same way IEEE 754 does */
-    if (unlikely(float32_is_quiet_nan(u.f, &env->spe_status))) {
+    /* Any NaN converts to 0 and is an invalid operation */
+    if (unlikely(float32_is_any_nan(u.f))) {
+        float_raise(float_flag_invalid, &env->spe_status);
         return 0;
     }
     tmp = uint64_to_float32(1ULL << 32, &env->spe_status);
@@ -1325,8 +1331,9 @@ uint32_t HELPER(efdctsi)(CPUPPCState *env, uint64_t val)
     CPU_DoubleU u;
 
     u.ll = val;
-    /* NaN are not treated the same way IEEE 754 does */
+    /* Any NaN converts to 0 and is an invalid operation */
     if (unlikely(float64_is_any_nan(u.d))) {
+        float_raise(float_flag_invalid, &env->spe_status);
         return 0;
     }
 
@@ -1338,8 +1345,9 @@ uint32_t HELPER(efdctui)(CPUPPCState *env, uint64_t val)
     CPU_DoubleU u;
 
     u.ll = val;
-    /* NaN are not treated the same way IEEE 754 does */
+    /* Any NaN converts to 0 and is an invalid operation */
     if (unlikely(float64_is_any_nan(u.d))) {
+        float_raise(float_flag_invalid, &env->spe_status);
         return 0;
     }
 
@@ -1351,8 +1359,9 @@ uint32_t HELPER(efdctsiz)(CPUPPCState *env, uint64_t val)
     CPU_DoubleU u;
 
     u.ll = val;
-    /* NaN are not treated the same way IEEE 754 does */
+    /* Any NaN converts to 0 and is an invalid operation */
     if (unlikely(float64_is_any_nan(u.d))) {
+        float_raise(float_flag_invalid, &env->spe_status);
         return 0;
     }
 
@@ -1364,8 +1373,9 @@ uint64_t HELPER(efdctsidz)(CPUPPCState *env, uint64_t val)
     CPU_DoubleU u;
 
     u.ll = val;
-    /* NaN are not treated the same way IEEE 754 does */
+    /* Any NaN converts to 0 and is an invalid operation */
     if (unlikely(float64_is_any_nan(u.d))) {
+        float_raise(float_flag_invalid, &env->spe_status);
         return 0;
     }
 
@@ -1377,8 +1387,9 @@ uint32_t HELPER(efdctuiz)(CPUPPCState *env, uint64_t val)
     CPU_DoubleU u;
 
     u.ll = val;
-    /* NaN are not treated the same way IEEE 754 does */
+    /* Any NaN converts to 0 and is an invalid operation */
     if (unlikely(float64_is_any_nan(u.d))) {
+        float_raise(float_flag_invalid, &env->spe_status);
         return 0;
     }
 
@@ -1390,8 +1401,9 @@ uint64_t HELPER(efdctuidz)(CPUPPCState *env, uint64_t val)
     CPU_DoubleU u;
 
     u.ll = val;
-    /* NaN are not treated the same way IEEE 754 does */
+    /* Any NaN converts to 0 and is an invalid operation */
     if (unlikely(float64_is_any_nan(u.d))) {
+        float_raise(float_flag_invalid, &env->spe_status);
         return 0;
     }
 
@@ -1428,8 +1440,9 @@ uint32_t HELPER(efdctsf)(CPUPPCState *env, uint64_t val)
     float64 tmp;
 
     u.ll = val;
-    /* NaN are not treated the same way IEEE 754 does */
+    /* Any NaN converts to 0 and is an invalid operation */
     if (unlikely(float64_is_any_nan(u.d))) {
+        float_raise(float_flag_invalid, &env->spe_status);
         return 0;
     }
     tmp = uint64_to_float64(1ULL << 32, &env->spe_status);
@@ -1444,8 +1457,9 @@ uint32_t HELPER(efdctuf)(CPUPPCState *env, uint64_t val)
     float64 tmp;
 
     u.ll = val;
-    /* NaN are not treated the same way IEEE 754 does */
+    /* Any NaN converts to 0 and is an invalid operation */
     if (unlikely(float64_is_any_nan(u.d))) {
+        float_raise(float_flag_invalid, &env->spe_status);
         return 0;
     }
     tmp = uint64_to_float64(1ULL << 32, &env->spe_status);
