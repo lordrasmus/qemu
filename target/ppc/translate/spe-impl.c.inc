@@ -873,6 +873,12 @@ GEN_SPE(speundef,       evmwsmfan,     0x0D, 0x17, 0xFFFFFFFF, 0x00000000, PPC_S
 #endif
 
 /***                      SPE floating-point extension                     ***/
+/* Take a pending round interrupt once the result is written. */
+static void gen_spe_round_check(DisasContext *ctx)
+{
+    gen_helper_spe_round_check(tcg_env, tcg_constant_tl(ctx->base.pc_next));
+}
+
 #define GEN_SPEFPUOP_CONV_32_32(name)                                         \
 static inline void gen_##name(DisasContext *ctx)                              \
 {                                                                             \
@@ -880,6 +886,7 @@ static inline void gen_##name(DisasContext *ctx)                              \
     tcg_gen_trunc_tl_i32(t0, cpu_gpr[rB(ctx->opcode)]);                       \
     gen_helper_##name(t0, tcg_env, t0);                                       \
     tcg_gen_extu_i32_tl(cpu_gpr[rD(ctx->opcode)], t0);                        \
+    gen_spe_round_check(ctx);                                                 \
 }
 #define GEN_SPEFPUOP_CONV_32_64(name)                                         \
 static inline void gen_##name(DisasContext *ctx)                              \
@@ -895,6 +902,7 @@ static inline void gen_##name(DisasContext *ctx)                              \
     gen_load_gpr64(t0, rB(ctx->opcode));                                      \
     gen_helper_##name(t1, tcg_env, t0);                                       \
     tcg_gen_extu_i32_tl(cpu_gpr[rD(ctx->opcode)], t1);                        \
+    gen_spe_round_check(ctx);                                                 \
 }
 #define GEN_SPEFPUOP_CONV_64_32(name)                                         \
 static inline void gen_##name(DisasContext *ctx)                              \
@@ -910,6 +918,7 @@ static inline void gen_##name(DisasContext *ctx)                              \
     tcg_gen_trunc_tl_i32(t1, cpu_gpr[rB(ctx->opcode)]);                       \
     gen_helper_##name(t0, tcg_env, t1);                                       \
     gen_store_gpr64(rD(ctx->opcode), t0);                                     \
+    gen_spe_round_check(ctx);                                                 \
 }
 #define GEN_SPEFPUOP_CONV_64_64(name)                                         \
 static inline void gen_##name(DisasContext *ctx)                              \
@@ -923,6 +932,7 @@ static inline void gen_##name(DisasContext *ctx)                              \
     gen_load_gpr64(t0, rB(ctx->opcode));                                      \
     gen_helper_##name(t0, tcg_env, t0);                                       \
     gen_store_gpr64(rD(ctx->opcode), t0);                                     \
+    gen_spe_round_check(ctx);                                                 \
 }
 #define GEN_SPEFPUOP_ARITH2_32_32(name)                                       \
 static inline void gen_##name(DisasContext *ctx)                              \
@@ -933,6 +943,7 @@ static inline void gen_##name(DisasContext *ctx)                              \
     tcg_gen_trunc_tl_i32(t1, cpu_gpr[rB(ctx->opcode)]);                       \
     gen_helper_##name(t0, tcg_env, t0, t1);                                   \
     tcg_gen_extu_i32_tl(cpu_gpr[rD(ctx->opcode)], t0);                        \
+    gen_spe_round_check(ctx);                                                 \
 }
 #define GEN_SPEFPUOP_ARITH2_64_64(name)                                       \
 static inline void gen_##name(DisasContext *ctx)                              \
@@ -948,6 +959,7 @@ static inline void gen_##name(DisasContext *ctx)                              \
     gen_load_gpr64(t1, rB(ctx->opcode));                                      \
     gen_helper_##name(t0, tcg_env, t0, t1);                                   \
     gen_store_gpr64(rD(ctx->opcode), t0);                                     \
+    gen_spe_round_check(ctx);                                                 \
 }
 #define GEN_SPEFPUOP_COMP_32(name)                                            \
 static inline void gen_##name(DisasContext *ctx)                              \

@@ -1271,8 +1271,8 @@ static void powerpc_excp_booke(PowerPCCPU *cpu, int excp)
         break;
     case POWERPC_EXCP_EFPDI:     /* Embedded floating-point data interrupt   */
     case POWERPC_EXCP_EFPRI:     /* Embedded floating-point round interrupt  */
-        cpu_abort(env_cpu(env), "%s exception not implemented\n",
-                  powerpc_excp_name(excp));
+        /* SRR0: the instruction for EFPDI, the next one for EFPRI */
+        env->spr[SPR_BOOKE_ESR] = ESR_SPV;
         break;
     default:
         cpu_abort(env_cpu(env), "Invalid PowerPC exception %d. Aborting\n",

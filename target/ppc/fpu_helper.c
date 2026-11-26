@@ -945,6 +945,125 @@ uint32_t HELPER(mfspefscr)(CPUPPCState *env)
     return ppc_get_spefscr(env);
 }
 
+/*
+ * SPE (e500) floating point.  Each instruction collects its own
+ * softfloat flags; they are merged into the sticky state, and an
+ * exception whose enable bit is set in SPEFSCR takes the embedded
+ * floating-point data interrupt before the result is written, as on
+ * the e500 (Linux enables FINVE, FDBZE, FUNFE and FOVFE and emulates
+ * the instruction in the handler).  The efxtst* instructions raise no
+ * exceptions.
+ */
+#define SPEFSCR_FINV    0x00000800
+#define SPEFSCR_FDBZ    0x00000400
+#define SPEFSCR_FUNF    0x00000200
+#define SPEFSCR_FOVF    0x00000100
+#define SPEFSCR_FGH     0x20000000
+#define SPEFSCR_FXH     0x10000000
+#define SPEFSCR_FG      0x00002000
+#define SPEFSCR_FX      0x00001000
+#define SPEFSCR_FINXE   0x00000040
+#define SPEFSCR_FINVE   0x00000020
+#define SPEFSCR_FDBZE   0x00000010
+#define SPEFSCR_FUNFE   0x00000008
+#define SPEFSCR_FOVFE   0x00000004
+#define SPEFSCR_FRMC    0x00000003
+
+/* efststlt and friends set no flags and take no interrupt */
+#define SPE_IS_TEST(name) (strstr(#name, "tst") != NULL)
+
+static int spe_begin(CPUPPCState *env)
+{
+    int saved = get_float_exception_flags(&env->spe_status);
+
+    set_float_exception_flags(0, &env->spe_status);
+    return saved;
+}
+
+/* Take the flags of one element, leaving none behind.  */
+static int spe_take(CPUPPCState *env)
+{
+    int flags = get_float_exception_flags(&env->spe_status);
+
+    set_float_exception_flags(0, &env->spe_status);
+    return flags;
+}
+
+/*
+ * FLAGS_HI are the flags of the high element of a vector instruction,
+ * or -1 for a scalar one; the current flags belong to the low (or
+ * only) element.
+ */
+static void spe_end(CPUPPCState *env, int saved, int flags_hi, bool test,
+                    uintptr_t ra)
+{
+    int flags = get_float_exception_flags(&env->spe_status);
+    int all = flags | (flags_hi < 0 ? 0 : flags_hi);
+    uint32_t fx;
+
+    if (test) {
+        set_float_exception_flags(saved, &env->spe_status);
+        return;
+    }
+    set_float_exception_flags(saved | all, &env->spe_status);
+
+    /*
+     * FG/FX (FGH/FXH) say whether the element was inexact; the guard
+     * bit itself is not modelled, both are set together.
+     */
+    fx = (flags & float_flag_inexact) ? SPEFSCR_FG | SPEFSCR_FX : 0;
+    if (flags_hi > 0 && (flags_hi & float_flag_inexact)) {
+        fx |= SPEFSCR_FGH | SPEFSCR_FXH;
+    }
+    env->spe_fscr = (env->spe_fscr & ~(SPEFSCR_FG | SPEFSCR_FX |
+                                       SPEFSCR_FGH | SPEFSCR_FXH)) | fx;
+
+#if !defined(CONFIG_USER_ONLY)
+    uint32_t trap = 0;
+
+    if ((all & float_flag_invalid) && (env->spe_fscr & SPEFSCR_FINVE)) {
+        trap |= SPEFSCR_FINV;
+    }
+    if ((all & float_flag_divbyzero) && (env->spe_fscr & SPEFSCR_FDBZE)) {
+        trap |= SPEFSCR_FDBZ;
+    }
+    if ((all & float_flag_underflow) && (env->spe_fscr & SPEFSCR_FUNFE)) {
+        trap |= SPEFSCR_FUNF;
+    }
+    if ((all & float_flag_overflow) && (env->spe_fscr & SPEFSCR_FOVFE)) {
+        trap |= SPEFSCR_FOVF;
+    }
+    if (trap) {
+        env->spe_fscr = (env->spe_fscr & ~(SPEFSCR_FINV | SPEFSCR_FDBZ |
+                                           SPEFSCR_FUNF | SPEFSCR_FOVF |
+                                           SPEFSCR_FG | SPEFSCR_FX |
+                                           SPEFSCR_FGH | SPEFSCR_FXH)) | trap;
+        raise_exception_err_ra(env, POWERPC_EXCP_EFPDI, 0, ra);
+    }
+
+    /*
+     * The e500 rounds toward +/-inf by truncating and leaving the last
+     * bit to software: an inexact result in those modes, or with FINXE
+     * set, takes the round interrupt once the result is written.
+     */
+    if (fx && ((env->spe_fscr & SPEFSCR_FINXE) ||
+               (env->spe_fscr & SPEFSCR_FRMC) >= 2)) {
+        env->spe_round_pending = true;
+    }
+#endif
+}
+
+void HELPER(spe_round_check)(CPUPPCState *env, target_ulong next)
+{
+#if !defined(CONFIG_USER_ONLY)
+    if (env->spe_round_pending) {
+        env->spe_round_pending = false;
+        env->nip = next;
+        raise_exception_err_ra(env, POWERPC_EXCP_EFPRI, 0, 0);
+    }
+#endif
+}
+
 /* Single-precision floating-point conversions */
 static inline uint32_t efscfsi(CPUPPCState *env, uint32_t val)
 {
@@ -1078,10 +1197,14 @@ static inline uint32_t efsctuf(CPUPPCState *env, uint32_t val)
     return float32_to_uint32(u.f, &env->spe_status);
 }
 
-#define HELPER_SPE_SINGLE_CONV(name)                              \
-    uint32_t HELPER(e##name)(CPUPPCState *env, uint32_t val)      \
-    {                                                             \
-        return e##name(env, val);                                 \
+#define HELPER_SPE_SINGLE_CONV(name)                                          \
+    uint32_t HELPER(e##name)(CPUPPCState *env, uint32_t val)                   \
+    {                                                                         \
+        int saved = spe_begin(env);                                           \
+        uint32_t ret = e##name(env, val);                                     \
+                                                                              \
+        spe_end(env, saved, -1, false, GETPC());                              \
+        return ret;                                                           \
     }
 /* efscfsi */
 HELPER_SPE_SINGLE_CONV(fscfsi);
@@ -1104,11 +1227,16 @@ HELPER_SPE_SINGLE_CONV(fsctsf);
 /* efsctuf */
 HELPER_SPE_SINGLE_CONV(fsctuf);
 
-#define HELPER_SPE_VECTOR_CONV(name)                            \
-    uint64_t HELPER(ev##name)(CPUPPCState *env, uint64_t val)   \
-    {                                                           \
-        return ((uint64_t)e##name(env, val >> 32) << 32) |      \
-            (uint64_t)e##name(env, val);                        \
+#define HELPER_SPE_VECTOR_CONV(name)                                          \
+    uint64_t HELPER(ev##name)(CPUPPCState *env, uint64_t val)                  \
+    {                                                                         \
+        int saved = spe_begin(env);                                           \
+        uint64_t hi = e##name(env, val >> 32);                                \
+        int flags_hi = spe_take(env);                                         \
+        uint64_t ret = (hi << 32) | e##name(env, val);                        \
+                                                                              \
+        spe_end(env, saved, flags_hi, false, GETPC());                        \
+        return ret;                                                           \
     }
 /* evfscfsi */
 HELPER_SPE_VECTOR_CONV(fscfsi);
@@ -1172,10 +1300,14 @@ static inline uint32_t efsdiv(CPUPPCState *env, uint32_t op1, uint32_t op2)
     return u1.l;
 }
 
-#define HELPER_SPE_SINGLE_ARITH(name)                                   \
-    uint32_t HELPER(e##name)(CPUPPCState *env, uint32_t op1, uint32_t op2) \
-    {                                                                   \
-        return e##name(env, op1, op2);                                  \
+#define HELPER_SPE_SINGLE_ARITH(name)                                         \
+    uint32_t HELPER(e##name)(CPUPPCState *env, uint32_t op1, uint32_t op2)     \
+    {                                                                         \
+        int saved = spe_begin(env);                                           \
+        uint32_t ret = e##name(env, op1, op2);                                \
+                                                                              \
+        spe_end(env, saved, -1, false, GETPC());                              \
+        return ret;                                                           \
     }
 /* efsadd */
 HELPER_SPE_SINGLE_ARITH(fsadd);
@@ -1186,11 +1318,16 @@ HELPER_SPE_SINGLE_ARITH(fsmul);
 /* efsdiv */
 HELPER_SPE_SINGLE_ARITH(fsdiv);
 
-#define HELPER_SPE_VECTOR_ARITH(name)                                   \
-    uint64_t HELPER(ev##name)(CPUPPCState *env, uint64_t op1, uint64_t op2) \
-    {                                                                   \
-        return ((uint64_t)e##name(env, op1 >> 32, op2 >> 32) << 32) |   \
-            (uint64_t)e##name(env, op1, op2);                           \
+#define HELPER_SPE_VECTOR_ARITH(name)                                         \
+    uint64_t HELPER(ev##name)(CPUPPCState *env, uint64_t op1, uint64_t op2)    \
+    {                                                                         \
+        int saved = spe_begin(env);                                           \
+        uint64_t hi = e##name(env, op1 >> 32, op2 >> 32);                     \
+        int flags_hi = spe_take(env);                                         \
+        uint64_t ret = (hi << 32) | e##name(env, op1, op2);                   \
+                                                                              \
+        spe_end(env, saved, flags_hi, false, GETPC());                        \
+        return ret;                                                           \
     }
 /* evfsadd */
 HELPER_SPE_VECTOR_ARITH(fsadd);
@@ -1247,10 +1384,14 @@ static inline uint32_t efststeq(CPUPPCState *env, uint32_t op1, uint32_t op2)
     return efscmpeq(env, op1, op2);
 }
 
-#define HELPER_SINGLE_SPE_CMP(name)                                     \
-    uint32_t HELPER(e##name)(CPUPPCState *env, uint32_t op1, uint32_t op2) \
-    {                                                                   \
-        return e##name(env, op1, op2);                                  \
+#define HELPER_SINGLE_SPE_CMP(name)                                           \
+    uint32_t HELPER(e##name)(CPUPPCState *env, uint32_t op1, uint32_t op2)     \
+    {                                                                         \
+        int saved = spe_begin(env);                                           \
+        uint32_t ret = e##name(env, op1, op2);                                \
+                                                                              \
+        spe_end(env, saved, -1, SPE_IS_TEST(name), GETPC());                  \
+        return ret;                                                           \
     }
 /* efststlt */
 HELPER_SINGLE_SPE_CMP(fststlt);
@@ -1270,11 +1411,16 @@ static inline uint32_t evcmp_merge(int t0, int t1)
     return (t0 << 3) | (t1 << 2) | ((t0 | t1) << 1) | (t0 & t1);
 }
 
-#define HELPER_VECTOR_SPE_CMP(name)                                     \
-    uint32_t HELPER(ev##name)(CPUPPCState *env, uint64_t op1, uint64_t op2) \
-    {                                                                   \
-        return evcmp_merge(e##name(env, op1 >> 32, op2 >> 32),          \
-                           e##name(env, op1, op2));                     \
+#define HELPER_VECTOR_SPE_CMP(name)                                           \
+    uint32_t HELPER(ev##name)(CPUPPCState *env, uint64_t op1, uint64_t op2)    \
+    {                                                                         \
+        int saved = spe_begin(env);                                           \
+        uint32_t hi = e##name(env, op1 >> 32, op2 >> 32);                     \
+        int flags_hi = spe_take(env);                                         \
+        uint32_t ret = evcmp_merge(hi, e##name(env, op1, op2));               \
+                                                                              \
+        spe_end(env, saved, flags_hi, SPE_IS_TEST(name), GETPC());            \
+        return ret;                                                           \
     }
 /* evfststlt */
 HELPER_VECTOR_SPE_CMP(fststlt);
@@ -1290,7 +1436,7 @@ HELPER_VECTOR_SPE_CMP(fscmpgt);
 HELPER_VECTOR_SPE_CMP(fscmpeq);
 
 /* Double-precision floating-point conversion */
-uint64_t HELPER(efdcfsi)(CPUPPCState *env, uint32_t val)
+static inline uint64_t do_efdcfsi(CPUPPCState *env, uint32_t val)
 {
     CPU_DoubleU u;
 
@@ -1299,7 +1445,16 @@ uint64_t HELPER(efdcfsi)(CPUPPCState *env, uint32_t val)
     return u.ll;
 }
 
-uint64_t HELPER(efdcfsid)(CPUPPCState *env, uint64_t val)
+uint64_t HELPER(efdcfsi)(CPUPPCState *env, uint32_t val)
+{
+    int saved = spe_begin(env);
+    uint64_t ret = do_efdcfsi(env, val);
+
+    spe_end(env, saved, -1, false, GETPC());
+    return ret;
+}
+
+static inline uint64_t do_efdcfsid(CPUPPCState *env, uint64_t val)
 {
     CPU_DoubleU u;
 
@@ -1308,7 +1463,16 @@ uint64_t HELPER(efdcfsid)(CPUPPCState *env, uint64_t val)
     return u.ll;
 }
 
-uint64_t HELPER(efdcfui)(CPUPPCState *env, uint32_t val)
+uint64_t HELPER(efdcfsid)(CPUPPCState *env, uint64_t val)
+{
+    int saved = spe_begin(env);
+    uint64_t ret = do_efdcfsid(env, val);
+
+    spe_end(env, saved, -1, false, GETPC());
+    return ret;
+}
+
+static inline uint64_t do_efdcfui(CPUPPCState *env, uint32_t val)
 {
     CPU_DoubleU u;
 
@@ -1317,7 +1481,16 @@ uint64_t HELPER(efdcfui)(CPUPPCState *env, uint32_t val)
     return u.ll;
 }
 
-uint64_t HELPER(efdcfuid)(CPUPPCState *env, uint64_t val)
+uint64_t HELPER(efdcfui)(CPUPPCState *env, uint32_t val)
+{
+    int saved = spe_begin(env);
+    uint64_t ret = do_efdcfui(env, val);
+
+    spe_end(env, saved, -1, false, GETPC());
+    return ret;
+}
+
+static inline uint64_t do_efdcfuid(CPUPPCState *env, uint64_t val)
 {
     CPU_DoubleU u;
 
@@ -1326,7 +1499,16 @@ uint64_t HELPER(efdcfuid)(CPUPPCState *env, uint64_t val)
     return u.ll;
 }
 
-uint32_t HELPER(efdctsi)(CPUPPCState *env, uint64_t val)
+uint64_t HELPER(efdcfuid)(CPUPPCState *env, uint64_t val)
+{
+    int saved = spe_begin(env);
+    uint64_t ret = do_efdcfuid(env, val);
+
+    spe_end(env, saved, -1, false, GETPC());
+    return ret;
+}
+
+static inline uint32_t do_efdctsi(CPUPPCState *env, uint64_t val)
 {
     CPU_DoubleU u;
 
@@ -1340,7 +1522,16 @@ uint32_t HELPER(efdctsi)(CPUPPCState *env, uint64_t val)
     return float64_to_int32(u.d, &env->spe_status);
 }
 
-uint32_t HELPER(efdctui)(CPUPPCState *env, uint64_t val)
+uint32_t HELPER(efdctsi)(CPUPPCState *env, uint64_t val)
+{
+    int saved = spe_begin(env);
+    uint32_t ret = do_efdctsi(env, val);
+
+    spe_end(env, saved, -1, false, GETPC());
+    return ret;
+}
+
+static inline uint32_t do_efdctui(CPUPPCState *env, uint64_t val)
 {
     CPU_DoubleU u;
 
@@ -1354,7 +1545,16 @@ uint32_t HELPER(efdctui)(CPUPPCState *env, uint64_t val)
     return float64_to_uint32(u.d, &env->spe_status);
 }
 
-uint32_t HELPER(efdctsiz)(CPUPPCState *env, uint64_t val)
+uint32_t HELPER(efdctui)(CPUPPCState *env, uint64_t val)
+{
+    int saved = spe_begin(env);
+    uint32_t ret = do_efdctui(env, val);
+
+    spe_end(env, saved, -1, false, GETPC());
+    return ret;
+}
+
+static inline uint32_t do_efdctsiz(CPUPPCState *env, uint64_t val)
 {
     CPU_DoubleU u;
 
@@ -1368,7 +1568,16 @@ uint32_t HELPER(efdctsiz)(CPUPPCState *env, uint64_t val)
     return float64_to_int32_round_to_zero(u.d, &env->spe_status);
 }
 
-uint64_t HELPER(efdctsidz)(CPUPPCState *env, uint64_t val)
+uint32_t HELPER(efdctsiz)(CPUPPCState *env, uint64_t val)
+{
+    int saved = spe_begin(env);
+    uint32_t ret = do_efdctsiz(env, val);
+
+    spe_end(env, saved, -1, false, GETPC());
+    return ret;
+}
+
+static inline uint64_t do_efdctsidz(CPUPPCState *env, uint64_t val)
 {
     CPU_DoubleU u;
 
@@ -1382,7 +1591,16 @@ uint64_t HELPER(efdctsidz)(CPUPPCState *env, uint64_t val)
     return float64_to_int64_round_to_zero(u.d, &env->spe_status);
 }
 
-uint32_t HELPER(efdctuiz)(CPUPPCState *env, uint64_t val)
+uint64_t HELPER(efdctsidz)(CPUPPCState *env, uint64_t val)
+{
+    int saved = spe_begin(env);
+    uint64_t ret = do_efdctsidz(env, val);
+
+    spe_end(env, saved, -1, false, GETPC());
+    return ret;
+}
+
+static inline uint32_t do_efdctuiz(CPUPPCState *env, uint64_t val)
 {
     CPU_DoubleU u;
 
@@ -1396,7 +1614,16 @@ uint32_t HELPER(efdctuiz)(CPUPPCState *env, uint64_t val)
     return float64_to_uint32_round_to_zero(u.d, &env->spe_status);
 }
 
-uint64_t HELPER(efdctuidz)(CPUPPCState *env, uint64_t val)
+uint32_t HELPER(efdctuiz)(CPUPPCState *env, uint64_t val)
+{
+    int saved = spe_begin(env);
+    uint32_t ret = do_efdctuiz(env, val);
+
+    spe_end(env, saved, -1, false, GETPC());
+    return ret;
+}
+
+static inline uint64_t do_efdctuidz(CPUPPCState *env, uint64_t val)
 {
     CPU_DoubleU u;
 
@@ -1410,7 +1637,16 @@ uint64_t HELPER(efdctuidz)(CPUPPCState *env, uint64_t val)
     return float64_to_uint64_round_to_zero(u.d, &env->spe_status);
 }
 
-uint64_t HELPER(efdcfsf)(CPUPPCState *env, uint32_t val)
+uint64_t HELPER(efdctuidz)(CPUPPCState *env, uint64_t val)
+{
+    int saved = spe_begin(env);
+    uint64_t ret = do_efdctuidz(env, val);
+
+    spe_end(env, saved, -1, false, GETPC());
+    return ret;
+}
+
+static inline uint64_t do_efdcfsf(CPUPPCState *env, uint32_t val)
 {
     CPU_DoubleU u;
     float64 tmp;
@@ -1422,7 +1658,16 @@ uint64_t HELPER(efdcfsf)(CPUPPCState *env, uint32_t val)
     return u.ll;
 }
 
-uint64_t HELPER(efdcfuf)(CPUPPCState *env, uint32_t val)
+uint64_t HELPER(efdcfsf)(CPUPPCState *env, uint32_t val)
+{
+    int saved = spe_begin(env);
+    uint64_t ret = do_efdcfsf(env, val);
+
+    spe_end(env, saved, -1, false, GETPC());
+    return ret;
+}
+
+static inline uint64_t do_efdcfuf(CPUPPCState *env, uint32_t val)
 {
     CPU_DoubleU u;
     float64 tmp;
@@ -1434,7 +1679,16 @@ uint64_t HELPER(efdcfuf)(CPUPPCState *env, uint32_t val)
     return u.ll;
 }
 
-uint32_t HELPER(efdctsf)(CPUPPCState *env, uint64_t val)
+uint64_t HELPER(efdcfuf)(CPUPPCState *env, uint32_t val)
+{
+    int saved = spe_begin(env);
+    uint64_t ret = do_efdcfuf(env, val);
+
+    spe_end(env, saved, -1, false, GETPC());
+    return ret;
+}
+
+static inline uint32_t do_efdctsf(CPUPPCState *env, uint64_t val)
 {
     CPU_DoubleU u;
     float64 tmp;
@@ -1451,7 +1705,16 @@ uint32_t HELPER(efdctsf)(CPUPPCState *env, uint64_t val)
     return float64_to_int32(u.d, &env->spe_status);
 }
 
-uint32_t HELPER(efdctuf)(CPUPPCState *env, uint64_t val)
+uint32_t HELPER(efdctsf)(CPUPPCState *env, uint64_t val)
+{
+    int saved = spe_begin(env);
+    uint32_t ret = do_efdctsf(env, val);
+
+    spe_end(env, saved, -1, false, GETPC());
+    return ret;
+}
+
+static inline uint32_t do_efdctuf(CPUPPCState *env, uint64_t val)
 {
     CPU_DoubleU u;
     float64 tmp;
@@ -1468,7 +1731,16 @@ uint32_t HELPER(efdctuf)(CPUPPCState *env, uint64_t val)
     return float64_to_uint32(u.d, &env->spe_status);
 }
 
-uint32_t HELPER(efscfd)(CPUPPCState *env, uint64_t val)
+uint32_t HELPER(efdctuf)(CPUPPCState *env, uint64_t val)
+{
+    int saved = spe_begin(env);
+    uint32_t ret = do_efdctuf(env, val);
+
+    spe_end(env, saved, -1, false, GETPC());
+    return ret;
+}
+
+static inline uint32_t do_efscfd(CPUPPCState *env, uint64_t val)
 {
     CPU_DoubleU u1;
     CPU_FloatU u2;
@@ -1479,7 +1751,16 @@ uint32_t HELPER(efscfd)(CPUPPCState *env, uint64_t val)
     return u2.l;
 }
 
-uint64_t HELPER(efdcfs)(CPUPPCState *env, uint32_t val)
+uint32_t HELPER(efscfd)(CPUPPCState *env, uint64_t val)
+{
+    int saved = spe_begin(env);
+    uint32_t ret = do_efscfd(env, val);
+
+    spe_end(env, saved, -1, false, GETPC());
+    return ret;
+}
+
+static inline uint64_t do_efdcfs(CPUPPCState *env, uint32_t val)
 {
     CPU_DoubleU u2;
     CPU_FloatU u1;
@@ -1490,8 +1771,17 @@ uint64_t HELPER(efdcfs)(CPUPPCState *env, uint32_t val)
     return u2.ll;
 }
 
+uint64_t HELPER(efdcfs)(CPUPPCState *env, uint32_t val)
+{
+    int saved = spe_begin(env);
+    uint64_t ret = do_efdcfs(env, val);
+
+    spe_end(env, saved, -1, false, GETPC());
+    return ret;
+}
+
 /* Double precision fixed-point arithmetic */
-uint64_t HELPER(efdadd)(CPUPPCState *env, uint64_t op1, uint64_t op2)
+static inline uint64_t do_efdadd(CPUPPCState *env, uint64_t op1, uint64_t op2)
 {
     CPU_DoubleU u1, u2;
 
@@ -1501,7 +1791,16 @@ uint64_t HELPER(efdadd)(CPUPPCState *env, uint64_t op1, uint64_t op2)
     return u1.ll;
 }
 
-uint64_t HELPER(efdsub)(CPUPPCState *env, uint64_t op1, uint64_t op2)
+uint64_t HELPER(efdadd)(CPUPPCState *env, uint64_t op1, uint64_t op2)
+{
+    int saved = spe_begin(env);
+    uint64_t ret = do_efdadd(env, op1, op2);
+
+    spe_end(env, saved, -1, false, GETPC());
+    return ret;
+}
+
+static inline uint64_t do_efdsub(CPUPPCState *env, uint64_t op1, uint64_t op2)
 {
     CPU_DoubleU u1, u2;
 
@@ -1511,7 +1810,16 @@ uint64_t HELPER(efdsub)(CPUPPCState *env, uint64_t op1, uint64_t op2)
     return u1.ll;
 }
 
-uint64_t HELPER(efdmul)(CPUPPCState *env, uint64_t op1, uint64_t op2)
+uint64_t HELPER(efdsub)(CPUPPCState *env, uint64_t op1, uint64_t op2)
+{
+    int saved = spe_begin(env);
+    uint64_t ret = do_efdsub(env, op1, op2);
+
+    spe_end(env, saved, -1, false, GETPC());
+    return ret;
+}
+
+static inline uint64_t do_efdmul(CPUPPCState *env, uint64_t op1, uint64_t op2)
 {
     CPU_DoubleU u1, u2;
 
@@ -1521,7 +1829,16 @@ uint64_t HELPER(efdmul)(CPUPPCState *env, uint64_t op1, uint64_t op2)
     return u1.ll;
 }
 
-uint64_t HELPER(efddiv)(CPUPPCState *env, uint64_t op1, uint64_t op2)
+uint64_t HELPER(efdmul)(CPUPPCState *env, uint64_t op1, uint64_t op2)
+{
+    int saved = spe_begin(env);
+    uint64_t ret = do_efdmul(env, op1, op2);
+
+    spe_end(env, saved, -1, false, GETPC());
+    return ret;
+}
+
+static inline uint64_t do_efddiv(CPUPPCState *env, uint64_t op1, uint64_t op2)
 {
     CPU_DoubleU u1, u2;
 
@@ -1531,8 +1848,17 @@ uint64_t HELPER(efddiv)(CPUPPCState *env, uint64_t op1, uint64_t op2)
     return u1.ll;
 }
 
+uint64_t HELPER(efddiv)(CPUPPCState *env, uint64_t op1, uint64_t op2)
+{
+    int saved = spe_begin(env);
+    uint64_t ret = do_efddiv(env, op1, op2);
+
+    spe_end(env, saved, -1, false, GETPC());
+    return ret;
+}
+
 /* Double precision floating point helpers */
-uint32_t HELPER(efdtstlt)(CPUPPCState *env, uint64_t op1, uint64_t op2)
+static inline uint32_t do_efdtstlt(CPUPPCState *env, uint64_t op1, uint64_t op2)
 {
     CPU_DoubleU u1, u2;
 
@@ -1541,7 +1867,16 @@ uint32_t HELPER(efdtstlt)(CPUPPCState *env, uint64_t op1, uint64_t op2)
     return float64_lt(u1.d, u2.d, &env->spe_status) ? 4 : 0;
 }
 
-uint32_t HELPER(efdtstgt)(CPUPPCState *env, uint64_t op1, uint64_t op2)
+uint32_t HELPER(efdtstlt)(CPUPPCState *env, uint64_t op1, uint64_t op2)
+{
+    int saved = spe_begin(env);
+    uint32_t ret = do_efdtstlt(env, op1, op2);
+
+    spe_end(env, saved, -1, true, GETPC());
+    return ret;
+}
+
+static inline uint32_t do_efdtstgt(CPUPPCState *env, uint64_t op1, uint64_t op2)
 {
     CPU_DoubleU u1, u2;
 
@@ -1550,7 +1885,16 @@ uint32_t HELPER(efdtstgt)(CPUPPCState *env, uint64_t op1, uint64_t op2)
     return float64_le(u1.d, u2.d, &env->spe_status) ? 0 : 4;
 }
 
-uint32_t HELPER(efdtsteq)(CPUPPCState *env, uint64_t op1, uint64_t op2)
+uint32_t HELPER(efdtstgt)(CPUPPCState *env, uint64_t op1, uint64_t op2)
+{
+    int saved = spe_begin(env);
+    uint32_t ret = do_efdtstgt(env, op1, op2);
+
+    spe_end(env, saved, -1, true, GETPC());
+    return ret;
+}
+
+static inline uint32_t do_efdtsteq(CPUPPCState *env, uint64_t op1, uint64_t op2)
 {
     CPU_DoubleU u1, u2;
 
@@ -1559,22 +1903,58 @@ uint32_t HELPER(efdtsteq)(CPUPPCState *env, uint64_t op1, uint64_t op2)
     return float64_eq_quiet(u1.d, u2.d, &env->spe_status) ? 4 : 0;
 }
 
-uint32_t HELPER(efdcmplt)(CPUPPCState *env, uint64_t op1, uint64_t op2)
+uint32_t HELPER(efdtsteq)(CPUPPCState *env, uint64_t op1, uint64_t op2)
+{
+    int saved = spe_begin(env);
+    uint32_t ret = do_efdtsteq(env, op1, op2);
+
+    spe_end(env, saved, -1, true, GETPC());
+    return ret;
+}
+
+static inline uint32_t do_efdcmplt(CPUPPCState *env, uint64_t op1, uint64_t op2)
 {
     /* XXX: TODO: test special values (NaN, infinites, ...) */
-    return HELPER(efdtstlt)(env, op1, op2);
+    return do_efdtstlt(env, op1, op2);
+}
+
+uint32_t HELPER(efdcmplt)(CPUPPCState *env, uint64_t op1, uint64_t op2)
+{
+    int saved = spe_begin(env);
+    uint32_t ret = do_efdcmplt(env, op1, op2);
+
+    spe_end(env, saved, -1, false, GETPC());
+    return ret;
+}
+
+static inline uint32_t do_efdcmpgt(CPUPPCState *env, uint64_t op1, uint64_t op2)
+{
+    /* XXX: TODO: test special values (NaN, infinites, ...) */
+    return do_efdtstgt(env, op1, op2);
 }
 
 uint32_t HELPER(efdcmpgt)(CPUPPCState *env, uint64_t op1, uint64_t op2)
 {
+    int saved = spe_begin(env);
+    uint32_t ret = do_efdcmpgt(env, op1, op2);
+
+    spe_end(env, saved, -1, false, GETPC());
+    return ret;
+}
+
+static inline uint32_t do_efdcmpeq(CPUPPCState *env, uint64_t op1, uint64_t op2)
+{
     /* XXX: TODO: test special values (NaN, infinites, ...) */
-    return HELPER(efdtstgt)(env, op1, op2);
+    return do_efdtsteq(env, op1, op2);
 }
 
 uint32_t HELPER(efdcmpeq)(CPUPPCState *env, uint64_t op1, uint64_t op2)
 {
-    /* XXX: TODO: test special values (NaN, infinites, ...) */
-    return HELPER(efdtsteq)(env, op1, op2);
+    int saved = spe_begin(env);
+    uint32_t ret = do_efdcmpeq(env, op1, op2);
+
+    spe_end(env, saved, -1, false, GETPC());
+    return ret;
 }
 
 #define float64_to_float64(x, env) x

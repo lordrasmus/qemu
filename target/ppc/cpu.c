@@ -100,9 +100,18 @@ uint32_t ppc_get_spefscr(CPUPPCState *env)
 
 void ppc_store_spefscr(CPUPPCState *env, uint32_t val)
 {
+    /*
+     * The e500 truncates toward +/-inf and the kernel corrects the last
+     * bit from the round interrupt (see spe_end()); in user mode there
+     * is no kernel, so round directly.
+     */
     static const FloatRoundMode rm[4] = {
         float_round_nearest_even, float_round_to_zero,
+#if defined(CONFIG_USER_ONLY)
         float_round_up, float_round_down,
+#else
+        float_round_to_zero, float_round_to_zero,
+#endif
     };
 
     env->spe_fscr = val;
