@@ -6677,6 +6677,12 @@ static abi_long do_prctl_inval1(CPUArchState *env, abi_long arg2)
 #ifndef do_prctl_get_fp_mode
 #define do_prctl_get_fp_mode do_prctl_inval0
 #endif
+#ifndef do_prctl_get_fpexc
+#define do_prctl_get_fpexc do_prctl_inval1
+#endif
+#ifndef do_prctl_set_fpexc
+#define do_prctl_set_fpexc do_prctl_inval1
+#endif
 #ifndef do_prctl_set_fp_mode
 #define do_prctl_set_fp_mode do_prctl_inval1
 #endif
@@ -6841,6 +6847,10 @@ static abi_long do_prctl(CPUArchState *env, abi_long option, abi_long arg2,
             unlock_user(name, arg2, 0);
             return ret;
         }
+    case PR_GET_FPEXC:
+        return do_prctl_get_fpexc(env, arg2);
+    case PR_SET_FPEXC:
+        return do_prctl_set_fpexc(env, arg2);
     case PR_GET_FP_MODE:
         return do_prctl_get_fp_mode(env);
     case PR_SET_FP_MODE:
@@ -6933,11 +6943,6 @@ static abi_long do_prctl(CPUArchState *env, abi_long option, abi_long arg2,
             TaskState *ts = get_task_state(env_cpu(env));
             return put_user_ual(ts->child_tidptr, arg2);
         }
-
-    case PR_GET_FPEXC:
-    case PR_SET_FPEXC:
-        /* Was used for SPE on PowerPC. */
-        return -TARGET_EINVAL;
 
     case PR_GET_ENDIAN:
     case PR_SET_ENDIAN:

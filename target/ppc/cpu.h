@@ -1362,6 +1362,9 @@ struct CPUArchState {
     uint64_t spe_acc;
     uint32_t spe_fscr;
     bool spe_round_pending;   /* SPE round interrupt after this insn */
+#if defined(CONFIG_USER_ONLY)
+    uint32_t spe_fpexc_mode;  /* prctl PR_SET_FPEXC */
+#endif
     /* SPE and Altivec share status as they'll never be used simultaneously */
     float_status vec_status;
     float_status spe_status;  /* SPE (e500) floating point */
