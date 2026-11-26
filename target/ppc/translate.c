@@ -1047,7 +1047,7 @@ void spr_write_pir(DisasContext *ctx, int sprn, int gprn)
 void spr_read_spefscr(DisasContext *ctx, int gprn, int sprn)
 {
     TCGv_i32 t0 = tcg_temp_new_i32();
-    tcg_gen_ld_i32(t0, tcg_env, offsetof(CPUPPCState, spe_fscr));
+    gen_helper_mfspefscr(t0, tcg_env);
     tcg_gen_extu_i32_tl(cpu_gpr[gprn], t0);
 }
 
@@ -1055,7 +1055,7 @@ void spr_write_spefscr(DisasContext *ctx, int sprn, int gprn)
 {
     TCGv_i32 t0 = tcg_temp_new_i32();
     tcg_gen_trunc_tl_i32(t0, cpu_gpr[gprn]);
-    tcg_gen_st_i32(t0, tcg_env, offsetof(CPUPPCState, spe_fscr));
+    gen_helper_mtspefscr(tcg_env, t0);
 }
 
 #if !defined(CONFIG_USER_ONLY)

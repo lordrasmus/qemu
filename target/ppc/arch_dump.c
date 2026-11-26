@@ -213,7 +213,7 @@ static void ppc_write_elf_speregset(NoteFuncArg *arg, PowerPCCPU *cpu, int id)
     memset(speregset, 0, sizeof(*speregset));
 
     speregset->spe_acc = cpu_to_dump64(s, cpu->env.spe_acc);
-    speregset->spe_fscr = cpu_to_dump32(s, cpu->env.spe_fscr);
+    speregset->spe_fscr = cpu_to_dump32(s, ppc_get_spefscr(&cpu->env));
 }
 
 static const struct NoteFuncDescStruct {

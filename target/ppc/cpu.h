@@ -1363,6 +1363,7 @@ struct CPUArchState {
     uint32_t spe_fscr;
     /* SPE and Altivec share status as they'll never be used simultaneously */
     float_status vec_status;
+    float_status spe_status;  /* SPE (e500) floating point */
     float_status fp_status; /* Floating point execution context */
     target_ulong fpscr;     /* Floating point status and control register */
 
@@ -3078,6 +3079,8 @@ void dump_mmu(CPUPPCState *env);
 void ppc_maybe_bswap_register(CPUPPCState *env, uint8_t *mem_buf, int len);
 void ppc_store_vscr(CPUPPCState *env, uint32_t vscr);
 uint32_t ppc_get_vscr(CPUPPCState *env);
+void ppc_store_spefscr(CPUPPCState *env, uint32_t val);
+uint32_t ppc_get_spefscr(CPUPPCState *env);
 void ppc_set_cr(CPUPPCState *env, uint64_t cr);
 uint64_t ppc_get_cr(const CPUPPCState *env);
 

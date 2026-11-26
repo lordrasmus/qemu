@@ -935,12 +935,22 @@ void HELPER(FCMPO)(CPUPPCState *env, uint64_t arg1, uint64_t arg2,
     }
 }
 
+void HELPER(mtspefscr)(CPUPPCState *env, uint32_t val)
+{
+    ppc_store_spefscr(env, val);
+}
+
+uint32_t HELPER(mfspefscr)(CPUPPCState *env)
+{
+    return ppc_get_spefscr(env);
+}
+
 /* Single-precision floating-point conversions */
 static inline uint32_t efscfsi(CPUPPCState *env, uint32_t val)
 {
     CPU_FloatU u;
 
-    u.f = int32_to_float32(val, &env->vec_status);
+    u.f = int32_to_float32(val, &env->spe_status);
 
     return u.l;
 }
@@ -949,7 +959,7 @@ static inline uint32_t efscfui(CPUPPCState *env, uint32_t val)
 {
     CPU_FloatU u;
 
-    u.f = uint32_to_float32(val, &env->vec_status);
+    u.f = uint32_to_float32(val, &env->spe_status);
 
     return u.l;
 }
@@ -960,11 +970,11 @@ static inline int32_t efsctsi(CPUPPCState *env, uint32_t val)
 
     u.l = val;
     /* NaN are not treated the same way IEEE 754 does */
-    if (unlikely(float32_is_quiet_nan(u.f, &env->vec_status))) {
+    if (unlikely(float32_is_quiet_nan(u.f, &env->spe_status))) {
         return 0;
     }
 
-    return float32_to_int32(u.f, &env->vec_status);
+    return float32_to_int32(u.f, &env->spe_status);
 }
 
 static inline uint32_t efsctui(CPUPPCState *env, uint32_t val)
@@ -973,11 +983,11 @@ static inline uint32_t efsctui(CPUPPCState *env, uint32_t val)
 
     u.l = val;
     /* NaN are not treated the same way IEEE 754 does */
-    if (unlikely(float32_is_quiet_nan(u.f, &env->vec_status))) {
+    if (unlikely(float32_is_quiet_nan(u.f, &env->spe_status))) {
         return 0;
     }
 
-    return float32_to_uint32(u.f, &env->vec_status);
+    return float32_to_uint32(u.f, &env->spe_status);
 }
 
 static inline uint32_t efsctsiz(CPUPPCState *env, uint32_t val)
@@ -986,11 +996,11 @@ static inline uint32_t efsctsiz(CPUPPCState *env, uint32_t val)
 
     u.l = val;
     /* NaN are not treated the same way IEEE 754 does */
-    if (unlikely(float32_is_quiet_nan(u.f, &env->vec_status))) {
+    if (unlikely(float32_is_quiet_nan(u.f, &env->spe_status))) {
         return 0;
     }
 
-    return float32_to_int32_round_to_zero(u.f, &env->vec_status);
+    return float32_to_int32_round_to_zero(u.f, &env->spe_status);
 }
 
 static inline uint32_t efsctuiz(CPUPPCState *env, uint32_t val)
@@ -999,11 +1009,11 @@ static inline uint32_t efsctuiz(CPUPPCState *env, uint32_t val)
 
     u.l = val;
     /* NaN are not treated the same way IEEE 754 does */
-    if (unlikely(float32_is_quiet_nan(u.f, &env->vec_status))) {
+    if (unlikely(float32_is_quiet_nan(u.f, &env->spe_status))) {
         return 0;
     }
 
-    return float32_to_uint32_round_to_zero(u.f, &env->vec_status);
+    return float32_to_uint32_round_to_zero(u.f, &env->spe_status);
 }
 
 static inline uint32_t efscfsf(CPUPPCState *env, uint32_t val)
@@ -1011,9 +1021,9 @@ static inline uint32_t efscfsf(CPUPPCState *env, uint32_t val)
     CPU_FloatU u;
     float32 tmp;
 
-    u.f = int32_to_float32(val, &env->vec_status);
-    tmp = int64_to_float32(1ULL << 32, &env->vec_status);
-    u.f = float32_div(u.f, tmp, &env->vec_status);
+    u.f = int32_to_float32(val, &env->spe_status);
+    tmp = int64_to_float32(1ULL << 32, &env->spe_status);
+    u.f = float32_div(u.f, tmp, &env->spe_status);
 
     return u.l;
 }
@@ -1023,9 +1033,9 @@ static inline uint32_t efscfuf(CPUPPCState *env, uint32_t val)
     CPU_FloatU u;
     float32 tmp;
 
-    u.f = uint32_to_float32(val, &env->vec_status);
-    tmp = uint64_to_float32(1ULL << 32, &env->vec_status);
-    u.f = float32_div(u.f, tmp, &env->vec_status);
+    u.f = uint32_to_float32(val, &env->spe_status);
+    tmp = uint64_to_float32(1ULL << 32, &env->spe_status);
+    u.f = float32_div(u.f, tmp, &env->spe_status);
 
     return u.l;
 }
@@ -1037,13 +1047,13 @@ static inline uint32_t efsctsf(CPUPPCState *env, uint32_t val)
 
     u.l = val;
     /* NaN are not treated the same way IEEE 754 does */
-    if (unlikely(float32_is_quiet_nan(u.f, &env->vec_status))) {
+    if (unlikely(float32_is_quiet_nan(u.f, &env->spe_status))) {
         return 0;
     }
-    tmp = uint64_to_float32(1ULL << 32, &env->vec_status);
-    u.f = float32_mul(u.f, tmp, &env->vec_status);
+    tmp = uint64_to_float32(1ULL << 32, &env->spe_status);
+    u.f = float32_mul(u.f, tmp, &env->spe_status);
 
-    return float32_to_int32(u.f, &env->vec_status);
+    return float32_to_int32(u.f, &env->spe_status);
 }
 
 static inline uint32_t efsctuf(CPUPPCState *env, uint32_t val)
@@ -1053,13 +1063,13 @@ static inline uint32_t efsctuf(CPUPPCState *env, uint32_t val)
 
     u.l = val;
     /* NaN are not treated the same way IEEE 754 does */
-    if (unlikely(float32_is_quiet_nan(u.f, &env->vec_status))) {
+    if (unlikely(float32_is_quiet_nan(u.f, &env->spe_status))) {
         return 0;
     }
-    tmp = uint64_to_float32(1ULL << 32, &env->vec_status);
-    u.f = float32_mul(u.f, tmp, &env->vec_status);
+    tmp = uint64_to_float32(1ULL << 32, &env->spe_status);
+    u.f = float32_mul(u.f, tmp, &env->spe_status);
 
-    return float32_to_uint32(u.f, &env->vec_status);
+    return float32_to_uint32(u.f, &env->spe_status);
 }
 
 #define HELPER_SPE_SINGLE_CONV(name)                              \
@@ -1122,7 +1132,7 @@ static inline uint32_t efsadd(CPUPPCState *env, uint32_t op1, uint32_t op2)
 
     u1.l = op1;
     u2.l = op2;
-    u1.f = float32_add(u1.f, u2.f, &env->vec_status);
+    u1.f = float32_add(u1.f, u2.f, &env->spe_status);
     return u1.l;
 }
 
@@ -1132,7 +1142,7 @@ static inline uint32_t efssub(CPUPPCState *env, uint32_t op1, uint32_t op2)
 
     u1.l = op1;
     u2.l = op2;
-    u1.f = float32_sub(u1.f, u2.f, &env->vec_status);
+    u1.f = float32_sub(u1.f, u2.f, &env->spe_status);
     return u1.l;
 }
 
@@ -1142,7 +1152,7 @@ static inline uint32_t efsmul(CPUPPCState *env, uint32_t op1, uint32_t op2)
 
     u1.l = op1;
     u2.l = op2;
-    u1.f = float32_mul(u1.f, u2.f, &env->vec_status);
+    u1.f = float32_mul(u1.f, u2.f, &env->spe_status);
     return u1.l;
 }
 
@@ -1152,7 +1162,7 @@ static inline uint32_t efsdiv(CPUPPCState *env, uint32_t op1, uint32_t op2)
 
     u1.l = op1;
     u2.l = op2;
-    u1.f = float32_div(u1.f, u2.f, &env->vec_status);
+    u1.f = float32_div(u1.f, u2.f, &env->spe_status);
     return u1.l;
 }
 
@@ -1192,7 +1202,7 @@ static inline uint32_t efscmplt(CPUPPCState *env, uint32_t op1, uint32_t op2)
 
     u1.l = op1;
     u2.l = op2;
-    return float32_lt(u1.f, u2.f, &env->vec_status) ? 4 : 0;
+    return float32_lt(u1.f, u2.f, &env->spe_status) ? 4 : 0;
 }
 
 static inline uint32_t efscmpgt(CPUPPCState *env, uint32_t op1, uint32_t op2)
@@ -1201,7 +1211,7 @@ static inline uint32_t efscmpgt(CPUPPCState *env, uint32_t op1, uint32_t op2)
 
     u1.l = op1;
     u2.l = op2;
-    return float32_le(u1.f, u2.f, &env->vec_status) ? 0 : 4;
+    return float32_le(u1.f, u2.f, &env->spe_status) ? 0 : 4;
 }
 
 static inline uint32_t efscmpeq(CPUPPCState *env, uint32_t op1, uint32_t op2)
@@ -1210,7 +1220,7 @@ static inline uint32_t efscmpeq(CPUPPCState *env, uint32_t op1, uint32_t op2)
 
     u1.l = op1;
     u2.l = op2;
-    return float32_eq(u1.f, u2.f, &env->vec_status) ? 4 : 0;
+    return float32_eq(u1.f, u2.f, &env->spe_status) ? 4 : 0;
 }
 
 static inline uint32_t efststlt(CPUPPCState *env, uint32_t op1, uint32_t op2)
@@ -1278,7 +1288,7 @@ uint64_t HELPER(efdcfsi)(CPUPPCState *env, uint32_t val)
 {
     CPU_DoubleU u;
 
-    u.d = int32_to_float64(val, &env->vec_status);
+    u.d = int32_to_float64(val, &env->spe_status);
 
     return u.ll;
 }
@@ -1287,7 +1297,7 @@ uint64_t HELPER(efdcfsid)(CPUPPCState *env, uint64_t val)
 {
     CPU_DoubleU u;
 
-    u.d = int64_to_float64(val, &env->vec_status);
+    u.d = int64_to_float64(val, &env->spe_status);
 
     return u.ll;
 }
@@ -1296,7 +1306,7 @@ uint64_t HELPER(efdcfui)(CPUPPCState *env, uint32_t val)
 {
     CPU_DoubleU u;
 
-    u.d = uint32_to_float64(val, &env->vec_status);
+    u.d = uint32_to_float64(val, &env->spe_status);
 
     return u.ll;
 }
@@ -1305,7 +1315,7 @@ uint64_t HELPER(efdcfuid)(CPUPPCState *env, uint64_t val)
 {
     CPU_DoubleU u;
 
-    u.d = uint64_to_float64(val, &env->vec_status);
+    u.d = uint64_to_float64(val, &env->spe_status);
 
     return u.ll;
 }
@@ -1320,7 +1330,7 @@ uint32_t HELPER(efdctsi)(CPUPPCState *env, uint64_t val)
         return 0;
     }
 
-    return float64_to_int32(u.d, &env->vec_status);
+    return float64_to_int32(u.d, &env->spe_status);
 }
 
 uint32_t HELPER(efdctui)(CPUPPCState *env, uint64_t val)
@@ -1333,7 +1343,7 @@ uint32_t HELPER(efdctui)(CPUPPCState *env, uint64_t val)
         return 0;
     }
 
-    return float64_to_uint32(u.d, &env->vec_status);
+    return float64_to_uint32(u.d, &env->spe_status);
 }
 
 uint32_t HELPER(efdctsiz)(CPUPPCState *env, uint64_t val)
@@ -1346,7 +1356,7 @@ uint32_t HELPER(efdctsiz)(CPUPPCState *env, uint64_t val)
         return 0;
     }
 
-    return float64_to_int32_round_to_zero(u.d, &env->vec_status);
+    return float64_to_int32_round_to_zero(u.d, &env->spe_status);
 }
 
 uint64_t HELPER(efdctsidz)(CPUPPCState *env, uint64_t val)
@@ -1359,7 +1369,7 @@ uint64_t HELPER(efdctsidz)(CPUPPCState *env, uint64_t val)
         return 0;
     }
 
-    return float64_to_int64_round_to_zero(u.d, &env->vec_status);
+    return float64_to_int64_round_to_zero(u.d, &env->spe_status);
 }
 
 uint32_t HELPER(efdctuiz)(CPUPPCState *env, uint64_t val)
@@ -1372,7 +1382,7 @@ uint32_t HELPER(efdctuiz)(CPUPPCState *env, uint64_t val)
         return 0;
     }
 
-    return float64_to_uint32_round_to_zero(u.d, &env->vec_status);
+    return float64_to_uint32_round_to_zero(u.d, &env->spe_status);
 }
 
 uint64_t HELPER(efdctuidz)(CPUPPCState *env, uint64_t val)
@@ -1385,7 +1395,7 @@ uint64_t HELPER(efdctuidz)(CPUPPCState *env, uint64_t val)
         return 0;
     }
 
-    return float64_to_uint64_round_to_zero(u.d, &env->vec_status);
+    return float64_to_uint64_round_to_zero(u.d, &env->spe_status);
 }
 
 uint64_t HELPER(efdcfsf)(CPUPPCState *env, uint32_t val)
@@ -1393,9 +1403,9 @@ uint64_t HELPER(efdcfsf)(CPUPPCState *env, uint32_t val)
     CPU_DoubleU u;
     float64 tmp;
 
-    u.d = int32_to_float64(val, &env->vec_status);
-    tmp = int64_to_float64(1ULL << 32, &env->vec_status);
-    u.d = float64_div(u.d, tmp, &env->vec_status);
+    u.d = int32_to_float64(val, &env->spe_status);
+    tmp = int64_to_float64(1ULL << 32, &env->spe_status);
+    u.d = float64_div(u.d, tmp, &env->spe_status);
 
     return u.ll;
 }
@@ -1405,9 +1415,9 @@ uint64_t HELPER(efdcfuf)(CPUPPCState *env, uint32_t val)
     CPU_DoubleU u;
     float64 tmp;
 
-    u.d = uint32_to_float64(val, &env->vec_status);
-    tmp = int64_to_float64(1ULL << 32, &env->vec_status);
-    u.d = float64_div(u.d, tmp, &env->vec_status);
+    u.d = uint32_to_float64(val, &env->spe_status);
+    tmp = int64_to_float64(1ULL << 32, &env->spe_status);
+    u.d = float64_div(u.d, tmp, &env->spe_status);
 
     return u.ll;
 }
@@ -1422,10 +1432,10 @@ uint32_t HELPER(efdctsf)(CPUPPCState *env, uint64_t val)
     if (unlikely(float64_is_any_nan(u.d))) {
         return 0;
     }
-    tmp = uint64_to_float64(1ULL << 32, &env->vec_status);
-    u.d = float64_mul(u.d, tmp, &env->vec_status);
+    tmp = uint64_to_float64(1ULL << 32, &env->spe_status);
+    u.d = float64_mul(u.d, tmp, &env->spe_status);
 
-    return float64_to_int32(u.d, &env->vec_status);
+    return float64_to_int32(u.d, &env->spe_status);
 }
 
 uint32_t HELPER(efdctuf)(CPUPPCState *env, uint64_t val)
@@ -1438,10 +1448,10 @@ uint32_t HELPER(efdctuf)(CPUPPCState *env, uint64_t val)
     if (unlikely(float64_is_any_nan(u.d))) {
         return 0;
     }
-    tmp = uint64_to_float64(1ULL << 32, &env->vec_status);
-    u.d = float64_mul(u.d, tmp, &env->vec_status);
+    tmp = uint64_to_float64(1ULL << 32, &env->spe_status);
+    u.d = float64_mul(u.d, tmp, &env->spe_status);
 
-    return float64_to_uint32(u.d, &env->vec_status);
+    return float64_to_uint32(u.d, &env->spe_status);
 }
 
 uint32_t HELPER(efscfd)(CPUPPCState *env, uint64_t val)
@@ -1450,7 +1460,7 @@ uint32_t HELPER(efscfd)(CPUPPCState *env, uint64_t val)
     CPU_FloatU u2;
 
     u1.ll = val;
-    u2.f = float64_to_float32(u1.d, &env->vec_status);
+    u2.f = float64_to_float32(u1.d, &env->spe_status);
 
     return u2.l;
 }
@@ -1461,7 +1471,7 @@ uint64_t HELPER(efdcfs)(CPUPPCState *env, uint32_t val)
     CPU_FloatU u1;
 
     u1.l = val;
-    u2.d = float32_to_float64(u1.f, &env->vec_status);
+    u2.d = float32_to_float64(u1.f, &env->spe_status);
 
     return u2.ll;
 }
@@ -1473,7 +1483,7 @@ uint64_t HELPER(efdadd)(CPUPPCState *env, uint64_t op1, uint64_t op2)
 
     u1.ll = op1;
     u2.ll = op2;
-    u1.d = float64_add(u1.d, u2.d, &env->vec_status);
+    u1.d = float64_add(u1.d, u2.d, &env->spe_status);
     return u1.ll;
 }
 
@@ -1483,7 +1493,7 @@ uint64_t HELPER(efdsub)(CPUPPCState *env, uint64_t op1, uint64_t op2)
 
     u1.ll = op1;
     u2.ll = op2;
-    u1.d = float64_sub(u1.d, u2.d, &env->vec_status);
+    u1.d = float64_sub(u1.d, u2.d, &env->spe_status);
     return u1.ll;
 }
 
@@ -1493,7 +1503,7 @@ uint64_t HELPER(efdmul)(CPUPPCState *env, uint64_t op1, uint64_t op2)
 
     u1.ll = op1;
     u2.ll = op2;
-    u1.d = float64_mul(u1.d, u2.d, &env->vec_status);
+    u1.d = float64_mul(u1.d, u2.d, &env->spe_status);
     return u1.ll;
 }
 
@@ -1503,7 +1513,7 @@ uint64_t HELPER(efddiv)(CPUPPCState *env, uint64_t op1, uint64_t op2)
 
     u1.ll = op1;
     u2.ll = op2;
-    u1.d = float64_div(u1.d, u2.d, &env->vec_status);
+    u1.d = float64_div(u1.d, u2.d, &env->spe_status);
     return u1.ll;
 }
 
@@ -1514,7 +1524,7 @@ uint32_t HELPER(efdtstlt)(CPUPPCState *env, uint64_t op1, uint64_t op2)
 
     u1.ll = op1;
     u2.ll = op2;
-    return float64_lt(u1.d, u2.d, &env->vec_status) ? 4 : 0;
+    return float64_lt(u1.d, u2.d, &env->spe_status) ? 4 : 0;
 }
 
 uint32_t HELPER(efdtstgt)(CPUPPCState *env, uint64_t op1, uint64_t op2)
@@ -1523,7 +1533,7 @@ uint32_t HELPER(efdtstgt)(CPUPPCState *env, uint64_t op1, uint64_t op2)
 
     u1.ll = op1;
     u2.ll = op2;
-    return float64_le(u1.d, u2.d, &env->vec_status) ? 0 : 4;
+    return float64_le(u1.d, u2.d, &env->spe_status) ? 0 : 4;
 }
 
 uint32_t HELPER(efdtsteq)(CPUPPCState *env, uint64_t op1, uint64_t op2)
@@ -1532,7 +1542,7 @@ uint32_t HELPER(efdtsteq)(CPUPPCState *env, uint64_t op1, uint64_t op2)
 
     u1.ll = op1;
     u2.ll = op2;
-    return float64_eq_quiet(u1.d, u2.d, &env->vec_status) ? 4 : 0;
+    return float64_eq_quiet(u1.d, u2.d, &env->spe_status) ? 4 : 0;
 }
 
 uint32_t HELPER(efdcmplt)(CPUPPCState *env, uint64_t op1, uint64_t op2)

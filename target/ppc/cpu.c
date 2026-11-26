@@ -63,6 +63,53 @@ void ppc_store_vscr(CPUPPCState *env, uint32_t vscr)
     set_flush_inputs_to_zero((vscr >> VSCR_NJ) & 1, &env->vec_status);
 }
 
+/*
+ * SPEFSCR (e500).  The sticky exception bits are kept as softfloat
+ * flags in spe_status while instructions run and are merged into
+ * spe_fscr whenever the register is read.
+ */
+#define SPEFSCR_FINXS   0x00200000
+#define SPEFSCR_FINVS   0x00100000
+#define SPEFSCR_FDBZS   0x00080000
+#define SPEFSCR_FUNFS   0x00040000
+#define SPEFSCR_FOVFS   0x00020000
+#define SPEFSCR_FRMC    0x00000003
+
+uint32_t ppc_get_spefscr(CPUPPCState *env)
+{
+    int flags = get_float_exception_flags(&env->spe_status);
+
+    if (flags & float_flag_inexact) {
+        env->spe_fscr |= SPEFSCR_FINXS;
+    }
+    if (flags & float_flag_invalid) {
+        env->spe_fscr |= SPEFSCR_FINVS;
+    }
+    if (flags & float_flag_divbyzero) {
+        env->spe_fscr |= SPEFSCR_FDBZS;
+    }
+    if (flags & float_flag_underflow) {
+        env->spe_fscr |= SPEFSCR_FUNFS;
+    }
+    if (flags & float_flag_overflow) {
+        env->spe_fscr |= SPEFSCR_FOVFS;
+    }
+    set_float_exception_flags(0, &env->spe_status);
+    return env->spe_fscr;
+}
+
+void ppc_store_spefscr(CPUPPCState *env, uint32_t val)
+{
+    static const FloatRoundMode rm[4] = {
+        float_round_nearest_even, float_round_to_zero,
+        float_round_up, float_round_down,
+    };
+
+    env->spe_fscr = val;
+    set_float_exception_flags(0, &env->spe_status);
+    set_float_rounding_mode(rm[val & SPEFSCR_FRMC], &env->spe_status);
+}
+
 uint32_t ppc_get_vscr(CPUPPCState *env)
 {
     uint32_t sat = (env->vscr_sat.u64[0] | env->vscr_sat.u64[1]) != 0;

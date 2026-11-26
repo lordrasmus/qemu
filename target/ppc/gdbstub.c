@@ -436,7 +436,7 @@ static int gdb_get_spe_reg(CPUState *cs, GByteArray *buf, int n)
         return 8;
     }
     if (n == 33) {
-        gdb_get_reg32(buf, env->spe_fscr);
+        gdb_get_reg32(buf, ppc_get_spefscr(env));
         ppc_maybe_bswap_register(env, gdb_get_reg_ptr(buf, 4), 4);
         return 4;
     }
@@ -469,7 +469,7 @@ static int gdb_set_spe_reg(CPUState *cs, uint8_t *mem_buf, int n)
     }
     if (n == 33) {
         ppc_maybe_bswap_register(env, mem_buf, 4);
-        env->spe_fscr = ldl_p(mem_buf);
+        ppc_store_spefscr(env, ldl_p(mem_buf));
         return 4;
     }
     return 0;

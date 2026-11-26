@@ -7304,6 +7304,8 @@ static void ppc_cpu_reset_hold(Object *obj, ResetType type)
     /* tininess for underflow is detected before rounding */
     set_float_detect_tininess(float_tininess_before_rounding,
                               &env->fp_status);
+    set_float_detect_tininess(float_tininess_before_rounding,
+                              &env->spe_status);
     /* Similarly for flush-to-zero */
     set_float_ftz_detection(float_ftz_before_rounding, &env->fp_status);
 
@@ -7315,6 +7317,7 @@ static void ppc_cpu_reset_hold(Object *obj, ResetType type)
      */
     set_float_2nan_prop_rule(float_2nan_prop_ab, &env->fp_status);
     set_float_2nan_prop_rule(float_2nan_prop_ab, &env->vec_status);
+    set_float_2nan_prop_rule(float_2nan_prop_ab, &env->spe_status);
     /*
      * NaN propagation for fused multiply-add:
      * if fRA is a NaN return it; otherwise if fRB is a NaN return it;
@@ -7323,6 +7326,7 @@ static void ppc_cpu_reset_hold(Object *obj, ResetType type)
      */
     set_float_3nan_prop_rule(float_3nan_prop_acb, &env->fp_status);
     set_float_3nan_prop_rule(float_3nan_prop_acb, &env->vec_status);
+    set_float_3nan_prop_rule(float_3nan_prop_acb, &env->spe_status);
     /*
      * For PPC, the (inf,zero,qnan) case sets InvalidOp, but we prefer
      * to return an input NaN if we have one (ie c) rather than generating
@@ -7330,10 +7334,12 @@ static void ppc_cpu_reset_hold(Object *obj, ResetType type)
      */
     set_float_infzeronan_rule(float_infzeronan_dnan_never, &env->fp_status);
     set_float_infzeronan_rule(float_infzeronan_dnan_never, &env->vec_status);
+    set_float_infzeronan_rule(float_infzeronan_dnan_never, &env->spe_status);
 
     /* Default NaN: sign bit clear, set frac msb */
     set_float_default_nan_pattern(0b01000000, &env->fp_status);
     set_float_default_nan_pattern(0b01000000, &env->vec_status);
+    set_float_default_nan_pattern(0b01000000, &env->spe_status);
 
     for (i = 0; i < ARRAY_SIZE(env->spr_cb); i++) {
         ppc_spr_t *spr = &env->spr_cb[i];
